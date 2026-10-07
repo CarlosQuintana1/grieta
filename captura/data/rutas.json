@@ -1,0 +1,100 @@
+{
+  "pares": [
+    {
+      "id": 1,
+      "a": "fi-uaq",
+      "b": "antea",
+      "escala": "corta"
+    },
+    {
+      "id": 2,
+      "a": "antea",
+      "b": "centro",
+      "escala": "media"
+    },
+    {
+      "id": 3,
+      "a": "centro",
+      "b": "aiq",
+      "escala": "larga"
+    },
+    {
+      "id": 4,
+      "a": "juriquilla",
+      "b": "centro",
+      "escala": "larga"
+    },
+    {
+      "id": 5,
+      "a": "refugio",
+      "b": "centro",
+      "escala": "media"
+    },
+    {
+      "id": 6,
+      "a": "milenio",
+      "b": "centro-sur",
+      "escala": "corta"
+    },
+    {
+      "id": 7,
+      "a": "zibata",
+      "b": "refugio",
+      "escala": "media"
+    },
+    {
+      "id": 8,
+      "a": "pueblito",
+      "b": "centro",
+      "escala": "media"
+    },
+    {
+      "id": 9,
+      "a": "centro",
+      "b": "casablanca",
+      "escala": "corta"
+    },
+    {
+      "id": 10,
+      "a": "centro",
+      "b": "taq",
+      "escala": "corta"
+    },
+    {
+      "id": 11,
+      "a": "centro-sur",
+      "b": "centro",
+      "escala": "corta"
+    },
+    {
+      "id": 12,
+      "a": "milenio",
+      "b": "juriquilla",
+      "escala": "larga"
+    },
+    {
+      "id": 13,
+      "a": "carrillo",
+      "b": "centro",
+      "escala": "media"
+    },
+    {
+      "id": 14,
+      "a": "casablanca",
+      "b": "centro-sur",
+      "escala": "corta"
+    },
+    {
+      "id": 15,
+      "a": "tec",
+      "b": "antea",
+      "escala": "media"
+    },
+    {
+      "id": 16,
+      "a": "fi-uaq",
+      "b": "uptown",
+      "escala": "media"
+    }
+  ]
+}

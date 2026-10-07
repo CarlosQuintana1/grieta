@@ -1,0 +1,194 @@
+[
+  {
+    "origen": "fi-uaq",
+    "destino": "antea",
+    "distancia_km": 4.822,
+    "minutos_sin_trafico": 8.93
+  },
+  {
+    "origen": "antea",
+    "destino": "fi-uaq",
+    "distancia_km": 5.746,
+    "minutos_sin_trafico": 8.07
+  },
+  {
+    "origen": "antea",
+    "destino": "centro",
+    "distancia_km": 14.939,
+    "minutos_sin_trafico": 14.8
+  },
+  {
+    "origen": "centro",
+    "destino": "antea",
+    "distancia_km": 13.949,
+    "minutos_sin_trafico": 14.41
+  },
+  {
+    "origen": "centro",
+    "destino": "aiq",
+    "distancia_km": 25.023,
+    "minutos_sin_trafico": 34.27
+  },
+  {
+    "origen": "aiq",
+    "destino": "centro",
+    "distancia_km": 34.493,
+    "minutos_sin_trafico": 33.59
+  },
+  {
+    "origen": "juriquilla",
+    "destino": "centro",
+    "distancia_km": 18.195,
+    "minutos_sin_trafico": 17.34
+  },
+  {
+    "origen": "centro",
+    "destino": "juriquilla",
+    "distancia_km": 17.129,
+    "minutos_sin_trafico": 16.13
+  },
+  {
+    "origen": "refugio",
+    "destino": "centro",
+    "distancia_km": 11.413,
+    "minutos_sin_trafico": 11.29
+  },
+  {
+    "origen": "centro",
+    "destino": "refugio",
+    "distancia_km": 11.515,
+    "minutos_sin_trafico": 11.74
+  },
+  {
+    "origen": "milenio",
+    "destino": "centro-sur",
+    "distancia_km": 5.6,
+    "minutos_sin_trafico": 8.62
+  },
+  {
+    "origen": "centro-sur",
+    "destino": "milenio",
+    "distancia_km": 6.168,
+    "minutos_sin_trafico": 9.82
+  },
+  {
+    "origen": "zibata",
+    "destino": "refugio",
+    "distancia_km": 9.691,
+    "minutos_sin_trafico": 12.97
+  },
+  {
+    "origen": "refugio",
+    "destino": "zibata",
+    "distancia_km": 11.152,
+    "minutos_sin_trafico": 13.76
+  },
+  {
+    "origen": "pueblito",
+    "destino": "centro",
+    "distancia_km": 8.766,
+    "minutos_sin_trafico": 10.31
+  },
+  {
+    "origen": "centro",
+    "destino": "pueblito",
+    "distancia_km": 8.08,
+    "minutos_sin_trafico": 7.76
+  },
+  {
+    "origen": "centro",
+    "destino": "casablanca",
+    "distancia_km": 3.654,
+    "minutos_sin_trafico": 5.45
+  },
+  {
+    "origen": "casablanca",
+    "destino": "centro",
+    "distancia_km": 3.877,
+    "minutos_sin_trafico": 5.47
+  },
+  {
+    "origen": "centro",
+    "destino": "taq",
+    "distancia_km": 5.348,
+    "minutos_sin_trafico": 7.12
+  },
+  {
+    "origen": "taq",
+    "destino": "centro",
+    "distancia_km": 5.368,
+    "minutos_sin_trafico": 6.93
+  },
+  {
+    "origen": "centro-sur",
+    "destino": "centro",
+    "distancia_km": 4.992,
+    "minutos_sin_trafico": 7.76
+  },
+  {
+    "origen": "centro",
+    "destino": "centro-sur",
+    "distancia_km": 5.056,
+    "minutos_sin_trafico": 7.69
+  },
+  {
+    "origen": "milenio",
+    "destino": "juriquilla",
+    "distancia_km": 19.711,
+    "minutos_sin_trafico": 21.0
+  },
+  {
+    "origen": "juriquilla",
+    "destino": "milenio",
+    "distancia_km": 20.162,
+    "minutos_sin_trafico": 21.92
+  },
+  {
+    "origen": "carrillo",
+    "destino": "centro",
+    "distancia_km": 7.726,
+    "minutos_sin_trafico": 8.74
+  },
+  {
+    "origen": "centro",
+    "destino": "carrillo",
+    "distancia_km": 7.26,
+    "minutos_sin_trafico": 8.29
+  },
+  {
+    "origen": "casablanca",
+    "destino": "centro-sur",
+    "distancia_km": 4.557,
+    "minutos_sin_trafico": 6.93
+  },
+  {
+    "origen": "centro-sur",
+    "destino": "casablanca",
+    "distancia_km": 4.415,
+    "minutos_sin_trafico": 7.41
+  },
+  {
+    "origen": "tec",
+    "destino": "antea",
+    "distancia_km": 9.745,
+    "minutos_sin_trafico": 14.05
+  },
+  {
+    "origen": "antea",
+    "destino": "tec",
+    "distancia_km": 10.064,
+    "minutos_sin_trafico": 12.29
+  },
+  {
+    "origen": "fi-uaq",
+    "destino": "uptown",
+    "distancia_km": 5.574,
+    "minutos_sin_trafico": 9.3
+  },
+  {
+    "origen": "uptown",
+    "destino": "fi-uaq",
+    "distancia_km": 4.933,
+    "minutos_sin_trafico": 7.86
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tarifas-qro",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-08-27",
+  "assets": {
+    "directory": "./out",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page"
+  },
+  // Nombres del equipo; solo se entregan con un codigo valido.
+  "vars": {
+    "EQUIPO": "Carlos,Alexis,JP,David,Gera,Angelica"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "tarifas-qro",
+      "database_id": "77604a0d-81fc-462b-b0ac-b8e509441eec"
+    }
+  ]
+}

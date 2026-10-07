@@ -1,0 +1,638 @@
+{
+  "info": {
+    "name": "Grieta API (local)",
+    "description": "Las 20 rutas de la API en http://localhost:3000/api. Antes: npm start en la carpeta del proyecto. Se pueden correr todas en orden con Run collection.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base",
+      "value": "http://localhost:3000/api"
+    },
+    {
+      "key": "lugar_id",
+      "value": ""
+    },
+    {
+      "key": "usuario_id",
+      "value": ""
+    },
+    {
+      "key": "registro_id",
+      "value": ""
+    },
+    {
+      "key": "origen_id",
+      "value": ""
+    },
+    {
+      "key": "destino_id",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Salud",
+      "item": [
+        {
+          "name": "API en línea",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base}}/salud"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.eql(true));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Lugares",
+      "item": [
+        {
+          "name": "Listar lugares",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base}}/lugares"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Trae los 16 del catálogo\", () => pm.expect(pm.response.json().length).to.be.at.least(16));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ver un lugar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base}}/lugares/1"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crear lugar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base}}/lugares",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clave\": \"demo-{{$timestamp}}\",\n  \"nombre\": \"Lugar de demostración\",\n  \"lat\": 20.5888,\n  \"lon\": -100.3899\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 201\", () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set(\"lugar_id\", pm.response.json().id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Modificar lugar",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base}}/lugares/{{lugar_id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Lugar renombrado\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Cambió el nombre\", () => pm.expect(pm.response.json().nombre).to.eql(\"Lugar renombrado\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Borrar lugar",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{base}}/lugares/{{lugar_id}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Lugar borrado ya no existe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base}}/lugares/{{lugar_id}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Rutas",
+      "item": [
+        {
+          "name": "Listar rutas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base}}/rutas"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Trae las 32 con origen y destino\", () => { const r = pm.response.json(); pm.expect(r.length).to.eql(32); pm.expect(r[0].origen.nombre).to.be.a(\"string\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ver la ruta 1",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base}}/rutas/1"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));",
+                  "const r = pm.response.json();",
+                  "pm.collectionVariables.set(\"origen_id\", r.origen_id);",
+                  "pm.collectionVariables.set(\"destino_id\", r.destino_id);"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Usuarios",
+      "item": [
+        {
+          "name": "Crear usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base}}/usuarios",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Capturista de demostración\",\n  \"correo\": \"demo{{$timestamp}}@ejemplo.com\",\n  \"rol\": \"capturista\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 201\", () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set(\"usuario_id\", pm.response.json().id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar usuarios",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base}}/usuarios"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ver un usuario",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base}}/usuarios/{{usuario_id}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Modificar usuario",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base}}/usuarios/{{usuario_id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Capturista renombrado\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Registros y cotizaciones",
+      "item": [
+        {
+          "name": "Guardar registro con tres precios",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base}}/registros",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ruta_id\": 1,\n  \"usuario_id\": {{usuario_id}},\n  \"temperatura_c\": 22.5,\n  \"lluvia_mm\": 0,\n  \"cotizaciones\": [\n    { \"app\": \"uber\", \"precio\": 59.95 },\n    { \"app\": \"didi\", \"precio\": 48 },\n    { \"app\": \"indrive\", \"precio\": 52 }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 201\", () => pm.response.to.have.status(201));",
+                  "pm.test(\"Guardó las tres cotizaciones\", () => pm.expect(pm.response.json().cotizaciones.length).to.eql(3));",
+                  "pm.collectionVariables.set(\"registro_id\", pm.response.json().id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Rechazo: una sola app",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base}}/registros",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ruta_id\": 1,\n  \"usuario_id\": {{usuario_id}},\n  \"cotizaciones\": [\n    { \"app\": \"uber\", \"precio\": 59.95 }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 400: se necesitan al menos dos apps\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar registros",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base}}/registros"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ver un registro",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base}}/registros/{{registro_id}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Trae su ruta y sus precios\", () => { const r = pm.response.json(); pm.expect(r.ruta.origen.nombre).to.be.a(\"string\"); pm.expect(r.cotizaciones.length).to.eql(3); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Precios del registro, del más barato al más caro",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base}}/registros/{{registro_id}}/cotizaciones"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"El primero es DiDi, el más barato\", () => pm.expect(pm.response.json()[0].app).to.eql(\"didi\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Consultas al agente",
+      "item": [
+        {
+          "name": "Preguntar al agente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base}}/consultas",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"origen_id\": {{origen_id}},\n  \"destino_id\": {{destino_id}},\n  \"precio_visto\": 60\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 201\", () => pm.response.to.have.status(201));",
+                  "pm.test(\"Recomienda DiDi\", () => pm.expect(pm.response.json().consulta.recomendacion).to.eql(\"didi\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar consultas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base}}/consultas"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Limpieza y errores",
+      "item": [
+        {
+          "name": "Borrar el registro de demostración",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{base}}/registros/{{registro_id}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sus precios se borraron con él",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base}}/registros/{{registro_id}}/cotizaciones"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Borrar el usuario de demostración",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{base}}/usuarios/{{usuario_id}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ruta que no existe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base}}/no-existe"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

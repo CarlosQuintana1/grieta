@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+/* Instrumento de noche: se usa manejando, muchas veces de madrugada. El ambar de sodio
+   no quema la vista como el blanco o el verde neon, asi que el tema no se invierte. */
+:root {
+  color-scheme: dark;
+  --noche:  #0b0a09;
+  --linea:  #2b2722;
+  --tinta:  #ede8df;
+  --tenue:  #8a8176;
+  --ambar:  #e0a03c;
+  --alerta: #d1604a;
+}
+
+@theme inline {
+  --color-noche: var(--noche);
+  --color-linea: var(--linea);
+  --color-tinta: var(--tinta);
+  --color-tenue: var(--tenue);
+  --color-ambar: var(--ambar);
+  --color-alerta: var(--alerta);
+  --font-sans: var(--font-montserrat);
+}
+
+html { background: var(--noche); }
+
+body {
+  background: var(--noche);
+  color: var(--tinta);
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+}
+
+/* Los precios se teclean con el pulgar en el coche: nada de spinners ni zoom de iOS. */
+input[type="number"] {
+  font-size: 16px;
+  appearance: textfield;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--tenue) 50%),
+                    linear-gradient(135deg, var(--tenue) 50%, transparent 50%);
+  background-position: right 1rem center, right 0.65rem center;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+:focus-visible { outline: 2px solid var(--ambar); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

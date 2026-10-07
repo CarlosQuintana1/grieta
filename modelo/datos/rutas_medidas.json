@@ -1,0 +1,292 @@
+{
+  "rutas": [
+    {
+      "ruta_id": 1,
+      "par_id": 1,
+      "origen": "fi-uaq",
+      "destino": "antea",
+      "escala": "corta",
+      "distancia_km": 4.822,
+      "duracion_libre_min": 8.93
+    },
+    {
+      "ruta_id": 2,
+      "par_id": 1,
+      "origen": "antea",
+      "destino": "fi-uaq",
+      "escala": "corta",
+      "distancia_km": 5.746,
+      "duracion_libre_min": 8.07
+    },
+    {
+      "ruta_id": 3,
+      "par_id": 2,
+      "origen": "antea",
+      "destino": "centro",
+      "escala": "media",
+      "distancia_km": 14.939,
+      "duracion_libre_min": 14.8
+    },
+    {
+      "ruta_id": 4,
+      "par_id": 2,
+      "origen": "centro",
+      "destino": "antea",
+      "escala": "media",
+      "distancia_km": 13.949,
+      "duracion_libre_min": 14.41
+    },
+    {
+      "ruta_id": 5,
+      "par_id": 3,
+      "origen": "centro",
+      "destino": "aiq",
+      "escala": "larga",
+      "distancia_km": 25.023,
+      "duracion_libre_min": 34.27
+    },
+    {
+      "ruta_id": 6,
+      "par_id": 3,
+      "origen": "aiq",
+      "destino": "centro",
+      "escala": "larga",
+      "distancia_km": 34.493,
+      "duracion_libre_min": 33.59
+    },
+    {
+      "ruta_id": 7,
+      "par_id": 4,
+      "origen": "juriquilla",
+      "destino": "centro",
+      "escala": "larga",
+      "distancia_km": 18.195,
+      "duracion_libre_min": 17.34
+    },
+    {
+      "ruta_id": 8,
+      "par_id": 4,
+      "origen": "centro",
+      "destino": "juriquilla",
+      "escala": "larga",
+      "distancia_km": 17.129,
+      "duracion_libre_min": 16.13
+    },
+    {
+      "ruta_id": 9,
+      "par_id": 5,
+      "origen": "refugio",
+      "destino": "centro",
+      "escala": "media",
+      "distancia_km": 11.413,
+      "duracion_libre_min": 11.29
+    },
+    {
+      "ruta_id": 10,
+      "par_id": 5,
+      "origen": "centro",
+      "destino": "refugio",
+      "escala": "media",
+      "distancia_km": 11.515,
+      "duracion_libre_min": 11.74
+    },
+    {
+      "ruta_id": 11,
+      "par_id": 6,
+      "origen": "milenio",
+      "destino": "centro-sur",
+      "escala": "corta",
+      "distancia_km": 5.6,
+      "duracion_libre_min": 8.62
+    },
+    {
+      "ruta_id": 12,
+      "par_id": 6,
+      "origen": "centro-sur",
+      "destino": "milenio",
+      "escala": "corta",
+      "distancia_km": 6.168,
+      "duracion_libre_min": 9.82
+    },
+    {
+      "ruta_id": 13,
+      "par_id": 7,
+      "origen": "zibata",
+      "destino": "refugio",
+      "escala": "media",
+      "distancia_km": 9.691,
+      "duracion_libre_min": 12.97
+    },
+    {
+      "ruta_id": 14,
+      "par_id": 7,
+      "origen": "refugio",
+      "destino": "zibata",
+      "escala": "media",
+      "distancia_km": 11.152,
+      "duracion_libre_min": 13.76
+    },
+    {
+      "ruta_id": 15,
+      "par_id": 8,
+      "origen": "pueblito",
+      "destino": "centro",
+      "escala": "media",
+      "distancia_km": 8.766,
+      "duracion_libre_min": 10.31
+    },
+    {
+      "ruta_id": 16,
+      "par_id": 8,
+      "origen": "centro",
+      "destino": "pueblito",
+      "escala": "media",
+      "distancia_km": 8.08,
+      "duracion_libre_min": 7.76
+    },
+    {
+      "ruta_id": 17,
+      "par_id": 9,
+      "origen": "centro",
+      "destino": "casablanca",
+      "escala": "corta",
+      "distancia_km": 3.654,
+      "duracion_libre_min": 5.45
+    },
+    {
+      "ruta_id": 18,
+      "par_id": 9,
+      "origen": "casablanca",
+      "destino": "centro",
+      "escala": "corta",
+      "distancia_km": 3.877,
+      "duracion_libre_min": 5.47
+    },
+    {
+      "ruta_id": 19,
+      "par_id": 10,
+      "origen": "centro",
+      "destino": "taq",
+      "escala": "corta",
+      "distancia_km": 5.348,
+      "duracion_libre_min": 7.12
+    },
+    {
+      "ruta_id": 20,
+      "par_id": 10,
+      "origen": "taq",
+      "destino": "centro",
+      "escala": "corta",
+      "distancia_km": 5.368,
+      "duracion_libre_min": 6.93
+    },
+    {
+      "ruta_id": 21,
+      "par_id": 11,
+      "origen": "centro-sur",
+      "destino": "centro",
+      "escala": "corta",
+      "distancia_km": 4.992,
+      "duracion_libre_min": 7.76
+    },
+    {
+      "ruta_id": 22,
+      "par_id": 11,
+      "origen": "centro",
+      "destino": "centro-sur",
+      "escala": "corta",
+      "distancia_km": 5.056,
+      "duracion_libre_min": 7.69
+    },
+    {
+      "ruta_id": 23,
+      "par_id": 12,
+      "origen": "milenio",
+      "destino": "juriquilla",
+      "escala": "larga",
+      "distancia_km": 19.711,
+      "duracion_libre_min": 21.0
+    },
+    {
+      "ruta_id": 24,
+      "par_id": 12,
+      "origen": "juriquilla",
+      "destino": "milenio",
+      "escala": "larga",
+      "distancia_km": 20.162,
+      "duracion_libre_min": 21.92
+    },
+    {
+      "ruta_id": 25,
+      "par_id": 13,
+      "origen": "carrillo",
+      "destino": "centro",
+      "escala": "media",
+      "distancia_km": 7.726,
+      "duracion_libre_min": 8.74
+    },
+    {
+      "ruta_id": 26,
+      "par_id": 13,
+      "origen": "centro",
+      "destino": "carrillo",
+      "escala": "media",
+      "distancia_km": 7.26,
+      "duracion_libre_min": 8.29
+    },
+    {
+      "ruta_id": 27,
+      "par_id": 14,
+      "origen": "casablanca",
+      "destino": "centro-sur",
+      "escala": "corta",
+      "distancia_km": 4.557,
+      "duracion_libre_min": 6.93
+    },
+    {
+      "ruta_id": 28,
+      "par_id": 14,
+      "origen": "centro-sur",
+      "destino": "casablanca",
+      "escala": "corta",
+      "distancia_km": 4.415,
+      "duracion_libre_min": 7.41
+    },
+    {
+      "ruta_id": 29,
+      "par_id": 15,
+      "origen": "tec",
+      "destino": "antea",
+      "escala": "media",
+      "distancia_km": 9.745,
+      "duracion_libre_min": 14.05
+    },
+    {
+      "ruta_id": 30,
+      "par_id": 15,
+      "origen": "antea",
+      "destino": "tec",
+      "escala": "media",
+      "distancia_km": 10.064,
+      "duracion_libre_min": 12.29
+    },
+    {
+      "ruta_id": 31,
+      "par_id": 16,
+      "origen": "fi-uaq",
+      "destino": "uptown",
+      "escala": "media",
+      "distancia_km": 5.574,
+      "duracion_libre_min": 9.3
+    },
+    {
+      "ruta_id": 32,
+      "par_id": 16,
+      "origen": "uptown",
+      "destino": "fi-uaq",
+      "escala": "media",
+      "distancia_km": 4.933,
+      "duracion_libre_min": 7.86
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+# dependencias y builds
+node_modules/
+.next/
+out/
+build/
+.wrangler/
+*.tsbuildinfo
+next-env.d.ts
+
+# secretos y configuracion local
+.env*
+!.env.example
+.dev.vars
+
+# python
+.venv/
+__pycache__/
+
+# datos generados
+modelo/cache/
+modelo/datos/dataset.csv
+modelo/datos/*.xlsx
+*.sqlite
+
+.DS_Store

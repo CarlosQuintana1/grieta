@@ -1,0 +1,21 @@
+{
+  "name": "grieta-api",
+  "version": "1.0.0",
+  "description": "API de Grieta: lugares, rutas, registros de tarifas y consultas",
+  "type": "module",
+  "main": "src/servidor.js",
+  "scripts": {
+    "start": "node src/servidor.js",
+    "test": "node --test --test-reporter=spec"
+  },
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "express": "^5.2.1",
+    "sequelize": "^6.37.8",
+    "sqlite3": "^6.0.1"
+  },
+  "devDependencies": {
+    "supertest": "^7.3.1"
+  }
+}

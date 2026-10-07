@@ -1,0 +1,98 @@
+[
+  {
+    "clave": "fi-uaq",
+    "nombre": "Facultad de Informática UAQ",
+    "lat": 20.704335,
+    "lon": -100.44387
+  },
+  {
+    "clave": "juriquilla",
+    "nombre": "Los Olivos Santa Fé",
+    "lat": 20.693432,
+    "lon": -100.446221
+  },
+  {
+    "clave": "antea",
+    "nombre": "Antea Lifestyle Center",
+    "lat": 20.674708,
+    "lon": -100.437481
+  },
+  {
+    "clave": "jurica",
+    "nombre": "Jurica",
+    "lat": 20.659033,
+    "lon": -100.441351
+  },
+  {
+    "clave": "centro",
+    "nombre": "Jardín Zenea",
+    "lat": 20.593013,
+    "lon": -100.392263
+  },
+  {
+    "clave": "taq",
+    "nombre": "Terminal de Autobuses de Querétaro",
+    "lat": 20.577309,
+    "lon": -100.358403
+  },
+  {
+    "clave": "centro-sur",
+    "nombre": "Plaza Centro Sur",
+    "lat": 20.568378,
+    "lon": -100.366754
+  },
+  {
+    "clave": "milenio",
+    "nombre": "Fresko Milenio III",
+    "lat": 20.595046,
+    "lon": -100.348636
+  },
+  {
+    "clave": "pueblito",
+    "nombre": "Walmart El Pueblito",
+    "lat": 20.539171,
+    "lon": -100.435285
+  },
+  {
+    "clave": "casablanca",
+    "nombre": "Mercado Lomas de Casa Blanca",
+    "lat": 20.571069,
+    "lon": -100.392045
+  },
+  {
+    "clave": "refugio",
+    "nombre": "Plaza Ubika El Refugio",
+    "lat": 20.642368,
+    "lon": -100.345528
+  },
+  {
+    "clave": "zibata",
+    "nombre": "Cafelé Zibatá",
+    "lat": 20.677251,
+    "lon": -100.335095
+  },
+  {
+    "clave": "aiq",
+    "nombre": "Aeropuerto Intercontinental de Querétaro",
+    "lat": 20.621728,
+    "lon": -100.196506
+  },
+  {
+    "clave": "carrillo",
+    "nombre": "Bodega Aurrera Tintero",
+    "lat": 20.606592,
+    "lon": -100.434142
+  },
+  {
+    "clave": "tec",
+    "nombre": "Tecnológico de Monterrey Campus Querétaro",
+    "lat": 20.613191,
+    "lon": -100.405908
+  },
+  {
+    "clave": "uptown",
+    "nombre": "Uptown Juriquilla",
+    "lat": 20.676158,
+    "lon": -100.430586
+  }
+]

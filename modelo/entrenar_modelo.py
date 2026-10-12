@@ -20,7 +20,7 @@ FRANJAS = ["0-6", "6-9", "9-12", "12-15", "15-18", "18-21", "21-24"]
 def cargar(ruta: pathlib.Path) -> pd.DataFrame:
     df = pd.read_csv(ruta)
     df = df[~df["sospechosa"].astype(str).str.lower().eq("true")].copy()
-    hora = pd.to_datetime(df["timestamp"], utc=True).dt.tz_convert("America/Mexico_City")
+    hora = pd.to_datetime(df["timestamp"], utc=True, format="ISO8601").dt.tz_convert("America/Mexico_City")
     df["dia"] = hora.dt.date
     df["franja"] = pd.cut(df["hora_decimal"], CORTES, right=False, labels=FRANJAS)
     return df

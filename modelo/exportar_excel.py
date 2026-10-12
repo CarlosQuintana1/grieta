@@ -154,7 +154,7 @@ def main():
     args = ap.parse_args()
 
     df = separar_y_predecir(cargar(pathlib.Path(args.entrada)))
-    hora = pd.to_datetime(df["timestamp"], utc=True).dt.tz_convert("America/Mexico_City")
+    hora = pd.to_datetime(df["timestamp"], utc=True, format="ISO8601").dt.tz_convert("America/Mexico_City")
     df["fecha"], df["hora"] = hora.dt.date, hora.dt.floor("min").dt.time
     nombres = nombres_de_ruta()
     si_no = lambda v: "Sí" if str(v).lower() == "true" else "No"

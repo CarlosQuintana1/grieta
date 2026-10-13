@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Grieta</title>
+  <link rel="icon" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="Grieta">
+    <p id="info">Cargando el modelo…</p>
+  </header>
+
+  <section id="mapa"></section>
+  <p class="ayuda" id="paso">Toca el mapa para poner el origen.</p>
+
+  <section class="controles">
+    <label>Día
+      <select id="dia">
+        <option value="0">Lunes</option><option value="1">Martes</option><option value="2">Miércoles</option>
+        <option value="3">Jueves</option><option value="4">Viernes</option><option value="5">Sábado</option>
+        <option value="6">Domingo</option>
+      </select>
+    </label>
+    <label>Hora <input id="hora" type="time"></label>
+    <label>App que abriste
+      <select id="app">
+        <option value="">Ninguna</option><option value="uber">Uber</option>
+        <option value="didi">DiDi</option><option value="indrive">inDrive</option>
+      </select>
+    </label>
+    <label>Te marca <input id="precio" type="number" inputmode="decimal" placeholder="$"></label>
+    <label>Minutos que te sobran <input id="margen" type="number" inputmode="numeric" value="20"></label>
+    <button id="reiniciar" type="button">Otro viaje</button>
+  </section>
+
+  <section id="resultados" hidden>
+    <h2>Precio esperado</h2>
+    <div id="precios"></div>
+
+    <h2>Cómo llegar</h2>
+    <div id="opciones"></div>
+
+    <div id="decision"></div>
+  </section>
+
+  <footer>Precios estimados con los registros del equipo. Horarios oficiales de Qrobus (AMEQ).</footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/h3-js@4.1.0/dist/h3-js.umd.js"></script>
+  <script src="grieta.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

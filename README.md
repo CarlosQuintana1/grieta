@@ -26,6 +26,7 @@ construcción.
 |---|---|---|
 | [`captura/`](captura) | App web con la que el equipo registra los precios de las tres apps | Next.js, Cloudflare Workers y D1 |
 | [`modelo/`](modelo) | Dataset, entrenamiento y evaluación del modelo de precios | Python, pandas y scikit-learn |
+| [`demo/`](demo) | Página para probar el modelo: precio esperado, opciones con Qrobus y la decisión | HTML, Leaflet y h3-js |
 | [`api/`](api) | Backend con lugares, rutas, registros, cotizaciones y consultas | Express, Sequelize y SQLite |
 
 Cada carpeta tiene su README con lo necesario para correrla.

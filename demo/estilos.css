@@ -1,0 +1,61 @@
+:root {
+  --fondo: #161616;
+  --panel: #11232d;
+  --linea: #3b4c54;
+  --acento: #3a5a74;
+  --texto: #cecece;
+  --tenue: #8a979d;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0 auto;
+  max-width: 640px;
+  padding: 16px;
+  background: var(--fondo);
+  color: var(--texto);
+  font: 16px/1.4 "Barlow Semi Condensed", system-ui, sans-serif;
+}
+
+header { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+header img { width: 150px; }
+#info, .nota, footer { color: var(--tenue); font-size: 0.85rem; margin: 0; }
+
+#mapa { height: 45vh; min-height: 260px; border: 1px solid var(--linea); background: var(--fondo); }
+/* Mapa claro de OpenStreetMap llevado a tonos oscuros. */
+.leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) grayscale(0.5) brightness(0.85) contrast(0.9); }
+.ayuda { margin: 8px 0 16px; font-size: 0.9rem; }
+
+.marca span { display: block; width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--fondo); }
+
+.controles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.controles label { display: flex; flex-direction: column; gap: 4px; font-size: 0.85rem; color: var(--tenue); }
+input, select, button {
+  font: inherit;
+  color: var(--texto);
+  background: var(--panel);
+  border: 1px solid var(--linea);
+  padding: 8px 10px;
+  border-radius: 0;
+}
+button { align-self: end; background: var(--acento); border-color: var(--acento); cursor: pointer; }
+
+h2 { font-size: 0.85rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tenue); margin: 28px 0 8px; }
+
+table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+th { text-align: left; font-weight: 500; color: var(--tenue); font-size: 0.8rem; padding: 6px 4px; border-bottom: 1px solid var(--linea); }
+td { padding: 8px 4px; border-bottom: 1px solid var(--linea); }
+tr.mejor td { color: #fff; font-weight: 600; }
+
+article { padding: 10px 0; border-bottom: 1px solid var(--linea); }
+article .fila { display: flex; justify-content: space-between; gap: 12px; }
+article .fila span { white-space: nowrap; font-variant-numeric: tabular-nums; }
+article p { margin: 4px 0 0; color: var(--tenue); font-size: 0.85rem; }
+
+.veredicto { font-size: 2rem; font-weight: 600; margin: 0 0 6px; color: #fff; }
+ul { list-style: none; padding: 0; margin: 12px 0 0; font-size: 0.9rem; }
+li { padding: 6px 0; border-bottom: 1px solid var(--linea); }
+li span { display: inline-block; width: 3em; color: var(--tenue); font-variant-numeric: tabular-nums; }
+
+footer { margin-top: 32px; }

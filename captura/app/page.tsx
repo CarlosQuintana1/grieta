@@ -6,7 +6,7 @@ import { RUTAS } from "@/lib/rutas";
 import { guardar } from "@/lib/db";
 import { momentosEquipo } from "@/lib/equipo";
 import { EVENTO_RECHAZO, guardarCodigo, leerCodigo, probarCodigo } from "@/lib/acceso";
-import { franjaDe, FRANJAS, LIMITE_SEGUNDOS, precioFueraDeRango } from "@/lib/tiempo";
+import { esFinDeSemana, franjaDe, FRANJAS, LIMITE_SEGUNDOS, precioFueraDeRango } from "@/lib/tiempo";
 import {
   appsConPrecio,
   MINIMO_APPS,
@@ -35,13 +35,21 @@ type Borrador = {
 const RUTAS_ORDENADAS = [...RUTAS].sort((a, b) => a.etiqueta.localeCompare(b.etiqueta, "es"));
 
 const CLAVE_CAPTURADOR = "capturador";
+const RUTAS_SUGERIDAS = 4;
+
+// Desempata distinto para cada capturador, asi dos personas no reciben la misma ruta.
+function desempate(nombre: string, ruta: number): number {
+  let h = ruta;
+  for (const c of nombre) h = (h * 31 + c.charCodeAt(0)) % 9973;
+  return h;
+}
 const CLAVE_BORRADOR = "borrador";
 
 export default function Captura() {
   const [capturador, setCapturador] = useState<string | null>(null);
   const [codigo, setCodigo] = useState<string | null>(null);
   const [borrador, setBorrador] = useState<Borrador | null>(null);
-  const [rutaSel, setRutaSel] = useState<number>(RUTAS[0].ruta_id);
+  const [rutaSel, setRutaSel] = useState<number | null>(null);
   const [momentos, setMomentos] = useState<Momento[]>([]);
   const [ahora, setAhora] = useState(() => Date.now());
   const [listo, setListo] = useState(false);
@@ -89,12 +97,37 @@ export default function Captura() {
   }, [momentos]);
 
   const franjaActual = franjaDe(new Date());
-  const enFranja = momentos.filter((m) => franjaDe(new Date(m.timestamp)) === franjaActual).length;
+  const findeActual = esFinDeSemana(new Date());
+
+  // Registros de cada ruta en esta franja y en el mismo tipo de dia (entre semana o fin de semana).
+  const conteoAhora = useMemo(() => {
+    const m = new Map<number, number>();
+    for (const x of momentos) {
+      const d = new Date(x.timestamp);
+      if (franjaDe(d) !== franjaActual || esFinDeSemana(d) !== findeActual) continue;
+      m.set(x.ruta_id, (m.get(x.ruta_id) ?? 0) + 1);
+    }
+    return m;
+  }, [momentos, franjaActual, findeActual]);
+
+  const sugeridas = useMemo(
+    () =>
+      [...RUTAS]
+        .sort(
+          (a, b) =>
+            (conteoAhora.get(a.ruta_id) ?? 0) - (conteoAhora.get(b.ruta_id) ?? 0) ||
+            (conteoPorRuta.get(a.ruta_id) ?? 0) - (conteoPorRuta.get(b.ruta_id) ?? 0) ||
+            desempate(capturador ?? "", a.ruta_id) - desempate(capturador ?? "", b.ruta_id),
+        )
+        .slice(0, RUTAS_SUGERIDAS),
+    [conteoAhora, conteoPorRuta, capturador],
+  );
+  const rutaElegida = rutaSel ?? sugeridas[0].ruta_id;
 
   function empezar() {
     const b: Borrador = {
       inicio: new Date().toISOString(),
-      ruta_id: rutaSel,
+      ruta_id: rutaElegida,
       precios: { uber: "", didi: "", indrive: "" },
       sospechosa: false,
       motivo: null,
@@ -140,6 +173,7 @@ export default function Captura() {
     };
     await guardar(m);
     actualizar(null);
+    setRutaSel(null);
     setMomentos((await momentosEquipo()).momentos);
     void sincronizar().then(async (n) => {
       if (n > 0) setMomentos((await momentosEquipo()).momentos);
@@ -185,22 +219,39 @@ export default function Captura() {
       {!borrador ? (
         <section className="flex flex-col gap-7">
           <div className="flex flex-col gap-3">
+            <p className="text-[0.78rem] text-tenue">
+              Faltan en {FRANJAS.find((f) => f.id === franjaActual)!.nombre.toLowerCase()}
+              {findeActual ? " de fin de semana" : ""}
+            </p>
+            {sugeridas.map((r) => (
+              <button
+                key={r.ruta_id}
+                onClick={() => setRutaSel(r.ruta_id)}
+                aria-pressed={rutaElegida === r.ruta_id}
+                className={`flex items-baseline justify-between gap-3 border px-3.5 py-3 text-left text-[0.85rem] leading-snug transition-colors ${
+                  rutaElegida === r.ruta_id ? "border-ambar bg-ambar text-noche" : "border-ambar text-ambar"
+                }`}
+              >
+                <span>{r.etiqueta}</span>
+                <span className="tabular-nums">{conteoAhora.get(r.ruta_id) ?? 0}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="flex flex-col gap-3">
             <select
               aria-label="Ruta"
-              value={rutaSel}
+              value={rutaElegida}
               onChange={(e) => setRutaSel(Number(e.target.value))}
               className="w-full border-b border-linea bg-transparent pb-3 pr-8 text-[0.95rem] leading-snug text-tinta"
             >
               {RUTAS_ORDENADAS.map((r) => (
                 <option key={r.ruta_id} value={r.ruta_id} className="bg-noche">
-                  {r.etiqueta} · {conteoPorRuta.get(r.ruta_id) ?? 0}
+                  {r.etiqueta} · {conteoAhora.get(r.ruta_id) ?? 0}
                 </option>
               ))}
             </select>
 
-            <p className="text-[0.78rem] text-tenue">
-              {FRANJAS.find((f) => f.id === franjaActual)!.nombre} · {enFranja}
-            </p>
           </div>
 
           <button

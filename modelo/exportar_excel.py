@@ -11,6 +11,7 @@ import re
 import zipfile
 from datetime import date
 
+import numpy as np
 import pandas as pd
 from openpyxl import Workbook
 from openpyxl.comments import Comment
@@ -65,8 +66,9 @@ PREDICHO = [
     ("Destino", 34, None, None),
     ("App", 9, None, None),
     ("Precio real ($)", 12, PESOS, None),
-    ("Precio predicho ($)", 12, PESOS, "Regresión lineal (Ridge, alfa 1), una por app, con la ruta y la "
-                                       "franja horaria como variables. Se entrenó solo con los registros "
+    ("Precio predicho ($)", 12, PESOS, "Regresión lineal (Ridge, alfa 1) sobre el logaritmo del precio, una "
+                                       "por app, con la ruta, la franja horaria y si es fin de semana como "
+                                       "variables. Se entrenó solo con los registros "
                                        "marcados como Entrenamiento en la hoja Registros."),
     ("Diferencia ($)", 12, PESOS, "Predicho menos real: positivo si el modelo se pasó, negativo si se "
                                   "quedó corto."),
@@ -97,8 +99,8 @@ def separar_y_predecir(df: pd.DataFrame) -> pd.DataFrame:
         prueba = es_p & (df["conjunto"] == "Prueba")
         if entrena.sum() < 5 or not prueba.any():
             continue
-        modelo = Ridge(alpha=1.0).fit(X[entrena], df.loc[entrena, "precio_mxn"])
-        df.loc[prueba, "predicho"] = modelo.predict(X[prueba]).round(2)
+        modelo = Ridge(alpha=1.0).fit(X[entrena], np.log(df.loc[entrena, "precio_mxn"]))
+        df.loc[prueba, "predicho"] = np.exp(modelo.predict(X[prueba])).round(2)
     df["orden_app"] = df["plataforma"].map({p: i for i, p in enumerate(APPS)})
     return df.sort_values(["registro", "orden_app"])
 

@@ -1,4 +1,4 @@
-"""Entrena el modelo base (ruta + franja horaria) y lo mide dejando fuera dias completos.
+"""Entrena el modelo (ruta, franja horaria y fin de semana) y lo mide dejando fuera dias completos.
 
     python entrenar_modelo.py                    # lee datos/dataset.csv
     python entrenar_modelo.py --entrada otro.csv
@@ -14,6 +14,7 @@ from sklearn.linear_model import Ridge
 MODELO = pathlib.Path(__file__).resolve().parent
 PLATAFORMAS = ["uber", "didi", "indrive"]
 CORTES = [0, 6, 9, 12, 15, 18, 21, 24]
+VENTANA_INDICE = pd.Timedelta(minutes=45)
 FRANJAS = ["0-6", "6-9", "9-12", "12-15", "15-18", "18-21", "21-24"]
 
 
@@ -22,12 +23,14 @@ def cargar(ruta: pathlib.Path) -> pd.DataFrame:
     df = df[~df["sospechosa"].astype(str).str.lower().eq("true")].copy()
     hora = pd.to_datetime(df["timestamp"], utc=True, format="ISO8601").dt.tz_convert("America/Mexico_City")
     df["dia"] = hora.dt.date
+    df["t"] = hora
     df["franja"] = pd.cut(df["hora_decimal"], CORTES, right=False, labels=FRANJAS)
+    df["finde"] = df["es_findesemana"].astype(str).str.lower().eq("true").astype(float)
     return df
 
 
 def variables(df: pd.DataFrame) -> pd.DataFrame:
-    return pd.get_dummies(df[["ruta_id", "franja"]].astype(str)).astype(float)
+    return pd.concat([pd.get_dummies(df[["ruta_id", "franja"]].astype(str)).astype(float), df[["finde"]]], axis=1)
 
 
 def predecir(df: pd.DataFrame) -> pd.Series:
@@ -41,9 +44,28 @@ def predecir(df: pd.DataFrame) -> pd.Series:
             entrena, prueba = es_p & ~fuera, es_p & fuera
             if entrena.sum() < 5 or not prueba.any():
                 continue
-            modelo = Ridge(alpha=1.0).fit(X[entrena], df.loc[entrena, "precio_mxn"])
-            pred[prueba] = modelo.predict(X[prueba])
+            # En logaritmo: la tarifa dinamica multiplica el precio, no le suma.
+            modelo = Ridge(alpha=1.0).fit(X[entrena], np.log(df.loc[entrena, "precio_mxn"]))
+            pred[prueba] = np.exp(modelo.predict(X[prueba]))
     return pred
+
+
+def con_indice(df: pd.DataFrame, pred: pd.Series) -> pd.Series:
+    # Mediana de la ruta en otros dias, ajustada por como salio la misma app en otras rutas en los ultimos 45 min.
+    salida = pred.copy()
+    for dia in df["dia"].unique():
+        otros = df[df["dia"] != dia]
+        mediana = otros.groupby(["ruta_id", "plataforma"])["precio_mxn"].median()
+        hoy = df[df["dia"] == dia]
+        relativo = hoy["precio_mxn"] / pd.Series(
+            [mediana.get((r, p), np.nan) for r, p in zip(hoy["ruta_id"], hoy["plataforma"])], index=hoy.index)
+        for i, fila in hoy.iterrows():
+            base = mediana.get((fila["ruta_id"], fila["plataforma"]))
+            recientes = relativo[(hoy["plataforma"] == fila["plataforma"]) & (hoy["ruta_id"] != fila["ruta_id"])
+                                 & (hoy["t"] < fila["t"]) & (hoy["t"] >= fila["t"] - VENTANA_INDICE)].dropna()
+            if base is not None and len(recientes):
+                salida[i] = base * recientes.median()
+    return salida
 
 
 def cual_conviene(df: pd.DataFrame) -> tuple[int, int, int]:
@@ -85,14 +107,17 @@ def main():
     if df["dia"].nunique() < 2:
         print("Hace falta mas de un dia de capturas: el modelo se mide dejando fuera dias completos.")
         return
-    df["pred"] = predecir(df)
+    df["pred_modelo"] = predecir(df)
+    df["pred"] = con_indice(df, df["pred_modelo"])
     print(f"{df['momento_id'].nunique()} momentos en {df['dia'].nunique()} dias")
 
-    print("\nError promedio del precio, dejando fuera cada dia:")
+    print("\nError promedio del precio, dejando fuera cada dia (solo modelo / con indice de la ciudad):")
     for p in PLATAFORMAS:
         de_p = df[(df["plataforma"] == p) & df["pred"].notna()]
         if not de_p.empty:
-            print(f"  {p:8s} ${(de_p['pred'] - de_p['precio_mxn']).abs().mean():.1f}  ({len(de_p)} filas)")
+            solo = (de_p["pred_modelo"] - de_p["precio_mxn"]).abs().mean()
+            con = (de_p["pred"] - de_p["precio_mxn"]).abs().mean()
+            print(f"  {p:8s} ${solo:.1f} / ${con:.1f}  ({len(de_p)} filas)")
 
     aciertos, siempre_didi, total = cual_conviene(df)
     if total:

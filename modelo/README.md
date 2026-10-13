@@ -11,7 +11,7 @@ python3 -m venv .venv
 | Script | Qué hace |
 |---|---|
 | `construir_dataset.py` | Baja los registros y escribe `datos/dataset.csv`: una fila por app, con km, minutos, zona, hora y clima |
-| `entrenar_modelo.py` | Entrena el modelo base (ruta y franja horaria) y lo mide dejando fuera días completos |
+| `entrenar_modelo.py` | Entrena el modelo (ruta, franja horaria y fin de semana), le suma el índice de la ciudad y lo mide dejando fuera días completos |
 | `exportar_excel.py` | Saca un Excel con los registros y lo predicho contra lo real, con 80/20 por tiempo |
 | `rutas_osrm.py` | Calcula km y minutos sin tráfico de cada ruta con OSRM (`datos/rutas_medidas.json`) |
 | `verificar_rutas.py` | Señala coordenadas sospechosas en el catálogo |

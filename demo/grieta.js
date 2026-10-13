@@ -66,7 +66,7 @@ const Grieta = (() => {
         res.set(i, { modo: "caminando", costo: 0, min: (m * RODEO) / 1000 / VEL_CAMINAR * 60 });
       } else {
         const t = hacia ? tramoApp(ctx, punto, [lat, lon]) : tramoApp(ctx, [lat, lon], punto);
-        res.set(i, { modo: "app", costo: t.mejor.precio, min: t.minutos });
+        res.set(i, { modo: "app", costo: t.mejor.precio, min: t.minutos, app: t.mejor.app });
       }
     });
     return res;
@@ -79,12 +79,20 @@ const Grieta = (() => {
     "app+app": "App + camión + app",
   };
 
+  function tramo(t, parada, hacia) {
+    const nombre = qrobus.paradas[parada][2];
+    return t.modo === "caminando"
+      ? { tipo: "caminar", min: t.min, parada: nombre, hacia }
+      : { tipo: "app", app: t.app, costo: t.costo, min: t.min, parada: nombre, hacia };
+  }
+
   function opciones(ctx, o, d, kmCalle) {
     const directo = tramoApp(ctx, o, d, kmCalle);
-    const filas = [{ opcion: `Solo app (${nombreApp(directo.mejor.app)})`, costo: directo.mejor.precio, minutos: directo.minutos, detalle: "" }];
+    const filas = [{ opcion: `Solo app (${nombreApp(directo.mejor.app)})`, tipo: "app", costo: directo.mejor.precio, minutos: directo.minutos, detalle: "" }];
     const sube = alcanzables(ctx, o, true);
     const baja = alcanzables(ctx, d, false);
     const mejores = new Map();
+    let pasaCerca = false;
 
     qrobus.patrones.forEach((p) => {
       const salidas = p.salidas[ctx.servicio];
@@ -96,15 +104,27 @@ const Grieta = (() => {
         const desde = ctx.minuto + s.min;
         const sale = salidas.map((x) => x + p.minutos[pb]).find((t) => t >= desde && t <= desde + VENTANA_MIN);
         if (sale === undefined) return;
+        if (s.modo === "caminando") pasaCerca = true;
         for (let pa = pb + 1; pa < p.paradas.length; pa++) {
           const b = baja.get(p.paradas[pa]);
           if (!b) continue;
           const llega = sale - p.minutos[pb] + p.minutos[pa];
+          const coords = (i) => qrobus.paradas[i].slice(0, 2);
           const fila = {
             tipo: `${s.modo}+${b.modo}`,
             costo: s.costo + qrobus.pasaje + b.costo,
             minutos: llega + b.min - ctx.minuto,
             detalle: `línea ${p.linea}: ${qrobus.paradas[sb][2]} (${hhmm(sale)}) a ${qrobus.paradas[p.paradas[pa]][2]}`,
+            pasos: [
+              tramo(s, sb, true),
+              { tipo: "camion", linea: p.linea, sale, llega, paradas: pa - pb, baja: qrobus.paradas[p.paradas[pa]][2] },
+              tramo(b, p.paradas[pa], false),
+            ],
+            trazo: {
+              acceso: { modo: s.modo, puntos: [o, coords(sb)] },
+              camion: p.paradas.slice(pb, pa + 1).map(coords),
+              salida: { modo: b.modo, puntos: [coords(p.paradas[pa]), d] },
+            },
           };
           for (const clave of [`${fila.tipo}:rapida`, `${fila.tipo}:barata`]) {
             const actual = mejores.get(clave);
@@ -115,12 +135,12 @@ const Grieta = (() => {
       });
     });
 
-    for (const f of mejores.values()) filas.push({ opcion: NOMBRES[f.tipo], costo: f.costo, minutos: f.minutos, detalle: f.detalle });
+    for (const f of mejores.values()) filas.push({ ...f, opcion: NOMBRES[f.tipo] });
     const unicas = [...new Map(filas.map((f) => [`${f.opcion}|${f.detalle}`, { ...f, costo: Math.round(f.costo), minutos: Math.round(f.minutos) }])).values()];
     // Fuera las opciones que cuestan mas y tardan mas que alguna otra.
     const vivas = unicas.filter((r) => !unicas.some((x) =>
       x.costo <= r.costo && x.minutos <= r.minutos && (x.costo < r.costo || x.minutos < r.minutos)));
-    return { directo, opciones: vivas.sort((a, b) => a.minutos - b.minutos || a.costo - b.costo) };
+    return { directo, opciones: vivas.sort((a, b) => a.minutos - b.minutos || a.costo - b.costo), pasaCerca };
   }
 
   const trapecio = (x, a, b, c, d) => {
@@ -182,8 +202,8 @@ const Grieta = (() => {
 
   function evaluar({ origen, destino, dia, minuto, app, precioVisto, margen, kmCalle }) {
     const ctx = contexto(dia, minuto);
-    const { directo, opciones: lista } = opciones(ctx, origen, destino, kmCalle);
-    const res = { ctx, directo, opciones: lista };
+    const { directo, opciones: lista, pasaCerca } = opciones(ctx, origen, destino, kmCalle);
+    const res = { ctx, directo, opciones: lista, pasaCerca };
 
     const inicio = CORTES.find((c) => c > minuto / 60);
     if (inicio < 24 && inicio * 60 - minuto <= 90) {

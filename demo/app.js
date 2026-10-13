@@ -42,7 +42,7 @@ function ubicar() {
   if (!navigator.geolocation) return sinUbicacion("Tu navegador no comparte la ubicación.");
   navigator.geolocation.getCurrentPosition(
     ({ coords }) => {
-      if (!dentroDeQueretaro(coords.latitude, coords.longitude)) return sinUbicacion("Estás fuera de Querétaro: escribe un origen.");
+      if (!dentroDeQueretaro(coords.latitude, coords.longitude)) return sinUbicacion("Estás fuera de Querétaro. Escribe un origen.");
       estado.gps = { nombre: "Tu ubicación", lat: coords.latitude, lon: coords.longitude };
       $("estado").textContent = "";
       if (!estado.origen) {
@@ -50,7 +50,7 @@ function ubicar() {
         mapa.setView([coords.latitude, coords.longitude], 14);
       }
     },
-    () => sinUbicacion("No pudimos ver tu ubicación. Escribe dónde estás o toca el mapa."),
+    () => sinUbicacion("Escribe dónde estás o toca el mapa."),
     { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 },
   );
 }
@@ -120,7 +120,10 @@ mapa.on("click", async ({ latlng }) => {
 
 async function trazar() {
   const { origen: o, destino: d } = estado;
+  $("estado").textContent = "Calculando ruta...";
+  $("sugerencias").innerHTML = "";
   capas.linea?.remove();
+  quitarTrazo();
   estado.kmCalle = null;
   try {
     const url = `https://router.project-osrm.org/route/v1/driving/${o.lon},${o.lat};${d.lon},${d.lat}?overview=full&geometries=geojson`;
@@ -131,6 +134,7 @@ async function trazar() {
   } catch {
     capas.linea = L.polyline([[o.lat, o.lon], [d.lat, d.lon]], { color: "#6f9cc0", weight: 3, dashArray: "4 8" }).addTo(mapa);
   }
+  $("estado").textContent = "";
   mostrarViaje();
 }
 
@@ -141,11 +145,7 @@ function mostrarViaje() {
   $("nombreHacia").textContent = estado.destino.nombre;
   document.activeElement?.blur();
   calcular();
-  const alto = $("hoja").getBoundingClientRect().height;
-  const ancho = innerWidth >= 760;
-  mapa.fitBounds(capas.linea.getBounds(), ancho
-    ? { paddingTopLeft: [440, 40], paddingBottomRight: [40, 40] }
-    : { paddingTopLeft: [40, 70], paddingBottomRight: [40, Math.min(alto, innerHeight * 0.62) + 20] });
+  encuadrar(capas.linea.getBounds());
 }
 
 $("cambiar").addEventListener("click", () => {
@@ -212,28 +212,111 @@ function calcular() {
   pintar(r);
 }
 
+const enlaceUber = () => {
+  const { origen: o, destino: d } = estado;
+  const q = new URLSearchParams({
+    action: "setPickup",
+    "pickup[latitude]": o.lat, "pickup[longitude]": o.lon, "pickup[nickname]": o.nombre,
+    "dropoff[latitude]": d.lat, "dropoff[longitude]": d.lon, "dropoff[nickname]": d.nombre,
+  });
+  return `https://m.uber.com/ul/?${q}`;
+};
+
+function pasos(o) {
+  const linea = (p) => {
+    if (p.tipo === "caminar") return p.hacia ? `Camina ${Math.max(1, Math.round(p.min))} min a ${p.parada}` : `Camina ${Math.max(1, Math.round(p.min))} min al destino`;
+    if (p.tipo === "app") return p.hacia ? `${Grieta.nombreApp(p.app)} hasta ${p.parada} · ${pesos(p.costo)}` : `${Grieta.nombreApp(p.app)} al destino · ${pesos(p.costo)}`;
+    return `Línea ${p.linea}, pasa a las ${Grieta.hhmm(p.sale)} · baja en ${p.baja} (${Grieta.hhmm(p.llega)})`;
+  };
+  return `<ol class="pasos">${o.pasos.map((p) => `<li class="${p.tipo}">${linea(p)}</li>`).join("")}</ol>`;
+}
+
+function mensajeSinCamion(r) {
+  return r.pasaCerca
+    ? "Ningún Qrobus te lleva directo en la próxima hora; habría que transbordar."
+    : "En la próxima hora no pasa ningún Qrobus cerca de ti.";
+}
+
+function quitarTrazo() {
+  capas.camion?.remove();
+  capas.camion = null;
+  capas.linea?.setStyle?.({ opacity: 0.9 });
+  document.querySelectorAll("#camiones .opcion").forEach((x) => x.classList.remove("elegida"));
+}
+
+// Dibuja la opcion con camion: caminata punteada, app en linea clara y el camion por sus paradas.
+function dibujar(o, tarjeta) {
+  const yaEstaba = tarjeta.classList.contains("elegida");
+  quitarTrazo();
+  if (yaEstaba) return;
+  tarjeta.classList.add("elegida");
+  const estilo = (modo) => modo === "caminando"
+    ? { color: "#cecece", weight: 3, dashArray: "2 7" }
+    : { color: "#6f9cc0", weight: 4 };
+  capas.linea?.setStyle?.({ opacity: 0.25 });
+  capas.camion = L.featureGroup([
+    L.polyline(o.trazo.acceso.puntos, estilo(o.trazo.acceso.modo)),
+    L.polyline(o.trazo.camion, { color: "#e0b84c", weight: 5 }),
+    L.polyline(o.trazo.salida.puntos, estilo(o.trazo.salida.modo)),
+    ...[o.trazo.camion[0], o.trazo.camion.at(-1)].map((c) => L.circleMarker(c, { radius: 5, color: "#161616", weight: 2, fillColor: "#e0b84c", fillOpacity: 1 })),
+  ]).addTo(mapa);
+  encuadrar(capas.camion.getBounds());
+}
+
+function encuadrar(limites) {
+  const alto = $("hoja").getBoundingClientRect().height;
+  mapa.fitBounds(limites, innerWidth >= 760
+    ? { paddingTopLeft: [440, 40], paddingBottomRight: [40, 40] }
+    : { paddingTopLeft: [30, 70], paddingBottomRight: [30, Math.min(alto, innerHeight * 0.62) + 20] });
+}
+
 function pintar(r) {
-  $("km").textContent = `${r.directo.km.toFixed(1)} km`;
   const orden = [...r.directo.porApp].sort((a, b) => a.precio - b.precio);
+  const barata = orden[0];
+  const minAuto = Math.round(r.directo.minutos);
+  $("km").textContent = `${r.directo.km.toFixed(1)} km · ${minAuto} min en auto`;
+
+  const conCamion = r.opciones.filter((o) => o.tipo !== "app");
+  const camionBarato = conCamion.length ? conCamion.reduce((a, b) => (b.costo < a.costo ? b : a)) : null;
+  let espera = "";
+  if (r.siguiente) {
+    const despues = r.siguiente.porApp.find((x) => x.app === barata.app).precio;
+    const dif = Math.round(despues - barata.precio);
+    espera = Math.abs(dif) < 3
+      ? `Si esperas a las ${Grieta.hhmm(r.siguiente.minuto)}: casi igual`
+      : `Si esperas a las ${Grieta.hhmm(r.siguiente.minuto)}: ${dif > 0 ? "sube" : "baja"} ${pesos(Math.abs(dif))}`;
+  }
+  $("resumen").innerHTML = `
+    <div class="tarjeta resumen">
+      <p class="etiqueta-chica">Lo más barato ahorita</p>
+      <p class="grande">${Grieta.nombreApp(barata.app)} <span>${pesos(barata.precio)}</span></p>
+      ${espera ? `<p>${espera}</p>` : ""}
+      <p>${camionBarato
+        ? `En Qrobus: ${pesos(camionBarato.costo)}, ${camionBarato.minutos - minAuto > 0 ? `${camionBarato.minutos - minAuto} min más` : "igual de rápido"}`
+        : mensajeSinCamion(r)}</p>
+    </div>`;
+
   $("apps").innerHTML = orden.map((x, i) => `
     <div class="opcion${i === 0 ? " mejor" : ""}">
       <div><strong>${Grieta.nombreApp(x.app)}</strong>${i === 0 ? '<span class="etiqueta">Más barata</span>' : ""}
-        <p>Normal entre ${pesos(x.bajo)} y ${pesos(x.alto)} · ${Math.round(r.directo.minutos)} min</p></div>
+        <p>Normal entre ${pesos(x.bajo)} y ${pesos(x.alto)}</p>
+        ${x.app === "uber" ? `<a class="abrir" href="${enlaceUber()}" target="_blank" rel="noopener">Abrir en Uber</a>` : ""}</div>
       <span class="precio">${pesos(x.precio)}</span>
     </div>`).join("");
-  if (r.siguiente) {
-    const sig = r.siguiente.porApp.map((x) => `${Grieta.nombreApp(x.app)} ${pesos(x.precio)}`).join(" · ");
-    $("apps").innerHTML += `<p class="nota">Desde las ${Grieta.hhmm(r.siguiente.minuto)}: ${sig}</p>`;
-  }
 
-  const conCamion = r.opciones.filter((o) => !o.opcion.startsWith("Solo app"));
+  quitarTrazo();
   $("camiones").innerHTML = conCamion.length
-    ? conCamion.map((o) => `
-      <div class="opcion">
-        <div><strong>${o.opcion}</strong><p>${o.detalle}</p></div>
+    ? conCamion.map((o, i) => `
+      <div class="opcion tocable" data-i="${i}">
+        <div><strong>${o.opcion}</strong>${pasos(o)}
+          ${barata.precio - o.costo >= 5 ? `<span class="ahorro">Ahorras ${pesos(barata.precio - o.costo)}</span>` : ""}</div>
         <span class="precio">${pesos(o.costo)}<small>${o.minutos} min</small></span>
-      </div>`).join("")
-    : `<p class="nota">No hay un Qrobus directo en la próxima hora.</p>`;
+      </div>`).join("") + `<p class="nota">Toca una opción para verla en el mapa.</p>`
+    : `<p class="nota">${mensajeSinCamion(r)}</p>`;
+  $("camiones").onclick = (e) => {
+    const t = e.target.closest(".opcion");
+    if (t) dibujar(conCamion[t.dataset.i], t);
+  };
 
   const d = r.decision;
   $("veredicto").innerHTML = !d ? "" : `

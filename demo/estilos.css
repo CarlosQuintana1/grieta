@@ -115,3 +115,19 @@ details li span { display: inline-block; width: 3em; color: var(--tenue); font-v
   .logo { left: auto; right: 16px; }
   .flotante { top: 70px; right: 16px; }
 }
+
+.resumen { margin-top: 16px; }
+.resumen p { margin: 4px 0 0; }
+.etiqueta-chica { color: var(--tenue); font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.resumen .grande span { float: right; }
+
+.tocable { cursor: pointer; }
+.opcion.elegida { background: var(--panel); border-color: #e0b84c; border-radius: 12px; }
+.pasos { list-style: none; margin: 6px 0 0; padding: 0; color: var(--tenue); font-size: 0.85rem; }
+.pasos li { position: relative; padding: 2px 0 2px 16px; }
+.pasos li::before { content: ""; position: absolute; left: 3px; top: 9px; width: 6px; height: 6px; border-radius: 50%; background: var(--claro); }
+.pasos li.caminar::before { background: var(--texto); }
+.pasos li.camion::before { background: #e0b84c; }
+.pasos li.camion { color: var(--texto); }
+.ahorro { display: inline-block; margin-top: 6px; font-size: 0.8rem; color: #e0b84c; }
+.abrir { display: inline-block; margin-top: 6px; font-size: 0.85rem; color: var(--claro); text-decoration: none; }

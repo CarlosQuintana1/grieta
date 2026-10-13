@@ -5,7 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#161616">
   <title>Grieta</title>
-  <link rel="icon" href="logo.png">
+  <link rel="icon" href="icono-192.png">
+  <link rel="apple-touch-icon" href="icono-180.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Grieta">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
@@ -58,11 +63,7 @@
         <input id="hora" type="time">
       </div>
 
-      <h2>En app <span id="km" class="nota"></span></h2>
-      <div id="apps"></div>
-
-      <h2>Con Qrobus</h2>
-      <div id="camiones"></div>
+      <div id="resumen"></div>
 
       <h2>¿Ya viste el precio?</h2>
       <div class="segmento" id="appVista">
@@ -72,6 +73,12 @@
       </div>
       <input id="precio" type="number" inputmode="decimal" placeholder="¿Cuánto te marca?" hidden>
       <div id="veredicto"></div>
+
+      <h2>En app <span id="km" class="nota"></span></h2>
+      <div id="apps"></div>
+
+      <h2>Con Qrobus</h2>
+      <div id="camiones"></div>
 
       <p class="nota pie" id="info"></p>
     </div>

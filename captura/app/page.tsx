@@ -6,7 +6,7 @@ import { RUTAS } from "@/lib/rutas";
 import { guardar } from "@/lib/db";
 import { momentosEquipo } from "@/lib/equipo";
 import { EVENTO_RECHAZO, guardarCodigo, leerCodigo, probarCodigo } from "@/lib/acceso";
-import { esFinDeSemana, franjaDe, FRANJAS, LIMITE_SEGUNDOS, precioFueraDeRango } from "@/lib/tiempo";
+import { franjaDe, LIMITE_SEGUNDOS, precioFueraDeRango } from "@/lib/tiempo";
 import {
   appsConPrecio,
   MINIMO_APPS,
@@ -14,6 +14,7 @@ import {
   NOMBRE_PLATAFORMA,
   PLATAFORMAS,
   TIPO_VEHICULO,
+  type Franja,
   type Momento,
   type Motivo,
   type Plataforma,
@@ -36,6 +37,15 @@ const RUTAS_ORDENADAS = [...RUTAS].sort((a, b) => a.etiqueta.localeCompare(b.eti
 
 const CLAVE_CAPTURADOR = "capturador";
 const RUTAS_SUGERIDAS = 4;
+const DIAS = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
+const FRANJA_EN_FRASE: Record<Franja, string> = {
+  madrugada: "de madrugada",
+  "pico-am": "en hora pico de la mañana",
+  "medio-dia": "a medio día",
+  tarde: "en la tarde",
+  "pico-pm": "en hora pico de la tarde",
+  noche: "de noche",
+};
 
 // Desempata distinto para cada capturador, asi dos personas no reciben la misma ruta.
 function desempate(nombre: string, ruta: number): number {
@@ -97,18 +107,18 @@ export default function Captura() {
   }, [momentos]);
 
   const franjaActual = franjaDe(new Date());
-  const findeActual = esFinDeSemana(new Date());
+  const diaActual = new Date().getDay();
 
-  // Registros de cada ruta en esta franja y en el mismo tipo de dia (entre semana o fin de semana).
+  // Registros de cada ruta en esta franja y en el mismo dia de la semana.
   const conteoAhora = useMemo(() => {
     const m = new Map<number, number>();
     for (const x of momentos) {
       const d = new Date(x.timestamp);
-      if (franjaDe(d) !== franjaActual || esFinDeSemana(d) !== findeActual) continue;
+      if (franjaDe(d) !== franjaActual || d.getDay() !== diaActual) continue;
       m.set(x.ruta_id, (m.get(x.ruta_id) ?? 0) + 1);
     }
     return m;
-  }, [momentos, franjaActual, findeActual]);
+  }, [momentos, franjaActual, diaActual]);
 
   const sugeridas = useMemo(
     () =>
@@ -220,8 +230,7 @@ export default function Captura() {
         <section className="flex flex-col gap-7">
           <div className="flex flex-col gap-3">
             <p className="text-[0.78rem] text-tenue">
-              Faltan en {FRANJAS.find((f) => f.id === franjaActual)!.nombre.toLowerCase()}
-              {findeActual ? " de fin de semana" : ""}
+              Rutas menos registradas {FRANJA_EN_FRASE[franjaActual]}, en {DIAS[diaActual]}
             </p>
             {sugeridas.map((r) => (
               <button

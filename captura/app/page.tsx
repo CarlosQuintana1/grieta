@@ -14,7 +14,6 @@ import {
   NOMBRE_PLATAFORMA,
   PLATAFORMAS,
   TIPO_VEHICULO,
-  type Franja,
   type Momento,
   type Motivo,
   type Plataforma,
@@ -37,15 +36,6 @@ const RUTAS_ORDENADAS = [...RUTAS].sort((a, b) => a.etiqueta.localeCompare(b.eti
 
 const CLAVE_CAPTURADOR = "capturador";
 const RUTAS_SUGERIDAS = 4;
-const DIAS = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
-const FRANJA_EN_FRASE: Record<Franja, string> = {
-  madrugada: "de madrugada",
-  "pico-am": "en hora pico de la mañana",
-  "medio-dia": "a medio día",
-  tarde: "en la tarde",
-  "pico-pm": "en hora pico de la tarde",
-  noche: "de noche",
-};
 
 // Desempata distinto para cada capturador, asi dos personas no reciben la misma ruta.
 function desempate(nombre: string, ruta: number): number {
@@ -230,7 +220,7 @@ export default function Captura() {
         <section className="flex flex-col gap-7">
           <div className="flex flex-col gap-3">
             <p className="text-[0.78rem] text-tenue">
-              Rutas menos registradas {FRANJA_EN_FRASE[franjaActual]}, en {DIAS[diaActual]}
+              Rutas menos registradas a esta hora
             </p>
             {sugeridas.map((r) => (
               <button

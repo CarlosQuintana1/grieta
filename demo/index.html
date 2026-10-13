@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#161616">
   <title>Grieta</title>
   <link rel="icon" href="logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,45 +12,70 @@
   <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-  <header>
-    <img src="logo.png" alt="Grieta">
-    <p id="info">Cargando el modelo...</p>
-  </header>
+  <div id="mapa"></div>
+  <img class="logo" src="logo.png" alt="Grieta">
+  <button id="centrar" class="flotante" type="button" aria-label="Ir a mi ubicación">
+    <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="4" fill="currentColor"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+  </button>
 
-  <section id="mapa"></section>
-  <p class="ayuda" id="paso">Toca el mapa para poner el origen.</p>
+  <section id="hoja">
+    <div class="agarradera"></div>
 
-  <section class="controles">
-    <label>Día
-      <select id="dia">
-        <option value="0">Lunes</option><option value="1">Martes</option><option value="2">Miércoles</option>
-        <option value="3">Jueves</option><option value="4">Viernes</option><option value="5">Sábado</option>
-        <option value="6">Domingo</option>
-      </select>
-    </label>
-    <label>Hora <input id="hora" type="time"></label>
-    <label>App que abriste
-      <select id="app">
-        <option value="">Ninguna</option><option value="uber">Uber</option>
-        <option value="didi">DiDi</option><option value="indrive">inDrive</option>
-      </select>
-    </label>
-    <label>Te marca <input id="precio" type="number" inputmode="decimal" placeholder="$"></label>
-    <label>Minutos que te sobran <input id="margen" type="number" inputmode="numeric" value="20"></label>
-    <button id="reiniciar" type="button">Otro viaje</button>
+    <div id="buscar">
+      <div class="campos">
+        <span class="punto origen"></span>
+        <input id="desde" autocomplete="off" placeholder="¿Dónde estás?">
+        <span class="punto destino"></span>
+        <input id="hacia" autocomplete="off" placeholder="¿A dónde vas?">
+      </div>
+      <p id="estado" class="nota">Buscando tu ubicación...</p>
+      <ul id="sugerencias"></ul>
+    </div>
+
+    <div id="viaje" hidden>
+      <div class="ruta">
+        <div>
+          <p class="nota">De <span id="nombreDesde"></span></p>
+          <p class="destino-nombre" id="nombreHacia"></p>
+        </div>
+        <button id="cambiar" type="button" class="enlace">Cambiar</button>
+      </div>
+
+      <div class="chips">
+        <button id="cuando" type="button" class="chip">Salir ahora</button>
+        <div class="segmento" id="prisa">
+          <button type="button" data-v="5">Con prisa</button>
+          <button type="button" data-v="20" class="activo">Normal</button>
+          <button type="button" data-v="45">Sin prisa</button>
+        </div>
+      </div>
+      <div id="horario" hidden>
+        <select id="dia">
+          <option value="0">Lunes</option><option value="1">Martes</option><option value="2">Miércoles</option>
+          <option value="3">Jueves</option><option value="4">Viernes</option><option value="5">Sábado</option>
+          <option value="6">Domingo</option>
+        </select>
+        <input id="hora" type="time">
+      </div>
+
+      <h2>En app <span id="km" class="nota"></span></h2>
+      <div id="apps"></div>
+
+      <h2>Con Qrobus</h2>
+      <div id="camiones"></div>
+
+      <h2>¿Ya viste el precio?</h2>
+      <div class="segmento" id="appVista">
+        <button type="button" data-v="uber">Uber</button>
+        <button type="button" data-v="didi">DiDi</button>
+        <button type="button" data-v="indrive">inDrive</button>
+      </div>
+      <input id="precio" type="number" inputmode="decimal" placeholder="¿Cuánto te marca?" hidden>
+      <div id="veredicto"></div>
+
+      <p class="nota pie" id="info"></p>
+    </div>
   </section>
-
-  <section id="resultados" hidden>
-    <h2>Precio esperado</h2>
-    <div id="precios"></div>
-
-    <h2>Cómo llegar</h2>
-    <div id="opciones"></div>
-
-    <div id="decision"></div>
-  </section>
-
-  <footer>Precios estimados con los registros del equipo. Horarios oficiales de Qrobus (AMEQ).</footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/h3-js@4.1.0/dist/h3-js.umd.js"></script>

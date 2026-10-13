@@ -47,8 +47,8 @@ const Grieta = (() => {
     return { dia, minuto, franja: franjaDe(hora), finde: dia >= 5 ? 1 : 0, servicio: qrobus.servicio_por_dia[dia] };
   }
 
-  function tramoApp(ctx, o, d) {
-    const km = (metros(o[0], o[1], d[0], d[1]) / 1000) * RODEO;
+  function tramoApp(ctx, o, d, kmCalle) {
+    const km = kmCalle ?? (metros(o[0], o[1], d[0], d[1]) / 1000) * RODEO;
     const min = (km / VEL_APP) * 60;
     const celdaO = h3.latLngToCell(o[0], o[1], modelo.h3_res);
     const celdaD = h3.latLngToCell(d[0], d[1], modelo.h3_res);
@@ -79,8 +79,8 @@ const Grieta = (() => {
     "app+app": "App + camión + app",
   };
 
-  function opciones(ctx, o, d) {
-    const directo = tramoApp(ctx, o, d);
+  function opciones(ctx, o, d, kmCalle) {
+    const directo = tramoApp(ctx, o, d, kmCalle);
     const filas = [{ opcion: `Solo app (${nombreApp(directo.mejor.app)})`, costo: directo.mejor.precio, minutos: directo.minutos, detalle: "" }];
     const sube = alcanzables(ctx, o, true);
     const baja = alcanzables(ctx, d, false);
@@ -180,14 +180,14 @@ const Grieta = (() => {
     return { accion, fuerza, activas: activas.sort((a, b) => b.w - a.w) };
   }
 
-  function evaluar({ origen, destino, dia, minuto, app, precioVisto, margen }) {
+  function evaluar({ origen, destino, dia, minuto, app, precioVisto, margen, kmCalle }) {
     const ctx = contexto(dia, minuto);
-    const { directo, opciones: lista } = opciones(ctx, origen, destino);
+    const { directo, opciones: lista } = opciones(ctx, origen, destino, kmCalle);
     const res = { ctx, directo, opciones: lista };
 
     const inicio = CORTES.find((c) => c > minuto / 60);
     if (inicio < 24 && inicio * 60 - minuto <= 90) {
-      const sig = tramoApp(contexto(dia, inicio * 60), origen, destino);
+      const sig = tramoApp(contexto(dia, inicio * 60), origen, destino, kmCalle);
       res.siguiente = { minuto: inicio * 60, porApp: sig.porApp };
     }
     if (app && precioVisto > 0) {
@@ -207,5 +207,5 @@ const Grieta = (() => {
 
   const nombreApp = (a) => ({ uber: "Uber", didi: "DiDi", indrive: "inDrive" })[a];
 
-  return { cargar, evaluar, hhmm, nombreApp, get modelo() { return modelo; }, get qrobus() { return qrobus; } };
+  return { cargar, evaluar, hhmm, metros, nombreApp, get modelo() { return modelo; }, get qrobus() { return qrobus; } };
 })();

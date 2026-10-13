@@ -12,6 +12,8 @@ from entrenar_modelo import FRANJAS, MODELO, cargar
 from tarifa import ANILLOS, H3_RES, Tarifa
 
 SALIDA = MODELO.parent / "demo" / "datos"
+# Colonias del catalogo: no se muestran como sugerencias.
+SIN_SUGERIR = {"juriquilla", "jurica"}
 
 
 def zonas(tabla) -> dict:
@@ -81,9 +83,14 @@ def qrobus() -> dict:
     }
 
 
+def lugares() -> list:
+    catalogo = json.loads((MODELO.parent / "captura" / "data" / "lugares.json").read_text())["lugares"]
+    return [{"nombre": l["nombre"], "lat": l["lat"], "lon": l["lon"]} for l in catalogo if l["id"] not in SIN_SUGERIR]
+
+
 def main():
     SALIDA.mkdir(parents=True, exist_ok=True)
-    for nombre, datos in (("modelo.json", modelo()), ("qrobus.json", qrobus())):
+    for nombre, datos in (("modelo.json", modelo()), ("qrobus.json", qrobus()), ("lugares.json", lugares())):
         ruta = SALIDA / nombre
         ruta.write_text(json.dumps(datos, ensure_ascii=False, separators=(",", ":")))
         print(f"{ruta.relative_to(MODELO.parent)}: {ruta.stat().st_size / 1024:.0f} KB")

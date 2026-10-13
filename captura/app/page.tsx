@@ -219,7 +219,7 @@ export default function Captura() {
       {!borrador ? (
         <section className="flex flex-col gap-7">
           <div className="flex flex-col gap-3">
-            <p className="text-[0.78rem] text-tenue">
+            <p className="text-[0.78rem] text-tinta">
               Rutas menos registradas a esta hora
             </p>
             {sugeridas.map((r) => (

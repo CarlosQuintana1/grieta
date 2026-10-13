@@ -20,6 +20,7 @@ __pycache__/
 modelo/cache/
 modelo/datos/dataset.csv
 modelo/datos/*.xlsx
+modelo/datos/gtfs_qrobus*
 *.sqlite
 
 .DS_Store

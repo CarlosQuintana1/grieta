@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#161616">
+  <meta name="theme-color" content="#0b0a09">
   <title>Grieta</title>
   <link rel="icon" href="icono-192.png">
   <link rel="apple-touch-icon" href="icono-180.png">
@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Grieta">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <link rel="stylesheet" href="estilos.css">
 </head>
@@ -20,67 +20,79 @@
   <div id="mapa"></div>
   <img class="logo" src="logo.png" alt="Grieta">
   <button id="centrar" class="flotante" type="button" aria-label="Ir a mi ubicación">
-    <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="4" fill="currentColor"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+    <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="3.5" fill="currentColor"/><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
   </button>
 
   <section id="hoja">
-    <div class="agarradera"></div>
-
     <div id="buscar">
-      <div class="campos">
-        <span class="punto origen"></span>
-        <input id="desde" autocomplete="off" placeholder="¿Dónde estás?">
-        <span class="punto destino"></span>
-        <input id="hacia" autocomplete="off" placeholder="¿A dónde vas?">
-      </div>
-      <p id="estado" class="nota">Buscando tu ubicación...</p>
+      <label class="campo"><span>Desde</span><input id="desde" autocomplete="off" placeholder="¿Dónde estás?"></label>
+      <label class="campo"><span>Hacia</span><input id="hacia" autocomplete="off" placeholder="¿A dónde vas?"></label>
+      <p id="estado" class="tenue"></p>
       <ul id="sugerencias"></ul>
     </div>
 
     <div id="viaje" hidden>
       <div class="ruta">
-        <div>
-          <p class="nota">De <span id="nombreDesde"></span></p>
-          <p class="destino-nombre" id="nombreHacia"></p>
-        </div>
-        <button id="cambiar" type="button" class="enlace">Cambiar</button>
-      </div>
-
-      <div class="chips">
-        <button id="cuando" type="button" class="chip">Salir ahora</button>
-        <div class="segmento" id="prisa">
-          <button type="button" data-v="5">Con prisa</button>
-          <button type="button" data-v="20" class="activo">Normal</button>
-          <button type="button" data-v="45">Sin prisa</button>
+        <p class="tenue" id="nombreDesde"></p>
+        <div class="fila">
+          <p class="destino" id="nombreHacia"></p>
+          <button id="cambiar" type="button" class="enlace">Cambiar</button>
         </div>
       </div>
-      <div id="horario" hidden>
-        <select id="dia">
-          <option value="0">Lunes</option><option value="1">Martes</option><option value="2">Miércoles</option>
-          <option value="3">Jueves</option><option value="4">Viernes</option><option value="5">Sábado</option>
-          <option value="6">Domingo</option>
-        </select>
-        <input id="hora" type="time">
+
+      <div class="principal">
+        <p class="tenue" id="cuandoTexto">Más barato ahorita</p>
+        <div class="fila">
+          <span id="appBarata"></span>
+          <span class="cifra" id="precioBarato"></span>
+        </div>
+        <p class="tenue" id="km"></p>
       </div>
 
-      <div id="resumen"></div>
+      <section>
+        <h2>¿Ahora o después?</h2>
+        <div id="horas" class="horas"></div>
+        <div id="otraHora" class="otra" hidden>
+          <select id="dia">
+            <option value="0">Lunes</option><option value="1">Martes</option><option value="2">Miércoles</option>
+            <option value="3">Jueves</option><option value="4">Viernes</option><option value="5">Sábado</option>
+            <option value="6">Domingo</option>
+          </select>
+          <input id="hora" type="time">
+        </div>
+        <p id="esperar"></p>
+        <p id="mejorHora" class="tenue"></p>
+      </section>
 
-      <h2>¿Ya viste el precio?</h2>
-      <div class="segmento" id="appVista">
-        <button type="button" data-v="uber">Uber</button>
-        <button type="button" data-v="didi">DiDi</button>
-        <button type="button" data-v="indrive">inDrive</button>
-      </div>
-      <input id="precio" type="number" inputmode="decimal" placeholder="¿Cuánto te marca?" hidden>
-      <div id="veredicto"></div>
+      <section>
+        <h2>Apps</h2>
+        <div id="apps"></div>
+      </section>
 
-      <h2>En app <span id="km" class="nota"></span></h2>
-      <div id="apps"></div>
+      <section>
+        <h2>Qrobus</h2>
+        <div id="camiones"></div>
+      </section>
 
-      <h2>Con Qrobus</h2>
-      <div id="camiones"></div>
+      <section>
+        <h2>¿Te marca otro precio?</h2>
+        <div class="chips" id="appVista">
+          <button type="button" data-v="uber">Uber</button>
+          <button type="button" data-v="didi">DiDi</button>
+          <button type="button" data-v="indrive">inDrive</button>
+        </div>
+        <div id="ajustes" hidden>
+          <input id="precio" type="number" inputmode="decimal" placeholder="$">
+          <div class="chips" id="prisa">
+            <button type="button" data-v="5">Con prisa</button>
+            <button type="button" data-v="20" class="activo">Normal</button>
+            <button type="button" data-v="45">Sin prisa</button>
+          </div>
+        </div>
+        <div id="veredicto"></div>
+      </section>
 
-      <p class="nota pie" id="info"></p>
+      <p class="tenue pie" id="info"></p>
     </div>
   </section>
 

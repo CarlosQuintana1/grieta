@@ -13,7 +13,7 @@
 html, body { margin: 0; height: 100%; overflow: hidden; background: var(--noche); }
 body {
   color: var(--tinta);
-  font: 400 15px/1.45 Montserrat, system-ui, sans-serif;
+  font: 400 0.95rem/1.45 Montserrat, system-ui, sans-serif;
   -webkit-tap-highlight-color: transparent;
 }
 p { margin: 0; }
@@ -141,3 +141,30 @@ details li span { display: inline-block; width: 2.6em; color: var(--tinta); font
 .guia-titulo { font-size: 1.7rem; font-weight: 500; line-height: 1.25; margin: 6px 0 10px; color: var(--ambar); }
 #guiaDetalle { font-size: 1rem; }
 .guia-botones { display: grid; gap: 10px; margin: 24px 0 14px; }
+
+html { font-size: 16px; }
+html.grande { font-size: 20px; }
+html.contraste { --tinta: #ffffff; --tenue: #d9d2c7; --linea: #6b635a; --ambar: #ffb21f; }
+html.contraste .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) grayscale(1) brightness(0.95) contrast(1.4); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
+
+.oculto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.saltar { position: fixed; left: -999px; top: 8px; z-index: 900; background: var(--ambar); color: var(--noche); padding: 10px 14px; }
+.saltar:focus { left: 8px; }
+:focus-visible { outline: 2px solid var(--ambar); outline-offset: 2px; }
+
+.flotante.acc { top: calc(max(14px, env(safe-area-inset-top)) + 78px); font-weight: 600; font-size: 0.85rem; }
+#accesibilidad { padding-bottom: 10px; }
+#accesibilidad h2 { margin: 0; }
+.interruptor { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--linea); font-size: 0.95rem; }
+.interruptor input { width: 22px; height: 22px; accent-color: var(--ambar); appearance: auto; -webkit-appearance: checkbox; flex: none; }
+#accesibilidad .tenue { margin-top: 12px; }
+
+.mic { flex: none; width: 36px; height: 36px; display: grid; place-items: center; color: var(--ambar); }
+.mic.oyendo { background: var(--ambar); color: var(--noche); }
+.dos { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
+.dos .boton-linea { margin: 0; }
+#pasanAqui { margin-top: 0; }
+#sugerencias li { padding: 0; }
+#sugerencias li button { display: block; width: 100%; text-align: left; padding: 13px 0; font-size: 0.9rem; }
+@media (min-width: 760px) { .flotante.acc { top: 64px; } }

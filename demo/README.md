@@ -9,6 +9,12 @@ a qué hora, lee los pasos de cada opción en voz alta y, durante el viaje, avis
 cuántas paradas faltan, dos paradas antes de bajar, en la siguiente y al llegar. La pantalla tiene que
 quedarse encendida: el navegador no sigue la ubicación con el teléfono bloqueado.
 
+En el botón Aa están los ajustes: letra grande, alto contraste, voz más lenta, apagar la voz (para quien
+ya usa VoiceOver o TalkBack) y caminar poco, que solo propone paradas a menos de 300 m. También se puede
+dictar el destino, preguntar dónde estoy (calle y parada más cercana) y compartir el viaje. Mientras
+esperas en la parada avisa cinco minutos y un minuto antes de que pase el camión según el horario, y cada
+aviso suena además de vibrar, porque en iPhone el navegador no vibra.
+
 Las direcciones se buscan con Photon y la ruta por calle sale de OSRM, los dos sobre OpenStreetMap.
 
 Hace los mismos cálculos que `modelo/tarifa.py`, `camion.py` y `decision.py`, con los datos que

@@ -17,17 +17,36 @@
   <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-  <div id="mapa"></div>
-  <img class="logo" src="logo.png" alt="Grieta">
+  <a class="saltar" href="#hoja">Ir a las opciones</a>
+  <div id="mapa" aria-hidden="true"></div>
+  <img class="logo" src="logo.png" alt="Grieta" aria-hidden="true">
+  <button id="abrirAcc" class="flotante acc" type="button" aria-label="Opciones de accesibilidad">Aa</button>
   <button id="centrar" class="flotante" type="button" aria-label="Ir a mi ubicación">
     <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="3.5" fill="currentColor"/><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
   </button>
 
-  <section id="hoja">
+  <main id="hoja" tabindex="-1">
+    <h1 class="oculto">Grieta</h1>
+
+    <div id="accesibilidad" hidden role="dialog" aria-labelledby="tituloAcc">
+      <div class="fila"><h2 id="tituloAcc">Accesibilidad</h2><button id="cerrarAcc" type="button" class="enlace">Listo</button></div>
+      <label class="interruptor"><input type="checkbox" id="optGrande"> Letra grande</label>
+      <label class="interruptor"><input type="checkbox" id="optContraste"> Alto contraste</label>
+      <label class="interruptor"><input type="checkbox" id="optVoz" checked> Avisos por voz</label>
+      <label class="interruptor"><input type="checkbox" id="optLenta"> Voz más lenta</label>
+      <label class="interruptor"><input type="checkbox" id="optCamino"> Camino poco (paradas a menos de 300 m)</label>
+      <p class="tenue">Si usas VoiceOver o TalkBack, puedes apagar los avisos por voz de Grieta para que no se encimen.</p>
+    </div>
     <div id="buscar">
       <label class="campo"><span>Desde</span><input id="desde" autocomplete="off" placeholder="¿Dónde estás?"></label>
-      <label class="campo"><span>Hacia</span><input id="hacia" autocomplete="off" placeholder="¿A dónde vas?"></label>
-      <button id="pasanAqui" type="button" class="boton-linea" hidden>¿Qué camión pasa aquí?</button>
+      <label class="campo"><span>Hacia</span><input id="hacia" autocomplete="off" placeholder="¿A dónde vas?">
+        <button id="dictar" type="button" class="mic" aria-label="Dictar el destino" hidden>
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>
+        </button></label>
+      <div class="dos">
+        <button id="pasanAqui" type="button" class="boton-linea" hidden>¿Qué camión pasa aquí?</button>
+        <button id="dondeEstoy" type="button" class="boton-linea">¿Dónde estoy?</button>
+      </div>
       <div id="paradas" hidden></div>
       <p id="estado" class="tenue" role="status"></p>
       <ul id="sugerencias"></ul>
@@ -40,6 +59,8 @@
       <div class="guia-botones">
         <button id="yaMeSubi" type="button" class="boton" hidden>Ya me subí</button>
         <button id="repetir" type="button" class="boton-linea">Repetir</button>
+        <button id="dondeGuia" type="button" class="boton-linea">¿Dónde estoy?</button>
+        <button id="compartir" type="button" class="boton-linea">Compartir mi viaje</button>
         <button id="terminar" type="button" class="boton-linea">Terminar</button>
       </div>
       <p class="tenue" id="guiaNota">Deja la pantalla encendida: así Grieta sigue tu ubicación.</p>
@@ -109,7 +130,7 @@
 
       <p class="tenue pie" id="info"></p>
     </div>
-  </section>
+  </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/h3-js@4.1.0/dist/h3-js.umd.js"></script>

@@ -57,12 +57,12 @@ const Grieta = (() => {
     return { km, minutos: ESPERA_APP + min, porApp, mejor };
   }
 
-  function alcanzables(ctx, punto, hacia) {
+  function alcanzables(ctx, punto, hacia, caminarMax = CAMINAR_MAX_M) {
     const res = new Map();
     qrobus.paradas.forEach(([lat, lon], i) => {
       const m = metros(punto[0], punto[1], lat, lon);
       if (m > APP_MAX_KM * 1000) return;
-      if (m <= CAMINAR_MAX_M) {
+      if (m <= caminarMax) {
         res.set(i, { modo: "caminando", costo: 0, min: (m * RODEO) / 1000 / VEL_CAMINAR * 60 });
       } else {
         const t = hacia ? tramoApp(ctx, punto, [lat, lon]) : tramoApp(ctx, [lat, lon], punto);
@@ -86,11 +86,11 @@ const Grieta = (() => {
       : { tipo: "app", app: t.app, costo: t.costo, min: t.min, parada: nombre, hacia };
   }
 
-  function opciones(ctx, o, d, kmCalle) {
+  function opciones(ctx, o, d, kmCalle, caminarMax) {
     const directo = tramoApp(ctx, o, d, kmCalle);
     const filas = [{ opcion: `Solo app (${nombreApp(directo.mejor.app)})`, tipo: "app", costo: directo.mejor.precio, minutos: directo.minutos, detalle: "" }];
-    const sube = alcanzables(ctx, o, true);
-    const baja = alcanzables(ctx, d, false);
+    const sube = alcanzables(ctx, o, true, caminarMax);
+    const baja = alcanzables(ctx, d, false, caminarMax);
     const mejores = new Map();
     let pasaCerca = false;
 
@@ -201,9 +201,9 @@ const Grieta = (() => {
     return { accion, fuerza, activas: activas.sort((a, b) => b.w - a.w) };
   }
 
-  function evaluar({ origen, destino, dia, minuto, app, precioVisto, margen, kmCalle }) {
+  function evaluar({ origen, destino, dia, minuto, app, precioVisto, margen, kmCalle, caminarMax }) {
     const ctx = contexto(dia, minuto);
-    const { directo, opciones: lista, pasaCerca } = opciones(ctx, origen, destino, kmCalle);
+    const { directo, opciones: lista, pasaCerca } = opciones(ctx, origen, destino, kmCalle, caminarMax);
     const res = { ctx, directo, opciones: lista, pasaCerca };
 
     const inicio = CORTES.find((c) => c > minuto / 60);

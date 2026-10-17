@@ -27,8 +27,22 @@
     <div id="buscar">
       <label class="campo"><span>Desde</span><input id="desde" autocomplete="off" placeholder="¿Dónde estás?"></label>
       <label class="campo"><span>Hacia</span><input id="hacia" autocomplete="off" placeholder="¿A dónde vas?"></label>
-      <p id="estado" class="tenue"></p>
+      <button id="pasanAqui" type="button" class="boton-linea" hidden>¿Qué camión pasa aquí?</button>
+      <div id="paradas" hidden></div>
+      <p id="estado" class="tenue" role="status"></p>
       <ul id="sugerencias"></ul>
+    </div>
+
+    <div id="guia" hidden>
+      <p class="tenue" id="guiaEtapa"></p>
+      <p class="guia-titulo" id="guiaTitulo" aria-live="assertive"></p>
+      <p id="guiaDetalle" aria-live="polite"></p>
+      <div class="guia-botones">
+        <button id="yaMeSubi" type="button" class="boton" hidden>Ya me subí</button>
+        <button id="repetir" type="button" class="boton-linea">Repetir</button>
+        <button id="terminar" type="button" class="boton-linea">Terminar</button>
+      </div>
+      <p class="tenue" id="guiaNota">Deja la pantalla encendida: así Grieta sigue tu ubicación.</p>
     </div>
 
     <div id="viaje" hidden>
@@ -47,6 +61,7 @@
           <span class="cifra" id="precioBarato"></span>
         </div>
         <p class="tenue" id="km"></p>
+        <button id="avisarLlegada" type="button" class="boton-linea">Avísame cuando esté por llegar</button>
       </div>
 
       <section>

@@ -4,6 +4,11 @@ Página para probar el modelo como una app de viajes: toma tu ubicación (o la e
 dónde vas y muestra el precio esperado en cada app, las opciones combinando Qrobus con una app y,
 si pones lo que te marca la app, si conviene pedir ya, esperar o irse en camión.
 
+Pensada también para quien no ve bien o no ve: dice qué camiones pasan por la parada más cercana y
+a qué hora, lee los pasos de cada opción en voz alta y, durante el viaje, avisa con voz y vibración
+cuántas paradas faltan, dos paradas antes de bajar, en la siguiente y al llegar. La pantalla tiene que
+quedarse encendida: el navegador no sigue la ubicación con el teléfono bloqueado.
+
 Las direcciones se buscan con Photon y la ruta por calle sale de OSRM, los dos sobre OpenStreetMap.
 
 Hace los mismos cálculos que `modelo/tarifa.py`, `camion.py` y `decision.py`, con los datos que

@@ -67,6 +67,7 @@ def qrobus() -> dict:
             salidas.setdefault(str(viajes.loc[tr, "service_id"]), []).append(round(float(primera[tr]), 1))
         patrones.append({
             "linea": str(nombre[viajes.loc[trips[0], "route_id"]]),
+            "hacia": str(viajes.loc[trips, "trip_headsign"].mode().iloc[0]),
             "paradas": [indice[s] for s in paso],
             "minutos": [float(x) for x in offs.values],
             "salidas": {k: sorted(v) for k, v in salidas.items()},

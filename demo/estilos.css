@@ -122,3 +122,22 @@ details li span { display: inline-block; width: 2.6em; color: var(--tinta); font
   #hoja { left: 0; top: 0; bottom: 0; right: auto; width: 400px; max-height: none; border-top: none; border-right: 1px solid var(--linea); padding-top: 70px; }
   .flotante { top: 16px; }
 }
+
+.boton, .boton-linea { display: block; width: 100%; padding: 14px; font-size: 0.9rem; font-weight: 500; text-align: center; }
+.boton { background: var(--ambar); color: var(--noche); }
+.boton-linea { border: 1px solid var(--linea); color: var(--tinta); }
+.boton-linea:active, .boton:active { opacity: 0.75; }
+#pasanAqui { margin-top: 18px; }
+#avisarLlegada { margin-top: 14px; }
+#paradas { margin-top: 14px; }
+.parada { padding: 12px 0; border-bottom: 1px solid var(--linea); }
+.parada p { font-size: 0.9rem; }
+.parada li { list-style: none; font-size: 0.85rem; padding: 3px 0; }
+.parada ul { padding: 0; margin: 6px 0 0; }
+.parada strong { color: var(--ambar); font-weight: 500; }
+.acciones { display: flex; gap: 8px; margin-top: 8px; }
+.acciones button { padding: 7px 12px; border: 1px solid var(--linea); font-size: 0.78rem; }
+.acciones button.iniciar { border-color: var(--ambar); color: var(--ambar); }
+.guia-titulo { font-size: 1.7rem; font-weight: 500; line-height: 1.25; margin: 6px 0 10px; color: var(--ambar); }
+#guiaDetalle { font-size: 1rem; }
+.guia-botones { display: grid; gap: 10px; margin: 24px 0 14px; }

@@ -27,7 +27,10 @@ function poner(cual, lugar) {
   capas[cual]?.remove();
   capas[cual] = L.marker([lugar.lat, lugar.lon], { icon: icono(cual) }).addTo(mapa);
   $(cual === "origen" ? "desde" : "hacia").value = lugar.nombre;
-  if (cual === "origen") $("estado").textContent = "";
+  if (cual === "origen") {
+    $("estado").textContent = "";
+    $("pasanAqui").hidden = false;
+  }
   if (estado.origen && estado.destino) trazar();
   else if (cual === "origen") {
     enfocar("hacia");
@@ -48,6 +51,7 @@ function ubicar() {
       if (!dentroDeQueretaro(coords.latitude, coords.longitude)) return sinUbicacion("Estás fuera de Querétaro. Escribe un origen.");
       estado.gps = { nombre: "Tu ubicación", lat: coords.latitude, lon: coords.longitude };
       $("estado").textContent = "";
+      $("pasanAqui").hidden = false;
       if (!estado.origen) {
         poner("origen", estado.gps);
         mapa.setView([coords.latitude, coords.longitude], 14);
@@ -297,10 +301,10 @@ function quitarTrazo() {
 
 // Dibuja la opcion con camion: caminata punteada, app en linea delgada y el camion por sus paradas.
 function dibujar(o, fila) {
-  const yaEstaba = fila.classList.contains("elegida");
+  const yaEstaba = fila?.classList.contains("elegida");
   quitarTrazo();
   if (yaEstaba) return;
-  fila.classList.add("elegida");
+  fila?.classList.add("elegida");
   const estilo = (modo) => modo === "caminando"
     ? { color: TINTA, weight: 3, dashArray: "1 7", lineCap: "round" }
     : { color: TINTA, weight: 2, opacity: 0.7 };
@@ -344,13 +348,22 @@ function pintar(r, momento) {
     ? conCamion.map((o, i) => `
       <div class="opcion tocable" data-i="${i}">
         <div>${o.opcion}${pasos(o)}
-          ${barata.precio - o.costo >= 5 ? `<span class="ahorro">Ahorras ${pesos(barata.precio - o.costo)}</span>` : ""}</div>
+          ${barata.precio - o.costo >= 5 ? `<span class="ahorro">Ahorras ${pesos(barata.precio - o.costo)}</span>` : ""}
+          <div class="acciones">
+            <button type="button" data-accion="escuchar" aria-label="Escuchar los pasos de esta opción">Escuchar</button>
+            <button type="button" data-accion="iniciar" class="iniciar" aria-label="Iniciar viaje con avisos por voz">Iniciar viaje</button>
+          </div></div>
         <span class="precio">${pesos(o.costo)}<small>${o.minutos} min</small></span>
       </div>`).join("") + `<p class="tenue" style="margin-top:10px">Toca una opción para verla en el mapa.</p>`
     : `<p class="tenue">${mensajeSinCamion(r)}</p>`;
   $("camiones").onclick = (e) => {
     const t = e.target.closest(".tocable");
-    if (t) dibujar(conCamion[t.dataset.i], t);
+    if (!t) return;
+    const o = conCamion[t.dataset.i];
+    const accion = e.target.closest("button")?.dataset.accion;
+    if (accion === "escuchar") return hablar(textoPasos(o));
+    if (accion === "iniciar") return iniciarGuia(o);
+    dibujar(o, t);
   };
 
   const d = r.decision;
@@ -365,10 +378,186 @@ function pintar(r, momento) {
     </div>`;
 }
 
-Promise.all([Grieta.cargar(), fetch("datos/lugares.json").then((r) => r.json())]).then(([{ modelo, qrobus }, l]) => {
+
+// Voz y vibracion. iPhone no deja vibrar desde el navegador; ahi solo queda la voz.
+let vozGrieta = null;
+function hablar(texto) {
+  $("guiaDetalle").dataset.ultimo = texto;
+  if (!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(texto);
+  vozGrieta ??= speechSynthesis.getVoices().find((v) => v.lang === "es-MX") ?? speechSynthesis.getVoices().find((v) => v.lang.startsWith("es"));
+  if (vozGrieta) u.voice = vozGrieta;
+  u.lang = "es-MX";
+  speechSynthesis.speak(u);
+}
+const vibrar = (patron) => navigator.vibrate?.(patron);
+
+function textoPasos(o) {
+  return o.pasos.map((p) => {
+    const min = Math.max(1, Math.round(p.min));
+    if (p.tipo === "caminar") return p.hacia ? `Camina ${min} minutos a la parada ${p.parada}.` : `Camina ${min} minutos a tu destino.`;
+    if (p.tipo === "app") return p.hacia ? `Pide ${Grieta.nombreApp(p.app)} hasta la parada ${p.parada}, unos ${Math.round(p.costo)} pesos.` : `Pide ${Grieta.nombreApp(p.app)} a tu destino, unos ${Math.round(p.costo)} pesos.`;
+    return `Toma la línea ${p.linea} hacia ${p.hacia}, que pasa a las ${Grieta.hhmm(p.sale)}. Bájate en ${p.baja}, ${p.paradas} paradas después.`;
+  }).join(" ");
+}
+
+// Que camiones pasan por las paradas cercanas, con sus proximas horas.
+$("pasanAqui").addEventListener("click", () => {
+  const punto = estado.gps ?? estado.origen;
+  if (!punto) return;
+  const ahora = new Date();
+  const lista = Grieta.pasanAqui(punto.lat, punto.lon, (ahora.getDay() + 6) % 7, ahora.getHours() * 60 + ahora.getMinutes());
+  $("paradas").hidden = false;
+  if (!lista.length) {
+    $("paradas").innerHTML = `<p class="tenue">No hay paradas de Qrobus con servicio a menos de 350 metros.</p>`;
+    return hablar("No hay paradas de Qrobus con servicio cerca de ti.");
+  }
+  $("paradas").innerHTML = lista.map((p) => `
+    <div class="parada">
+      <p>${p.nombre} <span class="tenue">a ${Math.round(p.m)} m</span></p>
+      <ul>${p.lineas.slice(0, 5).map((l) => `<li><strong>${l.linea}</strong> hacia ${l.hacia} · ${l.horas.map(Grieta.hhmm).join(" y ")}</li>`).join("")}</ul>
+    </div>`).join("");
+  const p = lista[0];
+  hablar(`La parada más cercana es ${p.nombre}, a ${Math.round(p.m)} metros. ` +
+    p.lineas.slice(0, 4).map((l) => `Línea ${l.linea} hacia ${l.hacia}, a las ${Grieta.hhmm(l.horas[0])}.`).join(" "));
+});
+
+// Guia de viaje: sigue el GPS y avisa con voz y vibracion antes de bajarse.
+const guia = { activa: false };
+
+function mostrarGuia(visible) {
+  $("guia").hidden = !visible;
+  $("viaje").hidden = visible;
+  $("buscar").hidden = true;
+}
+
+function decir(titulo, detalle, etapa) {
+  if (etapa) $("guiaEtapa").textContent = etapa;
+  $("guiaTitulo").textContent = titulo;
+  $("guiaDetalle").textContent = detalle ?? "";
+  hablar(detalle ? `${titulo}. ${detalle}` : titulo);
+}
+
+async function mantenerPantalla() {
+  try { guia.wake = await navigator.wakeLock?.request("screen"); } catch {}
+}
+document.addEventListener("visibilitychange", () => { if (guia.activa && document.visibilityState === "visible") mantenerPantalla(); });
+
+function seguir(alMoverse) {
+  if (!navigator.geolocation) return decir("Sin ubicación", "Tu navegador no comparte la ubicación.");
+  guia.reloj = navigator.geolocation.watchPosition(
+    ({ coords }) => {
+      // El punto en el mapa sirve a quien acompaña; los avisos van por voz.
+      const aqui = [coords.latitude, coords.longitude];
+      if (capas.aqui) capas.aqui.setLatLng(aqui);
+      else capas.aqui = L.marker(aqui, { icon: icono("origen") }).addTo(mapa);
+      alMoverse(coords.latitude, coords.longitude);
+    },
+    () => decir("Sin ubicación", "Activa la ubicación para recibir los avisos."),
+    { enableHighAccuracy: true, maximumAge: 0, timeout: 20000 },
+  );
+}
+
+function iniciarGuia(o) {
+  terminarGuia(true);
+  const camion = o.pasos.find((p) => p.tipo === "camion");
+  Object.assign(guia, { activa: true, tipo: "camion", o, camion, fase: "parada", actual: 0, dichos: new Set() });
+  mostrarGuia(true);
+  mantenerPantalla();
+  dibujar(o);
+  const inicio = o.pasos[0];
+  $("yaMeSubi").hidden = false;
+  decir(inicio.tipo === "app" ? `Pide ${Grieta.nombreApp(inicio.app)} a ${inicio.parada}` : `Camina a ${inicio.parada}`,
+    `Ahí tomas la línea ${camion.linea} hacia ${camion.hacia}, a las ${Grieta.hhmm(camion.sale)}. Te aviso antes de bajar.`, "Hacia la parada");
+  seguir(avanzarCamion);
+}
+
+function avanzarCamion(lat, lon) {
+  const r = guia.o.recorrido;
+  const final = r.at(-1);
+  const d = r.map((s) => Grieta.metros(lat, lon, s.lat, s.lon));
+  if (guia.fase === "parada" || guia.fase === "esperando") {
+    if (guia.fase === "parada" && d[0] < 40) {
+      guia.fase = "esperando";
+      decir(`Llegaste a ${r[0].nombre}`, `Espera la línea ${guia.camion.linea} hacia ${guia.camion.hacia}. Pasa a las ${Grieta.hhmm(guia.camion.sale)}.`, "En la parada");
+    }
+    // Si ya va por la ruta del camion, lejos de la parada de subida, se subio.
+    const masCerca = d.indexOf(Math.min(...d));
+    if (masCerca >= 1 && d[masCerca] < 90) subir(masCerca);
+    else if (guia.fase === "parada") $("guiaDetalle").textContent = `La parada está a ${Math.round(d[0])} metros.`;
+    return;
+  }
+  if (guia.fase !== "camion") return;
+  for (let i = guia.actual + 1; i < r.length; i++) if (d[i] < 90 && d[i] <= d[guia.actual]) guia.actual = i;
+  const faltan = r.length - 1 - guia.actual;
+  const una = (clave, fn) => { if (!guia.dichos.has(clave)) { guia.dichos.add(clave); fn(); } };
+  if (faltan === 0 || d.at(-1) < 60) {
+    una("llegaste", () => {
+      vibrar([900, 200, 900]);
+      guia.fase = "fin";
+      $("yaMeSubi").hidden = true;
+      const fin = guia.o.pasos.at(-1);
+      decir(`Bájate aquí: ${final.nombre}`, fin.tipo === "caminar" ? `Después camina unos ${Math.max(1, Math.round(fin.min))} minutos a tu destino.` : `Después pide ${Grieta.nombreApp(fin.app)} a tu destino.`, "Llegaste");
+    });
+  } else if (faltan === 1) {
+    una("una", () => { vibrar([700, 150, 700]); decir(`Bájate en la siguiente: ${final.nombre}`, "Toca el timbre.", "Ya casi"); });
+  } else if (faltan === 2) {
+    una("dos", () => { vibrar([400, 150, 400]); decir("Prepárate: bajas en dos paradas", `Tu parada es ${final.nombre}.`, "En el camión"); });
+  } else {
+    // En pantalla siempre; en voz cada 5 paradas y en cada una de las ultimas 5.
+    $("guiaTitulo").textContent = `Faltan ${faltan} paradas`;
+    $("guiaDetalle").textContent = `Vas por ${r[guia.actual].nombre}. Bajas en ${final.nombre}.`;
+    if (faltan <= 5 || faltan % 5 === 0) una(`faltan${faltan}`, () => decir(`Faltan ${faltan} paradas`, `Vas por ${r[guia.actual].nombre}.`, "En el camión"));
+  }
+}
+
+function subir(desde = 0) {
+  if (guia.fase === "camion") return;
+  guia.fase = "camion";
+  guia.actual = desde;
+  $("yaMeSubi").hidden = true;
+  const faltan = guia.o.recorrido.length - 1 - desde;
+  guia.dichos.add(`faltan${faltan}`);
+  decir(`Vas en la línea ${guia.camion.linea}`, `Faltan ${faltan} paradas. Bajas en ${guia.o.recorrido.at(-1).nombre}. Te aviso dos paradas antes.`, "En el camión");
+}
+$("yaMeSubi").addEventListener("click", () => subir(guia.actual));
+
+// Para cualquier viaje (app o auto): avisa por distancia al destino.
+$("avisarLlegada").addEventListener("click", () => {
+  terminarGuia(true);
+  Object.assign(guia, { activa: true, tipo: "destino", dichos: new Set() });
+  mostrarGuia(true);
+  mantenerPantalla();
+  $("yaMeSubi").hidden = true;
+  decir(`Rumbo a ${estado.destino.nombre}`, "Te aviso a un kilómetro, a 300 metros y al llegar.", "En camino");
+  seguir((lat, lon) => {
+    const m = Grieta.metros(lat, lon, estado.destino.lat, estado.destino.lon);
+    const una = (clave, fn) => { if (!guia.dichos.has(clave)) { guia.dichos.add(clave); fn(); } };
+    if (m < 80) una("llegaste", () => { vibrar([900, 200, 900]); decir(`Llegaste a ${estado.destino.nombre}`, null, "Llegaste"); });
+    else if (m < 300) una("300", () => { vibrar([700, 150, 700]); decir("Estás a 300 metros", "Prepárate para bajar.", "Ya casi"); });
+    else if (m < 1000) una("1000", () => { vibrar([400, 150, 400]); decir("Falta un kilómetro", null, "En camino"); });
+    else $("guiaDetalle").textContent = `Faltan ${(m / 1000).toFixed(1)} km.`;
+  });
+});
+
+$("repetir").addEventListener("click", () => hablar($("guiaDetalle").dataset.ultimo ?? $("guiaTitulo").textContent));
+$("terminar").addEventListener("click", () => terminarGuia());
+
+function terminarGuia(sinVolver) {
+  if (guia.reloj !== undefined) navigator.geolocation.clearWatch(guia.reloj);
+  guia.reloj = undefined;
+  guia.wake?.release?.();
+  guia.activa = false;
+  capas.aqui?.remove();
+  capas.aqui = null;
+  if ("speechSynthesis" in window) speechSynthesis.cancel();
+  if (!sinVolver) mostrarGuia(false);
+}
+
+Promise.all([Grieta.cargar(), fetch("datos/lugares.json").then((r) => r.json())]).then(([{ modelo }, l]) => {
   lugares = l;
-  const v = qrobus.vigencia;
-  $("info").textContent = `Estimado con ${modelo.momentos} registros del equipo; el precio cambia por franjas de 3 horas. Horarios oficiales de Qrobus vigentes al ${v.slice(6)}/${v.slice(4, 6)}/${v.slice(0, 4)}.`;
+  $("info").textContent = `Estimado con ${modelo.momentos} registros del equipo; el precio cambia por franjas de 3 horas. Horarios oficiales de Qrobus publicados por la Agencia de Movilidad.`;
   sugerir("");
   ubicar();
 });

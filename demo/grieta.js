@@ -117,9 +117,10 @@ const Grieta = (() => {
             detalle: `línea ${p.linea}: ${qrobus.paradas[sb][2]} (${hhmm(sale)}) a ${qrobus.paradas[p.paradas[pa]][2]}`,
             pasos: [
               tramo(s, sb, true),
-              { tipo: "camion", linea: p.linea, sale, llega, paradas: pa - pb, baja: qrobus.paradas[p.paradas[pa]][2] },
+              { tipo: "camion", linea: p.linea, hacia: p.hacia, sale, llega, paradas: pa - pb, baja: qrobus.paradas[p.paradas[pa]][2] },
               tramo(b, p.paradas[pa], false),
             ],
+            recorrido: p.paradas.slice(pb, pa + 1).map((i) => ({ nombre: qrobus.paradas[i][2], lat: qrobus.paradas[i][0], lon: qrobus.paradas[i][1] })),
             trazo: {
               acceso: { modo: s.modo, puntos: [o, coords(sb)] },
               camion: p.paradas.slice(pb, pa + 1).map(coords),
@@ -220,6 +221,29 @@ const Grieta = (() => {
     return res;
   }
 
+  // Paradas cerca de un punto con las lineas que pasan y sus proximas horas segun el horario.
+  function pasanAqui(lat, lon, dia, minuto, radio = 350) {
+    const servicio = qrobus.servicio_por_dia[dia];
+    const cerca = qrobus.paradas
+      .map(([la, lo, nombre], i) => ({ i, nombre, lat: la, lon: lo, m: metros(lat, lon, la, lo) }))
+      .filter((x) => x.m <= radio)
+      .sort((a, b) => a.m - b.m)
+      .slice(0, 3);
+    return cerca.map((parada) => {
+      const lineas = new Map();
+      for (const [pi, pos] of porParada[parada.i]) {
+        const p = qrobus.patrones[pi];
+        if (pos === p.paradas.length - 1 || !p.salidas[servicio]) continue;
+        const horas = p.salidas[servicio].map((x) => x + p.minutos[pos]).filter((t) => t >= minuto).slice(0, 2);
+        if (!horas.length) continue;
+        const clave = `${p.linea}|${p.hacia}`;
+        const actual = lineas.get(clave);
+        if (!actual || horas[0] < actual.horas[0]) lineas.set(clave, { linea: p.linea, hacia: p.hacia, horas });
+      }
+      return { ...parada, lineas: [...lineas.values()].sort((a, b) => a.horas[0] - b.horas[0]) };
+    }).filter((x) => x.lineas.length);
+  }
+
   // Precio del mismo viaje a otra hora; si pasa de medianoche cuenta como el dia siguiente.
   function cotizar({ origen, destino, dia, minuto, kmCalle }) {
     const d = (dia + Math.floor(minuto / 1440)) % 7;
@@ -234,5 +258,5 @@ const Grieta = (() => {
 
   const nombreApp = (a) => ({ uber: "Uber", didi: "DiDi", indrive: "inDrive" })[a];
 
-  return { cargar, cotizar, evaluar, hhmm, metros, CORTES, nombreApp, get modelo() { return modelo; }, get qrobus() { return qrobus; } };
+  return { cargar, cotizar, evaluar, pasanAqui, hhmm, metros, CORTES, nombreApp, get modelo() { return modelo; }, get qrobus() { return qrobus; } };
 })();

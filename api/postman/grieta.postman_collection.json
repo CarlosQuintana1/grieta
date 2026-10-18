@@ -44,6 +44,10 @@
     {
       "key": "cotizacion_id",
       "value": ""
+    },
+    {
+      "key": "consulta_id",
+      "value": ""
     }
   ],
   "item": [
@@ -590,7 +594,8 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"Responde 201\", () => pm.response.to.have.status(201));",
-                  "pm.test(\"Recomienda DiDi\", () => pm.expect(pm.response.json().consulta.recomendacion).to.eql(\"didi\"));"
+                  "pm.test(\"Recomienda DiDi\", () => pm.expect(pm.response.json().consulta.recomendacion).to.eql(\"didi\"));",
+                  "pm.collectionVariables.set(\"consulta_id\", pm.response.json().consulta.id);"
                 ]
               }
             }
@@ -610,6 +615,25 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Borrar la consulta de demostración",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{base}}/consultas/{{consulta_id}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 204\", () => pm.response.to.have.status(204));"
                 ]
               }
             }

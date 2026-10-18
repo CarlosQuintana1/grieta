@@ -95,6 +95,8 @@ def main():
         ruta = SALIDA / nombre
         ruta.write_text(json.dumps(datos, ensure_ascii=False, separators=(",", ":")))
         print(f"{ruta.relative_to(MODELO.parent)}: {ruta.stat().st_size / 1024:.0f} KB")
+    # La funcion serverless /cotizar usa el mismo modelo.
+    (MODELO.parent / "nube" / "cotizar" / "modelo.json").write_text((SALIDA / "modelo.json").read_text())
 
 
 if __name__ == "__main__":

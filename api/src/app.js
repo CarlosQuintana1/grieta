@@ -1,6 +1,6 @@
 import express from "express";
 import { CARPETA_LOCAL } from "./almacen.js";
-import { api } from "./rutas.js";
+import { api } from "./rutas/index.js";
 
 export const app = express();
 

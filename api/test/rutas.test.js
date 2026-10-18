@@ -189,3 +189,50 @@ describe("Precios reportados", () => {
       .expect(400);
   });
 });
+
+describe("CRUD completo de cada tabla", () => {
+  test("Rutas: crear, modificar y borrar", async () => {
+    const nueva = await request(app).post("/api/rutas")
+      .send({ origen_id: 1, destino_id: 2, distancia_km: 9.9, minutos_sin_trafico: 15 }).expect(201);
+    const cambiada = await request(app).put(`/api/rutas/${nueva.body.id}`).send({ minutos_sin_trafico: 18 }).expect(200);
+    assert.equal(cambiada.body.minutos_sin_trafico, 18);
+    await request(app).delete(`/api/rutas/${nueva.body.id}`).expect(204);
+  });
+
+  test("Registros y cotizaciones: modificar la nota y corregir un precio", async () => {
+    const reg = await request(app).post("/api/registros").send({
+      ruta_id: 1, usuario_id: usuario.id,
+      cotizaciones: [{ app: "uber", precio: 120 }, { app: "didi", precio: 99 }],
+    }).expect(201);
+    await request(app).put(`/api/registros/${reg.body.id}`).send({ nota: "Lluvia ligera" }).expect(200);
+    const cot = reg.body.cotizaciones.find((c) => c.app === "uber");
+    const corregida = await request(app).put(`/api/cotizaciones/${cot.id}`).send({ precio: 125, app: "didi" }).expect(200);
+    assert.equal(Number(corregida.body.precio), 125);
+    assert.equal(corregida.body.app, "uber");
+    const extra = await request(app).post("/api/cotizaciones").send({ registro_id: reg.body.id, app: "indrive", precio: 90 }).expect(201);
+    await request(app).post("/api/cotizaciones").send({ registro_id: reg.body.id, app: "indrive", precio: 95 }).expect(409);
+    await request(app).get(`/api/cotizaciones/${extra.body.id}`).expect(200);
+    await request(app).delete(`/api/cotizaciones/${extra.body.id}`).expect(204);
+    await request(app).delete(`/api/registros/${reg.body.id}`).expect(204);
+  });
+
+  test("Consultas: ver, modificar y borrar", async () => {
+    const c = await request(app).post("/api/consultas").send({ origen_id: 1, destino_id: 2 }).expect(201);
+    const id = c.body.consulta.id;
+    await request(app).get(`/api/consultas/${id}`).expect(200);
+    await request(app).put(`/api/consultas/${id}`).send({ precio_visto: 140 }).expect(200);
+    await request(app).delete(`/api/consultas/${id}`).expect(204);
+  });
+
+  test("Reportes y precios reportados: modificar y borrar", async () => {
+    const r = await request(app).post("/api/reportes").send({ tipo: "sin_techo", lat: 20.6, lon: -100.4 }).expect(201);
+    const cambiado = await request(app).put(`/api/reportes/${r.body.id}`).send({ descripcion: "Sin banca" }).expect(200);
+    assert.equal(cambiado.body.descripcion, "Sin banca");
+    await request(app).delete(`/api/reportes/${r.body.id}`).expect(204);
+    const p = await request(app).post("/api/precios-reportados")
+      .send({ app: "uber", precio: 150, lat_origen: 20.7, lon_origen: -100.4, lat_destino: 20.6, lon_destino: -100.39 }).expect(201);
+    await request(app).get(`/api/precios-reportados/${p.body.id}`).expect(200);
+    await request(app).put(`/api/precios-reportados/${p.body.id}`).send({ precio: 155 }).expect(200);
+    await request(app).delete(`/api/precios-reportados/${p.body.id}`).expect(204);
+  });
+});

@@ -1,3 +1,4 @@
+import { almacenEnUso } from "./almacen.js";
 import { app } from "./app.js";
 import { sequelize } from "./modelos.js";
 import { sembrar } from "./semilla.js";
@@ -8,6 +9,8 @@ const PUERTO = process.env.PORT ?? 3000;
 await sequelize.sync();
 const tablas = Object.values(sequelize.models).map((m) => m.tableName);
 console.log(`Esquema sincronizado con la base de datos: ${tablas.length} tablas (${tablas.join(", ")})`);
+
+console.log(`Base de datos: ${sequelize.getDialect()} · Fotos: ${almacenEnUso}`);
 
 const sembrados = await sembrar();
 if (sembrados) console.log(`Catalogo cargado: ${sembrados} lugares y sus rutas`);

@@ -1,13 +1,17 @@
 {
   "info": {
-    "name": "Grieta API (local)",
+    "name": "Grieta API",
     "description": "Las 20 rutas de la API en http://localhost:3000/api. Antes: npm start en la carpeta del proyecto. Se pueden correr todas en orden con Run collection.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
     {
       "key": "base",
-      "value": "http://localhost:3000/api"
+      "value": "https://grieta-api-qro.azurewebsites.net/api"
+    },
+    {
+      "key": "funcion",
+      "value": "https://grieta-cotizar-qro.azurewebsites.net/api"
     },
     {
       "key": "lugar_id",
@@ -27,6 +31,18 @@
     },
     {
       "key": "destino_id",
+      "value": ""
+    },
+    {
+      "key": "reporte_id",
+      "value": ""
+    },
+    {
+      "key": "precio_id",
+      "value": ""
+    },
+    {
+      "key": "cotizacion_id",
       "value": ""
     }
   ],
@@ -395,7 +411,8 @@
                 "exec": [
                   "pm.test(\"Responde 201\", () => pm.response.to.have.status(201));",
                   "pm.test(\"Guardó las tres cotizaciones\", () => pm.expect(pm.response.json().cotizaciones.length).to.eql(3));",
-                  "pm.collectionVariables.set(\"registro_id\", pm.response.json().id);"
+                  "pm.collectionVariables.set(\"registro_id\", pm.response.json().id);",
+                  "pm.collectionVariables.set(\"cotizacion_id\", pm.response.json().cotizaciones[0].id);"
                 ]
               }
             }
@@ -492,6 +509,53 @@
               }
             }
           ]
+        },
+        {
+          "name": "Corregir una cotización",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base}}/cotizaciones/{{cotizacion_id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"precio\": 101\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ver una cotización",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base}}/cotizaciones/{{cotizacion_id}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
         }
       ]
     },
@@ -546,6 +610,308 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reportes de accesibilidad",
+      "item": [
+        {
+          "name": "Reportar una banqueta rota",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base}}/reportes",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo\": \"banqueta\",\n  \"parada\": \"Av. Universidad/Hidalgo\",\n  \"lat\": 20.5942,\n  \"lon\": -100.3925,\n  \"descripcion\": \"Banqueta levantada frente a la parada\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 201\", () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set(\"reporte_id\", pm.response.json().id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Rechazo: punto fuera de Querétaro",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base}}/reportes",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo\": \"otro\",\n  \"lat\": 19.43,\n  \"lon\": -99.13\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Reportes cerca de una parada",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base}}/reportes?lat=20.5943&lon=-100.3926&radio=200"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Trae el reporte y su distancia\", () => pm.expect(pm.response.json()[0].metros).to.be.below(50));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ver un reporte",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base}}/reportes/{{reporte_id}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Modificar el reporte",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base}}/reportes/{{reporte_id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descripcion\": \"Banqueta levantada y sin rampa\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Borrar el reporte de demostración",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{base}}/reportes/{{reporte_id}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Precios reportados",
+      "item": [
+        {
+          "name": "Reportar el precio que salió",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base}}/precios-reportados",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"app\": \"didi\",\n  \"precio\": 118,\n  \"lat_origen\": 20.7043,\n  \"lon_origen\": -100.4439,\n  \"lat_destino\": 20.5931,\n  \"lon_destino\": -100.3926\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 201\", () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set(\"precio_id\", pm.response.json().id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Rechazo: precio absurdo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base}}/precios-reportados",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"app\": \"uber\",\n  \"precio\": 5,\n  \"lat_origen\": 20.7,\n  \"lon_origen\": -100.4,\n  \"lat_destino\": 20.6,\n  \"lon_destino\": -100.39\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar precios reportados",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base}}/precios-reportados"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Corregir el precio reportado",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base}}/precios-reportados/{{precio_id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"precio\": 120\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Precio corregido\", () => pm.expect(Number(pm.response.json().precio)).to.eql(120));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Borrar el precio de demostración",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{base}}/precios-reportados/{{precio_id}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Función serverless",
+      "item": [
+        {
+          "name": "Cotizar un viaje (Azure Functions)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{funcion}}/cotizar?lat_o=20.7043&lon_o=-100.4439&lat_d=20.5931&lon_d=-100.3926&hora=17:30&dia=1"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Trae las tres apps\", () => pm.expect(pm.response.json().apps).to.have.length(3));"
                 ]
               }
             }

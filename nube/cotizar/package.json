@@ -1,0 +1,15 @@
+{
+  "name": "grieta-cotizar",
+  "version": "1.0.0",
+  "description": "Funcion serverless de Grieta: precio esperado de un viaje en Uber, DiDi e inDrive",
+  "type": "module",
+  "main": "src/functions/*.js",
+  "private": true,
+  "scripts": {
+    "start": "func start"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.6.0",
+    "h3-js": "^4.1.0"
+  }
+}

@@ -12,7 +12,7 @@ npm start
 
 Al arrancar, Sequelize sincroniza el esquema (crea las tablas que falten) y, si la base está
 vacía, carga el catálogo de 16 lugares y 32 rutas de `datos/`. La API queda en
-`http://localhost:3000/api`, con 27 rutas.
+`http://localhost:3000/api`, con 43 rutas: el CRUD completo de las 8 tablas más algunas de consulta.
 
 En local usa SQLite (`database.sqlite`). Para la nube basta con definir `DATABASE_URL` con la
 cadena de conexión de la base.
@@ -23,8 +23,19 @@ cadena de conexión de la base.
 npm test
 ```
 
-Son 26 pruebas de las rutas sobre una base en memoria, así que no tocan `database.sqlite`. En
+Son 30 pruebas de las rutas sobre una base en memoria, así que no tocan `database.sqlite`. En
 `postman/` está la colección con todas las rutas, en el orden en que las probamos.
+
+## Estructura
+
+`src/modelos.js` define las tablas con Sequelize. Cada tabla tiene su controlador en
+`src/controladores/` y sus rutas en `src/rutas/`; `src/rutas/index.js` las monta bajo `/api`.
+
+## En la nube
+
+En Azure corre en App Service, con la base en Azure Database for PostgreSQL y las fotos en Azure
+Blob Storage. La función serverless que cotiza un viaje está en `../nube/cotizar` (Azure
+Functions). Variables: `DATABASE_URL`, `AZURE_STORAGE_CONNECTION_STRING` y `AZURE_CONTAINER`.
 
 ## Tablas
 

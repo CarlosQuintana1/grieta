@@ -1,5 +1,7 @@
-import { Router } from "express";
-import { APPS, Consulta, Cotizacion, Lugar, Registro, Ruta, Usuario, sequelize } from "./modelos.js";
+import express, { Router } from "express";
+import { randomUUID } from "node:crypto";
+import { TAMANO_MAXIMO, guardarFoto, tipoValido } from "./almacen.js";
+import { APPS, Consulta, Cotizacion, Lugar, PrecioReportado, Registro, Reporte, Ruta, Usuario, sequelize } from "./modelos.js";
 
 // Con una sola app no hay nada que comparar.
 const MINIMO_APPS = 2;
@@ -98,4 +100,61 @@ api.post("/consultas", async (req, res) => {
     origen_id, destino_id, hora_salida, precio_visto, usuario_id, recomendacion: masBarata?.app ?? null,
   });
   res.status(201).json({ consulta, ultimo_registro: ultimo ?? null });
+});
+
+const metros = (lat1, lon1, lat2, lon2) => {
+  const r = Math.PI / 180;
+  const a = Math.sin(((lat2 - lat1) * r) / 2) ** 2 +
+    Math.cos(lat1 * r) * Math.cos(lat2 * r) * Math.sin(((lon2 - lon1) * r) / 2) ** 2;
+  return 6371000 * 2 * Math.asin(Math.sqrt(a));
+};
+
+// Con ?lat=&lon= trae solo los reportes cercanos, del mas cercano al mas lejano.
+api.get("/reportes", async (req, res) => {
+  const reportes = await Reporte.findAll({ order: [["id", "DESC"]] });
+  const lat = Number(req.query.lat);
+  const lon = Number(req.query.lon);
+  if (!Number.isFinite(lat) || !Number.isFinite(lon)) return res.json(reportes);
+  const radio = Math.min(Number(req.query.radio) || 300, 2000);
+  res.json(reportes
+    .map((r) => ({ ...r.toJSON(), metros: Math.round(metros(lat, lon, r.lat, r.lon)) }))
+    .filter((r) => r.metros <= radio)
+    .sort((a, b) => a.metros - b.metros));
+});
+
+api.get("/reportes/:id", async (req, res) => {
+  const reporte = await Reporte.findByPk(req.params.id);
+  return reporte ? res.json(reporte) : noExiste(res);
+});
+
+api.post("/reportes", async (req, res) => {
+  const { tipo, parada, lat, lon, descripcion, usuario_id = null } = req.body;
+  res.status(201).json(await Reporte.create({ tipo, parada, lat, lon, descripcion, usuario_id }));
+});
+
+api.delete("/reportes/:id", async (req, res) => {
+  const borradas = await Reporte.destroy({ where: { id: req.params.id } });
+  return borradas ? res.status(204).end() : noExiste(res);
+});
+
+// La foto llega como el cuerpo de la peticion, con su Content-Type de imagen.
+api.post("/reportes/:id/foto", express.raw({ type: "image/*", limit: TAMANO_MAXIMO }), async (req, res) => {
+  const reporte = await Reporte.findByPk(req.params.id);
+  if (!reporte) return noExiste(res);
+  const tipo = req.get("Content-Type");
+  if (!tipoValido(tipo) || !Buffer.isBuffer(req.body) || !req.body.length) {
+    return res.status(400).json({ error: "Manda una imagen JPG, PNG o WebP" });
+  }
+  const url = await guardarFoto(`${reporte.id}-${randomUUID()}`, req.body, tipo);
+  res.json(await reporte.update({ foto_url: url }));
+});
+
+api.get("/precios-reportados", async (_req, res) =>
+  res.json(await PrecioReportado.findAll({ order: [["fecha_hora", "DESC"]] })));
+
+api.post("/precios-reportados", async (req, res) => {
+  const { app, precio, lat_origen, lon_origen, lat_destino, lon_destino, usuario_id = null } = req.body;
+  res.status(201).json(await PrecioReportado.create({
+    app, precio, lat_origen, lon_origen, lat_destino, lon_destino, usuario_id, fecha_hora: new Date(),
+  }));
 });

@@ -8,6 +8,8 @@ const Grieta = (() => {
   const RODEO = 1.3;
   const ESPERA_APP = 5;
   const VENTANA_MIN = 60;
+  const TRANSBORDO_M = 250;
+  const ESPERA_TRANSBORDO = 2;
   const AHORRO_MINIMO = 0.3;
   const INF = 1e9;
 
@@ -86,57 +88,137 @@ const Grieta = (() => {
       : { tipo: "app", app: t.app, costo: t.costo, min: t.min, parada: nombre, hacia };
   }
 
-  function opciones(ctx, o, d, kmCalle, caminarMax) {
+  // Paradas a pocos metros de cada parada, para cambiar de camion caminando.
+  let vecinas;
+  function vecinasDe(i) {
+    if (!vecinas) {
+      const celda = (lat, lon) => `${Math.round(lat / 0.003)}:${Math.round(lon / 0.003)}`;
+      const malla = new Map();
+      qrobus.paradas.forEach(([lat, lon], k) => {
+        const c = celda(lat, lon);
+        if (!malla.has(c)) malla.set(c, []);
+        malla.get(c).push(k);
+      });
+      vecinas = qrobus.paradas.map(([lat, lon]) => {
+        const [a, b] = celda(lat, lon).split(":").map(Number);
+        const lista = [];
+        for (let x = -1; x <= 1; x++) for (let y = -1; y <= 1; y++) {
+          for (const k of malla.get(`${a + x}:${b + y}`) ?? []) {
+            const m = metros(lat, lon, qrobus.paradas[k][0], qrobus.paradas[k][1]);
+            if (m <= TRANSBORDO_M) lista.push([k, m]);
+          }
+        }
+        return lista;
+      });
+    }
+    return vecinas[i];
+  }
+
+  const coords = (i) => qrobus.paradas[i].slice(0, 2);
+  const nombreParada = (i) => qrobus.paradas[i][2];
+
+  // Primera salida de un recorrido que pasa por la posicion pos despues del minuto t.
+  function salidaDesde(p, servicio, pos, t, ventana = VENTANA_MIN) {
+    const salidas = p.salidas[servicio];
+    if (!salidas) return undefined;
+    return salidas.map((x) => x + p.minutos[pos]).find((h) => h >= t && h <= t + ventana);
+  }
+
+  function tramoCamion(p, pb, pa, sale) {
+    const llega = sale - p.minutos[pb] + p.minutos[pa];
+    return {
+      tipo: "camion", linea: p.linea, hacia: p.hacia, sale, llega, paradas: pa - pb, baja: nombreParada(p.paradas[pa]),
+      recorrido: p.paradas.slice(pb, pa + 1).map((k) => ({ nombre: nombreParada(k), lat: qrobus.paradas[k][0], lon: qrobus.paradas[k][1] })),
+    };
+  }
+
+  function armar(ctx, o, d, acceso, sb, camiones, salida, sa, tarifa) {
+    const pasos = [tramo(acceso, sb, true)];
+    camiones.forEach((c, k) => {
+      if (k > 0 && c.caminar) pasos.push({ tipo: "caminar", min: c.caminar, parada: c.recorrido[0].nombre, hacia: true, transbordo: true });
+      pasos.push(c);
+    });
+    pasos.push(tramo(salida, sa, false));
+    const ultimo = camiones.at(-1);
+    return {
+      tipo: `${acceso.modo}+${salida.modo}`,
+      transbordos: camiones.length - 1,
+      costo: acceso.costo + tarifa.pasaje + tarifa.transbordo * (camiones.length - 1) + salida.costo,
+      minutos: ultimo.llega + salida.min - ctx.minuto,
+      detalle: camiones.map((c) => `línea ${c.linea}: ${c.recorrido[0].nombre} (${hhmm(c.sale)}) a ${c.baja}`).join("; "),
+      pasos,
+      recorrido: camiones[0].recorrido,
+      trazo: {
+        acceso: { modo: acceso.modo, puntos: [o, coords(sb)] },
+        camiones: camiones.map((c) => c.recorrido.map((r) => [r.lat, r.lon])),
+        salida: { modo: salida.modo, puntos: [coords(sa), d] },
+      },
+    };
+  }
+
+  function opciones(ctx, o, d, kmCalle, caminarMax, tarifa = { pasaje: qrobus.pasaje, transbordo: qrobus.pasaje / 2 }) {
     const directo = tramoApp(ctx, o, d, kmCalle);
     const filas = [{ opcion: `Solo app (${nombreApp(directo.mejor.app)})`, tipo: "app", costo: directo.mejor.precio, minutos: directo.minutos, detalle: "" }];
     const sube = alcanzables(ctx, o, true, caminarMax);
     const baja = alcanzables(ctx, d, false, caminarMax);
     const mejores = new Map();
+    const llegada1 = new Map();
     let pasaCerca = false;
 
+    const quedarse = (fila, clave) => {
+      for (const sufijo of [":rapida", ":barata"]) {
+        const actual = mejores.get(clave + sufijo);
+        const campo = sufijo === ":rapida" ? "minutos" : "costo";
+        if (!actual || fila[campo] < actual[campo] || (fila[campo] === actual[campo] && fila.minutos < actual.minutos)) mejores.set(clave + sufijo, fila);
+      }
+    };
+
+    // Un camion: directo al destino, y de paso a que hora se llega a cada parada para transbordar.
     qrobus.patrones.forEach((p) => {
-      const salidas = p.salidas[ctx.servicio];
-      if (!salidas) return;
       p.paradas.forEach((sb, pb) => {
         const s = sube.get(sb);
         if (!s) return;
-        // Primera salida que alcanza esta parada a tiempo, dentro de la proxima hora.
-        const desde = ctx.minuto + s.min;
-        const sale = salidas.map((x) => x + p.minutos[pb]).find((t) => t >= desde && t <= desde + VENTANA_MIN);
+        const sale = salidaDesde(p, ctx.servicio, pb, ctx.minuto + s.min);
         if (sale === undefined) return;
         if (s.modo === "caminando") pasaCerca = true;
         for (let pa = pb + 1; pa < p.paradas.length; pa++) {
-          const b = baja.get(p.paradas[pa]);
-          if (!b) continue;
           const llega = sale - p.minutos[pb] + p.minutos[pa];
-          const coords = (i) => qrobus.paradas[i].slice(0, 2);
-          const fila = {
-            tipo: `${s.modo}+${b.modo}`,
-            costo: s.costo + qrobus.pasaje + b.costo,
-            minutos: llega + b.min - ctx.minuto,
-            detalle: `línea ${p.linea}: ${qrobus.paradas[sb][2]} (${hhmm(sale)}) a ${qrobus.paradas[p.paradas[pa]][2]}`,
-            pasos: [
-              tramo(s, sb, true),
-              { tipo: "camion", linea: p.linea, hacia: p.hacia, sale, llega, paradas: pa - pb, baja: qrobus.paradas[p.paradas[pa]][2] },
-              tramo(b, p.paradas[pa], false),
-            ],
-            recorrido: p.paradas.slice(pb, pa + 1).map((i) => ({ nombre: qrobus.paradas[i][2], lat: qrobus.paradas[i][0], lon: qrobus.paradas[i][1] })),
-            trazo: {
-              acceso: { modo: s.modo, puntos: [o, coords(sb)] },
-              camion: p.paradas.slice(pb, pa + 1).map(coords),
-              salida: { modo: b.modo, puntos: [coords(p.paradas[pa]), d] },
-            },
-          };
-          for (const clave of [`${fila.tipo}:rapida`, `${fila.tipo}:barata`]) {
-            const actual = mejores.get(clave);
-            const campo = clave.endsWith("rapida") ? "minutos" : "costo";
-            if (!actual || fila[campo] < actual[campo]) mejores.set(clave, fila);
-          }
+          const parada = p.paradas[pa];
+          const previa = llegada1.get(parada);
+          if (!previa || llega + s.costo / 10 < previa.llega + previa.s.costo / 10) llegada1.set(parada, { llega, p, pb, pa, sb, s, sale });
+          const b = baja.get(parada);
+          if (b) quedarse(armar(ctx, o, d, s, sb, [tramoCamion(p, pb, pa, sale)], b, parada, tarifa), `${s.modo}+${b.modo}`);
         }
       });
     });
 
-    for (const f of mejores.values()) filas.push({ ...f, opcion: NOMBRES[f.tipo] });
+    // Dos camiones: se baja en una parada, camina a una cercana y toma otra linea.
+    const listo = new Map();
+    for (const [x, primero] of llegada1) {
+      for (const [y, m] of vecinasDe(x)) {
+        const caminar = (m * RODEO) / 1000 / VEL_CAMINAR * 60;
+        const t = primero.llega + caminar + ESPERA_TRANSBORDO;
+        const previo = listo.get(y);
+        if (!previo || t < previo.t) listo.set(y, { t, caminar, primero });
+      }
+    }
+    qrobus.patrones.forEach((q) => {
+      q.paradas.forEach((tb, qb) => {
+        const cambio = listo.get(tb);
+        if (!cambio || cambio.primero.p.linea === q.linea) return;
+        const sale = salidaDesde(q, ctx.servicio, qb, cambio.t);
+        if (sale === undefined) return;
+        for (let qa = qb + 1; qa < q.paradas.length; qa++) {
+          const b = baja.get(q.paradas[qa]);
+          if (!b) continue;
+          const f = cambio.primero;
+          const segundo = { ...tramoCamion(q, qb, qa, sale), caminar: Math.max(1, Math.round(cambio.caminar)) };
+          quedarse(armar(ctx, o, d, f.s, f.sb, [tramoCamion(f.p, f.pb, f.pa, f.sale), segundo], b, q.paradas[qa], tarifa), `2:${f.s.modo}+${b.modo}`);
+        }
+      });
+    });
+
+    for (const f of mejores.values()) filas.push({ ...f, opcion: NOMBRES[f.tipo] + (f.transbordos ? " con transbordo" : "") });
     const unicas = [...new Map(filas.map((f) => [`${f.opcion}|${f.detalle}`, { ...f, costo: Math.round(f.costo), minutos: Math.round(f.minutos) }])).values()];
     // Fuera las opciones que cuestan mas y tardan mas que alguna otra.
     const vivas = unicas.filter((r) => !unicas.some((x) =>
@@ -201,9 +283,9 @@ const Grieta = (() => {
     return { accion, fuerza, activas: activas.sort((a, b) => b.w - a.w) };
   }
 
-  function evaluar({ origen, destino, dia, minuto, app, precioVisto, margen, kmCalle, caminarMax }) {
+  function evaluar({ origen, destino, dia, minuto, app, precioVisto, margen, kmCalle, caminarMax, tarifa }) {
     const ctx = contexto(dia, minuto);
-    const { directo, opciones: lista, pasaCerca } = opciones(ctx, origen, destino, kmCalle, caminarMax);
+    const { directo, opciones: lista, pasaCerca } = opciones(ctx, origen, destino, kmCalle, caminarMax, tarifa);
     const res = { ctx, directo, opciones: lista, pasaCerca };
 
     const inicio = CORTES.find((c) => c > minuto / 60);

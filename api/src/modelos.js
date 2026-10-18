@@ -42,6 +42,29 @@ export const Consulta = sequelize.define("Consulta", {
   recomendacion: DataTypes.STRING(40),
 }, { tableName: "consultas" });
 
+// Lo que reporta la gente en la calle: problemas de accesibilidad y referencias para encontrar una parada.
+export const TIPOS_REPORTE = ["banqueta", "sin_rampa", "sin_techo", "obstaculo", "sin_senalizacion", "referencia", "otro"];
+
+export const Reporte = sequelize.define("Reporte", {
+  tipo: { type: DataTypes.ENUM(...TIPOS_REPORTE), allowNull: false },
+  parada: DataTypes.STRING(120),
+  lat: { type: DataTypes.DOUBLE, allowNull: false, validate: { min: 20.3, max: 21.0 } },
+  lon: { type: DataTypes.DOUBLE, allowNull: false, validate: { min: -100.8, max: -100.0 } },
+  descripcion: { type: DataTypes.STRING(280), validate: { len: [0, 280] } },
+  foto_url: DataTypes.STRING(300),
+}, { tableName: "reportes" });
+
+// El precio que le salio a alguien al pedir en una app, para mejorar el modelo.
+export const PrecioReportado = sequelize.define("PrecioReportado", {
+  app: { type: DataTypes.ENUM(...APPS), allowNull: false },
+  precio: { type: DataTypes.DECIMAL(8, 2), allowNull: false, validate: { min: 20, max: 2000 } },
+  fecha_hora: { type: DataTypes.DATE, allowNull: false },
+  lat_origen: { type: DataTypes.DOUBLE, allowNull: false },
+  lon_origen: { type: DataTypes.DOUBLE, allowNull: false },
+  lat_destino: { type: DataTypes.DOUBLE, allowNull: false },
+  lon_destino: { type: DataTypes.DOUBLE, allowNull: false },
+}, { tableName: "precios_reportados" });
+
 // RESTRICT: un lugar, una ruta o un usuario con datos ligados no se puede borrar.
 const llave = (name, onDelete = "RESTRICT") => ({ foreignKey: { name, allowNull: false }, onDelete });
 
@@ -64,3 +87,9 @@ Usuario.hasMany(Consulta, { foreignKey: "usuario_id", onDelete: "SET NULL" });
 Consulta.belongsTo(Usuario, { foreignKey: "usuario_id", onDelete: "SET NULL" });
 Consulta.belongsTo(Lugar, { as: "origen", ...llave("origen_id") });
 Consulta.belongsTo(Lugar, { as: "destino", ...llave("destino_id") });
+
+// Reportes y precios se pueden mandar sin cuenta.
+Usuario.hasMany(Reporte, { foreignKey: "usuario_id", onDelete: "SET NULL" });
+Reporte.belongsTo(Usuario, { foreignKey: "usuario_id", onDelete: "SET NULL" });
+Usuario.hasMany(PrecioReportado, { foreignKey: "usuario_id", onDelete: "SET NULL" });
+PrecioReportado.belongsTo(Usuario, { foreignKey: "usuario_id", onDelete: "SET NULL" });

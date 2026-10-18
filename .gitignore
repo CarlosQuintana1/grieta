@@ -22,5 +22,6 @@ modelo/datos/dataset.csv
 modelo/datos/*.xlsx
 modelo/datos/gtfs_qrobus*
 *.sqlite
+api/uploads/
 
 .DS_Store

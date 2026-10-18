@@ -34,6 +34,7 @@
           <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
         </button>
       </div>
+      <div id="guardados" class="guardados" hidden></div>
       <p class="desde"><span id="desdeTexto">Buscando tu ubicación...</span> <button id="cambiarDesde" type="button" class="enlace">Cambiar</button></p>
       <div id="buscaDesde" class="buscador chico" hidden>
         <label for="desde" class="oculto">Desde dónde sales</label>
@@ -49,6 +50,9 @@
         <button id="dondeEstoy" type="button" class="atajo">
           <strong>¿Dónde estoy?</strong><span>Tu calle y la parada más cercana</span>
         </button>
+        <button id="abrirReporte" type="button" class="atajo">
+          <strong>Reportar un problema aquí</strong><span>Banqueta rota, parada sin rampa o una referencia para encontrarla</span>
+        </button>
       </div>
       <div id="respuesta" aria-live="polite"></div>
     </section>
@@ -57,8 +61,18 @@
       <button type="button" class="atras" data-ir="inicio">Cambiar destino</button>
       <h1 id="tituloOpciones" tabindex="-1"></h1>
       <p class="nota" id="resumenRuta"></p>
+      <div class="guardar">
+        <button id="guardarLugar" type="button" class="enlace">Guardar este lugar</button>
+        <div id="nombresLugar" class="elige" role="group" aria-label="Guardar como" hidden>
+          <button type="button" data-v="Casa">Casa</button>
+          <button type="button" data-v="Escuela">Escuela</button>
+          <button type="button" data-v="Trabajo">Trabajo</button>
+        </div>
+      </div>
       <h2>Cómo llegar</h2>
       <div id="tarjetas" class="tarjetas"></div>
+
+      <label class="interruptor chico" id="filaUnidos"><span><strong>Pago Tarifa Unidos</strong><small>El camión te cuesta $2 y el transbordo es gratis</small></span><input type="checkbox" id="optUnidos2"></label>
 
       <div class="plegable">
         <button id="abrirEspera" type="button" aria-expanded="false" aria-controls="espera">
@@ -108,6 +122,8 @@
           <button type="button" data-v="45" aria-pressed="false">Sin prisa</button>
         </div>
         <div id="veredicto" aria-live="polite"></div>
+        <button id="enviarPrecio" type="button" class="boton-linea" hidden>Enviar este precio a Grieta</button>
+        <p id="gracias" class="nota" role="status"></p>
       </div>
     </section>
 
@@ -125,6 +141,28 @@
       <p class="nota">Deja la pantalla encendida: así Grieta sigue tu ubicación.</p>
     </section>
 
+    <section id="reporte" class="pantalla" aria-labelledby="tituloReporte" hidden>
+      <button type="button" class="atras" data-ir="inicio">Volver</button>
+      <h1 id="tituloReporte" tabindex="-1">Reportar un problema</h1>
+      <p class="nota" id="reporteDonde">Buscando dónde estás...</p>
+      <h2>¿Qué pasa aquí?</h2>
+      <div id="tipoReporte" class="opciones-lista" role="radiogroup" aria-label="Tipo de reporte">
+        <button type="button" role="radio" aria-checked="false" data-v="banqueta">Banqueta rota o angosta</button>
+        <button type="button" role="radio" aria-checked="false" data-v="sin_rampa">No hay rampa</button>
+        <button type="button" role="radio" aria-checked="false" data-v="sin_techo">La parada no tiene techo ni banca</button>
+        <button type="button" role="radio" aria-checked="false" data-v="obstaculo">Hay un obstáculo en el camino</button>
+        <button type="button" role="radio" aria-checked="false" data-v="sin_senalizacion">No hay señalización</button>
+        <button type="button" role="radio" aria-checked="false" data-v="referencia">Una referencia para encontrar la parada</button>
+        <button type="button" role="radio" aria-checked="false" data-v="otro">Otra cosa</button>
+      </div>
+      <label for="descripcion" class="etiqueta-campo">Cuéntalo en pocas palabras</label>
+      <textarea id="descripcion" maxlength="280" rows="3" placeholder="Ejemplo: la parada está frente al OXXO, junto al poste amarillo"></textarea>
+      <label class="boton-linea archivo">Agregar una foto (opcional)<input id="foto" type="file" accept="image/jpeg,image/png,image/webp" capture="environment"></label>
+      <p id="fotoNombre" class="nota"></p>
+      <button id="enviarReporte" type="button" class="boton">Enviar reporte</button>
+      <p id="reporteEstado" class="nota" role="status"></p>
+    </section>
+
     <section id="ajustes" class="pantalla" aria-labelledby="tituloAcc" hidden>
       <button type="button" class="atras" id="cerrarAcc">Volver</button>
       <h1 id="tituloAcc" tabindex="-1">Accesibilidad</h1>
@@ -133,6 +171,10 @@
       <label class="interruptor"><span><strong>Avisos por voz</strong><small>Apágalo si ya usas VoiceOver o TalkBack</small></span><input type="checkbox" id="optVoz" checked></label>
       <label class="interruptor"><span><strong>Voz más lenta</strong></span><input type="checkbox" id="optLenta"></label>
       <label class="interruptor"><span><strong>Caminar poco</strong><small>Solo paradas a menos de 300 metros</small></span><input type="checkbox" id="optCamino"></label>
+      <h2>Pasaje</h2>
+      <label class="interruptor"><span><strong>Pago Tarifa Unidos</strong><small>Estudiantes, mayores de 60 y personas con discapacidad: $2 y transbordo gratis</small></span><input type="checkbox" id="optUnidos"></label>
+      <h2>Lugares guardados</h2>
+      <div id="listaGuardados"></div>
     </section>
   </main>
 

@@ -1,8 +1,19 @@
 import express from "express";
+import { CARPETA_LOCAL } from "./almacen.js";
 import { api } from "./rutas.js";
 
 export const app = express();
+
+// La app web vive en otro dominio; sin esto el navegador bloquea las peticiones.
+app.use((req, res, next) => {
+  res.set("Access-Control-Allow-Origin", process.env.ORIGEN_PERMITIDO ?? "*");
+  res.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+  if (req.method === "OPTIONS") return res.status(204).end();
+  next();
+});
 app.use(express.json());
+app.use("/fotos", express.static(CARPETA_LOCAL));
 app.use("/api", api);
 app.use((_req, res) => res.status(404).json({ error: "Ruta no encontrada" }));
 
@@ -17,6 +28,7 @@ app.use((err, req, res, _next) => {
       ? res.status(409).json({ error: "No se puede borrar: tiene datos relacionados" })
       : res.status(400).json({ error: "Hace referencia a un dato que no existe" });
   }
+  if (err.type === "entity.too.large") return res.status(413).json({ error: "La foto pesa más de 5 MB" });
   console.error(err);
   res.status(500).json({ error: "Error interno" });
 });

@@ -154,6 +154,22 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 .interruptor small { display: block; color: var(--tenue); font-size: 0.8rem; font-weight: 400; margin-top: 2px; }
 .interruptor input { flex: none; width: 26px; height: 26px; min-height: 0; accent-color: var(--ambar); appearance: auto; -webkit-appearance: checkbox; }
 
+.guardados { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.guardados button { min-height: 44px; padding: 0 16px; border: 1px solid var(--ambar); color: var(--ambar); font-weight: 600; }
+.guardar { margin-top: 6px; }
+.interruptor.chico { margin-top: 14px; border-top: 1px solid var(--linea); }
+.opciones-lista { display: grid; gap: 8px; }
+.opciones-lista button { min-height: var(--toque); padding: 12px 14px; border: 1px solid var(--linea); }
+.opciones-lista button[aria-checked="true"] { border: 2px solid var(--ambar); color: var(--ambar); font-weight: 600; }
+.etiqueta-campo { display: block; margin: 22px 0 8px; font-size: 0.85rem; color: var(--tenue); }
+textarea { width: 100%; font: inherit; font-size: max(16px, 1rem); color: var(--tinta); background: var(--panel); border: 2px solid var(--linea); padding: 12px; resize: vertical; }
+textarea:focus { border-color: var(--ambar); outline: none; }
+.archivo { position: relative; margin-top: 14px; }
+.archivo input { position: absolute; inset: 0; opacity: 0; cursor: pointer; min-height: 0; }
+.fila-guardado { display: flex; justify-content: space-between; align-items: center; min-height: var(--toque); border-bottom: 1px solid var(--linea); }
+.fila-guardado button { color: var(--ambar); min-height: 44px; }
+.aviso-parada { margin-top: 8px; padding: 10px 12px; border-left: 3px solid var(--ambar); background: var(--panel); font-size: 0.88rem; }
+
 @media (min-width: 760px) {
   body { display: grid; grid-template-columns: 440px 1fr; grid-template-rows: auto 1fr; }
   .barra { grid-column: 1 / -1; }

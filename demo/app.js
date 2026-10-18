@@ -19,22 +19,32 @@ const capas = {};
 let lugares = [];
 
 // Ajustes de accesibilidad, guardados en este telefono.
-const acc = { grande: false, contraste: false, voz: true, lenta: false, camino: false };
+const acc = { grande: false, contraste: false, voz: true, lenta: false, camino: false, unidos: false };
 try { Object.assign(acc, JSON.parse(localStorage.getItem("grieta-acc") ?? "{}")); } catch {}
-const OPCIONES = { grande: "optGrande", contraste: "optContraste", voz: "optVoz", lenta: "optLenta", camino: "optCamino" };
+const OPCIONES = { grande: "optGrande", contraste: "optContraste", voz: "optVoz", lenta: "optLenta", camino: "optCamino", unidos: "optUnidos" };
 function aplicarAcc() {
   document.documentElement.classList.toggle("grande", acc.grande);
   document.documentElement.classList.toggle("contraste", acc.contraste);
   for (const [k, id] of Object.entries(OPCIONES)) $(id).checked = acc[k];
+  $("optUnidos2").checked = acc.unidos;
+}
+function guardarAcc() {
+  try { localStorage.setItem("grieta-acc", JSON.stringify(acc)); } catch {}
 }
 for (const [k, id] of Object.entries(OPCIONES)) {
   $(id).addEventListener("change", (e) => {
     acc[k] = e.target.checked;
-    try { localStorage.setItem("grieta-acc", JSON.stringify(acc)); } catch {}
+    guardarAcc();
     aplicarAcc();
-    if (k === "camino") calcular();
+    if (k === "camino" || k === "unidos") calcular();
   });
 }
+$("optUnidos2").addEventListener("change", (e) => {
+  acc.unidos = e.target.checked;
+  guardarAcc();
+  aplicarAcc();
+  calcular();
+});
 aplicarAcc();
 
 // Una pantalla a la vez; el foco va al titulo para que el lector de pantalla anuncie el cambio.
@@ -149,7 +159,7 @@ function sugerir(texto) {
   $("atajos").hidden = true;
   $("respuesta").innerHTML = "";
   if (texto.trim().length < 3) {
-    const fijos = (estado.editando === "desde" && estado.gps ? [estado.gps] : []).concat(lugares);
+    const fijos = (estado.editando === "desde" && estado.gps ? [estado.gps] : []).concat(guardados, lugares);
     lista.innerHTML = fijos.map((l, i) => `<li><button type="button" data-i="${i}">${l.nombre}</button></li>`).join("");
     lista.onclick = (e) => elegir(fijos[e.target.closest("button")?.dataset.i]);
     return;
@@ -254,6 +264,7 @@ function calcular() {
   const r = Grieta.evaluar({
     ...base, ...normalizar(lista[estado.momento]),
     app: estado.app, precioVisto: Number($("precio").value), margen: estado.prisa, caminarMax: acc.camino ? 300 : undefined,
+    tarifa: acc.unidos ? { pasaje: 2, transbordo: 0 } : undefined,
   });
   estado.r = r;
   pintarOpciones(r);
@@ -263,9 +274,10 @@ function calcular() {
 
 function tituloOpcion(o) {
   if (o.tipo === "app") return o.opcion.replace("Solo app (", "").replace(")", "");
-  const camion = o.pasos.find((p) => p.tipo === "camion");
-  const partes = o.pasos.map((p) => (p.tipo === "camion" ? `Qrobus ${camion.linea}` : p.tipo === "app" ? Grieta.nombreApp(p.app) : null)).filter(Boolean);
-  return partes.join(" + ");
+  const lineas = o.pasos.filter((p) => p.tipo === "camion").map((p) => p.linea);
+  const apps = o.pasos.filter((p) => p.tipo === "app").map((p) => Grieta.nombreApp(p.app));
+  const camion = `Qrobus ${lineas.join(" y ")}`;
+  return o.pasos[0].tipo === "app" ? [apps[0], camion, ...apps.slice(1)].join(" + ") : [camion, ...apps].join(" + ");
 }
 const caminata = (o) => Math.round((o.pasos ?? []).filter((p) => p.tipo === "caminar").reduce((s, p) => s + p.min, 0));
 
@@ -294,6 +306,9 @@ function elegirTarjetas(r) {
 
 function pintarOpciones(r) {
   $("tituloOpciones").textContent = estado.destino.nombre;
+  const ya = guardados.find((g) => Grieta.metros(g.lat, g.lon, estado.destino.lat, estado.destino.lon) < 30);
+  $("guardarLugar").textContent = ya ? `Guardado como ${ya.nombre}` : "Guardar este lugar";
+  $("guardarLugar").disabled = Boolean(ya);
   const cuando = estado.momento === 0 ? "" : ` · saliendo ${estado.momento < ESPERAS.length ? momentos()[estado.momento].etiqueta.toLowerCase() : `el ${DIAS[r.ctx.dia]} a las ${Grieta.hhmm(r.ctx.minuto)}`}`;
   $("resumenRuta").textContent = `Desde ${estado.origen.nombre.toLowerCase() === "tu ubicación" ? "tu ubicación" : estado.origen.nombre} · ${r.directo.km.toFixed(1)} km${cuando}`;
   estado.tarjetas = elegirTarjetas(r);
@@ -306,6 +321,7 @@ function pintarOpciones(r) {
       <span class="meta">${pie.join(" · ")}</span>
     </button>`;
   }).join("") || `<p class="nota">No encontré cómo llegar. Prueba con otro destino.</p>`;
+  $("filaUnidos").hidden = !r.opciones.some((o) => o.tipo !== "app");
   if (!r.opciones.some((o) => o.tipo !== "app")) {
     $("tarjetas").innerHTML += `<p class="nota">${r.pasaCerca ? "Ningún Qrobus te lleva directo en la próxima hora." : "En la próxima hora no pasa ningún Qrobus cerca."}</p>`;
   }
@@ -380,6 +396,7 @@ function pasosDe(o) {
   }
   return o.pasos.map((p) => {
     const min = Math.max(1, Math.round(p.min));
+    if (p.tipo === "caminar" && p.transbordo) return { titulo: `Camina ${min} min y cambia de camión`, nota: p.parada };
     if (p.tipo === "caminar") return p.hacia
       ? { titulo: `Camina ${min} min a la parada`, nota: p.parada }
       : { titulo: `Camina ${min} min a tu destino`, nota: estado.destino.nombre };
@@ -431,6 +448,8 @@ $("precio").addEventListener("input", calcular);
 
 function pintarVeredicto(r) {
   const d = r.decision;
+  $("enviarPrecio").hidden = !d || !API;
+  $("gracias").textContent = "";
   $("veredicto").innerHTML = !d ? "" : `
     <div class="veredicto">
       <p class="grande">${ACCIONES[d.accion]}</p>
@@ -463,11 +482,16 @@ function dibujar(o) {
   quitarTrazo();
   const estilo = (modo) => (modo === "caminando" ? { color: TINTA, weight: 3, dashArray: "1 7", lineCap: "round" } : { color: TINTA, weight: 2, opacity: 0.7 });
   capas.linea?.setStyle?.({ opacity: 0.15 });
+  const camiones = o.trazo.camiones;
+  const capasCamion = camiones.flatMap((c, k) => [
+    L.polyline(c, { color: AMBAR, weight: 5 }),
+    ...(k > 0 ? [L.polyline([camiones[k - 1].at(-1), c[0]], estilo("caminando"))] : []),
+    ...[c[0], c.at(-1)].map((x) => L.circleMarker(x, { radius: 5, color: "#0b0a09", weight: 2, fillColor: AMBAR, fillOpacity: 1 })),
+  ]);
   capas.camion = L.featureGroup([
     L.polyline(o.trazo.acceso.puntos, estilo(o.trazo.acceso.modo)),
-    L.polyline(o.trazo.camion, { color: AMBAR, weight: 5 }),
+    ...capasCamion,
     L.polyline(o.trazo.salida.puntos, estilo(o.trazo.salida.modo)),
-    ...[o.trazo.camion[0], o.trazo.camion.at(-1)].map((c) => L.circleMarker(c, { radius: 5, color: "#0b0a09", weight: 2, fillColor: AMBAR, fillOpacity: 1 })),
   ]).addTo(mapa);
   setTimeout(() => encuadrar(capas.camion.getBounds()), 260);
 }
@@ -487,6 +511,12 @@ $("pasanAqui").addEventListener("click", () => {
   const p = lista[0];
   hablar(`La parada más cercana es ${p.nombre}, a ${Math.round(p.m)} metros. ` +
     p.lineas.slice(0, 4).map((l) => `Línea ${l.linea} hacia ${l.hacia}, a las ${Grieta.hhmm(l.horas[0])}.`).join(" "));
+  reportesCerca(p.lat, p.lon, 60).then((avisos) => {
+    if (!avisos.length) return;
+    $("respuesta").querySelector(".parada").insertAdjacentHTML("beforeend", avisos.slice(0, 3)
+      .map((a) => `<p class="aviso-parada">${NOMBRES_REPORTE[a.tipo]}${a.descripcion ? `: ${a.descripcion}` : ""}</p>`).join(""));
+    leerReferencias(p);
+  });
 });
 function decirRespuesta(texto) {
   $("respuesta").innerHTML = `<p>${texto}</p>`;
@@ -527,6 +557,13 @@ if (Reconocer) {
     if ("speechSynthesis" in window) speechSynthesis.cancel();
     rec.onresult = (e) => {
       const texto = e.results[0][0].transcript;
+      const dicho = sinAcentos(texto).replace(/^(a|al|a la|hacia|llevame a|ir a)\s+/, "");
+      const guardado = guardados.find((g) => sinAcentos(g.nombre) === dicho);
+      if (guardado) {
+        hablar(`Vamos a ${guardado.nombre}.`);
+        estado.editando = "hacia";
+        return poner("destino", guardado);
+      }
       $("hacia").value = texto;
       estado.editando = "hacia";
       estado.resultados = null;
@@ -578,8 +615,8 @@ const unaVez = (clave, fn) => { if (!guia.dichos.has(clave)) { guia.dichos.add(c
 
 function iniciarGuia(o) {
   terminarGuia(true);
-  const camion = o.pasos.find((p) => p.tipo === "camion");
-  Object.assign(guia, { activa: true, o, camion, fase: "parada", actual: 0, dichos: new Set() });
+  const tramos = o.pasos.filter((p) => p.tipo === "camion");
+  Object.assign(guia, { activa: true, o, tramos, k: 0, camion: tramos[0], fase: "parada", actual: 0, dichos: new Set() });
   ir("guia");
   dibujar(o);
   mantenerPantalla();
@@ -588,26 +625,31 @@ function iniciarGuia(o) {
   // Con el horario oficial: avisa 5 minutos y 1 minuto antes de que pase el camion.
   guia.horario = setInterval(() => {
     if (guia.fase !== "parada" && guia.fase !== "esperando") return;
+    const c = guia.camion;
     const ahora = new Date();
-    const falta = guia.camion.sale - (ahora.getHours() * 60 + ahora.getMinutes() + ahora.getSeconds() / 60);
-    if (falta <= 1 && falta > -3) unaVez("pasa1", () => { vibrar([500, 150, 500]); decir(`La ${camion.linea} debe estar por pasar`, `Pregúntale al chofer si es la ${camion.linea} hacia ${camion.hacia}.`); });
-    else if (falta <= 5 && falta > 1) unaVez("pasa5", () => { vibrar([300]); decir(`La ${camion.linea} pasa en unos ${Math.round(falta)} minutos`); });
+    const falta = c.sale - (ahora.getHours() * 60 + ahora.getMinutes() + ahora.getSeconds() / 60);
+    if (falta <= 1 && falta > -3) unaVez(`pasa1-${guia.k}`, () => { vibrar([500, 150, 500]); decir(`La ${c.linea} debe estar por pasar`, `Pregúntale al chofer si es la ${c.linea} hacia ${c.hacia}.`); });
+    else if (falta <= 5 && falta > 1) unaVez(`pasa5-${guia.k}`, () => { vibrar([300]); decir(`La ${c.linea} pasa en unos ${Math.round(falta)} minutos`); });
   }, 15000);
   const inicio = o.pasos[0];
+  const c = guia.camion;
   decir(inicio.tipo === "app" ? `Pide ${Grieta.nombreApp(inicio.app)} a ${inicio.parada}` : `Camina a ${inicio.parada}`,
-    `Ahí tomas la línea ${camion.linea} hacia ${camion.hacia}, a las ${Grieta.hhmm(camion.sale)}. Te aviso antes de bajar.`, "Hacia la parada");
+    `Ahí tomas la línea ${c.linea} hacia ${c.hacia}, a las ${Grieta.hhmm(c.sale)}.${tramos.length > 1 ? " Después cambias de camión; te aviso." : ""} Te aviso antes de bajar.`, "Hacia la parada");
   seguir(avanzarCamion);
 }
 
 function avanzarCamion(lat, lon) {
-  const r = guia.o.recorrido;
+  const c = guia.camion;
+  const r = c.recorrido;
   const final = r.at(-1);
-  const d = r.map((s) => Grieta.metros(lat, lon, s.lat, s.lon));
+  const ultimo = guia.k === guia.tramos.length - 1;
+  const d = r.map((x) => Grieta.metros(lat, lon, x.lat, x.lon));
   if (guia.fase === "parada" || guia.fase === "esperando") {
     if (guia.fase === "parada" && d[0] < 40) {
       guia.fase = "esperando";
       vibrar([300, 120, 300]);
-      decir(`Llegaste a la parada`, `${r[0].nombre}. Espera la línea ${guia.camion.linea} hacia ${guia.camion.hacia}; pasa a las ${Grieta.hhmm(guia.camion.sale)}. Te aviso cuando esté por pasar.`, "En la parada");
+      decir("Llegaste a la parada", `${r[0].nombre}. Espera la línea ${c.linea} hacia ${c.hacia}; pasa a las ${Grieta.hhmm(c.sale)}. Te aviso cuando esté por pasar.`, "En la parada");
+      leerReferencias(r[0]);
     }
     // Si ya va por la ruta del camion, lejos de la parada de subida, se subio.
     const masCerca = d.indexOf(Math.min(...d));
@@ -618,23 +660,32 @@ function avanzarCamion(lat, lon) {
   if (guia.fase !== "camion") return;
   for (let i = guia.actual + 1; i < r.length; i++) if (d[i] < 90 && d[i] <= d[guia.actual]) guia.actual = i;
   const faltan = r.length - 1 - guia.actual;
+  const clave = (x) => `${x}-${guia.k}`;
   if (faltan === 0 || d.at(-1) < 60) {
-    unaVez("llegaste", () => {
+    unaVez(clave("llegaste"), () => {
       vibrar([900, 200, 900]);
+      if (!ultimo) {
+        // Transbordo: la siguiente linea empieza como una parada nueva.
+        const sig = guia.tramos[guia.k + 1];
+        Object.assign(guia, { k: guia.k + 1, camion: sig, fase: "parada", actual: 0 });
+        $("yaMeSubi").hidden = false;
+        decir("Bájate aquí y cambia de camión", `Camina a ${sig.recorrido[0].nombre} y toma la línea ${sig.linea} hacia ${sig.hacia}, a las ${Grieta.hhmm(sig.sale)}.`, "Transbordo");
+        return;
+      }
       guia.fase = "fin";
       $("yaMeSubi").hidden = true;
       const fin = guia.o.pasos.at(-1);
-      decir(`Bájate aquí`, `${final.nombre}. ${fin.tipo === "caminar" ? `Después camina unos ${Math.max(1, Math.round(fin.min))} minutos a tu destino.` : `Después pide ${Grieta.nombreApp(fin.app)} a tu destino.`}`, "Llegaste");
+      decir("Bájate aquí", `${final.nombre}. ${fin.tipo === "caminar" ? `Después camina unos ${Math.max(1, Math.round(fin.min))} minutos a tu destino.` : `Después pide ${Grieta.nombreApp(fin.app)} a tu destino.`}`, "Llegaste");
     });
   } else if (faltan === 1) {
-    unaVez("una", () => { vibrar([700, 150, 700]); decir("Bájate en la siguiente", `${final.nombre}. Toca el timbre.`, "Ya casi"); });
+    unaVez(clave("una"), () => { vibrar([700, 150, 700]); decir("Bájate en la siguiente", `${final.nombre}. Toca el timbre.`, "Ya casi"); });
   } else if (faltan === 2) {
-    unaVez("dos", () => { vibrar([400, 150, 400]); decir("Bajas en dos paradas", `Prepárate. Tu parada es ${final.nombre}.`, "En el camión"); });
+    unaVez(clave("dos"), () => { vibrar([400, 150, 400]); decir("Bajas en dos paradas", `Prepárate. Tu parada es ${final.nombre}.`, "En el camión"); });
   } else {
     // En pantalla siempre; en voz cada 5 paradas y en cada una de las ultimas 5.
     $("guiaTitulo").textContent = `Faltan ${faltan} paradas`;
     $("guiaDetalle").textContent = `Vas por ${r[guia.actual].nombre}. Bajas en ${final.nombre}.`;
-    if (faltan <= 5 || faltan % 5 === 0) unaVez(`faltan${faltan}`, () => decir(`Faltan ${faltan} paradas`, `Vas por ${r[guia.actual].nombre}.`, "En el camión"));
+    if (faltan <= 5 || faltan % 5 === 0) unaVez(clave(`faltan${faltan}`), () => decir(`Faltan ${faltan} paradas`, `Vas por ${r[guia.actual].nombre}.`, "En el camión"));
   }
 }
 
@@ -643,9 +694,10 @@ function subir(desde = 0) {
   guia.fase = "camion";
   guia.actual = desde;
   $("yaMeSubi").hidden = true;
-  const faltan = guia.o.recorrido.length - 1 - desde;
-  guia.dichos.add(`faltan${faltan}`);
-  decir(`Faltan ${faltan} paradas`, `Vas en la ${guia.camion.linea}. Bajas en ${guia.o.recorrido.at(-1).nombre}. Te aviso dos paradas antes.`, "En el camión");
+  const r = guia.camion.recorrido;
+  const faltan = r.length - 1 - desde;
+  guia.dichos.add(`faltan${faltan}-${guia.k}`);
+  decir(`Faltan ${faltan} paradas`, `Vas en la ${guia.camion.linea}. Bajas en ${r.at(-1).nombre}. Te aviso dos paradas antes.`, "En el camión");
 }
 $("yaMeSubi").addEventListener("click", () => subir(guia.actual));
 
@@ -698,8 +750,166 @@ function terminarGuia(sinVolver) {
   if (!sinVolver) ir("detalle");
 }
 
-Promise.all([Grieta.cargar(), fetch("datos/lugares.json").then((r) => r.json())]).then(([{ modelo }, l]) => {
+
+// Lugares guardados en este telefono: Casa, Escuela, Trabajo.
+let guardados = [];
+try { guardados = JSON.parse(localStorage.getItem("grieta-lugares") ?? "[]"); } catch {}
+const sinAcentos = (t) => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+
+function pintarGuardados() {
+  $("guardados").hidden = !guardados.length;
+  $("guardados").innerHTML = guardados.map((g, i) => `<button type="button" data-i="${i}" aria-label="Ir a ${g.nombre}">${g.nombre}</button>`).join("");
+  $("listaGuardados").innerHTML = guardados.length
+    ? guardados.map((g, i) => `<div class="fila-guardado"><span>${g.nombre}</span><button type="button" data-i="${i}" aria-label="Quitar ${g.nombre}">Quitar</button></div>`).join("")
+    : `<p class="nota">Cuando elijas un destino, toca "Guardar este lugar".</p>`;
+}
+function guardarLugares() {
+  try { localStorage.setItem("grieta-lugares", JSON.stringify(guardados)); } catch {}
+  pintarGuardados();
+}
+$("guardados").addEventListener("click", (e) => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  estado.editando = "hacia";
+  poner("destino", guardados[b.dataset.i]);
+});
+$("listaGuardados").addEventListener("click", (e) => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  guardados.splice(Number(b.dataset.i), 1);
+  guardarLugares();
+});
+$("guardarLugar").addEventListener("click", () => {
+  $("nombresLugar").hidden = false;
+  $("nombresLugar").querySelector("button").focus();
+});
+$("nombresLugar").addEventListener("click", (e) => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  const { lat, lon } = estado.destino;
+  guardados = guardados.filter((g) => g.nombre !== b.dataset.v).concat({ nombre: b.dataset.v, lat, lon });
+  guardarLugares();
+  $("nombresLugar").hidden = true;
+  $("guardarLugar").textContent = `Guardado como ${b.dataset.v}`;
+  $("guardarLugar").disabled = true;
+  hablar(`Guardé ${estado.destino.nombre} como ${b.dataset.v}.`);
+});
+
+// API de Grieta para reportes y precios. Sin direccion configurada, esas funciones avisan y no mandan nada.
+let API = "";
+async function llamar(ruta, opciones = {}) {
+  if (!API) throw new Error("sin api");
+  const r = await fetch(`${API}${ruta}`, opciones);
+  if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error ?? "error");
+  return r.status === 204 ? null : r.json();
+}
+const NOMBRES_REPORTE = {
+  banqueta: "Banqueta rota o angosta", sin_rampa: "No hay rampa", sin_techo: "Parada sin techo ni banca",
+  obstaculo: "Obstáculo en el camino", sin_senalizacion: "Sin señalización", referencia: "Referencia", otro: "Aviso",
+};
+async function reportesCerca(lat, lon, radio = 120) {
+  try { return await llamar(`/reportes?lat=${lat}&lon=${lon}&radio=${radio}`); } catch { return []; }
+}
+// Al llegar a una parada lee lo que otros dejaron: como encontrarla y que cuidar.
+async function leerReferencias(parada) {
+  const lista = await reportesCerca(parada.lat, parada.lon, 60);
+  if (!lista.length) return;
+  const refs = lista.filter((x) => x.tipo === "referencia" && x.descripcion).map((x) => x.descripcion);
+  const avisos = lista.filter((x) => x.tipo !== "referencia").map((x) => NOMBRES_REPORTE[x.tipo].toLowerCase());
+  const texto = [refs.length ? `Referencia: ${refs[0]}.` : "", avisos.length ? `Cuidado: ${[...new Set(avisos)].join(", ")}.` : ""].join(" ").trim();
+  if (texto) setTimeout(() => hablar(texto), 4000);
+}
+
+// Reportar un problema donde estas parado.
+const reporte = { tipo: null, lat: null, lon: null, parada: null };
+$("abrirReporte").addEventListener("click", () => {
+  Object.assign(reporte, { tipo: null, lat: null, lon: null, parada: null });
+  for (const b of $("tipoReporte").children) b.setAttribute("aria-checked", "false");
+  $("descripcion").value = "";
+  $("foto").value = "";
+  $("fotoNombre").textContent = "";
+  $("reporteEstado").textContent = "";
+  ir("reporte");
+  const fijar = (lat, lon) => {
+    Object.assign(reporte, { lat, lon });
+    const ahora = new Date();
+    const p = Grieta.pasanAqui(lat, lon, (ahora.getDay() + 6) % 7, ahora.getHours() * 60 + ahora.getMinutes(), 120)[0];
+    reporte.parada = p?.nombre ?? null;
+    // Cerca de una parada, el reporte queda en la parada para que lo encuentre quien la consulte.
+    if (p) Object.assign(reporte, { lat: p.lat, lon: p.lon });
+    $("reporteDonde").textContent = p ? `Cerca de la parada ${p.nombre}.` : "En tu ubicación actual.";
+  };
+  navigator.geolocation?.getCurrentPosition(
+    ({ coords }) => fijar(coords.latitude, coords.longitude),
+    () => (estado.origen ? fijar(estado.origen.lat, estado.origen.lon) : ($("reporteDonde").textContent = "No pude ver tu ubicación; activa la ubicación para reportar.")),
+    { enableHighAccuracy: true, timeout: 10000 },
+  );
+});
+$("tipoReporte").addEventListener("click", (e) => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  reporte.tipo = b.dataset.v;
+  for (const x of $("tipoReporte").children) x.setAttribute("aria-checked", String(x === b));
+});
+$("foto").addEventListener("change", () => {
+  const f = $("foto").files[0];
+  $("fotoNombre").textContent = f ? `Foto lista: ${f.name}` : "";
+});
+$("enviarReporte").addEventListener("click", async () => {
+  const avisar = (t) => { $("reporteEstado").textContent = t; hablar(t); };
+  if (!reporte.tipo) return avisar("Elige qué pasa aquí.");
+  if (reporte.lat === null) return avisar("Todavía no sé dónde estás. Activa la ubicación.");
+  if (!API) return avisar("Los reportes todavía no están conectados al servidor. Pronto.");
+  $("enviarReporte").disabled = true;
+  try {
+    const nuevo = await llamar("/reportes", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tipo: reporte.tipo, parada: reporte.parada, lat: reporte.lat, lon: reporte.lon, descripcion: $("descripcion").value.trim() || null }),
+    });
+    const f = $("foto").files[0];
+    if (f) await llamar(`/reportes/${nuevo.id}/foto`, { method: "POST", headers: { "Content-Type": f.type }, body: f });
+    avisar("Gracias. Tu reporte ayuda a quien pase por aquí.");
+  } catch (err) {
+    avisar(err.message === "sin api" ? "No hay conexión con el servidor." : `No se pudo enviar: ${err.message}.`);
+  } finally {
+    $("enviarReporte").disabled = false;
+  }
+});
+
+// El precio que le salio a alguien, para que el modelo aprenda.
+$("enviarPrecio").addEventListener("click", async () => {
+  try {
+    await llamar("/precios-reportados", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        app: estado.app, precio: Number($("precio").value),
+        lat_origen: estado.origen.lat, lon_origen: estado.origen.lon, lat_destino: estado.destino.lat, lon_destino: estado.destino.lon,
+      }),
+    });
+    $("gracias").textContent = "Gracias: con tu precio Grieta calcula mejor.";
+    $("enviarPrecio").hidden = true;
+  } catch {
+    $("gracias").textContent = "No se pudo enviar ahorita.";
+  }
+});
+
+// Sin conexion: la app y los horarios quedan guardados en el telefono.
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+function avisoConexion() {
+  $("estado").textContent = navigator.onLine ? "" : "Sin internet: puedes ver qué camión pasa y tus lugares guardados; para buscar calles hace falta conexión.";
+}
+addEventListener("online", avisoConexion);
+addEventListener("offline", avisoConexion);
+
+Promise.all([
+  Grieta.cargar(),
+  fetch("datos/lugares.json").then((r) => r.json()),
+  fetch("datos/config.json").then((r) => r.json()).catch(() => ({})),
+]).then(([{ modelo }, l, config]) => {
   lugares = l;
+  API = config.api || (["localhost", "127.0.0.1"].includes(location.hostname) ? "http://localhost:3000/api" : "");
+  pintarGuardados();
+  avisoConexion();
   $("info").textContent = `Precios estimados con ${modelo.momentos} registros del equipo. Horarios oficiales de Qrobus.`;
   ubicar();
 });

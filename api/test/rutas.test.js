@@ -132,3 +132,60 @@ describe("Borrado y errores", () => {
     await request(app).get("/api/no-existe").expect(404);
   });
 });
+
+describe("Reportes de accesibilidad", () => {
+  let reporte;
+
+  test("POST /api/reportes guarda un problema en una parada", async () => {
+    const res = await request(app).post("/api/reportes")
+      .send({ tipo: "banqueta", parada: "Av. Universidad/Hidalgo", lat: 20.5942, lon: -100.3925, descripcion: "Banqueta levantada" })
+      .expect(201);
+    reporte = res.body;
+    assert.equal(reporte.tipo, "banqueta");
+  });
+
+  test("POST /api/reportes rechaza un punto fuera de Querétaro", async () => {
+    await request(app).post("/api/reportes").send({ tipo: "otro", lat: 19.43, lon: -99.13 }).expect(400);
+  });
+
+  test("GET /api/reportes con lat y lon trae solo los cercanos", async () => {
+    const cerca = await request(app).get("/api/reportes?lat=20.5943&lon=-100.3926&radio=200").expect(200);
+    assert.equal(cerca.body.length, 1);
+    assert.ok(cerca.body[0].metros < 50);
+    const lejos = await request(app).get("/api/reportes?lat=20.7043&lon=-100.4439&radio=200").expect(200);
+    assert.equal(lejos.body.length, 0);
+  });
+
+  test("POST /api/reportes/:id/foto guarda la imagen y su dirección", async () => {
+    const png = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==", "base64");
+    const res = await request(app).post(`/api/reportes/${reporte.id}/foto`)
+      .set("Content-Type", "image/png").send(png).expect(200);
+    assert.match(res.body.foto_url, /\.png$/);
+  });
+
+  test("POST /api/reportes/:id/foto rechaza lo que no es imagen", async () => {
+    await request(app).post(`/api/reportes/${reporte.id}/foto`)
+      .set("Content-Type", "text/plain").send("hola").expect(400);
+  });
+
+  test("DELETE /api/reportes/:id", async () => {
+    await request(app).delete(`/api/reportes/${reporte.id}`).expect(204);
+    await request(app).get(`/api/reportes/${reporte.id}`).expect(404);
+  });
+});
+
+describe("Precios reportados", () => {
+  test("POST y GET /api/precios-reportados", async () => {
+    await request(app).post("/api/precios-reportados")
+      .send({ app: "didi", precio: 118, lat_origen: 20.7043, lon_origen: -100.4439, lat_destino: 20.5931, lon_destino: -100.3926 })
+      .expect(201);
+    const res = await request(app).get("/api/precios-reportados").expect(200);
+    assert.equal(res.body.length, 1);
+  });
+
+  test("POST /api/precios-reportados rechaza un precio absurdo", async () => {
+    await request(app).post("/api/precios-reportados")
+      .send({ app: "uber", precio: 5, lat_origen: 20.7, lon_origen: -100.4, lat_destino: 20.6, lon_destino: -100.39 })
+      .expect(400);
+  });
+});

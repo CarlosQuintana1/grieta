@@ -48,6 +48,14 @@
     {
       "key": "consulta_id",
       "value": ""
+    },
+    {
+      "key": "ruta_id",
+      "value": ""
+    },
+    {
+      "key": "cotizacion_app",
+      "value": ""
     }
   ],
   "item": [
@@ -270,6 +278,82 @@
               }
             }
           ]
+        },
+        {
+          "name": "Crear ruta",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base}}/rutas",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"origen_id\": 1,\n  \"destino_id\": 2,\n  \"distancia_km\": 9.9,\n  \"minutos_sin_trafico\": 15\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 201\", () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set(\"ruta_id\", pm.response.json().id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Modificar ruta",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base}}/rutas/{{ruta_id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"minutos_sin_trafico\": 18\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Borrar ruta",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{base}}/rutas/{{ruta_id}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
         }
       ]
     },
@@ -416,7 +500,8 @@
                   "pm.test(\"Responde 201\", () => pm.response.to.have.status(201));",
                   "pm.test(\"Guardó las tres cotizaciones\", () => pm.expect(pm.response.json().cotizaciones.length).to.eql(3));",
                   "pm.collectionVariables.set(\"registro_id\", pm.response.json().id);",
-                  "pm.collectionVariables.set(\"cotizacion_id\", pm.response.json().cotizaciones[0].id);"
+                  "pm.collectionVariables.set(\"cotizacion_id\", pm.response.json().cotizaciones[0].id);",
+                  "pm.collectionVariables.set(\"cotizacion_app\", pm.response.json().cotizaciones[0].app);"
                 ]
               }
             }
@@ -560,6 +645,82 @@
               }
             }
           ]
+        },
+        {
+          "name": "Modificar registro",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base}}/registros/{{registro_id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nota\": \"Lluvia ligera\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Borrar una cotización",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{base}}/cotizaciones/{{cotizacion_id}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Volver a agregar la cotización",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base}}/cotizaciones",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"registro_id\": \"{{registro_id}}\",\n  \"app\": \"{{cotizacion_app}}\",\n  \"precio\": 101\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 201\", () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set(\"cotizacion_extra\", pm.response.json().id);"
+                ]
+              }
+            }
+          ]
         }
       ]
     },
@@ -607,6 +768,53 @@
             "method": "GET",
             "header": [],
             "url": "{{base}}/consultas"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ver una consulta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base}}/consultas/{{consulta_id}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Modificar consulta",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base}}/consultas/{{consulta_id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"precio_visto\": 140\n}"
+            }
           },
           "event": [
             {
@@ -855,6 +1063,25 @@
             "method": "GET",
             "header": [],
             "url": "{{base}}/precios-reportados"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ver el precio reportado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base}}/precios-reportados/{{precio_id}}"
           },
           "event": [
             {

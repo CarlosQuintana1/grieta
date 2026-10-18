@@ -12,124 +12,128 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Grieta">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <link rel="stylesheet" href="estilos.css">
 </head>
-<body>
-  <a class="saltar" href="#hoja">Ir a las opciones</a>
+<body data-pantalla="inicio">
+  <header class="barra">
+    <img src="logo.png" alt="Grieta" class="logo">
+    <button id="abrirAcc" type="button" class="barra-boton">Accesibilidad</button>
+  </header>
+
   <div id="mapa" aria-hidden="true"></div>
-  <img class="logo" src="logo.png" alt="Grieta" aria-hidden="true">
-  <button id="abrirAcc" class="flotante acc" type="button" aria-label="Opciones de accesibilidad">Aa</button>
-  <button id="centrar" class="flotante" type="button" aria-label="Ir a mi ubicación">
-    <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="3.5" fill="currentColor"/><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
-  </button>
 
-  <main id="hoja" tabindex="-1">
-    <h1 class="oculto">Grieta</h1>
-
-    <div id="accesibilidad" hidden role="dialog" aria-labelledby="tituloAcc">
-      <div class="fila"><h2 id="tituloAcc">Accesibilidad</h2><button id="cerrarAcc" type="button" class="enlace">Listo</button></div>
-      <label class="interruptor"><input type="checkbox" id="optGrande"> Letra grande</label>
-      <label class="interruptor"><input type="checkbox" id="optContraste"> Alto contraste</label>
-      <label class="interruptor"><input type="checkbox" id="optVoz" checked> Avisos por voz</label>
-      <label class="interruptor"><input type="checkbox" id="optLenta"> Voz más lenta</label>
-      <label class="interruptor"><input type="checkbox" id="optCamino"> Camino poco (paradas a menos de 300 m)</label>
-      <p class="tenue">Si usas VoiceOver o TalkBack, puedes apagar los avisos por voz de Grieta para que no se encimen.</p>
-    </div>
-    <div id="buscar">
-      <label class="campo"><span>Desde</span><input id="desde" autocomplete="off" placeholder="¿Dónde estás?"></label>
-      <label class="campo"><span>Hacia</span><input id="hacia" autocomplete="off" placeholder="¿A dónde vas?">
+  <main id="contenido">
+    <section id="inicio" class="pantalla" aria-labelledby="tituloInicio">
+      <h1 id="tituloInicio" tabindex="-1">¿A dónde vas?</h1>
+      <div class="buscador">
+        <label for="hacia" class="oculto">Destino</label>
+        <input id="hacia" autocomplete="off" placeholder="Escribe un lugar o una calle" enterkeyhint="search">
         <button id="dictar" type="button" class="mic" aria-label="Dictar el destino" hidden>
-          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>
-        </button></label>
-      <div class="dos">
-        <button id="pasanAqui" type="button" class="boton-linea" hidden>¿Qué camión pasa aquí?</button>
-        <button id="dondeEstoy" type="button" class="boton-linea">¿Dónde estoy?</button>
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+        </button>
       </div>
-      <div id="paradas" hidden></div>
-      <p id="estado" class="tenue" role="status"></p>
-      <ul id="sugerencias"></ul>
-    </div>
+      <p class="desde"><span id="desdeTexto">Buscando tu ubicación...</span> <button id="cambiarDesde" type="button" class="enlace">Cambiar</button></p>
+      <div id="buscaDesde" class="buscador chico" hidden>
+        <label for="desde" class="oculto">Desde dónde sales</label>
+        <input id="desde" autocomplete="off" placeholder="¿Desde dónde sales?">
+      </div>
+      <p id="estado" class="nota" role="status"></p>
+      <ul id="sugerencias" class="lista" aria-label="Lugares"></ul>
 
-    <div id="guia" hidden>
-      <p class="tenue" id="guiaEtapa"></p>
-      <p class="guia-titulo" id="guiaTitulo" aria-live="assertive"></p>
-      <p id="guiaDetalle" aria-live="polite"></p>
-      <div class="guia-botones">
-        <button id="yaMeSubi" type="button" class="boton" hidden>Ya me subí</button>
+      <div id="atajos" class="atajos">
+        <button id="pasanAqui" type="button" class="atajo">
+          <strong>¿Qué camión pasa aquí?</strong><span>Líneas y horarios de la parada más cercana</span>
+        </button>
+        <button id="dondeEstoy" type="button" class="atajo">
+          <strong>¿Dónde estoy?</strong><span>Tu calle y la parada más cercana</span>
+        </button>
+      </div>
+      <div id="respuesta" aria-live="polite"></div>
+    </section>
+
+    <section id="opciones" class="pantalla" aria-labelledby="tituloOpciones" hidden>
+      <button type="button" class="atras" data-ir="inicio">Cambiar destino</button>
+      <h1 id="tituloOpciones" tabindex="-1"></h1>
+      <p class="nota" id="resumenRuta"></p>
+      <h2>Cómo llegar</h2>
+      <div id="tarjetas" class="tarjetas"></div>
+
+      <div class="plegable">
+        <button id="abrirEspera" type="button" aria-expanded="false" aria-controls="espera">
+          <span>¿Conviene esperar?</span><span id="respuestaEspera" class="nota"></span>
+        </button>
+        <div id="espera" hidden>
+          <div id="horas" class="horas" role="group" aria-label="Precio según la hora de salida"></div>
+          <div id="otraHora" class="otra" hidden>
+            <label>Día
+              <select id="dia">
+                <option value="0">Lunes</option><option value="1">Martes</option><option value="2">Miércoles</option>
+                <option value="3">Jueves</option><option value="4">Viernes</option><option value="5">Sábado</option>
+                <option value="6">Domingo</option>
+              </select>
+            </label>
+            <label>Hora <input id="hora" type="time"></label>
+          </div>
+          <p id="mejorHora" class="nota"></p>
+        </div>
+      </div>
+      <p class="nota pie" id="info"></p>
+    </section>
+
+    <section id="detalle" class="pantalla" aria-labelledby="tituloDetalle" hidden>
+      <button type="button" class="atras" data-ir="opciones">Otras opciones</button>
+      <h1 id="tituloDetalle" tabindex="-1"></h1>
+      <p class="cifra-linea"><span id="detallePrecio" class="cifra"></span> <span id="detalleLlegada"></span></p>
+      <ol id="pasos" class="pasos"></ol>
+      <button id="empezar" type="button" class="boton"></button>
+      <button id="escuchar" type="button" class="boton-linea">Escuchar los pasos</button>
+
+      <div id="bloqueApp" hidden>
+        <h2>Precio en cada app</h2>
+        <div id="apps"></div>
+        <h2>¿Cuánto te marca la app?</h2>
+        <p class="nota">Escríbelo y te digo si conviene pedirlo, esperar o irte en camión.</p>
+        <div class="elige" id="appVista" role="group" aria-label="App que abriste">
+          <button type="button" data-v="uber" aria-pressed="false">Uber</button>
+          <button type="button" data-v="didi" aria-pressed="false">DiDi</button>
+          <button type="button" data-v="indrive" aria-pressed="false">inDrive</button>
+        </div>
+        <label for="precio" class="oculto">Precio que te marca</label>
+        <input id="precio" type="number" inputmode="decimal" placeholder="$ 0" class="precio-campo">
+        <div class="elige" id="prisa" role="group" aria-label="Qué tanta prisa tienes">
+          <button type="button" data-v="5" aria-pressed="false">Tengo prisa</button>
+          <button type="button" data-v="20" aria-pressed="true">Normal</button>
+          <button type="button" data-v="45" aria-pressed="false">Sin prisa</button>
+        </div>
+        <div id="veredicto" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="guia" class="pantalla" aria-labelledby="guiaTitulo" hidden>
+      <p class="nota" id="guiaEtapa"></p>
+      <h1 id="guiaTitulo" class="guia-titulo" tabindex="-1" aria-live="assertive"></h1>
+      <p id="guiaDetalle" class="guia-detalle" aria-live="polite"></p>
+      <button id="yaMeSubi" type="button" class="boton" hidden>Ya me subí</button>
+      <div class="dos">
         <button id="repetir" type="button" class="boton-linea">Repetir</button>
         <button id="dondeGuia" type="button" class="boton-linea">¿Dónde estoy?</button>
-        <button id="compartir" type="button" class="boton-linea">Compartir mi viaje</button>
-        <button id="terminar" type="button" class="boton-linea">Terminar</button>
       </div>
-      <p class="tenue" id="guiaNota">Deja la pantalla encendida: así Grieta sigue tu ubicación.</p>
-    </div>
+      <button id="compartir" type="button" class="boton-linea">Compartir mi viaje</button>
+      <button id="terminar" type="button" class="boton-linea">Terminar viaje</button>
+      <p class="nota">Deja la pantalla encendida: así Grieta sigue tu ubicación.</p>
+    </section>
 
-    <div id="viaje" hidden>
-      <div class="ruta">
-        <p class="tenue" id="nombreDesde"></p>
-        <div class="fila">
-          <p class="destino" id="nombreHacia"></p>
-          <button id="cambiar" type="button" class="enlace">Cambiar</button>
-        </div>
-      </div>
-
-      <div class="principal">
-        <p class="tenue" id="cuandoTexto">Más barato ahorita</p>
-        <div class="fila">
-          <span id="appBarata"></span>
-          <span class="cifra" id="precioBarato"></span>
-        </div>
-        <p class="tenue" id="km"></p>
-        <button id="avisarLlegada" type="button" class="boton-linea">Avísame cuando esté por llegar</button>
-      </div>
-
-      <section>
-        <h2>¿Ahora o después?</h2>
-        <div id="horas" class="horas"></div>
-        <div id="otraHora" class="otra" hidden>
-          <select id="dia">
-            <option value="0">Lunes</option><option value="1">Martes</option><option value="2">Miércoles</option>
-            <option value="3">Jueves</option><option value="4">Viernes</option><option value="5">Sábado</option>
-            <option value="6">Domingo</option>
-          </select>
-          <input id="hora" type="time">
-        </div>
-        <p id="esperar"></p>
-        <p id="mejorHora" class="tenue"></p>
-      </section>
-
-      <section>
-        <h2>Apps</h2>
-        <div id="apps"></div>
-      </section>
-
-      <section>
-        <h2>Qrobus</h2>
-        <div id="camiones"></div>
-      </section>
-
-      <section>
-        <h2>¿Te marca otro precio?</h2>
-        <div class="chips" id="appVista">
-          <button type="button" data-v="uber">Uber</button>
-          <button type="button" data-v="didi">DiDi</button>
-          <button type="button" data-v="indrive">inDrive</button>
-        </div>
-        <div id="ajustes" hidden>
-          <input id="precio" type="number" inputmode="decimal" placeholder="$">
-          <div class="chips" id="prisa">
-            <button type="button" data-v="5">Con prisa</button>
-            <button type="button" data-v="20" class="activo">Normal</button>
-            <button type="button" data-v="45">Sin prisa</button>
-          </div>
-        </div>
-        <div id="veredicto"></div>
-      </section>
-
-      <p class="tenue pie" id="info"></p>
-    </div>
+    <section id="ajustes" class="pantalla" aria-labelledby="tituloAcc" hidden>
+      <button type="button" class="atras" id="cerrarAcc">Volver</button>
+      <h1 id="tituloAcc" tabindex="-1">Accesibilidad</h1>
+      <label class="interruptor"><span><strong>Letra grande</strong></span><input type="checkbox" id="optGrande"></label>
+      <label class="interruptor"><span><strong>Alto contraste</strong></span><input type="checkbox" id="optContraste"></label>
+      <label class="interruptor"><span><strong>Avisos por voz</strong><small>Apágalo si ya usas VoiceOver o TalkBack</small></span><input type="checkbox" id="optVoz" checked></label>
+      <label class="interruptor"><span><strong>Voz más lenta</strong></span><input type="checkbox" id="optLenta"></label>
+      <label class="interruptor"><span><strong>Caminar poco</strong><small>Solo paradas a menos de 300 metros</small></span><input type="checkbox" id="optCamino"></label>
+    </section>
   </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>

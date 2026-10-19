@@ -4,7 +4,7 @@ Página para probar el modelo como una app de viajes, con aspecto de app móvil:
 cuatro pestañas (Inicio, Mis viajes, Reportar, Ajustes). La primera vez muestra una bienvenida de tres pasos;
 se puede volver a ver desde Ajustes. Mis viajes guarda en el teléfono los últimos viajes iniciados para repetirlos.
 
-La lógica no cambió: Va por pantallas, una pregunta a la vez:
+La lógica no cambió: va por pantallas, una pregunta a la vez:
 ¿a dónde vas?, los caminos posibles (recomendado, más rápido, más barato) con la hora de llegada, el
 detalle paso a paso de uno y la guía durante el viaje. Si el camino es en app, el detalle muestra el
 precio en cada una y, si escribes lo que te marca, dice si conviene pedirlo, esperar o irte en camión.

@@ -12,74 +12,141 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Grieta">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <link rel="stylesheet" href="estilos.css">
 </head>
 <body data-pantalla="inicio">
-  <header class="barra">
-    <img src="logo.png" alt="Grieta" class="logo">
-    <button id="abrirAcc" type="button" class="barra-boton">Accesibilidad</button>
+  <svg width="0" height="0" class="oculto" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-casa" viewBox="0 0 24 24"><path d="M3 11 12 4l9 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5h4v5"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+      <symbol id="i-camion" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="14" rx="3"/><path d="M4 11h16M8 17v3M16 17v3"/><circle cx="8" cy="14" r=".6"/><circle cx="16" cy="14" r=".6"/></symbol>
+      <symbol id="i-auto" viewBox="0 0 24 24"><path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v3H3zM5 11h14"/><path d="M6 19v2M18 19v2"/></symbol>
+      <symbol id="i-ruta" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H16a3 3 0 0 0 0-6H8a3 3 0 0 1 0-6h7.5"/></symbol>
+      <symbol id="i-localizar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></symbol>
+      <symbol id="i-compartir" viewBox="0 0 24 24"><path d="M12 15V3M7.5 7.5 12 3l4.5 4.5"/><path d="M5 12v8h14v-8"/></symbol>
+      <symbol id="i-repetir" viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 13.7-5.6L20 9"/><path d="M20 4v5h-5"/><path d="M20 12a8 8 0 0 1-13.7 5.6L4 15"/><path d="M4 20v-5h5"/></symbol>
+      <symbol id="i-altavoz" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></symbol>
+      <symbol id="i-microfono" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></symbol>
+      <symbol id="i-camara" viewBox="0 0 24 24"><path d="M3 8h4l2-3h6l2 3h4v11H3z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+      <symbol id="i-alerta" viewBox="0 0 24 24"><path d="M12 3 2 20h20z"/><path d="M12 10v4.5M12 17v.5"/></symbol>
+      <symbol id="i-engrane" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/><circle cx="12" cy="12" r="6.5"/></symbol>
+      <symbol id="i-reloj" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+      <symbol id="i-lupa" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></symbol>
+      <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+      <symbol id="i-atras" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></symbol>
+      <symbol id="i-palomita" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    </defs>
+  </svg>
+
+  <header id="encabezado" class="encabezado" hidden>
+    <button id="atras" type="button" class="icono-boton" aria-label="Regresar"><svg class="icono"><use href="#i-atras"/></svg></button>
+    <h1 id="tituloPantalla" tabindex="-1"></h1>
+    <span class="icono-boton" aria-hidden="true"></span>
   </header>
 
   <div id="mapa" aria-hidden="true"></div>
 
-  <main id="contenido">
-    <section id="inicio" class="pantalla" aria-labelledby="tituloInicio">
-      <h1 id="tituloInicio" tabindex="-1">¿A dónde vas?</h1>
-      <div class="buscador">
-        <label for="hacia" class="oculto">Destino</label>
-        <input id="hacia" autocomplete="off" placeholder="Escribe un lugar o una calle" enterkeyhint="search">
-        <button id="dictar" type="button" class="mic" aria-label="Dictar el destino" hidden>
-          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
-        </button>
-      </div>
-      <div id="guardados" class="guardados" hidden></div>
-      <p class="desde"><span id="desdeTexto">Buscando tu ubicación...</span> <button id="cambiarDesde" type="button" class="enlace">Cambiar</button></p>
-      <div id="buscaDesde" class="buscador chico" hidden>
-        <label for="desde" class="oculto">Desde dónde sales</label>
-        <input id="desde" autocomplete="off" placeholder="¿Desde dónde sales?">
-      </div>
-      <p id="estado" class="nota" role="status"></p>
-      <ul id="sugerencias" class="lista" aria-label="Lugares"></ul>
+  <main id="hoja" class="hoja">
+    <span class="agarradera" aria-hidden="true"></span>
+    <p id="estado" class="estado" role="status"></p>
 
-      <div id="atajos" class="atajos">
-        <button id="pasanAqui" type="button" class="atajo">
-          <strong>¿Qué camión pasa aquí?</strong><span>Líneas y horarios de la parada más cercana</span>
+    <section id="bienvenida" class="pantalla" aria-labelledby="tituloBienvenida" hidden>
+      <div class="puntos" aria-hidden="true"><span></span><span></span><span></span></div>
+      <p id="pasoBienvenida" class="etiqueta">PASO 1 DE 3</p>
+      <div data-paso="1">
+        <img src="logo.png" alt="" class="logo-grande">
+        <h1 id="tituloBienvenida" tabindex="-1">Llega a donde vas sin adivinar</h1>
+        <p class="texto">Grieta te dice cómo llegar en Qrobus o en app, cuánto debería costar y si conviene esperar.</p>
+        <p class="texto">Durante el viaje te avisa con voz y vibración cuándo pasa tu camión y cuándo bajarte.</p>
+      </div>
+      <div data-paso="2" hidden>
+        <h1 tabindex="-1">Dos permisos para ayudarte mejor</h1>
+        <p class="texto">Los dos son opcionales y puedes darlos después.</p>
+        <button id="permisoUbicacion" type="button" class="opcion-tarjeta">
+          <svg class="icono ambar"><use href="#i-localizar"/></svg>
+          <span><strong>Ubicación</strong><small id="estadoUbicacion">Para saber desde dónde sales y avisarte en el camino</small></span>
         </button>
-        <button id="dondeEstoy" type="button" class="atajo">
-          <strong>¿Dónde estoy?</strong><span>Tu calle y la parada más cercana</span>
-        </button>
-        <button id="abrirReporte" type="button" class="atajo">
-          <strong>Reportar un problema aquí</strong><span>Banqueta rota, parada sin rampa o una referencia para encontrarla</span>
+        <button id="permisoMicrofono" type="button" class="opcion-tarjeta">
+          <svg class="icono ambar"><use href="#i-microfono"/></svg>
+          <span><strong>Micrófono</strong><small id="estadoMicrofono">Para dictar a dónde vas</small></span>
         </button>
       </div>
-      <div id="respuesta" aria-live="polite"></div>
+      <div data-paso="3" hidden>
+        <h1 tabindex="-1" id="tituloModo">¿Cómo prefieres usarla?</h1>
+        <div id="modoUso" class="opciones-modo" role="radiogroup" aria-labelledby="tituloModo">
+          <button type="button" role="radio" aria-checked="true" data-v="vista" class="opcion-tarjeta">
+            <span><strong>Con la vista</strong><small>Tamaño de texto normal</small></span><span class="radio" aria-hidden="true"></span>
+          </button>
+          <button type="button" role="radio" aria-checked="false" data-v="voz" class="opcion-tarjeta" tabindex="-1">
+            <span><strong>Con voz</strong><small>Compatible con VoiceOver y TalkBack</small></span><span class="radio" aria-hidden="true"></span>
+          </button>
+          <button type="button" role="radio" aria-checked="false" data-v="grande" class="opcion-tarjeta" tabindex="-1">
+            <span><strong>Con letra grande</strong><small>Texto y controles más grandes</small></span><span class="radio" aria-hidden="true"></span>
+          </button>
+        </div>
+        <p class="nota">Lo puedes cambiar cuando quieras en Ajustes.</p>
+      </div>
+      <button id="siguientePaso" type="button" class="boton abajo">Siguiente</button>
     </section>
 
-    <section id="opciones" class="pantalla" aria-labelledby="tituloOpciones" hidden>
-      <button type="button" class="atras" data-ir="inicio">Cambiar destino</button>
-      <h1 id="tituloOpciones" tabindex="-1"></h1>
-      <p class="nota" id="resumenRuta"></p>
-      <div class="guardar">
-        <button id="guardarLugar" type="button" class="enlace">Guardar este lugar</button>
-        <div id="nombresLugar" class="elige" role="group" aria-label="Guardar como" hidden>
-          <button type="button" data-v="Casa">Casa</button>
-          <button type="button" data-v="Escuela">Escuela</button>
-          <button type="button" data-v="Trabajo">Trabajo</button>
-        </div>
+    <section id="inicio" class="pantalla" aria-labelledby="tituloInicio">
+      <h1 id="tituloInicio" class="titulo-grande" tabindex="-1">¿A dónde vas?</h1>
+      <div class="buscador">
+        <svg class="icono tenue"><use href="#i-lupa"/></svg>
+        <button id="abrirBuscar" type="button" class="buscador-campo">Busca un lugar o una calle</button>
+        <button type="button" class="mic dictar" aria-label="Dictar a dónde vas" hidden><svg class="icono"><use href="#i-microfono"/></svg></button>
       </div>
-      <h2>Cómo llegar</h2>
+      <div id="guardados" class="chips" aria-label="Lugares guardados" role="group" hidden></div>
+      <div class="atajos">
+        <button id="pasanAqui" type="button" class="atajo">
+          <svg class="icono ambar"><use href="#i-camion"/></svg>
+          <strong>¿Qué camión pasa aquí?</strong>
+        </button>
+        <button id="dondeEstoy" type="button" class="atajo">
+          <svg class="icono ambar"><use href="#i-localizar"/></svg>
+          <strong>¿Dónde estoy?</strong>
+        </button>
+      </div>
+      <div id="respuesta" class="respuesta" aria-live="polite"></div>
+      <p class="desde"><span id="desdeTexto">Buscando tu ubicación...</span> · <button id="cambiarDesde" type="button" class="enlace">Cambiar</button></p>
+    </section>
+
+    <section id="buscar" class="pantalla" aria-labelledby="tituloPantalla" hidden>
+      <div class="buscador">
+        <svg class="icono tenue"><use href="#i-lupa"/></svg>
+        <label for="campoBuscar" class="oculto">Lugar o calle</label>
+        <input id="campoBuscar" type="search" autocomplete="off" placeholder="Escribe un lugar o una calle" enterkeyhint="search">
+        <button type="button" class="mic dictar" aria-label="Dictar el lugar" hidden><svg class="icono"><use href="#i-microfono"/></svg></button>
+      </div>
+      <h2 id="tituloResultados">Resultados cerca de ti</h2>
+      <ul id="resultados" class="filas" aria-labelledby="tituloResultados"></ul>
+      <div id="bloqueRecientes" hidden>
+        <h2 id="tituloRecientes">Búsquedas recientes</h2>
+        <ul id="recientes" class="filas" aria-labelledby="tituloRecientes"></ul>
+      </div>
+    </section>
+
+    <section id="opciones" class="pantalla" aria-labelledby="tituloPantalla" hidden>
+      <div class="cabeza-opciones">
+        <div>
+          <p id="cuantasOpciones" class="etiqueta tenue"></p>
+          <h2 class="titulo-seccion">Cómo llegar</h2>
+        </div>
+        <p id="llegasDesde" class="llegas"></p>
+      </div>
+      <p class="nota" id="resumenRuta"></p>
       <div id="tarjetas" class="tarjetas"></div>
 
-      <label class="interruptor chico" id="filaUnidos"><span><strong>Pago Tarifa Unidos</strong><small>El camión te cuesta $2 y el transbordo es gratis</small></span><input type="checkbox" id="optUnidos2"></label>
-
       <div class="plegable">
-        <button id="abrirEspera" type="button" aria-expanded="false" aria-controls="espera">
-          <span>¿Conviene esperar?</span><span id="respuestaEspera" class="nota"></span>
+        <button id="abrirEspera" type="button" class="fila-espera" aria-expanded="false" aria-controls="espera">
+          <span><span class="etiqueta tenue">¿Conviene esperar?</span><strong id="respuestaEspera"></strong></span>
+          <svg class="icono chevron"><use href="#i-chevron"/></svg>
         </button>
         <div id="espera" hidden>
-          <div id="horas" class="horas" role="group" aria-label="Precio según la hora de salida"></div>
+          <div id="horas" class="horas" role="group" aria-label="Precio en app según la hora de salida"></div>
           <div id="otraHora" class="otra" hidden>
             <label>Día
               <select id="dia">
@@ -93,90 +160,144 @@
           <p id="mejorHora" class="nota"></p>
         </div>
       </div>
+
+      <label class="interruptor" id="filaUnidos"><span><strong>Pago Tarifa Unidos</strong><small>El camión te cuesta $2 y el transbordo es gratis</small></span><input type="checkbox" role="switch" id="optUnidos2"></label>
+
+      <div class="guardar">
+        <button id="guardarLugar" type="button" class="enlace" aria-expanded="false" aria-controls="nombresLugar">Guardar este lugar</button>
+        <div id="nombresLugar" class="chips" role="group" aria-label="Guardar como" hidden>
+          <button type="button" class="chip" data-v="Casa">Casa</button>
+          <button type="button" class="chip" data-v="Escuela">Escuela</button>
+          <button type="button" class="chip" data-v="Trabajo">Trabajo</button>
+        </div>
+      </div>
       <p class="nota pie" id="info"></p>
     </section>
 
-    <section id="detalle" class="pantalla" aria-labelledby="tituloDetalle" hidden>
-      <button type="button" class="atras" data-ir="opciones">Otras opciones</button>
-      <h1 id="tituloDetalle" tabindex="-1"></h1>
-      <p class="cifra-linea"><span id="detallePrecio" class="cifra"></span> <span id="detalleLlegada"></span></p>
-      <ol id="pasos" class="pasos"></ol>
-      <button id="empezar" type="button" class="boton"></button>
-      <button id="escuchar" type="button" class="boton-linea">Escuchar los pasos</button>
+    <section id="detalle" class="pantalla" aria-labelledby="tituloPantalla" hidden>
+      <div id="bloqueCamion">
+        <div class="cabeza-detalle">
+          <div>
+            <p id="detalleEtiqueta" class="etiqueta"></p>
+            <p id="detalleCifra" class="cifra"></p>
+          </div>
+          <p id="detalleLlegada" class="llegas"></p>
+        </div>
+        <ol id="pasos" class="pasos"></ol>
+        <button id="empezar" type="button" class="boton"><svg class="icono"><use href="#i-play"/></svg>Empezar con avisos</button>
+        <button id="escuchar" type="button" class="boton oscuro"><svg class="icono"><use href="#i-altavoz"/></svg>Escuchar los pasos</button>
+      </div>
 
       <div id="bloqueApp" hidden>
-        <h2>Precio en cada app</h2>
-        <div id="apps"></div>
+        <p id="appEtiqueta" class="etiqueta">Precio esperado ahora</p>
+        <p id="appCifra" class="cifra"></p>
+        <p id="appRango" class="nota"></p>
+        <ul id="apps" class="filas-app"></ul>
+        <a id="abrirUber" class="boton" target="_blank" rel="noopener"><svg class="icono"><use href="#i-auto"/></svg>Abrir Uber</a>
+        <button id="avisarLlegada" type="button" class="boton oscuro"><svg class="icono"><use href="#i-altavoz"/></svg>Avísame cuando esté llegando</button>
+
         <h2>¿Cuánto te marca la app?</h2>
-        <p class="nota">Escríbelo y te digo si conviene pedirlo, esperar o irte en camión.</p>
-        <div class="elige" id="appVista" role="group" aria-label="App que abriste">
-          <button type="button" data-v="uber" aria-pressed="false">Uber</button>
-          <button type="button" data-v="didi" aria-pressed="false">DiDi</button>
-          <button type="button" data-v="indrive" aria-pressed="false">inDrive</button>
+        <div class="dos-campos">
+          <label class="campo"><span>App</span>
+            <select id="appVista">
+              <option value="">Elige</option><option value="uber">Uber</option><option value="didi">DiDi</option><option value="indrive">inDrive</option>
+            </select>
+          </label>
+          <label class="campo"><span>Precio</span>
+            <input id="precio" type="number" inputmode="decimal" placeholder="$ 0" min="0">
+          </label>
         </div>
-        <label for="precio" class="oculto">Precio que te marca</label>
-        <input id="precio" type="number" inputmode="decimal" placeholder="$ 0" class="precio-campo">
-        <div class="elige" id="prisa" role="group" aria-label="Qué tanta prisa tienes">
+        <div id="prisa" class="segmentado" role="group" aria-label="Qué tanta prisa tienes">
           <button type="button" data-v="5" aria-pressed="false">Tengo prisa</button>
           <button type="button" data-v="20" aria-pressed="true">Normal</button>
           <button type="button" data-v="45" aria-pressed="false">Sin prisa</button>
         </div>
         <div id="veredicto" aria-live="polite"></div>
-        <button id="enviarPrecio" type="button" class="boton-linea" hidden>Enviar este precio a Grieta</button>
+        <button id="enviarPrecio" type="button" class="boton oscuro" hidden>Enviar este precio a Grieta</button>
         <p id="gracias" class="nota" role="status"></p>
       </div>
     </section>
 
     <section id="guia" class="pantalla" aria-labelledby="guiaTitulo" hidden>
-      <p class="nota" id="guiaEtapa"></p>
-      <h1 id="guiaTitulo" class="guia-titulo" tabindex="-1" aria-live="assertive"></h1>
-      <p id="guiaDetalle" class="guia-detalle" aria-live="polite"></p>
-      <button id="yaMeSubi" type="button" class="boton" hidden>Ya me subí</button>
-      <div class="dos">
-        <button id="repetir" type="button" class="boton-linea">Repetir</button>
-        <button id="dondeGuia" type="button" class="boton-linea">¿Dónde estoy?</button>
+      <div class="guia-barra">
+        <img src="logo.png" alt="Grieta" class="logo">
+        <span class="pildora">Según horario</span>
       </div>
-      <button id="compartir" type="button" class="boton-linea">Compartir mi viaje</button>
-      <button id="terminar" type="button" class="boton-linea">Terminar viaje</button>
-      <p class="nota">Deja la pantalla encendida: así Grieta sigue tu ubicación.</p>
+      <p id="guiaEtapa" class="etiqueta"></p>
+      <h1 id="guiaTitulo" class="guia-titulo" tabindex="-1" aria-live="assertive"></h1>
+      <p id="guiaBaja" class="guia-baja" hidden></p>
+      <div id="barraParadas" class="barra-paradas" role="progressbar" aria-valuemin="0" hidden></div>
+      <p id="guiaDetalle" class="guia-detalle" aria-live="polite"></p>
+      <button id="yaMeSubi" type="button" class="boton oscuro" hidden>Ya me subí</button>
+      <div class="guia-acciones">
+        <button id="repetir" type="button" class="boton"><svg class="icono"><use href="#i-repetir"/></svg>Repetir</button>
+        <div class="dos">
+          <button id="dondeGuia" type="button" class="cuadro"><svg class="icono"><use href="#i-localizar"/></svg>¿Dónde estoy?</button>
+          <button id="compartir" type="button" class="cuadro"><svg class="icono"><use href="#i-compartir"/></svg>Compartir mi viaje</button>
+        </div>
+        <button id="terminar" type="button" class="boton borde">Terminar viaje</button>
+      </div>
+      <p class="nota">Deja la pantalla encendida: así Grieta sigue tu ubicación. Las horas del camión salen del horario oficial, no de su ubicación.</p>
+    </section>
+
+    <section id="camiones" class="pantalla" aria-labelledby="tituloPantalla" hidden>
+      <div id="camionesContenido" aria-live="polite"></div>
     </section>
 
     <section id="reporte" class="pantalla" aria-labelledby="tituloReporte" hidden>
-      <button type="button" class="atras" data-ir="inicio">Volver</button>
-      <h1 id="tituloReporte" tabindex="-1">Reportar un problema</h1>
-      <p class="nota" id="reporteDonde">Buscando dónde estás...</p>
-      <h2>¿Qué pasa aquí?</h2>
-      <div id="tipoReporte" class="opciones-lista" role="radiogroup" aria-label="Tipo de reporte">
-        <button type="button" role="radio" aria-checked="false" data-v="banqueta">Banqueta rota o angosta</button>
-        <button type="button" role="radio" aria-checked="false" data-v="sin_rampa">No hay rampa</button>
-        <button type="button" role="radio" aria-checked="false" data-v="sin_techo">La parada no tiene techo ni banca</button>
-        <button type="button" role="radio" aria-checked="false" data-v="obstaculo">Hay un obstáculo en el camino</button>
-        <button type="button" role="radio" aria-checked="false" data-v="sin_senalizacion">No hay señalización</button>
-        <button type="button" role="radio" aria-checked="false" data-v="referencia">Una referencia para encontrar la parada</button>
-        <button type="button" role="radio" aria-checked="false" data-v="otro">Otra cosa</button>
+      <p id="reporteDonde" class="etiqueta">Buscando dónde estás...</p>
+      <h1 id="tituloReporte" class="titulo-grande" tabindex="-1">¿Qué problema encontraste?</h1>
+      <div id="tipoReporte" class="filas-opcion" role="radiogroup" aria-labelledby="tituloReporte">
+        <button type="button" role="radio" aria-checked="false" data-v="banqueta">Banqueta rota<svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+        <button type="button" role="radio" aria-checked="false" data-v="sin_rampa" tabindex="-1">No hay rampa<svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+        <button type="button" role="radio" aria-checked="false" data-v="sin_techo" tabindex="-1">Parada sin techo<svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+        <button type="button" role="radio" aria-checked="false" data-v="obstaculo" tabindex="-1">Obstáculo<svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+        <button type="button" role="radio" aria-checked="false" data-v="sin_senalizacion" tabindex="-1">Falta señalización<svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+        <button type="button" role="radio" aria-checked="false" data-v="referencia" tabindex="-1">Referencia para encontrar la parada<svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+        <button type="button" role="radio" aria-checked="false" data-v="otro" tabindex="-1">Otra cosa<svg class="icono palomita"><use href="#i-palomita"/></svg></button>
       </div>
-      <label for="descripcion" class="etiqueta-campo">Cuéntalo en pocas palabras</label>
+      <label for="descripcion" class="etiqueta-campo">Cuéntanos un poco más</label>
       <textarea id="descripcion" maxlength="280" rows="3" placeholder="Ejemplo: la parada está frente al OXXO, junto al poste amarillo"></textarea>
-      <label class="boton-linea archivo">Agregar una foto (opcional)<input id="foto" type="file" accept="image/jpeg,image/png,image/webp" capture="environment"></label>
-      <p id="fotoNombre" class="nota"></p>
+      <label class="boton oscuro archivo"><svg class="icono"><use href="#i-camara"/></svg><span id="fotoTexto">Agregar foto</span><input id="foto" type="file" accept="image/jpeg,image/png,image/webp" capture="environment"></label>
       <button id="enviarReporte" type="button" class="boton">Enviar reporte</button>
       <p id="reporteEstado" class="nota" role="status"></p>
     </section>
 
-    <section id="ajustes" class="pantalla" aria-labelledby="tituloAcc" hidden>
-      <button type="button" class="atras" id="cerrarAcc">Volver</button>
-      <h1 id="tituloAcc" tabindex="-1">Accesibilidad</h1>
-      <label class="interruptor"><span><strong>Letra grande</strong></span><input type="checkbox" id="optGrande"></label>
-      <label class="interruptor"><span><strong>Alto contraste</strong></span><input type="checkbox" id="optContraste"></label>
-      <label class="interruptor"><span><strong>Avisos por voz</strong><small>Apágalo si ya usas VoiceOver o TalkBack</small></span><input type="checkbox" id="optVoz" checked></label>
-      <label class="interruptor"><span><strong>Voz más lenta</strong></span><input type="checkbox" id="optLenta"></label>
-      <label class="interruptor"><span><strong>Caminar poco</strong><small>Solo paradas a menos de 300 metros</small></span><input type="checkbox" id="optCamino"></label>
-      <h2>Pasaje</h2>
-      <label class="interruptor"><span><strong>Pago Tarifa Unidos</strong><small>Estudiantes, mayores de 60 y personas con discapacidad: $2 y transbordo gratis</small></span><input type="checkbox" id="optUnidos"></label>
-      <h2>Lugares guardados</h2>
-      <div id="listaGuardados"></div>
+    <section id="ajustes" class="pantalla" aria-labelledby="tituloAjustes" hidden>
+      <h1 id="tituloAjustes" class="titulo-grande" tabindex="-1">Ajustes</h1>
+      <h2>Accesibilidad</h2>
+      <div class="grupo">
+        <label class="interruptor"><span><strong>Letra grande</strong></span><input type="checkbox" role="switch" id="optGrande"></label>
+        <label class="interruptor"><span><strong>Alto contraste</strong></span><input type="checkbox" role="switch" id="optContraste"></label>
+        <label class="interruptor"><span><strong>Avisos por voz</strong><small>Apágalo si ya usas VoiceOver o TalkBack</small></span><input type="checkbox" role="switch" id="optVoz"></label>
+        <label class="interruptor"><span><strong>Voz más lenta</strong></span><input type="checkbox" role="switch" id="optLenta"></label>
+      </div>
+      <h2>Preferencias de viaje</h2>
+      <div class="grupo">
+        <label class="interruptor"><span><strong>Caminar poco</strong><small>Solo paradas a menos de 300 metros</small></span><input type="checkbox" role="switch" id="optCamino"></label>
+        <label class="interruptor"><span><strong>Pago Tarifa Unidos ($2)</strong><small>Estudiantes, mayores de 60 y personas con discapacidad; el transbordo es gratis</small></span><input type="checkbox" role="switch" id="optUnidos"></label>
+      </div>
+      <div class="cabeza-grupo">
+        <h2 id="tituloGuardados">Lugares guardados</h2>
+        <button id="editarGuardados" type="button" class="enlace" aria-pressed="false">Editar</button>
+      </div>
+      <ul id="listaGuardados" class="filas grupo" aria-labelledby="tituloGuardados"></ul>
+      <button id="verBienvenida" type="button" class="enlace">Ver la bienvenida otra vez</button>
+      <p class="nota pie" id="infoAjustes"></p>
+    </section>
+
+    <section id="viajes" class="pantalla" aria-labelledby="tituloViajes" hidden>
+      <h1 id="tituloViajes" class="titulo-grande" tabindex="-1">Mis viajes</h1>
+      <ul id="listaViajes" class="filas"></ul>
     </section>
   </main>
+
+  <nav id="pestanas" class="pestanas" aria-label="Secciones">
+    <button type="button" data-tab="inicio"><svg class="icono"><use href="#i-casa"/></svg>Inicio</button>
+    <button type="button" data-tab="viajes"><svg class="icono"><use href="#i-ruta"/></svg>Mis viajes</button>
+    <button type="button" data-tab="reporte"><svg class="icono"><use href="#i-alerta"/></svg>Reportar</button>
+    <button type="button" data-tab="ajustes"><svg class="icono"><use href="#i-engrane"/></svg>Ajustes</button>
+  </nav>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/h3-js@4.1.0/dist/h3-js.umd.js"></script>

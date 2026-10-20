@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Grieta API",
-    "description": "Las 20 rutas de la API en http://localhost:3000/api. Antes: npm start en la carpeta del proyecto. Se pueden correr todas en orden con Run collection.",
+    "description": "Las 43 rutas de la API de Grieta desplegada en Azure App Service ({{base}}) y la función serverless cotizar en Azure Functions ({{funcion}}). Se corren todas en orden con Run collection: cada tabla se crea, se consulta, se modifica y se borra, y al final no queda ningún dato de prueba en la base.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [

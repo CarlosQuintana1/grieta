@@ -124,10 +124,12 @@ const Grieta = (() => {
     return salidas.map((x) => x + p.minutos[pos]).find((h) => h >= t && h <= t + ventana);
   }
 
-  function tramoCamion(p, pb, pa, sale) {
+  function tramoCamion(p, pb, pa, sale, servicio) {
     const llega = sale - p.minutos[pb] + p.minutos[pa];
+    // La ultima salida del dia de esa linea desde la parada donde se sube.
+    const ultima = Math.max(...(p.salidas[servicio] ?? [sale - p.minutos[pb]])) + p.minutos[pb];
     return {
-      tipo: "camion", linea: p.linea, hacia: p.hacia, sale, llega, paradas: pa - pb, baja: nombreParada(p.paradas[pa]),
+      tipo: "camion", linea: p.linea, hacia: p.hacia, sale, llega, ultima, paradas: pa - pb, baja: nombreParada(p.paradas[pa]),
       recorrido: p.paradas.slice(pb, pa + 1).map((k) => ({ nombre: nombreParada(k), lat: qrobus.paradas[k][0], lon: qrobus.paradas[k][1] })),
     };
   }
@@ -187,7 +189,7 @@ const Grieta = (() => {
           const previa = llegada1.get(parada);
           if (!previa || llega + s.costo / 10 < previa.llega + previa.s.costo / 10) llegada1.set(parada, { llega, p, pb, pa, sb, s, sale });
           const b = baja.get(parada);
-          if (b) quedarse(armar(ctx, o, d, s, sb, [tramoCamion(p, pb, pa, sale)], b, parada, tarifa), `${s.modo}+${b.modo}`);
+          if (b) quedarse(armar(ctx, o, d, s, sb, [tramoCamion(p, pb, pa, sale, ctx.servicio)], b, parada, tarifa), `${s.modo}+${b.modo}`);
         }
       });
     });
@@ -212,8 +214,8 @@ const Grieta = (() => {
           const b = baja.get(q.paradas[qa]);
           if (!b) continue;
           const f = cambio.primero;
-          const segundo = { ...tramoCamion(q, qb, qa, sale), caminar: Math.max(1, Math.round(cambio.caminar)) };
-          quedarse(armar(ctx, o, d, f.s, f.sb, [tramoCamion(f.p, f.pb, f.pa, f.sale), segundo], b, q.paradas[qa], tarifa), `2:${f.s.modo}+${b.modo}`);
+          const segundo = { ...tramoCamion(q, qb, qa, sale, ctx.servicio), caminar: Math.max(1, Math.round(cambio.caminar)) };
+          quedarse(armar(ctx, o, d, f.s, f.sb, [tramoCamion(f.p, f.pb, f.pa, f.sale, ctx.servicio), segundo], b, q.paradas[qa], tarifa), `2:${f.s.modo}+${b.modo}`);
         }
       });
     });

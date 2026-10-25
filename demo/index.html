@@ -93,6 +93,7 @@
     </section>
 
     <section id="inicio" class="pantalla" aria-labelledby="tituloInicio">
+      <button id="llevameCasa" type="button" class="boton casa" hidden><svg class="icono"><use href="#i-casa"/></svg>Llévame a casa</button>
       <h1 id="tituloInicio" class="titulo-grande" tabindex="-1">¿A dónde vas?</h1>
       <div class="buscador">
         <svg class="icono tenue"><use href="#i-lupa"/></svg>
@@ -138,6 +139,7 @@
         <p id="llegasDesde" class="llegas"></p>
       </div>
       <p class="nota" id="resumenRuta"></p>
+      <div id="ultimoCamion" class="aviso cuidado" role="status" hidden></div>
       <div id="tarjetas" class="tarjetas"></div>
 
       <div class="plegable">
@@ -235,10 +237,19 @@
           <button id="dondeGuia" type="button" class="cuadro"><svg class="icono"><use href="#i-localizar"/></svg>¿Dónde estoy?</button>
           <button id="compartir" type="button" class="cuadro"><svg class="icono"><use href="#i-compartir"/></svg>Compartir mi viaje</button>
         </div>
+        <button id="avisarChofer" type="button" class="boton oscuro">Avisar al chofer</button>
         <button id="terminar" type="button" class="boton borde">Terminar viaje</button>
       </div>
       <p class="nota">Deja la pantalla encendida: así Grieta sigue tu ubicación. Las horas del camión salen del horario oficial, no de su ubicación.</p>
     </section>
+
+    <div id="chofer" class="chofer" role="dialog" aria-modal="true" aria-labelledby="choferDestino" hidden>
+      <p id="choferLinea" class="chofer-linea"></p>
+      <p id="choferDestino" class="chofer-destino" tabindex="-1"></p>
+      <p class="chofer-pide">¿Me avisa cuando lleguemos, por favor?</p>
+      <button id="choferVoz" type="button" class="boton negro">Decirlo en voz alta</button>
+      <button id="choferCerrar" type="button" class="boton borde-negro">Cerrar</button>
+    </div>
 
     <section id="camiones" class="pantalla" aria-labelledby="tituloPantalla" hidden>
       <div id="camionesContenido" aria-live="polite"></div>
@@ -269,6 +280,7 @@
       <div class="grupo">
         <label class="interruptor"><span><strong>Letra grande</strong></span><input type="checkbox" role="switch" id="optGrande"></label>
         <label class="interruptor"><span><strong>Alto contraste</strong></span><input type="checkbox" role="switch" id="optContraste"></label>
+        <label class="interruptor"><span><strong>Colores para daltonismo</strong><small>Azul y naranja en vez de ámbar y rojo</small></span><input type="checkbox" role="switch" id="optDaltonico"></label>
         <label class="interruptor"><span><strong>Avisos por voz</strong><small>Apágalo si ya usas VoiceOver o TalkBack</small></span><input type="checkbox" role="switch" id="optVoz"></label>
         <label class="interruptor"><span><strong>Voz más lenta</strong></span><input type="checkbox" role="switch" id="optLenta"></label>
       </div>

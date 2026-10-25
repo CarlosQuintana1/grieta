@@ -20,6 +20,13 @@ dictar el destino, preguntar dónde estoy (calle y parada más cercana) y compar
 esperas en la parada avisa cinco minutos y un minuto antes de que pase el camión según el horario, y cada
 aviso suena además de vibrar, porque en iPhone el navegador no vibra.
 
+Con Casa guardada, el inicio muestra "Llévame a casa" para ir con un toque. Si el camión de la mejor
+opción es de los últimos del día, avisa a qué hora pasa el último y cuánto costaría la app si se pierde.
+Si lo que te marca una app está muy arriba de lo normal, avisa que está en alta demanda y cuánto
+debería costar otra. Durante el viaje, "Avisar al chofer" pone a dónde vas en letra enorme para
+enseñárselo. En Ajustes hay colores para daltonismo (azul y naranja), y cada recomendación lleva
+su símbolo para no depender solo del color.
+
 Las direcciones se buscan con Photon y la ruta por calle sale de OSRM, los dos sobre OpenStreetMap.
 
 Hace los mismos cálculos que `modelo/tarifa.py`, `camion.py` y `decision.py`, con los datos que

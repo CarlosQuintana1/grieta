@@ -106,6 +106,22 @@ def main():
         return
     print(f"{len(momentos)} momentos en {fuente}")
 
+    # La misma ruta repetida por la misma persona en menos de 15 minutos dice lo mismo: cuenta una vez.
+    ultima, unicos = {}, []
+    for m in sorted(momentos, key=lambda m: m["timestamp"]):
+        if m["sospechosa"]:
+            unicos.append(m)
+            continue
+        t = datetime.fromisoformat(m["timestamp"].replace("Z", "+00:00"))
+        clave = (m["capturado_por"], m["ruta_id"])
+        if clave in ultima and (t - ultima[clave]).total_seconds() < 15 * 60:
+            continue
+        ultima[clave] = t
+        unicos.append(m)
+    if len(unicos) < len(momentos):
+        print(f"  {len(momentos) - len(unicos)} repetidos de la misma ruta en menos de 15 min, se cuentan una vez")
+    momentos = unicos
+
     lugares, medidas = catalogo()
     filas = []
     for m in momentos:

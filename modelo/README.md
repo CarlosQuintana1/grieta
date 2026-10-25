@@ -17,6 +17,7 @@ python3 -m venv .venv
 | `decision.py` | Decide con lógica difusa entre pedir ya, esperar o irse en camión |
 | `exportar_excel.py` | Saca un Excel con los registros y lo predicho contra lo real, con 80/20 por tiempo |
 | `rutas_osrm.py` | Calcula km y minutos sin tráfico de cada ruta con OSRM (`datos/rutas_medidas.json`) |
+| `revisar_capturas.py` | Señala por capturista lo raro: precios fuera de lo normal en esa ruta, la misma ruta repetida en minutos, precios copiados de otra ruta. Correrlo antes de reentrenar |
 | `verificar_rutas.py` | Señala coordenadas sospechosas en el catálogo |
 | `geocodificar.py` | Propone coordenadas para los lugares con Nominatim |
 

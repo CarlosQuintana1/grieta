@@ -6,6 +6,7 @@
 """
 
 import argparse
+import collections
 import json
 import os
 import pathlib
@@ -106,20 +107,24 @@ def main():
         return
     print(f"{len(momentos)} momentos en {fuente}")
 
-    # La misma ruta repetida por la misma persona en menos de 15 minutos dice lo mismo: cuenta una vez.
-    ultima, unicos = {}, []
+    # Repetir la misma ruta en menos de 15 minutos con los mismos precios no dice nada nuevo: cuenta una vez.
+    ultima, unicos, repetidos = {}, [], collections.Counter()
     for m in sorted(momentos, key=lambda m: m["timestamp"]):
         if m["sospechosa"]:
             unicos.append(m)
             continue
         t = datetime.fromisoformat(m["timestamp"].replace("Z", "+00:00"))
         clave = (m["capturado_por"], m["ruta_id"])
-        if clave in ultima and (t - ultima[clave]).total_seconds() < 15 * 60:
-            continue
-        ultima[clave] = t
+        if clave in ultima:
+            t0, previo = ultima[clave]
+            igual = all(abs((m[f"precio_{p}"] or 0) - (previo[f"precio_{p}"] or 0)) <= 2 for p in PLATAFORMAS)
+            if igual and (t - t0).total_seconds() < 15 * 60:
+                repetidos[m["capturado_por"]] += 1
+                continue
+        ultima[clave] = (t, m)
         unicos.append(m)
-    if len(unicos) < len(momentos):
-        print(f"  {len(momentos) - len(unicos)} repetidos de la misma ruta en menos de 15 min, se cuentan una vez")
+    if repetidos:
+        print(f"  repetidos con los mismos precios en menos de 15 min, cuentan una vez: {dict(repetidos)}")
     momentos = unicos
 
     lugares, medidas = catalogo()

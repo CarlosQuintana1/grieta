@@ -8,6 +8,8 @@ const ESPERAS = [0, 15, 30, 60];
 const DIAS = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"];
 const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
 const ACCIONES = { "pedir ya": "Pídelo ya", esperar: "Espera un poco", camion: "Vete en camión" };
+// Cada veredicto lleva su forma, para no depender solo del color.
+const SIMBOLOS = { "pedir ya": "✓", esperar: "!", camion: "✕" };
 
 const escapar = (t) => String(t ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const ico = (nombre, clase = "") => `<svg class="icono ${clase}" aria-hidden="true"><use href="#i-${nombre}"/></svg>`;
@@ -35,11 +37,12 @@ const capas = {};
 let lugares = [];
 
 // Ajustes guardados en este telefono.
-const acc = { grande: false, contraste: false, voz: true, lenta: false, camino: false, unidos: false, ...leer("grieta-acc", {}) };
-const OPCIONES = { grande: "optGrande", contraste: "optContraste", voz: "optVoz", lenta: "optLenta", camino: "optCamino", unidos: "optUnidos" };
+const acc = { grande: false, contraste: false, daltonico: false, voz: true, lenta: false, camino: false, unidos: false, ...leer("grieta-acc", {}) };
+const OPCIONES = { grande: "optGrande", contraste: "optContraste", daltonico: "optDaltonico", voz: "optVoz", lenta: "optLenta", camino: "optCamino", unidos: "optUnidos" };
 function aplicarAcc() {
   document.documentElement.classList.toggle("grande", acc.grande);
   document.documentElement.classList.toggle("contraste", acc.contraste);
+  document.documentElement.classList.toggle("daltonico", acc.daltonico);
   for (const [k, id] of Object.entries(OPCIONES)) $(id).checked = acc[k];
   $("optUnidos2").checked = acc.unidos;
 }
@@ -431,6 +434,16 @@ function pintarOpciones(r) {
   }).join("") || `<p class="nota">No encontré cómo llegar. Prueba con otro destino.</p>`;
   const hayCamion = r.opciones.some((o) => o.tipo !== "app");
   $("filaUnidos").hidden = !hayCamion;
+  // Si el camion de la mejor opcion es de los ultimos del dia, se avisa a que hora pasa el ultimo.
+  const conCamion = estado.tarjetas.map(({ o }) => o).find((o) => o.tipo !== "app");
+  const c = conCamion?.pasos.find((p) => p.tipo === "camion");
+  const quedan = c ? c.ultima - r.ctx.minuto : Infinity;
+  $("ultimoCamion").hidden = !(quedan <= 120);
+  if (quedan <= 120) {
+    const app = [...r.directo.porApp].sort((x, y) => x.precio - y.precio)[0];
+    $("ultimoCamion").innerHTML = `${ico("alerta")}<span class="fila-texto"><strong>El último ${escapar(c.linea)} de hoy pasa a las ${hora(c.ultima)}</strong>
+      <small>Desde ${escapar(c.recorrido[0].nombre)}. Si lo pierdes, la app más barata te cuesta unos ${pesos(app.precio)} (${Grieta.nombreApp(app.app)}).</small></span>`;
+  }
   if (!hayCamion) {
     $("tarjetas").innerHTML += `<p class="nota">${r.pasaCerca ? "Ningún Qrobus te lleva directo en la próxima hora." : "En la próxima hora no pasa ningún Qrobus cerca."}</p>`;
   }
@@ -591,10 +604,16 @@ function pintarVeredicto(r) {
   const porque = d.accion === "esperar"
     ? ` Está arriba de lo normal y te sobra tiempo: vuelve a revisar en unos minutos${sigFranja < 24 ? `; lo normal cambia de franja a las ${hora(sigFranja * 60)}` : ""}.`
     : "";
-  $("veredicto").innerHTML = `
+  // Muy arriba de lo normal: lo mas probable es alta demanda, y otra app puede salir mas barata.
+  const otra = r.directo.porApp.filter((x) => x.app !== d.esperado.app).sort((x, y) => x.precio - y.precio)[0];
+  const alta = d.relacion >= 1.4
+    ? `<div class="aviso cuidado alta">${ico("alerta")}<span class="fila-texto"><strong>${Grieta.nombreApp(d.esperado.app)} está en alta demanda</strong>
+        <small>Te marca ${pesos(visto)}; lo normal a esta hora es ${pesos(d.esperado.precio)}.${otra && otra.precio < visto * 0.85 ? ` ${Grieta.nombreApp(otra.app)} debería salir en unos ${pesos(otra.precio)}: revísala antes de pedir.` : ""}</small></span></div>`
+    : "";
+  $("veredicto").innerHTML = `${alta}
     <div class="recomendacion">
       <p class="etiqueta">Recomendación</p>
-      <p class="veredicto">${ACCIONES[d.accion]}</p>
+      <p class="veredicto"><span class="simbolo" aria-hidden="true">${SIMBOLOS[d.accion]}</span>${ACCIONES[d.accion]}</p>
       <p>Te marca ${pesos(visto)} y lo normal en ${Grieta.nombreApp(d.esperado.app)} a esta hora es ${pesos(d.esperado.precio)}.${porque}
         ${d.extra < 1e8 ? `El camión que ahorra tarda ${Math.round(d.extra)} min más.` : "Ningún camión ahorra al menos 30%."}</p>
       <button type="button" class="porque" aria-expanded="false" aria-controls="reglas">¿Por qué?</button>
@@ -998,6 +1017,8 @@ $("listaViajes").addEventListener("click", (e) => {
 let guardados = leer("grieta-lugares", []);
 let editando = false;
 function pintarGuardados() {
+  const casa = guardados.find((g) => g.nombre === "Casa");
+  $("llevameCasa").hidden = !casa;
   $("guardados").hidden = !guardados.length;
   $("guardados").innerHTML = guardados.map((g, i) =>
     `<button type="button" class="chip" data-i="${i}" aria-label="Ir a ${escapar(g.nombre)}">${ico(g.nombre === "Casa" ? "casa" : "pin")}${escapar(g.nombre)}</button>`).join("");
@@ -1017,6 +1038,7 @@ function guardarLugares() {
   pintarGuardados();
 }
 const irA = (lugar) => { estado.editando = "hacia"; poner("destino", lugar); };
+$("llevameCasa").addEventListener("click", () => irA(guardados.find((g) => g.nombre === "Casa")));
 $("guardados").addEventListener("click", (e) => {
   const b = e.target.closest("button");
   if (b) irA(guardados[b.dataset.i]);
@@ -1262,3 +1284,15 @@ Promise.all([
   $("infoAjustes").textContent = info;
   if (!primeraVez) ubicar();
 });
+
+// Tarjeta para ensenarle al chofer a donde vas, con letra enorme.
+$("avisarChofer").addEventListener("click", () => {
+  const c = guia.camion;
+  if (!c) return;
+  $("choferLinea").textContent = `Ruta ${c.linea}`;
+  $("choferDestino").textContent = `Voy a ${c.baja.replace(/\s*\/\s*/g, " / ")}.`;
+  $("chofer").hidden = false;
+  $("choferDestino").focus();
+});
+$("choferVoz").addEventListener("click", () => hablar(`${$("choferDestino").textContent} ¿Me avisa cuando lleguemos, por favor?`));
+$("choferCerrar").addEventListener("click", () => { $("chofer").hidden = true; $("avisarChofer").focus(); });

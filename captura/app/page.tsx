@@ -6,7 +6,7 @@ import { RUTAS } from "@/lib/rutas";
 import { guardar } from "@/lib/db";
 import { momentosEquipo } from "@/lib/equipo";
 import { EVENTO_RECHAZO, guardarCodigo, leerCodigo, probarCodigo } from "@/lib/acceso";
-import { franjaDe, LIMITE_SEGUNDOS, precioFueraDeRango } from "@/lib/tiempo";
+import { ESPERA_MISMA_RUTA, finDeCaptura, franjaDe, LIMITE_SEGUNDOS, precioFueraDeRango } from "@/lib/tiempo";
 import {
   appsConPrecio,
   MINIMO_APPS,
@@ -74,7 +74,6 @@ export default function Captura() {
 
   // Se calcula con Date.now() porque el intervalo se congela con la pagina en segundo plano.
   useEffect(() => {
-    if (!borrador) return;
     const t = setInterval(() => setAhora(Date.now()), 500);
     const alVolver = () => setAhora(Date.now());
     document.addEventListener("visibilitychange", alVolver);
@@ -124,7 +123,21 @@ export default function Captura() {
   );
   const rutaElegida = rutaSel ?? sugeridas[0].ruta_id;
 
+  // Cuándo terminó la última captura propia de cada ruta, para la espera antes de repetirla.
+  const ultimaPorRuta = useMemo(() => {
+    const m = new Map<number, number>();
+    for (const x of momentos) {
+      if (x.capturado_por !== capturador) continue;
+      m.set(x.ruta_id, Math.max(m.get(x.ruta_id) ?? 0, finDeCaptura(x)));
+    }
+    return m;
+  }, [momentos, capturador]);
+  const esperaDe = (ruta: number) =>
+    Math.max(0, Math.ceil(ESPERA_MISMA_RUTA - (ahora - (ultimaPorRuta.get(ruta) ?? 0)) / 1000));
+  const espera = esperaDe(rutaElegida);
+
   function empezar() {
+    if (espera > 0) return;
     const b: Borrador = {
       inicio: new Date().toISOString(),
       ruta_id: rutaElegida,
@@ -151,7 +164,7 @@ export default function Captura() {
     const precios = Object.fromEntries(
       PLATAFORMAS.map((p) => [p, borrador.precios[p] === "" ? null : Number(borrador.precios[p])]),
     ) as Record<Plataforma, number | null>;
-    if (appsConPrecio({ precios }) < MINIMO_APPS) return;
+    if (appsConPrecio({ precios }) < MINIMO_APPS || esperaDe(borrador.ruta_id) > 0) return;
 
     const m: Momento = {
       id: crypto.randomUUID(),
@@ -253,9 +266,16 @@ export default function Captura() {
 
           </div>
 
+          {espera > 0 && (
+            <p className="text-justify text-xs leading-relaxed text-tenue">
+              Acabas de capturar esta ruta. Elige otra o espera {Math.floor(espera / 60)}:
+              {String(espera % 60).padStart(2, "0")} para repetirla.
+            </p>
+          )}
           <button
             onClick={empezar}
-            className="w-full bg-ambar py-4 text-[0.95rem] font-semibold text-noche transition-opacity active:opacity-75"
+            disabled={espera > 0}
+            className="w-full bg-ambar py-4 text-[0.95rem] font-semibold text-noche transition-opacity active:opacity-75 disabled:opacity-25"
           >
             Empezar
           </button>
@@ -321,7 +341,7 @@ export default function Captura() {
             ))}
             {faltaApp && (
               <p className="text-justify text-xs leading-relaxed text-alerta">
-                Falta el precio de otra app: se necesitan al menos dos para guardar.
+                Faltan precios: se necesitan las tres apps para guardar.
               </p>
             )}
           </div>

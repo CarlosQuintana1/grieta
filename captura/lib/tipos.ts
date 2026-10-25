@@ -46,8 +46,8 @@ export type Momento = {
   sincronizado: boolean;
 };
 
-/** Con una sola app no hay nada que comparar: un registro necesita al menos estas. */
-export const MINIMO_APPS = 2;
+/** Un registro necesita el precio de las tres apps para poder compararlas. */
+export const MINIMO_APPS = 3;
 
 export function appsConPrecio(m: Pick<Momento, "precios">): number {
   return PLATAFORMAS.filter((p) => typeof m.precios?.[p] === "number").length;

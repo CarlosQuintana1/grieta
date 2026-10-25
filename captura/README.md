@@ -20,7 +20,7 @@ internet: guarda en IndexedDB y sube cuando vuelve la señal.
 ## Cómo se captura
 
 Se elige una ruta, se pulsa Empezar, se abren las apps y se anotan los precios antes de que se
-acaben los 3 minutos. Cada registro necesita al menos dos apps. Las reglas completas están en
+acaben los 3 minutos. Cada registro necesita las tres apps, y la misma ruta no se puede repetir antes de 2 minutos. Las reglas completas están en
 [PROTOCOLO.md](PROTOCOLO.md).
 
 ## Lugares

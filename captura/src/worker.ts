@@ -1,4 +1,5 @@
 import { appsConPrecio, MINIMO_APPS, type Momento } from "../lib/tipos";
+import { ESPERA_MISMA_RUTA, finDeCaptura } from "../lib/tiempo";
 
 type Env = { DB: D1Database; ASSETS: Fetcher; CODIGO_EQUIPO: string; EQUIPO: string };
 
@@ -48,9 +49,22 @@ async function sincronizar(req: Request, env: Env): Promise<Response> {
      ON CONFLICT (id) DO NOTHING`,
   );
 
-  // La regla de minimo dos apps tambien se aplica en el servidor.
-  const validos = momentos.filter((m) => appsConPrecio(m) >= MINIMO_APPS);
-  const descartados = momentos.filter((m) => appsConPrecio(m) < MINIMO_APPS).map((m) => m.id);
+  // Las reglas de las tres apps y de la espera entre la misma ruta tambien se aplican en el servidor.
+  const anterior = env.DB.prepare(
+    `SELECT timestamp, segundos_captura FROM momentos
+     WHERE capturado_por = ?1 AND ruta_id = ?2 AND id <> ?3 AND timestamp <= ?4
+     ORDER BY timestamp DESC LIMIT 1`,
+  );
+  const validos: Momento[] = [];
+  const descartados: string[] = [];
+  for (const m of [...momentos].sort((a, b) => a.timestamp.localeCompare(b.timestamp))) {
+    const previo =
+      [...validos].reverse().find((v) => v.capturado_por === m.capturado_por && v.ruta_id === m.ruta_id) ??
+      (await anterior.bind(m.capturado_por, m.ruta_id, m.id, m.timestamp).first<{ timestamp: string; segundos_captura: number }>());
+    const muyPronto = previo && new Date(m.timestamp).getTime() - finDeCaptura(previo) < ESPERA_MISMA_RUTA * 1000;
+    if (appsConPrecio(m) < MINIMO_APPS || muyPronto) descartados.push(m.id);
+    else validos.push(m);
+  }
 
   if (validos.length > 0) {
     await env.DB.batch(

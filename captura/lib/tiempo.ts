@@ -22,6 +22,13 @@ export function esFinDeSemana(d: Date): boolean {
 /** Las apps se cotizan casi al mismo tiempo: pasados 3 minutos el registro se descarta. */
 export const LIMITE_SEGUNDOS = 180;
 
+/** La misma ruta no se puede volver a capturar hasta que pase este tiempo desde la anterior. */
+export const ESPERA_MISMA_RUTA = 120;
+
+export function finDeCaptura(m: { timestamp: string; segundos_captura: number }): number {
+  return new Date(m.timestamp).getTime() + (m.segundos_captura ?? 0) * 1000;
+}
+
 // Rango normal de una cotizacion; fuera de el se pide marcar el registro, no se bloquea.
 const PRECIO_MIN = 25;
 const PRECIO_MAX = 1500;

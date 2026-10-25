@@ -34,10 +34,12 @@ corte, cuando ya no hay cómo recapturar.
    entre Uber y DiDi hayan pasado 15 minutos, y no protege nada. Las tres apps van casi al
    mismo tiempo; pasados 3 minutos se descarta el momento completo y la app bloquea el guardado.
 
-5. **Siempre al menos dos apps con precio.** Si una plataforma no da servicio, no está el tipo
-   básico (no se anota otra gama) o no tienes la app instalada, ese campo se deja vacío. Pero
-   con menos de dos precios la app no deja guardar: con una sola app no hay nada que comparar.
-   En ese caso se descarta y se vuelve a empezar.
+5. **Siempre las tres apps con precio.** Si una plataforma no da servicio o no está el tipo
+   básico, no se guarda: se descarta y se elige otra ruta. Sin los tres precios no hay
+   comparación completa.
+
+   La misma ruta no se puede volver a capturar antes de 2 minutos. En dos minutos el precio casi
+   no cambia: rinde más pasar a otra ruta y regresar después.
 
 6. **Nada de texto libre.** Todo sale de la app: rutas del catálogo, precio numérico, banderas.
 

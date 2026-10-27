@@ -215,7 +215,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 .logo { height: 22px; }
 .logo-grande { height: 34px; margin: 12px 0 26px; }
 .pildora { padding: 6px 12px; border-radius: 999px; border: 1.5px solid var(--ambar); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
-.guia-titulo { font-size: 2.7rem; line-height: 1.05; margin: 10px 0 14px; }
+.guia-titulo { font-size: 2.7rem; line-height: 1.05; margin: 10px 0 14px; overflow-wrap: anywhere; hyphens: auto; }
 .guia-titulo .num { color: var(--ambar); }
 .guia-baja { font-size: 1.15rem; color: var(--tenue); }
 .guia-baja strong { color: var(--tinta); font-weight: 800; }

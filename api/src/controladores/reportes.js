@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { guardarFoto, tipoValido } from "../almacen.js";
+import { borrarFoto, guardarFoto, tipoValido } from "../almacen.js";
 import { Reporte } from "../modelos.js";
 import { crud, noExiste } from "./base.js";
 
@@ -35,7 +35,18 @@ export const reportes = {
     if (!tipoValido(tipo) || !Buffer.isBuffer(req.body) || !req.body.length) {
       return res.status(400).json({ error: "Manda una imagen JPG, PNG o WebP" });
     }
+    const anterior = reporte.foto_url;
     const url = await guardarFoto(`${reporte.id}-${randomUUID()}`, req.body, tipo);
     res.json(await reporte.update({ foto_url: url }));
+    // La foto que reemplaza a otra no deja la vieja guardada.
+    await borrarFoto(anterior).catch(() => {});
+  },
+  // Al borrar el reporte tambien se borra su foto; si eso falla, el reporte ya no existe igual.
+  borrar: async (req, res) => {
+    const reporte = await Reporte.findByPk(req.params.id);
+    if (!reporte) return noExiste(res);
+    await reporte.destroy();
+    await borrarFoto(reporte.foto_url).catch(() => {});
+    res.status(204).end();
   },
 };

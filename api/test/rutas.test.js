@@ -156,11 +156,22 @@ describe("Reportes de accesibilidad", () => {
     assert.equal(lejos.body.length, 0);
   });
 
+  const png = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==", "base64");
+  let foto;
+
   test("POST /api/reportes/:id/foto guarda la imagen y su dirección", async () => {
-    const png = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==", "base64");
     const res = await request(app).post(`/api/reportes/${reporte.id}/foto`)
       .set("Content-Type", "image/png").send(png).expect(200);
     assert.match(res.body.foto_url, /\.png$/);
+    foto = res.body.foto_url;
+    await request(app).get(foto).expect(200);
+  });
+
+  test("POST /api/reportes/:id/foto con otra foto borra la anterior", async () => {
+    const res = await request(app).post(`/api/reportes/${reporte.id}/foto`)
+      .set("Content-Type", "image/png").send(png).expect(200);
+    await request(app).get(foto).expect(404);
+    foto = res.body.foto_url;
   });
 
   test("POST /api/reportes/:id/foto rechaza lo que no es imagen", async () => {
@@ -168,9 +179,10 @@ describe("Reportes de accesibilidad", () => {
       .set("Content-Type", "text/plain").send("hola").expect(400);
   });
 
-  test("DELETE /api/reportes/:id", async () => {
+  test("DELETE /api/reportes/:id borra el reporte y su foto", async () => {
     await request(app).delete(`/api/reportes/${reporte.id}`).expect(204);
     await request(app).get(`/api/reportes/${reporte.id}`).expect(404);
+    await request(app).get(foto).expect(404);
   });
 });
 

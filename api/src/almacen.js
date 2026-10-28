@@ -1,7 +1,7 @@
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { BlobServiceClient } from "@azure/storage-blob";
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { DeleteObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 const TIPOS = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp" };
 export const TAMANO_MAXIMO = 5 * 1024 * 1024;
@@ -31,4 +31,13 @@ export async function guardarFoto(nombre, datos, tipo) {
   await mkdir(CARPETA_LOCAL, { recursive: true });
   await writeFile(path.join(CARPETA_LOCAL, archivo), datos);
   return `/fotos/${archivo}`;
+}
+
+// Borra la foto de un reporte a partir de su direccion; si ya no existe, no pasa nada.
+export async function borrarFoto(url) {
+  const archivo = url?.split("/").pop();
+  if (!archivo || !/^[\w-]+\.(jpg|png|webp)$/.test(archivo)) return;
+  if (azure) return void (await azure.getBlockBlobClient(`reportes/${archivo}`).deleteIfExists());
+  if (s3) return void (await s3.send(new DeleteObjectCommand({ Bucket: process.env.S3_BUCKET, Key: `reportes/${archivo}` })));
+  await rm(path.join(CARPETA_LOCAL, archivo), { force: true });
 }

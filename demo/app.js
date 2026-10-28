@@ -2,8 +2,6 @@ const $ = (id) => document.getElementById(id);
 const pesos = (x) => `$${Math.round(x)}`;
 const QUERETARO = [20.6, -100.4];
 const RADIO_KM = 40;
-const AMBAR = "#e0a03c";
-const TINTA = "#ede8df";
 const ESPERAS = [0, 15, 30, 60];
 const DIAS = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"];
 const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
@@ -16,6 +14,8 @@ const ico = (nombre, clase = "") => `<svg class="icono ${clase}" aria-hidden="tr
 const leer = (clave, defecto) => { try { return JSON.parse(localStorage.getItem(clave)) ?? defecto; } catch { return defecto; } };
 const escribir = (clave, valor) => { try { localStorage.setItem(clave, JSON.stringify(valor)); } catch {} };
 const sinAcentos = (t) => t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
+// Los colores del mapa siguen al tema: con alto contraste o colores para daltonismo cambian igual que la pantalla.
+const tono = (nombre) => getComputedStyle(document.documentElement).getPropertyValue(nombre).trim();
 
 // Hora de 12 h para la pantalla: 6:41 pm.
 function hora(min) {
@@ -45,6 +45,7 @@ function aplicarAcc() {
   document.documentElement.classList.toggle("daltonico", acc.daltonico);
   for (const [k, id] of Object.entries(OPCIONES)) $(id).checked = acc[k];
   $("optUnidos2").checked = acc.unidos;
+  recolorear();
 }
 const guardarAcc = () => escribir("grieta-acc", acc);
 for (const [k, id] of Object.entries(OPCIONES)) {
@@ -80,6 +81,7 @@ const titulos = { buscar: "Buscar", camiones: "Camiones cerca" };
 
 function mostrar(nombre) {
   const conf = PANTALLAS[nombre];
+  if (!$("chofer").hidden) tarjetaChofer(false);
   if (guia.activa && nombre !== "guia") terminarGuia(true);
   if (nombre === "inicio") limpiarRuta();
   if (nombre === "opciones") quitarTrazo();
@@ -319,10 +321,10 @@ async function trazar() {
     const url = `https://router.project-osrm.org/route/v1/driving/${o.lon},${o.lat};${d.lon},${d.lat}?overview=full&geometries=geojson`;
     const r = await (await fetch(url, { signal: AbortSignal.timeout(6000) })).json();
     estado.kmCalle = r.routes[0].distance / 1000;
-    capas.linea = L.geoJSON(r.routes[0].geometry, { style: { color: AMBAR, weight: 5, opacity: 0.95 } }).addTo(mapa);
+    capas.linea = L.geoJSON(r.routes[0].geometry, { style: { color: tono("--ambar"), weight: 5, opacity: 0.95 } }).addTo(mapa);
   } catch {
     estado.kmCalle = null;
-    capas.linea = L.polyline([[o.lat, o.lon], [d.lat, d.lon]], { color: AMBAR, weight: 4, dashArray: "4 8" }).addTo(mapa);
+    capas.linea = L.polyline([[o.lat, o.lon], [d.lat, d.lon]], { color: tono("--ambar"), weight: 4, dashArray: "4 8" }).addTo(mapa);
   }
   avisar("");
   estado.momento = 0;
@@ -647,13 +649,15 @@ function quitarTrazo() {
 // Camino con camion en el mapa: caminata punteada, app en linea delgada y el camion por sus paradas.
 function dibujar(o) {
   quitarTrazo();
-  const estilo = (modo) => (modo === "caminando" ? { color: TINTA, weight: 3, dashArray: "1 7", lineCap: "round" } : { color: TINTA, weight: 2, opacity: 0.7 });
+  const tinta = tono("--tinta");
+  const ambar = tono("--ambar");
+  const estilo = (modo) => (modo === "caminando" ? { color: tinta, weight: 3, dashArray: "1 7", lineCap: "round" } : { color: tinta, weight: 2, opacity: 0.7 });
   capas.linea?.setStyle?.({ opacity: 0.15 });
   const camiones = o.trazo.camiones;
   const capasCamion = camiones.flatMap((c, k) => [
-    L.polyline(c, { color: AMBAR, weight: 5 }),
+    L.polyline(c, { color: ambar, weight: 5, tono: "linea" }),
     ...(k > 0 ? [L.polyline([camiones[k - 1].at(-1), c[0]], estilo("caminando"))] : []),
-    ...[c[0], c.at(-1)].map((x) => L.circleMarker(x, { radius: 5, color: "#0b0a09", weight: 2, fillColor: AMBAR, fillOpacity: 1 })),
+    ...[c[0], c.at(-1)].map((x) => L.circleMarker(x, { radius: 5, color: "#0b0a09", weight: 2, fillColor: ambar, fillOpacity: 1, tono: "punto" })),
   ]);
   capas.camion = L.featureGroup([
     L.polyline(o.trazo.acceso.puntos, estilo(o.trazo.acceso.modo)),
@@ -661,6 +665,14 @@ function dibujar(o) {
     L.polyline(o.trazo.salida.puntos, estilo(o.trazo.salida.modo)),
   ]).addTo(mapa);
   setTimeout(() => encuadrar(capas.camion.getBounds()), 120);
+}
+
+// Al cambiar de tema, lo que ya esta dibujado toma los colores nuevos.
+function recolorear() {
+  if (typeof mapa === "undefined") return;
+  const ambar = tono("--ambar");
+  capas.linea?.setStyle?.({ color: ambar });
+  capas.camion?.eachLayer((c) => c.setStyle(c.options.tono === "linea" ? { color: ambar } : c.options.tono === "punto" ? { fillColor: ambar } : { color: tono("--tinta") }));
 }
 
 // Camiones cerca
@@ -673,10 +685,12 @@ function abrirCamiones() {
     caja.innerHTML = `<p class="texto">Primero necesito saber dónde estás. Activa la ubicación o elige desde dónde sales en Inicio.</p>`;
     return hablar("Primero necesito saber dónde estás.");
   }
-  const lista = Grieta.pasanAqui(punto.lat, punto.lon, hoyDia(), ahoraMin());
+  let lista = Grieta.pasanAqui(punto.lat, punto.lon, hoyDia(), ahoraMin());
+  // Sin paradas con servicio a 350 m, se busca la mas cercana hasta 1 km para no dejar a nadie sin respuesta.
+  if (!lista.length) lista = Grieta.pasanAqui(punto.lat, punto.lon, hoyDia(), ahoraMin(), 1000).slice(0, 1);
   if (!lista.length) {
-    caja.innerHTML = `<p class="texto">No hay paradas de Qrobus con servicio a menos de 350 metros.</p>`;
-    return hablar("No hay paradas de Qrobus con servicio a menos de 350 metros.");
+    caja.innerHTML = `<p class="texto">No hay paradas de Qrobus con servicio a menos de un kilómetro.</p>`;
+    return hablar("No hay paradas de Qrobus con servicio a menos de un kilómetro.");
   }
   const filas = (p) => `<ul class="filas">${p.lineas.slice(0, 6).map((l) => `<li><div class="fila">
       <span class="linea-caja">${escapar(l.linea)}</span>
@@ -949,7 +963,13 @@ function iniciarDestino() {
   });
 }
 
-$("repetir").addEventListener("click", () => hablar(ultimoDicho || $("guiaTitulo").textContent));
+$("repetir").addEventListener("click", () => {
+  if (acc.voz) return hablar(ultimoDicho || $("guiaTitulo").textContent);
+  // Sin la voz de Grieta, el aviso se vuelve a escribir para que el lector de pantalla lo lea otra vez.
+  const aviso = $("guiaTitulo").innerHTML;
+  $("guiaTitulo").innerHTML = "";
+  setTimeout(() => { $("guiaTitulo").innerHTML = aviso; }, 100);
+});
 $("terminar").addEventListener("click", () => {
   terminarGuia();
   history.back();
@@ -973,6 +993,7 @@ $("compartir").addEventListener("click", () => {
 });
 
 function terminarGuia() {
+  if (!$("chofer").hidden) tarjetaChofer(false);
   if (guia.reloj !== undefined) navigator.geolocation.clearWatch(guia.reloj);
   guia.reloj = undefined;
   clearInterval(guia.horario);
@@ -1166,6 +1187,20 @@ function abrirReporte() {
     { enableHighAccuracy: true, timeout: 10000 },
   );
 }
+// Las fotos del telefono pesan varios MB: se reducen a 1600 px en JPEG antes de subirlas.
+async function achicarFoto(f) {
+  try {
+    const img = await createImageBitmap(f);
+    const escala = Math.min(1, 1600 / Math.max(img.width, img.height));
+    const lienzo = document.createElement("canvas");
+    lienzo.width = Math.round(img.width * escala);
+    lienzo.height = Math.round(img.height * escala);
+    lienzo.getContext("2d").drawImage(img, 0, 0, lienzo.width, lienzo.height);
+    return await new Promise((listo) => lienzo.toBlob((b) => listo(b ?? f), "image/jpeg", 0.85));
+  } catch {
+    return f;
+  }
+}
 $("foto").addEventListener("change", () => {
   const f = $("foto").files[0];
   $("fotoTexto").textContent = f ? `Foto lista: ${f.name}` : "Agregar foto";
@@ -1182,8 +1217,22 @@ $("enviarReporte").addEventListener("click", async () => {
       body: JSON.stringify({ tipo: reporte.tipo, parada: reporte.parada, lat: reporte.lat, lon: reporte.lon, descripcion: $("descripcion").value.trim() || null }),
     });
     const f = $("foto").files[0];
-    if (f) await llamar(`/reportes/${nuevo.id}/foto`, { method: "POST", headers: { "Content-Type": f.type }, body: f });
-    decirR("Gracias. Tu reporte ayuda a quien pase por aquí.");
+    let conFoto = true;
+    if (f) {
+      try {
+        const foto = await achicarFoto(f);
+        await llamar(`/reportes/${nuevo.id}/foto`, { method: "POST", headers: { "Content-Type": foto.type }, body: foto });
+      } catch {
+        conFoto = false;
+      }
+    }
+    decirR(conFoto ? "Gracias. Tu reporte ayuda a quien pase por aquí." : "Se guardó tu reporte, pero no se pudo subir la foto.");
+    // El reporte ya existe: se limpia el formulario para que otro toque no lo mande dos veces.
+    Object.assign(reporte, { tipo: null });
+    marcarReporte(null);
+    $("descripcion").value = "";
+    $("foto").value = "";
+    $("fotoTexto").textContent = "Agregar foto";
   } catch (err) {
     decirR(err.message === "sin api" ? "No hay conexión con el servidor." : `No se pudo enviar: ${err.message}.`);
   } finally {
@@ -1203,8 +1252,8 @@ $("enviarPrecio").addEventListener("click", async () => {
     });
     $("gracias").textContent = "Gracias: con tu precio Grieta calcula mejor.";
     $("enviarPrecio").hidden = true;
-  } catch {
-    $("gracias").textContent = "No se pudo enviar ahorita.";
+  } catch (err) {
+    $("gracias").textContent = err.message === "sin api" ? "No hay conexión con el servidor." : `No se pudo enviar: ${err.message}.`;
   }
 });
 
@@ -1285,14 +1334,23 @@ Promise.all([
   if (!primeraVez) ubicar();
 });
 
-// Tarjeta para ensenarle al chofer a donde vas, con letra enorme.
+// Tarjeta para ensenarle al chofer a donde vas, con letra enorme. En camion dice la parada; en app, el destino.
+function tarjetaChofer(abierta) {
+  $("chofer").hidden = !abierta;
+  // Mientras esta abierta, lo demas no recibe el foco ni lo lee el lector de pantalla.
+  for (const e of document.body.children) if (e !== $("chofer") && e.tagName !== "SCRIPT") e.inert = abierta;
+  if (abierta) $("choferDestino").focus();
+  else if (!$("avisarChofer").closest("[hidden]")) $("avisarChofer").focus();
+}
 $("avisarChofer").addEventListener("click", () => {
   const c = guia.camion;
-  if (!c) return;
-  $("choferLinea").textContent = `Ruta ${c.linea}`;
-  $("choferDestino").textContent = `Voy a ${c.baja.replace(/\s*\/\s*/g, " / ")}.`;
-  $("chofer").hidden = false;
-  $("choferDestino").focus();
+  const destino = c ? c.baja : estado.destino?.nombre;
+  if (!destino) return;
+  $("choferLinea").textContent = c ? `Ruta ${c.linea}` : "";
+  $("choferLinea").hidden = !c;
+  $("choferDestino").textContent = `Voy a ${destino.replace(/\s*\/\s*/g, " / ")}.`;
+  tarjetaChofer(true);
 });
 $("choferVoz").addEventListener("click", () => hablar(`${$("choferDestino").textContent} ¿Me avisa cuando lleguemos, por favor?`));
-$("choferCerrar").addEventListener("click", () => { $("chofer").hidden = true; $("avisarChofer").focus(); });
+$("choferCerrar").addEventListener("click", () => tarjetaChofer(false));
+addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("chofer").hidden) tarjetaChofer(false); });

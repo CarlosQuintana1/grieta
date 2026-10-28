@@ -27,7 +27,7 @@ body {
   color: var(--tinta); font: 400 1rem/1.45 Montserrat, system-ui, sans-serif;
   -webkit-tap-highlight-color: transparent;
 }
-h1 { font-size: 1.6rem; font-weight: 800; line-height: 1.15; margin: 0 0 8px; letter-spacing: -0.01em; }
+h1 { font-size: 1.6rem; font-weight: 800; line-height: 1.15; margin: 0 0 8px; letter-spacing: -0.01em; overflow-wrap: break-word; }
 h2 { font-size: 0.76rem; font-weight: 700; color: var(--tenue); text-transform: uppercase; letter-spacing: 0.09em; margin: 28px 0 10px; }
 h3 { font-size: 1rem; font-weight: 700; margin: 18px 0 8px; }
 p { margin: 0; }
@@ -54,7 +54,7 @@ h1:focus, h1:focus-visible { outline: none; }
   flex: none; display: grid; grid-template-columns: var(--toque) 1fr var(--toque); align-items: center; gap: 8px;
   padding: max(8px, env(safe-area-inset-top)) 8px 8px; background: var(--fondo); border-bottom: 1px solid var(--linea);
 }
-.encabezado h1 { margin: 0; font-size: 1.05rem; font-weight: 800; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.encabezado h1 { margin: 0; font-size: 1.05rem; font-weight: 800; text-align: center; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; }
 .icono-boton { width: var(--toque); height: var(--toque); display: grid; place-items: center; border-radius: 12px; }
 
 /* Mapa */
@@ -68,7 +68,7 @@ html.contraste .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) graysca
 .leaflet-control-attribution { background: rgba(11, 10, 9, 0.7) !important; color: var(--tenue) !important; font: 10px Montserrat, sans-serif; }
 .leaflet-control-attribution a { color: var(--tenue) !important; }
 .marca { display: block; width: 18px; height: 18px; }
-.marca.origen { background: var(--ambar); border: 3px solid var(--fondo); border-radius: 50%; box-shadow: 0 0 0 6px rgba(224, 160, 60, 0.28); }
+.marca.origen { background: var(--ambar); border: 3px solid var(--fondo); border-radius: 50%; box-shadow: 0 0 0 6px color-mix(in srgb, var(--ambar) 28%, transparent); }
 .marca.destino { background: var(--tinta); border: 3px solid var(--fondo); border-radius: 4px; }
 
 /* Hoja inferior */
@@ -134,7 +134,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 .filas > li > button, .filas > li > .fila {
   display: flex; align-items: center; gap: 14px; width: 100%; min-height: 64px; padding: 10px 0; border-bottom: 1px solid var(--linea);
 }
-.fila-texto { flex: 1; min-width: 0; }
+.fila-texto { flex: 1; min-width: 0; overflow-wrap: anywhere; }
 .fila-texto strong { display: block; font-weight: 700; }
 .fila-texto small { display: block; color: var(--tenue); font-size: 0.82rem; margin-top: 2px; }
 .circulo { flex: none; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: var(--superficie); border: 1px solid var(--linea); color: var(--ambar); }
@@ -148,7 +148,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 .titulo-seccion { font-size: 1.6rem; font-weight: 800; color: var(--tinta); text-transform: none; letter-spacing: -0.01em; margin: 2px 0 0; }
 .llegas { color: var(--tenue); font-size: 0.85rem; text-align: right; }
 .llegas strong { display: block; color: var(--tinta); font-size: 1.05rem; font-weight: 700; }
-.tarjetas { display: grid; gap: 10px; margin-top: 16px; }
+.tarjetas { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; margin-top: 16px; }
 .tarjeta {
   display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px; min-height: 84px;
   border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea);
@@ -215,7 +215,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 .logo { height: 22px; }
 .logo-grande { height: 34px; margin: 12px 0 26px; }
 .pildora { padding: 6px 12px; border-radius: 999px; border: 1.5px solid var(--ambar); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
-.guia-titulo { font-size: 2.7rem; line-height: 1.05; margin: 10px 0 14px; overflow-wrap: anywhere; hyphens: auto; }
+.guia-titulo { font-size: 2.7rem; line-height: 1.05; margin: 10px 0 14px; overflow-wrap: anywhere; }
 .guia-titulo .num { color: var(--ambar); }
 .guia-baja { font-size: 1.15rem; color: var(--tenue); }
 .guia-baja strong { color: var(--tinta); font-weight: 800; }
@@ -247,7 +247,7 @@ body.alerta :focus-visible { outline-color: #0b0a09; }
 .parada-cerca { text-align: left; }
 .circulo-grande { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: var(--ambar); color: var(--sobre-ambar); margin-bottom: 14px; }
 .circulo-grande .icono { width: 30px; height: 30px; }
-.parada-nombre { font-size: 1.7rem; font-weight: 800; line-height: 1.15; margin: 6px 0 4px; }
+.parada-nombre { font-size: 1.7rem; font-weight: 800; line-height: 1.15; margin: 6px 0 4px; overflow-wrap: break-word; }
 .linea-caja { flex: none; min-width: 58px; min-height: 40px; padding: 0 8px; display: grid; place-items: center; border-radius: 10px; border: 2px solid var(--ambar); font-weight: 800; }
 .hora-camion { text-align: right; white-space: nowrap; }
 .hora-camion strong { display: block; font-size: 1.1rem; font-weight: 800; }
@@ -311,7 +311,7 @@ textarea::placeholder { color: var(--tenue); }
 .radio { flex: none; width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--tenue); }
 [aria-checked="true"] > .radio { border: 7px solid var(--ambar); }
 .boton.abajo { margin-top: auto; }
-#bienvenida .boton.abajo { position: sticky; bottom: 0; margin-top: auto; }
+#bienvenida .boton.abajo { position: sticky; bottom: 0; margin-top: auto; box-shadow: 0 0 0 12px var(--fondo), 0 -28px 24px 10px var(--fondo); }
 #bienvenida [data-paso] { margin-bottom: 28px; }
 #bienvenida > div { margin-bottom: 8px; }
 
@@ -344,10 +344,13 @@ textarea::placeholder { color: var(--tenue); }
 .recomendacion .simbolo { display: inline-block; width: 1.2em; color: var(--ambar); }
 .aviso.alta { margin-top: 16px; }
 #ultimoCamion { margin: 10px 0 14px; }
-.chofer { position: fixed; inset: 0; z-index: 50; display: flex; flex-direction: column; justify-content: center; gap: 14px;
-  padding: 24px 20px calc(24px + env(safe-area-inset-bottom)); background: #fff; color: #000; }
+.chofer { position: fixed; inset: 0; z-index: 2000; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;
+  padding: max(24px, env(safe-area-inset-top)) 20px calc(24px + env(safe-area-inset-bottom)); background: #fff; color: #000; }
+/* Centrada, pero con scroll si el nombre de la parada no cabe en la pantalla. */
+.chofer > :first-child, .chofer > [hidden]:first-child + * { margin-top: auto; }
+.chofer > :last-child { margin-bottom: auto; }
 .chofer-linea { font-size: 0.9rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; margin: 0; }
-.chofer-destino { font-size: 2.6rem; font-weight: 800; line-height: 1.1; margin: 0; outline: none; overflow-wrap: anywhere; hyphens: auto; }
+.chofer-destino { font-size: min(2.6rem, 11vw); font-weight: 800; line-height: 1.1; margin: 0; outline: none; overflow-wrap: anywhere; }
 .chofer-pide { font-size: 1.4rem; line-height: 1.3; margin: 0 0 12px; }
 .boton.negro { background: #000; color: #fff; border-color: #000; }
 .boton.borde-negro { background: #fff; color: #000; border: 2px solid #000; }

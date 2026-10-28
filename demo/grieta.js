@@ -311,8 +311,7 @@ const Grieta = (() => {
     const cerca = qrobus.paradas
       .map(([la, lo, nombre], i) => ({ i, nombre, lat: la, lon: lo, m: metros(lat, lon, la, lo) }))
       .filter((x) => x.m <= radio)
-      .sort((a, b) => a.m - b.m)
-      .slice(0, 3);
+      .sort((a, b) => a.m - b.m);
     return cerca.map((parada) => {
       const lineas = new Map();
       for (const [pi, pos] of porParada[parada.i]) {
@@ -325,7 +324,7 @@ const Grieta = (() => {
         if (!actual || horas[0] < actual.horas[0]) lineas.set(clave, { linea: p.linea, hacia: p.hacia, horas });
       }
       return { ...parada, lineas: [...lineas.values()].sort((a, b) => a.horas[0] - b.horas[0]) };
-    }).filter((x) => x.lineas.length);
+    }).filter((x) => x.lineas.length).slice(0, 3);
   }
 
   // Precio del mismo viaje a otra hora; si pasa de medianoche cuenta como el dia siguiente.

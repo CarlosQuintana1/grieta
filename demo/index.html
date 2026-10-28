@@ -243,13 +243,6 @@
       <p class="nota">Deja la pantalla encendida: así Grieta sigue tu ubicación. Las horas del camión salen del horario oficial, no de su ubicación.</p>
     </section>
 
-    <div id="chofer" class="chofer" role="dialog" aria-modal="true" aria-labelledby="choferDestino" hidden>
-      <p id="choferLinea" class="chofer-linea"></p>
-      <p id="choferDestino" class="chofer-destino" tabindex="-1"></p>
-      <p class="chofer-pide">¿Me avisa cuando lleguemos, por favor?</p>
-      <button id="choferVoz" type="button" class="boton negro">Decirlo en voz alta</button>
-      <button id="choferCerrar" type="button" class="boton borde-negro">Cerrar</button>
-    </div>
 
     <section id="camiones" class="pantalla" aria-labelledby="tituloPantalla" hidden>
       <div id="camionesContenido" aria-live="polite"></div>
@@ -310,6 +303,14 @@
     <button type="button" data-tab="reporte"><svg class="icono"><use href="#i-alerta"/></svg>Reportar</button>
     <button type="button" data-tab="ajustes"><svg class="icono"><use href="#i-engrane"/></svg>Ajustes</button>
   </nav>
+
+  <div id="chofer" class="chofer" role="dialog" aria-modal="true" aria-labelledby="choferDestino" hidden>
+    <p id="choferLinea" class="chofer-linea"></p>
+    <p id="choferDestino" class="chofer-destino" tabindex="-1"></p>
+    <p class="chofer-pide">¿Me avisa cuando lleguemos, por favor?</p>
+    <button id="choferVoz" type="button" class="boton negro">Decirlo en voz alta</button>
+    <button id="choferCerrar" type="button" class="boton borde-negro">Cerrar</button>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/h3-js@4.1.0/dist/h3-js.umd.js"></script>

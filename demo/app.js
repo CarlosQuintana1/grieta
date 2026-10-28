@@ -16,6 +16,8 @@ const escribir = (clave, valor) => { try { localStorage.setItem(clave, JSON.stri
 const sinAcentos = (t) => t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
 // Los colores del mapa siguen al tema: con alto contraste o colores para daltonismo cambian igual que la pantalla.
 const tono = (nombre) => getComputedStyle(document.documentElement).getPropertyValue(nombre).trim();
+// Los cruces vienen como "Calle/Otra calle": con espacios, la letra grande parte el renglon en la diagonal.
+const cruce = (t) => String(t ?? "").replace(/\s*\/\s*/g, " / ");
 
 // Hora de 12 h para la pantalla: 6:41 pm.
 function hora(min) {
@@ -706,7 +708,7 @@ function abrirCamiones() {
     <div class="parada-cerca">
       <span class="circulo-grande">${ico("camion")}</span>
       <p class="etiqueta">Parada más cercana · a ${Math.round(p.m)} m</p>
-      <p class="parada-nombre">${escapar(p.nombre)}</p>
+      <p class="parada-nombre">${escapar(cruce(p.nombre))}</p>
       <p class="nota">Camina ${minCaminar} min</p>
     </div>
     <button id="irParada" type="button" class="boton oscuro">${ico("ruta")}Ver cómo llegar a la parada</button>
@@ -803,7 +805,7 @@ if (Reconocer) {
 const guia = { activa: false };
 
 function ponerTitulo(titulo) {
-  $("guiaTitulo").innerHTML = escapar(titulo).replace(/^Faltan (\d+)/, 'Faltan <span class="num">$1</span>');
+  $("guiaTitulo").innerHTML = escapar(cruce(titulo)).replace(/^Faltan (\d+)/, 'Faltan <span class="num">$1</span>');
 }
 function decir(titulo, detalle, etapa, alerta = false) {
   if (etapa) $("guiaEtapa").textContent = guia.camion && etapa !== "Llegaste" ? `${etapa} · ${guia.camion.linea}` : etapa;
@@ -820,7 +822,7 @@ function pintarGuia() {
   $("barraParadas").hidden = !c;
   if (!c) return;
   const r = c.recorrido;
-  $("guiaBaja").innerHTML = `Bajas en <strong>${escapar(r.at(-1).nombre)}</strong>`;
+  $("guiaBaja").innerHTML = `Bajas en <strong>${escapar(cruce(r.at(-1).nombre))}</strong>`;
   const n = r.length - 1;
   const actual = guia.fase === "camion" || guia.fase === "fin" ? guia.actual : 0;
   const g = Math.min(n, 12);
@@ -1352,7 +1354,7 @@ $("avisarChofer").addEventListener("click", () => {
   if (!destino) return;
   $("choferLinea").textContent = c ? `Ruta ${c.linea}` : "";
   $("choferLinea").hidden = !c;
-  $("choferDestino").textContent = `Voy a ${destino.replace(/\s*\/\s*/g, " / ")}.`;
+  $("choferDestino").textContent = `Voy a ${cruce(destino)}.`;
   tarjetaChofer(true);
 });
 $("choferVoz").addEventListener("click", () => hablar(`${$("choferDestino").textContent} ¿Me avisa cuando lleguemos, por favor?`));

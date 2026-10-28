@@ -130,10 +130,11 @@ let audio;
 let ultimoDicho = "";
 // Los nombres de las paradas son cruces escritos con abreviaturas: se leen como se dicen.
 const DECIR = [[/\s*\/\s*/g, " y "], [/\bBlvd\./g, "bulevar"], [/\bAv\./g, "avenida"], [/\bFracc\./g, "fraccionamiento"], [/\bCol\./g, "colonia"], [/\bUaq\b/g, "UAQ"]];
-function hablar(texto) {
+// Lo urgente interrumpe lo que se esta diciendo; lo secundario espera su turno.
+function hablar(texto, enCola = false) {
   ultimoDicho = texto;
   if (!acc.voz || !("speechSynthesis" in window)) return;
-  speechSynthesis.cancel();
+  if (!enCola) speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(DECIR.reduce((t, [a, b]) => t.replace(a, b), texto));
   vozGrieta ??= speechSynthesis.getVoices().find((v) => v.lang === "es-MX") ?? speechSynthesis.getVoices().find((v) => v.lang.startsWith("es"));
   if (vozGrieta) u.voice = vozGrieta;
@@ -1152,7 +1153,7 @@ async function leerReferencias(parada) {
   const refs = lista.filter((x) => x.tipo === "referencia" && x.descripcion).map((x) => x.descripcion);
   const avisos = lista.filter((x) => x.tipo !== "referencia").map((x) => (NOMBRES_REPORTE[x.tipo] ?? "aviso").toLowerCase());
   const texto = [refs.length ? `Referencia: ${refs[0]}.` : "", avisos.length ? `Cuidado: ${[...new Set(avisos)].join(", ")}.` : ""].join(" ").trim();
-  if (texto) setTimeout(() => hablar(texto), 4000);
+  if (texto) hablar(texto, true);
 }
 
 // Reportar un problema donde estas parado.

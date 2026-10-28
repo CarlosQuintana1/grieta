@@ -65,9 +65,11 @@ def qrobus() -> dict:
         salidas = {}
         for tr in trips:
             salidas.setdefault(str(viajes.loc[tr, "service_id"]), []).append(round(float(primera[tr]), 1))
+        # El letrero del GTFS dice "origen / destino": se queda el destino, que es hacia donde va el camion.
+        letrero = str(viajes.loc[trips, "trip_headsign"].mode().iloc[0])
         patrones.append({
             "linea": str(nombre[viajes.loc[trips[0], "route_id"]]),
-            "hacia": str(viajes.loc[trips, "trip_headsign"].mode().iloc[0]),
+            "hacia": letrero.split(" / ")[-1].strip(),
             "paradas": [indice[s] for s in paso],
             "minutos": [float(x) for x in offs.values],
             "salidas": {k: sorted(v) for k, v in salidas.items()},

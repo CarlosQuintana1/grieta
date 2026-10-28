@@ -128,11 +128,13 @@ $("pestanas").addEventListener("click", (e) => {
 let vozGrieta = null;
 let audio;
 let ultimoDicho = "";
+// Los nombres de las paradas son cruces escritos con abreviaturas: se leen como se dicen.
+const DECIR = [[/\s*\/\s*/g, " y "], [/\bBlvd\./g, "bulevar"], [/\bAv\./g, "avenida"], [/\bFracc\./g, "fraccionamiento"], [/\bCol\./g, "colonia"], [/\bUaq\b/g, "UAQ"]];
 function hablar(texto) {
   ultimoDicho = texto;
   if (!acc.voz || !("speechSynthesis" in window)) return;
   speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(texto);
+  const u = new SpeechSynthesisUtterance(DECIR.reduce((t, [a, b]) => t.replace(a, b), texto));
   vozGrieta ??= speechSynthesis.getVoices().find((v) => v.lang === "es-MX") ?? speechSynthesis.getVoices().find((v) => v.lang.startsWith("es"));
   if (vozGrieta) u.voice = vozGrieta;
   u.lang = "es-MX";
@@ -848,7 +850,8 @@ function seguir(alMoverse) {
       else capas.aqui = L.marker(aqui, { icon: icono("origen"), keyboard: false }).addTo(mapa);
       alMoverse(coords.latitude, coords.longitude);
     },
-    () => decir("Sin ubicación", "Activa la ubicación para recibir los avisos."),
+    // Sin permiso no hay avisos; un GPS que tarda en responder se sigue esperando sin interrumpir lo que se dice.
+    (err) => { if (err.code === err.PERMISSION_DENIED) unaVez("sin-permiso", () => decir("Sin ubicación", "Activa la ubicación para recibir los avisos.")); },
     { enableHighAccuracy: true, maximumAge: 0, timeout: 20000 },
   );
 }

@@ -583,7 +583,10 @@ function pintarApps(o) {
   $("apps").innerHTML = orden.map((x, i) => `<li>
     <span class="fila-texto"><strong>${Grieta.nombreApp(x.app)}</strong>${i === 0 ? `<span class="etiqueta">Más barato</span>` : `<small>Normal entre ${pesos(x.bajo)} y ${pesos(x.alto)}</small>`}</span>
     <span class="precio">${pesos(x.precio)}</span></li>`).join("");
-  $("abrirUber").href = enlaceUber();
+  // Un boton por app, la mas barata primero.
+  $("abrirApps").innerHTML = orden.map((x, i) =>
+    `<button type="button" class="boton${i ? " oscuro" : ""}" data-app="${x.app}">${ico("auto")}Abrir ${Grieta.nombreApp(x.app)} · ${pesos(x.precio)}</button>`).join("");
+  $("appAviso").textContent = "";
 }
 
 $("empezar").addEventListener("click", () => iniciarGuia(estado.elegida));
@@ -646,6 +649,32 @@ const enlaceUber = () => {
   });
   return `https://m.uber.com/ul/?${q}`;
 };
+
+// Uber abre con el viaje ya puesto. DiDi e inDrive no publican un enlace asi: se copia el destino y se abre su app.
+const TIENDAS = {
+  didi: { ios: "https://apps.apple.com/app/id1362398401", android: "com.didiglobal.passenger" },
+  indrive: { ios: "https://apps.apple.com/app/id780125801", android: "sinet.startup.inDriver" },
+};
+$("abrirApps").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-app]");
+  if (!b) return;
+  const app = b.dataset.app;
+  if (app === "uber") return void open(enlaceUber(), "_blank", "noopener");
+  const destino = estado.destino.nombre;
+  let copiado = true;
+  try { await navigator.clipboard.writeText(destino); } catch { copiado = false; }
+  const aviso = copiado
+    ? `Copié "${destino}". En ${Grieta.nombreApp(app)}, pégalo como destino.`
+    : `En ${Grieta.nombreApp(app)}, escribe como destino: ${destino}.`;
+  $("appAviso").textContent = aviso;
+  hablar(aviso);
+  const t = TIENDAS[app];
+  // En Android se abre la app si esta instalada y si no, su pagina en Play; en iPhone, su pagina en la App Store tiene el boton Abrir.
+  const destinoApp = /android/i.test(navigator.userAgent)
+    ? `intent://#Intent;package=${t.android};S.browser_fallback_url=${encodeURIComponent(`https://play.google.com/store/apps/details?id=${t.android}`)};end`
+    : t.ios;
+  setTimeout(() => { location.href = destinoApp; }, 1500);
+});
 
 function quitarTrazo() {
   capas.camion?.remove();

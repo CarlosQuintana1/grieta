@@ -354,3 +354,14 @@ textarea::placeholder { color: var(--tenue); }
 .chofer-pide { font-size: 1.4rem; line-height: 1.3; margin: 0 0 12px; }
 .boton.negro { background: #000; color: #fff; border-color: #000; }
 .boton.borde-negro { background: #fff; color: #000; border: 2px solid #000; }
+
+.en-app { margin-top: 14px; }
+.en-app h2 { margin-top: 6px; }
+.apps-rapido { display: grid; grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); gap: 8px; }
+.app-rapida { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-height: var(--toque); padding: 10px 12px;
+  border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); text-align: left; }
+.app-rapida span { font-size: 0.85rem; color: var(--tenue); font-weight: 600; }
+.app-rapida strong { font-size: 1.3rem; font-weight: 800; }
+.app-rapida small { font-size: 0.72rem; font-weight: 700; color: var(--ambar); text-transform: uppercase; letter-spacing: 0.06em; }
+.app-rapida.barata { border: 2px solid var(--ambar); }
+.en-app .enlace { margin-top: 4px; }

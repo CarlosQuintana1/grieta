@@ -427,6 +427,13 @@ function pintarOpciones(r) {
   $("guardarLugar").disabled = Boolean(ya);
   const cuando = estado.momento === 0 ? "" : ` · saliendo ${estado.momento < ESPERAS.length ? momentos()[estado.momento].etiqueta.toLowerCase() : `el ${DIAS[r.ctx.dia]} a las ${hora(r.ctx.minuto)}`}`;
   $("resumenRuta").textContent = `Desde ${esGps(estado.origen) ? "tu ubicación" : estado.origen.nombre} · ${r.directo.km.toFixed(1)} km${cuando}`;
+  // Los precios de las apps, a la vista sin tener que entrar a una opcion.
+  const apps = [...r.directo.porApp].sort((a, b) => a.precio - b.precio);
+  $("appsRapido").innerHTML = apps.map((x, i) => `<button type="button" class="app-rapida${i ? "" : " barata"}" data-app="${x.app}"
+      aria-label="Abrir ${Grieta.nombreApp(x.app)}, unos ${Math.round(x.precio)} pesos${i ? "" : ", la más barata"}">
+      <span>${Grieta.nombreApp(x.app)}</span><strong>${pesos(x.precio)}</strong>${i ? "" : `<small>Más barata</small>`}</button>`).join("");
+  $("avisoRapido").textContent = "";
+  $("compararPrecio").hidden = !r.opciones.some((o) => o.tipo === "app");
   estado.tarjetas = elegirTarjetas(r);
   $("cuantasOpciones").textContent = `${estado.tarjetas.length} ${estado.tarjetas.length === 1 ? "opción" : "opciones"}`;
   const primera = estado.tarjetas.length ? Math.min(...estado.tarjetas.map(({ o }) => llegada(o))) : null;
@@ -466,6 +473,18 @@ $("tarjetas").addEventListener("click", (e) => {
   titulos.detalle = tituloOpcion(o);
   ir("detalle");
   pintarDetalle();
+});
+
+// Comparar lo que marca la app: lleva directo al detalle del viaje en app, con el campo del precio listo.
+$("compararPrecio").addEventListener("click", () => {
+  const o = estado.r.opciones.find((x) => x.tipo === "app");
+  if (!o) return;
+  estado.elegida = o;
+  estado.etiquetaElegida = "En app";
+  titulos.detalle = tituloOpcion(o);
+  ir("detalle");
+  pintarDetalle();
+  setTimeout(() => { $("appVista").scrollIntoView({ block: "center" }); $("appVista").focus({ preventScroll: true }); }, 150);
 });
 
 // Inicio de la franja de 3 horas que contiene ese minuto.
@@ -655,7 +674,7 @@ const TIENDAS = {
   didi: { ios: "https://apps.apple.com/app/id1362398401", android: "com.didiglobal.passenger" },
   indrive: { ios: "https://apps.apple.com/app/id780125801", android: "sinet.startup.inDriver" },
 };
-$("abrirApps").addEventListener("click", async (e) => {
+async function abrirApp(e) {
   const b = e.target.closest("[data-app]");
   if (!b) return;
   const app = b.dataset.app;
@@ -666,7 +685,7 @@ $("abrirApps").addEventListener("click", async (e) => {
   const aviso = copiado
     ? `Copié "${destino}". En ${Grieta.nombreApp(app)}, pégalo como destino.`
     : `En ${Grieta.nombreApp(app)}, escribe como destino: ${destino}.`;
-  $("appAviso").textContent = aviso;
+  for (const id of ["appAviso", "avisoRapido"]) $(id).textContent = aviso;
   hablar(aviso);
   const t = TIENDAS[app];
   // En Android se abre la app si esta instalada y si no, su pagina en Play; en iPhone, su pagina en la App Store tiene el boton Abrir.
@@ -674,7 +693,9 @@ $("abrirApps").addEventListener("click", async (e) => {
     ? `intent://#Intent;package=${t.android};S.browser_fallback_url=${encodeURIComponent(`https://play.google.com/store/apps/details?id=${t.android}`)};end`
     : t.ios;
   setTimeout(() => { location.href = destinoApp; }, 1500);
-});
+}
+$("abrirApps").addEventListener("click", abrirApp);
+$("appsRapido").addEventListener("click", abrirApp);
 
 function quitarTrazo() {
   capas.camion?.remove();

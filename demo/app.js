@@ -264,6 +264,14 @@ function sugerir(texto) {
     lista.innerHTML = fijos.map((l, i) => filaLugar(l, i, esGps(l) ? "localizar" : "pin")).join("");
     return;
   }
+  // Primero los lugares guardados y los de la app que coinciden; el buscador de mapas no siempre los conoce por su nombre completo.
+  const buscado = sinAcentos(texto);
+  const propios = [...guardados, ...lugares].filter((l) => sinAcentos(l.nombre).includes(buscado)).map(conDistancia);
+  const pintarResultados = (res, vacio) => {
+    estado.resultados = propios.concat(res).slice(0, 8);
+    estado.buscado = true;
+    lista.innerHTML = estado.resultados.length ? estado.resultados.map((l, i) => filaLugar(l, i)).join("") : `<li class="vacio">${vacio}</li>`;
+  };
   espera = setTimeout(async () => {
     const c = cerca() ?? { lat: QUERETARO[0], lon: QUERETARO[1] };
     const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(texto)}&lat=${c.lat}&lon=${c.lon}&limit=6&bbox=-100.65,20.4,-100.15,20.9`;
@@ -274,15 +282,9 @@ function sugerir(texto) {
         detalle: [p.street && p.name ? p.street : null, p.district ?? p.city].filter(Boolean).join(", "),
         lat: g.coordinates[1], lon: g.coordinates[0],
       }));
-      estado.resultados = res;
-      estado.buscado = true;
-      lista.innerHTML = res.length
-        ? res.map((l, i) => filaLugar(l, i)).join("")
-        : `<li class="vacio">No encontré ese lugar. Prueba con otro nombre o toca el mapa en Inicio.</li>`;
+      pintarResultados(res, "No encontré ese lugar. Prueba con otro nombre o toca el mapa en Inicio.");
     } catch {
-      estado.resultados = [];
-      estado.buscado = true;
-      lista.innerHTML = `<li class="vacio">No hay conexión con el buscador. Elige un lugar guardado o toca el mapa en Inicio.</li>`;
+      pintarResultados([], "No hay conexión con el buscador. Elige un lugar guardado o toca el mapa en Inicio.");
     }
   }, 300);
 }

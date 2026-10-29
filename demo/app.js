@@ -709,9 +709,9 @@ async function abrirApp(e) {
   const destino = estado.destino.nombre;
   let copiado = true;
   try { await navigator.clipboard.writeText(destino); } catch { copiado = false; }
-  const aviso = copiado
-    ? `Copié "${destino}". En ${Grieta.nombreApp(app)}, pégalo como destino.`
-    : `En ${Grieta.nombreApp(app)}, escribe como destino: ${destino}.`;
+  // DiDi e inDrive se abren desde su pagina en la tienda: ahi aparece el boton Abrir si ya estan instaladas.
+  const aviso = (copiado ? `Copié "${destino}". ` : "") + `Te llevo a ${Grieta.nombreApp(app)}: en la tienda toca Abrir y ` +
+    (copiado ? "pega el destino." : `escribe como destino ${destino}.`);
   for (const id of ["appAviso", "avisoRapido"]) $(id).textContent = aviso;
   hablar(aviso);
   const t = TIENDAS[app];

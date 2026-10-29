@@ -1,5 +1,5 @@
 // Guarda la app y los horarios para que funcione sin internet. Cambiar la version renueva todo.
-const VERSION = "grieta-9";
+const VERSION = "grieta-10";
 const BASE = [
   "./", "index.html", "estilos.css", "app.js", "grieta.js", "logo.png", "icono-192.png", "manifest.webmanifest",
   "datos/modelo.json", "datos/qrobus.json", "datos/lugares.json", "datos/config.json",

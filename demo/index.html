@@ -81,7 +81,7 @@
             <span><strong>Con la vista</strong><small>Tamaño de texto normal</small></span><span class="radio" aria-hidden="true"></span>
           </button>
           <button type="button" role="radio" aria-checked="false" data-v="voz" class="opcion-tarjeta" tabindex="-1">
-            <span><strong>Con voz</strong><small>Compatible con VoiceOver y TalkBack</small></span><span class="radio" aria-hidden="true"></span>
+            <span><strong>Con voz</strong><small>Modo voz: botones grandes y todo en voz alta. Compatible con VoiceOver y TalkBack</small></span><span class="radio" aria-hidden="true"></span>
           </button>
           <button type="button" role="radio" aria-checked="false" data-v="grande" class="opcion-tarjeta" tabindex="-1">
             <span><strong>Con letra grande</strong><small>Texto y controles más grandes</small></span><span class="radio" aria-hidden="true"></span>
@@ -93,6 +93,18 @@
     </section>
 
     <section id="inicio" class="pantalla" aria-labelledby="tituloInicio">
+      <div id="inicioVoz" class="inicio-voz" hidden>
+        <h1 class="titulo-grande" tabindex="-1">Modo voz</h1>
+        <p class="nota">Toca un botón y Grieta te contesta en voz alta.</p>
+        <button id="vozDestino" type="button" class="boton-voz"><svg class="icono"><use href="#i-microfono"/></svg>Decir a dónde voy</button>
+        <button id="vozCasa" type="button" class="boton-voz" hidden><svg class="icono"><use href="#i-casa"/></svg>Llévame a casa</button>
+        <button id="vozCamion" type="button" class="boton-voz"><svg class="icono"><use href="#i-camion"/></svg>¿Qué camión pasa aquí?</button>
+        <button id="vozDonde" type="button" class="boton-voz"><svg class="icono"><use href="#i-localizar"/></svg>¿Dónde estoy?</button>
+        <button id="vozRepetir" type="button" class="boton-voz oscuro"><svg class="icono"><use href="#i-repetir"/></svg>Repetir lo último</button>
+        <div id="respuestaVoz" class="respuesta" aria-live="polite"></div>
+        <button id="salirVoz" type="button" class="enlace">Salir del modo voz</button>
+      </div>
+      <div id="inicioNormal">
       <button id="llevameCasa" type="button" class="boton casa" hidden><svg class="icono"><use href="#i-casa"/></svg>Llévame a casa</button>
       <h1 id="tituloInicio" class="titulo-grande" tabindex="-1">¿A dónde vas?</h1>
       <div class="buscador">
@@ -110,9 +122,14 @@
           <svg class="icono ambar"><use href="#i-localizar"/></svg>
           <strong>¿Dónde estoy?</strong>
         </button>
+        <button id="activarVoz" type="button" class="atajo ancho">
+          <svg class="icono ambar"><use href="#i-altavoz"/></svg>
+          <strong>Modo voz</strong><small>Para personas ciegas o con baja visión: botones grandes y todo en voz alta</small>
+        </button>
       </div>
       <div id="respuesta" class="respuesta" aria-live="polite"></div>
       <p class="desde"><span id="desdeTexto">Buscando tu ubicación...</span> · <button id="cambiarDesde" type="button" class="enlace">Cambiar</button></p>
+      </div>
     </section>
 
     <section id="buscar" class="pantalla" aria-labelledby="tituloPantalla" hidden>
@@ -278,6 +295,7 @@
       <h1 id="tituloAjustes" class="titulo-grande" tabindex="-1">Ajustes</h1>
       <h2>Accesibilidad</h2>
       <div class="grupo">
+        <label class="interruptor"><span><strong>Modo voz</strong><small>Botones grandes, sin mapa y todo dicho en voz alta</small></span><input type="checkbox" role="switch" id="optModoVoz"></label>
         <label class="interruptor"><span><strong>Letra grande</strong></span><input type="checkbox" role="switch" id="optGrande"></label>
         <label class="interruptor"><span><strong>Alto contraste</strong></span><input type="checkbox" role="switch" id="optContraste"></label>
         <label class="interruptor"><span><strong>Colores para daltonismo</strong><small>Azul y naranja en vez de ámbar y rojo</small></span><input type="checkbox" role="switch" id="optDaltonico"></label>

@@ -39,12 +39,16 @@ const capas = {};
 let lugares = [];
 
 // Ajustes guardados en este telefono.
-const acc = { grande: false, contraste: false, daltonico: false, voz: true, lenta: false, camino: false, unidos: false, ...leer("grieta-acc", {}) };
-const OPCIONES = { grande: "optGrande", contraste: "optContraste", daltonico: "optDaltonico", voz: "optVoz", lenta: "optLenta", camino: "optCamino", unidos: "optUnidos" };
+const acc = { modoVoz: false, grande: false, contraste: false, daltonico: false, voz: true, lenta: false, camino: false, unidos: false, ...leer("grieta-acc", {}) };
+const OPCIONES = { modoVoz: "optModoVoz", grande: "optGrande", contraste: "optContraste", daltonico: "optDaltonico", voz: "optVoz", lenta: "optLenta", camino: "optCamino", unidos: "optUnidos" };
 function aplicarAcc() {
   document.documentElement.classList.toggle("grande", acc.grande);
   document.documentElement.classList.toggle("contraste", acc.contraste);
   document.documentElement.classList.toggle("daltonico", acc.daltonico);
+  // Modo voz: el inicio cambia a botones grandes y el mapa se quita.
+  document.documentElement.classList.toggle("modo-voz", acc.modoVoz);
+  $("inicioVoz").hidden = !acc.modoVoz;
+  $("inicioNormal").hidden = acc.modoVoz;
   for (const [k, id] of Object.entries(OPCIONES)) $(id).checked = acc[k];
   $("optUnidos2").checked = acc.unidos;
   recolorear();
@@ -53,6 +57,7 @@ const guardarAcc = () => escribir("grieta-acc", acc);
 for (const [k, id] of Object.entries(OPCIONES)) {
   $(id).addEventListener("change", (e) => {
     acc[k] = e.target.checked;
+    if (k === "modoVoz" && acc.modoVoz) Object.assign(acc, { voz: true, grande: true });
     guardarAcc();
     aplicarAcc();
     if (k === "camino" || k === "unidos") calcular();
@@ -340,6 +345,17 @@ async function trazar() {
   ir("opciones", document.body.dataset.pantalla === "buscar");
   calcular();
   setTimeout(() => encuadrar(capas.linea.getBounds()), 120);
+  if (acc.modoVoz) hablar(resumenOpciones(), true);
+}
+
+// Lo que se dice al llegar a Como llegar en modo voz: el camino recomendado y la app mas barata.
+function resumenOpciones() {
+  const r = estado.r;
+  const rec = estado.tarjetas?.[0]?.o;
+  const app = [...r.directo.porApp].sort((a, b) => a.precio - b.precio)[0];
+  if (!rec) return `No encontré cómo llegar a ${estado.destino.nombre}.`;
+  return `Para ir a ${estado.destino.nombre}, lo recomendado es ${tituloOpcion(rec)}: ${Math.round(rec.costo)} pesos, llegas a las ${hora(llegada(rec))}. ` +
+    `En app, lo más barato es ${Grieta.nombreApp(app.app)}, unos ${Math.round(app.precio)} pesos. Toca la primera opción para escuchar los pasos.`;
 }
 
 function limpiarRuta(soloMapa) {
@@ -473,7 +489,15 @@ $("tarjetas").addEventListener("click", (e) => {
   titulos.detalle = tituloOpcion(o);
   ir("detalle");
   pintarDetalle();
+  if (acc.modoVoz) leerDetalle();
 });
+
+function leerDetalle() {
+  const o = estado.elegida;
+  if (o.tipo !== "app") return hablar(`${pasosEnVoz(o)} Toca Empezar con avisos para que te guíe.`);
+  const apps = [...estado.r.directo.porApp].sort((a, b) => a.precio - b.precio);
+  hablar(`En app: ${apps.map((x) => `${Grieta.nombreApp(x.app)}, unos ${Math.round(x.precio)} pesos`).join("; ")}. Toca el botón de la app para pedirla.`);
+}
 
 // Comparar lo que marca la app: lleva directo al detalle del viaje en app, con el campo del precio listo.
 $("compararPrecio").addEventListener("click", () => {
@@ -610,7 +634,10 @@ function pintarApps(o) {
 
 $("empezar").addEventListener("click", () => iniciarGuia(estado.elegida));
 $("avisarLlegada").addEventListener("click", () => iniciarDestino());
-$("escuchar").addEventListener("click", () => hablar(pasosDe(estado.elegida).map((p) => `${p.titulo}. ${p.nota}`).join(" ")));
+// Cada paso dicho como dos oraciones, con su punto, para que la voz haga la pausa.
+const conPunto = (t) => (/[.!?]$/.test(t) ? t : `${t}.`);
+const pasosEnVoz = (o) => pasosDe(o).map((p) => `${conPunto(p.titulo)} ${conPunto(p.nota)}`).join(" ");
+$("escuchar").addEventListener("click", () => hablar(pasosEnVoz(estado.elegida)));
 
 $("appVista").addEventListener("change", (e) => { estado.app = e.target.value || null; calcular(); });
 $("prisa").addEventListener("click", (e) => {
@@ -787,7 +814,7 @@ function abrirCamiones() {
 }
 
 function dondeEstoy(destino) {
-  const contar = (t) => { if (destino === "guia") $("guiaDetalle").textContent = t; else $("respuesta").textContent = t; };
+  const contar = (t) => { $(destino === "guia" ? "guiaDetalle" : destino === "voz" ? "respuestaVoz" : "respuesta").textContent = t; };
   if (!navigator.geolocation) { contar("Tu navegador no comparte la ubicación."); return hablar("Tu navegador no comparte la ubicación."); }
   contar("Buscando dónde estás...");
   hablar("Buscando dónde estás.");
@@ -836,6 +863,10 @@ function dictar(boton) {
       if (!estado.buscado && ++intentos < 12) return;
       clearInterval(leerRes);
       const res = estado.resultados ?? [];
+      if (acc.modoVoz && res.length) {
+        hablar(`Vamos a ${res[0].nombre}. Si no es, regresa y vuelve a decirlo.`);
+        return elegir(res[0]);
+      }
       hablar(res.length
         ? `Encontré ${res.length} lugares. ` + res.slice(0, 3).map((l, i) => `${i + 1}: ${l.nombre}${l.detalle ? ", " + l.detalle : ""}.`).join(" ") + " Elige uno de la lista."
         : `No encontré ${texto}. Intenta con otro nombre.`);
@@ -1098,6 +1129,7 @@ let editando = false;
 function pintarGuardados() {
   const casa = guardados.find((g) => g.nombre === "Casa");
   $("llevameCasa").hidden = !casa;
+  $("vozCasa").hidden = !casa;
   $("guardados").hidden = !guardados.length;
   $("guardados").innerHTML = guardados.map((g, i) =>
     `<button type="button" class="chip" data-i="${i}" aria-label="Ir a ${escapar(g.nombre)}">${ico(g.nombre === "Casa" ? "casa" : "pin")}${escapar(g.nombre)}</button>`).join("");
@@ -1118,6 +1150,30 @@ function guardarLugares() {
 }
 const irA = (lugar) => { estado.editando = "hacia"; poner("destino", lugar); };
 $("llevameCasa").addEventListener("click", () => irA(guardados.find((g) => g.nombre === "Casa")));
+
+// Botones del modo voz.
+$("vozCasa").addEventListener("click", () => { hablar("Vamos a casa."); irA(guardados.find((g) => g.nombre === "Casa")); });
+$("vozCamion").addEventListener("click", () => abrirCamiones());
+$("vozDonde").addEventListener("click", () => dondeEstoy("voz"));
+$("vozRepetir").addEventListener("click", () => hablar(ultimoDicho || "Todavía no he dicho nada. Toca un botón."));
+$("vozDestino").addEventListener("click", () => {
+  if (Reconocer) return dictar($("vozDestino"));
+  abrirBuscar("hacia");
+  hablar("Este navegador no deja dictar. Escribe a dónde vas.");
+});
+$("activarVoz").addEventListener("click", () => {
+  Object.assign(acc, { modoVoz: true, voz: true, grande: true });
+  guardarAcc();
+  aplicarAcc();
+  hablar("Modo voz. Arriba, decir a dónde vas. Luego, qué camión pasa aquí y dónde estoy. Abajo, repetir.");
+  document.querySelector("#inicioVoz h1").focus();
+});
+$("salirVoz").addEventListener("click", () => {
+  acc.modoVoz = false;
+  guardarAcc();
+  aplicarAcc();
+  $("tituloInicio").focus();
+});
 $("guardados").addEventListener("click", (e) => {
   const b = e.target.closest("button");
   if (b) irA(guardados[b.dataset.i]);
@@ -1318,7 +1374,8 @@ $("enviarPrecio").addEventListener("click", async () => {
 // Bienvenida: solo la primera vez.
 let paso = 1;
 const marcarModo = radios("modoUso", (v) => {
-  acc.grande = v === "grande";
+  acc.modoVoz = v === "voz";
+  acc.grande = v !== "vista";
   if (v === "voz") acc.voz = true;
   guardarAcc();
   aplicarAcc();

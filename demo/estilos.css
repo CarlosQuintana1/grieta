@@ -365,3 +365,16 @@ textarea::placeholder { color: var(--tenue); }
 .app-rapida small { font-size: 0.72rem; font-weight: 700; color: var(--ambar); text-transform: uppercase; letter-spacing: 0.06em; }
 .app-rapida.barata { border: 2px solid var(--ambar); }
 .en-app .enlace { margin-top: 4px; }
+
+/* Modo voz: sin mapa, botones grandes uno debajo de otro. */
+html.modo-voz #mapa { display: none; }
+html.modo-voz body.con-mapa .hoja { margin-top: 0; border-radius: 0; border-top: none; }
+html.modo-voz .agarradera { display: none; }
+.inicio-voz { display: grid; gap: 12px; }
+.inicio-voz .nota { margin: 0 0 6px; font-size: 1rem; }
+.boton-voz { display: flex; align-items: center; gap: 14px; width: 100%; min-height: 84px; padding: 14px 20px; border-radius: var(--radio);
+  background: var(--ambar); color: var(--sobre-ambar); font-size: 1.3rem; font-weight: 800; text-align: left; border: 2px solid var(--ambar); }
+.boton-voz .icono { width: 30px; height: 30px; flex: none; }
+.boton-voz.oscuro { background: var(--superficie); color: var(--tinta); border-color: var(--linea); }
+.atajo.ancho { grid-column: 1 / -1; }
+.atajo small { display: block; color: var(--tenue); font-size: 0.8rem; font-weight: 500; margin-top: 2px; }

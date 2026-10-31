@@ -23,7 +23,8 @@ html.contraste.daltonico { --ambar: #6cb6ff; --cuidado: #ff9f43; }
 [hidden] { display: none !important; }
 html, body { margin: 0; height: 100%; background: var(--fondo); }
 body {
-  display: flex; flex-direction: column; height: 100dvh; overflow: hidden;
+  /* Fija a las cuatro orillas: instalada en iPhone, 100dvh no cuenta la barra de estado y deja un hueco abajo. */
+  position: fixed; inset: 0; display: flex; flex-direction: column; overflow: hidden;
   color: var(--tinta); font: 400 1rem/1.45 Montserrat, system-ui, sans-serif;
   -webkit-tap-highlight-color: transparent;
 }
@@ -60,8 +61,12 @@ h1:focus, h1:focus-visible { outline: none; }
 /* Mapa */
 #mapa { flex: none; height: 0; background: var(--fondo); position: relative; z-index: 0; }
 body.con-mapa .leaflet-bottom { bottom: 18px; }
-body.con-mapa #mapa { height: 28dvh; }
-body[data-pantalla="inicio"] #mapa { height: 30dvh; }
+/* El mapa se queda con lo que sobre; la hoja crece con su contenido hasta dejarle al menos una cuarta parte. */
+body.con-mapa #mapa { flex: 1 1 0; height: auto; min-height: 26%; }
+body.con-mapa .hoja { flex: 0 1 auto; max-height: 74%; }
+/* Sombra bajo la hora y la bateria para que se lean sobre el mapa. */
+body.con-mapa #mapa::after { content: ""; position: absolute; top: 0; left: 0; right: 0; z-index: 450; pointer-events: none;
+  height: calc(env(safe-area-inset-top) + 16px); background: linear-gradient(var(--fondo), transparent); }
 .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) grayscale(1) sepia(0.25) brightness(0.62) contrast(1.15); }
 html.contraste .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) grayscale(1) brightness(0.9) contrast(1.4); }
 .leaflet-container { background: var(--fondo); font-family: Montserrat, sans-serif; }
@@ -162,8 +167,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 #tituloCamion { margin-top: 26px; }
 /* Con letra grande, el texto de cada opcion se queda con todo el ancho y el mapa cede espacio. */
 html.grande .tarjeta .circulo { display: none; }
-html.grande body.con-mapa #mapa { height: 22dvh; }
-html.grande body[data-pantalla="inicio"] #mapa { height: 24dvh; }
+html.grande body.con-mapa #mapa { min-height: 20%; }
+html.grande body.con-mapa .hoja { max-height: 80%; }
 .precio { font-size: 1.45rem; font-weight: 800; white-space: nowrap; }
 .tarjeta.principal .precio { color: var(--ambar); }
 .plegable { margin-top: 14px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); }
@@ -320,7 +325,8 @@ textarea::placeholder { color: var(--tenue); }
 .quitar { color: var(--ambar); font-weight: 700; min-height: var(--toque); padding: 0 6px; }
 
 /* Bienvenida: la opcion para quien no ve ocupa la parte de abajo, la mas facil de tocar sin buscarla. */
-#bienvenida .paso { display: flex; flex-direction: column; min-height: calc(100dvh - max(20px, env(safe-area-inset-top)) - 32px); }
+#bienvenida:not([hidden]) { display: flex; flex-direction: column; min-height: 100%; }
+#bienvenida .paso { flex: 1; display: flex; flex-direction: column; }
 #bienvenida .paso[hidden] { display: none; }
 #bienvenida h1 { font-size: 2.1rem; margin-top: 6px; }
 #bienvenida .regresar { align-self: flex-start; }
@@ -350,9 +356,9 @@ textarea::placeholder { color: var(--tenue); }
 @media (min-width: 760px) {
   body { display: grid; grid-template-columns: 420px 1fr; grid-template-rows: auto 1fr auto; }
   .encabezado { grid-column: 1; grid-row: 1; }
-  .hoja, body.con-mapa .hoja { grid-column: 1; grid-row: 2; margin-top: 0; border-radius: 0; border-top: none; border-right: 1px solid var(--linea); }
+  .hoja, body.con-mapa .hoja { grid-column: 1; grid-row: 2; margin-top: 0; border-radius: 0; border-top: none; border-right: 1px solid var(--linea); max-height: none; }
   .pestanas { grid-column: 1; grid-row: 3; border-right: 1px solid var(--linea); }
-  #mapa, body.con-mapa #mapa, body[data-pantalla] #mapa { grid-column: 2; grid-row: 1 / -1; height: 100%; }
+  #mapa, body.con-mapa #mapa, body[data-pantalla] #mapa { grid-column: 2; grid-row: 1 / -1; height: 100%; min-height: 0; }
   .agarradera, body.con-mapa .agarradera { display: none; }
   body.con-mapa .hoja { padding-top: 20px; }
   body.con-mapa .leaflet-bottom { bottom: 0; }
@@ -389,7 +395,9 @@ textarea::placeholder { color: var(--tenue); }
 
 /* Modo voz: sin mapa, botones grandes uno debajo de otro. */
 html.modo-voz #mapa { display: none; }
-html.modo-voz body.con-mapa .hoja { margin-top: 0; border-radius: 0; border-top: none; }
+html.modo-voz body.con-mapa .hoja { margin-top: 0; border-radius: 0; border-top: none; flex: 1; max-height: none; }
+/* Sin mapa arriba, el contenido baja de la hora y la bateria. */
+html.modo-voz body.con-mapa:not(:has(#encabezado:not([hidden]))) .hoja { padding-top: max(20px, env(safe-area-inset-top)); }
 html.modo-voz .agarradera { display: none; }
 /* En modo para personas ciegas, Como llegar se queda con lo necesario para decidir: menos cosas que recorrer con el dedo. */
 html.modo-voz #opciones .plegable, html.modo-voz #compararPrecio, html.modo-voz #info, html.modo-voz #filaUnidos { display: none; }

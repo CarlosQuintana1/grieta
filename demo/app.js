@@ -32,8 +32,8 @@ const mapa = L.map("mapa", { zoomControl: false, attributionControl: false, keyb
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19 }).addTo(mapa);
 L.control.attribution({ position: "bottomright", prefix: false })
   .addAttribution('&copy; <a href="https://www.openstreetmap.org/copyright" tabindex="-1">OpenStreetMap</a>').addTo(mapa);
-// Al girar el telefono o cambiar el tamano de la ventana, Leaflet necesita volver a medir el mapa.
-addEventListener("resize", () => mapa.invalidateSize());
+// El mapa cambia de alto con lo que hay en la hoja y al girar el telefono: Leaflet tiene que volver a medirlo.
+new ResizeObserver(() => mapa.invalidateSize()).observe($("mapa"));
 const icono = (clase) => L.divIcon({ className: "", html: `<span class="marca ${clase}"></span>`, iconSize: [18, 18] });
 
 const estado = { origen: null, destino: null, editando: "hacia", kmCalle: null, momento: 0, otra: null, prisa: 20, app: null, gps: null, elegida: null };

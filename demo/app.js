@@ -78,6 +78,7 @@ const PANTALLAS = {
   bienvenida: {},
   inicio: { tab: "inicio", mapa: true },
   buscar: { tab: "inicio", encabezado: true },
+  elegirMapa: { tab: "inicio", mapa: true, encabezado: true },
   opciones: { tab: "inicio", mapa: true, encabezado: true },
   detalle: { tab: "inicio", mapa: true, encabezado: true },
   camiones: { tab: "inicio", encabezado: true },
@@ -85,7 +86,7 @@ const PANTALLAS = {
   reporte: { tab: "reporte" },
   ajustes: { tab: "ajustes" },
 };
-const titulos = { buscar: "Buscar", camiones: "Camiones cerca" };
+const titulos = { buscar: "Buscar", camiones: "Camiones cerca", elegirMapa: "Elige en el mapa" };
 
 function mostrar(nombre) {
   const conf = PANTALLAS[nombre];
@@ -93,6 +94,7 @@ function mostrar(nombre) {
   if (guia.activa && nombre !== "guia") terminarGuia(true);
   if (nombre === "inicio") { limpiarRuta(); pintarViajes(); }
   if (nombre === "opciones") quitarTrazo();
+  if (nombre !== "elegirMapa") capas.punto?.remove();
   for (const s of document.querySelectorAll(".pantalla")) s.hidden = s.id !== nombre;
   document.body.dataset.pantalla = nombre;
   document.body.classList.toggle("con-mapa", Boolean(conf.mapa));
@@ -287,7 +289,7 @@ function sugerir(texto) {
   const pintarResultados = (res, vacio) => {
     estado.resultados = propios.concat(res).slice(0, 8);
     estado.buscado = true;
-    lista.innerHTML = estado.resultados.length ? estado.resultados.map((l, i) => filaLugar(l, i)).join("") : `<li class="vacio">${vacio}</li>`;
+    lista.innerHTML = (estado.resultados.length ? estado.resultados.map((l, i) => filaLugar(l, i)).join("") : `<li class="vacio">${vacio}</li>`) + filaMapa;
   };
   espera = setTimeout(async () => {
     const c = cerca() ?? { lat: QUERETARO[0], lon: QUERETARO[1] };
@@ -299,12 +301,40 @@ function sugerir(texto) {
         detalle: [p.street && p.name ? p.street : null, p.district ?? p.city].filter(Boolean).join(", "),
         lat: g.coordinates[1], lon: g.coordinates[0],
       }));
-      pintarResultados(res, "No encontré ese lugar. Prueba con otro nombre o toca el mapa en Inicio.");
+      pintarResultados(res, `No encontré "${escapar(texto)}". Prueba con la calle y la colonia, o elígelo en el mapa.`);
     } catch {
-      pintarResultados([], "No hay conexión con el buscador. Elige un lugar guardado o toca el mapa en Inicio.");
+      pintarResultados([], "No hay conexión con el buscador. Elige un lugar guardado o elígelo en el mapa.");
     }
   }, 300);
 }
+// El buscador de mapas no conoce todos los negocios y oficinas: siempre queda la opcion de elegir el punto.
+const filaMapa = `<li class="fila-mapa"><button type="button" data-mapa>
+  <span class="circulo tenue">${ico("pin")}</span>
+  <span class="fila-texto"><strong>¿No aparece? Elígelo en el mapa</strong><small>Tocas el punto y yo busco la calle</small></span>
+  ${ico("chevron", "chevron")}</button></li>`;
+
+function elegirEnMapa() {
+  estado.eligiendo = estado.editando === "desde" ? "origen" : "destino";
+  estado.puntoMapa = null;
+  capas.punto?.remove();
+  $("usarPunto").hidden = true;
+  $("elegirTexto").textContent = `Mueve el mapa y toca dónde está ${estado.eligiendo === "origen" ? "el lugar de donde sales" : "el lugar a donde vas"}.`;
+  ir("elegirMapa");
+  const c = cerca() ?? estado.destino ?? { lat: QUERETARO[0], lon: QUERETARO[1] };
+  setTimeout(() => mapa.setView([c.lat, c.lon], 15), 80);
+}
+$("usarPunto").addEventListener("click", () => {
+  const lugar = estado.puntoMapa;
+  if (!lugar) return;
+  capas.punto?.remove();
+  const cual = estado.eligiendo;
+  estado.eligiendo = null;
+  guardarReciente(lugar);
+  poner(cual, lugar);
+  // Si con este punto todavia falta el otro extremo del viaje, poner() ya llevo al buscador; si no, regresa al inicio.
+  if (document.body.dataset.pantalla === "elegirMapa" && !(estado.origen && estado.destino)) ir("inicio", true);
+});
+
 function elegir(lugar) {
   if (!lugar) return;
   guardarReciente(lugar);
@@ -312,6 +342,7 @@ function elegir(lugar) {
 }
 $("resultados").addEventListener("click", (e) => {
   const b = e.target.closest("button");
+  if (b?.hasAttribute("data-mapa")) return elegirEnMapa();
   if (b) elegir(estado.resultados?.[b.dataset.i]);
 });
 $("recientes").addEventListener("click", (e) => {
@@ -324,15 +355,27 @@ $("campoBuscar").addEventListener("keydown", (e) => {
 });
 
 mapa.on("click", async ({ latlng }) => {
-  if (document.body.dataset.pantalla !== "inicio" || !dentroDeQueretaro(latlng.lat, latlng.lng)) return;
+  const pantalla = document.body.dataset.pantalla;
+  if ((pantalla !== "inicio" && pantalla !== "elegirMapa") || !dentroDeQueretaro(latlng.lat, latlng.lng)) return;
   const cual = estado.editando === "desde" || !estado.origen ? "origen" : "destino";
   const lugar = { nombre: "Punto en el mapa", lat: latlng.lat, lon: latlng.lng };
+  if (pantalla === "elegirMapa") {
+    capas.punto?.remove();
+    capas.punto = L.marker([latlng.lat, latlng.lng], { icon: icono(estado.eligiendo), keyboard: false }).addTo(mapa);
+    $("usarPunto").hidden = false;
+    $("usarPunto").textContent = "Buscando la calle...";
+  }
   // Primero el nombre de la calle, para que la pantalla siguiente no diga "punto en el mapa".
   try {
     const r = await (await fetch(`https://photon.komoot.io/reverse?lat=${latlng.lat}&lon=${latlng.lng}&limit=1`)).json();
     const p = r.features[0]?.properties;
     lugar.nombre = p?.name ?? ([p?.street, p?.housenumber].filter(Boolean).join(" ") || lugar.nombre);
   } catch {}
+  if (pantalla === "elegirMapa") {
+    estado.puntoMapa = lugar;
+    $("usarPunto").textContent = `Usar este punto: ${lugar.nombre}`;
+    return;
+  }
   poner(cual, lugar);
 });
 
@@ -354,7 +397,7 @@ async function trazar() {
   estado.momento = 0;
   estado.otra = null;
   titulos.opciones = `A ${d.nombre}`;
-  ir("opciones", document.body.dataset.pantalla === "buscar");
+  ir("opciones", ["buscar", "elegirMapa"].includes(document.body.dataset.pantalla));
   calcular();
   setTimeout(() => encuadrar(capas.linea.getBounds()), 120);
   if (acc.modoVoz) hablar(resumenOpciones(), true);

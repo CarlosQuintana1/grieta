@@ -151,6 +151,10 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 .circulo.tenue { color: var(--tenue); }
 .chevron { color: var(--tenue); width: 20px; height: 20px; }
 .filas .vacio { color: var(--tenue); padding: 14px 0; }
+.fila-mapa strong { color: var(--ambar); }
+html.modo-voz .fila-mapa { display: none; }
+/* Al elegir en el mapa, el mapa se queda con casi toda la pantalla. */
+body[data-pantalla="elegirMapa"] .hoja { max-height: 32%; }
 
 /* Como llegar */
 .resumen-ruta { color: var(--tenue); font-size: 0.88rem; }

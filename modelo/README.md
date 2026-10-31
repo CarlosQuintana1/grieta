@@ -38,10 +38,11 @@ consejo se cobra en pesos: el precio que pagó, más $1 por minuto de más en el
 que se le hizo tarde, con las tres prisas de la app (5, 20 y 45 minutos libres). El precio esperado
 sale de un modelo que no vio ese día, y el genético aprende con unos días y se califica con otros.
 
-Cada individuo son los puntos de los conjuntos difusos, que solo pueden moverse un poco desde los
-valores a mano (±0.2 en precio, ±15 min en tiempos) para que "caro" siga queriendo decir caro, y la
-acción de cada regla, que puede apagarse. Población de 60, 120 generaciones, torneo de tres, cruce
-BLX y élite de dos.
+Cada individuo son los puntos de los conjuntos difusos y la acción de cada regla, que puede
+apagarse. Los puntos solo se mueven un poco desde los valores a mano (±0.05 en precio, ±15 min en
+tiempos): con ±0.2 ahorraba $14.83, pero "caro" terminaba empezando en 0.85 veces lo normal y la
+app explicaba sus razones con palabras que no eran ciertas. Población de 60, 120 generaciones,
+torneo de tres, cruce BLX y élite de dos.
 
 Con 262 casos de 21 días, calificado con días que no vio:
 
@@ -50,17 +51,17 @@ Con 262 casos de 21 días, calificado con días que no vio:
 | Siempre pedir ya | $100.28 | 40% |
 | Camión si hay | $96.22 | 73% |
 | Difuso a mano | $96.72 | 49% |
-| Difuso genético | $81.88 | 89% |
+| Difuso genético | $84.64 | 82% |
 | Lo mejor posible | $79.50 | 100% |
 
-El genético ahorra $14.83 por viaje contra el sistema a mano (95% entre $12.03 y $16.77,
-remuestreando días). Lo que más cambia son las reglas: apaga las de esperar y manda al camión
-cuando el precio está caro y el camión tarda poco más. Esperar sí baja el precio cuando está muy
-caro ($14.60 en promedio), pero en esos casos el camión casi siempre sale mejor.
+El genético ahorra $12.08 por viaje contra el sistema a mano (95% entre $7.51 y $14.81,
+remuestreando días). Lo que más cambia son las reglas: deja una sola de esperar (muy caro, con
+tiempo y un camión lento) y manda al camión cuando el precio está caro y el camión tarda poco más.
 
-El resultado depende de cuánto vale un minuto: con $0.65 ahorra $17.23, con $2 ahorra $7.41 y con
-$3 ahorra $2.56. Siempre le gana al sistema a mano, pero con poco tiempo libre conviene pedir la app
-casi siempre. El ajuste final queda en `datos/decision_genetica.json`.
+El resultado depende de cuánto vale un minuto: con $0.65 ahorra $14.23, con $2 ahorra $7.31 y con
+$3 ahorra $2.25. Siempre le gana al sistema a mano. La app usa este ajuste (`../demo/grieta.js`),
+copiado de `datos/decision_genetica.json`; `decision.py` se queda con el sistema a mano para
+compararlos.
 
 ```
 .venv/bin/python genetico.py                    # mide y guarda el ajuste

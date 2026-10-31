@@ -365,9 +365,12 @@ function resumenOpciones() {
   const r = estado.r;
   const rec = estado.tarjetas?.[0]?.o;
   const app = [...r.directo.porApp].sort((a, b) => a.precio - b.precio)[0];
-  if (!rec) return `Ahorita ningún camión te lleva a ${estado.destino.nombre}. En app, lo más barato es ${Grieta.nombreApp(app.app)}, unos ${Math.round(app.precio)} pesos.`;
-  return `Para ir a ${estado.destino.nombre}, lo recomendado es ${tituloOpcion(rec)}: ${Math.round(rec.costo)} pesos, llegas a las ${hora(llegada(rec))}. ` +
-    `En app, lo más barato es ${Grieta.nombreApp(app.app)}, unos ${Math.round(app.precio)} pesos. Toca la primera opción para escuchar los pasos.`;
+  const enApp = r.opciones.find((o) => o.tipo === "app");
+  const primero = `Para ir a ${estado.destino.nombre}, en app lo más barato es ${Grieta.nombreApp(app.app)}, unos ${Math.round(app.precio)} pesos` +
+    (enApp ? `; llegas a las ${hora(llegada(enApp))}. ` : ". ");
+  if (!rec) return `${primero}Ahorita ningún camión te lleva.`;
+  return `${primero}En camión, ${tituloOpcion(rec)} cuesta ${Math.round(rec.costo)} pesos y llegas a las ${hora(llegada(rec))}. ` +
+    "Toca una opción para escuchar los pasos.";
 }
 
 function limpiarRuta(soloMapa) {
@@ -442,7 +445,9 @@ function elegirTarjetas(r) {
   // Si quedan menos de tres, la siguiente mejor como alternativa.
   // Nunca una alternativa que otra opcion le gana en precio y en tiempo a la vez.
   const perdedora = (o) => r.opciones.some((x) => x !== o && x.costo <= o.costo && x.minutos <= o.minutos);
-  const resto = ops.filter((o) => !lista.some((x) => x.o === o) && !perdedora(o)).sort((a, b) => valorOpcion(a) - valorOpcion(b));
+  // Ni una que cuesta mas que otra ya listada para llegar apenas unos minutos antes.
+  const casiIgual = (o) => lista.some(({ o: x }) => x.costo < o.costo && x.minutos - o.minutos < 5);
+  const resto = ops.filter((o) => !lista.some((x) => x.o === o) && !perdedora(o) && !casiIgual(o)).sort((a, b) => valorOpcion(a) - valorOpcion(b));
   if (lista.length < 3 && resto.length) agregar(resto[0], "Otra opción");
   return lista;
 }
@@ -468,18 +473,24 @@ function pintarOpciones(r) {
   estado.tarjetas = elegirTarjetas(r);
   const elogio = !enApp ? "" : menor(r.opciones, valorOpcion) === enApp ? "Lo recomendado: " : menor(r.opciones, (o) => o.minutos) === enApp ? "Lo más rápido: " : "";
   $("llegadaApp").textContent = enApp ? `${elogio}llegas ${hora(llegada(enApp))}, en unos ${Math.round(enApp.minutos)} min` : "";
+  // Contra la app mas barata: cuanto ahorras y cuanto mas tardas yendo en camion.
+  const appBarata = [...r.directo.porApp].sort((a, b) => a.precio - b.precio)[0];
   $("tarjetas").innerHTML = estado.tarjetas.map(({ o, etiquetas }, i) => {
     const pie = [`Llegas ${hora(llegada(o))}`, `${Math.round(o.minutos)} min`];
     if (caminata(o)) pie.push(`caminas ${caminata(o)} min`);
+    const ahorro = appBarata.precio - o.costo;
+    const mas = enApp ? Math.round(o.minutos - enApp.minutos) : 0;
+    const contra = ahorro >= 5 ? `<span class="ahorro">Ahorras ${pesos(ahorro)}${mas > 0 ? ` · ${mas} min más que en app` : ""}</span>` : "";
     return `<button type="button" class="tarjeta${etiquetas.includes("Recomendado") ? " principal" : ""}" data-i="${i}">
       <span class="circulo">${ico(iconoOpcion(o))}</span>
       <span class="fila-texto"><span class="etiqueta">${etiquetas.join(" · ")}</span>
-        <strong>${escapar(tituloOpcion(o))}</strong><small>${pie.join(" · ")}</small></span>
+        <strong>${escapar(tituloOpcion(o))}</strong><small>${pie.join(" · ")}</small>${contra}</span>
       <span class="precio">${pesos(o.costo)}</span>${ico("chevron", "chevron")}
     </button>`;
   }).join("");
   const hayCamion = r.opciones.some((o) => o.tipo !== "app");
   $("filaUnidos").hidden = !hayCamion;
+  $("tituloCamion").hidden = !hayCamion && !r.pasaCerca;
   // Si el camion de la mejor opcion es de los ultimos del dia, se avisa a que hora pasa el ultimo.
   const conCamion = estado.tarjetas.map(({ o }) => o).find((o) => o.tipo !== "app");
   const c = conCamion?.pasos.find((p) => p.tipo === "camion");
@@ -695,7 +706,9 @@ function pintarVeredicto(r) {
         ${d.accion === "camion" && d.extra < 1e8 ? `El camión tarda ${Math.round(d.extra)} min más, pero te ahorras la diferencia.` : ""}</p>
       ${camion ? `<button type="button" class="boton ver-camion">${ico("camion")}Ver cómo ir en ${escapar(tituloOpcion(estado.tarjetas[0].o))}</button>` : ""}
       <button type="button" class="porque" aria-expanded="false" aria-controls="reglas">¿Por qué?</button>
-      <ul id="reglas" class="reglas" hidden>${d.activas.slice(0, 3).map((a) => `<li>${Math.round(a.w * 100)}%: si ${a.texto}, ${ACCIONES[a.accion].toLowerCase()}</li>`).join("")}</ul>
+      <ul id="reglas" class="reglas" hidden>${d.activas.length
+        ? d.activas.slice(0, 3).map((a) => `<li>${Math.round(a.w * 100)}%: si ${a.texto}, ${ACCIONES[a.accion].toLowerCase()}</li>`).join("")
+        : "<li>Ninguna señal para irte en camión: el precio no está tan arriba o el camión tarda demasiado.</li>"}</ul>
     </div>`;
 }
 $("veredicto").addEventListener("click", (e) => {

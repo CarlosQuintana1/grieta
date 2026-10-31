@@ -158,6 +158,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 .tarjeta.principal { border: 2px solid var(--ambar); }
 .tarjeta .fila-texto strong { font-size: 1.05rem; }
 .tarjeta .etiqueta { overflow-wrap: normal; word-break: normal; }
+.tarjeta .ahorro { display: block; margin-top: 4px; color: var(--ambar); font-size: 0.85rem; font-weight: 700; }
+#tituloCamion { margin-top: 26px; }
 /* Con letra grande, el texto de cada opcion se queda con todo el ancho y el mapa cede espacio. */
 html.grande .tarjeta .circulo { display: none; }
 html.grande body.con-mapa #mapa { height: 22dvh; }

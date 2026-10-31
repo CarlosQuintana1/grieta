@@ -40,7 +40,7 @@ A_MANO = {
 }
 ACCION_A_MANO = [ACCIONES.index(a) + 1 for _, a in REGLAS]
 # Cuanto puede moverse cada punto desde el valor a mano, para que "caro" siga queriendo decir caro.
-LIMITE = {"precio": 0.2, "margen": 15.0, "camion": 15.0}
+LIMITE = {"precio": 0.05, "margen": 15.0, "camion": 15.0}
 libre = False
 
 

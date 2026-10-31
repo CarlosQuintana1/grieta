@@ -236,31 +236,29 @@ const Grieta = (() => {
   };
   const triangulo = (x, a, b, c) => trapecio(x, a, b, b, c);
 
+  // Puntos y reglas ajustados con modelo/genetico.py contra casos reales (datos/decision_genetica.json).
+  // Las reglas que el genetico apago no estan; si ninguna aplica, se pide la app.
   const CONJUNTOS = {
     precio: {
-      barato: (x) => trapecio(x, -INF, -INF, 0.85, 0.95),
-      normal: (x) => triangulo(x, 0.85, 1.0, 1.15),
-      caro: (x) => triangulo(x, 1.05, 1.25, 1.45),
-      "muy caro": (x) => trapecio(x, 1.3, 1.5, INF, INF),
+      barato: (x) => trapecio(x, -INF, -INF, 0.898, 0.987),
+      normal: (x) => triangulo(x, 0.8, 1.004, 1.169),
+      caro: (x) => triangulo(x, 1.002, 1.297, 1.491),
+      "muy caro": (x) => trapecio(x, 1.327, 1.55, INF, INF),
     },
     margen: {
-      poco: (x) => trapecio(x, -INF, -INF, 5, 15),
-      algo: (x) => triangulo(x, 5, 20, 40),
-      mucho: (x) => trapecio(x, 25, 45, INF, INF),
+      poco: (x) => trapecio(x, -INF, -INF, 5.7, 27.984),
+      algo: (x) => triangulo(x, 19.844, 25.695, 30.972),
+      mucho: (x) => trapecio(x, 11.135, 36.74, INF, INF),
     },
     camion: {
-      poco: (x) => trapecio(x, -INF, -INF, 10, 20),
-      algo: (x) => triangulo(x, 10, 25, 40),
-      mucho: (x) => trapecio(x, 30, 45, INF, INF),
+      poco: (x) => trapecio(x, -INF, -INF, 11.498, 34.162),
+      algo: (x) => triangulo(x, 11.886, 16.502, 51.885),
+      mucho: (x) => trapecio(x, 38.098, 57.528, INF, INF),
     },
   };
 
   const REGLAS = [
-    [{ precio: ["barato"] }, "pedir ya"],
-    [{ precio: ["normal"], margen: ["poco"] }, "pedir ya"],
-    [{ precio: ["normal"], camion: ["algo", "mucho"] }, "pedir ya"],
     [{ precio: ["caro", "muy caro"], margen: ["poco"], camion: ["algo", "mucho"] }, "pedir ya"],
-    [{ precio: ["caro"], margen: ["algo", "mucho"] }, "esperar"],
     [{ precio: ["muy caro"], margen: ["algo", "mucho"], camion: ["algo", "mucho"] }, "esperar"],
     [{ precio: ["caro", "muy caro"], camion: ["poco"] }, "camion"],
     [{ precio: ["muy caro"], margen: ["algo", "mucho"], camion: ["algo"] }, "camion"],
@@ -341,5 +339,5 @@ const Grieta = (() => {
 
   const nombreApp = (a) => ({ uber: "Uber", didi: "DiDi", indrive: "inDrive" })[a];
 
-  return { cargar, cotizar, evaluar, pasanAqui, hhmm, metros, CORTES, nombreApp, get modelo() { return modelo; }, get qrobus() { return qrobus; } };
+  return { cargar, cotizar, evaluar, decidir, pasanAqui, hhmm, metros, CORTES, nombreApp, get modelo() { return modelo; }, get qrobus() { return qrobus; } };
 })();

@@ -141,8 +141,6 @@
 
     <section id="opciones" class="pantalla" aria-labelledby="tituloPantalla" hidden>
       <p class="resumen-ruta" id="resumenRuta"></p>
-      <div id="ultimoCamion" class="aviso cuidado" role="status" hidden></div>
-      <div id="tarjetas" class="tarjetas"></div>
       <div id="enApp" class="en-app">
         <h2 id="tituloEnApp">Pedir en app ahora</h2>
         <p id="llegadaApp" class="llegada-app"></p>
@@ -150,6 +148,9 @@
         <p id="avisoRapido" class="nota" role="status"></p>
         <button id="compararPrecio" type="button" class="enlace">¿La app ya te dio precio? Compáralo</button>
       </div>
+      <h2 id="tituloCamion">En Qrobus</h2>
+      <div id="ultimoCamion" class="aviso cuidado" role="status" hidden></div>
+      <div id="tarjetas" class="tarjetas" role="group" aria-labelledby="tituloCamion"></div>
 
       <div class="plegable">
         <button id="abrirEspera" type="button" class="fila-espera" aria-expanded="false" aria-controls="espera">

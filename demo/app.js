@@ -444,6 +444,26 @@ function limpiarRuta(soloMapa) {
   }
 }
 
+// Camino a pie por las calles con el ruteador peatonal de OpenStreetMap; si no responde, se queda la linea recta.
+const caminos = new Map();
+async function caminoAPie(a, b) {
+  const clave = [a, b].map((x) => x.map((n) => n.toFixed(5)).join(",")).join(";");
+  if (!caminos.has(clave)) {
+    caminos.set(clave, fetch(`https://routing.openstreetmap.de/routed-foot/route/v1/driving/${a[1]},${a[0]};${b[1]},${b[0]}?overview=full&geometries=geojson`,
+      { signal: AbortSignal.timeout(6000) })
+      .then((r) => r.json())
+      .then(({ routes: [r] }) => ({ puntos: r.geometry.coordinates.map(([lon, lat]) => [lat, lon]), metros: r.distance, minutos: r.duration / 60 }))
+      .catch(() => { caminos.delete(clave); return null; }));
+  }
+  return caminos.get(clave);
+}
+async function seguirCalles(linea) {
+  const pts = linea.getLatLngs().map((p) => [p.lat, p.lng]);
+  const c = await caminoAPie(pts[0], pts.at(-1));
+  if (c && linea._map) linea.setLatLngs(c.puntos);
+  return c;
+}
+
 const encuadrar = (limites) => mapa.fitBounds(limites, { padding: [28, 28] });
 
 function momentos() {
@@ -842,11 +862,11 @@ function dibujar(o) {
     ...[c[0], c.at(-1)].map((x, j) => L.circleMarker(x, { radius: 6, color: "#0b0a09", weight: 2, fillColor: ambar, fillOpacity: 1, tono: "punto" })
       .bindTooltip(j ? `Bajas aquí` : `Subes a la ${lineas[k] ?? ""}`, { permanent: true, direction: j ? "bottom" : "top", offset: [0, j ? 8 : -8], className: "etiqueta-mapa" })),
   ]);
-  capas.camion = L.featureGroup([
-    L.polyline(o.trazo.acceso.puntos, estilo(o.trazo.acceso.modo)),
-    ...capasCamion,
-    L.polyline(o.trazo.salida.puntos, estilo(o.trazo.salida.modo)),
-  ]).addTo(mapa);
+  const acceso = L.polyline(o.trazo.acceso.puntos, estilo(o.trazo.acceso.modo));
+  const salida = L.polyline(o.trazo.salida.puntos, estilo(o.trazo.salida.modo));
+  capas.camion = L.featureGroup([acceso, ...capasCamion, salida]).addTo(mapa);
+  // Todo tramo a pie (punteado), incluido el de un transbordo, sigue las calles.
+  capas.camion.eachLayer((l) => { if (l.options.dashArray) seguirCalles(l); });
   setTimeout(() => encuadrar(capas.camion.getBounds()), 120);
 }
 
@@ -884,11 +904,14 @@ function pintarParadas(punto, lista) {
     if (i === 0) m.bindTooltip("Más cercana", { permanent: true, direction: "top", offset: [0, -20], className: "etiqueta-mapa" });
     return m;
   });
-  capas.paradas = L.featureGroup([
-    L.polyline([[punto.lat, punto.lon], [lista[0].lat, lista[0].lon]], { color: tono("--tinta"), weight: 3, dashArray: "1 7", lineCap: "round" }),
-    ...marcas,
-  ]).addTo(mapa);
+  const aPie = L.polyline([[punto.lat, punto.lon], [lista[0].lat, lista[0].lon]], { color: tono("--tinta"), weight: 3, dashArray: "1 7", lineCap: "round" });
+  capas.paradas = L.featureGroup([aPie, ...marcas]).addTo(mapa);
   setTimeout(() => encuadrar(capas.paradas.getBounds()), 120);
+  seguirCalles(aPie).then((c) => {
+    if (!c || !$("distanciaParada")) return;
+    $("distanciaParada").textContent = `Parada más cercana · a ${Math.round(c.metros)} m caminando`;
+    $("caminaParada").textContent = `Camina ${Math.max(1, Math.round(c.minutos))} min`;
+  });
 }
 const enCuanto = (min) => { const f = Math.round(min - ahoraMin()); return f <= 0 ? "ya debe pasar" : f < 60 ? `en ${f} min` : `en ${Math.floor(f / 60)} h ${f % 60} min`; };
 $("pasanAqui").addEventListener("click", () => abrirCamiones());
@@ -917,9 +940,9 @@ function abrirCamiones() {
   const minCaminar = Math.max(1, Math.round((p.m * 1.3) / 1000 / 4.5 * 60));
   caja.innerHTML = `
     <div class="parada-cerca">
-      <p class="etiqueta">Parada más cercana · a ${Math.round(p.m)} m</p>
+      <p class="etiqueta" id="distanciaParada">Parada más cercana · a ${Math.round(p.m)} m</p>
       <p class="parada-nombre">${escapar(cruce(p.nombre))}</p>
-      <p class="nota">Camina ${minCaminar} min</p>
+      <p class="nota" id="caminaParada">Camina ${minCaminar} min</p>
     </div>
     <button id="irParada" type="button" class="boton oscuro">${ico("ruta")}Ver cómo llegar a la parada</button>
     <h2>Próximos camiones</h2>

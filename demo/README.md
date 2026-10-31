@@ -29,7 +29,9 @@ debería costar otra. Durante el viaje, "Avisar al chofer" pone a dónde vas en 
 enseñárselo. En Ajustes hay colores para daltonismo (azul y naranja), y cada recomendación lleva
 su símbolo para no depender solo del color.
 
-Las direcciones se buscan con Photon y la ruta por calle sale de OSRM, los dos sobre OpenStreetMap.
+Las direcciones se buscan con Photon y con Azure Maps (desde la API, para negocios y oficinas que
+OpenStreetMap no tiene). La ruta en auto sale de OSRM y los tramos a pie del ruteador peatonal de
+OpenStreetMap (routing.openstreetmap.de); si no responde, se dibujan en línea recta.
 
 Hace los mismos cálculos que `modelo/tarifa.py`, `camion.py` y `decision.py`, con los datos que
 genera `modelo/exportar_demo.py` en `datos/`. Para actualizarla con registros nuevos:

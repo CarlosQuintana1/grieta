@@ -50,7 +50,9 @@ def qrobus() -> dict:
     viajes = g["viajes"].set_index("trip_id")
     nombre = g["rutas"].set_index("route_id")["route_short_name"]
 
+    # Por linea y paradas: dos lineas con las mismas paradas (L122 y L123) no se juntan bajo un solo nombre.
     secuencia = h.groupby("trip_id")["stop_id"].agg(tuple)
+    secuencia = secuencia.index.to_series().map(viajes["route_id"]).combine(secuencia, lambda ruta, paradas: (ruta, paradas))
     primera = h.groupby("trip_id")["sale"].first()
     h["desde_inicio"] = h["sale"] - h["trip_id"].map(primera)
     h["pos"] = h.groupby("trip_id").cumcount()
@@ -70,7 +72,7 @@ def qrobus() -> dict:
         patrones.append({
             "linea": str(nombre[viajes.loc[trips[0], "route_id"]]),
             "hacia": letrero.split(" / ")[-1].strip(),
-            "paradas": [indice[s] for s in paso],
+            "paradas": [indice[s] for s in paso[1]],
             "minutos": [float(x) for x in offs.values],
             "salidas": {k: sorted(v) for k, v in salidas.items()},
         })

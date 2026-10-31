@@ -858,6 +858,15 @@ function recolorear() {
   capas.camion?.eachLayer((c) => c.setStyle(c.options.tono === "linea" ? { color: ambar } : c.options.tono === "punto" ? { fillColor: ambar } : { color: tono("--tinta") }));
 }
 
+// Si el horario oficial ya paso su fecha, se dice; se sigue usando porque Qrobus no ha publicado otro.
+function avisoVigencia() {
+  const v = Grieta.qrobus?.vigencia;
+  if (!v) return "";
+  const hoy = new Date();
+  const fin = new Date(Number(v.slice(0, 4)), Number(v.slice(4, 6)) - 1, Number(v.slice(6)));
+  return hoy > fin ? ` Ese horario venció el ${fin.getDate()} ${MESES[fin.getMonth()]} ${fin.getFullYear()} y Qrobus todavía no publica el nuevo: las horas pueden variar.` : "";
+}
+
 // Camiones cerca
 const iconoParada = (cerca) => L.divIcon({ className: "", iconSize: cerca ? [38, 38] : [30, 30],
   html: `<span class="parada-mapa${cerca ? " cerca" : ""}">${ico("camion")}</span>` });
@@ -919,7 +928,7 @@ function abrirCamiones() {
     <div id="avisosParada" class="avisos"><p class="nota">Buscando avisos...</p></div>
     ${lista.length > 1 ? `<details class="otras"><summary>Ver ${lista.length - 1 === 1 ? "otra parada" : `otras ${lista.length - 1} paradas`} cerca${ico("chevron", "chevron")}</summary>
       ${lista.slice(1).map((x) => `<h3>${escapar(cruce(x.nombre))} <span class="tenue">a ${Math.round(x.m)} m</span></h3>${filas(x)}`).join("")}</details>` : ""}
-    <p class="nota pie">Las horas salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse.</p>`;
+    <p class="nota pie">Las horas salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse.${avisoVigencia()}</p>`;
   $("irParada").addEventListener("click", () => poner("destino", { nombre: `Parada ${p.nombre}`, lat: p.lat, lon: p.lon }));
   hablar(`La parada más cercana es ${p.nombre}, a ${Math.round(p.m)} metros. ` +
     p.lineas.slice(0, 4).map((l) => `Línea ${l.linea} hacia ${l.hacia}, a las ${hora(l.horas[0])} según el horario.`).join(" "));
@@ -1594,7 +1603,7 @@ Promise.all([
   API = ["localhost", "127.0.0.1"].includes(location.hostname) ? "http://localhost:3000/api" : config.api || "";
   pintarGuardados();
   avisoConexion();
-  const info = `Precios estimados con ${modelo.momentos} registros del equipo. Horarios oficiales de Qrobus.`;
+  const info = `Precios estimados con ${modelo.momentos} registros del equipo. Horarios oficiales de Qrobus.${avisoVigencia()}`;
   $("info").textContent = info;
   $("infoAjustes").textContent = info;
   medirPantalla();

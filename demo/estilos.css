@@ -10,6 +10,7 @@
   --ambar: #e0a03c;
   --sobre-ambar: #0b0a09;
   --cuidado: #c9664c;
+  --alerta: #e0a03c;
   --toque: 48px;
   --radio: 14px;
   --pestanas: 64px;
@@ -17,9 +18,17 @@
 html { font-size: 17px; }
 html.grande { font-size: 21px; --toque: 56px; }
 
-html.contraste { --fondo: #000; --superficie: #000; --tinta: #fff; --tenue: #e6e6e6; --linea: #8c8c8c; --ambar: #ffb21f; --sobre-ambar: #000; --cuidado: #ff8a70; }
-html.daltonico { --ambar: #4c9be8; --cuidado: #e8862a; }
-html.contraste.daltonico { --ambar: #6cb6ff; --cuidado: #ff9f43; }
+/* Tema claro: el ambar y el rojo se oscurecen para pasar 4.5:1 sobre fondo claro. El aviso amarillo de la guia
+   (--alerta) se queda brillante en los dos temas. */
+html.claro { color-scheme: light; --fondo: #f6f2ea; --superficie: #ffffff; --tinta: #1c1814; --tenue: #5b5248; --linea: #cfc5b6;
+  --ambar: #8f5300; --sobre-ambar: #ffffff; --cuidado: #b0391b; --alerta: #e0a03c; }
+html.contraste { --fondo: #000; --superficie: #000; --tinta: #fff; --tenue: #e6e6e6; --linea: #8c8c8c; --ambar: #ffb21f; --sobre-ambar: #000; --cuidado: #ff8a70; --alerta: #ffb21f; }
+html.claro.contraste { color-scheme: light; --fondo: #fff; --superficie: #fff; --tinta: #000; --tenue: #1f1f1f; --linea: #5c5c5c;
+  --ambar: #6e3d00; --sobre-ambar: #fff; --cuidado: #8f2208; --alerta: #ffb21f; }
+html.daltonico { --ambar: #4c9be8; --cuidado: #e8862a; --alerta: #4c9be8; }
+html.contraste.daltonico { --ambar: #6cb6ff; --cuidado: #ff9f43; --alerta: #6cb6ff; }
+html.claro.daltonico { --ambar: #1d5fa6; --cuidado: #a3500a; --alerta: #4c9be8; }
+html.claro.contraste.daltonico { --ambar: #154a85; --cuidado: #7d3c05; --alerta: #6cb6ff; }
 
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
@@ -71,8 +80,10 @@ body.con-mapa #mapa::after { content: ""; position: absolute; top: 0; left: 0; r
   height: calc(env(safe-area-inset-top) + 16px); background: linear-gradient(var(--fondo), transparent); }
 .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) grayscale(1) sepia(0.25) brightness(0.62) contrast(1.15); }
 html.contraste .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) grayscale(1) brightness(0.9) contrast(1.4); }
+html.claro .leaflet-tile-pane { filter: grayscale(0.7) contrast(1.05); }
+html.claro.contraste .leaflet-tile-pane { filter: grayscale(1) contrast(1.35); }
 .leaflet-container { background: var(--fondo); font-family: Montserrat, sans-serif; }
-.leaflet-control-attribution { background: rgba(11, 10, 9, 0.7) !important; color: var(--tenue) !important; font: 10px Montserrat, sans-serif; }
+.leaflet-control-attribution { background: color-mix(in srgb, var(--fondo) 75%, transparent) !important; color: var(--tenue) !important; font: 10px Montserrat, sans-serif; }
 .leaflet-control-attribution a { color: var(--tenue) !important; }
 .marca { display: block; width: 18px; height: 18px; }
 .marca.origen { background: var(--ambar); border: 3px solid var(--fondo); border-radius: 50%; box-shadow: 0 0 0 6px color-mix(in srgb, var(--ambar) 28%, transparent); }
@@ -124,7 +135,8 @@ body:has(#encabezado:not([hidden])):not(.con-mapa) .hoja { padding-top: 18px; }
 .buscador:focus-within { border-color: var(--ambar); }
 .buscador-campo { flex: 1; min-height: 56px; color: var(--tenue); text-align: left; }
 .buscador input:focus-visible, .buscador-campo:focus-visible { outline: none; }
-.mic { flex: none; width: 52px; height: 48px; display: grid; place-items: center; color: var(--ambar); border-left: 1px solid var(--linea); border-radius: 0 12px 12px 0; }
+.mic { flex: none; height: 48px; display: flex; align-items: center; gap: 6px; padding: 0 12px; color: var(--ambar); font-weight: 700; font-size: 0.85rem;
+  border-left: 1px solid var(--linea); border-radius: 0 12px 12px 0; }
 .mic.oyendo { background: var(--ambar); color: var(--sobre-ambar); }
 input, select {
   width: 100%; min-height: var(--toque); font: inherit; font-size: max(16px, 1rem); color: var(--tinta);
@@ -267,17 +279,10 @@ html.grande body.con-mapa .hoja { max-height: 80%; }
 .barra-paradas span.actual { background: var(--ambar); border: 2px solid var(--tinta); }
 .guia-detalle { font-size: 1.05rem; margin-top: 14px; }
 .guia-acciones { margin-top: 10px; }
-.dos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-.cuadro {
-  display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 12px; min-height: 96px; padding: 14px;
-  border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); font-weight: 700;
-}
-.cuadro .icono { color: var(--ambar); }
-body.alerta, body.alerta .hoja { --tinta: #0b0a09; --tenue: #0b0a09; --linea: #0b0a09; background: var(--ambar); color: #0b0a09; }
+body.alerta, body.alerta .hoja { --tinta: #0b0a09; --tenue: #0b0a09; --linea: #0b0a09; background: var(--alerta); color: #0b0a09; }
 html.contraste body.alerta, html.contraste body.alerta .hoja { --tinta: #000; --tenue: #000; --linea: #000; }
-body.alerta .etiqueta, body.alerta .guia-titulo .num, body.alerta .cuadro .icono { color: #0b0a09; }
-body.alerta body.alerta .boton, body.alerta .cuadro, body.alerta .boton.borde { background: #0b0a09; color: var(--ambar); border-color: #0b0a09; }
-body.alerta .cuadro .icono { color: var(--ambar); }
+body.alerta .etiqueta, body.alerta .guia-titulo .num, body.alerta .enlace { color: #0b0a09; }
+body.alerta .boton, body.alerta .boton.borde { background: #0b0a09; color: var(--alerta); border-color: #0b0a09; }
 body.alerta .barra-paradas span { background: transparent; border-color: #0b0a09; }
 body.alerta .barra-paradas span.pasada { background: #0b0a09; }
 body.alerta .barra-paradas span.actual { background: #fff; border: 3px solid #0b0a09; }
@@ -337,6 +342,8 @@ textarea::placeholder { color: var(--tenue); }
 }
 .interruptor input:checked { background: var(--ambar); }
 .interruptor input:checked::after { transform: translateX(20px); background: var(--fondo); }
+/* En el tema claro la bolita siempre es blanca: oscura y apagada parecia encendida. */
+html.claro .interruptor input::after, html.claro .interruptor input:checked::after { background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35); }
 .interruptor input:focus-visible { outline: 3px solid var(--ambar); outline-offset: 3px; }
 .cabeza-grupo { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
 .cabeza-grupo h2 { margin: 12px 0; }
@@ -366,7 +373,7 @@ textarea::placeholder { color: var(--tenue); }
   flex: none; display: grid; grid-template-columns: repeat(3, 1fr); position: relative; z-index: 600;
   padding: 6px 4px max(6px, env(safe-area-inset-bottom)); background: var(--fondo); border-top: 1px solid var(--linea);
 }
-.pestanas button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 54px; font-size: 0.72rem; font-weight: 600; color: var(--tenue); text-align: center; border-radius: 12px; }
+.pestanas button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 54px; font-size: 0.72rem; font-weight: 600; line-height: 1.15; color: var(--tenue); text-align: center; border-radius: 12px; }
 .pestanas button[aria-current="page"] { color: var(--ambar); font-weight: 700; }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
@@ -425,3 +432,25 @@ html.modo-voz #opciones .plegable, html.modo-voz #compararPrecio, html.modo-voz 
   background: var(--ambar); color: var(--sobre-ambar); font-size: 1.3rem; font-weight: 800; text-align: left; border: 2px solid var(--ambar); }
 .boton-voz .icono { width: 30px; height: 30px; flex: none; }
 .boton-voz.oscuro { background: var(--superficie); color: var(--tinta); border-color: var(--linea); }
+
+/* Ayuda */
+.ayuda details { border-bottom: 1px solid var(--linea); }
+.ayuda details:last-child { border-bottom: none; }
+.ayuda summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; font-weight: 700; cursor: pointer; list-style: none; }
+.ayuda summary::-webkit-details-marker { display: none; }
+.ayuda summary::after { content: "+"; color: var(--ambar); font-size: 1.4rem; font-weight: 600; }
+.ayuda details[open] summary::after { content: "−"; }
+.ayuda details p { padding: 0 0 14px; color: var(--tinta); }
+.fila-tema { padding: 12px 0; border-bottom: 1px solid var(--linea); }
+.fila-tema .segmentado { margin-top: 8px; }
+.fila-tema .segmentado button { font-size: 0.8rem; }
+
+/* Guia: acciones por importancia */
+.guia-acciones .compartir { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; }
+
+/* Guardar con otro nombre */
+.otro-nombre .etiqueta-campo { margin-top: 12px; }
+.campo-y-boton { display: flex; gap: 8px; }
+.campo-y-boton input { flex: 1; min-width: 0; padding: 0 14px; border: 1px solid var(--linea); border-radius: var(--radio); background: var(--superficie); }
+.campo-y-boton input:focus-visible { border-color: var(--ambar); outline: none; }
+.campo-y-boton .boton { width: auto; margin-top: 0; }

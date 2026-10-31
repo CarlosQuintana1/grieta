@@ -47,9 +47,13 @@ const capas = {};
 let lugares = [];
 
 // Ajustes guardados en este telefono.
-const acc = { modoVoz: false, grande: false, contraste: false, daltonico: false, voz: true, lenta: false, camino: false, unidos: false, ...leer("grieta-acc", {}) };
+const acc = { modoVoz: false, grande: false, contraste: false, daltonico: false, voz: true, lenta: false, camino: false, unidos: false, tema: "auto", ...leer("grieta-acc", {}) };
+// Con "Como el telefono", los colores siguen el modo claro u oscuro del sistema.
+const sistemaClaro = matchMedia("(prefers-color-scheme: light)");
 const OPCIONES = { modoVoz: "optModoVoz", grande: "optGrande", contraste: "optContraste", daltonico: "optDaltonico", voz: "optVoz", lenta: "optLenta", camino: "optCamino", unidos: "optUnidos" };
 function aplicarAcc() {
+  document.documentElement.classList.toggle("claro", acc.tema === "claro" || (acc.tema === "auto" && sistemaClaro.matches));
+  for (const b of $("optTema").children) b.setAttribute("aria-pressed", String(b.dataset.v === acc.tema));
   document.documentElement.classList.toggle("grande", acc.grande);
   document.documentElement.classList.toggle("contraste", acc.contraste);
   document.documentElement.classList.toggle("daltonico", acc.daltonico);
@@ -60,7 +64,16 @@ function aplicarAcc() {
   for (const [k, id] of Object.entries(OPCIONES)) $(id).checked = acc[k];
   $("optUnidos2").checked = acc.unidos;
   recolorear();
+  document.querySelector('meta[name="theme-color"]').content = tono("--fondo");
 }
+sistemaClaro.addEventListener("change", () => { if (acc.tema === "auto") aplicarAcc(); });
+$("optTema").addEventListener("click", (e) => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  acc.tema = b.dataset.v;
+  guardarAcc();
+  aplicarAcc();
+});
 const guardarAcc = () => escribir("grieta-acc", acc);
 for (const [k, id] of Object.entries(OPCIONES)) {
   $(id).addEventListener("change", (e) => {
@@ -374,29 +387,23 @@ $("campoBuscar").addEventListener("keydown", (e) => {
 });
 
 mapa.on("click", async ({ latlng }) => {
-  const pantalla = document.body.dataset.pantalla;
-  if ((pantalla !== "inicio" && pantalla !== "elegirMapa") || !dentroDeQueretaro(latlng.lat, latlng.lng)) return;
-  const cual = estado.editando === "desde" || !estado.origen ? "origen" : "destino";
+  // Solo en "Elige en el mapa": en el inicio un toque sin querer cambiaba desde donde sales.
+  if (document.body.dataset.pantalla !== "elegirMapa" || !dentroDeQueretaro(latlng.lat, latlng.lng)) return;
   const lugar = { nombre: "Punto en el mapa", lat: latlng.lat, lon: latlng.lng };
-  if (pantalla === "elegirMapa") {
-    capas.punto?.remove();
-    capas.punto = L.marker([latlng.lat, latlng.lng], { icon: icono(estado.eligiendo), keyboard: false }).addTo(mapa);
-    $("usarPunto").hidden = false;
-    $("usarPunto").textContent = "Buscando la calle...";
-  }
-  // Primero el nombre de la calle, para que la pantalla siguiente no diga "punto en el mapa".
+  capas.punto?.remove();
+  capas.punto = L.marker([latlng.lat, latlng.lng], { icon: icono(estado.eligiendo), keyboard: false }).addTo(mapa);
+  $("usarPunto").hidden = false;
+  $("usarPunto").textContent = "Buscando la calle...";
+  // Primero el nombre de la calle, para que el boton no diga "punto en el mapa".
   try {
     const r = await (await fetch(`https://photon.komoot.io/reverse?lat=${latlng.lat}&lon=${latlng.lng}&limit=1`)).json();
     const p = r.features[0]?.properties;
     lugar.nombre = p?.name ?? ([p?.street, p?.housenumber].filter(Boolean).join(" ") || lugar.nombre);
   } catch {}
-  if (pantalla === "elegirMapa") {
-    estado.puntoMapa = lugar;
-    $("usarPunto").textContent = `Usar este punto: ${lugar.nombre}`;
-    return;
-  }
-  poner(cual, lugar);
+  estado.puntoMapa = lugar;
+  $("usarPunto").textContent = `Usar este punto: ${lugar.nombre}`;
 });
+
 
 // Ruta y opciones
 async function trazar() {
@@ -885,7 +892,7 @@ function dibujar(o) {
     ...(k > 0 ? [L.polyline([camiones[k - 1].at(-1), c[0]], estilo("caminando"))] : []),
     // Un punto chico por cada parada del camino, para ver cuantas faltan.
     ...c.slice(1, -1).map((x) => L.circleMarker(x, { radius: 2.5, color: ambar, weight: 1, fillColor: tono("--fondo"), fillOpacity: 1, tono: "linea" })),
-    ...[c[0], c.at(-1)].map((x, j) => L.circleMarker(x, { radius: 6, color: "#0b0a09", weight: 2, fillColor: ambar, fillOpacity: 1, tono: "punto" })
+    ...[c[0], c.at(-1)].map((x, j) => L.circleMarker(x, { radius: 6, color: tono("--fondo"), weight: 2, fillColor: ambar, fillOpacity: 1, tono: "punto" })
       .bindTooltip(j ? `Bajas aquí` : `Subes a la ${lineas[k] ?? ""}`, { permanent: true, direction: j ? "bottom" : "top", offset: [0, j ? 8 : -8], className: "etiqueta-mapa" })),
   ]);
   const acceso = L.polyline(o.trazo.acceso.puntos, estilo(o.trazo.acceso.modo));
@@ -1438,18 +1445,35 @@ $("guardarLugar").addEventListener("click", () => {
   $("guardarLugar").setAttribute("aria-expanded", String(abierto));
   if (abierto) $("nombresLugar").querySelector("button").focus();
 });
+function guardarComo(nombre) {
+  const { lat, lon } = estado.destino;
+  guardados = guardados.filter((g) => sinAcentos(g.nombre) !== sinAcentos(nombre)).concat({ nombre, lat, lon });
+  guardarLugares();
+  $("nombresLugar").hidden = true;
+  $("otroNombre").hidden = true;
+  $("guardarLugar").setAttribute("aria-expanded", "false");
+  $("guardarLugar").textContent = `Guardado como ${nombre}`;
+  $("guardarLugar").disabled = true;
+  hablar(`Guardé ${estado.destino.nombre} como ${nombre}.`);
+}
 $("nombresLugar").addEventListener("click", (e) => {
   const b = e.target.closest("button");
   if (!b) return;
-  const { lat, lon } = estado.destino;
-  guardados = guardados.filter((g) => g.nombre !== b.dataset.v).concat({ nombre: b.dataset.v, lat, lon });
-  guardarLugares();
-  $("nombresLugar").hidden = true;
-  $("guardarLugar").setAttribute("aria-expanded", "false");
-  $("guardarLugar").textContent = `Guardado como ${b.dataset.v}`;
-  $("guardarLugar").disabled = true;
-  hablar(`Guardé ${estado.destino.nombre} como ${b.dataset.v}.`);
+  // Un nombre propio para el lugar: el hospital, la casa de un familiar.
+  if (b.hasAttribute("data-otro")) {
+    $("otroNombre").hidden = false;
+    $("campoNombre").value = "";
+    return $("campoNombre").focus();
+  }
+  guardarComo(b.dataset.v);
 });
+function guardarNombreEscrito() {
+  const nombre = $("campoNombre").value.trim().replace(/\s+/g, " ");
+  if (!nombre) return $("campoNombre").focus();
+  guardarComo(nombre.charAt(0).toUpperCase() + nombre.slice(1));
+}
+$("guardarNombre").addEventListener("click", guardarNombreEscrito);
+$("campoNombre").addEventListener("keydown", (e) => { if (e.key === "Enter") guardarNombreEscrito(); });
 
 // Grupos de opciones con flechas, como radios nativos.
 function radios(id, alElegir) {

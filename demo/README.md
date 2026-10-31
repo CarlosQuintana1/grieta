@@ -1,7 +1,8 @@
 # Grieta: demo
 
 Página para probar el modelo como una app de viajes, con aspecto de app móvil: mapa arriba, hoja abajo y
-tres pestañas (Inicio, Reportar, Ajustes). Lo primero que pregunta es cómo ves la pantalla: veo bien, veo poco
+tres pestañas (Inicio, Reportar, Ayuda y ajustes). Los colores siguen el modo claro u oscuro del teléfono, o se
+eligen en Ajustes. Lo primero que pregunta es cómo ves la pantalla: veo bien, veo poco
 (letra grande y alto contraste) o no veo (modo para personas ciegas). Si no ves, pregunta si tu teléfono ya
 te lee la pantalla para no hablar encima de VoiceOver o TalkBack, y después pide la ubicación. Se puede volver
 a elegir desde Ajustes. El inicio muestra tus últimos viajes para repetirlos con un toque.

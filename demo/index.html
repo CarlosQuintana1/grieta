@@ -38,6 +38,7 @@
       <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
       <symbol id="i-atras" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
       <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></symbol>
+      <symbol id="i-telefono" viewBox="0 0 24 24"><path d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4.5 5.5a2 2 0 0 1 2-2z"/></symbol>
       <symbol id="i-palomita" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
     </defs>
   </svg>
@@ -102,8 +103,8 @@
       <h1 id="tituloInicio" class="titulo-grande" tabindex="-1">¿A dónde vas?</h1>
       <div class="buscador">
         <svg class="icono tenue"><use href="#i-lupa"/></svg>
-        <button id="abrirBuscar" type="button" class="buscador-campo">Busca un lugar o una calle</button>
-        <button type="button" class="mic dictar" aria-label="Dictar a dónde vas" hidden><svg class="icono"><use href="#i-microfono"/></svg></button>
+        <button id="abrirBuscar" type="button" class="buscador-campo">Busca un lugar</button>
+        <button type="button" class="mic dictar" aria-label="Dictar a dónde vas" hidden><svg class="icono"><use href="#i-microfono"/></svg><span>Dictar</span></button>
       </div>
       <p class="desde"><svg class="icono ambar"><use href="#i-localizar"/></svg><span id="desdeTexto">Buscando tu ubicación...</span><button id="cambiarDesde" type="button" class="enlace">Cambiar</button></p>
       <div id="guardados" class="chips" aria-label="Lugares guardados" role="group" hidden></div>
@@ -129,8 +130,8 @@
       <div class="buscador">
         <svg class="icono tenue"><use href="#i-lupa"/></svg>
         <label for="campoBuscar" class="oculto">Lugar o calle</label>
-        <input id="campoBuscar" type="search" autocomplete="off" placeholder="Escribe un lugar o una calle" enterkeyhint="search">
-        <button type="button" class="mic dictar" aria-label="Dictar el lugar" hidden><svg class="icono"><use href="#i-microfono"/></svg></button>
+        <input id="campoBuscar" type="search" autocomplete="off" placeholder="Lugar o calle" enterkeyhint="search">
+        <button type="button" class="mic dictar" aria-label="Dictar el lugar" hidden><svg class="icono"><use href="#i-microfono"/></svg><span>Dictar</span></button>
       </div>
       <h2 id="tituloResultados">Resultados cerca de ti</h2>
       <ul id="resultados" class="filas" aria-labelledby="tituloResultados"></ul>
@@ -187,6 +188,14 @@
           <button type="button" class="chip" data-v="Casa">Casa</button>
           <button type="button" class="chip" data-v="Escuela">Escuela</button>
           <button type="button" class="chip" data-v="Trabajo">Trabajo</button>
+          <button type="button" class="chip" data-otro>Otro nombre</button>
+        </div>
+        <div id="otroNombre" class="otro-nombre" hidden>
+          <label for="campoNombre" class="etiqueta-campo">¿Cómo le quieres poner?</label>
+          <div class="campo-y-boton">
+            <input id="campoNombre" type="text" maxlength="30" autocomplete="off" placeholder="Ejemplo: Hospital, casa de mi hija" enterkeyhint="done">
+            <button id="guardarNombre" type="button" class="boton">Guardar</button>
+          </div>
         </div>
       </div>
       <p class="nota pie" id="info"></p>
@@ -249,11 +258,9 @@
       <button id="yaMeSubi" type="button" class="boton oscuro" hidden>Ya me subí</button>
       <div class="guia-acciones">
         <button id="repetir" type="button" class="boton"><svg class="icono"><use href="#i-repetir"/></svg>Repetir</button>
-        <div class="dos">
-          <button id="dondeGuia" type="button" class="cuadro"><svg class="icono"><use href="#i-localizar"/></svg>¿Dónde estoy?</button>
-          <button id="compartir" type="button" class="cuadro"><svg class="icono"><use href="#i-compartir"/></svg>Compartir mi viaje</button>
-        </div>
         <button id="avisarChofer" type="button" class="boton oscuro">Avisar al chofer</button>
+        <button id="dondeGuia" type="button" class="boton oscuro"><svg class="icono"><use href="#i-localizar"/></svg>¿Dónde estoy?</button>
+        <button id="compartir" type="button" class="enlace compartir"><svg class="icono"><use href="#i-compartir"/></svg>Compartir mi viaje</button>
         <button id="terminar" type="button" class="boton borde" aria-live="polite">Terminar viaje</button>
       </div>
       <p class="nota">Deja la pantalla encendida: así Grieta sigue tu ubicación. Las horas del camión salen del horario oficial, no de su ubicación.</p>
@@ -286,9 +293,30 @@
     </section>
 
     <section id="ajustes" class="pantalla" aria-labelledby="tituloAjustes" hidden>
-      <h1 id="tituloAjustes" class="titulo-grande" tabindex="-1">Ajustes</h1>
+      <h1 id="tituloAjustes" class="titulo-grande" tabindex="-1">Ayuda y ajustes</h1>
+      <h2 id="tituloAyuda">Ayuda</h2>
+      <div class="grupo ayuda" role="group" aria-labelledby="tituloAyuda">
+        <details><summary>¿Cómo voy a algún lado?</summary>
+          <p>En Inicio escribe o dicta a dónde vas. Grieta te muestra cuánto cuesta en Uber, DiDi e inDrive y cómo llegar en Qrobus. Toca una opción para ver los pasos y después "Empezar viaje con avisos": te avisa cuándo pasa tu camión y cuándo bajarte.</p></details>
+        <details><summary>¿Qué camión pasa aquí?</summary>
+          <p>Te dice cuál es la parada más cercana caminando y a qué hora pasan los próximos camiones, según el horario oficial de Qrobus.</p></details>
+        <details><summary>¿Los precios son exactos?</summary>
+          <p>No. Son los precios normales a esa hora según lo que registramos. Si la app te marca otro, escríbelo en "¿La app ya te dio precio? Compáralo" y Grieta te dice si conviene pedirlo, esperar o irte en camión.</p></details>
+        <details><summary>No encuentro un lugar</summary>
+          <p>Escribe la calle y la colonia. Si aun así no sale, toca "Elígelo en el mapa" y marca el punto.</p></details>
+      </div>
+      <a class="boton oscuro" href="tel:4422100407"><svg class="icono"><use href="#i-telefono"/></svg>Llamar a Qrobus: 442 210 04 07</a>
+      <button id="verBienvenida" type="button" class="enlace">Volver a elegir cómo ves la pantalla</button>
       <h2>Accesibilidad</h2>
       <div class="grupo">
+        <div class="fila-tema">
+          <strong id="tituloTema">Colores de la pantalla</strong>
+          <div id="optTema" class="segmentado" role="group" aria-labelledby="tituloTema">
+            <button type="button" data-v="auto" aria-pressed="true">Como el teléfono</button>
+            <button type="button" data-v="oscuro" aria-pressed="false">Oscuro</button>
+            <button type="button" data-v="claro" aria-pressed="false">Claro</button>
+          </div>
+        </div>
         <label class="interruptor"><span><strong>Modo para personas ciegas</strong><small>Grieta dice todo en voz alta, sin mapa y con pocos botones grandes</small></span><input type="checkbox" role="switch" id="optModoVoz"></label>
         <label class="interruptor"><span><strong>Letra grande</strong></span><input type="checkbox" role="switch" id="optGrande"></label>
         <label class="interruptor"><span><strong>Alto contraste</strong></span><input type="checkbox" role="switch" id="optContraste"></label>
@@ -306,7 +334,6 @@
         <button id="editarGuardados" type="button" class="enlace" aria-pressed="false">Editar</button>
       </div>
       <ul id="listaGuardados" class="filas grupo" aria-labelledby="tituloGuardados"></ul>
-      <button id="verBienvenida" type="button" class="enlace">Volver a elegir cómo ves la pantalla</button>
       <p class="nota pie" id="infoAjustes"></p>
       <p class="medidas" id="medidas"></p>
     </section>
@@ -317,7 +344,7 @@
   <nav id="pestanas" class="pestanas" aria-label="Secciones">
     <button type="button" data-tab="inicio"><svg class="icono"><use href="#i-casa"/></svg>Inicio</button>
     <button type="button" data-tab="reporte"><svg class="icono"><use href="#i-alerta"/></svg>Reportar</button>
-    <button type="button" data-tab="ajustes"><svg class="icono"><use href="#i-engrane"/></svg>Ajustes</button>
+    <button type="button" data-tab="ajustes"><svg class="icono"><use href="#i-engrane"/></svg>Ayuda y ajustes</button>
   </nav>
 
   <div id="chofer" class="chofer" role="dialog" aria-modal="true" aria-labelledby="choferDestino" hidden>

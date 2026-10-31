@@ -28,6 +28,18 @@ function hora(min) {
 const ahoraMin = () => { const a = new Date(); return a.getHours() * 60 + a.getMinutes(); };
 const hoyDia = () => (new Date().getDay() + 6) % 7;
 
+// Instalada en iPhone con la barra de estado translucida, iOS reporta un alto que no cuenta esa barra
+// y deja una franja vacia abajo: se usa el alto fisico de la pantalla cuando es mayor.
+function ajustarAlto() {
+  if (!navigator.standalone) return;
+  const lados = [screen.width, screen.height];
+  const alto = matchMedia("(orientation: landscape)").matches ? Math.min(...lados) : Math.max(...lados);
+  document.documentElement.style.setProperty("--alto", alto > innerHeight ? `${alto}px` : "100%");
+}
+ajustarAlto();
+addEventListener("resize", ajustarAlto);
+addEventListener("orientationchange", () => setTimeout(ajustarAlto, 300));
+
 const mapa = L.map("mapa", { zoomControl: false, attributionControl: false, keyboard: false }).setView(QUERETARO, 12);
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19 }).addTo(mapa);
 L.control.attribution({ position: "bottomright", prefix: false })

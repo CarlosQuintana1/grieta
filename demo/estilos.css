@@ -23,8 +23,8 @@ html.contraste.daltonico { --ambar: #6cb6ff; --cuidado: #ff9f43; }
 [hidden] { display: none !important; }
 html, body { margin: 0; height: 100%; background: var(--fondo); }
 body {
-  /* Fija a las cuatro orillas: instalada en iPhone, 100dvh no cuenta la barra de estado y deja un hueco abajo. */
-  position: fixed; inset: 0; display: flex; flex-direction: column; overflow: hidden;
+  /* Instalada en iPhone, el alto que reporta iOS no cuenta la barra de estado: --alto lo corrige desde app.js. */
+  position: fixed; top: 0; left: 0; right: 0; height: var(--alto, 100%); display: flex; flex-direction: column; overflow: hidden;
   color: var(--tinta); font: 400 1rem/1.45 Montserrat, system-ui, sans-serif;
   -webkit-tap-highlight-color: transparent;
 }

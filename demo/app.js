@@ -294,18 +294,29 @@ function sugerir(texto) {
   espera = setTimeout(async () => {
     const c = cerca() ?? { lat: QUERETARO[0], lon: QUERETARO[1] };
     const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(texto)}&lat=${c.lat}&lon=${c.lon}&limit=6&bbox=-100.65,20.4,-100.15,20.9`;
-    try {
-      const { features } = await (await fetch(url)).json();
-      const res = features.map(({ properties: p, geometry: g }) => ({
+    // Photon (OpenStreetMap) y la API de Grieta (Azure Maps, que conoce mas negocios y oficinas) a la vez.
+    const [osm, azure] = await Promise.allSettled([
+      fetch(url).then((r) => r.json()).then(({ features }) => features.map(({ properties: p, geometry: g }) => ({
         nombre: p.name ?? p.street ?? "Sin nombre",
         detalle: [p.street && p.name ? p.street : null, p.district ?? p.city].filter(Boolean).join(", "),
         lat: g.coordinates[1], lon: g.coordinates[0],
-      }));
-      pintarResultados(res, `No encontré "${escapar(texto)}". Prueba con la calle y la colonia, o elígelo en el mapa.`);
-    } catch {
-      pintarResultados([], "No hay conexión con el buscador. Elige un lugar guardado o elígelo en el mapa.");
+      }))),
+      texto.trim().length >= 4 ? llamar(`/buscar?q=${encodeURIComponent(texto.trim())}&lat=${c.lat}&lon=${c.lon}`) : Promise.resolve([]),
+    ]);
+    if (texto !== $("campoBuscar").value && $("campoBuscar").value) return;
+    const listas = [azure.status === "fulfilled" ? azure.value : [], osm.status === "fulfilled" ? osm.value : []];
+    // Se alternan los dos y se quita un lugar si ya hay otro a menos de 80 m.
+    const res = [];
+    for (let i = 0; i < 6; i++) {
+      for (const l of listas.map((x) => x[i]).filter(Boolean)) {
+        if (![...propios, ...res].some((x) => Grieta.metros(x.lat, x.lon, l.lat, l.lon) < 80)) res.push(l);
+      }
     }
-  }, 300);
+    if (osm.status === "rejected" && azure.status === "rejected") {
+      return pintarResultados([], "No hay conexión con el buscador. Elige un lugar guardado o elígelo en el mapa.");
+    }
+    pintarResultados(res, `No encontré "${escapar(texto)}". Prueba con la calle y la colonia, o elígelo en el mapa.`);
+  }, 350);
 }
 // El buscador de mapas no conoce todos los negocios y oficinas: siempre queda la opcion de elegir el punto.
 const filaMapa = `<li class="fila-mapa"><button type="button" data-mapa>

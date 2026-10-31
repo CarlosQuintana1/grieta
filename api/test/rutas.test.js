@@ -248,3 +248,14 @@ describe("CRUD completo de cada tabla", () => {
     await request(app).delete(`/api/precios-reportados/${p.body.id}`).expect(204);
   });
 });
+
+describe("Buscar", () => {
+  test("GET /api/buscar sin llave responde 503 para que la app siga con su otro buscador", async () => {
+    delete process.env.AZURE_MAPS_KEY;
+    await request(app).get("/api/buscar?q=INE").expect(503);
+  });
+
+  test("GET /api/buscar rechaza una busqueda muy corta", async () => {
+    await request(app).get("/api/buscar?q=ab").expect(400);
+  });
+});

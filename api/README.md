@@ -35,7 +35,13 @@ Son 30 pruebas de las rutas sobre una base en memoria, así que no tocan `databa
 
 En Azure corre en App Service, con la base en Azure Database for PostgreSQL y las fotos en Azure
 Blob Storage. La función serverless que cotiza un viaje está en `../nube/cotizar` (Azure
-Functions). Variables: `DATABASE_URL`, `AZURE_STORAGE_CONNECTION_STRING` y `AZURE_CONTAINER`.
+Functions). Variables: `DATABASE_URL`, `AZURE_STORAGE_CONNECTION_STRING`, `AZURE_CONTAINER` y
+`AZURE_MAPS_KEY`.
+
+`GET /api/buscar?q=...` busca lugares en Azure Maps, que conoce negocios y oficinas que no están en
+OpenStreetMap (como los módulos del INE). La llave solo vive en el servidor. Las respuestas se guardan
+un día y la ruta se frena en 4,500 búsquedas al mes, antes de las 5,000 gratis del plan Gen2. Sin
+`AZURE_MAPS_KEY` responde 503 y la app busca solo con Photon.
 
 ## Tablas
 

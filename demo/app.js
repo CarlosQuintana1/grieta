@@ -33,7 +33,13 @@ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19 }).a
 L.control.attribution({ position: "bottomright", prefix: false })
   .addAttribution('&copy; <a href="https://www.openstreetmap.org/copyright" tabindex="-1">OpenStreetMap</a>').addTo(mapa);
 // El mapa cambia de alto con lo que hay en la hoja y al girar el telefono: Leaflet tiene que volver a medirlo.
-new ResizeObserver(() => mapa.invalidateSize()).observe($("mapa"));
+// Despues de medir se vuelve a encuadrar lo de la pantalla, porque el tamano final llega cuando ya se dibujo.
+let reencuadre;
+new ResizeObserver(() => {
+  mapa.invalidateSize();
+  clearTimeout(reencuadre);
+  reencuadre = setTimeout(() => { if (document.body.classList.contains("con-mapa")) reencuadrar(document.body.dataset.pantalla); }, 150);
+}).observe($("mapa"));
 const icono = (clase) => L.divIcon({ className: "", html: `<span class="marca ${clase}"></span>`, iconSize: [18, 18] });
 
 const estado = { origen: null, destino: null, editando: "hacia", kmCalle: null, momento: 0, otra: null, prisa: 20, app: null, gps: null, elegida: null };
@@ -81,7 +87,7 @@ const PANTALLAS = {
   elegirMapa: { tab: "inicio", mapa: true, encabezado: true },
   opciones: { tab: "inicio", mapa: true, encabezado: true },
   detalle: { tab: "inicio", mapa: true, encabezado: true },
-  camiones: { tab: "inicio", encabezado: true },
+  camiones: { tab: "inicio", mapa: true, encabezado: true },
   guia: {},
   reporte: { tab: "reporte" },
   ajustes: { tab: "ajustes" },
@@ -95,6 +101,7 @@ function mostrar(nombre) {
   if (nombre === "inicio") { limpiarRuta(); pintarViajes(); }
   if (nombre === "opciones") quitarTrazo();
   if (nombre !== "elegirMapa") capas.punto?.remove();
+  if (nombre !== "camiones") { capas.paradas?.remove(); capas.paradas = null; }
   for (const s of document.querySelectorAll(".pantalla")) s.hidden = s.id !== nombre;
   document.body.dataset.pantalla = nombre;
   document.body.classList.toggle("con-mapa", Boolean(conf.mapa));
@@ -114,7 +121,7 @@ function mostrar(nombre) {
 }
 // Un mapa que estuvo oculto pierde el encuadre; se rehace con lo que toca en cada pantalla.
 function reencuadrar(nombre) {
-  const capa = nombre === "detalle" ? capas.camion ?? capas.linea : nombre === "opciones" ? capas.linea : null;
+  const capa = nombre === "detalle" ? capas.camion ?? capas.linea : nombre === "opciones" ? capas.linea : nombre === "camiones" ? capas.paradas : null;
   if (capa) return encuadrar(capa.getBounds());
   const c = estado.gps ?? estado.origen;
   if (nombre === "inicio" && c) mapa.setView([c.lat, c.lon], 15);
@@ -826,10 +833,14 @@ function dibujar(o) {
   const estilo = (modo) => (modo === "caminando" ? { color: tinta, weight: 3, dashArray: "1 7", lineCap: "round" } : { color: tinta, weight: 2, opacity: 0.7 });
   capas.linea?.setStyle?.({ opacity: 0.15 });
   const camiones = o.trazo.camiones;
+  const lineas = o.pasos.filter((p) => p.tipo === "camion").map((p) => p.linea);
   const capasCamion = camiones.flatMap((c, k) => [
     L.polyline(c, { color: ambar, weight: 5, tono: "linea" }),
     ...(k > 0 ? [L.polyline([camiones[k - 1].at(-1), c[0]], estilo("caminando"))] : []),
-    ...[c[0], c.at(-1)].map((x) => L.circleMarker(x, { radius: 5, color: "#0b0a09", weight: 2, fillColor: ambar, fillOpacity: 1, tono: "punto" })),
+    // Un punto chico por cada parada del camino, para ver cuantas faltan.
+    ...c.slice(1, -1).map((x) => L.circleMarker(x, { radius: 2.5, color: ambar, weight: 1, fillColor: tono("--fondo"), fillOpacity: 1, tono: "linea" })),
+    ...[c[0], c.at(-1)].map((x, j) => L.circleMarker(x, { radius: 6, color: "#0b0a09", weight: 2, fillColor: ambar, fillOpacity: 1, tono: "punto" })
+      .bindTooltip(j ? `Bajas aquí` : `Subes a la ${lineas[k] ?? ""}`, { permanent: true, direction: j ? "bottom" : "top", offset: [0, j ? 8 : -8], className: "etiqueta-mapa" })),
   ]);
   capas.camion = L.featureGroup([
     L.polyline(o.trazo.acceso.puntos, estilo(o.trazo.acceso.modo)),
@@ -848,6 +859,28 @@ function recolorear() {
 }
 
 // Camiones cerca
+const iconoParada = (cerca) => L.divIcon({ className: "", iconSize: cerca ? [38, 38] : [30, 30],
+  html: `<span class="parada-mapa${cerca ? " cerca" : ""}">${ico("camion")}</span>` });
+// Las paradas en el mapa: tu ubicacion, la mas cercana resaltada con el camino a pie y las demas; tocar una baja a sus camiones.
+function pintarParadas(punto, lista) {
+  capas.paradas?.remove();
+  const marcas = lista.map((x, i) => {
+    const m = L.marker([x.lat, x.lon], { icon: iconoParada(i === 0), keyboard: false, zIndexOffset: i === 0 ? 500 : 0 });
+    m.on("click", () => {
+      if (i === 0) return void ($("hoja").scrollTop = 0);
+      const otras = document.querySelector("#camionesContenido .otras");
+      if (otras) otras.open = true;
+      document.querySelectorAll("#camionesContenido .otras h3")[i - 1]?.scrollIntoView({ block: "start", behavior: "smooth" });
+    });
+    if (i === 0) m.bindTooltip("Más cercana", { permanent: true, direction: "top", offset: [0, -20], className: "etiqueta-mapa" });
+    return m;
+  });
+  capas.paradas = L.featureGroup([
+    L.polyline([[punto.lat, punto.lon], [lista[0].lat, lista[0].lon]], { color: tono("--tinta"), weight: 3, dashArray: "1 7", lineCap: "round" }),
+    ...marcas,
+  ]).addTo(mapa);
+  setTimeout(() => encuadrar(capas.paradas.getBounds()), 120);
+}
 const enCuanto = (min) => { const f = Math.round(min - ahoraMin()); return f <= 0 ? "ya debe pasar" : f < 60 ? `en ${f} min` : `en ${Math.floor(f / 60)} h ${f % 60} min`; };
 $("pasanAqui").addEventListener("click", () => abrirCamiones());
 function abrirCamiones() {
@@ -871,6 +904,7 @@ function abrirCamiones() {
       <span class="hora-camion"><strong>${hora(l.horas[0])}</strong><small>${enCuanto(l.horas[0])}</small></span>
     </div></li>`).join("")}</ul>`;
   const p = lista[0];
+  pintarParadas(punto, lista);
   const minCaminar = Math.max(1, Math.round((p.m * 1.3) / 1000 / 4.5 * 60));
   caja.innerHTML = `
     <div class="parada-cerca">

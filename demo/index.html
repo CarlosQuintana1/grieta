@@ -209,18 +209,17 @@
         <p id="appAviso" class="nota" role="status"></p>
         <button id="avisarLlegada" type="button" class="boton oscuro"><svg class="icono"><use href="#i-altavoz"/></svg>Avísame cuando esté llegando</button>
 
-        <h2>¿Cuánto te marca la app?</h2>
-        <div class="dos-campos">
-          <label class="campo"><span>App</span>
-            <select id="appVista">
-              <option value="">Elige</option><option value="uber">Uber</option><option value="didi">DiDi</option><option value="indrive">inDrive</option>
-            </select>
-          </label>
-          <label class="campo"><span>Precio</span>
-            <input id="precio" type="number" inputmode="decimal" placeholder="$ 0" min="0">
-          </label>
+        <h2 id="tituloComparar">¿Cuánto te marca la app?</h2>
+        <div id="appVista" class="segmentado" role="group" aria-labelledby="tituloComparar">
+          <button type="button" data-v="uber" aria-pressed="false">Uber</button>
+          <button type="button" data-v="didi" aria-pressed="false">DiDi</button>
+          <button type="button" data-v="indrive" aria-pressed="false">inDrive</button>
         </div>
-        <div id="prisa" class="segmentado" role="group" aria-label="Qué tanta prisa tienes">
+        <label class="campo precio-campo"><span>Precio que te marca</span>
+          <input id="precio" type="number" inputmode="decimal" placeholder="$ 0" min="0">
+        </label>
+        <p class="nota prisa-titulo" id="tituloPrisa">¿Qué tanta prisa tienes?</p>
+        <div id="prisa" class="segmentado" role="group" aria-labelledby="tituloPrisa">
           <button type="button" data-v="5" aria-pressed="false">Tengo prisa</button>
           <button type="button" data-v="20" aria-pressed="true">Normal</button>
           <button type="button" data-v="45" aria-pressed="false">Sin prisa</button>
@@ -234,7 +233,6 @@
     <section id="guia" class="pantalla" aria-labelledby="guiaTitulo" hidden>
       <div class="guia-barra">
         <img src="logo.png" alt="Grieta" class="logo">
-        <span class="pildora">Según horario</span>
       </div>
       <p id="guiaEtapa" class="etiqueta"></p>
       <h1 id="guiaTitulo" class="guia-titulo" tabindex="-1" aria-live="assertive"></h1>
@@ -260,8 +258,8 @@
     </section>
 
     <section id="reporte" class="pantalla" aria-labelledby="tituloReporte" hidden>
-      <p id="reporteDonde" class="etiqueta">Buscando dónde estás...</p>
       <h1 id="tituloReporte" class="titulo-grande" tabindex="-1">¿Qué problema encontraste?</h1>
+      <p class="donde"><svg class="icono ambar"><use href="#i-pin"/></svg><span id="reporteDonde">Buscando dónde estás...</span></p>
       <div id="tipoReporte" class="filas-opcion" role="radiogroup" aria-labelledby="tituloReporte">
         <button type="button" role="radio" aria-checked="false" data-v="banqueta">Banqueta rota<svg class="icono palomita"><use href="#i-palomita"/></svg></button>
         <button type="button" role="radio" aria-checked="false" data-v="sin_rampa" tabindex="-1">No hay rampa<svg class="icono palomita"><use href="#i-palomita"/></svg></button>
@@ -271,10 +269,12 @@
         <button type="button" role="radio" aria-checked="false" data-v="referencia" tabindex="-1">Referencia para encontrar la parada<svg class="icono palomita"><use href="#i-palomita"/></svg></button>
         <button type="button" role="radio" aria-checked="false" data-v="otro" tabindex="-1">Otra cosa<svg class="icono palomita"><use href="#i-palomita"/></svg></button>
       </div>
-      <label for="descripcion" class="etiqueta-campo">Cuéntanos un poco más</label>
-      <textarea id="descripcion" maxlength="280" rows="3" placeholder="Ejemplo: la parada está frente al OXXO, junto al poste amarillo"></textarea>
-      <label class="boton oscuro archivo"><svg class="icono"><use href="#i-camara"/></svg><span id="fotoTexto">Agregar foto</span><input id="foto" type="file" accept="image/jpeg,image/png,image/webp" capture="environment"></label>
-      <button id="enviarReporte" type="button" class="boton">Enviar reporte</button>
+      <div id="reporteResto" hidden>
+        <label for="descripcion" class="etiqueta-campo">Cuéntanos más <span class="tenue">(si quieres)</span></label>
+        <textarea id="descripcion" maxlength="280" rows="3" placeholder="Ejemplo: la parada está frente al OXXO, junto al poste amarillo"></textarea>
+        <label class="boton oscuro archivo"><svg class="icono"><use href="#i-camara"/></svg><span id="fotoTexto">Agregar foto (si quieres)</span><input id="foto" type="file" accept="image/jpeg,image/png,image/webp" capture="environment"></label>
+        <button id="enviarReporte" type="button" class="boton">Enviar reporte</button>
+      </div>
       <p id="reporteEstado" class="nota" role="status"></p>
     </section>
 

@@ -7,7 +7,7 @@ const DIAS = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "
 const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
 const ACCIONES = { "pedir ya": "Pídelo ya", esperar: "Espera un poco", camion: "Vete en camión" };
 // Cada veredicto lleva su forma, para no depender solo del color.
-const SIMBOLOS = { "pedir ya": "✓", esperar: "!", camion: "✕" };
+const SIMBOLOS = { "pedir ya": "palomita", esperar: "reloj", camion: "camion" };
 
 const escapar = (t) => String(t ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const ico = (nombre, clase = "") => `<svg class="icono ${clase}" aria-hidden="true"><use href="#i-${nombre}"/></svg>`;
@@ -32,6 +32,8 @@ const mapa = L.map("mapa", { zoomControl: false, attributionControl: false, keyb
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19 }).addTo(mapa);
 L.control.attribution({ position: "bottomright", prefix: false })
   .addAttribution('&copy; <a href="https://www.openstreetmap.org/copyright" tabindex="-1">OpenStreetMap</a>').addTo(mapa);
+// Al girar el telefono o cambiar el tamano de la ventana, Leaflet necesita volver a medir el mapa.
+addEventListener("resize", () => mapa.invalidateSize());
 const icono = (clase) => L.divIcon({ className: "", html: `<span class="marca ${clase}"></span>`, iconSize: [18, 18] });
 
 const estado = { origen: null, destino: null, editando: "hacia", kmCalle: null, momento: 0, otra: null, prisa: 20, app: null, gps: null, elegida: null };
@@ -438,7 +440,9 @@ function elegirTarjetas(r) {
   if (menor(r.opciones, (o) => o.minutos).tipo !== "app") agregar(menor(ops, (o) => o.minutos), "Más rápido");
   agregar(menor(ops, (o) => o.costo), "Más barato");
   // Si quedan menos de tres, la siguiente mejor como alternativa.
-  const resto = ops.filter((o) => !lista.some((x) => x.o === o)).sort((a, b) => valorOpcion(a) - valorOpcion(b));
+  // Nunca una alternativa que otra opcion le gana en precio y en tiempo a la vez.
+  const perdedora = (o) => r.opciones.some((x) => x !== o && x.costo <= o.costo && x.minutos <= o.minutos);
+  const resto = ops.filter((o) => !lista.some((x) => x.o === o) && !perdedora(o)).sort((a, b) => valorOpcion(a) - valorOpcion(b));
   if (lista.length < 3 && resto.length) agregar(resto[0], "Otra opción");
   return lista;
 }
@@ -492,15 +496,17 @@ function pintarOpciones(r) {
 }
 $("tarjetas").addEventListener("click", (e) => {
   const t = e.target.closest(".tarjeta");
-  if (!t) return;
-  const { o, etiquetas } = estado.tarjetas[t.dataset.i];
+  if (t) abrirOpcion(t.dataset.i);
+});
+function abrirOpcion(i) {
+  const { o, etiquetas } = estado.tarjetas[i];
   estado.elegida = o;
   estado.etiquetaElegida = etiquetas[0];
   titulos.detalle = tituloOpcion(o);
   ir("detalle");
   pintarDetalle();
   if (acc.modoVoz) leerDetalle();
-});
+}
 
 function leerDetalle() {
   const o = estado.elegida;
@@ -518,7 +524,7 @@ $("compararPrecio").addEventListener("click", () => {
   titulos.detalle = tituloOpcion(o);
   ir("detalle");
   pintarDetalle();
-  setTimeout(() => { $("appVista").scrollIntoView({ block: "center" }); $("appVista").focus({ preventScroll: true }); }, 150);
+  setTimeout(() => { $("hoja").scrollTop = $("tituloComparar").offsetTop - 16; $("appVista").querySelector("button").focus({ preventScroll: true }); }, 150);
 });
 
 // Inicio de la franja de 3 horas que contiene ese minuto.
@@ -621,7 +627,7 @@ function pintarDetalle(sinMapa) {
   $("detalleLlegada").innerHTML = `Llegas <strong>${hora(llegada(o))}</strong>`;
   $("pasos").innerHTML = pasosDe(o).map((p, i) => `<li class="${p.camion ? "camion" : ""}">
     <span class="numero" aria-hidden="true">${i + 1}</span>
-    <span class="fila-texto"><strong>${escapar(p.titulo)}</strong><small>${escapar(p.nota)}</small></span>
+    <span class="fila-texto"><strong>${escapar(p.titulo)}</strong><small>${escapar(cruce(p.nota))}</small></span>
     <span class="hora">${hora(p.hora)}</span></li>`).join("");
   if (!sinMapa) dibujar(o);
 }
@@ -648,14 +654,18 @@ const conPunto = (t) => (/[.!?]$/.test(t) ? t : `${t}.`);
 const pasosEnVoz = (o) => pasosDe(o).map((p) => `${conPunto(p.titulo)} ${conPunto(p.nota)}`).join(" ");
 $("escuchar").addEventListener("click", () => hablar(pasosEnVoz(estado.elegida)));
 
-$("appVista").addEventListener("change", (e) => { estado.app = e.target.value || null; calcular(); });
-$("prisa").addEventListener("click", (e) => {
-  const b = e.target.closest("button");
-  if (!b) return;
-  for (const x of $("prisa").children) x.setAttribute("aria-pressed", String(x === b));
-  estado.prisa = Number(b.dataset.v);
-  calcular();
-});
+// Botones de una sola eleccion: la app que te dio precio y que tanta prisa tienes.
+function segmentado(id, alElegir) {
+  $(id).addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    for (const x of $(id).children) x.setAttribute("aria-pressed", String(x === b));
+    alElegir(b.dataset.v);
+    calcular();
+  });
+}
+segmentado("appVista", (v) => { estado.app = v; if (!$("precio").value) $("precio").focus(); });
+segmentado("prisa", (v) => { estado.prisa = Number(v); });
 $("precio").addEventListener("input", calcular);
 
 function pintarVeredicto(r) {
@@ -674,20 +684,22 @@ function pintarVeredicto(r) {
   // Muy arriba de lo normal: lo mas probable es alta demanda, y otra app puede salir mas barata.
   const otra = r.directo.porApp.filter((x) => x.app !== d.esperado.app).sort((x, y) => x.precio - y.precio)[0];
   const alta = d.relacion >= 1.4
-    ? `<div class="aviso cuidado alta">${ico("alerta")}<span class="fila-texto"><strong>${Grieta.nombreApp(d.esperado.app)} está en alta demanda</strong>
-        <small>Te marca ${pesos(visto)}; lo normal a esta hora es ${pesos(d.esperado.precio)}.${otra && otra.precio < visto * 0.85 ? ` ${Grieta.nombreApp(otra.app)} debería salir en unos ${pesos(otra.precio)}: revísala antes de pedir.` : ""}</small></span></div>`
+    ? ` <strong>${Grieta.nombreApp(d.esperado.app)} está en alta demanda.</strong>${otra && otra.precio < visto * 0.85 ? ` ${Grieta.nombreApp(otra.app)} debería salir en unos ${pesos(otra.precio)}: revísala antes de pedir.` : ""}`
     : "";
-  $("veredicto").innerHTML = `${alta}
+  const camion = d.accion === "camion" && estado.tarjetas?.length;
+  $("veredicto").innerHTML = `
     <div class="recomendacion">
       <p class="etiqueta">Recomendación</p>
-      <p class="veredicto"><span class="simbolo" aria-hidden="true">${SIMBOLOS[d.accion]}</span>${ACCIONES[d.accion]}</p>
-      <p>Te marca ${pesos(visto)} y lo normal en ${Grieta.nombreApp(d.esperado.app)} a esta hora es ${pesos(d.esperado.precio)}.${porque}
-        ${d.extra < 1e8 ? `El camión que ahorra tarda ${Math.round(d.extra)} min más.` : "Ningún camión ahorra al menos 30%."}</p>
+      <p class="veredicto">${ico(SIMBOLOS[d.accion], "simbolo")}${ACCIONES[d.accion]}</p>
+      <p>${Grieta.nombreApp(d.esperado.app)} te marca ${pesos(visto)} y lo normal a esta hora es ${pesos(d.esperado.precio)}.${alta}${porque}
+        ${d.accion === "camion" && d.extra < 1e8 ? `El camión tarda ${Math.round(d.extra)} min más, pero te ahorras la diferencia.` : ""}</p>
+      ${camion ? `<button type="button" class="boton ver-camion">${ico("camion")}Ver cómo ir en ${escapar(tituloOpcion(estado.tarjetas[0].o))}</button>` : ""}
       <button type="button" class="porque" aria-expanded="false" aria-controls="reglas">¿Por qué?</button>
       <ul id="reglas" class="reglas" hidden>${d.activas.slice(0, 3).map((a) => `<li>${Math.round(a.w * 100)}%: si ${a.texto}, ${ACCIONES[a.accion].toLowerCase()}</li>`).join("")}</ul>
     </div>`;
 }
 $("veredicto").addEventListener("click", (e) => {
+  if (e.target.closest(".ver-camion")) return abrirOpcion(0);
   const b = e.target.closest(".porque");
   if (!b) return;
   const abierto = b.getAttribute("aria-expanded") === "true";
@@ -769,6 +781,7 @@ function recolorear() {
 }
 
 // Camiones cerca
+const enCuanto = (min) => { const f = Math.round(min - ahoraMin()); return f <= 0 ? "ya debe pasar" : f < 60 ? `en ${f} min` : `en ${Math.floor(f / 60)} h ${f % 60} min`; };
 $("pasanAqui").addEventListener("click", () => abrirCamiones());
 function abrirCamiones() {
   const punto = estado.gps ?? estado.origen;
@@ -788,13 +801,12 @@ function abrirCamiones() {
   const filas = (p) => `<ul class="filas">${p.lineas.slice(0, 6).map((l) => `<li><div class="fila">
       <span class="linea-caja">${escapar(l.linea)}</span>
       <span class="fila-texto"><strong>Hacia ${escapar(l.hacia)}</strong>${l.horas[1] !== undefined ? `<small>También a las ${hora(l.horas[1])}</small>` : ""}</span>
-      <span class="hora-camion"><strong>${hora(l.horas[0])}</strong><small>según horario</small></span>
+      <span class="hora-camion"><strong>${hora(l.horas[0])}</strong><small>${enCuanto(l.horas[0])}</small></span>
     </div></li>`).join("")}</ul>`;
   const p = lista[0];
   const minCaminar = Math.max(1, Math.round((p.m * 1.3) / 1000 / 4.5 * 60));
   caja.innerHTML = `
     <div class="parada-cerca">
-      <span class="circulo-grande">${ico("camion")}</span>
       <p class="etiqueta">Parada más cercana · a ${Math.round(p.m)} m</p>
       <p class="parada-nombre">${escapar(cruce(p.nombre))}</p>
       <p class="nota">Camina ${minCaminar} min</p>
@@ -804,7 +816,8 @@ function abrirCamiones() {
     ${filas(p)}
     <h2>Avisos de la parada</h2>
     <div id="avisosParada" class="avisos"><p class="nota">Buscando avisos...</p></div>
-    ${lista.length > 1 ? `<h2>Otras paradas cerca</h2>${lista.slice(1).map((x) => `<h3>${escapar(x.nombre)} <span class="nota">a ${Math.round(x.m)} m</span></h3>${filas(x)}`).join("")}` : ""}
+    ${lista.length > 1 ? `<details class="otras"><summary>Ver ${lista.length - 1 === 1 ? "otra parada" : `otras ${lista.length - 1} paradas`} cerca${ico("chevron", "chevron")}</summary>
+      ${lista.slice(1).map((x) => `<h3>${escapar(cruce(x.nombre))} <span class="tenue">a ${Math.round(x.m)} m</span></h3>${filas(x)}`).join("")}</details>` : ""}
     <p class="nota pie">Las horas salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse.</p>`;
   $("irParada").addEventListener("click", () => poner("destino", { nombre: `Parada ${p.nombre}`, lat: p.lat, lon: p.lon }));
   hablar(`La parada más cercana es ${p.nombre}, a ${Math.round(p.m)} metros. ` +
@@ -812,6 +825,14 @@ function abrirCamiones() {
   reportesCerca(p.lat, p.lon, 60).then((avisos) => {
     const caja = $("avisosParada");
     if (!caja) return;
+    // Un aviso por tipo: varios reportes iguales se juntan y se quedan las descripciones distintas.
+    const porTipo = new Map();
+    for (const a of avisos) {
+      const x = porTipo.get(a.tipo) ?? { tipo: a.tipo, textos: [] };
+      if (a.descripcion && !x.textos.includes(a.descripcion)) x.textos.push(a.descripcion);
+      porTipo.set(a.tipo, x);
+    }
+    avisos = [...porTipo.values()].map((x) => ({ tipo: x.tipo, descripcion: x.textos.slice(0, 2).join(" · ") }));
     caja.innerHTML = avisos.length
       ? avisos.slice(0, 4).map((a) => `<div class="aviso${a.tipo === "referencia" ? "" : " cuidado"}">
           ${ico(a.tipo === "referencia" ? "localizar" : "alerta")}
@@ -837,7 +858,7 @@ function dondeEstoy(destino) {
     } catch {}
     const parada = Grieta.pasanAqui(lat, lon, hoyDia(), ahoraMin(), 500)[0];
     const texto = `${lugar ? `Estás en ${lugar}.` : "No encontré el nombre de la calle."} ` +
-      (parada ? `La parada más cercana es ${parada.nombre}, a ${Math.round(parada.m)} metros.` : "No hay paradas de Qrobus a menos de 500 metros.");
+      (parada ? `La parada más cercana es ${cruce(parada.nombre)}, a ${Math.round(parada.m)} metros.` : "No hay paradas de Qrobus a menos de 500 metros.");
     contar(texto);
     hablar(texto, false, true);
   }, () => { contar("No pude ver tu ubicación."); hablar("No pude ver tu ubicación.", false, true); }, { enableHighAccuracy: true, timeout: 10000 });
@@ -909,7 +930,7 @@ function ponerTitulo(titulo) {
 function decir(titulo, detalle, etapa, alerta = false) {
   if (etapa) $("guiaEtapa").textContent = guia.camion && etapa !== "Llegaste" ? `${etapa} · ${guia.camion.linea}` : etapa;
   ponerTitulo(titulo);
-  $("guiaDetalle").textContent = detalle ?? "";
+  $("guiaDetalle").textContent = cruce(detalle ?? "");
   document.body.classList.toggle("alerta", alerta);
   pintarGuia();
   hablar(detalle ? `${titulo}. ${detalle}` : titulo, false, true);
@@ -1032,7 +1053,7 @@ function avanzarCamion(lat, lon) {
   } else {
     // En pantalla siempre; en voz cada 5 paradas y en cada una de las ultimas 5.
     ponerTitulo(`Faltan ${faltan} paradas`);
-    $("guiaDetalle").textContent = `Vas por ${r[guia.actual].nombre}.`;
+    $("guiaDetalle").textContent = `Vas por ${cruce(r[guia.actual].nombre)}.`;
     pintarGuia();
     if (faltan <= 5 || faltan % 5 === 0) unaVez(clave(`faltan${faltan}`), () => decir(`Faltan ${faltan} paradas`, `Vas por ${r[guia.actual].nombre}.`, "En el camión"));
   }
@@ -1272,14 +1293,23 @@ async function leerReferencias(parada) {
 
 // Reportar un problema donde estas parado.
 const reporte = { tipo: null, lat: null, lon: null, parada: null };
-const marcarReporte = radios("tipoReporte", (v) => { reporte.tipo = v; });
+// Lo demas del reporte aparece hasta elegir el problema, para que la pantalla pida una cosa a la vez.
+const marcarReporte = radios("tipoReporte", (v) => {
+  reporte.tipo = v;
+  const nuevo = $("reporteResto").hidden && v;
+  $("reporteResto").hidden = !v;
+  if (v) $("reporteEstado").className = "nota";
+  if (nuevo) setTimeout(() => $("enviarReporte").scrollIntoView({ block: "nearest", behavior: "smooth" }), 50);
+});
 function abrirReporte() {
   Object.assign(reporte, { tipo: null, lat: null, lon: null, parada: null });
   marcarReporte(null);
   $("descripcion").value = "";
   $("foto").value = "";
-  $("fotoTexto").textContent = "Agregar foto";
+  $("fotoTexto").textContent = "Agregar foto (si quieres)";
+  $("reporteResto").hidden = true;
   $("reporteEstado").textContent = "";
+  $("reporteEstado").className = "nota";
   $("reporteDonde").textContent = "Buscando dónde estás...";
   ir("reporte");
   const fijar = async (lat, lon) => {
@@ -1289,7 +1319,7 @@ function abrirReporte() {
     // Cerca de una parada, el reporte queda en la parada para que lo encuentre quien la consulte.
     if (p) {
       Object.assign(reporte, { lat: p.lat, lon: p.lon });
-      $("reporteDonde").textContent = `En la parada ${p.nombre}`;
+      $("reporteDonde").textContent = `En la parada ${cruce(p.nombre)}`;
       return;
     }
     $("reporteDonde").textContent = "En tu ubicación actual";
@@ -1321,10 +1351,10 @@ async function achicarFoto(f) {
 }
 $("foto").addEventListener("change", () => {
   const f = $("foto").files[0];
-  $("fotoTexto").textContent = f ? `Foto lista: ${f.name}` : "Agregar foto";
+  $("fotoTexto").textContent = f ? "Foto lista. Toca para cambiarla" : "Agregar foto (si quieres)";
 });
 $("enviarReporte").addEventListener("click", async () => {
-  const decirR = (t) => { $("reporteEstado").textContent = t; hablar(t); };
+  const decirR = (t) => { $("reporteEstado").textContent = t; hablar(t, false, true); };
   if (!reporte.tipo) return decirR("Elige qué problema encontraste.");
   if (reporte.lat === null) return decirR("Todavía no sé dónde estás. Activa la ubicación.");
   if (!API) return decirR("Los reportes todavía no están conectados al servidor.");
@@ -1345,12 +1375,15 @@ $("enviarReporte").addEventListener("click", async () => {
       }
     }
     decirR(conFoto ? "Gracias. Tu reporte ayuda a quien pase por aquí." : "Se guardó tu reporte, pero no se pudo subir la foto.");
+    $("reporteEstado").className = "nota listo";
+    $("reporteResto").hidden = true;
+    $("reporteEstado").scrollIntoView({ block: "nearest" });
     // El reporte ya existe: se limpia el formulario para que otro toque no lo mande dos veces.
     Object.assign(reporte, { tipo: null });
     marcarReporte(null);
     $("descripcion").value = "";
     $("foto").value = "";
-    $("fotoTexto").textContent = "Agregar foto";
+    $("fotoTexto").textContent = "Agregar foto (si quieres)";
   } catch (err) {
     decirR(err.message === "sin api" ? "No hay conexión con el servidor." : `No se pudo enviar: ${err.message}.`);
   } finally {
@@ -1448,7 +1481,8 @@ Promise.all([
   fetch("datos/config.json").then((r) => r.json()).catch(() => ({})),
 ]).then(([{ modelo }, l, config]) => {
   lugares = l;
-  API = config.api || (["localhost", "127.0.0.1"].includes(location.hostname) ? "http://localhost:3000/api" : "");
+  // En local se usa la API local, para que las pruebas no escriban en la base de produccion.
+  API = ["localhost", "127.0.0.1"].includes(location.hostname) ? "http://localhost:3000/api" : config.api || "";
   pintarGuardados();
   avisoConexion();
   const info = `Precios estimados con ${modelo.momentos} registros del equipo. Horarios oficiales de Qrobus.`;

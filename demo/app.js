@@ -470,7 +470,7 @@ const encuadrar = (limites) => mapa.fitBounds(limites, { padding: [28, 28] });
 function momentos() {
   const dia = hoyDia();
   const minuto = ahoraMin();
-  const lista = ESPERAS.map((m) => ({ dia, minuto: minuto + m, etiqueta: m ? (m < 60 ? `En ${m} min` : "En 1 h") : "Ahora" }));
+  const lista = ESPERAS.map((m) => ({ dia, minuto: minuto + m, etiqueta: m ? (m < 60 ? `En ${m} min` : "En 1 h") : "Ahora", corta: m ? (m < 60 ? `+${m} min` : "+1 h") : "Ahora" }));
   lista.push(estado.otra ? { ...estado.otra, etiqueta: hora(estado.otra.minuto) } : { dia, minuto: minuto + 120, etiqueta: "Otra hora", vacia: true });
   return lista;
 }
@@ -648,11 +648,12 @@ const inicioFranja = (minuto) => Math.max(...Grieta.CORTES.filter((c) => c * 60 
 
 function pintarEspera(lista, precios, base) {
   const cercanos = precios.slice(0, ESPERAS.length).map((p) => p.mejor.precio);
-  const minimo = Math.min(...cercanos);
+  // Solo se resalta la hora mas barata si de verdad lo es: si todas cuestan lo mismo, ninguna.
+  const minimo = Math.round(Math.min(...cercanos)) < Math.round(Math.max(...cercanos)) ? Math.min(...cercanos) : -1;
   $("horas").innerHTML = lista.map((m, i) => `
     <button type="button" data-i="${i}" aria-pressed="${i === estado.momento}" class="${i < ESPERAS.length && cercanos[i] === minimo ? "barata" : ""}"
       aria-label="${m.etiqueta}${m.vacia ? ", elegir día y hora" : `, ${Math.round(precios[i].mejor.precio)} pesos`}">
-      <span>${m.etiqueta}</span><strong>${m.vacia ? "+" : pesos(precios[i].mejor.precio)}</strong>
+      <span>${m.corta ?? m.etiqueta}</span><strong>${m.vacia ? "+" : pesos(precios[i].mejor.precio)}</strong>
     </button>`).join("");
   // Lo que cambia es la franja de 3 horas del modelo, no el trafico de este momento.
   const ahora = cercanos[0];
@@ -672,9 +673,9 @@ function pintarEspera(lista, precios, base) {
   }
   const barata = tramos.reduce((x, y) => (y.p < x.p ? y : x), tramos[0]);
   $("mejorHora").textContent = (!barata ? "" : barata.a <= hoy.minuto
-    ? "Hoy no hay una franja más barata que la de ahorita. "
-    : `La franja más barata hoy es de ${hora(barata.a)} a ${hora(barata.b)}: ${pesos(barata.p)}. `) +
-    "Es lo normal según los registros: el precio esperado cambia por franjas de 3 horas, no en tiempo real.";
+    ? "Ahorita es la hora más barata de hoy. "
+    : `Lo más barato hoy es de ${hora(barata.a)} a ${hora(barata.b)}: ${pesos(barata.p)}. `) +
+    "Son precios normales según nuestros registros, no lo que marca la app en este momento.";
 }
 $("abrirEspera").addEventListener("click", () => {
   const abierto = $("abrirEspera").getAttribute("aria-expanded") === "true";

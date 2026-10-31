@@ -9,7 +9,7 @@
   --linea: #2f2a24;
   --ambar: #e0a03c;
   --sobre-ambar: #0b0a09;
-  --cuidado: #8a4636;
+  --cuidado: #c9664c;
   --toque: 48px;
   --radio: 14px;
   --pestanas: 64px;
@@ -191,9 +191,9 @@ html.grande body.con-mapa .hoja { max-height: 80%; }
 .fila-espera strong { display: block; margin-top: 4px; font-weight: 700; }
 .fila-espera[aria-expanded="true"] .chevron { transform: rotate(90deg); }
 #espera { padding: 0 14px 14px; }
-.horas { display: flex; gap: 8px; overflow-x: auto; padding: 2px; }
+.horas { display: grid; grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); gap: 6px; }
 .horas button {
-  flex: none; min-width: 84px; min-height: 64px; padding: 8px 12px; border-radius: 12px; border: 1px solid var(--linea); text-align: center;
+  min-height: 64px; padding: 8px 4px; border-radius: 12px; border: 1px solid var(--linea); text-align: center;
 }
 .horas button span { display: block; font-size: 0.78rem; color: var(--tenue); }
 .horas button strong { display: block; font-size: 1.1rem; font-weight: 800; }

@@ -28,18 +28,6 @@ function hora(min) {
 const ahoraMin = () => { const a = new Date(); return a.getHours() * 60 + a.getMinutes(); };
 const hoyDia = () => (new Date().getDay() + 6) % 7;
 
-// Instalada en iPhone con la barra de estado translucida, iOS reporta un alto que no cuenta esa barra
-// y deja una franja vacia abajo: se usa el alto fisico de la pantalla cuando es mayor.
-function ajustarAlto() {
-  if (!navigator.standalone) return;
-  const lados = [screen.width, screen.height];
-  const alto = matchMedia("(orientation: landscape)").matches ? Math.min(...lados) : Math.max(...lados);
-  document.documentElement.style.setProperty("--alto", alto > innerHeight ? `${alto}px` : "100%");
-}
-ajustarAlto();
-addEventListener("resize", ajustarAlto);
-addEventListener("orientationchange", () => setTimeout(ajustarAlto, 300));
-
 const mapa = L.map("mapa", { zoomControl: false, attributionControl: false, keyboard: false }).setView(QUERETARO, 12);
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19 }).addTo(mapa);
 L.control.attribution({ position: "bottomright", prefix: false })
@@ -1485,6 +1473,14 @@ $("sinUbicacion").addEventListener("click", () => {
 });
 $("verBienvenida").addEventListener("click", abrirBienvenida);
 
+// Medidas de la pantalla en Ajustes, para revisar como acomoda iOS la app instalada.
+function medirPantalla() {
+  const css = getComputedStyle(document.documentElement);
+  $("medidas").textContent = `Pantalla ${screen.width}×${screen.height} · vista ${innerWidth}×${innerHeight} · ` +
+    `${navigator.standalone ? "instalada" : "navegador"} · zona segura ${css.getPropertyValue("--zona-arriba").trim()} / ${css.getPropertyValue("--zona-abajo").trim()}`;
+}
+addEventListener("resize", () => { if ($("medidas")) medirPantalla(); });
+
 // Sin conexion: la app y los horarios quedan guardados en el telefono.
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 function avisoConexion() {
@@ -1513,6 +1509,7 @@ Promise.all([
   const info = `Precios estimados con ${modelo.momentos} registros del equipo. Horarios oficiales de Qrobus.`;
   $("info").textContent = info;
   $("infoAjustes").textContent = info;
+  medirPantalla();
   if (!primeraVez) ubicar();
 });
 

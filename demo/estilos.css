@@ -1,5 +1,7 @@
 :root {
   color-scheme: dark;
+  --zona-arriba: env(safe-area-inset-top, 0px);
+  --zona-abajo: env(safe-area-inset-bottom, 0px);
   --fondo: #0b0a09;
   --superficie: #151310;
   --tinta: #ede8df;
@@ -23,8 +25,7 @@ html.contraste.daltonico { --ambar: #6cb6ff; --cuidado: #ff9f43; }
 [hidden] { display: none !important; }
 html, body { margin: 0; height: 100%; background: var(--fondo); }
 body {
-  /* Instalada en iPhone, el alto que reporta iOS no cuenta la barra de estado: --alto lo corrige desde app.js. */
-  position: fixed; top: 0; left: 0; right: 0; height: var(--alto, 100%); display: flex; flex-direction: column; overflow: hidden;
+  position: fixed; inset: 0; display: flex; flex-direction: column; overflow: hidden;
   color: var(--tinta); font: 400 1rem/1.45 Montserrat, system-ui, sans-serif;
   -webkit-tap-highlight-color: transparent;
 }
@@ -40,6 +41,7 @@ h1:focus, h1:focus-visible { outline: none; }
 .oculto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .nota { color: var(--tenue); font-size: 0.85rem; margin-top: 10px; }
 .pie { margin-top: 24px; }
+.medidas { color: var(--tenue); font-size: 0.7rem; margin-top: 6px; }
 .texto { margin-top: 12px; font-size: 1.05rem; }
 .etiqueta { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ambar); }
 .etiqueta.tenue { color: var(--tenue); }

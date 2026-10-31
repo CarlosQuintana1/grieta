@@ -54,64 +54,57 @@
     <p id="estado" class="estado" role="status"></p>
 
     <section id="bienvenida" class="pantalla" aria-labelledby="tituloBienvenida" hidden>
-      <div class="puntos" aria-hidden="true"><span></span><span></span><span></span></div>
-      <p id="pasoBienvenida" class="etiqueta">PASO 1 DE 3</p>
-      <div data-paso="1">
-        <img src="logo.png" alt="" class="logo-grande">
-        <h1 id="tituloBienvenida" tabindex="-1">Llega a donde vas sin adivinar</h1>
-        <p class="texto">Grieta te dice cómo llegar en Qrobus o en app, cuánto debería costar y si conviene esperar.</p>
-        <p class="texto">Durante el viaje te avisa con voz y vibración cuándo pasa tu camión y cuándo bajarte.</p>
-      </div>
-      <div data-paso="2" hidden>
-        <h1 tabindex="-1">Dos permisos para ayudarte mejor</h1>
-        <p class="texto">Los dos son opcionales y puedes darlos después.</p>
-        <button id="permisoUbicacion" type="button" class="opcion-tarjeta">
-          <svg class="icono ambar"><use href="#i-localizar"/></svg>
-          <span><strong>Ubicación</strong><small id="estadoUbicacion">Para saber desde dónde sales y avisarte en el camino</small></span>
-        </button>
-        <button id="permisoMicrofono" type="button" class="opcion-tarjeta">
-          <svg class="icono ambar"><use href="#i-microfono"/></svg>
-          <span><strong>Micrófono</strong><small id="estadoMicrofono">Para dictar a dónde vas</small></span>
-        </button>
-      </div>
-      <div data-paso="3" hidden>
-        <h1 tabindex="-1" id="tituloModo">¿Cómo prefieres usarla?</h1>
-        <div id="modoUso" class="opciones-modo" role="radiogroup" aria-labelledby="tituloModo">
-          <button type="button" role="radio" aria-checked="true" data-v="vista" class="opcion-tarjeta">
-            <span><strong>Con la vista</strong><small>Tamaño de texto normal</small></span><span class="radio" aria-hidden="true"></span>
-          </button>
-          <button type="button" role="radio" aria-checked="false" data-v="voz" class="opcion-tarjeta" tabindex="-1">
-            <span><strong>Con voz</strong><small>Modo voz: botones grandes y todo en voz alta. Compatible con VoiceOver y TalkBack</small></span><span class="radio" aria-hidden="true"></span>
-          </button>
-          <button type="button" role="radio" aria-checked="false" data-v="grande" class="opcion-tarjeta" tabindex="-1">
-            <span><strong>Con letra grande</strong><small>Texto y controles más grandes</small></span><span class="radio" aria-hidden="true"></span>
+      <div data-paso="vista" class="paso">
+        <img src="logo.png" alt="Grieta" class="logo-grande">
+        <h1 id="tituloBienvenida" tabindex="-1"><span class="oculto">Bienvenida a Grieta. </span>¿Cómo ves la pantalla?</h1>
+        <p class="texto">Grieta se acomoda a ti. Lo puedes cambiar después.</p>
+        <div class="vista-opciones">
+          <button type="button" class="opcion-vista" data-v="vista"><strong>Veo bien</strong><small>Mapa y letra normal</small></button>
+          <button type="button" class="opcion-vista" data-v="poco"><strong>Veo poco</strong><small>Letra grande y más contraste</small></button>
+          <button type="button" class="opcion-vista ciego" data-v="voz">
+            <svg class="icono"><use href="#i-altavoz"/></svg>
+            <strong>No veo</strong><small>Grieta te dice todo en voz alta, con pocos botones y muy grandes</small>
           </button>
         </div>
-        <p class="nota">Lo puedes cambiar cuando quieras en Ajustes.</p>
       </div>
-      <button id="siguientePaso" type="button" class="boton abajo">Siguiente</button>
+      <div data-paso="lector" class="paso" hidden>
+        <button type="button" class="enlace regresar">Regresar</button>
+        <h1 tabindex="-1">¿Tu teléfono ya te lee la pantalla?</h1>
+        <p class="texto">Como VoiceOver en iPhone o TalkBack en Android.</p>
+        <div class="vista-opciones">
+          <button type="button" class="opcion-vista" data-lector="si"><strong>Sí, ya uso uno</strong><small>Grieta no habla encima de él</small></button>
+          <button type="button" class="opcion-vista ciego" data-lector="no"><strong>No</strong><small>Grieta te lo dice en voz alta</small></button>
+        </div>
+      </div>
+      <div data-paso="ubicacion" class="paso" hidden>
+        <button type="button" class="enlace regresar">Regresar</button>
+        <h1 tabindex="-1">¿Usamos tu ubicación?</h1>
+        <p class="texto">Así Grieta sabe desde dónde sales, qué camión pasa cerca y cuándo avisarte que te bajes.</p>
+        <div class="vista-opciones">
+          <button id="permisoUbicacion" type="button" class="opcion-vista ciego"><svg class="icono"><use href="#i-localizar"/></svg><strong>Sí, usar mi ubicación</strong></button>
+          <button id="sinUbicacion" type="button" class="opcion-vista"><strong>Ahora no</strong><small>Escribes desde dónde sales</small></button>
+        </div>
+      </div>
     </section>
 
     <section id="inicio" class="pantalla" aria-labelledby="tituloInicio">
       <div id="inicioVoz" class="inicio-voz" hidden>
-        <h1 class="titulo-grande" tabindex="-1">Modo voz</h1>
-        <p class="nota">Toca un botón y Grieta te contesta en voz alta.</p>
+        <h1 class="titulo-grande" tabindex="-1">¿Qué necesitas?</h1>
         <button id="vozDestino" type="button" class="boton-voz"><svg class="icono"><use href="#i-microfono"/></svg>Decir a dónde voy</button>
         <button id="vozCasa" type="button" class="boton-voz" hidden><svg class="icono"><use href="#i-casa"/></svg>Llévame a casa</button>
         <button id="vozCamion" type="button" class="boton-voz"><svg class="icono"><use href="#i-camion"/></svg>¿Qué camión pasa aquí?</button>
         <button id="vozDonde" type="button" class="boton-voz"><svg class="icono"><use href="#i-localizar"/></svg>¿Dónde estoy?</button>
-        <button id="vozRepetir" type="button" class="boton-voz oscuro"><svg class="icono"><use href="#i-repetir"/></svg>Repetir lo último</button>
+        <button id="vozRepetir" type="button" class="boton-voz oscuro"><svg class="icono"><use href="#i-repetir"/></svg>Repetir</button>
         <div id="respuestaVoz" class="respuesta" aria-live="polite"></div>
-        <button id="salirVoz" type="button" class="enlace">Salir del modo voz</button>
       </div>
       <div id="inicioNormal">
-      <button id="llevameCasa" type="button" class="boton casa" hidden><svg class="icono"><use href="#i-casa"/></svg>Llévame a casa</button>
       <h1 id="tituloInicio" class="titulo-grande" tabindex="-1">¿A dónde vas?</h1>
       <div class="buscador">
         <svg class="icono tenue"><use href="#i-lupa"/></svg>
         <button id="abrirBuscar" type="button" class="buscador-campo">Busca un lugar o una calle</button>
         <button type="button" class="mic dictar" aria-label="Dictar a dónde vas" hidden><svg class="icono"><use href="#i-microfono"/></svg></button>
       </div>
+      <p class="desde"><svg class="icono ambar"><use href="#i-localizar"/></svg><span id="desdeTexto">Buscando tu ubicación...</span><button id="cambiarDesde" type="button" class="enlace">Cambiar</button></p>
       <div id="guardados" class="chips" aria-label="Lugares guardados" role="group" hidden></div>
       <div class="atajos">
         <button id="pasanAqui" type="button" class="atajo">
@@ -122,13 +115,12 @@
           <svg class="icono ambar"><use href="#i-localizar"/></svg>
           <strong>¿Dónde estoy?</strong>
         </button>
-        <button id="activarVoz" type="button" class="atajo ancho">
-          <svg class="icono ambar"><use href="#i-altavoz"/></svg>
-          <strong>Modo voz</strong><small>Para personas ciegas o con baja visión: botones grandes y todo en voz alta</small>
-        </button>
       </div>
       <div id="respuesta" class="respuesta" aria-live="polite"></div>
-      <p class="desde"><span id="desdeTexto">Buscando tu ubicación...</span> · <button id="cambiarDesde" type="button" class="enlace">Cambiar</button></p>
+      <div id="bloqueViajes" hidden>
+        <h2 id="tituloViajes">Tus viajes recientes</h2>
+        <ul id="listaViajes" class="filas" aria-labelledby="tituloViajes"></ul>
+      </div>
       </div>
     </section>
 
@@ -148,22 +140,16 @@
     </section>
 
     <section id="opciones" class="pantalla" aria-labelledby="tituloPantalla" hidden>
-      <div class="cabeza-opciones">
-        <div>
-          <p id="cuantasOpciones" class="etiqueta tenue"></p>
-          <h2 class="titulo-seccion">Cómo llegar</h2>
-        </div>
-        <p id="llegasDesde" class="llegas"></p>
-      </div>
-      <p class="nota" id="resumenRuta"></p>
-      <div id="enApp" class="en-app">
-        <h2 id="tituloEnApp">En app, lo normal ahora</h2>
-        <div id="appsRapido" class="apps-rapido" role="group" aria-labelledby="tituloEnApp"></div>
-        <p id="avisoRapido" class="nota" role="status"></p>
-        <button id="compararPrecio" type="button" class="enlace">¿Ya te dio precio la app? Compáralo aquí</button>
-      </div>
+      <p class="resumen-ruta" id="resumenRuta"></p>
       <div id="ultimoCamion" class="aviso cuidado" role="status" hidden></div>
       <div id="tarjetas" class="tarjetas"></div>
+      <div id="enApp" class="en-app">
+        <h2 id="tituloEnApp">Pedir en app ahora</h2>
+        <p id="llegadaApp" class="llegada-app"></p>
+        <div id="appsRapido" class="apps-rapido" role="group" aria-labelledby="tituloEnApp"></div>
+        <p id="avisoRapido" class="nota" role="status"></p>
+        <button id="compararPrecio" type="button" class="enlace">¿La app ya te dio precio? Compáralo</button>
+      </div>
 
       <div class="plegable">
         <button id="abrirEspera" type="button" class="fila-espera" aria-expanded="false" aria-controls="espera">
@@ -209,16 +195,17 @@
           <p id="detalleLlegada" class="llegas"></p>
         </div>
         <ol id="pasos" class="pasos"></ol>
-        <button id="empezar" type="button" class="boton"><svg class="icono"><use href="#i-play"/></svg>Empezar con avisos</button>
-        <button id="escuchar" type="button" class="boton oscuro"><svg class="icono"><use href="#i-altavoz"/></svg>Escuchar los pasos</button>
+        <div class="acciones-fijas">
+          <button id="empezar" type="button" class="boton"><svg class="icono"><use href="#i-play"/></svg>Empezar viaje con avisos</button>
+          <button id="escuchar" type="button" class="enlace"><svg class="icono"><use href="#i-altavoz"/></svg>Escuchar los pasos</button>
+        </div>
       </div>
 
       <div id="bloqueApp" hidden>
         <p id="appEtiqueta" class="etiqueta">Precio esperado ahora</p>
         <p id="appCifra" class="cifra"></p>
         <p id="appRango" class="nota"></p>
-        <ul id="apps" class="filas-app"></ul>
-        <div id="abrirApps" class="abrir-apps"></div>
+        <div id="abrirApps" class="abrir-apps" role="group" aria-label="Abrir una app"></div>
         <p id="appAviso" class="nota" role="status"></p>
         <button id="avisarLlegada" type="button" class="boton oscuro"><svg class="icono"><use href="#i-altavoz"/></svg>Avísame cuando esté llegando</button>
 
@@ -269,7 +256,7 @@
 
 
     <section id="camiones" class="pantalla" aria-labelledby="tituloPantalla" hidden>
-      <div id="camionesContenido" aria-live="polite"></div>
+      <div id="camionesContenido"></div>
     </section>
 
     <section id="reporte" class="pantalla" aria-labelledby="tituloReporte" hidden>
@@ -295,11 +282,11 @@
       <h1 id="tituloAjustes" class="titulo-grande" tabindex="-1">Ajustes</h1>
       <h2>Accesibilidad</h2>
       <div class="grupo">
-        <label class="interruptor"><span><strong>Modo voz</strong><small>Botones grandes, sin mapa y todo dicho en voz alta</small></span><input type="checkbox" role="switch" id="optModoVoz"></label>
+        <label class="interruptor"><span><strong>Modo para personas ciegas</strong><small>Grieta dice todo en voz alta, sin mapa y con pocos botones grandes</small></span><input type="checkbox" role="switch" id="optModoVoz"></label>
         <label class="interruptor"><span><strong>Letra grande</strong></span><input type="checkbox" role="switch" id="optGrande"></label>
         <label class="interruptor"><span><strong>Alto contraste</strong></span><input type="checkbox" role="switch" id="optContraste"></label>
         <label class="interruptor"><span><strong>Colores para daltonismo</strong><small>Azul y naranja en vez de ámbar y rojo</small></span><input type="checkbox" role="switch" id="optDaltonico"></label>
-        <label class="interruptor"><span><strong>Avisos por voz</strong><small>Apágalo si ya usas VoiceOver o TalkBack</small></span><input type="checkbox" role="switch" id="optVoz"></label>
+        <label class="interruptor"><span><strong>Voz de Grieta</strong><small>Apágala si tu teléfono ya te lee la pantalla (VoiceOver o TalkBack)</small></span><input type="checkbox" role="switch" id="optVoz"></label>
         <label class="interruptor"><span><strong>Voz más lenta</strong></span><input type="checkbox" role="switch" id="optLenta"></label>
       </div>
       <h2>Preferencias de viaje</h2>
@@ -312,19 +299,15 @@
         <button id="editarGuardados" type="button" class="enlace" aria-pressed="false">Editar</button>
       </div>
       <ul id="listaGuardados" class="filas grupo" aria-labelledby="tituloGuardados"></ul>
-      <button id="verBienvenida" type="button" class="enlace">Ver la bienvenida otra vez</button>
+      <button id="verBienvenida" type="button" class="enlace">Volver a elegir cómo ves la pantalla</button>
       <p class="nota pie" id="infoAjustes"></p>
-    </section>
-
-    <section id="viajes" class="pantalla" aria-labelledby="tituloViajes" hidden>
-      <h1 id="tituloViajes" class="titulo-grande" tabindex="-1">Mis viajes</h1>
-      <ul id="listaViajes" class="filas"></ul>
     </section>
   </main>
 
+  <p id="anuncio" class="oculto" aria-live="assertive"></p>
+
   <nav id="pestanas" class="pestanas" aria-label="Secciones">
     <button type="button" data-tab="inicio"><svg class="icono"><use href="#i-casa"/></svg>Inicio</button>
-    <button type="button" data-tab="viajes"><svg class="icono"><use href="#i-ruta"/></svg>Mis viajes</button>
     <button type="button" data-tab="reporte"><svg class="icono"><use href="#i-alerta"/></svg>Reportar</button>
     <button type="button" data-tab="ajustes"><svg class="icono"><use href="#i-engrane"/></svg>Ajustes</button>
   </nav>

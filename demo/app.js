@@ -82,7 +82,6 @@ const PANTALLAS = {
   guia: {},
   reporte: { tab: "reporte" },
   ajustes: { tab: "ajustes" },
-  viajes: { tab: "viajes" },
 };
 const titulos = { buscar: "Buscar", camiones: "Camiones cerca" };
 
@@ -90,7 +89,7 @@ function mostrar(nombre) {
   const conf = PANTALLAS[nombre];
   if (!$("chofer").hidden) tarjetaChofer(false);
   if (guia.activa && nombre !== "guia") terminarGuia(true);
-  if (nombre === "inicio") limpiarRuta();
+  if (nombre === "inicio") { limpiarRuta(); pintarViajes(); }
   if (nombre === "opciones") quitarTrazo();
   for (const s of document.querySelectorAll(".pantalla")) s.hidden = s.id !== nombre;
   document.body.dataset.pantalla = nombre;
@@ -127,7 +126,6 @@ $("pestanas").addEventListener("click", (e) => {
   if (!b) return;
   const tab = b.dataset.tab;
   if (tab === "reporte") return abrirReporte();
-  if (tab === "viajes") pintarViajes();
   ir(tab);
 });
 
@@ -138,8 +136,13 @@ let ultimoDicho = "";
 // Los nombres de las paradas son cruces escritos con abreviaturas: se leen como se dicen.
 const DECIR = [[/\s*\/\s*/g, " y "], [/\bBlvd\./g, "bulevar"], [/\bAv\./g, "avenida"], [/\bFracc\./g, "fraccionamiento"], [/\bCol\./g, "colonia"], [/\bUaq\b/g, "UAQ"]];
 // Lo urgente interrumpe lo que se esta diciendo; lo secundario espera su turno.
-function hablar(texto, enCola = false) {
+// Con la voz de Grieta apagada, lo que no se ve en pantalla se le pasa al lector de pantalla del telefono.
+function hablar(texto, enCola = false, enPantalla = false) {
   ultimoDicho = texto;
+  if (!acc.voz && acc.modoVoz && !enPantalla) {
+    $("anuncio").textContent = "";
+    setTimeout(() => { $("anuncio").textContent = texto; }, 60);
+  }
   if (!acc.voz || !("speechSynthesis" in window)) return;
   if (!enCola) speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(DECIR.reduce((t, [a, b]) => t.replace(a, b), texto));
@@ -178,7 +181,10 @@ function poner(cual, lugar) {
   estado[cual] = lugar;
   capas[cual]?.remove();
   capas[cual] = L.marker([lugar.lat, lugar.lon], { icon: icono(cual), keyboard: false }).addTo(mapa);
-  if (cual === "origen") $("desdeTexto").textContent = `Sales de ${esGps(lugar) ? "tu ubicación" : lugar.nombre}`;
+  if (cual === "origen") {
+    $("desdeTexto").textContent = `Desde ${esGps(lugar) ? "tu ubicación" : lugar.nombre}`;
+    $("cambiarDesde").textContent = "Cambiar";
+  }
   estado.editando = "hacia";
   if (estado.origen && estado.destino) return trazar();
   const enBuscar = document.body.dataset.pantalla === "buscar";
@@ -187,7 +193,9 @@ function poner(cual, lugar) {
     mapa.setView([lugar.lat, lugar.lon], 14);
     if (!enBuscar) ir("buscar");
     prepararBuscar("desde");
-    avisar(`Vas a ${lugar.nombre}. Ahora dime desde dónde sales.`);
+    $("campoBuscar").focus();
+    avisar(`Vas a ${lugar.nombre}. ¿Desde dónde sales?`);
+    if (acc.modoVoz) hablar(`Vas a ${lugar.nombre}. No sé dónde estás. ${Reconocer ? "Toca el micrófono, arriba a la derecha, y di desde dónde sales después del tono." : "Escribe desde dónde sales."}`);
   } else if (enBuscar) {
     history.back();
   }
@@ -210,7 +218,7 @@ function ubicar(alTerminar) {
   );
 }
 function sinUbicacion(texto, alTerminar) {
-  if (!estado.origen) $("desdeTexto").textContent = `${texto} ¿Desde dónde sales?`;
+  if (!estado.origen) $("desdeTexto").textContent = "Sin ubicación: elige desde dónde sales";
   $("cambiarDesde").textContent = estado.origen ? "Cambiar" : "Elegir";
   alTerminar?.(false);
 }
@@ -236,6 +244,8 @@ function prepararBuscar(modo) {
 function abrirBuscar(modo) {
   ir("buscar");
   prepararBuscar(modo);
+  // En el mismo toque, para que el telefono abra el teclado.
+  $("campoBuscar").focus();
 }
 $("abrirBuscar").addEventListener("click", () => abrirBuscar("hacia"));
 
@@ -258,7 +268,7 @@ function sugerir(texto) {
   const lista = $("resultados");
   const vacio = texto.trim().length < 3;
   $("bloqueRecientes").hidden = !vacio || !recientes.length;
-  $("tituloResultados").textContent = vacio ? "Resultados cerca de ti" : "Resultados";
+  $("tituloResultados").textContent = vacio ? (cerca() ? "Cerca de ti" : "Lugares sugeridos") : "Resultados";
   $("recientes").innerHTML = recientes.map((l, i) => filaLugar(l, i, "reloj")).join("");
   if (vacio) {
     const c = cerca();
@@ -353,7 +363,7 @@ function resumenOpciones() {
   const r = estado.r;
   const rec = estado.tarjetas?.[0]?.o;
   const app = [...r.directo.porApp].sort((a, b) => a.precio - b.precio)[0];
-  if (!rec) return `No encontré cómo llegar a ${estado.destino.nombre}.`;
+  if (!rec) return `Ahorita ningún camión te lleva a ${estado.destino.nombre}. En app, lo más barato es ${Grieta.nombreApp(app.app)}, unos ${Math.round(app.precio)} pesos.`;
   return `Para ir a ${estado.destino.nombre}, lo recomendado es ${tituloOpcion(rec)}: ${Math.round(rec.costo)} pesos, llegas a las ${hora(llegada(rec))}. ` +
     `En app, lo más barato es ${Grieta.nombreApp(app.app)}, unos ${Math.round(app.precio)} pesos. Toca la primera opción para escuchar los pasos.`;
 }
@@ -410,25 +420,25 @@ function tituloOpcion(o) {
 const caminata = (o) => Math.round((o.pasos ?? []).filter((p) => p.tipo === "caminar").reduce((s, p) => s + p.min, 0));
 const iconoOpcion = (o) => (o.tipo === "app" ? "auto" : o.tipo === "caminando+caminando" ? "camion" : "ruta");
 
-// Maximo tres caminos: el mas rapido, el mas barato y uno equilibrado si es distinto.
+// Maximo tres caminos con camion: el mas rapido, el mas barato y uno equilibrado si es distinto.
+// El viaje solo en app no lleva tarjeta: ya tiene su seccion con el precio de cada app.
+// Las etiquetas se comparan contra todas las opciones, para no decir "mas rapido" si la app llega antes.
+const valorOpcion = (o) => o.costo + 1.5 * o.minutos;
+const menor = (ops, f) => ops.reduce((a, b) => (f(b) < f(a) ? b : a));
 function elegirTarjetas(r) {
-  const ops = r.opciones;
+  const ops = r.opciones.filter((o) => o.tipo !== "app");
   if (!ops.length) return [];
-  const rapida = ops.reduce((a, b) => (b.minutos < a.minutos ? b : a));
-  const barata = ops.reduce((a, b) => (b.costo < a.costo ? b : a));
-  const valor = (o) => o.costo + 1.5 * o.minutos;
-  const equilibrada = ops.reduce((a, b) => (valor(b) < valor(a) ? b : a));
   const lista = [];
   const agregar = (o, etiqueta) => {
     const ya = lista.find((x) => x.o === o);
     if (ya) ya.etiquetas.push(etiqueta);
     else lista.push({ o, etiquetas: [etiqueta] });
   };
-  agregar(equilibrada, "Recomendado");
-  agregar(rapida, "Más rápido");
-  agregar(barata, "Más barato");
+  agregar(menor(ops, valorOpcion), menor(r.opciones, valorOpcion).tipo === "app" ? "En camión" : "Recomendado");
+  if (menor(r.opciones, (o) => o.minutos).tipo !== "app") agregar(menor(ops, (o) => o.minutos), "Más rápido");
+  agregar(menor(ops, (o) => o.costo), "Más barato");
   // Si quedan menos de tres, la siguiente mejor como alternativa.
-  const resto = ops.filter((o) => !lista.some((x) => x.o === o)).sort((a, b) => valor(a) - valor(b));
+  const resto = ops.filter((o) => !lista.some((x) => x.o === o)).sort((a, b) => valorOpcion(a) - valorOpcion(b));
   if (lista.length < 3 && resto.length) agregar(resto[0], "Otra opción");
   return lista;
 }
@@ -449,21 +459,21 @@ function pintarOpciones(r) {
       aria-label="Abrir ${Grieta.nombreApp(x.app)}, unos ${Math.round(x.precio)} pesos${i ? "" : ", la más barata"}">
       <span>${Grieta.nombreApp(x.app)}</span><strong>${pesos(x.precio)}</strong>${i ? "" : `<small>Más barata</small>`}</button>`).join("");
   $("avisoRapido").textContent = "";
-  $("compararPrecio").hidden = !r.opciones.some((o) => o.tipo === "app");
+  const enApp = r.opciones.find((o) => o.tipo === "app");
+  $("compararPrecio").hidden = !enApp;
   estado.tarjetas = elegirTarjetas(r);
-  $("cuantasOpciones").textContent = `${estado.tarjetas.length} ${estado.tarjetas.length === 1 ? "opción" : "opciones"}`;
-  const primera = estado.tarjetas.length ? Math.min(...estado.tarjetas.map(({ o }) => llegada(o))) : null;
-  $("llegasDesde").innerHTML = primera === null ? "" : `Llegas desde <strong>${hora(primera)}</strong>`;
+  const elogio = !enApp ? "" : menor(r.opciones, valorOpcion) === enApp ? "Lo recomendado: " : menor(r.opciones, (o) => o.minutos) === enApp ? "Lo más rápido: " : "";
+  $("llegadaApp").textContent = enApp ? `${elogio}llegas ${hora(llegada(enApp))}, en unos ${Math.round(enApp.minutos)} min` : "";
   $("tarjetas").innerHTML = estado.tarjetas.map(({ o, etiquetas }, i) => {
     const pie = [`Llegas ${hora(llegada(o))}`, `${Math.round(o.minutos)} min`];
     if (caminata(o)) pie.push(`caminas ${caminata(o)} min`);
-    return `<button type="button" class="tarjeta${i === 0 ? " principal" : ""}" data-i="${i}">
+    return `<button type="button" class="tarjeta${etiquetas.includes("Recomendado") ? " principal" : ""}" data-i="${i}">
       <span class="circulo">${ico(iconoOpcion(o))}</span>
       <span class="fila-texto"><span class="etiqueta">${etiquetas.join(" · ")}</span>
         <strong>${escapar(tituloOpcion(o))}</strong><small>${pie.join(" · ")}</small></span>
       <span class="precio">${pesos(o.costo)}</span>${ico("chevron", "chevron")}
     </button>`;
-  }).join("") || `<p class="nota">No encontré cómo llegar. Prueba con otro destino.</p>`;
+  }).join("");
   const hayCamion = r.opciones.some((o) => o.tipo !== "app");
   $("filaUnidos").hidden = !hayCamion;
   // Si el camion de la mejor opcion es de los ultimos del dia, se avisa a que hora pasa el ultimo.
@@ -494,7 +504,7 @@ $("tarjetas").addEventListener("click", (e) => {
 
 function leerDetalle() {
   const o = estado.elegida;
-  if (o.tipo !== "app") return hablar(`${pasosEnVoz(o)} Toca Empezar con avisos para que te guíe.`);
+  if (o.tipo !== "app") return hablar(`${pasosEnVoz(o)} Abajo está el botón Empezar viaje con avisos: tócalo y te guío hasta que te bajes.`);
   const apps = [...estado.r.directo.porApp].sort((a, b) => a.precio - b.precio);
   hablar(`En app: ${apps.map((x) => `${Grieta.nombreApp(x.app)}, unos ${Math.round(x.precio)} pesos`).join("; ")}. Toca el botón de la app para pedirla.`);
 }
@@ -597,7 +607,7 @@ function pasosDe(o) {
 function pintarDetalle(sinMapa) {
   const o = estado.elegida;
   const esApp = o.tipo === "app";
-  $("tituloPantalla").textContent = titulos.detalle = tituloOpcion(o);
+  $("tituloPantalla").textContent = titulos.detalle = esApp ? "Pedir en app" : tituloOpcion(o);
   $("bloqueCamion").hidden = esApp;
   $("bloqueApp").hidden = !esApp;
   if (esApp) {
@@ -622,13 +632,12 @@ function pintarApps(o) {
   const barata = orden[0];
   $("appEtiqueta").textContent = estado.momento === 0 ? "Precio esperado ahora" : `Precio esperado a las ${hora(r.ctx.minuto)}`;
   $("appCifra").textContent = `${Grieta.nombreApp(barata.app)} ${pesos(barata.precio)}`;
-  $("appRango").textContent = `Normal entre ${pesos(barata.bajo)} y ${pesos(barata.alto)} · llegas a las ${hora(llegada(o))}`;
-  $("apps").innerHTML = orden.map((x, i) => `<li>
-    <span class="fila-texto"><strong>${Grieta.nombreApp(x.app)}</strong>${i === 0 ? `<span class="etiqueta">Más barato</span>` : `<small>Normal entre ${pesos(x.bajo)} y ${pesos(x.alto)}</small>`}</span>
-    <span class="precio">${pesos(x.precio)}</span></li>`).join("");
-  // Un boton por app, la mas barata primero.
-  $("abrirApps").innerHTML = orden.map((x, i) =>
-    `<button type="button" class="boton${i ? " oscuro" : ""}" data-app="${x.app}">${ico("auto")}Abrir ${Grieta.nombreApp(x.app)} · ${pesos(x.precio)}</button>`).join("");
+  $("appRango").textContent = `Llegas a las ${hora(llegada(o))}`;
+  // Una fila por app que tambien la abre, la mas barata primero.
+  $("abrirApps").innerHTML = orden.map((x, i) => `<button type="button" class="app-fila${i ? "" : " barata"}" data-app="${x.app}"
+      aria-label="Abrir ${Grieta.nombreApp(x.app)}, unos ${Math.round(x.precio)} pesos${i ? "" : ", la más barata"}">
+      <span class="fila-texto"><strong>Abrir ${Grieta.nombreApp(x.app)}</strong><small>${i ? "" : "La más barata · "}normal entre ${pesos(x.bajo)} y ${pesos(x.alto)}</small></span>
+      <span class="precio">${pesos(x.precio)}</span>${ico("chevron", "chevron")}</button>`).join("");
   $("appAviso").textContent = "";
 }
 
@@ -713,7 +722,7 @@ async function abrirApp(e) {
   const aviso = (copiado ? `Copié "${destino}". ` : "") + `Te llevo a ${Grieta.nombreApp(app)}: en la tienda toca Abrir y ` +
     (copiado ? "pega el destino." : `escribe como destino ${destino}.`);
   for (const id of ["appAviso", "avisoRapido"]) $(id).textContent = aviso;
-  hablar(aviso);
+  hablar(aviso, false, true);
   const t = TIENDAS[app];
   // En Android se abre la app si esta instalada y si no, su pagina en Play; en iPhone, su pagina en la App Store tiene el boton Abrir.
   const destinoApp = /android/i.test(navigator.userAgent)
@@ -815,9 +824,9 @@ function abrirCamiones() {
 
 function dondeEstoy(destino) {
   const contar = (t) => { $(destino === "guia" ? "guiaDetalle" : destino === "voz" ? "respuestaVoz" : "respuesta").textContent = t; };
-  if (!navigator.geolocation) { contar("Tu navegador no comparte la ubicación."); return hablar("Tu navegador no comparte la ubicación."); }
+  if (!navigator.geolocation) { contar("Tu navegador no comparte la ubicación."); return hablar("Tu navegador no comparte la ubicación.", false, true); }
   contar("Buscando dónde estás...");
-  hablar("Buscando dónde estás.");
+  hablar("Buscando dónde estás.", false, true);
   navigator.geolocation.getCurrentPosition(async ({ coords }) => {
     const { latitude: lat, longitude: lon } = coords;
     let lugar = "";
@@ -830,8 +839,8 @@ function dondeEstoy(destino) {
     const texto = `${lugar ? `Estás en ${lugar}.` : "No encontré el nombre de la calle."} ` +
       (parada ? `La parada más cercana es ${parada.nombre}, a ${Math.round(parada.m)} metros.` : "No hay paradas de Qrobus a menos de 500 metros.");
     contar(texto);
-    hablar(texto);
-  }, () => { contar("No pude ver tu ubicación."); hablar("No pude ver tu ubicación."); }, { enableHighAccuracy: true, timeout: 10000 });
+    hablar(texto, false, true);
+  }, () => { contar("No pude ver tu ubicación."); hablar("No pude ver tu ubicación.", false, true); }, { enableHighAccuracy: true, timeout: 10000 });
 }
 $("dondeEstoy").addEventListener("click", () => dondeEstoy("inicio"));
 $("dondeGuia").addEventListener("click", () => dondeEstoy("guia"));
@@ -844,6 +853,9 @@ function dictar(boton) {
   boton.classList.add("oyendo");
   boton.setAttribute("aria-pressed", "true");
   if ("speechSynthesis" in window) speechSynthesis.cancel();
+  // El tono marca cuando empezar a hablar, sobre todo para quien no ve el boton.
+  vibrar([120]);
+  if (acc.modoVoz) $("respuestaVoz").textContent = "Te escucho. Di a dónde vas.";
   rec.onresult = (e) => {
     const texto = e.results[0][0].transcript;
     const dicho = sinAcentos(texto).replace(/^(a|al|a la|hacia|llevame a|ir a)\s+/, "");
@@ -872,8 +884,12 @@ function dictar(boton) {
         : `No encontré ${texto}. Intenta con otro nombre.`);
     }, 400);
   };
-  rec.onerror = () => hablar("No te escuché. Intenta otra vez.");
-  rec.onend = () => { boton.classList.remove("oyendo"); boton.setAttribute("aria-pressed", "false"); };
+  rec.onerror = () => hablar("No te escuché. Toca el botón otra vez y habla después del tono.");
+  rec.onend = () => {
+    boton.classList.remove("oyendo");
+    boton.setAttribute("aria-pressed", "false");
+    if ($("respuestaVoz").textContent.startsWith("Te escucho")) $("respuestaVoz").textContent = "";
+  };
   rec.start();
 }
 if (Reconocer) {
@@ -896,7 +912,7 @@ function decir(titulo, detalle, etapa, alerta = false) {
   $("guiaDetalle").textContent = detalle ?? "";
   document.body.classList.toggle("alerta", alerta);
   pintarGuia();
-  hablar(detalle ? `${titulo}. ${detalle}` : titulo);
+  hablar(detalle ? `${titulo}. ${detalle}` : titulo, false, true);
 }
 // Barra con un segmento por parada del recorrido; con mas de 12 se agrupan.
 function pintarGuia() {
@@ -1095,41 +1111,37 @@ function terminarGuia() {
   if ("speechSynthesis" in window) speechSynthesis.cancel();
 }
 
-// Mis viajes: los ultimos viajes iniciados, para repetirlos con un toque.
+// Viajes recientes en el inicio: los ultimos destinos con avisos, para repetirlos con un toque.
 let viajes = leer("grieta-viajes", []);
 function registrarViaje(o) {
   const { destino: d } = estado;
-  viajes = [{ destino: { nombre: d.nombre, lat: d.lat, lon: d.lon }, camino: tituloOpcion(o), fecha: new Date().toISOString() }].concat(viajes).slice(0, 20);
+  viajes = [{ destino: { nombre: d.nombre, lat: d.lat, lon: d.lon }, camino: tituloOpcion(o), fecha: new Date().toISOString() }]
+    .concat(viajes.filter((v) => v.destino.nombre !== d.nombre)).slice(0, 20);
   escribir("grieta-viajes", viajes);
 }
 function fechaViaje(iso) {
   const f = new Date(iso);
-  return `${DIAS[(f.getDay() + 6) % 7]} ${f.getDate()} ${MESES[f.getMonth()]}, ${hora(f.getHours() * 60 + f.getMinutes())}`;
+  return `${DIAS[(f.getDay() + 6) % 7]} ${f.getDate()} ${MESES[f.getMonth()]}`;
 }
 function pintarViajes() {
-  $("listaViajes").innerHTML = viajes.length
-    ? viajes.map((v, i) => `<li><div class="fila">
-        <span class="circulo">${ico("ruta")}</span>
-        <span class="fila-texto"><strong>${escapar(v.destino.nombre)}</strong><small>${escapar(v.camino)} · ${fechaViaje(v.fecha)}</small></span>
-        <button type="button" class="repetir-viaje" data-i="${i}" aria-label="Repetir el viaje a ${escapar(v.destino.nombre)}">${ico("repetir")}Repetir</button>
-      </div></li>`).join("")
-    : `<li class="vacio">Todavía no tienes viajes. Cuando empieces uno con avisos, aparece aquí para repetirlo.</li>`;
+  $("bloqueViajes").hidden = !viajes.length;
+  $("listaViajes").innerHTML = viajes.slice(0, 3).map((v, i) => `<li><button type="button" data-i="${i}" aria-label="Ir otra vez a ${escapar(v.destino.nombre)}">
+      <span class="circulo tenue">${ico("repetir")}</span>
+      <span class="fila-texto"><strong>${escapar(v.destino.nombre)}</strong><small>${escapar(v.camino)} · ${fechaViaje(v.fecha)}</small></span>
+      ${ico("chevron", "chevron")}</button></li>`).join("");
 }
 $("listaViajes").addEventListener("click", (e) => {
-  const b = e.target.closest(".repetir-viaje");
-  if (!b) return;
-  const v = viajes[b.dataset.i];
-  ir("inicio");
-  poner("destino", { ...v.destino });
+  const b = e.target.closest("button[data-i]");
+  if (b) irA({ ...viajes[b.dataset.i].destino });
 });
 
 // Lugares guardados en este telefono: Casa, Escuela, Trabajo.
 let guardados = leer("grieta-lugares", []);
 let editando = false;
 function pintarGuardados() {
-  const casa = guardados.find((g) => g.nombre === "Casa");
-  $("llevameCasa").hidden = !casa;
-  $("vozCasa").hidden = !casa;
+  // Casa siempre primero: es el viaje que mas se repite.
+  guardados.sort((a, b) => (b.nombre === "Casa") - (a.nombre === "Casa"));
+  $("vozCasa").hidden = !guardados.some((g) => g.nombre === "Casa");
   $("guardados").hidden = !guardados.length;
   $("guardados").innerHTML = guardados.map((g, i) =>
     `<button type="button" class="chip" data-i="${i}" aria-label="Ir a ${escapar(g.nombre)}">${ico(g.nombre === "Casa" ? "casa" : "pin")}${escapar(g.nombre)}</button>`).join("");
@@ -1149,30 +1161,22 @@ function guardarLugares() {
   pintarGuardados();
 }
 const irA = (lugar) => { estado.editando = "hacia"; poner("destino", lugar); };
-$("llevameCasa").addEventListener("click", () => irA(guardados.find((g) => g.nombre === "Casa")));
 
-// Botones del modo voz.
+// Botones del modo para personas ciegas.
+// Lo que se dice al entrar: cuantos botones hay y en que orden, de arriba a abajo.
+function ayudaVoz() {
+  const botones = [...document.querySelectorAll("#inicioVoz .boton-voz")].filter((b) => !b.hidden).map((b) => b.textContent.trim());
+  return `Estás en el inicio. Hay ${botones.length} botones grandes, de arriba a abajo: ${botones.join(", ")}. ` +
+    "Para ir a algún lado, toca el primero y di el lugar después del tono.";
+}
 $("vozCasa").addEventListener("click", () => { hablar("Vamos a casa."); irA(guardados.find((g) => g.nombre === "Casa")); });
 $("vozCamion").addEventListener("click", () => abrirCamiones());
 $("vozDonde").addEventListener("click", () => dondeEstoy("voz"));
-$("vozRepetir").addEventListener("click", () => hablar(ultimoDicho || "Todavía no he dicho nada. Toca un botón."));
+$("vozRepetir").addEventListener("click", () => hablar(ultimoDicho || ayudaVoz()));
 $("vozDestino").addEventListener("click", () => {
   if (Reconocer) return dictar($("vozDestino"));
   abrirBuscar("hacia");
   hablar("Este navegador no deja dictar. Escribe a dónde vas.");
-});
-$("activarVoz").addEventListener("click", () => {
-  Object.assign(acc, { modoVoz: true, voz: true, grande: true });
-  guardarAcc();
-  aplicarAcc();
-  hablar("Modo voz. Arriba, decir a dónde vas. Luego, qué camión pasa aquí y dónde estoy. Abajo, repetir.");
-  document.querySelector("#inicioVoz h1").focus();
-});
-$("salirVoz").addEventListener("click", () => {
-  acc.modoVoz = false;
-  guardarAcc();
-  aplicarAcc();
-  $("tituloInicio").focus();
 });
 $("guardados").addEventListener("click", (e) => {
   const b = e.target.closest("button");
@@ -1371,51 +1375,55 @@ $("enviarPrecio").addEventListener("click", async () => {
   }
 });
 
-// Bienvenida: solo la primera vez.
-let paso = 1;
-const marcarModo = radios("modoUso", (v) => {
-  acc.modoVoz = v === "voz";
-  acc.grande = v !== "vista";
-  if (v === "voz") acc.voz = true;
-  guardarAcc();
-  aplicarAcc();
-});
-function pintarPaso() {
-  for (const d of document.querySelectorAll("#bienvenida [data-paso]")) d.hidden = Number(d.dataset.paso) !== paso;
-  [...document.querySelectorAll("#bienvenida .puntos span")].forEach((s, i) => s.classList.toggle("activo", i === paso - 1));
-  $("pasoBienvenida").textContent = `Paso ${paso} de 3`;
-  $("siguientePaso").textContent = paso === 3 ? "Empezar" : "Siguiente";
-  document.querySelector(`#bienvenida [data-paso="${paso}"] h1`).focus({ preventScroll: true });
+// Bienvenida: lo primero es saber si la persona ve la pantalla, para no darle un camino que no puede seguir.
+const PASOS_VOZ = {
+  lector: "Listo, Grieta te va a hablar. ¿Tu teléfono ya te lee la pantalla, como VoiceOver o TalkBack? Arriba, sí. Abajo, no.",
+  ubicacion: "¿Usamos tu ubicación? Así sé desde dónde sales y cuándo avisarte que te bajes. Arriba, sí. Abajo, ahora no.",
+};
+let pasoActual = "vista";
+function irPaso(p) {
+  pasoActual = p;
+  for (const d of document.querySelectorAll("#bienvenida [data-paso]")) d.hidden = d.dataset.paso !== p;
+  document.querySelector(`#bienvenida [data-paso="${p}"] h1`).focus({ preventScroll: true });
   $("hoja").scrollTop = 0;
+  if (acc.modoVoz && PASOS_VOZ[p]) hablar(PASOS_VOZ[p], false, true);
 }
 function abrirBienvenida() {
-  paso = 1;
-  marcarModo(acc.grande ? "grande" : "vista");
   ir("bienvenida", true);
-  pintarPaso();
+  irPaso("vista");
 }
-$("siguientePaso").addEventListener("click", () => {
-  if (paso < 3) { paso++; return pintarPaso(); }
+function terminarBienvenida() {
   escribir("grieta-bienvenida", true);
   ir("inicio", true);
-  if (!estado.gps) ubicar();
+  if (acc.modoVoz) hablar(ayudaVoz(), false, true);
+}
+document.querySelector('#bienvenida [data-paso="vista"]').addEventListener("click", (e) => {
+  const b = e.target.closest("[data-v]");
+  if (!b) return;
+  const v = b.dataset.v;
+  Object.assign(acc, { modoVoz: v === "voz", grande: v !== "vista", contraste: v === "poco", voz: true });
+  guardarAcc();
+  aplicarAcc();
+  irPaso(v === "voz" ? "lector" : "ubicacion");
 });
+document.querySelector('#bienvenida [data-paso="lector"]').addEventListener("click", (e) => {
+  const b = e.target.closest("[data-lector]");
+  if (!b) return;
+  acc.voz = b.dataset.lector === "no";
+  guardarAcc();
+  aplicarAcc();
+  irPaso("ubicacion");
+});
+for (const b of document.querySelectorAll("#bienvenida .regresar")) {
+  b.addEventListener("click", () => irPaso(pasoActual === "ubicacion" && acc.modoVoz ? "lector" : "vista"));
+}
 $("permisoUbicacion").addEventListener("click", () => {
-  $("estadoUbicacion").textContent = "Pidiendo permiso...";
-  ubicar((ok) => { $("estadoUbicacion").textContent = ok ? "Lista: ya sé desde dónde sales" : "No se activó; puedes elegir desde dónde sales"; });
+  ubicar();
+  terminarBienvenida();
 });
-$("permisoMicrofono").addEventListener("click", async () => {
-  if (!Reconocer || !navigator.mediaDevices?.getUserMedia) {
-    $("estadoMicrofono").textContent = "Este navegador no permite dictar; puedes escribir";
-    return;
-  }
-  try {
-    const s = await navigator.mediaDevices.getUserMedia({ audio: true });
-    s.getTracks().forEach((t) => t.stop());
-    $("estadoMicrofono").textContent = "Listo: toca el micrófono para dictar";
-  } catch {
-    $("estadoMicrofono").textContent = "No se activó; puedes escribir";
-  }
+$("sinUbicacion").addEventListener("click", () => {
+  sinUbicacion("");
+  terminarBienvenida();
 });
 $("verBienvenida").addEventListener("click", abrirBienvenida);
 

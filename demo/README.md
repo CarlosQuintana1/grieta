@@ -1,8 +1,10 @@
 # Grieta: demo
 
 Página para probar el modelo como una app de viajes, con aspecto de app móvil: mapa arriba, hoja abajo y
-cuatro pestañas (Inicio, Mis viajes, Reportar, Ajustes). La primera vez muestra una bienvenida de tres pasos;
-se puede volver a ver desde Ajustes. Mis viajes guarda en el teléfono los últimos viajes iniciados para repetirlos.
+tres pestañas (Inicio, Reportar, Ajustes). Lo primero que pregunta es cómo ves la pantalla: veo bien, veo poco
+(letra grande y alto contraste) o no veo (modo para personas ciegas). Si no ves, pregunta si tu teléfono ya
+te lee la pantalla para no hablar encima de VoiceOver o TalkBack, y después pide la ubicación. Se puede volver
+a elegir desde Ajustes. El inicio muestra tus últimos viajes para repetirlos con un toque.
 
 La lógica no cambió: va por pantallas, una pregunta a la vez:
 ¿a dónde vas?, los caminos posibles (recomendado, más rápido, más barato) con la hora de llegada, el
@@ -20,7 +22,7 @@ dictar el destino, preguntar dónde estoy (calle y parada más cercana) y compar
 esperas en la parada avisa cinco minutos y un minuto antes de que pase el camión según el horario, y cada
 aviso suena además de vibrar, porque en iPhone el navegador no vibra.
 
-Con Casa guardada, el inicio muestra "Llévame a casa" para ir con un toque. Si el camión de la mejor
+Con Casa guardada, el inicio la pone primero entre tus lugares para ir con un toque. Si el camión de la mejor
 opción es de los últimos del día, avisa a qué hora pasa el último y cuánto costaría la app si se pierde.
 Si lo que te marca una app está muy arriba de lo normal, avisa que está en alta demanda y cuánto
 debería costar otra. Durante el viaje, "Avisar al chofer" pone a dónde vas en letra enorme para

@@ -59,13 +59,17 @@ const Grieta = (() => {
     return { km, minutos: ESPERA_APP + min, porApp, mejor };
   }
 
-  function alcanzables(ctx, punto, hacia, caminarMax = CAMINAR_MAX_M) {
+  // reales: metros caminando por calles hasta algunas paradas; las demas se estiman con la linea recta por el rodeo.
+  function alcanzables(ctx, punto, hacia, caminarMax = CAMINAR_MAX_M, reales) {
     const res = new Map();
     qrobus.paradas.forEach(([lat, lon], i) => {
       const m = metros(punto[0], punto[1], lat, lon);
       if (m > APP_MAX_KM * 1000) return;
-      if (m <= caminarMax) {
-        res.set(i, { modo: "caminando", costo: 0, min: (m * RODEO) / 1000 / VEL_CAMINAR * 60 });
+      const caminado = reales?.get(i) ?? m * RODEO;
+      // Con "caminar poco" el limite tambien se cumple por calles, no solo en linea recta.
+      const alcanza = caminarMax >= CAMINAR_MAX_M || caminado <= caminarMax * RODEO;
+      if (m <= caminarMax && alcanza) {
+        res.set(i, { modo: "caminando", costo: 0, min: caminado / 1000 / VEL_CAMINAR * 60 });
       } else {
         const t = hacia ? tramoApp(ctx, punto, [lat, lon]) : tramoApp(ctx, [lat, lon], punto);
         res.set(i, { modo: "app", costo: t.mejor.precio, min: t.minutos, app: t.mejor.app });
@@ -149,6 +153,7 @@ const Grieta = (() => {
       minutos: ultimo.llega + salida.min - ctx.minuto,
       detalle: camiones.map((c) => `línea ${c.linea}: ${c.recorrido[0].nombre} (${hhmm(c.sale)}) a ${c.baja}`).join("; "),
       pasos,
+      paradas: { sube: sb, baja: sa },
       recorrido: camiones[0].recorrido,
       trazo: {
         acceso: { modo: acceso.modo, puntos: [o, coords(sb)] },
@@ -158,11 +163,11 @@ const Grieta = (() => {
     };
   }
 
-  function opciones(ctx, o, d, kmCalle, caminarMax, tarifa = { pasaje: qrobus.pasaje, transbordo: qrobus.pasaje / 2 }) {
+  function opciones(ctx, o, d, kmCalle, caminarMax, tarifa = { pasaje: qrobus.pasaje, transbordo: qrobus.pasaje / 2 }, caminatas) {
     const directo = tramoApp(ctx, o, d, kmCalle);
     const filas = [{ opcion: `Solo app (${nombreApp(directo.mejor.app)})`, tipo: "app", costo: directo.mejor.precio, minutos: directo.minutos, detalle: "" }];
-    const sube = alcanzables(ctx, o, true, caminarMax);
-    const baja = alcanzables(ctx, d, false, caminarMax);
+    const sube = alcanzables(ctx, o, true, caminarMax, caminatas?.sube);
+    const baja = alcanzables(ctx, d, false, caminarMax, caminatas?.baja);
     const mejores = new Map();
     const llegada1 = new Map();
     let pasaCerca = false;
@@ -283,9 +288,9 @@ const Grieta = (() => {
     return { accion, fuerza, activas: activas.sort((a, b) => b.w - a.w) };
   }
 
-  function evaluar({ origen, destino, dia, minuto, app, precioVisto, margen, kmCalle, caminarMax, tarifa }) {
+  function evaluar({ origen, destino, dia, minuto, app, precioVisto, margen, kmCalle, caminarMax, tarifa, caminatas }) {
     const ctx = contexto(dia, minuto);
-    const { directo, opciones: lista, pasaCerca } = opciones(ctx, origen, destino, kmCalle, caminarMax, tarifa);
+    const { directo, opciones: lista, pasaCerca } = opciones(ctx, origen, destino, kmCalle, caminarMax, tarifa, caminatas);
     const res = { ctx, directo, opciones: lista, pasaCerca };
 
     const inicio = CORTES.find((c) => c > minuto / 60);

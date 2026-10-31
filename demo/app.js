@@ -414,6 +414,7 @@ async function trazar() {
   avisar("");
   estado.momento = 0;
   estado.otra = null;
+  estado.caminatas = { sube: new Map(), baja: new Map(), pedidas: new Set() };
   titulos.opciones = `A ${d.nombre}`;
   ir("opciones", ["buscar", "elegirMapa"].includes(document.body.dataset.pantalla));
   calcular();
@@ -483,7 +484,7 @@ function calcular() {
   const r = Grieta.evaluar({
     ...base, ...normalizar(lista[estado.momento]),
     app: estado.app, precioVisto: Number($("precio").value), margen: estado.prisa, caminarMax: acc.camino ? 300 : undefined,
-    tarifa: acc.unidos ? { pasaje: 2, transbordo: 0 } : undefined,
+    tarifa: acc.unidos ? { pasaje: 2, transbordo: 0 } : undefined, caminatas: estado.caminatas,
   });
   estado.r = r;
   pintarOpciones(r);
@@ -494,6 +495,29 @@ function calcular() {
     if (igual) { estado.elegida = igual; pintarDetalle(true); }
   }
   pintarVeredicto(r);
+  refinarCaminatas();
+}
+
+// Los tramos a pie de las opciones se rehacen con la distancia real por calles; con eso se vuelve a calcular
+// y, si caminando ya no alcanzas un camion, se toma el siguiente. Solo se piden las paradas que se usan.
+async function refinarCaminatas() {
+  const cam = estado.caminatas;
+  if (!cam || !estado.r) return;
+  const { origen: o, destino: d } = estado;
+  const nuevas = [];
+  for (const op of estado.r.opciones) {
+    if (!op.paradas) continue;
+    if (op.pasos[0].tipo === "caminar") nuevas.push(["sube", op.paradas.sube, [o.lat, o.lon]]);
+    if (op.pasos.at(-1).tipo === "caminar") nuevas.push(["baja", op.paradas.baja, [d.lat, d.lon]]);
+  }
+  const faltan = nuevas.filter(([lado, i]) => !cam.pedidas.has(`${lado}:${i}`));
+  if (!faltan.length) return;
+  faltan.forEach(([lado, i]) => cam.pedidas.add(`${lado}:${i}`));
+  const hechas = await Promise.all(faltan.map(([lado, i, punto]) => {
+    const parada = Grieta.qrobus.paradas[i].slice(0, 2);
+    return caminoAPie(...(lado === "sube" ? [punto, parada] : [parada, punto])).then((c) => c && cam[lado].set(i, c.metros));
+  }));
+  if (cam === estado.caminatas && hechas.some(Boolean)) calcular();
 }
 
 function tituloOpcion(o) {
@@ -910,7 +934,7 @@ function pintarParadas(punto, lista) {
   seguirCalles(aPie).then((c) => {
     if (!c || !$("distanciaParada")) return;
     $("distanciaParada").textContent = `Parada más cercana · a ${Math.round(c.metros)} m caminando`;
-    $("caminaParada").textContent = `Camina ${Math.max(1, Math.round(c.minutos))} min`;
+    $("caminaParada").textContent = `Camina ${Math.max(1, Math.round(c.metros / 1000 / 4.5 * 60))} min`;
   });
 }
 const enCuanto = (min) => { const f = Math.round(min - ahoraMin()); return f <= 0 ? "ya debe pasar" : f < 60 ? `en ${f} min` : `en ${Math.floor(f / 60)} h ${f % 60} min`; };

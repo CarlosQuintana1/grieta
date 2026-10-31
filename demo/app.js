@@ -102,6 +102,7 @@ function mostrar(nombre) {
   if (nombre === "opciones") quitarTrazo();
   if (nombre !== "elegirMapa") capas.punto?.remove();
   if (nombre !== "camiones") { capas.paradas?.remove(); capas.paradas = null; }
+  if (nombre !== "ajustes" && quitado) { quitado = null; pintarGuardados(); }
   for (const s of document.querySelectorAll(".pantalla")) s.hidden = s.id !== nombre;
   document.body.dataset.pantalla = nombre;
   document.body.classList.toggle("con-mapa", Boolean(conf.mapa));
@@ -1283,7 +1284,22 @@ $("repetir").addEventListener("click", () => {
   $("guiaTitulo").innerHTML = "";
   setTimeout(() => { $("guiaTitulo").innerHTML = aviso; }, 100);
 });
+// Terminar a medio camino apaga los avisos de bajar: se confirma con un segundo toque. Al llegar, no.
+function restaurarTerminar() {
+  delete $("terminar").dataset.confirmar;
+  $("terminar").textContent = "Terminar viaje";
+}
 $("terminar").addEventListener("click", () => {
+  if (guia.activa && guia.fase !== "fin" && !$("terminar").dataset.confirmar) {
+    $("terminar").dataset.confirmar = "1";
+    $("terminar").textContent = "Toca otra vez para terminar";
+    hablar("¿Terminar el viaje? Ya no te voy a avisar cuándo bajarte. Toca otra vez para confirmar.", false, true);
+    clearTimeout(guia.confirmar);
+    guia.confirmar = setTimeout(restaurarTerminar, 5000);
+    return;
+  }
+  clearTimeout(guia.confirmar);
+  restaurarTerminar();
   terminarGuia();
   history.back();
 });
@@ -1306,6 +1322,8 @@ $("compartir").addEventListener("click", () => {
 });
 
 function terminarGuia() {
+  clearTimeout(guia.confirmar);
+  restaurarTerminar();
   if (!$("chofer").hidden) tarjetaChofer(false);
   if (guia.reloj !== undefined) navigator.geolocation.clearWatch(guia.reloj);
   guia.reloj = undefined;
@@ -1346,6 +1364,8 @@ $("listaViajes").addEventListener("click", (e) => {
 // Lugares guardados en este telefono: Casa, Escuela, Trabajo.
 let guardados = leer("grieta-lugares", []);
 let editando = false;
+// El ultimo lugar quitado, para poder deshacerlo mientras sigues en Ajustes.
+let quitado = null;
 function pintarGuardados() {
   // Casa siempre primero: es el viaje que mas se repite.
   guardados.sort((a, b) => (b.nombre === "Casa") - (a.nombre === "Casa"));
@@ -1356,13 +1376,15 @@ function pintarGuardados() {
   $("editarGuardados").hidden = !guardados.length;
   $("editarGuardados").textContent = editando ? "Listo" : "Editar";
   $("editarGuardados").setAttribute("aria-pressed", String(editando));
-  $("listaGuardados").innerHTML = guardados.length
+  const deshacer = quitado ? `<li><div class="fila"><span class="fila-texto"><strong>Quitaste ${escapar(quitado.lugar.nombre)}</strong></span>
+      <button type="button" class="quitar" data-deshacer>Deshacer</button></div></li>` : "";
+  $("listaGuardados").innerHTML = deshacer + (guardados.length
     ? guardados.map((g, i) => editando
       ? `<li><div class="fila"><span class="circulo">${ico(g.nombre === "Casa" ? "casa" : "pin")}</span><span class="fila-texto"><strong>${escapar(g.nombre)}</strong></span>
           <button type="button" class="quitar" data-quitar="${i}" aria-label="Quitar ${escapar(g.nombre)}">Quitar</button></div></li>`
       : `<li><button type="button" data-i="${i}"><span class="circulo">${ico(g.nombre === "Casa" ? "casa" : "pin")}</span>
           <span class="fila-texto"><strong>${escapar(g.nombre)}</strong><small>Ir a ${escapar(g.nombre)}</small></span>${ico("chevron", "chevron")}</button></li>`).join("")
-    : `<li class="vacio">Cuando elijas un destino, toca "Guardar este lugar".</li>`;
+    : quitado ? "" : `<li class="vacio">Cuando elijas un destino, toca "Guardar este lugar".</li>`);
 }
 function guardarLugares() {
   escribir("grieta-lugares", guardados);
@@ -1391,17 +1413,25 @@ $("guardados").addEventListener("click", (e) => {
   if (b) irA(guardados[b.dataset.i]);
 });
 $("listaGuardados").addEventListener("click", (e) => {
+  if (e.target.closest("[data-deshacer]") && quitado) {
+    guardados.splice(quitado.i, 0, quitado.lugar);
+    hablar(`${quitado.lugar.nombre} regresó a tus lugares.`, false, true);
+    quitado = null;
+    return guardarLugares();
+  }
   const q = e.target.closest("[data-quitar]");
   if (q) {
-    guardados.splice(Number(q.dataset.quitar), 1);
+    const i = Number(q.dataset.quitar);
+    quitado = { lugar: guardados[i], i };
+    guardados.splice(i, 1);
     if (!guardados.length) editando = false;
     guardarLugares();
-    return;
+    return $("listaGuardados").querySelector("[data-deshacer]")?.focus();
   }
   const b = e.target.closest("button[data-i]");
   if (b) { ir("inicio"); irA(guardados[b.dataset.i]); }
 });
-$("editarGuardados").addEventListener("click", () => { editando = !editando; pintarGuardados(); });
+$("editarGuardados").addEventListener("click", () => { editando = !editando; quitado = null; pintarGuardados(); });
 $("guardarLugar").addEventListener("click", () => {
   const abierto = $("nombresLugar").hidden;
   $("nombresLugar").hidden = !abierto;
@@ -1522,7 +1552,8 @@ function abrirReporte() {
     { enableHighAccuracy: true, timeout: 10000 },
   );
 }
-// Las fotos del telefono pesan varios MB: se reducen a 1600 px en JPEG antes de subirlas.
+// Las fotos del telefono pesan varios MB y traen las coordenadas de donde se tomaron: se redibujan
+// a 1600 px en JPEG, que no conserva esos datos. Si no se puede, no se sube la original.
 async function achicarFoto(f) {
   try {
     const img = await createImageBitmap(f);
@@ -1531,9 +1562,9 @@ async function achicarFoto(f) {
     lienzo.width = Math.round(img.width * escala);
     lienzo.height = Math.round(img.height * escala);
     lienzo.getContext("2d").drawImage(img, 0, 0, lienzo.width, lienzo.height);
-    return await new Promise((listo) => lienzo.toBlob((b) => listo(b ?? f), "image/jpeg", 0.85));
+    return await new Promise((listo) => lienzo.toBlob(listo, "image/jpeg", 0.85));
   } catch {
-    return f;
+    return null;
   }
 }
 $("foto").addEventListener("change", () => {
@@ -1556,6 +1587,7 @@ $("enviarReporte").addEventListener("click", async () => {
     if (f) {
       try {
         const foto = await achicarFoto(f);
+        if (!foto) throw new Error("foto");
         await llamar(`/reportes/${nuevo.id}/foto`, { method: "POST", headers: { "Content-Type": foto.type }, body: foto });
       } catch {
         conFoto = false;

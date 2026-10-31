@@ -33,6 +33,10 @@ Las direcciones se buscan con Photon y con Azure Maps (desde la API, para negoci
 OpenStreetMap no tiene). La ruta en auto sale de OSRM y los tramos a pie del ruteador peatonal de
 OpenStreetMap (routing.openstreetmap.de); si no responde, se dibujan en línea recta.
 
+`index.html` trae una política de contenido (CSP) con la lista de servidores a los que la página puede
+conectarse, y las librerías de los CDN van con su huella de integridad (SRI). Si cambia la dirección de
+la API en `datos/config.json` o se agrega un servicio nuevo, hay que sumarlo a `connect-src`.
+
 Hace los mismos cálculos que `modelo/tarifa.py`, `camion.py` y `decision.py`, con los datos que
 genera `modelo/exportar_demo.py` en `datos/`. Para actualizarla con registros nuevos:
 

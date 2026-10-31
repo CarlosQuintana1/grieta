@@ -6,7 +6,8 @@ const API = process.argv[2] ?? "https://grieta-api-qro.azurewebsites.net/api";
 const EN_PARALELO = 6;
 
 const pedir = async (ruta, opciones = {}) => {
-  const r = await fetch(`${API}${ruta}`, { headers: { "Content-Type": "application/json" }, ...opciones });
+  // Las escrituras piden la clave del equipo: CLAVE_ADMIN=... node importar-capturas.mjs
+  const r = await fetch(`${API}${ruta}`, { headers: { "Content-Type": "application/json", "X-Clave-Admin": process.env.CLAVE_ADMIN ?? "" }, ...opciones });
   const cuerpo = r.status === 204 ? null : await r.json();
   if (!r.ok) throw new Error(`${opciones.method ?? "GET"} ${ruta}: ${r.status} ${JSON.stringify(cuerpo)}`);
   return cuerpo;

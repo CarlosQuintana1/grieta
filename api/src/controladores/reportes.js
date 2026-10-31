@@ -1,6 +1,10 @@
 import { randomUUID } from "node:crypto";
 import { borrarFoto, guardarFoto, tipoValido } from "../almacen.js";
 import { Reporte } from "../modelos.js";
+import { esDelEquipo } from "../seguridad.js";
+
+// Fuera del equipo, la foto se sube una sola vez y poco despues de crear el reporte.
+const VENTANA_FOTO_MS = 15 * 60 * 1000;
 import { crud, noExiste } from "./base.js";
 
 const CAMPOS = ["tipo", "parada", "lat", "lon", "descripcion", "usuario_id"];
@@ -31,6 +35,9 @@ export const reportes = {
   subirFoto: async (req, res) => {
     const reporte = await Reporte.findByPk(req.params.id);
     if (!reporte) return noExiste(res);
+    if (!esDelEquipo(req) && (reporte.foto_url || Date.now() - reporte.createdAt.getTime() > VENTANA_FOTO_MS)) {
+      return res.status(403).json({ error: "Este reporte ya no acepta foto" });
+    }
     const tipo = req.get("Content-Type");
     if (!tipoValido(tipo) || !Buffer.isBuffer(req.body) || !req.body.length) {
       return res.status(400).json({ error: "Manda una imagen JPG, PNG o WebP" });

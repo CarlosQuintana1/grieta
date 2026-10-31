@@ -164,6 +164,9 @@ html.modo-voz .fila-mapa { display: none; }
 /* Al elegir en el mapa, el mapa se queda con casi toda la pantalla. */
 body[data-pantalla="elegirMapa"] .hoja { max-height: 32%; }
 body[data-pantalla="camiones"] .hoja { max-height: 52%; }
+/* Lo que recibe el foco no queda tapado por los botones fijos de abajo. */
+body[data-pantalla="detalle"] .hoja { scroll-padding-bottom: 150px; }
+body:not(.alerta) #terminar[data-confirmar] { border-color: var(--cuidado); color: var(--cuidado); }
 
 /* Como llegar */
 .resumen-ruta { color: var(--tenue); font-size: 0.88rem; }

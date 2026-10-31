@@ -56,6 +56,10 @@
     {
       "key": "cotizacion_app",
       "value": ""
+    },
+    {
+      "key": "claveAdmin",
+      "value": ""
     }
   ],
   "item": [
@@ -1251,5 +1255,25 @@
         }
       ]
     }
-  ]
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Clave-Admin",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{claveAdmin}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  }
 }

@@ -36,7 +36,14 @@ Son 30 pruebas de las rutas sobre una base en memoria, así que no tocan `databa
 En Azure corre en App Service, con la base en Azure Database for PostgreSQL y las fotos en Azure
 Blob Storage. La función serverless que cotiza un viaje está en `../nube/cotizar` (Azure
 Functions). Variables: `DATABASE_URL`, `AZURE_STORAGE_CONNECTION_STRING`, `AZURE_CONTAINER` y
-`AZURE_MAPS_KEY`.
+`AZURE_MAPS_KEY`, `CLAVE_ADMIN`.
+
+Permisos: la app pública solo lee, busca (`/api/buscar`), reporta problemas (`POST /api/reportes` y su
+foto) y manda precios (`POST /api/precios-reportados`). Crear, cambiar o borrar cualquier otra cosa, y
+leer usuarios, precios reportados y consultas, pide el encabezado `X-Clave-Admin` con `CLAVE_ADMIN`;
+sin esa variable nadie puede. La foto de un reporte se sube una vez, en los 15 minutos después de
+crearlo, y cada persona puede mandar 30 envíos por hora. En Postman la clave va en la variable
+`claveAdmin` de la colección.
 
 `GET /api/buscar?q=...` busca lugares en Azure Maps, que conoce negocios y oficinas que no están en
 OpenStreetMap (como los módulos del INE). La llave solo vive en el servidor. Las respuestas se guardan

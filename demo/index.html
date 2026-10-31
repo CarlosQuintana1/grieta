@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://tile.openstreetmap.org; connect-src 'self' https://photon.komoot.io https://router.project-osrm.org https://routing.openstreetmap.de https://grieta-api-qro.azurewebsites.net http://localhost:3000; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
   <meta name="theme-color" content="#0b0a09">
   <title>Grieta</title>
   <link rel="icon" href="icono-192.png">
@@ -13,7 +14,7 @@
   <meta name="apple-mobile-web-app-title" content="Grieta">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" integrity="sha512-h9FcoyWjHcOcmEVkxOfTLnmZFWIH0iZhZT1H2TbOq55xssQGEJHEaIm+PgoUaZbRvQTNTluNOEfb1ZRy6D3BOw==" crossorigin="anonymous">
   <link rel="stylesheet" href="estilos.css">
 </head>
 <body data-pantalla="inicio">
@@ -253,7 +254,7 @@
           <button id="compartir" type="button" class="cuadro"><svg class="icono"><use href="#i-compartir"/></svg>Compartir mi viaje</button>
         </div>
         <button id="avisarChofer" type="button" class="boton oscuro">Avisar al chofer</button>
-        <button id="terminar" type="button" class="boton borde">Terminar viaje</button>
+        <button id="terminar" type="button" class="boton borde" aria-live="polite">Terminar viaje</button>
       </div>
       <p class="nota">Deja la pantalla encendida: así Grieta sigue tu ubicación. Las horas del camión salen del horario oficial, no de su ubicación.</p>
     </section>
@@ -327,8 +328,8 @@
     <button id="choferCerrar" type="button" class="boton borde-negro">Cerrar</button>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/h3-js@4.1.0/dist/h3-js.umd.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" integrity="sha512-puJW3E/qXDqYp9IfhAI54BJEaWIfloJ7JWs7OeD5i6ruC9JZL1gERT1wjtwXFlh7CjE7ZJ+/vcRZRkIYIb6p4g==" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/h3-js@4.1.0/dist/h3-js.umd.js" integrity="sha256-CHDZTeOFA732tj3OjEgSpC3ENWXxWuNWlK7fT5fq9Ug=" crossorigin="anonymous"></script>
   <script src="grieta.js"></script>
   <script src="app.js"></script>
 </body>

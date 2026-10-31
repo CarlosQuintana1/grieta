@@ -954,6 +954,25 @@ function abrirCamiones() {
     caja.innerHTML = `<p class="texto">No hay paradas de Qrobus con servicio a menos de un kilómetro.</p>`;
     return hablar("No hay paradas de Qrobus con servicio a menos de un kilómetro.");
   }
+  pintarCamiones(punto, lista, true);
+  ordenarPorCaminata(punto, lista);
+}
+
+// La mas cercana en linea recta puede estar del otro lado de una avenida: se comparan caminando y se reordena.
+async function ordenarPorCaminata(punto, lista) {
+  if (lista.length < 2) return;
+  const reales = await Promise.all(lista.map((x) => caminoAPie([punto.lat, punto.lon], [x.lat, x.lon])));
+  if (document.body.dataset.pantalla !== "camiones") return;
+  lista.forEach((x, i) => { if (reales[i]) x.caminado = reales[i].metros; });
+  const distancia = (x) => x.caminado ?? x.m * 1.3;
+  const orden = [...lista].sort((a, b) => distancia(a) - distancia(b));
+  if (orden[0] === lista[0]) return;
+  pintarCamiones(punto, orden, false);
+  hablar(`Caminando, la parada más cercana es ${orden[0].nombre}, a ${Math.round(distancia(orden[0]))} metros.`);
+}
+
+function pintarCamiones(punto, lista, primera) {
+  const caja = $("camionesContenido");
   const filas = (p) => `<ul class="filas">${p.lineas.slice(0, 6).map((l) => `<li><div class="fila">
       <span class="linea-caja">${escapar(l.linea)}</span>
       <span class="fila-texto"><strong>Hacia ${escapar(l.hacia)}</strong>${l.horas[1] !== undefined ? `<small>También a las ${hora(l.horas[1])}</small>` : ""}</span>
@@ -961,10 +980,10 @@ function abrirCamiones() {
     </div></li>`).join("")}</ul>`;
   const p = lista[0];
   pintarParadas(punto, lista);
-  const minCaminar = Math.max(1, Math.round((p.m * 1.3) / 1000 / 4.5 * 60));
+  const minCaminar = Math.max(1, Math.round((p.caminado ?? p.m * 1.3) / 1000 / 4.5 * 60));
   caja.innerHTML = `
     <div class="parada-cerca">
-      <p class="etiqueta" id="distanciaParada">Parada más cercana · a ${Math.round(p.m)} m</p>
+      <p class="etiqueta" id="distanciaParada">Parada más cercana · a ${Math.round(p.caminado ?? p.m)} m${p.caminado ? " caminando" : ""}</p>
       <p class="parada-nombre">${escapar(cruce(p.nombre))}</p>
       <p class="nota" id="caminaParada">Camina ${minCaminar} min</p>
     </div>
@@ -974,10 +993,10 @@ function abrirCamiones() {
     <h2>Avisos de la parada</h2>
     <div id="avisosParada" class="avisos"><p class="nota">Buscando avisos...</p></div>
     ${lista.length > 1 ? `<details class="otras"><summary>Ver ${lista.length - 1 === 1 ? "otra parada" : `otras ${lista.length - 1} paradas`} cerca${ico("chevron", "chevron")}</summary>
-      ${lista.slice(1).map((x) => `<h3>${escapar(cruce(x.nombre))} <span class="tenue">a ${Math.round(x.m)} m</span></h3>${filas(x)}`).join("")}</details>` : ""}
+      ${lista.slice(1).map((x) => `<h3>${escapar(cruce(x.nombre))} <span class="tenue">a ${Math.round(x.caminado ?? x.m)} m${x.caminado ? " caminando" : ""}</span></h3>${filas(x)}`).join("")}</details>` : ""}
     <p class="nota pie">Las horas salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse.${avisoVigencia()}</p>`;
   $("irParada").addEventListener("click", () => poner("destino", { nombre: `Parada ${p.nombre}`, lat: p.lat, lon: p.lon }));
-  hablar(`La parada más cercana es ${p.nombre}, a ${Math.round(p.m)} metros. ` +
+  if (primera) hablar(`La parada más cercana es ${p.nombre}, a ${Math.round(p.m)} metros. ` +
     p.lineas.slice(0, 4).map((l) => `Línea ${l.linea} hacia ${l.hacia}, a las ${hora(l.horas[0])} según el horario.`).join(" "));
   reportesCerca(p.lat, p.lon, 60).then((avisos) => {
     const caja = $("avisosParada");
@@ -1128,7 +1147,15 @@ function seguir(alMoverse) {
       const aqui = [coords.latitude, coords.longitude];
       if (capas.aqui) capas.aqui.setLatLng(aqui);
       else capas.aqui = L.marker(aqui, { icon: icono("origen"), keyboard: false }).addTo(mapa);
-      alMoverse(coords.latitude, coords.longitude);
+      // Si el telefono no da la velocidad, se saca de dos posiciones separadas al menos 3 segundos.
+      const ahora = Date.now();
+      let v = Number.isFinite(coords.speed) ? coords.speed : null;
+      if (v === null && guia.previo && ahora - guia.previo.t >= 3000) {
+        v = Grieta.metros(guia.previo.lat, guia.previo.lon, coords.latitude, coords.longitude) / ((ahora - guia.previo.t) / 1000);
+      }
+      if (!guia.previo || ahora - guia.previo.t >= 3000) guia.previo = { lat: coords.latitude, lon: coords.longitude, t: ahora };
+      if (v !== null) guia.velocidad = v;
+      alMoverse(coords.latitude, coords.longitude, guia.velocidad ?? 0);
     },
     // Sin permiso no hay avisos; un GPS que tarda en responder se sigue esperando sin interrumpir lo que se dice.
     (err) => { if (err.code === err.PERMISSION_DENIED) unaVez("sin-permiso", () => decir("Sin ubicación", "Activa la ubicación para recibir los avisos.")); },
@@ -1142,7 +1169,7 @@ function iniciarGuia(o) {
   const tramos = o.pasos.filter((p) => p.tipo === "camion");
   registrarViaje(o);
   ir("guia");
-  Object.assign(guia, { activa: true, o, tramos, k: 0, camion: tramos[0], fase: "parada", actual: 0, dichos: new Set() });
+  Object.assign(guia, { activa: true, o, tramos, k: 0, camion: tramos[0], fase: "parada", actual: 0, dichos: new Set(), previo: null, velocidad: null });
   dibujar(o);
   mantenerPantalla();
   vibrar([60]);
@@ -1163,7 +1190,9 @@ function iniciarGuia(o) {
   seguir(avanzarCamion);
 }
 
-function avanzarCamion(lat, lon) {
+// A partir de 3.5 m/s (12.6 km/h) se va en vehiculo: caminando por la avenida de la ruta no cuenta como subirse.
+const VELOCIDAD_CAMION = 3.5;
+function avanzarCamion(lat, lon, velocidad = 0) {
   const c = guia.camion;
   const r = c.recorrido;
   const final = r.at(-1);
@@ -1178,7 +1207,7 @@ function avanzarCamion(lat, lon) {
     }
     // Si ya va por la ruta del camion, lejos de la parada de subida, se subio.
     const masCerca = d.indexOf(Math.min(...d));
-    if (masCerca >= 1 && d[masCerca] < 90) subir(masCerca);
+    if (masCerca >= 1 && d[masCerca] < 90 && velocidad >= VELOCIDAD_CAMION) subir(masCerca);
     else if (guia.fase === "parada") $("guiaDetalle").textContent = `La parada está a ${Math.round(d[0])} metros.`;
     return;
   }

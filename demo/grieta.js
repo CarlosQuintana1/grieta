@@ -46,7 +46,7 @@ const Grieta = (() => {
 
   function contexto(dia, minuto) {
     const hora = minuto / 60;
-    return { dia, minuto, franja: franjaDe(hora), finde: dia >= 5 ? 1 : 0, servicio: qrobus.servicio_por_dia[dia] };
+    return { dia, minuto, franja: franjaDe(hora), finde: dia >= 5 ? 1 : 0, servicio: qrobus.servicio_por_dia[dia], servicioAyer: qrobus.servicio_por_dia[(dia + 6) % 7] };
   }
 
   function tramoApp(ctx, o, d, kmCalle) {
@@ -121,11 +121,14 @@ const Grieta = (() => {
   const coords = (i) => qrobus.paradas[i].slice(0, 2);
   const nombreParada = (i) => qrobus.paradas[i][2];
 
+  // Los viajes que cruzan la medianoche vienen en el horario del dia anterior como 24:10, 25:00...
+  const MADRUGADA = 120;
+  const primeraDesde = (salidas, corrimiento, t, ventana) => salidas?.map((x) => x + corrimiento).find((h) => h >= t && h <= t + ventana);
+
   // Primera salida de un recorrido que pasa por la posicion pos despues del minuto t.
-  function salidaDesde(p, servicio, pos, t, ventana = VENTANA_MIN) {
-    const salidas = p.salidas[servicio];
-    if (!salidas) return undefined;
-    return salidas.map((x) => x + p.minutos[pos]).find((h) => h >= t && h <= t + ventana);
+  function salidaDesde(p, ctx, pos, t, ventana = VENTANA_MIN) {
+    const ayer = ctx.minuto < MADRUGADA ? primeraDesde(p.salidas[ctx.servicioAyer], p.minutos[pos] - 1440, t, ventana) : undefined;
+    return ayer ?? primeraDesde(p.salidas[ctx.servicio], p.minutos[pos], t, ventana);
   }
 
   function tramoCamion(p, pb, pa, sale, servicio) {
@@ -185,7 +188,7 @@ const Grieta = (() => {
       p.paradas.forEach((sb, pb) => {
         const s = sube.get(sb);
         if (!s) return;
-        const sale = salidaDesde(p, ctx.servicio, pb, ctx.minuto + s.min);
+        const sale = salidaDesde(p, ctx, pb, ctx.minuto + s.min);
         if (sale === undefined) return;
         if (s.modo === "caminando") pasaCerca = true;
         for (let pa = pb + 1; pa < p.paradas.length; pa++) {
@@ -213,7 +216,7 @@ const Grieta = (() => {
       q.paradas.forEach((tb, qb) => {
         const cambio = listo.get(tb);
         if (!cambio || cambio.primero.p.linea === q.linea) return;
-        const sale = salidaDesde(q, ctx.servicio, qb, cambio.t);
+        const sale = salidaDesde(q, ctx, qb, cambio.t);
         if (sale === undefined) return;
         for (let qa = qb + 1; qa < q.paradas.length; qa++) {
           const b = baja.get(q.paradas[qa]);
@@ -311,6 +314,7 @@ const Grieta = (() => {
   // Paradas cerca de un punto con las lineas que pasan y sus proximas horas segun el horario.
   function pasanAqui(lat, lon, dia, minuto, radio = 350) {
     const servicio = qrobus.servicio_por_dia[dia];
+    const ayer = qrobus.servicio_por_dia[(dia + 6) % 7];
     const cerca = qrobus.paradas
       .map(([la, lo, nombre], i) => ({ i, nombre, lat: la, lon: lo, m: metros(lat, lon, la, lo) }))
       .filter((x) => x.m <= radio)
@@ -319,8 +323,10 @@ const Grieta = (() => {
       const lineas = new Map();
       for (const [pi, pos] of porParada[parada.i]) {
         const p = qrobus.patrones[pi];
-        if (pos === p.paradas.length - 1 || !p.salidas[servicio]) continue;
-        const horas = p.salidas[servicio].map((x) => x + p.minutos[pos]).filter((t) => t >= minuto).slice(0, 2);
+        if (pos === p.paradas.length - 1) continue;
+        const desde = (serv, corrimiento) => (p.salidas[serv] ?? []).map((x) => x + p.minutos[pos] - corrimiento);
+        const horas = [...(minuto < MADRUGADA ? desde(ayer, 1440) : []), ...desde(servicio, 0)]
+          .filter((t) => t >= minuto).sort((a, b) => a - b).slice(0, 2);
         if (!horas.length) continue;
         const clave = `${p.linea}|${p.hacia}`;
         const actual = lineas.get(clave);

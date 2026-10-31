@@ -1,0 +1,170 @@
+{
+ "minuto": 1.0,
+ "tarde": 5.0,
+ "espera_max": 30,
+ "libre": false,
+ "conjuntos": {
+  "precio/barato": [
+   0.836,
+   1.037
+  ],
+  "precio/normal": [
+   0.656,
+   0.8,
+   1.132
+  ],
+  "precio/caro": [
+   0.851,
+   1.228,
+   1.288
+  ],
+  "precio/muy caro": [
+   1.224,
+   1.3
+  ],
+  "margen/poco": [
+   9.226,
+   22.557
+  ],
+  "margen/algo": [
+   18.405,
+   18.686,
+   44.591
+  ],
+  "margen/mucho": [
+   13.473,
+   41.234
+  ],
+  "camion/poco": [
+   3.852,
+   30.607
+  ],
+  "camion/algo": [
+   7.74,
+   18.194,
+   49.162
+  ],
+  "camion/mucho": [
+   32.148,
+   50.183
+  ]
+ },
+ "reglas": [
+  {
+   "si": {
+    "precio": [
+     "barato"
+    ]
+   },
+   "entonces": "apagada"
+  },
+  {
+   "si": {
+    "precio": [
+     "normal"
+    ],
+    "margen": [
+     "poco"
+    ]
+   },
+   "entonces": "apagada"
+  },
+  {
+   "si": {
+    "precio": [
+     "normal"
+    ],
+    "camion": [
+     "algo",
+     "mucho"
+    ]
+   },
+   "entonces": "apagada"
+  },
+  {
+   "si": {
+    "precio": [
+     "caro",
+     "muy caro"
+    ],
+    "margen": [
+     "poco"
+    ],
+    "camion": [
+     "algo",
+     "mucho"
+    ]
+   },
+   "entonces": "pedir ya"
+  },
+  {
+   "si": {
+    "precio": [
+     "caro"
+    ],
+    "margen": [
+     "algo",
+     "mucho"
+    ]
+   },
+   "entonces": "apagada"
+  },
+  {
+   "si": {
+    "precio": [
+     "muy caro"
+    ],
+    "margen": [
+     "algo",
+     "mucho"
+    ],
+    "camion": [
+     "algo",
+     "mucho"
+    ]
+   },
+   "entonces": "apagada"
+  },
+  {
+   "si": {
+    "precio": [
+     "caro",
+     "muy caro"
+    ],
+    "camion": [
+     "poco"
+    ]
+   },
+   "entonces": "camion"
+  },
+  {
+   "si": {
+    "precio": [
+     "muy caro"
+    ],
+    "margen": [
+     "algo",
+     "mucho"
+    ],
+    "camion": [
+     "algo"
+    ]
+   },
+   "entonces": "camion"
+  },
+  {
+   "si": {
+    "precio": [
+     "normal"
+    ],
+    "margen": [
+     "mucho"
+    ],
+    "camion": [
+     "poco"
+    ]
+   },
+   "entonces": "camion"
+  }
+ ]
+}

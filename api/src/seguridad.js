@@ -6,6 +6,8 @@ const ESCRITURAS_PUBLICAS = [
   ["POST", /^\/api\/reportes\/?$/],
   ["POST", /^\/api\/reportes\/\d+\/foto\/?$/],
   ["POST", /^\/api\/precios-reportados\/?$/],
+  ["POST", /^\/api\/camiones\/avisos\/?$/],
+  ["POST", /^\/api\/notificaciones(\/cancelar)?\/?$/],
 ];
 // Lecturas con datos de personas: quién captura, por dónde se mueve y qué consulta.
 const LECTURAS_PRIVADAS = [/^\/api\/usuarios/, /^\/api\/precios-reportados/, /^\/api\/consultas/];

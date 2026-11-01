@@ -341,10 +341,18 @@
       <div id="barraParadas" class="barra-paradas" role="progressbar" aria-valuemin="0" hidden></div>
       <p id="guiaDetalle" class="guia-detalle" aria-live="polite"></p>
       <button id="yaMeSubi" type="button" class="boton oscuro" hidden>Ya me subí</button>
+      <div id="enParada" class="en-parada" hidden>
+        <p class="nota">¿Qué ves en la parada? Avisa a los demás:</p>
+        <div class="dos-botones">
+          <button id="yaPaso" type="button" class="boton oscuro">Ya pasó</button>
+          <button id="vieneLleno" type="button" class="boton oscuro">Viene lleno</button>
+        </div>
+      </div>
       <div class="guia-acciones">
         <button id="repetir" type="button" class="boton"><svg class="icono"><use href="#i-repetir"/></svg>Repetir</button>
         <button id="avisarChofer" type="button" class="boton oscuro">Avisar al chofer</button>
         <button id="dondeGuia" type="button" class="boton oscuro"><svg class="icono"><use href="#i-localizar"/></svg>¿Dónde estoy?</button>
+        <button id="avisarFamiliar" type="button" class="boton oscuro" hidden><svg class="icono"><use href="#i-telefono"/></svg><span></span></button>
         <button id="compartir" type="button" class="enlace compartir"><svg class="icono"><use href="#i-compartir"/></svg>Compartir mi viaje</button>
         <button id="terminar" type="button" class="boton borde" aria-live="polite">Terminar viaje</button>
       </div>
@@ -438,6 +446,14 @@
         <span class="fila-texto"><strong>Tu perfil de viaje</strong><small id="textoPerfil"></small></span>
         <svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg>
       </button>
+      <h2 id="tituloFamiliar">Avisar a alguien</h2>
+      <div class="grupo familiar" role="group" aria-labelledby="tituloFamiliar">
+        <p class="nota">Al empezar un viaje y al llegar, Grieta te deja avisarle por WhatsApp con un toque. Se guarda solo en este teléfono.</p>
+        <label class="campo"><span>Nombre</span><input id="familiarNombre" type="text" maxlength="30" autocomplete="off" placeholder="Ejemplo: Mamá"></label>
+        <label class="campo"><span>Teléfono a 10 dígitos</span><input id="familiarTel" type="tel" inputmode="tel" maxlength="16" autocomplete="off" placeholder="442 123 4567"></label>
+        <button id="guardarFamiliar" type="button" class="boton">Guardar</button>
+        <p id="familiarEstado" class="nota" role="status"></p>
+      </div>
       <h2 id="tituloAyuda">Cómo se usa</h2>
       <ol class="pasos-ayuda">
         <li><span class="num" aria-hidden="true">1</span><span><strong>Di o escribe a dónde vas</strong><small>En Inicio, en "Busca un lugar" o con "Dictar".</small></span></li>
@@ -467,6 +483,7 @@
           </div>
         </div>
         <label class="interruptor"><span><strong>Modo para personas ciegas</strong><small>Grieta dice todo en voz alta, sin mapa y con pocos botones grandes</small></span><input type="checkbox" role="switch" id="optModoVoz"></label>
+        <label class="interruptor"><span><strong>Modo fácil</strong><small>Solo lo esencial, con botones grandes</small></span><input type="checkbox" role="switch" id="optFacil"></label>
         <label class="interruptor"><span><strong>Letra grande</strong></span><input type="checkbox" role="switch" id="optGrande"></label>
         <label class="interruptor"><span><strong>Alto contraste</strong></span><input type="checkbox" role="switch" id="optContraste"></label>
         <label class="interruptor"><span><strong>Colores para daltonismo</strong><small>Azul y naranja en vez de ámbar y rojo</small></span><input type="checkbox" role="switch" id="optDaltonico"></label>

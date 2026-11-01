@@ -16,7 +16,8 @@
     "express": "^5.2.1",
     "pg": "^8.23.1",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.37.8"
+    "sequelize": "^6.37.8",
+    "web-push": "^3.6.7"
   },
   "devDependencies": {
     "sqlite3": "^6.0.1",

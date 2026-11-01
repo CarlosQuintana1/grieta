@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { camiones, notificaciones } from "../controladores/avisos.js";
 import { buscar } from "../controladores/buscar.js";
 import { consultasRouter } from "./consultas.js";
 import { cotizacionesRouter } from "./cotizaciones.js";
@@ -20,4 +21,10 @@ export const api = Router()
   .use("/cotizaciones", cotizacionesRouter)
   .use("/consultas", consultasRouter)
   .use("/reportes", reportesRouter)
-  .use("/precios-reportados", preciosRouter);
+  .use("/precios-reportados", preciosRouter)
+  // Sin tabla: avisos de la gente en la parada y avisos programados por push
+  .get("/camiones/avisos", camiones.listar)
+  .post("/camiones/avisos", camiones.crear)
+  .get("/notificaciones/clave", notificaciones.clave)
+  .post("/notificaciones", notificaciones.programar)
+  .post("/notificaciones/cancelar", notificaciones.cancelar);

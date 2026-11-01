@@ -10,7 +10,7 @@ import { crud, noExiste } from "./base.js";
 const CAMPOS = ["tipo", "parada", "lat", "lon", "descripcion", "usuario_id"];
 const base = crud(Reporte, { orden: [["id", "DESC"]], campos: CAMPOS });
 
-const metros = (lat1, lon1, lat2, lon2) => {
+export const metros = (lat1, lon1, lat2, lon2) => {
   const r = Math.PI / 180;
   const a = Math.sin(((lat2 - lat1) * r) / 2) ** 2 +
     Math.cos(lat1 * r) * Math.cos(lat2 * r) * Math.sin(((lon2 - lon1) * r) / 2) ** 2;

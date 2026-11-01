@@ -1,5 +1,5 @@
 // Guarda la app y los horarios para que funcione sin internet. Cambiar la version renueva todo.
-const VERSION = "grieta-36";
+const VERSION = "grieta-37";
 const BASE = [
   "./", "index.html", "estilos.css", "app.js", "grieta.js", "logo.png", "icono-192.png", "manifest.webmanifest",
   "datos/modelo.json", "datos/qrobus.json", "datos/lugares.json", "datos/config.json",
@@ -33,4 +33,19 @@ self.addEventListener("fetch", (e) => {
       return r;
     })
     .catch(() => caches.match(e.request, { ignoreSearch: true })));
+});
+
+// Avisos del viaje que la API manda a su hora, aunque la pantalla este bloqueada.
+self.addEventListener("push", (e) => {
+  let aviso = {};
+  try { aviso = e.data?.json() ?? {}; } catch {}
+  e.waitUntil(self.registration.showNotification(aviso.titulo ?? "Grieta", {
+    body: aviso.texto ?? "", icon: "icono-192.png", badge: "icono-192.png", vibrate: [300, 120, 300], tag: "grieta-viaje", renotify: true,
+  }));
+});
+
+// Tocar el aviso regresa a la app abierta o la abre.
+self.addEventListener("notificationclick", (e) => {
+  e.notification.close();
+  e.waitUntil(self.clients.matchAll({ type: "window" }).then((ventanas) => ventanas[0]?.focus() ?? self.clients.openWindow("./")));
 });

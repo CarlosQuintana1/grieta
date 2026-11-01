@@ -36,7 +36,7 @@ Son 30 pruebas de las rutas sobre una base en memoria, así que no tocan `databa
 En Azure corre en App Service, con la base en Azure Database for PostgreSQL y las fotos en Azure
 Blob Storage. La función serverless que cotiza un viaje está en `../nube/cotizar` (Azure
 Functions). Variables: `DATABASE_URL`, `AZURE_STORAGE_CONNECTION_STRING`, `AZURE_CONTAINER` y
-`AZURE_MAPS_KEY`, `CLAVE_ADMIN`.
+`AZURE_MAPS_KEY`, `CLAVE_ADMIN`, `VAPID_PUBLICO` y `VAPID_PRIVADO`.
 
 Permisos: la app pública solo lee, busca (`/api/buscar`), reporta problemas (`POST /api/reportes` y su
 foto) y manda precios (`POST /api/precios-reportados`). Crear, cambiar o borrar cualquier otra cosa, y
@@ -49,6 +49,15 @@ crearlo, y cada persona puede mandar 30 envíos por hora. En Postman la clave va
 OpenStreetMap (como los módulos del INE). La llave solo vive en el servidor. Las respuestas se guardan
 un día y la ruta se frena en 4,500 búsquedas al mes, antes de las 5,000 gratis del plan Gen2. Sin
 `AZURE_MAPS_KEY` responde 503 y la app busca solo con Photon.
+
+`POST /api/camiones/avisos` guarda lo que alguien ve en la parada ("ya pasó" o "viene lleno" de una
+línea) y `GET /api/camiones/avisos?lat=&lon=` trae los de esa parada. Valen media hora y viven en memoria,
+sin tabla.
+
+`POST /api/notificaciones` programa avisos push para el viaje (que pasa el camión, que ya casi llegas) y
+los manda a su hora aunque el teléfono esté bloqueado; `POST /api/notificaciones/cancelar` los quita al
+terminar el viaje. Sin las llaves VAPID responden 503 y la app sigue con voz y vibración. Las llaves se
+generan con `npx web-push generate-vapid-keys`.
 
 ## Tablas
 

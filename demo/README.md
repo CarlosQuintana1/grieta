@@ -1,12 +1,19 @@
 # Grieta: demo
 
-Página para probar el modelo como una app de viajes, con aspecto de app móvil: mapa arriba, hoja abajo y
-tres pestañas (Inicio, Reportar, Ajustes). Los colores siguen el modo claro u oscuro del teléfono, o se
+Página para probar el modelo como una app de viajes, con aspecto de app móvil y tres pestañas
+(Inicio, Reportar, Ajustes). El inicio muestra tus lugares como fichas grandes (casa, escuela, trabajo) y el
+mapa aparece al elegir a dónde vas. Los colores siguen el modo claro u oscuro del teléfono, o se
 eligen en Ajustes. Lo primero que pregunta es cómo ves la pantalla: veo bien, veo poco
 (letra grande y alto contraste) o no veo (modo para personas ciegas). Si no ves, pregunta si tu teléfono ya
 te lee la pantalla para no hablar encima de VoiceOver o TalkBack, después pide la ubicación y al final
 las tres preguntas del perfil (cómo te mueves, si escuchas bien, Tarifa Unidos), que se pueden saltar. Se puede volver
-a elegir desde Ajustes. El inicio muestra tus últimos viajes para repetirlos con un toque.
+a elegir desde Ajustes. El inicio muestra tus últimos viajes para repetirlos con un toque. El modo fácil
+(en Ajustes) deja solo lo esencial con botones grandes.
+
+Durante el viaje se puede avisar en la parada si el camión ya pasó o viene lleno, y quien espera ahí lo
+escucha; avisarle a un familiar por WhatsApp al salir y al llegar; y, con la app instalada y el permiso,
+recibir avisos con la pantalla bloqueada. Al dejar presionado el ícono de la app (en Android) aparecen
+"Llévame a casa", "¿Qué camión pasa aquí?" y "¿Dónde estoy?".
 
 "Tu perfil", arriba a la derecha en el inicio y en Ajustes, pregunta por necesidades y no por
 diagnósticos: cómo ves la pantalla, cómo te mueves, si escuchas bien los avisos y si pagas Tarifa Unidos.

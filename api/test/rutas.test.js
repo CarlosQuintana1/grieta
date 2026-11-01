@@ -293,3 +293,45 @@ describe("Permisos", () => {
     assert.equal(res.headers["x-content-type-options"], "nosniff");
   });
 });
+
+describe("Avisos de la parada", () => {
+  test("cualquiera dice que ya pasó un camión y quien está cerca lo ve", async () => {
+    await publico().post("/api/camiones/avisos").send({ tipo: "paso", linea: "c69", lat: 20.7, lon: -100.44 }).expect(201);
+    const cerca = await publico().get("/api/camiones/avisos?lat=20.7001&lon=-100.4401").expect(200);
+    assert.equal(cerca.body[0].linea, "C69");
+    assert.equal(cerca.body[0].minutos, 0);
+    const lejos = await publico().get("/api/camiones/avisos?lat=20.6&lon=-100.4").expect(200);
+    assert.equal(lejos.body.length, 0);
+  });
+
+  test("rechaza un aviso sin línea o fuera de Querétaro", async () => {
+    await publico().post("/api/camiones/avisos").send({ tipo: "paso", lat: 20.7, lon: -100.44 }).expect(400);
+    await publico().post("/api/camiones/avisos").send({ tipo: "lleno", linea: "C69", lat: 19.4, lon: -99.1 }).expect(400);
+  });
+});
+
+describe("Avisos con la pantalla bloqueada", () => {
+  const suscripcion = { endpoint: "https://push.ejemplo.com/abc", keys: { p256dh: "x", auth: "y" } };
+  const dentroDe = (min) => new Date(Date.now() + min * 60000).toISOString();
+
+  test("sin llaves VAPID responde 503", async () => {
+    await publico().get("/api/notificaciones/clave").expect(503);
+  });
+
+  test("con llaves, programa avisos válidos y rechaza los que no", async () => {
+    const { default: webpush } = await import("web-push");
+    const llaves = webpush.generateVAPIDKeys();
+    process.env.VAPID_PUBLICO = llaves.publicKey;
+    process.env.VAPID_PRIVADO = llaves.privateKey;
+    const clave = await publico().get("/api/notificaciones/clave").expect(200);
+    assert.equal(clave.body.clave, llaves.publicKey);
+    const ok = await publico().post("/api/notificaciones")
+      .send({ suscripcion, avisos: [{ cuando: dentroDe(30), titulo: "La C69 pasa en 5 minutos" }] }).expect(201);
+    assert.equal(ok.body.programados, 1);
+    await publico().post("/api/notificaciones")
+      .send({ suscripcion, avisos: [{ cuando: dentroDe(600), titulo: "Demasiado lejos" }] }).expect(400);
+    await publico().post("/api/notificaciones/cancelar").send({ endpoint: suscripcion.endpoint }).expect(204);
+    delete process.env.VAPID_PUBLICO;
+    delete process.env.VAPID_PRIVADO;
+  });
+});

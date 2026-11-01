@@ -598,3 +598,20 @@ html.grande .campo-y-boton .boton { flex: 1 0 100%; }
 html.grande .lugares, html.grande .atajos { grid-template-columns: 1fr; }
 html.grande .lugar { flex-direction: row; align-items: center; justify-content: flex-start; min-height: 72px; }
 .voz-lugares { display: contents; }
+
+/* En la parada: avisar a los demas si ya paso o viene lleno */
+.en-parada { margin-top: 12px; }
+.en-parada .nota { margin-bottom: 8px; }
+.dos-botones { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.dos-botones .boton { margin-top: 0; }
+.aviso-gente { margin: 0 0 10px; padding-left: 62px; font-size: 0.85rem; font-weight: 600; color: var(--ambar); }
+.familiar .campo { margin-top: 10px; }
+#avisarFamiliar .icono { width: 22px; height: 22px; }
+
+/* Modo facil: solo lo esencial. Fuera lo secundario y todo en una columna con botones grandes */
+html.facil { font-size: 19px; --toque: 56px; }
+html.facil .lugares, html.facil .atajos { grid-template-columns: 1fr; }
+html.facil .lugar { flex-direction: row; align-items: center; justify-content: flex-start; min-height: 72px; }
+html.facil #invitaPerfil, html.facil #bloqueViajes, html.facil #rutina,
+html.facil #compararPrecio, html.facil .plegable, html.facil #filaUnidos, html.facil #resumenRuta,
+html.facil #tarjetas > :not(:first-child) { display: none !important; }

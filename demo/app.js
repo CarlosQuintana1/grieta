@@ -47,14 +47,16 @@ const capas = {};
 let lugares = [];
 
 // Ajustes guardados en este telefono.
-const acc = { modoVoz: false, grande: false, contraste: false, daltonico: false, voz: true, lenta: false, camino: false, unidos: false, tema: "auto", movilidad: "normal", oido: "bien", lector: "no", ...leer("grieta-acc", {}) };
+const acc = { modoVoz: false, facil: false, grande: false, contraste: false, daltonico: false, voz: true, lenta: false, camino: false, unidos: false, tema: "auto", movilidad: "normal", oido: "bien", lector: "no", ...leer("grieta-acc", {}) };
 // Con "Como el telefono", los colores siguen el modo claro u oscuro del sistema.
 const sistemaClaro = matchMedia("(prefers-color-scheme: light)");
-const OPCIONES = { modoVoz: "optModoVoz", grande: "optGrande", contraste: "optContraste", daltonico: "optDaltonico", voz: "optVoz", lenta: "optLenta", camino: "optCamino", unidos: "optUnidos" };
+const OPCIONES = { modoVoz: "optModoVoz", facil: "optFacil", grande: "optGrande", contraste: "optContraste", daltonico: "optDaltonico", voz: "optVoz", lenta: "optLenta", camino: "optCamino", unidos: "optUnidos" };
 function aplicarAcc() {
   document.documentElement.classList.toggle("claro", acc.tema === "claro" || (acc.tema === "auto" && sistemaClaro.matches));
   for (const b of $("optTema").children) b.setAttribute("aria-pressed", String(b.dataset.v === acc.tema));
   document.documentElement.classList.toggle("grande", acc.grande);
+  // Modo facil: solo lo esencial y botones grandes, para quien quiere la app lo mas sencilla
+  document.documentElement.classList.toggle("facil", acc.facil);
   document.documentElement.classList.toggle("contraste", acc.contraste);
   document.documentElement.classList.toggle("daltonico", acc.daltonico);
   // Modo voz: el inicio cambia a botones grandes y el mapa se quita.
@@ -1178,7 +1180,7 @@ async function ordenarPorCaminata(punto, lista) {
 
 function pintarCamiones(punto, lista, primera) {
   const caja = $("camionesContenido");
-  const filas = (p) => `<ul class="filas">${p.lineas.slice(0, 6).map((l) => `<li><div class="fila">
+  const filas = (p) => `<ul class="filas">${p.lineas.slice(0, 6).map((l) => `<li data-linea="${escapar(l.linea)}"><div class="fila">
       <span class="linea-caja">${escapar(l.linea)}</span>
       <span class="fila-texto"><strong>Hacia ${escapar(l.hacia)}</strong>${l.horas[1] !== undefined ? `<small>También a las ${hora(l.horas[1])}</small>` : ""}</span>
       <span class="hora-camion"><strong>${hora(l.horas[0])}</strong><small>${enCuanto(l.horas[0])}</small></span>
@@ -1202,6 +1204,14 @@ function pintarCamiones(punto, lista, primera) {
   $("irParada").addEventListener("click", () => poner("destino", { nombre: `Parada ${p.nombre}`, lat: p.lat, lon: p.lon }));
   if (primera) hablar(`La parada más cercana es ${p.nombre}. ` +
     p.lineas.slice(0, 4).map((l) => `Línea ${l.linea} hacia ${l.hacia}, a las ${hora(l.horas[0])} según el horario.`).join(" "));
+  // Lo que avisó la gente en esta parada en la última media hora, junto a su línea
+  avisosDeLaGente(p.lat, p.lon).then((avisos) => {
+    for (const a of avisos) {
+      const li = document.querySelector(`#camionesContenido > .filas li[data-linea="${a.linea}"]`);
+      if (!li || li.querySelector(".aviso-gente")) continue;
+      li.insertAdjacentHTML("beforeend", `<p class="aviso-gente">${a.tipo === "paso" ? "Ya pasó" : "Viene lleno"}, avisó alguien hace ${a.minutos || "menos de 1"} min</p>`);
+    }
+  });
   reportesCerca(p.lat, p.lon, 60).then((avisos) => {
     const caja = $("avisosParada");
     if (!caja) return;
@@ -1327,6 +1337,8 @@ function decir(titulo, detalle, etapa, alerta = false) {
 // Barra con un segmento por parada del recorrido; con mas de 12 se agrupan.
 function pintarGuia() {
   const c = guia.camion;
+  $("enParada").hidden = !c || guia.enApp || !["parada", "esperando"].includes(guia.fase);
+  pintarFamiliar();
   $("yaMeSubi").textContent = c ? `Ya me subí a la ${c.linea}` : "Ya me subí";
   $("guiaBaja").hidden = !c;
   $("barraParadas").hidden = !c;
@@ -1383,7 +1395,7 @@ function iniciarGuia(o) {
   const tramos = o.pasos.filter((p) => p.tipo === "camion");
   registrarViaje(o);
   ir("guia");
-  Object.assign(guia, { activa: true, o, tramos, k: 0, camion: tramos[0], fase: "parada", actual: 0, dichos: new Set(), previo: null, velocidad: null,
+  Object.assign(guia, { activa: true, o, tramos, k: 0, camion: tramos[0], fase: "parada", actual: 0, dichos: new Set(), previo: null, velocidad: null, vueltas: 0, push: null,
     destino: estado.destino, enApp: o.pasos[0].tipo === "app", pie: null });
   dibujar(o);
   mantenerPantalla();
@@ -1392,6 +1404,7 @@ function iniciarGuia(o) {
   // Con el horario oficial: avisa 5 minutos y 1 minuto antes de que pase el camion.
   guia.horario = setInterval(() => {
     if (guia.fase !== "parada" && guia.fase !== "esperando") return;
+    if ((guia.vueltas = (guia.vueltas ?? 0) + 1) % 4 === 1) revisarAvisosParada();
     const c = guia.camion;
     const ahora = new Date();
     const falta = c.sale - (ahora.getHours() * 60 + ahora.getMinutes() + ahora.getSeconds() / 60);
@@ -1403,8 +1416,107 @@ function iniciarGuia(o) {
   decir(inicio.tipo === "app" ? `Pide ${Grieta.nombreApp(inicio.app)} a ${inicio.parada}` : `Camina a ${inicio.parada}`,
     `Ahí tomas la línea ${c.linea} hacia ${c.hacia}, a las ${hora(c.sale)} según el horario.${tramos.length > 1 ? " Después cambias de camión; te aviso." : ""} Te aviso antes de bajar.`, "Hacia la parada");
   if (!guia.enApp) medirCaminata(estado.gps ?? estado.origen, c.recorrido[0]);
+  programarAvisos(tramos);
   seguir(avanzarCamion);
 }
+
+// Avisos con la pantalla bloqueada: la API los manda por push a su hora. Hace falta la app instalada y el permiso;
+// si algo falta, la guia sigue igual con voz y vibracion mientras la pantalla este encendida.
+async function programarAvisos(tramos) {
+  try {
+    if (!API || !("PushManager" in window) || !("Notification" in window)) return;
+    const permiso = Notification.permission === "default" ? await Notification.requestPermission() : Notification.permission;
+    if (permiso !== "granted") return;
+    const { clave } = await llamar("/notificaciones/clave");
+    const registro = await navigator.serviceWorker.ready;
+    const suscripcion = (await registro.pushManager.getSubscription()) ?? (await registro.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: clave }));
+    const cuando = (min) => { const d = new Date(); d.setHours(0, 0, 0, 0); d.setMinutes(min); return d.toISOString(); };
+    const ahora = ahoraMin();
+    const avisos = tramos.filter((c) => c.sale - 5 > ahora).map((c) => ({ cuando: cuando(c.sale - 5), titulo: `La ${c.linea} pasa en 5 minutos`, texto: `Según el horario, a las ${hora(c.sale)}. Ve a la parada.` }));
+    const ultimo = tramos.at(-1);
+    if (ultimo.llega - 3 > ahora) avisos.push({ cuando: cuando(ultimo.llega - 3), titulo: "Ya casi llegas", texto: `Bajas en ${cruce(ultimo.baja)}. Prepárate y toca el timbre.` });
+    if (!avisos.length || !guia.activa) return;
+    await llamar("/notificaciones", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ suscripcion: suscripcion.toJSON(), avisos: avisos.slice(0, 6) }) });
+    guia.push = suscripcion.endpoint;
+  } catch {}
+}
+function cancelarAvisos() {
+  if (!guia.push) return;
+  llamar("/notificaciones/cancelar", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ endpoint: guia.push }) }).catch(() => {});
+  guia.push = null;
+}
+
+// "Ya pasó" y "Viene lleno": lo que ve la gente en la parada, para quien espera ahí mismo
+async function avisarParada(tipo) {
+  const c = guia.camion;
+  if (!c) return;
+  const parada = c.recorrido[0];
+  try {
+    await llamar("/camiones/avisos", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tipo, linea: c.linea, lat: parada.lat, lon: parada.lon }) });
+  } catch {}
+  const sig = siguienteDe(c.linea, parada);
+  const texto = tipo === "paso"
+    ? `Gracias. ${sig ? `Según el horario, la siguiente ${c.linea} pasa a las ${hora(sig)}.` : `No encontré otra ${c.linea} hoy en el horario.`}`
+    : "Gracias. Se lo diré a quien espere aquí.";
+  $("guiaDetalle").textContent = texto;
+  hablar(texto, false, true);
+}
+const siguienteDe = (linea, parada) => Grieta.pasanAqui(parada.lat, parada.lon, hoyDia(), ahoraMin(), 80)
+  .flatMap((x) => x.lineas).find((l) => l.linea === linea)?.horas.find((h) => h > ahoraMin() + 1);
+$("yaPaso").addEventListener("click", () => avisarParada("paso"));
+$("vieneLleno").addEventListener("click", () => avisarParada("lleno"));
+async function avisosDeLaGente(lat, lon) {
+  try { return await llamar(`/camiones/avisos?lat=${lat}&lon=${lon}&radio=150`); } catch { return []; }
+}
+// Mientras esperas, si alguien ya avisó de tu camion en esa parada, se te dice una vez
+async function revisarAvisosParada() {
+  const c = guia.camion;
+  if (!c || !["parada", "esperando"].includes(guia.fase)) return;
+  const de = (await avisosDeLaGente(c.recorrido[0].lat, c.recorrido[0].lon)).filter((a) => a.linea === c.linea);
+  const paso = de.find((a) => a.tipo === "paso" && a.minutos <= 10);
+  const lleno = de.find((a) => a.tipo === "lleno" && a.minutos <= 10);
+  if (paso) unaVez(`gente-paso-${guia.k}`, () => {
+    const sig = siguienteDe(c.linea, c.recorrido[0]);
+    decir(`Alguien avisó que la ${c.linea} ya pasó`, `Hace ${paso.minutos || "menos de un"} minuto${paso.minutos === 1 ? "" : "s"}.${sig ? ` Según el horario, la siguiente pasa a las ${hora(sig)}.` : ""}`, "En la parada");
+  });
+  else if (lleno) unaVez(`gente-lleno-${guia.k}`, () => decir(`Alguien avisó que la ${c.linea} viene llena`, "Si puedes, espera la siguiente.", "En la parada"));
+}
+
+// Avisar a un familiar por WhatsApp: al salir y al llegar, con un toque
+let familiar = leer("grieta-familiar", null);
+function pintarFamiliar() {
+  const b = $("avisarFamiliar");
+  b.hidden = !familiar || !guia.activa;
+  if (b.hidden) return;
+  b.querySelector("span").textContent = `Avisar a ${familiar.nombre} que ${guia.dichos.has("destino") ? "llegué" : "ya salí"}`;
+}
+$("avisarFamiliar").addEventListener("click", () => {
+  const destino = guia.destino?.nombre ?? estado.destino?.nombre ?? "mi destino";
+  const c = guia.camion;
+  const texto = guia.dichos.has("destino")
+    ? `Ya llegué a ${destino}.`
+    : `Ya voy en camino a ${destino}${c ? ` en la ${c.linea}` : ""}${c ? `. Llego como a las ${hora(guia.tramos?.at(-1)?.llega ?? c.llega)}` : ""}. Te aviso cuando llegue.`;
+  window.open(`https://wa.me/${familiar.telefono}?text=${encodeURIComponent(texto)}`, "_blank", "noopener");
+});
+function pintarFormaFamiliar() {
+  $("familiarNombre").value = familiar?.nombre ?? "";
+  $("familiarTel").value = familiar ? familiar.telefono.slice(2) : "";
+}
+$("guardarFamiliar").addEventListener("click", () => {
+  const nombre = $("familiarNombre").value.trim().replace(/\s+/g, " ");
+  const digitos = $("familiarTel").value.replace(/\D/g, "").replace(/^52/, "");
+  if (!nombre && !digitos) {
+    familiar = null;
+    escribir("grieta-familiar", null);
+    return void ($("familiarEstado").textContent = "Listo, ya no hay a quién avisar.");
+  }
+  if (!nombre) return void ($("familiarEstado").textContent = "Escribe el nombre.");
+  if (digitos.length !== 10) return void ($("familiarEstado").textContent = "El teléfono debe tener 10 dígitos.");
+  familiar = { nombre: nombre.charAt(0).toUpperCase() + nombre.slice(1), telefono: `52${digitos}` };
+  escribir("grieta-familiar", familiar);
+  $("familiarEstado").textContent = `Guardado. En tus viajes aparecerá "Avisar a ${familiar.nombre}".`;
+});
+pintarFormaFamiliar();
 
 // La linea recta engaña cuando hay que rodear: se mide por calles al empezar a caminar
 // y mientras avanzas se estima lo que falta con la misma proporcion.
@@ -1451,7 +1563,7 @@ function avanzarCamion(lat, lon, velocidad = 0) {
   if (guia.fase === "fin") {
     const dest = guia.destino;
     if (dest && Grieta.metros(lat, lon, dest.lat, dest.lon) < 40) {
-      unaVez("destino", () => { vibrar([300, 120, 300, 120, 300]); decir("Llegaste", `Estás en ${dest.nombre}. Toca Terminar viaje cuando quieras.`, "Llegaste"); });
+      unaVez("destino", () => { vibrar([300, 120, 300, 120, 300]); decir("Llegaste", `Estás en ${dest.nombre}.${familiar ? ` Puedes avisarle a ${familiar.nombre} que llegaste.` : ""} Toca Terminar viaje cuando quieras.`, "Llegaste"); });
     }
     return;
   }
@@ -1566,6 +1678,7 @@ $("compartir").addEventListener("click", () => {
 
 function terminarGuia() {
   clearTimeout(guia.confirmar);
+  cancelarAvisos();
   restaurarTerminar();
   if (!$("chofer").hidden) tarjetaChofer(false);
   if (guia.reloj !== undefined) navigator.geolocation.clearWatch(guia.reloj);
@@ -2179,7 +2292,22 @@ Promise.all([
   avisoConexion();
   medirPantalla();
   if (!primeraVez) ubicar();
+  accionInicial();
 });
+
+// Accesos directos del icono de la app (manifest): llegan como ?accion= y se hacen en cuanto hay ubicacion
+async function accionInicial() {
+  const accion = new URLSearchParams(location.search).get("accion");
+  if (!accion || primeraVez) return;
+  history.replaceState({ p: "inicio" }, "", location.pathname);
+  for (let i = 0; i < 24 && !estado.gps; i++) await new Promise((r) => setTimeout(r, 250));
+  if (accion === "casa") {
+    const casa = guardados.find((g) => g.nombre === "Casa");
+    return casa ? irA(casa) : $("guardados").querySelector('[data-nuevo="Casa"]')?.click();
+  }
+  if (accion === "camiones") return abrirCamiones();
+  if (accion === "donde") return dondeEstoy(acc.modoVoz ? "voz" : "inicio");
+}
 
 // Tarjeta para ensenarle al chofer a donde vas, con letra enorme. En camion dice la parada; en app, el destino.
 function tarjetaChofer(abierta) {

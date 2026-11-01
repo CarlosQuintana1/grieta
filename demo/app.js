@@ -117,6 +117,8 @@ function mostrar(nombre) {
   if (nombre === "inicio") {
     limpiarRuta();
     pintarViajes();
+    pintarRutina();
+    pintarAhorro();
     $("invitaPerfil").hidden = acc.modoVoz || leer("grieta-perfil", false) || leer("grieta-invita-cerrada", false);
   }
   if (nombre === "opciones") quitarTrazo();
@@ -142,10 +144,12 @@ function mostrar(nombre) {
 }
 // Un mapa que estuvo oculto pierde el encuadre; se rehace con lo que toca en cada pantalla.
 function reencuadrar(nombre) {
+  // Con el mapa oculto (modo para personas ciegas) no hay a donde moverlo: Leaflet calcularia posiciones invalidas.
+  if (!$("mapa").offsetHeight) return;
   const capa = nombre === "detalle" ? capas.camion ?? capas.linea : nombre === "opciones" ? capas.linea : nombre === "camiones" ? capas.paradas : null;
   if (capa) return encuadrar(capa.getBounds());
   const c = estado.gps ?? estado.origen;
-  if (nombre === "inicio" && c) mapa.setView([c.lat, c.lon], 15);
+  if (nombre === "inicio" && c) suave() ? mapa.flyTo([c.lat, c.lon], 15, { duration: 0.6 }) : mapa.setView([c.lat, c.lon], 15);
 }
 function ir(nombre, reemplazar) {
   if (history.state?.p !== nombre) history[reemplazar ? "replaceState" : "pushState"]({ p: nombre }, "");
@@ -415,26 +419,54 @@ mapa.on("click", async ({ latlng }) => {
 // Ruta y opciones
 async function trazar() {
   const { origen: o, destino: d } = estado;
-  avisar("Buscando cómo llegar...");
   limpiarRuta(true);
-  try {
-    const url = `https://router.project-osrm.org/route/v1/driving/${o.lon},${o.lat};${d.lon},${d.lat}?overview=full&geometries=geojson`;
-    const r = await (await fetch(url, { signal: AbortSignal.timeout(6000) })).json();
-    estado.kmCalle = r.routes[0].distance / 1000;
-    capas.linea = L.geoJSON(r.routes[0].geometry, { style: { color: tono("--ambar"), weight: 5, opacity: 0.95 } }).addTo(mapa);
-  } catch {
-    estado.kmCalle = null;
-    capas.linea = L.polyline([[o.lat, o.lon], [d.lat, d.lon]], { color: tono("--ambar"), weight: 4, dashArray: "4 8" }).addTo(mapa);
-  }
-  avisar("");
   estado.momento = 0;
   estado.otra = null;
   estado.caminatas = { sube: new Map(), baja: new Map(), pedidas: new Set() };
   titulos.opciones = `A ${d.nombre}`;
+  // Se pasa de una vez a Como llegar, con la forma de las tarjetas, mientras se pide la ruta por calles.
   ir("opciones", ["buscar", "elegirMapa"].includes(document.body.dataset.pantalla));
+  esqueletoOpciones();
+  let linea;
+  let km = null;
+  try {
+    const url = `https://router.project-osrm.org/route/v1/driving/${o.lon},${o.lat};${d.lon},${d.lat}?overview=full&geometries=geojson`;
+    const r = await (await fetch(url, { signal: AbortSignal.timeout(6000) })).json();
+    km = r.routes[0].distance / 1000;
+    linea = L.geoJSON(r.routes[0].geometry, { style: { color: tono("--ambar"), weight: 5, opacity: 0.95 } });
+  } catch {
+    linea = L.polyline([[o.lat, o.lon], [d.lat, d.lon]], { color: tono("--ambar"), weight: 4, dashArray: "4 8" });
+  }
+  // Si mientras tanto la persona se fue o eligio otro destino, esta ruta ya no se dibuja.
+  if (estado.destino !== d) return;
+  estado.kmCalle = km;
+  capas.linea = linea.addTo(mapa);
+  $("opciones").removeAttribute("aria-busy");
   calcular();
+  animarTrazo(capas.linea);
   setTimeout(() => encuadrar(capas.linea.getBounds()), 120);
   if (acc.modoVoz) hablar(resumenOpciones(), true);
+}
+
+function esqueletoOpciones() {
+  $("opciones").setAttribute("aria-busy", "true");
+  $("appsRapido").innerHTML = '<span class="esqueleto corto"></span>'.repeat(3);
+  $("tarjetas").innerHTML = '<span class="esqueleto"></span>'.repeat(2);
+  $("llegadaApp").textContent = "Calculando...";
+  $("respuestaEspera").textContent = "";
+  $("ultimoCamion").hidden = true;
+}
+
+// La ruta se dibuja de inicio a fin; las lineas punteadas (caminar) y los puntos de parada se quedan como estan.
+function animarTrazo(capa) {
+  if (!capa || !suave()) return;
+  for (const l of capa.getLayers ? capa.getLayers() : [capa]) {
+    const el = l.getElement?.();
+    if (!el || l instanceof L.CircleMarker || l.options.dashArray) continue;
+    el.setAttribute("pathLength", "1");
+    el.classList.add("ruta-dibujandose");
+    el.addEventListener("animationend", () => { el.classList.remove("ruta-dibujandose"); el.removeAttribute("pathLength"); }, { once: true });
+  }
 }
 
 // Lo que se dice al llegar a Como llegar en modo voz: el camino recomendado y la app mas barata.
@@ -480,7 +512,13 @@ async function seguirCalles(linea) {
   return c;
 }
 
-const encuadrar = (limites) => mapa.fitBounds(limites, { padding: [28, 28] });
+// El mapa se desliza hacia lo que toca ver, salvo para quien pidio menos movimiento en su telefono.
+function suave() {
+  return !matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+const encuadrar = (limites) => (!$("mapa").offsetHeight ? null : suave()
+  ? mapa.flyToBounds(limites, { padding: [28, 28], duration: 0.6 })
+  : mapa.fitBounds(limites, { padding: [28, 28] }));
 
 function momentos() {
   const dia = hoyDia();
@@ -581,7 +619,7 @@ function pintarOpciones(r) {
   $("guardarLugar").textContent = ya ? `Guardado como ${ya.nombre}` : "Guardar este lugar";
   $("guardarLugar").disabled = Boolean(ya);
   // Solo cuando se eligio otra hora de salida: ahi importa saber que los precios no son de ahorita.
-  const cuando = estado.momento === 0 ? "" : estado.momento < ESPERAS.length ? momentos()[estado.momento].etiqueta.toLowerCase() : `el ${DIAS[r.ctx.dia]} a las ${hora(r.ctx.minuto)}`;
+  const cuando = estado.momento === 0 ? "" : estado.momento < ESPERAS.length ? momentos()[estado.momento].etiqueta.toLowerCase() : `${r.ctx.dia === hoyDia() ? "hoy" : `el ${DIAS[r.ctx.dia]}`} a las ${hora(r.ctx.minuto)}`;
   $("resumenRuta").textContent = cuando ? `Saliendo ${cuando}` : "";
   $("resumenRuta").hidden = !cuando;
   // Los precios de las apps, a la vista sin tener que entrar a una opcion.
@@ -694,6 +732,64 @@ function pintarEspera(lista, precios, base) {
     : `Lo más barato hoy es de ${hora(barata.a)} a ${hora(barata.b)}: ${pesos(barata.p)}. `) +
     "Son precios normales según nuestros registros, no lo que marca la app en este momento.";
 }
+// "A que hora salgo": se prueba salir cada 5 minutos desde ahora (hasta 4 horas antes) y se queda la salida
+// mas tarde que todavia llega a tiempo, en camion y en app.
+$("abrirLlegar").addEventListener("click", () => {
+  const abierto = $("abrirLlegar").getAttribute("aria-expanded") === "true";
+  $("abrirLlegar").setAttribute("aria-expanded", String(!abierto));
+  $("llegar").hidden = abierto;
+  if (!abierto && !$("horaLlegada").value) $("horaLlegada").value = Grieta.hhmm(Math.ceil((ahoraMin() + 60) / 5) * 5);
+});
+function calcularSalida() {
+  const [h, m] = ($("horaLlegada").value || "").split(":").map(Number);
+  if (!Number.isFinite(h)) return void ($("salida").innerHTML = `<p class="nota">Elige a qué hora tienes que llegar.</p>`);
+  const ahora = ahoraMin();
+  const meta = h * 60 + m;
+  if (meta <= ahora + 5) return void ($("salida").innerHTML = `<p class="nota">Esa hora ya pasó o no da tiempo de llegar. Elige una más tarde.</p>`);
+  const base = {
+    origen: [estado.origen.lat, estado.origen.lon], destino: [estado.destino.lat, estado.destino.lon], kmCalle: estado.kmCalle,
+    dia: hoyDia(), caminarMax: acc.camino ? 300 : undefined, tarifa: acc.unidos ? { pasaje: 2, transbordo: 0 } : undefined,
+    caminatas: estado.caminatas,
+  };
+  const aTiempo = [];
+  const probar = (t) => {
+    for (const o of Grieta.evaluar({ ...base, minuto: t }).opciones) {
+      if (t + o.minutos <= meta) aTiempo.push({ t, o, conApp: o.tipo !== "app" && o.pasos.some((p) => p.tipo === "app") });
+    }
+  };
+  // Primero cada 10 minutos; luego se prueba 5 minutos despues de la ultima salida que funciono, en camion y en app.
+  for (let t = Math.max(ahora, meta - 240); t <= meta; t += 10) probar(t);
+  const ultima = (enApp) => Math.max(-1, ...aTiempo.filter((x) => (x.o.tipo === "app") === enApp).map((x) => x.t));
+  for (const t of new Set([ultima(false), ultima(true)])) if (t >= 0 && t + 5 <= meta) probar(t + 5);
+  // En camion: primero los que no usan app; entre esos, el que deja salir mas tarde y luego el mas barato.
+  const camion = aTiempo.filter((x) => x.o.tipo !== "app").sort((a, b) => a.conApp - b.conApp || b.t - a.t || a.o.costo - b.o.costo)[0];
+  const app = aTiempo.filter((x) => x.o.tipo === "app").sort((a, b) => b.t - a.t)[0];
+  if (!camion && !app) return void ($("salida").innerHTML = `<p class="nota">No encontré cómo llegar a esa hora desde ahora. Prueba una hora más tarde.</p>`);
+  const bloque = (titulo, x, detalle) => `<div class="salida-opcion"><p class="etiqueta">${titulo}</p>
+    <p class="hora-salida">Sal a las ${hora(x.t)}</p><p>${detalle}</p>
+    <button type="button" class="boton oscuro" data-salir="${x.t}">Ver esta ruta</button></div>`;
+  $("salida").innerHTML =
+    (camion ? bloque("En Qrobus", camion, `${escapar(tituloOpcion(camion.o))}, ${pesos(camion.o.costo)}. Llegas a las ${hora(camion.t + camion.o.minutos)}.`) : "") +
+    (app ? bloque("En app", app, `Pide ${escapar(tituloOpcion(app.o))}, unos ${pesos(app.o.costo)}. Llegas a las ${hora(app.t + app.o.minutos)}.`) : "");
+  hablar([camion && `En camión, sal a las ${hora(camion.t)} y toma ${tituloOpcion(camion.o)}.`, app && `En app, pídela a las ${hora(app.t)}.`].filter(Boolean).join(" "), false, true);
+}
+$("calcularSalida").addEventListener("click", () => {
+  $("salida").innerHTML = `<p class="nota">Calculando...</p>`;
+  setTimeout(calcularSalida, 30);
+});
+// "Ver esta ruta" pone las opciones a esa hora de salida, igual que elegir otra hora en Conviene esperar.
+$("salida").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-salir]");
+  if (!b) return;
+  const t = Number(b.dataset.salir);
+  $("dia").value = String(hoyDia());
+  $("hora").value = Grieta.hhmm(t);
+  estado.otra = { dia: hoyDia(), minuto: t };
+  estado.momento = ESPERAS.length;
+  calcular();
+  $("hoja").scrollTop = 0;
+});
+
 $("abrirEspera").addEventListener("click", () => {
   const abierto = $("abrirEspera").getAttribute("aria-expanded") === "true";
   $("abrirEspera").setAttribute("aria-expanded", String(!abierto));
@@ -929,6 +1025,7 @@ function dibujar(o) {
   capas.camion = L.featureGroup([acceso, ...capasCamion, salida]).addTo(mapa);
   // Todo tramo a pie (punteado), incluido el de un transbordo, sigue las calles.
   capas.camion.eachLayer((l) => { if (l.options.dashArray) seguirCalles(l); });
+  animarTrazo(capas.camion);
   setTimeout(() => encuadrar(capas.camion.getBounds()), 120);
 }
 
@@ -1380,6 +1477,54 @@ function registrarViaje(o) {
   viajes = [{ destino: { nombre: d.nombre, lat: d.lat, lon: d.lon }, camino: tituloOpcion(o), fecha: new Date().toISOString() }]
     .concat(viajes.filter((v) => v.destino.nombre !== d.nombre)).slice(0, 20);
   escribir("grieta-viajes", viajes);
+  // Historial sin juntar repetidos: de aqui salen la rutina y lo ahorrado. Solo en el telefono.
+  const app = Math.min(...estado.r.directo.porApp.map((x) => x.precio));
+  const ahorro = o.tipo === "app" ? 0 : Math.max(0, Math.round(app - o.costo));
+  historial = [{ nombre: d.nombre, lat: d.lat, lon: d.lon, fecha: new Date().toISOString(), ahorro }].concat(historial).slice(0, 80);
+  escribir("grieta-historial", historial);
+}
+let historial = leer("grieta-historial", []);
+
+// Rutina: si ya fuiste a un lugar al menos dos veces en dias parecidos (entre semana o fin) y a una hora
+// parecida, el inicio lo ofrece con un toque. Nada sale del telefono.
+function rutinaSugerida() {
+  const ahora = new Date();
+  const finde = (d) => d.getDay() === 0 || d.getDay() === 6;
+  const minutoDe = (d) => d.getHours() * 60 + d.getMinutes();
+  const cerca = (a, b) => Math.min(Math.abs(a - b), 1440 - Math.abs(a - b)) <= 60;
+  const veces = new Map();
+  for (const h of historial) {
+    const f = new Date(h.fecha);
+    if (ahora - f > 60 * 864e5 || finde(f) !== finde(ahora) || !cerca(minutoDe(f), minutoDe(ahora))) continue;
+    const x = veces.get(h.nombre) ?? { ...h, n: 0 };
+    x.n++;
+    veces.set(h.nombre, x);
+  }
+  const yo = estado.gps ?? estado.origen;
+  return [...veces.values()]
+    .filter((x) => x.n >= 2 && (!yo || Grieta.metros(yo.lat, yo.lon, x.lat, x.lon) > 300))
+    .sort((a, b) => b.n - a.n)[0] ?? null;
+}
+function pintarRutina() {
+  const r = rutinaSugerida();
+  $("rutina").hidden = !r;
+  $("vozRutina").hidden = !r;
+  if (!r) return;
+  $("rutinaTexto").textContent = `¿Vas a ${r.nombre}?`;
+  $("vozRutina").querySelector("span").textContent = `Ir a ${r.nombre}`;
+  estado.rutina = { nombre: r.nombre, lat: r.lat, lon: r.lon };
+}
+$("rutina").addEventListener("click", () => irA({ ...estado.rutina }));
+$("vozRutina").addEventListener("click", () => { hablar(`Vamos a ${estado.rutina.nombre}.`); irA({ ...estado.rutina }); });
+
+// Lo ahorrado este mes por ir en camion en vez de la app mas barata.
+function pintarAhorro() {
+  // Mes en hora local: en UTC el ultimo dia del mes en la noche ya cuenta como el siguiente.
+  const hoy = new Date();
+  const total = historial.filter((h) => { const f = new Date(h.fecha); return f.getFullYear() === hoy.getFullYear() && f.getMonth() === hoy.getMonth(); })
+    .reduce((s, h) => s + (h.ahorro || 0), 0);
+  $("ahorroMes").hidden = total < 1;
+  $("ahorroMes").innerHTML = `Este mes llevas <strong>${pesos(total)} ahorrados</strong> por ir en camión en vez de pedir app.`;
 }
 function fechaViaje(iso) {
   const f = new Date(iso);

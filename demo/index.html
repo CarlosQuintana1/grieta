@@ -54,7 +54,6 @@
   <button id="abrirPerfil" type="button" class="boton-perfil"><svg class="icono"><use href="#i-persona"/></svg><span>Tu perfil</span></button>
 
   <main id="hoja" class="hoja">
-    <span class="agarradera" aria-hidden="true"></span>
     <p id="estado" class="estado" role="status"></p>
 
     <section id="bienvenida" class="pantalla" aria-labelledby="tituloBienvenida" hidden>
@@ -129,6 +128,7 @@
       <div id="inicioVoz" class="inicio-voz" hidden>
         <h1 class="titulo-grande" tabindex="-1">¿Qué necesitas?</h1>
         <button id="vozDestino" type="button" class="boton-voz"><svg class="icono"><use href="#i-microfono"/></svg>Decir a dónde voy</button>
+        <button id="vozRutina" type="button" class="boton-voz" hidden><svg class="icono"><use href="#i-reloj"/></svg><span></span></button>
         <button id="vozCasa" type="button" class="boton-voz" hidden><svg class="icono"><use href="#i-casa"/></svg>Llévame a casa</button>
         <button id="vozCamion" type="button" class="boton-voz"><svg class="icono"><use href="#i-camion"/></svg>¿Qué camión pasa aquí?</button>
         <button id="vozDonde" type="button" class="boton-voz"><svg class="icono"><use href="#i-localizar"/></svg>¿Dónde estoy?</button>
@@ -142,6 +142,10 @@
         <button id="abrirBuscar" type="button" class="buscador-campo">Busca un lugar</button>
         <button type="button" class="mic dictar" aria-label="Dictar a dónde vas" hidden><svg class="icono"><use href="#i-microfono"/></svg><span>Dictar</span></button>
       </div>
+      <button id="rutina" type="button" class="sugerencia" hidden>
+        <svg class="icono"><use href="#i-reloj"/></svg>
+        <span class="fila-texto"><strong id="rutinaTexto"></strong><small>Como otros días a esta hora. Toca para ver cómo llegar</small></span>
+      </button>
       <p class="desde"><svg class="icono ambar"><use href="#i-localizar"/></svg><span id="desdeTexto">Buscando tu ubicación...</span><button id="cambiarDesde" type="button" class="enlace">Cambiar</button></p>
       <div id="guardados" class="chips" aria-label="Lugares guardados" role="group" hidden></div>
       <div class="atajos">
@@ -163,6 +167,7 @@
         </div>
       </div>
       <div id="bloqueViajes" hidden>
+        <p id="ahorroMes" class="ahorro-mes" hidden></p>
         <h2 id="tituloViajes">Tus viajes recientes</h2>
         <ul id="listaViajes" class="filas" aria-labelledby="tituloViajes"></ul>
       </div>
@@ -201,6 +206,18 @@
       <h2 id="tituloCamion">En Qrobus</h2>
       <div id="ultimoCamion" class="aviso cuidado" role="status" hidden></div>
       <div id="tarjetas" class="tarjetas" role="group" aria-labelledby="tituloCamion"></div>
+
+      <div class="plegable">
+        <button id="abrirLlegar" type="button" class="fila-espera" aria-expanded="false" aria-controls="llegar">
+          <span><span class="etiqueta tenue">¿Tienes que llegar a una hora?</span><strong>Te digo a qué hora salir</strong></span>
+          <svg class="icono chevron"><use href="#i-chevron"/></svg>
+        </button>
+        <div id="llegar" class="llegar" hidden>
+          <label class="campo"><span>Tengo que llegar a las</span><input id="horaLlegada" type="time"></label>
+          <button id="calcularSalida" type="button" class="boton">¿A qué hora salgo?</button>
+          <div id="salida" aria-live="polite"></div>
+        </div>
+      </div>
 
       <div class="plegable">
         <button id="abrirEspera" type="button" class="fila-espera" aria-expanded="false" aria-controls="espera">

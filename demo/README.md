@@ -30,7 +30,10 @@ dictar el destino, preguntar dónde estoy (calle y parada más cercana) y compar
 esperas en la parada avisa cinco minutos y un minuto antes de que pase el camión según el horario, y cada
 aviso suena además de vibrar, porque en iPhone el navegador no vibra.
 
-Con Casa guardada, el inicio la pone primero entre tus lugares para ir con un toque. Si el camión de la mejor
+Con Casa guardada, el inicio la pone primero entre tus lugares para ir con un toque. Si ya fuiste dos veces o más a un lugar
+en días y horas parecidos, el inicio te lo ofrece ("¿Vas a la Facultad?"), y muestra cuánto llevas ahorrado
+en el mes por ir en camión en vez de pedir app. En Cómo llegar, "¿Tienes que llegar a una hora?" te dice a qué
+hora salir en Qrobus y en app. Todo eso se calcula y se guarda solo en el teléfono. Si el camión de la mejor
 opción es de los últimos del día, avisa a qué hora pasa el último y cuánto costaría la app si se pierde.
 Si lo que te marca una app está muy arriba de lo normal, avisa que está en alta demanda y cuánto
 debería costar otra. Durante el viaje, "Avisar al chofer" pone a dónde vas en letra enorme para

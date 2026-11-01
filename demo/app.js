@@ -2118,8 +2118,18 @@ const ordenPasos = () => ["vista", ...(acc.modoVoz ? ["lector"] : ["forma"]), "u
 let pasoActual = "vista";
 function irPaso(p) {
   pasoActual = p;
+  const orden = ordenPasos();
+  const numero = orden.indexOf(p) + 1;
+  const progreso = $("progresoBienvenida");
+  progreso.className = `bienvenida-progreso progreso-${numero}`;
+  progreso.setAttribute("aria-valuemax", String(orden.length));
+  progreso.setAttribute("aria-valuenow", String(numero));
+  progreso.setAttribute("aria-valuetext", `Paso ${numero} de ${orden.length}`);
+  document.querySelector(`#bienvenida [data-paso="${p}"] .paso-numero`).textContent = `PASO ${numero} DE ${orden.length}`;
   for (const d of document.querySelectorAll("#bienvenida [data-paso]")) d.hidden = d.dataset.paso !== p;
-  document.querySelector(`#bienvenida [data-paso="${p}"] h1`).focus({ preventScroll: true });
+  const titulo = document.querySelector(`#bienvenida [data-paso="${p}"] h1`);
+  $("bienvenida").setAttribute("aria-labelledby", titulo.id);
+  titulo.focus({ preventScroll: true });
   $("hoja").scrollTop = 0;
   if (acc.modoVoz && PASOS_VOZ[p]) hablar(PASOS_VOZ[p], false, true);
 }
@@ -2132,6 +2142,7 @@ function terminarBienvenida() {
   ir("inicio", true);
   if (acc.modoVoz) hablar(ayudaVoz(), false, true);
 }
+$("saltarBienvenida").addEventListener("click", terminarBienvenida);
 document.querySelector('#bienvenida [data-paso="vista"]').addEventListener("click", (e) => {
   const b = e.target.closest("[data-v]");
   if (!b) return;

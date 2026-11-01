@@ -687,3 +687,38 @@ html.daltonico .app-didi { --tono: #174e8a; } html.daltonico .app-indrive { --to
 .app-rapida small.vacio { visibility: hidden; }
 .app-fila .ficha-app { width: 44px; height: 44px; }
 .app-rapida .ficha-app { color: #fff; font-weight: 800; }
+
+/* Bienvenida: progreso y opciones al alcance de la mano */
+#bienvenida.bienvenida { min-height: 100%; gap: 24px; }
+.bienvenida-cabecera { flex: none; display: grid; grid-template-columns: 1fr auto; grid-template-rows: 40px 6px; align-items: center; column-gap: 12px; row-gap: 12px; }
+.bienvenida-marca { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--ambar); color: var(--sobre-ambar); font-size: 1.45rem; font-weight: 800; }
+.bienvenida-cabecera .enlace { min-height: 44px; padding: 0 8px; }
+.bienvenida-progreso { grid-column: 1 / -1; height: 6px; border-radius: 99px; overflow: hidden; background: var(--linea); }
+.bienvenida-progreso span { display: block; height: 100%; border-radius: inherit; background: var(--ambar); transition: width 180ms ease-out; }
+.bienvenida-progreso.progreso-1 span { width: 16.67%; }
+.bienvenida-progreso.progreso-2 span { width: 33.34%; }
+.bienvenida-progreso.progreso-3 span { width: 50%; }
+.bienvenida-progreso.progreso-4 span { width: 66.67%; }
+.bienvenida-progreso.progreso-5 span { width: 83.34%; }
+.bienvenida-progreso.progreso-6 span { width: 100%; }
+#bienvenida .paso { flex: 1; min-height: 0; }
+#bienvenida .paso-numero { margin: 0 0 8px; color: var(--ambar); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; }
+#bienvenida .paso h1 { font-size: 2.1rem; line-height: 1.08; margin: 0; }
+#bienvenida .nota-paso { margin-top: 10px; color: var(--tenue); font-size: 0.9rem; }
+#bienvenida .regresar { align-self: flex-start; margin: 0 0 16px -8px; }
+#bienvenida .vista-opciones { flex: none; gap: 10px; margin-top: auto; padding-top: 24px; }
+#bienvenida .opcion-vista { flex-direction: row; align-items: center; justify-content: flex-start; gap: 14px; min-height: 72px; padding: 12px; border: 1px solid var(--linea); border-radius: var(--radio); background: var(--superficie); text-align: left; }
+#bienvenida .opcion-vista .mini-ficha { width: 48px; height: 48px; }
+#bienvenida .opcion-texto { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: 3px; }
+#bienvenida .opcion-vista strong { font-size: 0.98rem; line-height: 1.25; }
+#bienvenida .opcion-vista small { font-size: 0.78rem; line-height: 1.3; }
+#bienvenida .flecha-opcion { flex: none; color: var(--ambar); font-size: 1.6rem; line-height: 1; }
+#bienvenida .opcion-vista:active { border-color: var(--ambar); }
+#bienvenida .saltar { align-self: center; margin-top: 6px; }
+@media (max-width: 350px) {
+  #bienvenida.bienvenida { gap: 18px; }
+  #bienvenida .vista-opciones { gap: 8px; padding-top: 18px; }
+  #bienvenida .opcion-vista { gap: 10px; padding: 10px; }
+}
+html.grande #bienvenida .paso h1 { font-size: 1.85rem; }
+html.grande #bienvenida .opcion-vista { min-height: 72px; }

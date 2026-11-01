@@ -547,3 +547,31 @@ button:active, .boton:active, .chip:active, .tarjeta:active, .app-fila:active, .
 .ahorro-mes { margin-top: 20px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
 .ahorro-mes strong { color: var(--ambar); font-weight: 700; }
 #precio::placeholder { color: var(--tenue); font-size: 1rem; font-weight: 500; opacity: 1; }
+
+/* Pantallas angostas y letra grande: que nada se parta a la mitad */
+.buscador-campo { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pestanas button { white-space: nowrap; }
+.apps-rapido { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.app-rapida { padding: 10px; min-width: 0; }
+.horas button span { white-space: nowrap; }
+.cabeza-detalle { flex-wrap: wrap; row-gap: 4px; }
+.cifra { white-space: nowrap; }
+.llegas { white-space: nowrap; }
+.invita-acciones { flex-wrap: wrap; row-gap: 6px; }
+.invita-acciones .boton, .invita-acciones .enlace { white-space: nowrap; }
+.tarjeta-perfil .chevron { margin-left: auto; color: var(--tenue); }
+.campo-y-boton { flex-wrap: wrap; }
+.campo-y-boton input { flex: 1 1 180px; min-width: 0; }
+html.grande .horas { grid-template-columns: repeat(2, 1fr); }
+html.grande .cabeza-detalle { flex-direction: column; align-items: flex-start; }
+html.grande .llegas { text-align: left; }
+html.grande .llegas strong { display: inline; }
+html.grande .campo-y-boton .boton { flex: 1 0 100%; }
+@media (max-width: 350px) {
+  /* En pantallas de 320 px el microfono se queda solo con su icono; su nombre sigue para el lector */
+  .buscador .mic span { display: none; }
+  .tarjeta .circulo { display: none; }
+  .app-rapida strong { font-size: 1.15rem; }
+  .horas button span { font-size: 0.7rem; }
+  .cifra { font-size: 1.8rem; }
+}

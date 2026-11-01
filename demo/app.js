@@ -560,8 +560,10 @@ async function refinarCaminatas() {
   const nuevas = [];
   for (const op of estado.r.opciones) {
     if (!op.paradas) continue;
-    if (op.pasos[0].tipo === "caminar") nuevas.push(["sube", op.paradas.sube, [o.lat, o.lon]]);
-    if (op.pasos.at(-1).tipo === "caminar") nuevas.push(["baja", op.paradas.baja, [d.lat, d.lon]]);
+    // Tambien las paradas a menos de 1 km a las que se llega en app: caminando quiza se alcanzan
+    const cerca = (i, p) => Grieta.metros(p.lat, p.lon, ...Grieta.qrobus.paradas[i].slice(0, 2)) <= 1000;
+    if (op.pasos[0].tipo === "caminar" || cerca(op.paradas.sube, o)) nuevas.push(["sube", op.paradas.sube, [o.lat, o.lon]]);
+    if (op.pasos.at(-1).tipo === "caminar" || cerca(op.paradas.baja, d)) nuevas.push(["baja", op.paradas.baja, [d.lat, d.lon]]);
   }
   const faltan = nuevas.filter(([lado, i]) => !cam.pedidas.has(`${lado}:${i}`));
   if (!faltan.length) return;

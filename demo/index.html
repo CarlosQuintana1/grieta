@@ -263,7 +263,7 @@
         <div id="otroNombre" class="otro-nombre" hidden>
           <label for="campoNombre" class="etiqueta-campo">¿Cómo le quieres poner?</label>
           <div class="campo-y-boton">
-            <input id="campoNombre" type="text" maxlength="30" autocomplete="off" placeholder="Ejemplo: Hospital, casa de mi hija" enterkeyhint="done">
+            <input id="campoNombre" type="text" maxlength="30" autocomplete="off" placeholder="Ejemplo: Hospital" enterkeyhint="done">
             <button id="guardarNombre" type="button" class="boton">Guardar</button>
           </div>
         </div>
@@ -417,11 +417,11 @@
     </section>
 
     <section id="ajustes" class="pantalla" aria-labelledby="tituloAjustes" hidden>
-      <h1 id="tituloAjustes" class="titulo-grande" tabindex="-1">Ayuda y ajustes</h1>
+      <h1 id="tituloAjustes" class="titulo-grande" tabindex="-1">Ajustes</h1>
       <button id="resumenPerfil" type="button" class="tarjeta-perfil">
         <span class="avatar chico" aria-hidden="true"><svg class="icono"><use id="ajustesAvatar" href="#i-caminar"/></svg></span>
         <span class="fila-texto"><strong>Tu perfil de viaje</strong><small id="textoPerfil"></small></span>
-        <span class="enlace">Cambiar</span>
+        <svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg>
       </button>
       <h2 id="tituloAyuda">Cómo se usa</h2>
       <ol class="pasos-ayuda">
@@ -477,7 +477,7 @@
   <nav id="pestanas" class="pestanas" aria-label="Secciones">
     <button type="button" data-tab="inicio"><svg class="icono"><use href="#i-casa"/></svg>Inicio</button>
     <button type="button" data-tab="reporte"><svg class="icono"><use href="#i-alerta"/></svg>Reportar</button>
-    <button type="button" data-tab="ajustes"><svg class="icono"><use href="#i-engrane"/></svg>Ayuda y ajustes</button>
+    <button type="button" data-tab="ajustes"><svg class="icono"><use href="#i-engrane"/></svg>Ajustes</button>
   </nav>
 
   <div id="chofer" class="chofer" role="dialog" aria-modal="true" aria-labelledby="choferDestino" hidden>

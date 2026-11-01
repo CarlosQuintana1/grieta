@@ -2,6 +2,8 @@
 const Grieta = (() => {
   const CORTES = [0, 6, 9, 12, 15, 18, 21, 24];
   const CAMINAR_MAX_M = 700;
+  // Con la distancia real por calles ya medida, se camina hasta 1.3 km (unos 17 minutos)
+  const CAMINAR_REAL_MAX_M = 1300;
   const APP_MAX_KM = 5;
   const VEL_CAMINAR = 4.5;
   const VEL_APP = 28;
@@ -65,10 +67,13 @@ const Grieta = (() => {
     qrobus.paradas.forEach(([lat, lon], i) => {
       const m = metros(punto[0], punto[1], lat, lon);
       if (m > APP_MAX_KM * 1000) return;
-      const caminado = reales?.get(i) ?? m * RODEO;
-      // Con "caminar poco" el limite tambien se cumple por calles, no solo en linea recta.
-      const alcanza = caminarMax >= CAMINAR_MAX_M || caminado <= caminarMax * RODEO;
-      if (m <= caminarMax && alcanza) {
+      const real = reales?.get(i);
+      const caminado = real ?? m * RODEO;
+      // Con "caminar poco" el limite tambien se cumple por calles; si no, manda la distancia real cuando ya se conoce.
+      const camina = caminarMax < CAMINAR_MAX_M
+        ? m <= caminarMax && caminado <= caminarMax * RODEO
+        : real !== undefined ? real <= CAMINAR_REAL_MAX_M : m <= CAMINAR_MAX_M;
+      if (camina) {
         res.set(i, { modo: "caminando", costo: 0, min: caminado / 1000 / VEL_CAMINAR * 60 });
       } else {
         const t = hacia ? tramoApp(ctx, punto, [lat, lon]) : tramoApp(ctx, [lat, lon], punto);

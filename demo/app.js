@@ -573,8 +573,10 @@ function pintarOpciones(r) {
   const ya = guardados.find((g) => Grieta.metros(g.lat, g.lon, estado.destino.lat, estado.destino.lon) < 30);
   $("guardarLugar").textContent = ya ? `Guardado como ${ya.nombre}` : "Guardar este lugar";
   $("guardarLugar").disabled = Boolean(ya);
-  const cuando = estado.momento === 0 ? "" : ` · saliendo ${estado.momento < ESPERAS.length ? momentos()[estado.momento].etiqueta.toLowerCase() : `el ${DIAS[r.ctx.dia]} a las ${hora(r.ctx.minuto)}`}`;
-  $("resumenRuta").textContent = `Desde ${esGps(estado.origen) ? "tu ubicación" : estado.origen.nombre} · ${r.directo.km.toFixed(1)} km${cuando}`;
+  // Solo cuando se eligio otra hora de salida: ahi importa saber que los precios no son de ahorita.
+  const cuando = estado.momento === 0 ? "" : estado.momento < ESPERAS.length ? momentos()[estado.momento].etiqueta.toLowerCase() : `el ${DIAS[r.ctx.dia]} a las ${hora(r.ctx.minuto)}`;
+  $("resumenRuta").textContent = cuando ? `Saliendo ${cuando}` : "";
+  $("resumenRuta").hidden = !cuando;
   // Los precios de las apps, a la vista sin tener que entrar a una opcion.
   const apps = [...r.directo.porApp].sort((a, b) => a.precio - b.precio);
   $("appsRapido").innerHTML = apps.map((x, i) => `<button type="button" class="app-rapida${i ? "" : " barata"}" data-app="${x.app}"

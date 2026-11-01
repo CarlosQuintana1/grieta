@@ -95,6 +95,54 @@
       "a": "fi-uaq",
       "b": "uptown",
       "escala": "media"
+    },
+    {
+      "id": 17,
+      "a": "santa-rosa",
+      "b": "fi-uaq",
+      "escala": "media"
+    },
+    {
+      "id": 18,
+      "a": "santa-rosa",
+      "b": "centro",
+      "escala": "larga"
+    },
+    {
+      "id": 19,
+      "a": "santa-rosa",
+      "b": "antea",
+      "escala": "media"
+    },
+    {
+      "id": 20,
+      "a": "san-pedro",
+      "b": "fi-uaq",
+      "escala": "media"
+    },
+    {
+      "id": 21,
+      "a": "san-pedro",
+      "b": "carrillo",
+      "escala": "media"
+    },
+    {
+      "id": 22,
+      "a": "san-pedro",
+      "b": "centro",
+      "escala": "media"
+    },
+    {
+      "id": 23,
+      "a": "jurica",
+      "b": "san-pedro",
+      "escala": "media"
+    },
+    {
+      "id": 24,
+      "a": "jurica",
+      "b": "santa-rosa",
+      "escala": "media"
     }
   ]
 }

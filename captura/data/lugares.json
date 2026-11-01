@@ -111,6 +111,20 @@
       "lat": 20.676158,
       "lon": -100.430586,
       "verificado": true
+    },
+    {
+      "id": "san-pedro",
+      "nombre": "Hospital San Pedro Peñuelas",
+      "lat": 20.64078,
+      "lon": -100.39364,
+      "verificado": true
+    },
+    {
+      "id": "santa-rosa",
+      "nombre": "Jardín Delegacional Santa Rosa Jáuregui",
+      "lat": 20.7418,
+      "lon": -100.4472,
+      "verificado": true
     }
   ]
 }

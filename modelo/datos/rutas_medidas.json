@@ -287,6 +287,150 @@
       "escala": "media",
       "distancia_km": 4.933,
       "duracion_libre_min": 7.86
+    },
+    {
+      "ruta_id": 33,
+      "par_id": 17,
+      "origen": "santa-rosa",
+      "destino": "fi-uaq",
+      "escala": "media",
+      "distancia_km": 5.904,
+      "duracion_libre_min": 8.94
+    },
+    {
+      "ruta_id": 34,
+      "par_id": 17,
+      "origen": "fi-uaq",
+      "destino": "santa-rosa",
+      "escala": "media",
+      "distancia_km": 7.98,
+      "duracion_libre_min": 11.65
+    },
+    {
+      "ruta_id": 35,
+      "par_id": 18,
+      "origen": "santa-rosa",
+      "destino": "centro",
+      "escala": "larga",
+      "distancia_km": 21.625,
+      "duracion_libre_min": 20.23
+    },
+    {
+      "ruta_id": 36,
+      "par_id": 18,
+      "origen": "centro",
+      "destino": "santa-rosa",
+      "escala": "larga",
+      "distancia_km": 21.578,
+      "duracion_libre_min": 20.22
+    },
+    {
+      "ruta_id": 37,
+      "par_id": 19,
+      "origen": "santa-rosa",
+      "destino": "antea",
+      "escala": "media",
+      "distancia_km": 8.649,
+      "duracion_libre_min": 10.72
+    },
+    {
+      "ruta_id": 38,
+      "par_id": 19,
+      "origen": "antea",
+      "destino": "santa-rosa",
+      "escala": "media",
+      "distancia_km": 9.59,
+      "duracion_libre_min": 11.24
+    },
+    {
+      "ruta_id": 39,
+      "par_id": 20,
+      "origen": "san-pedro",
+      "destino": "fi-uaq",
+      "escala": "media",
+      "distancia_km": 14.06,
+      "duracion_libre_min": 15.51
+    },
+    {
+      "ruta_id": 40,
+      "par_id": 20,
+      "origen": "fi-uaq",
+      "destino": "san-pedro",
+      "escala": "media",
+      "distancia_km": 12.406,
+      "duracion_libre_min": 15.4
+    },
+    {
+      "ruta_id": 41,
+      "par_id": 21,
+      "origen": "san-pedro",
+      "destino": "carrillo",
+      "escala": "media",
+      "distancia_km": 8.077,
+      "duracion_libre_min": 11.65
+    },
+    {
+      "ruta_id": 42,
+      "par_id": 21,
+      "origen": "carrillo",
+      "destino": "san-pedro",
+      "escala": "media",
+      "distancia_km": 9.016,
+      "duracion_libre_min": 12.9
+    },
+    {
+      "ruta_id": 43,
+      "par_id": 22,
+      "origen": "san-pedro",
+      "destino": "centro",
+      "escala": "media",
+      "distancia_km": 6.844,
+      "duracion_libre_min": 9.12
+    },
+    {
+      "ruta_id": 44,
+      "par_id": 22,
+      "origen": "centro",
+      "destino": "san-pedro",
+      "escala": "media",
+      "distancia_km": 6.614,
+      "duracion_libre_min": 9.72
+    },
+    {
+      "ruta_id": 45,
+      "par_id": 23,
+      "origen": "jurica",
+      "destino": "san-pedro",
+      "escala": "media",
+      "distancia_km": 8.717,
+      "duracion_libre_min": 14.85
+    },
+    {
+      "ruta_id": 46,
+      "par_id": 23,
+      "origen": "san-pedro",
+      "destino": "jurica",
+      "escala": "media",
+      "distancia_km": 8.203,
+      "duracion_libre_min": 13.28
+    },
+    {
+      "ruta_id": 47,
+      "par_id": 24,
+      "origen": "jurica",
+      "destino": "santa-rosa",
+      "escala": "media",
+      "distancia_km": 13.384,
+      "duracion_libre_min": 14.65
+    },
+    {
+      "ruta_id": 48,
+      "par_id": 24,
+      "origen": "santa-rosa",
+      "destino": "jurica",
+      "escala": "media",
+      "distancia_km": 12.514,
+      "duracion_libre_min": 13.12
     }
   ]
 }

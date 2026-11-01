@@ -1371,7 +1371,8 @@ function iniciarGuia(o) {
   const tramos = o.pasos.filter((p) => p.tipo === "camion");
   registrarViaje(o);
   ir("guia");
-  Object.assign(guia, { activa: true, o, tramos, k: 0, camion: tramos[0], fase: "parada", actual: 0, dichos: new Set(), previo: null, velocidad: null });
+  Object.assign(guia, { activa: true, o, tramos, k: 0, camion: tramos[0], fase: "parada", actual: 0, dichos: new Set(), previo: null, velocidad: null,
+    destino: estado.destino, enApp: o.pasos[0].tipo === "app", pie: null });
   dibujar(o);
   mantenerPantalla();
   vibrar([60]);
@@ -1389,7 +1390,23 @@ function iniciarGuia(o) {
   const c = guia.camion;
   decir(inicio.tipo === "app" ? `Pide ${Grieta.nombreApp(inicio.app)} a ${inicio.parada}` : `Camina a ${inicio.parada}`,
     `Ahí tomas la línea ${c.linea} hacia ${c.hacia}, a las ${hora(c.sale)} según el horario.${tramos.length > 1 ? " Después cambias de camión; te aviso." : ""} Te aviso antes de bajar.`, "Hacia la parada");
+  if (!guia.enApp) medirCaminata(estado.gps ?? estado.origen, c.recorrido[0]);
   seguir(avanzarCamion);
+}
+
+// La linea recta engaña cuando hay que rodear: se mide por calles al empezar a caminar
+// y mientras avanzas se estima lo que falta con la misma proporcion.
+function medirCaminata(desde, parada) {
+  guia.pie = null;
+  if (!desde) return;
+  const recta = Math.max(1, Grieta.metros(desde.lat, desde.lon, parada.lat, parada.lon));
+  caminoAPie([desde.lat, desde.lon], [parada.lat, parada.lon]).then((c) => {
+    if (!c || !guia.activa || guia.fase !== "parada") return;
+    guia.pie = { metros: c.metros, recta };
+    const texto = `Son ${distanciaTexto(c.metros)} caminando, unos ${minutosCaminando(c.metros)} minutos.`;
+    $("guiaDetalle").textContent = `${texto} ${$("guiaDetalle").textContent}`;
+    hablar(texto, true);
+  });
 }
 
 // A partir de 3.5 m/s (12.6 km/h) se va en vehiculo: caminando por la avenida de la ruta no cuenta como subirse.
@@ -1410,7 +1427,20 @@ function avanzarCamion(lat, lon, velocidad = 0) {
     // Si ya va por la ruta del camion, lejos de la parada de subida, se subio.
     const masCerca = d.indexOf(Math.min(...d));
     if (masCerca >= 1 && d[masCerca] < 90 && velocidad >= VELOCIDAD_CAMION) subir(masCerca);
-    else if (guia.fase === "parada") $("guiaDetalle").textContent = `La parada está a ${Math.round(d[0])} metros.`;
+    else if (guia.fase === "parada" && !guia.enApp) {
+      // El rodeo pesa menos conforme te acercas: junto a la parada la linea recta ya es casi el camino
+      const rodeo = guia.pie ? 1 + (guia.pie.metros / guia.pie.recta - 1) * Math.min(1, d[0] / guia.pie.recta) : 1;
+      const resta = guia.pie ? Math.max(d[0], d[0] * rodeo) : null;
+      $("guiaDetalle").textContent = resta ? `La parada está a unos ${distanciaTexto(resta)} caminando.` : `La parada está a ${distanciaTexto(d[0])} en línea recta.`;
+    }
+    return;
+  }
+  // Ya abajo del ultimo camion se sigue hasta el destino para decir que llegaste.
+  if (guia.fase === "fin") {
+    const dest = guia.destino;
+    if (dest && Grieta.metros(lat, lon, dest.lat, dest.lon) < 40) {
+      unaVez("destino", () => { vibrar([300, 120, 300, 120, 300]); decir("Llegaste", `Estás en ${dest.nombre}. Toca Terminar viaje cuando quieras.`, "Llegaste"); });
+    }
     return;
   }
   if (guia.fase !== "camion") return;
@@ -1423,16 +1453,17 @@ function avanzarCamion(lat, lon, velocidad = 0) {
       if (!ultimo) {
         // Transbordo: la siguiente linea empieza como una parada nueva.
         const sig = guia.tramos[guia.k + 1];
-        Object.assign(guia, { k: guia.k + 1, camion: sig, fase: "parada", actual: 0 });
+        Object.assign(guia, { k: guia.k + 1, camion: sig, fase: "parada", actual: 0, enApp: false });
         $("yaMeSubi").hidden = false;
         decir("Bájate aquí y cambia de camión", `Camina a ${sig.recorrido[0].nombre} y toma la línea ${sig.linea} hacia ${sig.hacia}, a las ${hora(sig.sale)} según el horario.`, "Transbordo", true);
+        medirCaminata({ lat, lon }, sig.recorrido[0]);
         return;
       }
       guia.fase = "fin";
       guia.actual = r.length - 1;
       $("yaMeSubi").hidden = true;
       const fin = guia.o.pasos.at(-1);
-      decir("Bájate aquí", `${final.nombre}. ${fin.tipo === "caminar" ? `Después camina unos ${Math.max(1, Math.round(fin.min))} minutos a tu destino.` : `Después pide ${Grieta.nombreApp(fin.app)} a tu destino.`}`, "Llegaste", true);
+      decir("Bájate aquí", `${final.nombre}. ${fin.tipo === "caminar" ? `Después camina unos ${Math.max(1, Math.round(fin.min))} minutos a tu destino.` : `Después pide ${Grieta.nombreApp(fin.app)} a tu destino.`}`, "Tu parada", true);
     });
   } else if (faltan === 1) {
     unaVez(clave("una"), () => { vibrar([700, 150, 700]); decir("Bájate en la siguiente parada", `Toca el timbre ahora. Bajas en ${final.nombre}.`, "Próxima parada", true); });

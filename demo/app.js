@@ -304,7 +304,7 @@ function sugerir(texto) {
   const lista = $("resultados");
   const vacio = texto.trim().length < 3;
   $("bloqueRecientes").hidden = !vacio || !recientes.length;
-  $("tituloResultados").textContent = vacio ? (cerca() ? "Cerca de ti" : "Lugares sugeridos") : "Resultados";
+  $("tituloResultados").textContent = vacio ? "Lugares conocidos" : "Resultados";
   $("recientes").innerHTML = recientes.map((l, i) => filaLugar(l, i, "reloj")).join("");
   if (vacio) {
     const c = cerca();
@@ -695,7 +695,11 @@ $("compararPrecio").addEventListener("click", () => {
   titulos.detalle = tituloOpcion(o);
   ir("detalle");
   pintarDetalle();
-  setTimeout(() => { $("hoja").scrollTop = $("tituloComparar").offsetTop - 16; $("appVista").querySelector("button").focus({ preventScroll: true }); }, 150);
+  if (!estado.app) {
+    estado.app = [...estado.r.directo.porApp].sort((a, b) => a.precio - b.precio)[0].app;
+    for (const x of $("appVista").children) x.setAttribute("aria-pressed", String(x.dataset.v === estado.app));
+  }
+  setTimeout(() => { $("hoja").scrollTop = $("tituloComparar").offsetTop - 16; $("precio").focus({ preventScroll: true }); }, 150);
 });
 
 // Inicio de la franja de 3 horas que contiene ese minuto.
@@ -1066,12 +1070,23 @@ function pintarParadas(punto, lista) {
   const aPie = L.polyline([[punto.lat, punto.lon], [lista[0].lat, lista[0].lon]], { color: tono("--tinta"), weight: 3, dashArray: "1 7", lineCap: "round" });
   capas.paradas = L.featureGroup([aPie, ...marcas]).addTo(mapa);
   setTimeout(() => encuadrar(capas.paradas.getBounds()), 120);
-  seguirCalles(aPie).then((c) => {
-    if (!c || !$("distanciaParada")) return;
-    $("distanciaParada").textContent = `Parada más cercana · a ${Math.round(c.metros)} m caminando`;
-    $("caminaParada").textContent = `Camina ${Math.max(1, Math.round(c.metros / 1000 / 4.5 * 60))} min`;
-  });
+  seguirCalles(aPie).then((c) => ponerCaminata(lista[0], c?.metros));
 }
+// La distancia real a pie llega despues que la pantalla: se pone y se dice una sola vez
+function ponerCaminata(p, metros) {
+  if (!$("distanciaParada") || p.dicho) return;
+  if (!metros) return void ($("caminaParada").textContent = p.caminado ? $("caminaParada").textContent : "No pude calcular el camino a pie.");
+  p.caminado = metros;
+  p.dicho = true;
+  $("distanciaParada").textContent = `Parada más cercana · a ${distanciaTexto(metros, true)} caminando`;
+  $("caminaParada").textContent = `Camina ${minutosCaminando(metros)} min`;
+  hablar(`Caminando son ${distanciaTexto(metros)}, unos ${minutosCaminando(metros)} minutos.`, true);
+}
+// 250 metros, 1.2 kilómetros: redondeado como lo diría una persona
+const distanciaTexto = (m, corta = false) => m < 1000
+  ? `${Math.max(10, Math.round(m / 10) * 10)} ${corta ? "m" : "metros"}`
+  : `${(m / 1000).toFixed(1).replace(".0", "")} ${corta ? "km" : "kilómetros"}`;
+const minutosCaminando = (m) => Math.max(1, Math.round(m / 1000 / 4.5 * 60));
 const enCuanto = (min) => { const f = Math.round(min - ahoraMin()); return f <= 0 ? "ya debe pasar" : f < 60 ? `en ${f} min` : `en ${Math.floor(f / 60)} h ${f % 60} min`; };
 $("pasanAqui").addEventListener("click", () => abrirCamiones());
 function abrirCamiones() {
@@ -1101,9 +1116,10 @@ async function ordenarPorCaminata(punto, lista) {
   lista.forEach((x, i) => { if (reales[i]) x.caminado = reales[i].metros; });
   const distancia = (x) => x.caminado ?? x.m * 1.3;
   const orden = [...lista].sort((a, b) => distancia(a) - distancia(b));
-  if (orden[0] === lista[0]) return;
+  if (orden[0] === lista[0]) return ponerCaminata(lista[0], lista[0].caminado);
+  orden[0].dicho = true;
   pintarCamiones(punto, orden, false);
-  hablar(`Caminando, la parada más cercana es ${orden[0].nombre}, a ${Math.round(distancia(orden[0]))} metros.`);
+  hablar(`Caminando, la parada más cercana es ${orden[0].nombre}, a ${distanciaTexto(distancia(orden[0]))}.`);
 }
 
 function pintarCamiones(punto, lista, primera) {
@@ -1115,12 +1131,11 @@ function pintarCamiones(punto, lista, primera) {
     </div></li>`).join("")}</ul>`;
   const p = lista[0];
   pintarParadas(punto, lista);
-  const minCaminar = Math.max(1, Math.round((p.caminado ?? p.m * 1.3) / 1000 / 4.5 * 60));
   caja.innerHTML = `
     <div class="parada-cerca">
-      <p class="etiqueta" id="distanciaParada">Parada más cercana · a ${Math.round(p.caminado ?? p.m)} m${p.caminado ? " caminando" : ""}</p>
+      <p class="etiqueta" id="distanciaParada">Parada más cercana · ${p.caminado ? `a ${distanciaTexto(p.caminado, true)} caminando` : `a ${distanciaTexto(p.m, true)} en línea recta`}</p>
       <p class="parada-nombre">${escapar(cruce(p.nombre))}</p>
-      <p class="nota" id="caminaParada">Camina ${minCaminar} min</p>
+      <p class="nota" id="caminaParada">${p.caminado ? `Camina ${minutosCaminando(p.caminado)} min` : "Calculando el camino a pie..."}</p>
     </div>
     <button id="irParada" type="button" class="boton oscuro">${ico("ruta")}Ver cómo llegar a la parada</button>
     <h2>Próximos camiones</h2>
@@ -1128,10 +1143,10 @@ function pintarCamiones(punto, lista, primera) {
     <h2>Avisos de la parada</h2>
     <div id="avisosParada" class="avisos"><p class="nota">Buscando avisos...</p></div>
     ${lista.length > 1 ? `<details class="otras"><summary>Ver ${lista.length - 1 === 1 ? "otra parada" : `otras ${lista.length - 1} paradas`} cerca${ico("chevron", "chevron")}</summary>
-      ${lista.slice(1).map((x) => `<h3>${escapar(cruce(x.nombre))} <span class="tenue">a ${Math.round(x.caminado ?? x.m)} m${x.caminado ? " caminando" : ""}</span></h3>${filas(x)}`).join("")}</details>` : ""}
+      ${lista.slice(1).map((x) => `<h3>${escapar(cruce(x.nombre))} <span class="tenue">a ${distanciaTexto(x.caminado ?? x.m, true)}${x.caminado ? " caminando" : " en línea recta"}</span></h3>${filas(x)}`).join("")}</details>` : ""}
     <p class="nota pie">Las horas salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse.${avisoVigencia()}</p>`;
   $("irParada").addEventListener("click", () => poner("destino", { nombre: `Parada ${p.nombre}`, lat: p.lat, lon: p.lon }));
-  if (primera) hablar(`La parada más cercana es ${p.nombre}, a ${Math.round(p.m)} metros. ` +
+  if (primera) hablar(`La parada más cercana es ${p.nombre}. ` +
     p.lineas.slice(0, 4).map((l) => `Línea ${l.linea} hacia ${l.hacia}, a las ${hora(l.horas[0])} según el horario.`).join(" "));
   reportesCerca(p.lat, p.lon, 60).then((avisos) => {
     const caja = $("avisosParada");
@@ -1167,9 +1182,15 @@ function dondeEstoy(destino) {
       const p = r.features[0]?.properties ?? {};
       lugar = [p.street ? `${p.street}${p.housenumber ? " " + p.housenumber : ""}` : p.name, p.district ?? p.city].filter(Boolean).join(", ");
     } catch {}
-    const parada = Grieta.pasanAqui(lat, lon, hoyDia(), ahoraMin(), 500)[0];
+    const cercanas = Grieta.pasanAqui(lat, lon, hoyDia(), ahoraMin(), 500).slice(0, 3);
+    const pie = await Promise.all(cercanas.map((x) => caminoAPie([lat, lon], [x.lat, x.lon])));
+    const conPie = cercanas.map((x, i) => ({ ...x, caminado: pie[i]?.metros })).sort((a, b) => (a.caminado ?? a.m * 1.3) - (b.caminado ?? b.m * 1.3));
+    const parada = conPie[0];
+    const cuanto = !parada ? "" : parada.caminado
+      ? `a ${distanciaTexto(parada.caminado)} caminando, unos ${minutosCaminando(parada.caminado)} minutos`
+      : `a unos ${distanciaTexto(parada.m)} en línea recta`;
     const texto = `${lugar ? `Estás en ${lugar}.` : "No encontré el nombre de la calle."} ` +
-      (parada ? `La parada más cercana es ${cruce(parada.nombre)}, a ${Math.round(parada.m)} metros.` : "No hay paradas de Qrobus a menos de 500 metros.");
+      (parada ? `La parada más cercana es ${cruce(parada.nombre)}, ${cuanto}.` : "No hay paradas de Qrobus a menos de 500 metros.");
     contar(texto);
     hablar(texto, false, true);
   }, () => { contar("No pude ver tu ubicación."); hablar("No pude ver tu ubicación.", false, true); }, { enableHighAccuracy: true, timeout: 10000 });
@@ -1236,6 +1257,9 @@ if (Reconocer) {
 const guia = { activa: false };
 
 function ponerTitulo(titulo) {
+  const largo = cruce(titulo).length;
+  $("guiaTitulo").classList.toggle("largo", largo > 26 && largo <= 44);
+  $("guiaTitulo").classList.toggle("muy-largo", largo > 44);
   $("guiaTitulo").innerHTML = escapar(cruce(titulo)).replace(/^Faltan (\d+)/, 'Faltan <span class="num">$1</span>');
 }
 function decir(titulo, detalle, etapa, alerta = false) {
@@ -1249,6 +1273,7 @@ function decir(titulo, detalle, etapa, alerta = false) {
 // Barra con un segmento por parada del recorrido; con mas de 12 se agrupan.
 function pintarGuia() {
   const c = guia.camion;
+  $("yaMeSubi").textContent = c ? `Ya me subí a la ${c.linea}` : "Ya me subí";
   $("guiaBaja").hidden = !c;
   $("barraParadas").hidden = !c;
   if (!c) return;
@@ -1688,7 +1713,7 @@ function radios(id, alElegir) {
 let API = "";
 async function llamar(ruta, opciones = {}) {
   if (!API) throw new Error("sin api");
-  const r = await fetch(`${API}${ruta}`, opciones);
+  const r = await fetch(`${API}${ruta}`, opciones).catch(() => { throw new Error("sin conexion"); });
   if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error ?? "error");
   return r.status === 204 ? null : r.json();
 }
@@ -1805,7 +1830,10 @@ $("enviarReporte").addEventListener("click", async () => {
     $("foto").value = "";
     $("fotoTexto").textContent = "Agregar foto (si quieres)";
   } catch (err) {
-    decirR(err.message === "sin api" ? "No hay conexión con el servidor." : `No se pudo enviar: ${err.message}.`);
+    decirR(["sin api", "sin conexion"].includes(err.message)
+      ? "No se pudo enviar: no hay conexión con Grieta. Revisa tu internet e intenta otra vez."
+      : `No se pudo enviar: ${err.message}.`);
+    $("reporteEstado").scrollIntoView({ block: "nearest" });
   } finally {
     $("enviarReporte").disabled = false;
   }
@@ -1824,7 +1852,9 @@ $("enviarPrecio").addEventListener("click", async () => {
     $("gracias").textContent = "Gracias: con tu precio Grieta calcula mejor.";
     $("enviarPrecio").hidden = true;
   } catch (err) {
-    $("gracias").textContent = err.message === "sin api" ? "No hay conexión con el servidor." : `No se pudo enviar: ${err.message}.`;
+    $("gracias").textContent = ["sin api", "sin conexion"].includes(err.message)
+      ? "No se pudo enviar: no hay conexión con Grieta. Revisa tu internet e intenta otra vez."
+      : `No se pudo enviar: ${err.message}.`;
   }
 });
 

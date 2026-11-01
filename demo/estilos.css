@@ -145,23 +145,22 @@ input[type="search"]::-webkit-search-cancel-button { display: none; }
 input[type="number"] { appearance: textfield; }
 input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 /* Tus lugares: fichas grandes con icono, lo que mas se repite a un toque */
-.lugares { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.lugar { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 12px; min-height: 96px;
-  padding: 14px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); text-align: left; }
-.lugar strong { font-weight: 700; font-size: 1.02rem; line-height: 1.2; overflow-wrap: anywhere; }
-.lugar .circulo { width: 46px; height: 46px; background: color-mix(in srgb, var(--ambar) 16%, var(--superficie)); border: none; }
-.lugar .circulo .icono { width: 26px; height: 26px; }
-.lugar.nuevo { background: transparent; border-style: dashed; color: var(--tenue); }
-.lugar.nuevo .circulo { background: var(--superficie); color: var(--tenue); }
+.lugares { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px 12px; }
+.lugar { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 0; border-radius: 18px; text-align: center; }
+/* Ficha de color con esquinas escalonadas: un sello propio, como las de un sistema de transporte */
+.lugar-icono { width: 100%; max-width: 86px; aspect-ratio: 1; display: grid; place-items: center; color: #fff; background: var(--tono, #555);
+  clip-path: polygon(10% 0, 90% 0, 90% 5%, 95% 5%, 95% 10%, 100% 10%, 100% 90%, 95% 90%, 95% 95%, 90% 95%, 90% 100%, 10% 100%,
+    10% 95%, 5% 95%, 5% 90%, 0 90%, 0 10%, 5% 10%, 5% 5%, 10% 5%); }
+.lugar-icono .icono { width: 46%; height: 46%; stroke-width: 2.3; }
+.lugar-nombre { font-size: 0.8rem; font-weight: 600; line-height: 1.15; color: var(--tinta); overflow-wrap: anywhere; }
+.lugar:active .lugar-icono { transform: scale(0.94); }
+.lugar.nuevo .lugar-icono { background: transparent; color: var(--tenue); clip-path: none; border: 2px dashed var(--linea); border-radius: 22%; }
+.lugar.nuevo .lugar-nombre { color: var(--tenue); }
+/* Un color por lugar; todos con contraste de 4.5:1 o mas contra el icono blanco */
+.tono-verde { --tono: #1b7f3b; } .tono-azul { --tono: #1d5fc0; } .tono-naranja { --tono: #c2560b; } .tono-rojo { --tono: #c8102e; }
+.tono-cian { --tono: #0a7396; } .tono-morado { --tono: #7a3db3; } .tono-lima { --tono: #4a7d10; } .tono-rosa { --tono: #b01f72; }
+html.contraste .lugar-icono { outline: 2px solid #fff; outline-offset: -4px; }
 .seccion { margin-top: 26px; }
-.atajos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.atajo {
-  display: flex; align-items: center; gap: 10px; min-height: 64px; padding: 10px 12px;
-  border-radius: var(--radio); border: 1px solid var(--linea); background: var(--superficie);
-}
-.atajo strong { font-weight: 700; line-height: 1.2; font-size: 0.92rem; text-align: left; }
-.atajo .circulo { width: 38px; height: 38px; }
-.atajo .icono { width: 26px; height: 26px; }
 .respuesta:not(:empty) { margin-top: 16px; padding: 14px 16px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); }
 .desde { display: flex; align-items: center; gap: 8px; margin-top: 6px; font-size: 0.88rem; color: var(--tenue); }
 .desde .icono { width: 18px; height: 18px; }
@@ -594,9 +593,9 @@ html.grande .campo-y-boton .boton { flex: 1 0 100%; }
 .a-pie .icono { width: 30px; height: 30px; color: var(--ambar); }
 .a-pie strong { font-weight: 700; }
 
-/* Con letra grande, tus lugares y los atajos en una sola columna: mas espacio para tocar y leer */
-html.grande .lugares, html.grande .atajos { grid-template-columns: 1fr; }
-html.grande .lugar { flex-direction: row; align-items: center; justify-content: flex-start; min-height: 72px; }
+/* Con letra grande, las fichas en tres columnas para que crezcan */
+html.grande .lugares { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+html.grande .lugar-nombre, html.facil .lugar-nombre { font-size: 0.95rem; }
 .voz-lugares { display: contents; }
 
 /* En la parada: avisar a los demas si ya paso o viene lleno */
@@ -610,8 +609,14 @@ html.grande .lugar { flex-direction: row; align-items: center; justify-content: 
 
 /* Modo facil: solo lo esencial. Fuera lo secundario y todo en una columna con botones grandes */
 html.facil { font-size: 19px; --toque: 56px; }
-html.facil .lugares, html.facil .atajos { grid-template-columns: 1fr; }
-html.facil .lugar { flex-direction: row; align-items: center; justify-content: flex-start; min-height: 72px; }
+html.facil .lugares { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 html.facil #invitaPerfil, html.facil #bloqueViajes, html.facil #rutina,
 html.facil #compararPrecio, html.facil .plegable, html.facil #filaUnidos, html.facil #resumenRuta,
 html.facil #tarjetas > :not(:first-child) { display: none !important; }
+
+/* Modo facil: decir a donde vas es el boton principal, grande y arriba */
+html:not(.facil) .dictar-grande { display: none !important; }
+.dictar-grande { gap: 12px; margin-top: 14px; min-height: 64px; font-size: 1.1rem; }
+.dictar-grande .icono { width: 26px; height: 26px; }
+.dictar-grande.oyendo { outline: 3px solid var(--tinta); outline-offset: 2px; }
+html.facil .buscador .dictar { display: none !important; }

@@ -1778,6 +1778,9 @@ function iconoLugar(nombre) {
   if (/hospital|clinica|imss|issste|doctor|medic/.test(n)) return "hospital";
   return "pin";
 }
+// Cada tipo de lugar con su color, como en un sistema de transporte; los demas toman uno del resto
+const TONOS = { casa: "tono-verde", escuela: "tono-azul", maletin: "tono-naranja", hospital: "tono-rojo" };
+const tonoLugar = (nombre, i) => TONOS[iconoLugar(nombre)] ?? ["tono-rosa", "tono-lima", "tono-cian", "tono-morado"][i % 4];
 function pintarGuardados() {
   // Casa siempre primero: es el viaje que mas se repite.
   guardados.sort((a, b) => (b.nombre === "Casa") - (a.nombre === "Casa"));
@@ -1786,12 +1789,11 @@ function pintarGuardados() {
   $("vozLugares").innerHTML = guardados.filter((g) => g.nombre !== "Casa").slice(0, 3).map((g) =>
     `<button type="button" class="boton-voz" data-i="${guardados.indexOf(g)}">${ico(iconoLugar(g.nombre))}Ir a ${escapar(g.nombre)}</button>`).join("");
   // Tus lugares como fichas grandes; si falta la casa, su ficha invita a agregarla.
-  const fichas = guardados.map((g, i) => `<button type="button" class="lugar" data-i="${i}" aria-label="Ir a ${escapar(g.nombre)}">
-    <span class="circulo">${ico(iconoLugar(g.nombre))}</span><strong>${escapar(g.nombre)}</strong></button>`);
-  if (!guardados.some((g) => g.nombre === "Casa")) fichas.push(`<button type="button" class="lugar nuevo" data-nuevo="Casa">
-    <span class="circulo">${ico("casa")}</span><strong>Agregar casa</strong></button>`);
-  if (guardados.length < 6) fichas.push(`<button type="button" class="lugar nuevo" data-nuevo="">
-    <span class="circulo">${ico("mas")}</span><strong>Agregar lugar</strong></button>`);
+  const ficha = (attrs, clase, icono, nombre) => `<button type="button" class="lugar ${clase}" ${attrs}>
+    <span class="lugar-icono">${ico(icono)}</span><span class="lugar-nombre">${escapar(nombre)}</span></button>`;
+  const fichas = guardados.map((g, i) => ficha(`data-i="${i}" aria-label="Ir a ${escapar(g.nombre)}"`, tonoLugar(g.nombre, i), iconoLugar(g.nombre), g.nombre));
+  if (!guardados.some((g) => g.nombre === "Casa")) fichas.push(ficha('data-nuevo="Casa"', "nuevo", "casa", "Agregar casa"));
+  if (guardados.length < 6) fichas.push(ficha('data-nuevo=""', "nuevo", "mas", "Agregar"));
   $("guardados").innerHTML = fichas.join("");
   $("editarGuardados").hidden = !guardados.length;
   $("editarGuardados").textContent = editando ? "Listo" : "Editar";
@@ -2093,7 +2095,7 @@ const PASOS_VOZ = {
   tarifa: "3 de 3. ¿Pagas Tarifa Unidos, el pasaje de 2 pesos para estudiantes, mayores de 60 y personas con discapacidad? Arriba, sí. Abajo, no.",
 };
 // Orden de la bienvenida; la pregunta del lector de pantalla solo aparece para quien no ve.
-const ordenPasos = () => ["vista", ...(acc.modoVoz ? ["lector"] : []), "ubicacion", "movilidad", "oido", "tarifa"];
+const ordenPasos = () => ["vista", ...(acc.modoVoz ? ["lector"] : ["forma"]), "ubicacion", "movilidad", "oido", "tarifa"];
 let pasoActual = "vista";
 function irPaso(p) {
   pasoActual = p;
@@ -2118,7 +2120,16 @@ document.querySelector('#bienvenida [data-paso="vista"]').addEventListener("clic
   Object.assign(acc, { modoVoz: v === "voz", grande: v !== "vista", contraste: v === "poco", voz: true });
   guardarAcc();
   aplicarAcc();
-  irPaso(v === "voz" ? "lector" : "ubicacion");
+  irPaso(v === "voz" ? "lector" : "forma");
+});
+// Completa o fácil: quien ve elige cuánto quiere en pantalla; quien no ve ya va al modo de voz
+document.querySelector('#bienvenida [data-paso="forma"]').addEventListener("click", (e) => {
+  const b = e.target.closest("[data-forma]");
+  if (!b) return;
+  acc.facil = b.dataset.forma === "facil";
+  guardarAcc();
+  aplicarAcc();
+  irPaso("ubicacion");
 });
 document.querySelector('#bienvenida [data-paso="lector"]').addEventListener("click", (e) => {
   const b = e.target.closest("[data-lector]");
@@ -2197,6 +2208,7 @@ const EFECTOS = {
   perfilMovilidad: { normal: "Te busco la parada que más te convenga.", poco: "Te busco paradas más cerca.", silla: "Paradas cerca, y te aviso si reportaron que no tienen rampa." },
   perfilOido: { bien: "Durante el viaje te aviso con voz.", poco: "Avisos en pantalla grande y con vibración, sin voz." },
   perfilTarifa: { si: "Calculo el camión a $2 y el transbordo gratis.", no: "Calculo el camión con la tarifa normal." },
+  perfilForma: { completa: "Precios, horarios, comparar y esperar.", facil: "Solo lo esencial, con botones grandes." },
 };
 const efecto = (grupo, v) => { $(`${grupo}Efecto`).textContent = EFECTOS[grupo][v] ?? ""; };
 const cambiarPerfil = (cambio) => {
@@ -2226,6 +2238,10 @@ const marcarOido = radios("perfilOido", (v) => cambiarPerfil(() => {
   acc.oido = v;
   acc.voz = v === "bien" && !(acc.modoVoz && acc.lector === "si");
 }));
+const marcarForma = radios("perfilForma", (v) => cambiarPerfil(() => {
+  efecto("perfilForma", v);
+  acc.facil = v === "facil";
+}));
 const marcarTarifa = radios("perfilTarifa", (v) => cambiarPerfil(() => {
   efecto("perfilTarifa", v);
   acc.unidos = v === "si";
@@ -2242,6 +2258,9 @@ function abrirPerfil() {
   efecto("perfilMovilidad", acc.movilidad ?? (acc.camino ? "poco" : "normal"));
   efecto("perfilOido", acc.oido ?? "bien");
   efecto("perfilTarifa", acc.unidos ? "si" : "no");
+  marcarForma(acc.facil ? "facil" : "completa");
+  efecto("perfilForma", acc.facil ? "facil" : "completa");
+  $("preguntaForma").hidden = acc.modoVoz;
   ir("perfil");
 }
 $("abrirPerfil").addEventListener("click", abrirPerfil);

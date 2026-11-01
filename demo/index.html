@@ -44,6 +44,8 @@
       <symbol id="i-escuela" viewBox="0 0 24 24"><path d="M2 9.5 12 5l10 4.5-10 4.5z"/><path d="M6.5 11.5V16c0 1.5 2.5 3 5.5 3s5.5-1.5 5.5-3v-4.5M21.5 9.5v5"/></symbol>
       <symbol id="i-maletin" viewBox="0 0 24 24"><rect x="3" y="7.5" width="18" height="12" rx="2"/><path d="M9 7.5v-2A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5v2M3 12.5h18"/></symbol>
       <symbol id="i-hospital" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/></symbol>
+      <symbol id="i-lista" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.01M4.5 12h.01M4.5 18h.01" stroke-width="3"/></symbol>
+      <symbol id="i-boton" viewBox="0 0 24 24"><rect x="3.5" y="6.5" width="17" height="11" rx="3.5"/><path d="M8.5 12h7"/></symbol>
       <symbol id="i-mas" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
       <symbol id="i-ojo" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
       <symbol id="i-letra" viewBox="0 0 24 24"><path d="M2.5 18 7.5 6l5 12M4.5 13.5h6"/><circle cx="17.5" cy="15" r="3"/><path d="M20.5 12v6"/></symbol>
@@ -87,6 +89,15 @@
         <div class="vista-opciones">
           <button type="button" class="opcion-vista" data-lector="si"><strong>Sí, ya uso uno</strong><small>Grieta no habla encima de él</small></button>
           <button type="button" class="opcion-vista ciego" data-lector="no"><strong>No</strong><small>Grieta te lo dice en voz alta</small></button>
+        </div>
+      </div>
+      <div data-paso="forma" class="paso" hidden>
+        <button type="button" class="enlace regresar">Regresar</button>
+        <h1 tabindex="-1">¿Cómo quieres ver Grieta?</h1>
+        <p class="texto">Lo puedes cambiar después en tu perfil.</p>
+        <div class="vista-opciones">
+          <button type="button" class="opcion-vista con-icono" data-forma="completa"><svg class="icono"><use href="#i-lista"/></svg><span><strong>Completa</strong><small>Precios, horarios, comparar y esperar</small></span></button>
+          <button type="button" class="opcion-vista con-icono" data-forma="facil"><svg class="icono"><use href="#i-boton"/></svg><span><strong>Fácil</strong><small>Solo lo esencial, con botones grandes</small></span></button>
         </div>
       </div>
       <div data-paso="ubicacion" class="paso" hidden>
@@ -161,6 +172,7 @@
         <button id="abrirBuscar" type="button" class="buscador-campo">Busca un lugar</button>
         <button type="button" class="mic dictar" aria-label="Dictar a dónde vas" hidden><svg class="icono"><use href="#i-microfono"/></svg><span>Dictar</span></button>
       </div>
+      <button type="button" class="boton dictar dictar-grande" aria-label="Decir a dónde voy" hidden><svg class="icono"><use href="#i-microfono"/></svg><span>Decir a dónde voy</span></button>
       <p class="desde"><svg class="icono ambar"><use href="#i-localizar"/></svg><span id="desdeTexto">Buscando tu ubicación...</span><button id="cambiarDesde" type="button" class="enlace">Cambiar</button></p>
       <button id="rutina" type="button" class="sugerencia" hidden>
         <svg class="icono"><use href="#i-reloj"/></svg>
@@ -169,14 +181,12 @@
       <h2 id="tituloLugares" class="seccion">Tus lugares</h2>
       <div id="guardados" class="lugares" role="group" aria-labelledby="tituloLugares"></div>
       <h2 id="tituloAtajos" class="seccion">Aquí cerca</h2>
-      <div class="atajos" role="group" aria-labelledby="tituloAtajos">
-        <button id="pasanAqui" type="button" class="atajo">
-          <span class="circulo"><svg class="icono"><use href="#i-camion"/></svg></span>
-          <strong>¿Qué camión pasa aquí?</strong>
+      <div class="lugares" role="group" aria-labelledby="tituloAtajos">
+        <button id="pasanAqui" type="button" class="lugar tono-morado" aria-label="¿Qué camión pasa aquí?">
+          <span class="lugar-icono"><svg class="icono"><use href="#i-camion"/></svg></span><span class="lugar-nombre">Camiones aquí</span>
         </button>
-        <button id="dondeEstoy" type="button" class="atajo">
-          <span class="circulo"><svg class="icono"><use href="#i-localizar"/></svg></span>
-          <strong>¿Dónde estoy?</strong>
+        <button id="dondeEstoy" type="button" class="lugar tono-cian" aria-label="¿Dónde estoy?">
+          <span class="lugar-icono"><svg class="icono"><use href="#i-localizar"/></svg></span><span class="lugar-nombre">Dónde estoy</span>
         </button>
       </div>
       <div id="respuesta" class="respuesta" aria-live="polite"></div>
@@ -410,6 +420,14 @@
         </div>
         <p id="perfilLectorOpcionesEfecto" class="efecto"></p>
         </div>
+      </div>
+      <div id="preguntaForma" class="pregunta">
+        <h2 id="pForma">¿Cómo quieres ver Grieta?</h2>
+        <div id="perfilForma" class="fichas dos" role="radiogroup" aria-labelledby="pForma" aria-describedby="perfilFormaEfecto">
+          <button type="button" role="radio" aria-checked="false" data-v="completa" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-lista"/></svg><span>Completa</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+          <button type="button" role="radio" aria-checked="false" data-v="facil" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-boton"/></svg><span>Fácil</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+        </div>
+        <p id="perfilFormaEfecto" class="efecto"></p>
       </div>
       <div class="pregunta">
         <h2 id="pMovilidad">¿Cómo te mueves?</h2>

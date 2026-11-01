@@ -103,7 +103,7 @@ html.claro.contraste .leaflet-tile-pane { filter: grayscale(1) contrast(1.35); }
   background: var(--fondo); padding: 10px 16px 32px;
 }
 body.con-mapa .hoja { margin-top: -18px; padding-top: 22px; border-radius: 20px 20px 0 0; border-top: 1px solid var(--linea); }
-body:not(.con-mapa) .hoja { padding-top: max(20px, env(safe-area-inset-top)); }
+body:not(.con-mapa) .hoja { padding-top: max(20px, calc(env(safe-area-inset-top) + 10px)); }
 body:has(#encabezado:not([hidden])):not(.con-mapa) .hoja { padding-top: 18px; }
 .pantalla { max-width: 560px; margin: 0 auto; }
 .estado:empty { display: none; }
@@ -633,3 +633,7 @@ html.facil .buscador .dictar { display: none !important; }
 .dos-botones .picto, #avisarFamiliar .picto { width: 22px; height: 22px; }
 .dictar-grande .picto { width: 28px; height: 28px; }
 .circulo .picto { width: 22px; height: 22px; }
+
+/* En iPhone la barra de estado va encima de la app y su texto es blanco: en tema claro se le pone una franja
+   oscura detras para que la hora y la bateria se lean */
+html.claro body::before { content: ""; position: fixed; top: 0; left: 0; right: 0; height: env(safe-area-inset-top, 0px); background: #0b0a09; z-index: 1000; pointer-events: none; }

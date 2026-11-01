@@ -476,6 +476,43 @@ html.modo-voz .boton-perfil { display: none; }
 .filas-opcion .fila-texto strong { font-weight: inherit; }
 #perfil .boton { margin-top: 24px; }
 
+/* Perfil: arriba la persona en una frase, abajo fichas con icono para cada respuesta */
+.perfil-hero { display: flex; align-items: center; gap: 16px; padding: 18px; border-radius: var(--radio);
+  background: color-mix(in srgb, var(--ambar) 14%, var(--superficie)); border: 1px solid color-mix(in srgb, var(--ambar) 35%, transparent); }
+.avatar { flex: none; width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: var(--ambar); color: var(--sobre-ambar); }
+.avatar .icono { width: 36px; height: 36px; }
+.avatar.chico { width: 44px; height: 44px; }
+.avatar.chico .icono { width: 26px; height: 26px; }
+.perfil-titulo { margin: 0; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ambar); }
+.perfil-frase { margin: 4px 0 0; font-size: 1.1rem; font-weight: 700; line-height: 1.35; }
+.perfil-nota { margin-top: 12px; color: var(--tenue); font-size: 0.9rem; }
+.fichas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.fichas.dos { grid-template-columns: repeat(2, 1fr); }
+.ficha { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  min-height: 104px; padding: 14px 8px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea);
+  text-align: center; font-weight: 600; line-height: 1.2; }
+.ficha .icono { width: 32px; height: 32px; color: var(--ambar); }
+.ficha .marca { position: absolute; top: 7px; right: 7px; width: 18px; height: 18px; stroke-width: 3; opacity: 0; }
+.ficha[aria-checked="true"] { background: var(--ambar); border-color: var(--ambar); color: var(--sobre-ambar); font-weight: 700; }
+.ficha[aria-checked="true"] .icono { color: var(--sobre-ambar); }
+.ficha[aria-checked="true"] .marca { opacity: 1; }
+.ficha:focus-visible { outline-offset: 3px; }
+.efecto { margin: 8px 2px 0; min-height: 1.3em; color: var(--tenue); font-size: 0.9rem; }
+html.grande .fichas { grid-template-columns: 1fr; }
+html.grande .ficha { flex-direction: row; justify-content: flex-start; gap: 14px; min-height: var(--toque); padding: 12px 16px; text-align: left; }
+html.grande .ficha .marca { position: static; margin-left: auto; }
+/* Al elegir, la ficha y el avatar dan un saltito */
+@keyframes saltito { 40% { transform: scale(1.06); } }
+.ficha.salta, .avatar.salta { animation: saltito 260ms ease-out; }
+
+/* Bienvenida: preguntas del perfil con icono y barra de avance */
+.opcion-vista.con-icono { flex-direction: row; align-items: center; justify-content: flex-start; gap: 16px; text-align: left; }
+.opcion-vista.con-icono .icono { margin: 0; color: var(--ambar); }
+.opcion-vista.con-icono span { display: flex; flex-direction: column; gap: 4px; }
+.avance { display: flex; gap: 6px; margin: 4px 0 12px; }
+.avance i { flex: 1; height: 5px; border-radius: 3px; background: var(--linea); }
+.avance i.lleno { background: var(--ambar); }
+
 /* Movimiento suave: cada pantalla entra con una transicion corta y los botones responden al toque.
    La regla de prefers-reduced-motion de arriba los apaga para quien lo pidio en su telefono. */
 @keyframes entrar { from { opacity: 0; transform: translateY(8px); } }

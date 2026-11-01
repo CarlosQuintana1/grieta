@@ -1657,6 +1657,9 @@ function radios(id, alElegir) {
       x.setAttribute("aria-checked", String(x === b));
       x.tabIndex = x === b ? 0 : -1;
     }
+    b.classList.remove("salta");
+    void b.offsetWidth;
+    b.classList.add("salta");
     alElegir(b.dataset.v);
   };
   grupo.addEventListener("click", (e) => {
@@ -1909,16 +1912,36 @@ $("bienvenida").addEventListener("click", (e) => {
 function vistaActual() {
   return acc.modoVoz ? "voz" : acc.grande && acc.contraste ? "poco" : "vista";
 }
+// El perfil dicho como una frase: se lee mejor que una lista de opciones
+function frasePerfil() {
+  const vista = { vista: "Ves bien", poco: "Ves poco", voz: "No ves" }[vistaActual()];
+  const movilidad = { normal: "caminas sin problema", poco: "te cuesta caminar", silla: "usas silla de ruedas o andadera" }[acc.movilidad ?? "normal"];
+  const oido = acc.oido === "poco" ? "te cuesta escuchar" : "escuchas bien";
+  return `${vista}, ${movilidad} y ${oido}.${acc.unidos ? " Pagas Tarifa Unidos." : ""}`;
+}
 function pintarResumenPerfil() {
   if (!$("textoPerfil")) return;
-  const partes = [
-    { vista: "Veo bien", poco: "Veo poco", voz: "No veo" }[vistaActual()],
-    { normal: "Camino sin problema", poco: "Me cuesta caminar", silla: "Silla de ruedas o andadera" }[acc.movilidad ?? "normal"],
-  ];
-  if (acc.oido === "poco") partes.push("Avisos sin voz");
-  if (acc.unidos) partes.push("Tarifa Unidos");
-  $("textoPerfil").textContent = partes.join(" · ");
+  const frase = frasePerfil();
+  const icono = `#i-${{ normal: "caminar", poco: "baston", silla: "silla" }[acc.movilidad ?? "normal"]}`;
+  $("textoPerfil").textContent = frase;
+  $("ajustesAvatar").setAttribute("href", icono);
+  if ($("perfilFrase").textContent === frase) return;
+  $("perfilFrase").textContent = frase;
+  $("perfilAvatar").setAttribute("href", icono);
+  const avatar = document.querySelector(".perfil-hero .avatar");
+  avatar.classList.remove("salta");
+  void avatar.offsetWidth;
+  avatar.classList.add("salta");
 }
+// Lo que cambia cada respuesta, abajo de su pregunta
+const EFECTOS = {
+  perfilVista: { vista: "Mapa y letra normal.", poco: "Letra grande y más contraste.", voz: "Pocos botones, muy grandes, y Grieta te dice todo en voz alta." },
+  perfilLectorOpciones: { si: "Grieta no habla encima de tu lector.", no: "Grieta te lee todo en voz alta." },
+  perfilMovilidad: { normal: "Te busco la parada que más te convenga.", poco: "Te busco paradas más cerca.", silla: "Paradas cerca, y te aviso si reportaron que no tienen rampa." },
+  perfilOido: { bien: "Durante el viaje te aviso con voz.", poco: "Avisos en pantalla grande y con vibración, sin voz." },
+  perfilTarifa: { si: "Calculo el camión a $2 y el transbordo gratis.", no: "Calculo el camión con la tarifa normal." },
+};
+const efecto = (grupo, v) => { $(`${grupo}Efecto`).textContent = EFECTOS[grupo][v] ?? ""; };
 const cambiarPerfil = (cambio) => {
   cambio();
   guardarAcc();
@@ -1926,17 +1949,30 @@ const cambiarPerfil = (cambio) => {
   calcular();
 };
 const marcarVista = radios("perfilVista", (v) => cambiarPerfil(() => {
+  efecto("perfilVista", v);
   Object.assign(acc, { modoVoz: v === "voz", grande: v !== "vista", contraste: v === "poco" });
   if (v === "voz") acc.voz = acc.lector !== "si";
   $("perfilLector").hidden = v !== "voz";
 }));
-const marcarLector = radios("perfilLectorOpciones", (v) => cambiarPerfil(() => { acc.lector = v; acc.voz = v === "no"; }));
-const marcarMovilidad = radios("perfilMovilidad", (v) => cambiarPerfil(() => { acc.movilidad = v; acc.camino = v !== "normal"; }));
+const marcarLector = radios("perfilLectorOpciones", (v) => cambiarPerfil(() => {
+  efecto("perfilLectorOpciones", v);
+  acc.lector = v;
+  acc.voz = v === "no";
+}));
+const marcarMovilidad = radios("perfilMovilidad", (v) => cambiarPerfil(() => {
+  efecto("perfilMovilidad", v);
+  acc.movilidad = v;
+  acc.camino = v !== "normal";
+}));
 const marcarOido = radios("perfilOido", (v) => cambiarPerfil(() => {
+  efecto("perfilOido", v);
   acc.oido = v;
   acc.voz = v === "bien" && !(acc.modoVoz && acc.lector === "si");
 }));
-const marcarTarifa = radios("perfilTarifa", (v) => cambiarPerfil(() => { acc.unidos = v === "si"; }));
+const marcarTarifa = radios("perfilTarifa", (v) => cambiarPerfil(() => {
+  efecto("perfilTarifa", v);
+  acc.unidos = v === "si";
+}));
 function abrirPerfil() {
   marcarVista(vistaActual());
   marcarLector(acc.modoVoz ? acc.lector : null);
@@ -1944,6 +1980,11 @@ function abrirPerfil() {
   marcarOido(acc.oido ?? "bien");
   marcarTarifa(acc.unidos ? "si" : "no");
   $("perfilLector").hidden = !acc.modoVoz;
+  efecto("perfilVista", vistaActual());
+  efecto("perfilLectorOpciones", acc.lector);
+  efecto("perfilMovilidad", acc.movilidad ?? (acc.camino ? "poco" : "normal"));
+  efecto("perfilOido", acc.oido ?? "bien");
+  efecto("perfilTarifa", acc.unidos ? "si" : "no");
   ir("perfil");
 }
 $("abrirPerfil").addEventListener("click", abrirPerfil);

@@ -41,6 +41,13 @@
       <symbol id="i-telefono" viewBox="0 0 24 24"><path d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4.5 5.5a2 2 0 0 1 2-2z"/></symbol>
       <symbol id="i-persona" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></symbol>
       <symbol id="i-palomita" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+      <symbol id="i-ojo" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+      <symbol id="i-letra" viewBox="0 0 24 24"><path d="M2.5 18 7.5 6l5 12M4.5 13.5h6"/><circle cx="17.5" cy="15" r="3"/><path d="M20.5 12v6"/></symbol>
+      <symbol id="i-caminar" viewBox="0 0 24 24"><circle cx="13" cy="4.5" r="2"/><path d="M8 21l3-7 3 2.5V21"/><path d="M11 14l1-5.5-3.5 2L7 13.5"/><path d="M12 8.5l2.5 3 3 1"/></symbol>
+      <symbol id="i-baston" viewBox="0 0 24 24"><circle cx="11" cy="4.5" r="2"/><path d="M7 21l3-7 2.5 2.5V21"/><path d="M10 14l1-5.5-3 2L6.5 13"/><path d="M11 8.5l2.5 3H16"/><path d="M17 11.5V21"/></symbol>
+      <symbol id="i-silla" viewBox="0 0 24 24"><circle cx="11" cy="4" r="2"/><path d="M11 7.5V14h5.5l2 5"/><path d="M11 10.5h4.5"/><path d="M8 10.5a5.5 5.5 0 1 0 7.8 6.2"/></symbol>
+      <symbol id="i-vibrar" viewBox="0 0 24 24"><rect x="8" y="3.5" width="8" height="17" rx="2"/><path d="M11 17.5h2"/><path d="M4.5 8.5v7M19.5 8.5v7M2 10.5v3M22 10.5v3"/></symbol>
+      <symbol id="i-boleto" viewBox="0 0 24 24"><path d="M3 7h18v3.2a1.8 1.8 0 0 0 0 3.6V17H3v-3.2a1.8 1.8 0 0 0 0-3.6z"/><path d="M15 7.5v1.5M15 11.25v1.5M15 15v1.5"/></symbol>
     </defs>
   </svg>
 
@@ -90,35 +97,38 @@
       </div>
       <div data-paso="movilidad" class="paso" hidden>
         <button type="button" class="enlace regresar">Regresar</button>
+        <div class="avance" aria-hidden="true"><i class="lleno"></i><i></i><i></i></div>
         <p class="etiqueta">Tu perfil · 1 de 3</p>
         <h1 tabindex="-1">¿Cómo te mueves?</h1>
         <p class="texto">Así Grieta te busca paradas a tu medida.</p>
         <div class="vista-opciones">
-          <button type="button" class="opcion-vista" data-movilidad="normal"><strong>Camino sin problema</strong></button>
-          <button type="button" class="opcion-vista" data-movilidad="poco"><strong>Me cuesta caminar</strong><small>Paradas más cerca</small></button>
-          <button type="button" class="opcion-vista" data-movilidad="silla"><strong>Uso silla de ruedas o andadera</strong><small>Te aviso si una parada no tiene rampa</small></button>
+          <button type="button" class="opcion-vista con-icono" data-movilidad="normal"><svg class="icono"><use href="#i-caminar"/></svg><span><strong>Camino sin problema</strong></span></button>
+          <button type="button" class="opcion-vista con-icono" data-movilidad="poco"><svg class="icono"><use href="#i-baston"/></svg><span><strong>Me cuesta caminar</strong><small>Paradas más cerca</small></span></button>
+          <button type="button" class="opcion-vista con-icono" data-movilidad="silla"><svg class="icono"><use href="#i-silla"/></svg><span><strong>Uso silla de ruedas o andadera</strong><small>Te aviso si una parada no tiene rampa</small></span></button>
         </div>
         <button type="button" class="enlace saltar">Saltar estas preguntas</button>
       </div>
       <div data-paso="oido" class="paso" hidden>
         <button type="button" class="enlace regresar">Regresar</button>
+        <div class="avance" aria-hidden="true"><i class="lleno"></i><i class="lleno"></i><i></i></div>
         <p class="etiqueta">Tu perfil · 2 de 3</p>
         <h1 tabindex="-1">¿Escuchas bien los avisos?</h1>
         <p class="texto">Durante el viaje Grieta te avisa cuándo pasa tu camión y cuándo bajarte.</p>
         <div class="vista-opciones">
-          <button type="button" class="opcion-vista" data-oido="bien"><strong>Sí, escucho bien</strong><small>Avisos con voz</small></button>
-          <button type="button" class="opcion-vista" data-oido="poco"><strong>Me cuesta escuchar</strong><small>Avisos en pantalla grande y con vibración</small></button>
+          <button type="button" class="opcion-vista con-icono" data-oido="bien"><svg class="icono"><use href="#i-altavoz"/></svg><span><strong>Sí, escucho bien</strong><small>Avisos con voz</small></span></button>
+          <button type="button" class="opcion-vista con-icono" data-oido="poco"><svg class="icono"><use href="#i-vibrar"/></svg><span><strong>Me cuesta escuchar</strong><small>Avisos en pantalla grande y con vibración</small></span></button>
         </div>
         <button type="button" class="enlace saltar">Saltar estas preguntas</button>
       </div>
       <div data-paso="tarifa" class="paso" hidden>
         <button type="button" class="enlace regresar">Regresar</button>
+        <div class="avance" aria-hidden="true"><i class="lleno"></i><i class="lleno"></i><i class="lleno"></i></div>
         <p class="etiqueta">Tu perfil · 3 de 3</p>
         <h1 tabindex="-1">¿Pagas Tarifa Unidos?</h1>
         <p class="texto">Con ella el camión te cuesta $2 y el transbordo es gratis.</p>
         <div class="vista-opciones">
-          <button type="button" class="opcion-vista" data-tarifa="si"><strong>Sí</strong><small>Estudiante, mayor de 60 o persona con discapacidad</small></button>
-          <button type="button" class="opcion-vista" data-tarifa="no"><strong>No, pago la tarifa normal</strong></button>
+          <button type="button" class="opcion-vista con-icono" data-tarifa="si"><svg class="icono"><use href="#i-boleto"/></svg><span><strong>Sí</strong><small>Estudiante, mayor de 60 o persona con discapacidad</small></span></button>
+          <button type="button" class="opcion-vista con-icono" data-tarifa="no"><svg class="icono"><use href="#i-camion"/></svg><span><strong>No, pago la tarifa normal</strong></span></button>
         </div>
         <button type="button" class="enlace saltar">Saltar estas preguntas</button>
       </div>
@@ -353,43 +363,55 @@
     </section>
 
     <section id="perfil" class="pantalla" aria-labelledby="tituloPantalla" hidden>
-      <p class="texto">Contesta lo que quieras: Grieta ajusta las rutas y los avisos. Se guarda solo en este teléfono.</p>
+      <div class="perfil-hero">
+        <span class="avatar" aria-hidden="true"><svg class="icono"><use id="perfilAvatar" href="#i-caminar"/></svg></span>
+        <div>
+          <p class="perfil-titulo">Así te mueves</p>
+          <p id="perfilFrase" class="perfil-frase"></p>
+        </div>
+      </div>
+      <p class="texto perfil-nota">Toca lo que va contigo. Se guarda solo en este teléfono.</p>
       <div class="pregunta">
         <h2 id="pVista">¿Cómo ves la pantalla?</h2>
-        <div id="perfilVista" class="filas-opcion" role="radiogroup" aria-labelledby="pVista">
-          <button type="button" role="radio" aria-checked="false" data-v="vista" tabindex="-1"><span class="fila-texto"><strong>Veo bien</strong></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
-          <button type="button" role="radio" aria-checked="false" data-v="poco" tabindex="-1"><span class="fila-texto"><strong>Veo poco</strong><small>Letra grande y más contraste</small></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
-          <button type="button" role="radio" aria-checked="false" data-v="voz" tabindex="-1"><span class="fila-texto"><strong>No veo</strong><small>Grieta te dice todo en voz alta</small></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+        <div id="perfilVista" class="fichas" role="radiogroup" aria-labelledby="pVista" aria-describedby="perfilVistaEfecto">
+          <button type="button" role="radio" aria-checked="false" data-v="vista" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-ojo"/></svg><span>Veo bien</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+          <button type="button" role="radio" aria-checked="false" data-v="poco" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-letra"/></svg><span>Veo poco</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+          <button type="button" role="radio" aria-checked="false" data-v="voz" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-altavoz"/></svg><span>No veo</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
         </div>
+        <p id="perfilVistaEfecto" class="efecto"></p>
         <div id="perfilLector" class="pregunta-extra" hidden>
-          <h3 id="pLector">¿Tu teléfono ya te lee la pantalla?</h3>
-          <div id="perfilLectorOpciones" class="filas-opcion" role="radiogroup" aria-labelledby="pLector">
-            <button type="button" role="radio" aria-checked="false" data-v="si" tabindex="-1"><span class="fila-texto"><strong>Sí, uso VoiceOver o TalkBack</strong></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
-            <button type="button" role="radio" aria-checked="false" data-v="no" tabindex="-1"><span class="fila-texto"><strong>No, que Grieta me hable</strong></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
-          </div>
+        <h3 id="pLector">¿Tu teléfono ya te lee la pantalla?</h3>
+        <div id="perfilLectorOpciones" class="fichas dos" role="radiogroup" aria-labelledby="pLector" aria-describedby="perfilLectorOpcionesEfecto">
+          <button type="button" role="radio" aria-checked="false" data-v="si" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-persona"/></svg><span>Sí, uso VoiceOver o TalkBack</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+          <button type="button" role="radio" aria-checked="false" data-v="no" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-altavoz"/></svg><span>No, que Grieta me hable</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+        </div>
+        <p id="perfilLectorOpcionesEfecto" class="efecto"></p>
         </div>
       </div>
       <div class="pregunta">
         <h2 id="pMovilidad">¿Cómo te mueves?</h2>
-        <div id="perfilMovilidad" class="filas-opcion" role="radiogroup" aria-labelledby="pMovilidad">
-          <button type="button" role="radio" aria-checked="false" data-v="normal" tabindex="-1"><span class="fila-texto"><strong>Camino sin problema</strong></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
-          <button type="button" role="radio" aria-checked="false" data-v="poco" tabindex="-1"><span class="fila-texto"><strong>Me cuesta caminar</strong><small>Paradas más cerca</small></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
-          <button type="button" role="radio" aria-checked="false" data-v="silla" tabindex="-1"><span class="fila-texto"><strong>Uso silla de ruedas o andadera</strong><small>Paradas cerca y aviso si reportaron que no tienen rampa</small></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+        <div id="perfilMovilidad" class="fichas" role="radiogroup" aria-labelledby="pMovilidad" aria-describedby="perfilMovilidadEfecto">
+          <button type="button" role="radio" aria-checked="false" data-v="normal" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-caminar"/></svg><span>Camino sin problema</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+          <button type="button" role="radio" aria-checked="false" data-v="poco" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-baston"/></svg><span>Me cuesta caminar</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+          <button type="button" role="radio" aria-checked="false" data-v="silla" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-silla"/></svg><span>Silla de ruedas o andadera</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
         </div>
+        <p id="perfilMovilidadEfecto" class="efecto"></p>
       </div>
       <div class="pregunta">
         <h2 id="pOido">¿Escuchas bien los avisos?</h2>
-        <div id="perfilOido" class="filas-opcion" role="radiogroup" aria-labelledby="pOido">
-          <button type="button" role="radio" aria-checked="false" data-v="bien" tabindex="-1"><span class="fila-texto"><strong>Sí, escucho bien</strong></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
-          <button type="button" role="radio" aria-checked="false" data-v="poco" tabindex="-1"><span class="fila-texto"><strong>Me cuesta escuchar</strong><small>Avisos en pantalla grande y con vibración, sin voz</small></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+        <div id="perfilOido" class="fichas dos" role="radiogroup" aria-labelledby="pOido" aria-describedby="perfilOidoEfecto">
+          <button type="button" role="radio" aria-checked="false" data-v="bien" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-altavoz"/></svg><span>Sí, escucho bien</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+          <button type="button" role="radio" aria-checked="false" data-v="poco" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-vibrar"/></svg><span>Me cuesta escuchar</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
         </div>
+        <p id="perfilOidoEfecto" class="efecto"></p>
       </div>
       <div class="pregunta">
-        <h2 id="pTarifa">¿Pagas Tarifa Unidos ($2)?</h2>
-        <div id="perfilTarifa" class="filas-opcion" role="radiogroup" aria-labelledby="pTarifa">
-          <button type="button" role="radio" aria-checked="false" data-v="si" tabindex="-1"><span class="fila-texto"><strong>Sí</strong><small>Estudiante, mayor de 60 o persona con discapacidad</small></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
-          <button type="button" role="radio" aria-checked="false" data-v="no" tabindex="-1"><span class="fila-texto"><strong>No, pago la tarifa normal</strong></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+        <h2 id="pTarifa">¿Pagas Tarifa Unidos?</h2>
+        <div id="perfilTarifa" class="fichas dos" role="radiogroup" aria-labelledby="pTarifa" aria-describedby="perfilTarifaEfecto">
+          <button type="button" role="radio" aria-checked="false" data-v="si" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-boleto"/></svg><span>Sí, pago $2</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+          <button type="button" role="radio" aria-checked="false" data-v="no" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-camion"/></svg><span>Pago tarifa normal</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
         </div>
+        <p id="perfilTarifaEfecto" class="efecto"></p>
       </div>
       <button id="perfilListo" type="button" class="boton">Listo</button>
     </section>
@@ -397,7 +419,7 @@
     <section id="ajustes" class="pantalla" aria-labelledby="tituloAjustes" hidden>
       <h1 id="tituloAjustes" class="titulo-grande" tabindex="-1">Ayuda y ajustes</h1>
       <button id="resumenPerfil" type="button" class="tarjeta-perfil">
-        <span class="circulo"><svg class="icono"><use href="#i-persona"/></svg></span>
+        <span class="avatar chico" aria-hidden="true"><svg class="icono"><use id="ajustesAvatar" href="#i-caminar"/></svg></span>
         <span class="fila-texto"><strong>Tu perfil de viaje</strong><small id="textoPerfil"></small></span>
         <span class="enlace">Cambiar</span>
       </button>

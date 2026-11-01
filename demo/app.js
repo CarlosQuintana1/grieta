@@ -12,6 +12,8 @@ const SIMBOLOS = { "pedir ya": "palomita", esperar: "reloj", camion: "camion" };
 const escapar = (t) => String(t ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const picto = (nombre) => `<svg class="picto" aria-hidden="true"><use href="#p-${nombre}"/></svg>`;
 // Ficha chica de color con su pictograma: la que llevan todas las filas y listas
+// Cada app con su ficha propia: una letra y su color, sin usar logotipos de las empresas
+const fichaApp = (app) => `<span class="mini-ficha ficha-app app-${app}" aria-hidden="true">${{ uber: "U", didi: "D", indrive: "iD" }[app]}</span>`;
 const miniFicha = (tono, contenido) => `<span class="mini-ficha ${tono}" aria-hidden="true">${contenido}</span>`;
 const ico = (nombre, clase = "") => `<svg class="icono ${clase}" aria-hidden="true"><use href="#i-${nombre}"/></svg>`;
 const leer = (clave, defecto) => { try { return JSON.parse(localStorage.getItem(clave)) ?? defecto; } catch { return defecto; } };
@@ -682,7 +684,7 @@ function pintarOpciones(r) {
   const apps = [...r.directo.porApp].sort((a, b) => a.precio - b.precio);
   $("appsRapido").innerHTML = apps.map((x, i) => `<button type="button" class="app-rapida${i ? "" : " barata"}" data-app="${x.app}"
       aria-label="Abrir ${Grieta.nombreApp(x.app)}, unos ${Math.round(x.precio)} pesos${i ? "" : ", la más barata"}">
-      ${miniFicha("tono-hospital", picto("app"))}<span>${Grieta.nombreApp(x.app)}</span><strong>${pesos(x.precio)}</strong>${i ? "" : `<small>Más barata</small>`}</button>`).join("");
+      <span class="app-cabeza">${fichaApp(x.app)}<span>${Grieta.nombreApp(x.app)}</span></span><strong>${pesos(x.precio)}</strong><small${i ? ' class="vacio"' : ""}>Más barata</small></button>`).join("");
   $("avisoRapido").textContent = "";
   const enApp = r.opciones.find((o) => o.tipo === "app");
   $("compararPrecio").hidden = !enApp;
@@ -954,7 +956,7 @@ function pintarApps(o) {
   // Una fila por app que tambien la abre, la mas barata primero.
   $("abrirApps").innerHTML = orden.map((x, i) => `<button type="button" class="app-fila${i ? "" : " barata"}" data-app="${x.app}"
       aria-label="Abrir ${Grieta.nombreApp(x.app)}, unos ${Math.round(x.precio)} pesos${i ? "" : ", la más barata"}">
-      <span class="fila-texto"><strong>Abrir ${Grieta.nombreApp(x.app)}</strong><small>${i ? "" : "La más barata · "}normal entre ${pesos(x.bajo)} y ${pesos(x.alto)}</small></span>
+      ${fichaApp(x.app)}<span class="fila-texto"><strong>Abrir ${Grieta.nombreApp(x.app)}</strong><small>${i ? "" : "La más barata · "}normal entre ${pesos(x.bajo)} y ${pesos(x.alto)}</small></span>
       <span class="precio">${pesos(x.precio)}</span>${ico("chevron", "chevron")}</button>`).join("");
   $("appAviso").textContent = "";
 }

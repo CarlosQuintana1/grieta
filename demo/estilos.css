@@ -637,7 +637,10 @@ html.facil .buscador .dictar { display: none !important; }
 
 /* En iPhone la barra de estado va encima de la app y su texto es blanco: en tema claro se le pone una franja
    oscura detras para que la hora y la bateria se lean */
-html.claro body::before { content: ""; position: fixed; top: 0; left: 0; right: 0; height: env(safe-area-inset-top, 0px); background: #0b0a09; z-index: 1000; pointer-events: none; }
+body::before { content: ""; position: fixed; top: 0; left: 0; right: 0; height: env(safe-area-inset-top, 0px); background: var(--fondo); z-index: 1000; pointer-events: none; }
+html.claro body::before { background: #0b0a09; }
+/* App instalada en iPhone: con la barra translucida el alto de la vista no llega abajo; se usa el de la pantalla */
+@media (display-mode: standalone) { body { bottom: auto; height: 100vh; } }
 
 /* Mini ficha: la ficha de boleto en chico, con su pictograma, para filas, listas, pasos y opciones */
 .mini-ficha { flex: none; width: 44px; height: 44px; display: grid; place-items: center; color: #fff; background: var(--tono, #3c4647);
@@ -672,3 +675,15 @@ html.daltonico .linea-caja { background: #273d76; }
 
 /* Pestanas con pictogramas */
 .pestanas .picto { width: 26px; height: 26px; }
+
+/* Fichas de las apps de viaje: monograma blanco sobre su color, del mismo sistema de boleto */
+.ficha-app { font-weight: 800; font-size: 1.05rem; letter-spacing: -0.03em; }
+.app-uber { --tono: #3c4647; } .app-didi { --tono: #9a4a00; } .app-indrive { --tono: #2e6b1f; }
+html.claro .app-didi { --tono: #8a4200; } html.claro .app-indrive { --tono: #275c1a; }
+html.daltonico .app-didi { --tono: #174e8a; } html.daltonico .app-indrive { --tono: #5a408c; }
+.app-rapida { justify-content: flex-start; gap: 6px; }
+.app-cabeza { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.app-rapida .ficha-app { width: 32px; height: 32px; margin: 0; font-size: 0.85rem; }
+.app-rapida small.vacio { visibility: hidden; }
+.app-fila .ficha-app { width: 44px; height: 44px; }
+.app-rapida .ficha-app { color: #fff; font-weight: 800; }

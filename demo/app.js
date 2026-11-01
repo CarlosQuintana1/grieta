@@ -157,6 +157,18 @@ function ir(nombre, reemplazar) {
 }
 addEventListener("popstate", (e) => mostrar(e.state?.p ?? "inicio"));
 $("atras").addEventListener("click", () => (history.state && history.length > 1 ? history.back() : ir("inicio", true)));
+// En la app instalada de iPhone no hay gesto para regresar: deslizar desde la orilla izquierda hace lo mismo que la flecha,
+// que queda lejos del pulgar. No aplica sobre el mapa ni en la guia, que no tiene encabezado.
+let deslizar = null;
+addEventListener("touchstart", (e) => {
+  const t = e.touches[0];
+  deslizar = !$("encabezado").hidden && t.clientX < 24 && !e.target.closest(".leaflet-container") ? { x: t.clientX, y: t.clientY } : null;
+}, { passive: true });
+addEventListener("touchend", (e) => {
+  const t = e.changedTouches[0];
+  if (deslizar && t.clientX - deslizar.x > 80 && Math.abs(t.clientY - deslizar.y) < 60) $("atras").click();
+  deslizar = null;
+}, { passive: true });
 $("pestanas").addEventListener("click", (e) => {
   const b = e.target.closest("button");
   if (!b) return;
@@ -274,7 +286,7 @@ function prepararBuscar(modo) {
   titulos.buscar = modo === "desde" ? "¿Desde dónde sales?" : "Buscar";
   $("tituloPantalla").textContent = titulos.buscar;
   $("campoBuscar").value = "";
-  $("campoBuscar").placeholder = modo === "desde" ? "Desde dónde sales" : "Escribe un lugar o una calle";
+  $("campoBuscar").placeholder = modo === "desde" ? "Desde dónde sales" : "Lugar o calle";
   sugerir("");
 }
 function abrirBuscar(modo) {
@@ -312,7 +324,7 @@ function sugerir(texto) {
     if (c) base.sort((a, b) => Grieta.metros(c.lat, c.lon, a.lat, a.lon) - Grieta.metros(c.lat, c.lon, b.lat, b.lon));
     const fijos = (estado.editando === "desde" && estado.gps ? [{ ...estado.gps, detalle: "Donde estás ahora" }] : []).concat(base.slice(0, 6));
     estado.resultados = fijos;
-    lista.innerHTML = fijos.map((l, i) => filaLugar(l, i, esGps(l) ? "localizar" : "pin")).join("");
+    lista.innerHTML = fijos.map((l, i) => filaLugar(l, i, esGps(l) ? "localizar" : "pin")).join("") + filaMapa(false);
     return;
   }
   // Primero los lugares guardados y los de la app que coinciden; el buscador de mapas no siempre los conoce por su nombre completo.
@@ -321,7 +333,7 @@ function sugerir(texto) {
   const pintarResultados = (res, vacio) => {
     estado.resultados = propios.concat(res).slice(0, 8);
     estado.buscado = true;
-    lista.innerHTML = (estado.resultados.length ? estado.resultados.map((l, i) => filaLugar(l, i)).join("") : `<li class="vacio">${vacio}</li>`) + filaMapa;
+    lista.innerHTML = (estado.resultados.length ? estado.resultados.map((l, i) => filaLugar(l, i)).join("") : `<li class="vacio">${vacio}</li>`) + filaMapa();
   };
   espera = setTimeout(async () => {
     const c = cerca() ?? { lat: QUERETARO[0], lon: QUERETARO[1] };
@@ -351,10 +363,12 @@ function sugerir(texto) {
   }, 350);
 }
 // El buscador de mapas no conoce todos los negocios y oficinas: siempre queda la opcion de elegir el punto.
-const filaMapa = `<li class="fila-mapa"><button type="button" data-mapa>
+function filaMapa(buscando = true) {
+  return `<li class="fila-mapa"><button type="button" data-mapa>
   <span class="circulo tenue">${ico("pin")}</span>
-  <span class="fila-texto"><strong>¿No aparece? Elígelo en el mapa</strong><small>Tocas el punto y yo busco la calle</small></span>
+  <span class="fila-texto"><strong>${buscando ? "¿No aparece? Elígelo en el mapa" : "Elegir en el mapa"}</strong><small>Tocas el punto y yo busco la calle</small></span>
   ${ico("chevron", "chevron")}</button></li>`;
+}
 
 function elegirEnMapa() {
   estado.eligiendo = estado.editando === "desde" ? "origen" : "destino";
@@ -524,7 +538,8 @@ function momentos() {
   const dia = hoyDia();
   const minuto = ahoraMin();
   const lista = ESPERAS.map((m) => ({ dia, minuto: minuto + m, etiqueta: m ? (m < 60 ? `En ${m} min` : "En 1 h") : "Ahora", corta: m ? (m < 60 ? `+${m} min` : "+1 h") : "Ahora" }));
-  lista.push(estado.otra ? { ...estado.otra, etiqueta: hora(estado.otra.minuto) } : { dia, minuto: minuto + 120, etiqueta: "Otra hora", vacia: true });
+  const diaOtra = estado.otra && estado.otra.dia !== hoyDia() ? `${DIAS[estado.otra.dia][0].toUpperCase()}${DIAS[estado.otra.dia].slice(1, 3)} ` : "";
+  lista.push(estado.otra ? { ...estado.otra, etiqueta: `${diaOtra}${hora(estado.otra.minuto)}` } : { dia, minuto: minuto + 120, etiqueta: "Otra hora", vacia: true });
   return lista;
 }
 const normalizar = ({ dia, minuto }) => ({ dia: (dia + Math.floor(minuto / 1440)) % 7, minuto: minuto % 1440 });
@@ -541,6 +556,7 @@ function calcular() {
   });
   estado.r = r;
   pintarOpciones(r);
+  mostrarAPie();
   pintarEspera(lista, precios, base);
   if (estado.elegida && document.body.dataset.pantalla === "detalle") {
     // Al cambiar la hora o el precio, el detalle se rehace con el mismo tipo de camino.
@@ -549,6 +565,24 @@ function calcular() {
   }
   pintarVeredicto(r);
   refinarCaminatas();
+}
+
+// Si el destino queda cerca, caminar tambien es una opcion y se dice antes que las apps y el camion.
+function mostrarAPie() {
+  const { origen: o, destino: d } = estado;
+  const clave = `${o.lat},${o.lon};${d.lat},${d.lon}`;
+  if (estado.aPie === clave) return;
+  estado.aPie = clave;
+  $("aPie").hidden = true;
+  if (Grieta.metros(o.lat, o.lon, d.lat, d.lon) > 2000) return;
+  caminoAPie([o.lat, o.lon], [d.lat, d.lon]).then((c) => {
+    if (!c || estado.aPie !== clave || minutosCaminando(c.metros) > 25) return;
+    // A quien le cuesta caminar no se le promete un tiempo: solo la distancia
+    const camina = (acc.movilidad ?? "normal") === "normal";
+    $("aPieTexto").textContent = camina ? `Caminando llegas en ${minutosCaminando(c.metros)} min` : `Queda a ${distanciaTexto(c.metros)} por calles`;
+    $("aPieDetalle").textContent = camina ? `${distanciaTexto(c.metros, true)} por calles, sin costo` : "Si te sientes bien para ir a pie, no cuesta nada";
+    $("aPie").hidden = false;
+  });
 }
 
 // Los tramos a pie de las opciones se rehacen con la distancia real por calles; con eso se vuelve a calcular
@@ -921,8 +955,14 @@ function segmentado(id, alElegir) {
   });
 }
 segmentado("appVista", (v) => { estado.app = v; if (!$("precio").value) $("precio").focus(); });
-segmentado("prisa", (v) => { estado.prisa = Number(v); });
+segmentado("prisa", (v) => { estado.prisa = Number(v); verVeredicto(); });
 $("precio").addEventListener("input", calcular);
+// La recomendacion sale abajo del campo y con el teclado abierto queda tapada: al terminar de escribir se trae a la vista
+function verVeredicto() {
+  if (Number($("precio").value) > 0 && estado.app) setTimeout(() => $("veredicto").scrollIntoView({ block: "nearest", behavior: "smooth" }), 80);
+}
+$("precio").addEventListener("change", verVeredicto);
+$("precio").addEventListener("keydown", (e) => { if (e.key === "Enter") e.target.blur(); });
 
 function pintarVeredicto(r) {
   const d = r.decision;

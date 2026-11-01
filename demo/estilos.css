@@ -479,7 +479,8 @@ html.modo-voz .boton-perfil { display: none; }
 .pregunta h2 { margin: 0 0 8px; color: var(--tinta); font-size: 1.05rem; text-transform: none; letter-spacing: 0; }
 .pregunta h3 { margin: 16px 0 8px; font-size: 1rem; }
 .filas-opcion .fila-texto strong { font-weight: inherit; }
-#perfil .boton { margin-top: 24px; }
+#perfil .acciones-fijas { margin-top: 20px; }
+#perfil .acciones-fijas .boton { margin-top: 0; }
 
 /* Perfil: arriba la persona en una frase, abajo fichas con icono para cada respuesta */
 .perfil-hero { display: flex; align-items: center; gap: 16px; padding: 18px; border-radius: var(--radio);
@@ -575,3 +576,9 @@ html.grande .campo-y-boton .boton { flex: 1 0 100%; }
   .horas button span { font-size: 0.7rem; }
   .cifra { font-size: 1.8rem; }
 }
+
+/* Destino cerca: caminar va primero */
+.a-pie { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding: 12px 14px; border-radius: var(--radio);
+  background: color-mix(in srgb, var(--ambar) 12%, var(--superficie)); border: 1px solid color-mix(in srgb, var(--ambar) 35%, transparent); }
+.a-pie .icono { width: 30px; height: 30px; color: var(--ambar); }
+.a-pie strong { font-weight: 700; }

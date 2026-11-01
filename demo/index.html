@@ -206,6 +206,10 @@
 
     <section id="opciones" class="pantalla" aria-labelledby="tituloPantalla" hidden>
       <p class="resumen-ruta" id="resumenRuta"></p>
+      <div id="aPie" class="a-pie" role="status" hidden>
+        <svg class="icono"><use href="#i-caminar"/></svg>
+        <span class="fila-texto"><strong id="aPieTexto"></strong><small id="aPieDetalle"></small></span>
+      </div>
       <div id="enApp" class="en-app">
         <h2 id="tituloEnApp">Pedir en app ahora</h2>
         <p id="llegadaApp" class="llegada-app"></p>
@@ -302,7 +306,7 @@
           <button type="button" data-v="indrive" aria-pressed="false">inDrive</button>
         </div>
         <label class="campo precio-campo"><span>Precio que te marca</span>
-          <input id="precio" type="number" inputmode="decimal" placeholder="Escribe el precio" min="0">
+          <input id="precio" type="number" inputmode="decimal" placeholder="Escribe el precio" min="0" enterkeyhint="done">
         </label>
         <p class="nota prisa-titulo" id="tituloPrisa">¿Qué tanta prisa tienes?</p>
         <div id="prisa" class="segmentado" role="group" aria-labelledby="tituloPrisa">
@@ -413,7 +417,7 @@
         </div>
         <p id="perfilTarifaEfecto" class="efecto"></p>
       </div>
-      <button id="perfilListo" type="button" class="boton">Listo</button>
+      <div class="acciones-fijas"><button id="perfilListo" type="button" class="boton">Listo</button></div>
     </section>
 
     <section id="ajustes" class="pantalla" aria-labelledby="tituloAjustes" hidden>

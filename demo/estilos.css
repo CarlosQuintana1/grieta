@@ -382,11 +382,7 @@ html.claro .interruptor input::after, html.claro .interruptor input:checked::aft
 }
 .opcion-vista strong { font-size: 1.35rem; font-weight: 700; }
 .opcion-vista small { color: var(--tenue); font-size: 0.9rem; }
-.opcion-vista.ciego { min-height: 120px; background: var(--ambar); color: var(--sobre-ambar); border: 2px solid var(--ambar); }
-.opcion-vista.ciego small { color: var(--sobre-ambar); font-weight: 600; }
-.opcion-vista.ciego strong { font-size: 1.9rem; }
 .opcion-vista .icono { width: 34px; height: 34px; margin-bottom: 6px; }
-[data-paso="vista"] .opcion-vista.ciego, html.modo-voz .opcion-vista.ciego { flex: 1; min-height: 150px; }
 
 /* Pestanas */
 .pestanas {
@@ -528,10 +524,7 @@ html.grande .ficha .marca { position: static; margin-left: auto; }
 @keyframes saltito { 40% { transform: scale(1.06); } }
 .ficha.salta, .avatar.salta { animation: saltito 260ms ease-out; }
 
-/* Bienvenida: preguntas del perfil con icono y barra de avance */
-.opcion-vista.con-icono { flex-direction: row; align-items: center; justify-content: flex-start; gap: 16px; text-align: left; }
-.opcion-vista.con-icono .icono { margin: 0; color: var(--ambar); }
-.opcion-vista.con-icono span { display: flex; flex-direction: column; gap: 4px; }
+/* Bienvenida: preguntas del perfil con barra de avance */
 .avance { display: flex; gap: 6px; margin: 4px 0 12px; }
 .avance i { flex: 1; height: 5px; border-radius: 3px; background: var(--linea); }
 .avance i.lleno { background: var(--ambar); }
@@ -722,3 +715,7 @@ html.daltonico .app-didi { --tono: #174e8a; } html.daltonico .app-indrive { --to
 }
 html.grande #bienvenida .paso h1 { font-size: 1.85rem; }
 html.grande #bienvenida .opcion-vista { min-height: 72px; }
+
+/* En modo de voz, las opciones de bienvenida son grandes y conservan sus apoyos visuales. */
+html.modo-voz #bienvenida .opcion-vista { width: 100%; min-height: 120px; }
+html.modo-voz #bienvenida .opcion-vista strong { font-size: 1.4rem; }

@@ -10,6 +10,7 @@ const ACCIONES = { "pedir ya": "Pídelo ya", esperar: "Espera un poco", camion: 
 const SIMBOLOS = { "pedir ya": "palomita", esperar: "reloj", camion: "camion" };
 
 const escapar = (t) => String(t ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const picto = (nombre) => `<svg class="picto" aria-hidden="true"><use href="#p-${nombre}"/></svg>`;
 const ico = (nombre, clase = "") => `<svg class="icono ${clase}" aria-hidden="true"><use href="#i-${nombre}"/></svg>`;
 const leer = (clave, defecto) => { try { return JSON.parse(localStorage.getItem(clave)) ?? defecto; } catch { return defecto; } };
 const escribir = (clave, valor) => { try { localStorage.setItem(clave, JSON.stringify(valor)); } catch {} };
@@ -1774,26 +1775,28 @@ function iconoLugar(nombre) {
   const n = sinAcentos(nombre);
   if (n === "casa") return "casa";
   if (/escuela|uni|facultad|prepa|colegio|tec\b/.test(n)) return "escuela";
-  if (/trabajo|oficina/.test(n)) return "maletin";
+  if (/trabajo|oficina/.test(n)) return "trabajo";
   if (/hospital|clinica|imss|issste|doctor|medic/.test(n)) return "hospital";
-  return "pin";
+  if (/mercado|tianguis|super|tienda|plaza/.test(n)) return "mercado";
+  if (/abuel|mama|papa|hij|tia|tio|herman|familia|novi/.test(n)) return "familia";
+  return "lugar";
 }
 // Cada tipo de lugar con su color, como en un sistema de transporte; los demas toman uno del resto
-const TONOS = { casa: "tono-verde", escuela: "tono-azul", maletin: "tono-naranja", hospital: "tono-rojo" };
-const tonoLugar = (nombre, i) => TONOS[iconoLugar(nombre)] ?? ["tono-rosa", "tono-lima", "tono-cian", "tono-morado"][i % 4];
+const TONOS = { casa: "tono-casa", escuela: "tono-escuela", trabajo: "tono-trabajo", hospital: "tono-hospital", mercado: "tono-maiz", familia: "tono-ciruela" };
+const tonoLugar = (nombre, i) => TONOS[iconoLugar(nombre)] ?? ["tono-anil", "tono-ciruela", "tono-maiz"][i % 3];
 function pintarGuardados() {
   // Casa siempre primero: es el viaje que mas se repite.
   guardados.sort((a, b) => (b.nombre === "Casa") - (a.nombre === "Casa"));
   $("vozCasa").hidden = !guardados.some((g) => g.nombre === "Casa");
   // En modo voz, los demas lugares tambien a un toque, hasta tres para no llenar la pantalla
   $("vozLugares").innerHTML = guardados.filter((g) => g.nombre !== "Casa").slice(0, 3).map((g) =>
-    `<button type="button" class="boton-voz" data-i="${guardados.indexOf(g)}">${ico(iconoLugar(g.nombre))}Ir a ${escapar(g.nombre)}</button>`).join("");
+    `<button type="button" class="boton-voz" data-i="${guardados.indexOf(g)}">${picto(iconoLugar(g.nombre))}Ir a ${escapar(g.nombre)}</button>`).join("");
   // Tus lugares como fichas grandes; si falta la casa, su ficha invita a agregarla.
   const ficha = (attrs, clase, icono, nombre) => `<button type="button" class="lugar ${clase}" ${attrs}>
-    <span class="lugar-icono">${ico(icono)}</span><span class="lugar-nombre">${escapar(nombre)}</span></button>`;
+    <span class="lugar-icono">${picto(icono)}</span><span class="lugar-nombre">${escapar(nombre)}</span></button>`;
   const fichas = guardados.map((g, i) => ficha(`data-i="${i}" aria-label="Ir a ${escapar(g.nombre)}"`, tonoLugar(g.nombre, i), iconoLugar(g.nombre), g.nombre));
-  if (!guardados.some((g) => g.nombre === "Casa")) fichas.push(ficha('data-nuevo="Casa"', "nuevo", "casa", "Agregar casa"));
-  if (guardados.length < 6) fichas.push(ficha('data-nuevo=""', "nuevo", "mas", "Agregar"));
+  if (!guardados.some((g) => g.nombre === "Casa")) fichas.push(ficha('data-nuevo="Casa"', "nuevo tono-obsidiana", "casa", "Agregar casa"));
+  if (guardados.length < 6) fichas.push(ficha('data-nuevo=""', "nuevo tono-obsidiana", "agregar", "Agregar"));
   $("guardados").innerHTML = fichas.join("");
   $("editarGuardados").hidden = !guardados.length;
   $("editarGuardados").textContent = editando ? "Listo" : "Editar";
@@ -1802,9 +1805,9 @@ function pintarGuardados() {
       <button type="button" class="quitar" data-deshacer>Deshacer</button></div></li>` : "";
   $("listaGuardados").innerHTML = deshacer + (guardados.length
     ? guardados.map((g, i) => editando
-      ? `<li><div class="fila"><span class="circulo">${ico(iconoLugar(g.nombre))}</span><span class="fila-texto"><strong>${escapar(g.nombre)}</strong></span>
+      ? `<li><div class="fila"><span class="circulo">${picto(iconoLugar(g.nombre))}</span><span class="fila-texto"><strong>${escapar(g.nombre)}</strong></span>
           <button type="button" class="quitar" data-quitar="${i}" aria-label="Quitar ${escapar(g.nombre)}">Quitar</button></div></li>`
-      : `<li><button type="button" data-i="${i}"><span class="circulo">${ico(iconoLugar(g.nombre))}</span>
+      : `<li><button type="button" data-i="${i}"><span class="circulo">${picto(iconoLugar(g.nombre))}</span>
           <span class="fila-texto"><strong>${escapar(g.nombre)}</strong><small>Ir a ${escapar(g.nombre)}</small></span>${ico("chevron", "chevron")}</button></li>`).join("")
     : quitado ? "" : `<li class="vacio">Cuando elijas un destino, toca "Guardar este lugar".</li>`);
 }

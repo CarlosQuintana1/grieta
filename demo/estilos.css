@@ -147,19 +147,25 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 /* Tus lugares: fichas grandes con icono, lo que mas se repite a un toque */
 .lugares { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px 12px; }
 .lugar { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 0; border-radius: 18px; text-align: center; }
-/* Ficha de color con esquinas escalonadas: un sello propio, como las de un sistema de transporte */
-.lugar-icono { width: 100%; max-width: 86px; aspect-ratio: 1; display: grid; place-items: center; color: #fff; background: var(--tono, #555);
-  clip-path: polygon(10% 0, 90% 0, 90% 5%, 95% 5%, 95% 10%, 100% 10%, 100% 90%, 95% 90%, 95% 95%, 90% 95%, 90% 100%, 10% 100%,
-    10% 95%, 5% 95%, 5% 90%, 0 90%, 0 10%, 5% 10%, 5% 5%, 10% 5%); }
-.lugar-icono .icono { width: 46%; height: 46%; stroke-width: 2.3; }
+/* La ficha de Grieta: esquinas redondeadas y un corte abajo a la izquierda, como un boleto.
+   La familia se reconoce aunque se vea sin color. */
+.lugar-icono { width: 100%; max-width: 86px; aspect-ratio: 1; display: grid; place-items: center; color: #fff; background: var(--tono, #3c4647);
+  border-radius: 22% 22% 22% 5%; clip-path: polygon(0 0, 100% 0, 100% 100%, 24% 100%, 0 76%); }
+.lugar-icono .picto { width: 58%; height: 58%; }
 .lugar-nombre { font-size: 0.8rem; font-weight: 600; line-height: 1.15; color: var(--tinta); overflow-wrap: anywhere; }
 .lugar:active .lugar-icono { transform: scale(0.94); }
-.lugar.nuevo .lugar-icono { background: transparent; color: var(--tenue); clip-path: none; border: 2px dashed var(--linea); border-radius: 22%; }
 .lugar.nuevo .lugar-nombre { color: var(--tenue); }
-/* Un color por lugar; todos con contraste de 4.5:1 o mas contra el icono blanco */
-.tono-verde { --tono: #1b7f3b; } .tono-azul { --tono: #1d5fc0; } .tono-naranja { --tono: #c2560b; } .tono-rojo { --tono: #c8102e; }
-.tono-cian { --tono: #0a7396; } .tono-morado { --tono: #7a3db3; } .tono-lima { --tono: #4a7d10; } .tono-rosa { --tono: #b01f72; }
-html.contraste .lugar-icono { outline: 2px solid #fff; outline-offset: -4px; }
+/* Ocho colores con nombre, todos con contraste de 4.5:1 o mas contra el pictograma blanco.
+   Casa, escuela, trabajo y hospital siempre llevan el suyo; hay variante para modo claro y para daltonismo. */
+.tono-casa { --tono: #7a3e2b; } .tono-escuela { --tono: #822a59; } .tono-trabajo { --tono: #145b7d; } .tono-hospital { --tono: #276247; }
+.tono-maiz { --tono: #725100; } .tono-anil { --tono: #424d88; } .tono-ciruela { --tono: #67375f; } .tono-obsidiana { --tono: #3c4647; }
+html.claro .tono-casa { --tono: #713623; } html.claro .tono-escuela { --tono: #751c4c; } html.claro .tono-trabajo { --tono: #084f72; }
+html.claro .tono-hospital { --tono: #19583d; } html.claro .tono-maiz { --tono: #674700; } html.claro .tono-anil { --tono: #35447c; }
+html.claro .tono-ciruela { --tono: #592a52; } html.claro .tono-obsidiana { --tono: #303b3c; }
+html.daltonico .tono-casa { --tono: #9a3e00; } html.daltonico .tono-escuela { --tono: #174e8a; } html.daltonico .tono-trabajo { --tono: #005a67; }
+html.daltonico .tono-hospital { --tono: #5a408c; } html.daltonico .tono-maiz { --tono: #715000; } html.daltonico .tono-anil { --tono: #273d76; }
+html.daltonico .tono-ciruela { --tono: #66402b; } html.daltonico .tono-obsidiana { --tono: #364244; }
+html.contraste .lugar-icono { box-shadow: inset 0 0 0 3px #fff; }
 .seccion { margin-top: 26px; }
 .respuesta:not(:empty) { margin-top: 16px; padding: 14px 16px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); }
 .desde { display: flex; align-items: center; gap: 8px; margin-top: 6px; font-size: 0.88rem; color: var(--tenue); }
@@ -620,3 +626,10 @@ html:not(.facil) .dictar-grande { display: none !important; }
 .dictar-grande .icono { width: 26px; height: 26px; }
 .dictar-grande.oyendo { outline: 3px solid var(--tinta); outline-offset: 2px; }
 html.facil .buscador .dictar { display: none !important; }
+
+/* Pictogramas macizos: relleno, sin trazo */
+.picto { width: 24px; height: 24px; flex: none; fill: currentColor; stroke: none; }
+.boton-voz .picto { width: 32px; height: 32px; }
+.dos-botones .picto, #avisarFamiliar .picto { width: 22px; height: 22px; }
+.dictar-grande .picto { width: 28px; height: 28px; }
+.circulo .picto { width: 22px; height: 22px; }

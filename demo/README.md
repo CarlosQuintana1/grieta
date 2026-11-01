@@ -4,7 +4,8 @@ Página para probar el modelo como una app de viajes, con aspecto de app móvil:
 tres pestañas (Inicio, Reportar, Ayuda y ajustes). Los colores siguen el modo claro u oscuro del teléfono, o se
 eligen en Ajustes. Lo primero que pregunta es cómo ves la pantalla: veo bien, veo poco
 (letra grande y alto contraste) o no veo (modo para personas ciegas). Si no ves, pregunta si tu teléfono ya
-te lee la pantalla para no hablar encima de VoiceOver o TalkBack, y después pide la ubicación. Se puede volver
+te lee la pantalla para no hablar encima de VoiceOver o TalkBack, después pide la ubicación y al final
+las tres preguntas del perfil (cómo te mueves, si escuchas bien, Tarifa Unidos), que se pueden saltar. Se puede volver
 a elegir desde Ajustes. El inicio muestra tus últimos viajes para repetirlos con un toque.
 
 "Tu perfil", arriba a la derecha en el inicio y en Ayuda y ajustes, pregunta por necesidades y no por

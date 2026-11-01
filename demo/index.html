@@ -89,6 +89,40 @@
           <button id="sinUbicacion" type="button" class="opcion-vista"><strong>Ahora no</strong><small>Escribes desde dónde sales</small></button>
         </div>
       </div>
+      <div data-paso="movilidad" class="paso" hidden>
+        <button type="button" class="enlace regresar">Regresar</button>
+        <p class="etiqueta">Tu perfil · 1 de 3</p>
+        <h1 tabindex="-1">¿Cómo te mueves?</h1>
+        <p class="texto">Así Grieta te busca paradas a tu medida.</p>
+        <div class="vista-opciones">
+          <button type="button" class="opcion-vista" data-movilidad="normal"><strong>Camino sin problema</strong></button>
+          <button type="button" class="opcion-vista" data-movilidad="poco"><strong>Me cuesta caminar</strong><small>Paradas más cerca</small></button>
+          <button type="button" class="opcion-vista" data-movilidad="silla"><strong>Uso silla de ruedas o andadera</strong><small>Te aviso si una parada no tiene rampa</small></button>
+        </div>
+        <button type="button" class="enlace saltar">Saltar estas preguntas</button>
+      </div>
+      <div data-paso="oido" class="paso" hidden>
+        <button type="button" class="enlace regresar">Regresar</button>
+        <p class="etiqueta">Tu perfil · 2 de 3</p>
+        <h1 tabindex="-1">¿Escuchas bien los avisos?</h1>
+        <p class="texto">Durante el viaje Grieta te avisa cuándo pasa tu camión y cuándo bajarte.</p>
+        <div class="vista-opciones">
+          <button type="button" class="opcion-vista" data-oido="bien"><strong>Sí, escucho bien</strong><small>Avisos con voz</small></button>
+          <button type="button" class="opcion-vista" data-oido="poco"><strong>Me cuesta escuchar</strong><small>Avisos en pantalla grande y con vibración</small></button>
+        </div>
+        <button type="button" class="enlace saltar">Saltar estas preguntas</button>
+      </div>
+      <div data-paso="tarifa" class="paso" hidden>
+        <button type="button" class="enlace regresar">Regresar</button>
+        <p class="etiqueta">Tu perfil · 3 de 3</p>
+        <h1 tabindex="-1">¿Pagas Tarifa Unidos?</h1>
+        <p class="texto">Con ella el camión te cuesta $2 y el transbordo es gratis.</p>
+        <div class="vista-opciones">
+          <button type="button" class="opcion-vista" data-tarifa="si"><strong>Sí</strong><small>Estudiante, mayor de 60 o persona con discapacidad</small></button>
+          <button type="button" class="opcion-vista" data-tarifa="no"><strong>No, pago la tarifa normal</strong></button>
+        </div>
+        <button type="button" class="enlace saltar">Saltar estas preguntas</button>
+      </div>
     </section>
 
     <section id="inicio" class="pantalla" aria-labelledby="tituloInicio">

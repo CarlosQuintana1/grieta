@@ -1684,7 +1684,12 @@ $("enviarPrecio").addEventListener("click", async () => {
 const PASOS_VOZ = {
   lector: "Listo, Grieta te va a hablar. ¿Tu teléfono ya te lee la pantalla, como VoiceOver o TalkBack? Arriba, sí. Abajo, no.",
   ubicacion: "¿Usamos tu ubicación? Así sé desde dónde sales y cuándo avisarte que te bajes. Arriba, sí. Abajo, ahora no.",
+  movilidad: "Tu perfil, 1 de 3. ¿Cómo te mueves? Arriba, camino sin problema. En medio, me cuesta caminar. Abajo, uso silla de ruedas o andadera. Al final puedes saltar estas preguntas.",
+  oido: "2 de 3. ¿Escuchas bien los avisos? Arriba, sí. Abajo, me cuesta escuchar.",
+  tarifa: "3 de 3. ¿Pagas Tarifa Unidos, el pasaje de 2 pesos para estudiantes, mayores de 60 y personas con discapacidad? Arriba, sí. Abajo, no.",
 };
+// Orden de la bienvenida; la pregunta del lector de pantalla solo aparece para quien no ve.
+const ordenPasos = () => ["vista", ...(acc.modoVoz ? ["lector"] : []), "ubicacion", "movilidad", "oido", "tarifa"];
 let pasoActual = "vista";
 function irPaso(p) {
   pasoActual = p;
@@ -1721,14 +1726,37 @@ document.querySelector('#bienvenida [data-paso="lector"]').addEventListener("cli
   irPaso("ubicacion");
 });
 for (const b of document.querySelectorAll("#bienvenida .regresar")) {
-  b.addEventListener("click", () => irPaso(pasoActual === "ubicacion" && acc.modoVoz ? "lector" : "vista"));
+  b.addEventListener("click", () => {
+    const orden = ordenPasos();
+    irPaso(orden[Math.max(0, orden.indexOf(pasoActual) - 1)]);
+  });
 }
 $("permisoUbicacion").addEventListener("click", () => {
   ubicar();
-  terminarBienvenida();
+  irPaso("movilidad");
 });
 $("sinUbicacion").addEventListener("click", () => {
   sinUbicacion("");
+  irPaso("movilidad");
+});
+// Las tres preguntas del perfil: cada respuesta ajusta lo mismo que la pantalla "Tu perfil".
+$("bienvenida").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-movilidad], [data-oido], [data-tarifa], .saltar");
+  if (!b) return;
+  if (b.classList.contains("saltar")) return terminarBienvenida();
+  if (b.dataset.movilidad) {
+    Object.assign(acc, { movilidad: b.dataset.movilidad, camino: b.dataset.movilidad !== "normal" });
+  } else if (b.dataset.oido) {
+    acc.oido = b.dataset.oido;
+    acc.voz = b.dataset.oido === "bien" && !(acc.modoVoz && acc.lector === "si");
+  } else {
+    acc.unidos = b.dataset.tarifa === "si";
+    escribir("grieta-perfil", true);
+  }
+  guardarAcc();
+  aplicarAcc();
+  if (b.dataset.movilidad) return irPaso("oido");
+  if (b.dataset.oido) return irPaso("tarifa");
   terminarBienvenida();
 });
 // Perfil de viaje: lo que la persona necesita para moverse, guardado solo en este telefono.

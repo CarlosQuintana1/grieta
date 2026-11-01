@@ -11,6 +11,8 @@ const SIMBOLOS = { "pedir ya": "palomita", esperar: "reloj", camion: "camion" };
 
 const escapar = (t) => String(t ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const picto = (nombre) => `<svg class="picto" aria-hidden="true"><use href="#p-${nombre}"/></svg>`;
+// Ficha chica de color con su pictograma: la que llevan todas las filas y listas
+const miniFicha = (tono, contenido) => `<span class="mini-ficha ${tono}" aria-hidden="true">${contenido}</span>`;
 const ico = (nombre, clase = "") => `<svg class="icono ${clase}" aria-hidden="true"><use href="#i-${nombre}"/></svg>`;
 const leer = (clave, defecto) => { try { return JSON.parse(localStorage.getItem(clave)) ?? defecto; } catch { return defecto; } };
 const escribir = (clave, valor) => { try { localStorage.setItem(clave, JSON.stringify(valor)); } catch {} };
@@ -307,8 +309,10 @@ function abrirBuscar(modo) {
 }
 $("abrirBuscar").addEventListener("click", () => abrirBuscar("hacia"));
 
+const fichaLugar = (l, i, icon) => icon === "reloj" ? miniFicha("tono-obsidiana", ico("reloj"))
+  : icon === "localizar" ? miniFicha("tono-maiz", picto("donde")) : miniFicha(tonoLugar(l.nombre, i), picto(iconoLugar(l.nombre)));
 const filaLugar = (l, i, icon = "pin") => `<li><button type="button" data-i="${i}">
-  <span class="circulo${icon === "reloj" ? " tenue" : ""}">${ico(icon)}</span>
+  ${fichaLugar(l, i, icon)}
   <span class="fila-texto"><strong>${escapar(l.nombre)}</strong>${l.detalle ? `<small>${escapar(l.detalle)}</small>` : ""}</span>
   ${ico("chevron", "chevron")}</button></li>`;
 
@@ -627,7 +631,8 @@ function tituloOpcion(o) {
   return o.pasos[0].tipo === "app" ? [apps[0], camion, ...apps.slice(1)].join(" + ") : [camion, ...apps].join(" + ");
 }
 const caminata = (o) => Math.round((o.pasos ?? []).filter((p) => p.tipo === "caminar").reduce((s, p) => s + p.min, 0));
-const iconoOpcion = (o) => (o.tipo === "app" ? "auto" : o.tipo === "caminando+caminando" ? "camion" : "ruta");
+// Solo camion lleva el camion en anil; si combina con app, el auto en verde
+const fichaOpcion = (o) => (o.pasos?.some((p) => p.tipo === "app") ? miniFicha("tono-hospital", picto("app")) : miniFicha("tono-anil", picto("qrobus")));
 
 // Maximo tres caminos con camion: el mas rapido, el mas barato y uno equilibrado si es distinto.
 // El viaje solo en app no lleva tarjeta: ya tiene su seccion con el precio de cada app.
@@ -677,7 +682,7 @@ function pintarOpciones(r) {
   const apps = [...r.directo.porApp].sort((a, b) => a.precio - b.precio);
   $("appsRapido").innerHTML = apps.map((x, i) => `<button type="button" class="app-rapida${i ? "" : " barata"}" data-app="${x.app}"
       aria-label="Abrir ${Grieta.nombreApp(x.app)}, unos ${Math.round(x.precio)} pesos${i ? "" : ", la más barata"}">
-      <span>${Grieta.nombreApp(x.app)}</span><strong>${pesos(x.precio)}</strong>${i ? "" : `<small>Más barata</small>`}</button>`).join("");
+      ${miniFicha("tono-hospital", picto("app"))}<span>${Grieta.nombreApp(x.app)}</span><strong>${pesos(x.precio)}</strong>${i ? "" : `<small>Más barata</small>`}</button>`).join("");
   $("avisoRapido").textContent = "";
   const enApp = r.opciones.find((o) => o.tipo === "app");
   $("compararPrecio").hidden = !enApp;
@@ -693,7 +698,7 @@ function pintarOpciones(r) {
     const mas = enApp ? Math.round(o.minutos - enApp.minutos) : 0;
     const contra = ahorro >= 5 ? `<span class="ahorro">Ahorras ${pesos(ahorro)}${mas > 0 ? ` · ${mas} min más que en app` : ""}</span>` : "";
     return `<button type="button" class="tarjeta${etiquetas.includes("Recomendado") ? " principal" : ""}" data-i="${i}">
-      <span class="circulo">${ico(iconoOpcion(o))}</span>
+      ${fichaOpcion(o)}
       <span class="fila-texto"><span class="etiqueta">${etiquetas.join(" · ")}</span>
         <strong>${escapar(tituloOpcion(o))}</strong><small>${pie.join(" · ")}</small>${contra}</span>
       <span class="precio">${pesos(o.costo)}</span>${ico("chevron", "chevron")}
@@ -875,8 +880,8 @@ function pasosDe(o) {
   if (o.tipo === "app") {
     const app = tituloOpcion(o);
     return [
-      { titulo: `Pide ${app}`, nota: `Debería costar unos ${pesos(o.costo)}.`, hora: estado.r.ctx.minuto },
-      { titulo: `Llegas a ${estado.destino.nombre}`, nota: `Unos ${Math.round(o.minutos)} minutos, contando la espera.`, hora: llegada(o) },
+      { ficha: ["tono-hospital", "app"], titulo: `Pide ${app}`, nota: `Debería costar unos ${pesos(o.costo)}.`, hora: estado.r.ctx.minuto },
+      { ficha: ["tono-casa", "lugar"], titulo: `Llegas a ${estado.destino.nombre}`, nota: `Unos ${Math.round(o.minutos)} minutos, contando la espera.`, hora: llegada(o) },
     ];
   }
   let t = estado.r.ctx.minuto;
@@ -884,14 +889,16 @@ function pasosDe(o) {
     const min = Math.max(1, Math.round(p.min));
     const inicio = p.tipo === "camion" ? p.sale : t;
     t = p.tipo === "camion" ? p.llega : t + p.min;
-    if (p.tipo === "caminar" && p.transbordo) return { titulo: `Camina ${min} min y cambia de camión`, nota: p.parada, hora: inicio };
+    const camina = ["tono-maiz", "caminar"];
+    const enApp = ["tono-hospital", "app"];
+    if (p.tipo === "caminar" && p.transbordo) return { ficha: camina, titulo: `Camina ${min} min y cambia de camión`, nota: p.parada, hora: inicio };
     if (p.tipo === "caminar") return p.hacia
-      ? { titulo: `Camina ${min} min a la parada`, nota: p.parada, hora: inicio }
-      : { titulo: `Camina ${min} min a tu destino`, nota: `${estado.destino.nombre}. Llegas a las ${hora(llegada(o))}.`, hora: inicio };
+      ? { ficha: camina, titulo: `Camina ${min} min a la parada`, nota: p.parada, hora: inicio }
+      : { ficha: camina, titulo: `Camina ${min} min a tu destino`, nota: `${estado.destino.nombre}. Llegas a las ${hora(llegada(o))}.`, hora: inicio };
     if (p.tipo === "app") return p.hacia
-      ? { titulo: `Pide ${Grieta.nombreApp(p.app)} hasta la parada`, nota: `${p.parada} · unos ${pesos(p.costo)}`, hora: inicio }
-      : { titulo: `Pide ${Grieta.nombreApp(p.app)} a tu destino`, nota: `Unos ${pesos(p.costo)}. Llegas a las ${hora(llegada(o))}.`, hora: inicio };
-    return { camion: true, titulo: `Toma la línea ${p.linea} a las ${hora(p.sale)}`, nota: `Hacia ${p.hacia}. Bájate en ${p.baja}, ${p.paradas} paradas después, a las ${hora(p.llega)}. Te aviso antes.`, hora: inicio };
+      ? { ficha: enApp, titulo: `Pide ${Grieta.nombreApp(p.app)} hasta la parada`, nota: `${p.parada} · unos ${pesos(p.costo)}`, hora: inicio }
+      : { ficha: enApp, titulo: `Pide ${Grieta.nombreApp(p.app)} a tu destino`, nota: `Unos ${pesos(p.costo)}. Llegas a las ${hora(llegada(o))}.`, hora: inicio };
+    return { ficha: ["tono-anil", "qrobus"], camion: true, titulo: `Toma la línea ${p.linea} a las ${hora(p.sale)}`, nota: `Hacia ${p.hacia}. Bájate en ${p.baja}, ${p.paradas} paradas después, a las ${hora(p.llega)}. Te aviso antes.`, hora: inicio };
   });
 }
 
@@ -911,7 +918,7 @@ function pintarDetalle(sinMapa) {
   $("detalleCifra").textContent = `${Math.round(o.minutos)} min · ${pesos(o.costo)}`;
   $("detalleLlegada").innerHTML = `Llegas <strong>${hora(llegada(o))}</strong>`;
   $("pasos").innerHTML = pasosDe(o).map((p, i) => `<li class="${p.camion ? "camion" : ""}">
-    <span class="numero" aria-hidden="true">${i + 1}</span>
+    ${miniFicha(p.ficha[0], picto(p.ficha[1]))}
     <span class="fila-texto"><strong>${escapar(p.titulo)}</strong><small>${escapar(cruce(p.nota))}</small></span>
     <span class="hora">${hora(p.hora)}</span></li>`).join("");
   if (!sinMapa) dibujar(o);
@@ -1327,7 +1334,14 @@ function ponerTitulo(titulo) {
   $("guiaTitulo").classList.toggle("muy-largo", largo > 44);
   $("guiaTitulo").innerHTML = escapar(cruce(titulo)).replace(/^Faltan (\d+)/, 'Faltan <span class="num">$1</span>');
 }
+const FICHAS_GUIA = {
+  "Hacia la parada": ["tono-maiz", "caminar"], "En la parada": ["tono-casa", "parada"], "En el camión": ["tono-anil", "qrobus"],
+  "Próxima parada": ["tono-anil", "qrobus"], "Tu parada": ["tono-casa", "parada"], "Transbordo": ["tono-anil", "qrobus"], "Llegaste": ["tono-hospital", "lugar"],
+};
 function decir(titulo, detalle, etapa, alerta = false) {
+  const [tono, nombre] = guia.enApp && etapa === "Hacia la parada" ? ["tono-hospital", "app"] : FICHAS_GUIA[etapa] ?? FICHAS_GUIA[guia.fase === "camion" ? "En el camión" : "Llegaste"];
+  $("guiaFicha").className = `guia-ficha ${tono}`;
+  $("guiaPicto").setAttribute("href", `#p-${nombre}`);
   if (etapa) $("guiaEtapa").textContent = guia.camion && etapa !== "Llegaste" ? `${etapa} · ${guia.camion.linea}` : etapa;
   ponerTitulo(titulo);
   $("guiaDetalle").textContent = cruce(detalle ?? "");
@@ -1757,7 +1771,7 @@ function fechaViaje(iso) {
 function pintarViajes() {
   $("bloqueViajes").hidden = !viajes.length;
   $("listaViajes").innerHTML = viajes.slice(0, 3).map((v, i) => `<li><button type="button" data-i="${i}" aria-label="Ir otra vez a ${escapar(v.destino.nombre)}">
-      <span class="circulo tenue">${ico("repetir")}</span>
+      ${miniFicha(tonoLugar(v.destino.nombre, i), picto(iconoLugar(v.destino.nombre)))}
       <span class="fila-texto"><strong>${escapar(v.destino.nombre)}</strong><small>${escapar(v.camino)} · ${fechaViaje(v.fecha)}</small></span>
       ${ico("chevron", "chevron")}</button></li>`).join("");
 }
@@ -1777,7 +1791,7 @@ function iconoLugar(nombre) {
   if (/escuela|uni|facultad|prepa|colegio|tec\b/.test(n)) return "escuela";
   if (/trabajo|oficina/.test(n)) return "trabajo";
   if (/hospital|clinica|imss|issste|doctor|medic/.test(n)) return "hospital";
-  if (/mercado|tianguis|super|tienda|plaza/.test(n)) return "mercado";
+  if (/mercado|tianguis|super|tienda/.test(n)) return "mercado";
   if (/abuel|mama|papa|hij|tia|tio|herman|familia|novi/.test(n)) return "familia";
   return "lugar";
 }
@@ -1805,9 +1819,9 @@ function pintarGuardados() {
       <button type="button" class="quitar" data-deshacer>Deshacer</button></div></li>` : "";
   $("listaGuardados").innerHTML = deshacer + (guardados.length
     ? guardados.map((g, i) => editando
-      ? `<li><div class="fila"><span class="circulo">${picto(iconoLugar(g.nombre))}</span><span class="fila-texto"><strong>${escapar(g.nombre)}</strong></span>
+      ? `<li><div class="fila">${miniFicha(tonoLugar(g.nombre, i), picto(iconoLugar(g.nombre)))}<span class="fila-texto"><strong>${escapar(g.nombre)}</strong></span>
           <button type="button" class="quitar" data-quitar="${i}" aria-label="Quitar ${escapar(g.nombre)}">Quitar</button></div></li>`
-      : `<li><button type="button" data-i="${i}"><span class="circulo">${picto(iconoLugar(g.nombre))}</span>
+      : `<li><button type="button" data-i="${i}">${miniFicha(tonoLugar(g.nombre, i), picto(iconoLugar(g.nombre)))}
           <span class="fila-texto"><strong>${escapar(g.nombre)}</strong><small>Ir a ${escapar(g.nombre)}</small></span>${ico("chevron", "chevron")}</button></li>`).join("")
     : quitado ? "" : `<li class="vacio">Cuando elijas un destino, toca "Guardar este lugar".</li>`);
 }

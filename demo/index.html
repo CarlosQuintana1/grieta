@@ -366,6 +366,7 @@
       <div class="guia-barra">
         <img src="logo.png" alt="Grieta" class="logo">
       </div>
+      <span id="guiaFicha" class="guia-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use id="guiaPicto" href="#p-caminar"/></svg></span>
       <p id="guiaEtapa" class="etiqueta"></p>
       <h1 id="guiaTitulo" class="guia-titulo" tabindex="-1" aria-live="assertive"></h1>
       <p id="guiaBaja" class="guia-baja" hidden></p>
@@ -398,14 +399,14 @@
     <section id="reporte" class="pantalla" aria-labelledby="tituloReporte" hidden>
       <h1 id="tituloReporte" class="titulo-grande" tabindex="-1">¿Qué problema encontraste?</h1>
       <p class="donde"><svg class="icono ambar"><use href="#i-pin"/></svg><span id="reporteDonde">Buscando dónde estás...</span></p>
-      <div id="tipoReporte" class="filas-opcion" role="radiogroup" aria-labelledby="tituloReporte">
-        <button type="button" role="radio" aria-checked="false" data-v="banqueta">Banqueta rota<svg class="icono palomita"><use href="#i-palomita"/></svg></button>
-        <button type="button" role="radio" aria-checked="false" data-v="sin_rampa" tabindex="-1">No hay rampa<svg class="icono palomita"><use href="#i-palomita"/></svg></button>
-        <button type="button" role="radio" aria-checked="false" data-v="sin_techo" tabindex="-1">Parada sin techo<svg class="icono palomita"><use href="#i-palomita"/></svg></button>
-        <button type="button" role="radio" aria-checked="false" data-v="obstaculo" tabindex="-1">Obstáculo<svg class="icono palomita"><use href="#i-palomita"/></svg></button>
-        <button type="button" role="radio" aria-checked="false" data-v="sin_senalizacion" tabindex="-1">Falta señalización<svg class="icono palomita"><use href="#i-palomita"/></svg></button>
-        <button type="button" role="radio" aria-checked="false" data-v="referencia" tabindex="-1">Referencia para encontrar la parada<svg class="icono palomita"><use href="#i-palomita"/></svg></button>
-        <button type="button" role="radio" aria-checked="false" data-v="otro" tabindex="-1">Otra cosa<svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+      <div id="tipoReporte" class="tipos-reporte" role="radiogroup" aria-labelledby="tituloReporte">
+        <button type="button" role="radio" aria-checked="false" data-v="banqueta" class="tipo-reporte"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-caminar"/></svg></span><span>Banqueta rota</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+        <button type="button" role="radio" aria-checked="false" data-v="sin_rampa" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-trabajo" aria-hidden="true"><svg class="picto"><use href="#p-silla"/></svg></span><span>No hay rampa</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+        <button type="button" role="radio" aria-checked="false" data-v="sin_techo" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-casa" aria-hidden="true"><svg class="picto"><use href="#p-parada"/></svg></span><span>Parada sin techo</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+        <button type="button" role="radio" aria-checked="false" data-v="obstaculo" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-obsidiana" aria-hidden="true"><svg class="picto"><use href="#p-reportar"/></svg></span><span>Obstáculo</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+        <button type="button" role="radio" aria-checked="false" data-v="sin_senalizacion" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-ciruela" aria-hidden="true"><svg class="picto"><use href="#p-lugar"/></svg></span><span>Falta señalización</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+        <button type="button" role="radio" aria-checked="false" data-v="referencia" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-donde"/></svg></span><span>Referencia para encontrar la parada</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+        <button type="button" role="radio" aria-checked="false" data-v="otro" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-ciruela" aria-hidden="true"><svg class="picto"><use href="#p-agregar"/></svg></span><span>Otra cosa</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
       </div>
       <div id="reporteResto" hidden>
         <label for="descripcion" class="etiqueta-campo">Cuéntanos más <span class="tenue">(si quieres)</span></label>
@@ -546,8 +547,8 @@
   <p id="anuncio" class="oculto" aria-live="assertive"></p>
 
   <nav id="pestanas" class="pestanas" aria-label="Secciones">
-    <button type="button" data-tab="inicio"><svg class="icono"><use href="#i-casa"/></svg>Inicio</button>
-    <button type="button" data-tab="reporte"><svg class="icono"><use href="#i-alerta"/></svg>Reportar</button>
+    <button type="button" data-tab="inicio"><svg class="picto"><use href="#p-casa"/></svg>Inicio</button>
+    <button type="button" data-tab="reporte"><svg class="picto"><use href="#p-reportar"/></svg>Reportar</button>
     <button type="button" data-tab="ajustes"><svg class="icono"><use href="#i-engrane"/></svg>Ajustes</button>
   </nav>
 

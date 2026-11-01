@@ -3,13 +3,14 @@
   --zona-arriba: env(safe-area-inset-top, 0px);
   --zona-abajo: env(safe-area-inset-bottom, 0px);
   --fondo: #0b0a09;
-  --superficie: #181613;
-  --tinta: #ede8df;
-  --tenue: #a39a8e;
-  --linea: #2f2a24;
+  --superficie: #171512;
+  --superficie-2: #211e19;
+  --tinta: #f6f2ea;
+  --tenue: #b8afa2;
+  --linea: #3b352d;
   --ambar: #e0a03c;
   --sobre-ambar: #0b0a09;
-  --cuidado: #c9664c;
+  --cuidado: #e76f5b;
   --alerta: #e0a03c;
   --toque: 48px;
   --radio: 14px;
@@ -20,7 +21,7 @@ html.grande { font-size: 21px; --toque: 56px; }
 
 /* Tema claro: el ambar y el rojo se oscurecen para pasar 4.5:1 sobre fondo claro. El aviso amarillo de la guia
    (--alerta) se queda brillante en los dos temas. */
-html.claro { color-scheme: light; --fondo: #f6f2ea; --superficie: #ffffff; --tinta: #1c1814; --tenue: #5b5248; --linea: #cfc5b6;
+html.claro { color-scheme: light; --fondo: #f6f2ea; --superficie: #fffdf8; --superficie-2: #e9e1d5; --tinta: #211a12; --tenue: #675b4e; --linea: #c5b9a8;
   --ambar: #8f5300; --sobre-ambar: #ffffff; --cuidado: #b0391b; --alerta: #e0a03c; }
 html.contraste { --fondo: #000; --superficie: #000; --tinta: #fff; --tenue: #e6e6e6; --linea: #8c8c8c; --ambar: #ffb21f; --sobre-ambar: #000; --cuidado: #ff8a70; --alerta: #ffb21f; }
 html.claro.contraste { color-scheme: light; --fondo: #fff; --superficie: #fff; --tinta: #000; --tenue: #1f1f1f; --linea: #5c5c5c;
@@ -210,7 +211,7 @@ body:not(.alerta) #terminar[data-confirmar] { border-color: var(--cuidado); colo
 .tarjeta .ahorro { display: block; margin-top: 4px; color: var(--ambar); font-size: 0.85rem; font-weight: 700; }
 #tituloCamion { margin-top: 26px; }
 /* Con letra grande, el texto de cada opcion se queda con todo el ancho y el mapa cede espacio. */
-html.grande .tarjeta .circulo { display: none; }
+html.grande .tarjeta .mini-ficha { display: none; }
 html.grande body.con-mapa #mapa { min-height: 20%; }
 html.grande body.con-mapa .hoja { max-height: 80%; }
 .precio { font-size: 1.45rem; font-weight: 700; white-space: nowrap; }
@@ -242,7 +243,7 @@ html.grande body.con-mapa .hoja { max-height: 80%; }
 .pasos { margin: 22px 0 6px; }
 .pasos li { position: relative; display: flex; gap: 14px; padding-bottom: 20px; }
 .pasos li::before {
-  content: ""; position: absolute; left: 17px; top: 38px; bottom: 2px; border-left: 2px dotted var(--tenue);
+  content: ""; position: absolute; left: 21px; top: 50px; bottom: 4px; border-left: 2px dotted var(--linea);
 }
 .pasos li:last-child::before { display: none; }
 .pasos .numero {
@@ -587,7 +588,7 @@ html.grande .campo-y-boton .boton { flex: 1 0 100%; }
 @media (max-width: 350px) {
   /* En pantallas de 320 px el microfono se queda solo con su icono; su nombre sigue para el lector */
   .buscador .mic span { display: none; }
-  .tarjeta .circulo { display: none; }
+  .tarjeta .mini-ficha { display: none; }
   .app-rapida strong { font-size: 1.15rem; }
   .horas button span { font-size: 0.7rem; }
   .cifra { font-size: 1.8rem; }
@@ -637,3 +638,37 @@ html.facil .buscador .dictar { display: none !important; }
 /* En iPhone la barra de estado va encima de la app y su texto es blanco: en tema claro se le pone una franja
    oscura detras para que la hora y la bateria se lean */
 html.claro body::before { content: ""; position: fixed; top: 0; left: 0; right: 0; height: env(safe-area-inset-top, 0px); background: #0b0a09; z-index: 1000; pointer-events: none; }
+
+/* Mini ficha: la ficha de boleto en chico, con su pictograma, para filas, listas, pasos y opciones */
+.mini-ficha { flex: none; width: 44px; height: 44px; display: grid; place-items: center; color: #fff; background: var(--tono, #3c4647);
+  border-radius: 22% 22% 22% 5%; clip-path: polygon(0 0, 100% 0, 100% 100%, 24% 100%, 0 76%); }
+.mini-ficha .picto { width: 26px; height: 26px; }
+.mini-ficha .icono { width: 22px; height: 22px; color: #fff; stroke-width: 2.2; }
+.pasos .fila-texto { padding-top: 2px; }
+.pasos .hora { padding-top: 4px; }
+.app-rapida .mini-ficha { width: 34px; height: 34px; margin-bottom: 6px; }
+.app-rapida .mini-ficha .picto { width: 20px; height: 20px; }
+
+/* Reportar: cada problema es una ficha grande; la elegida lleva borde y palomita */
+.tipos-reporte { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+.tipo-reporte { position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 14px;
+  min-height: 112px; padding: 14px; border-radius: var(--radio); background: var(--superficie); border: 2px solid var(--linea);
+  text-align: left; font-weight: 700; line-height: 1.2; }
+.tipo-reporte .marca { position: absolute; top: 10px; right: 10px; width: 22px; height: 22px; color: var(--ambar); stroke-width: 3; opacity: 0; }
+.tipo-reporte[aria-checked="true"] { border-color: var(--ambar); background: color-mix(in srgb, var(--ambar) 12%, var(--superficie)); }
+.tipo-reporte[aria-checked="true"] .marca { opacity: 1; }
+html.grande .tipos-reporte, html.facil .tipos-reporte { grid-template-columns: 1fr; }
+html.grande .tipo-reporte, html.facil .tipo-reporte { flex-direction: row; align-items: center; min-height: 72px; }
+
+/* Guia: el momento del viaje con su pictograma grande */
+.guia-ficha { width: 84px; height: 84px; display: grid; place-items: center; margin: 4px 0 16px; color: #fff; background: var(--tono);
+  border-radius: 22% 22% 22% 5%; clip-path: polygon(0 0, 100% 0, 100% 100%, 24% 100%, 0 76%); }
+.guia-ficha .picto { width: 52px; height: 52px; }
+
+/* La linea del camion en su ficha anil, como en la parada */
+.linea-caja { color: #fff; border: none; background: #424d88; border-radius: 12px 12px 12px 4px; }
+html.claro .linea-caja { background: #35447c; }
+html.daltonico .linea-caja { background: #273d76; }
+
+/* Pestanas con pictogramas */
+.pestanas .picto { width: 26px; height: 26px; }

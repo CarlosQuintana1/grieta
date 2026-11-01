@@ -1730,15 +1730,12 @@ Promise.all([
   Grieta.cargar(),
   fetch("datos/lugares.json").then((r) => r.json()),
   fetch("datos/config.json").then((r) => r.json()).catch(() => ({})),
-]).then(([{ modelo }, l, config]) => {
+]).then(([, l, config]) => {
   lugares = l;
   // En local se usa la API local, para que las pruebas no escriban en la base de produccion.
   API = ["localhost", "127.0.0.1"].includes(location.hostname) ? "http://localhost:3000/api" : config.api || "";
   pintarGuardados();
   avisoConexion();
-  const info = `Precios estimados con ${modelo.momentos} registros del equipo. Horarios oficiales de Qrobus.${avisoVigencia()}`;
-  $("info").textContent = info;
-  $("infoAjustes").textContent = info;
   medirPantalla();
   if (!primeraVez) ubicar();
 });

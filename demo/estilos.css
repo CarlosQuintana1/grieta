@@ -425,7 +425,7 @@ html.modo-voz body.con-mapa .hoja { margin-top: 0; border-radius: 0; border-top:
 html.modo-voz body.con-mapa:not(:has(#encabezado:not([hidden]))) .hoja { padding-top: max(20px, env(safe-area-inset-top)); }
 html.modo-voz .agarradera { display: none; }
 /* En modo para personas ciegas, Como llegar se queda con lo necesario para decidir: menos cosas que recorrer con el dedo. */
-html.modo-voz #opciones .plegable, html.modo-voz #compararPrecio, html.modo-voz #info, html.modo-voz #filaUnidos { display: none; }
+html.modo-voz #opciones .plegable, html.modo-voz #compararPrecio, html.modo-voz #filaUnidos { display: none; }
 .inicio-voz { display: grid; gap: 12px; }
 .inicio-voz .nota { margin: 0 0 6px; font-size: 1rem; }
 .boton-voz { display: flex; align-items: center; gap: 14px; width: 100%; min-height: 84px; padding: 14px 20px; border-radius: var(--radio);
@@ -433,7 +433,12 @@ html.modo-voz #opciones .plegable, html.modo-voz #compararPrecio, html.modo-voz 
 .boton-voz .icono { width: 30px; height: 30px; flex: none; }
 .boton-voz.oscuro { background: var(--superficie); color: var(--tinta); border-color: var(--linea); }
 
-/* Ayuda */
+/* Ayuda: tres pasos a la vista y preguntas cortas plegadas */
+.pasos-ayuda { display: grid; gap: 10px; }
+.pasos-ayuda li { display: flex; gap: 14px; align-items: flex-start; padding: 14px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); }
+.pasos-ayuda .num { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; background: var(--ambar); color: var(--sobre-ambar); }
+.pasos-ayuda strong { display: block; font-weight: 700; }
+.pasos-ayuda small { display: block; color: var(--tenue); font-size: 0.88rem; margin-top: 2px; }
 .ayuda details { border-bottom: 1px solid var(--linea); }
 .ayuda details:last-child { border-bottom: none; }
 .ayuda summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; font-weight: 700; cursor: pointer; list-style: none; }

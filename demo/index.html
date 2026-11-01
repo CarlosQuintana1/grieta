@@ -198,7 +198,6 @@
           </div>
         </div>
       </div>
-      <p class="nota pie" id="info"></p>
     </section>
 
     <section id="detalle" class="pantalla" aria-labelledby="tituloPantalla" hidden>
@@ -294,16 +293,22 @@
 
     <section id="ajustes" class="pantalla" aria-labelledby="tituloAjustes" hidden>
       <h1 id="tituloAjustes" class="titulo-grande" tabindex="-1">Ayuda y ajustes</h1>
-      <h2 id="tituloAyuda">Ayuda</h2>
-      <div class="grupo ayuda" role="group" aria-labelledby="tituloAyuda">
-        <details><summary>¿Cómo voy a algún lado?</summary>
-          <p>En Inicio escribe o dicta a dónde vas. Grieta te muestra cuánto cuesta en Uber, DiDi e inDrive y cómo llegar en Qrobus. Toca una opción para ver los pasos y después "Empezar viaje con avisos": te avisa cuándo pasa tu camión y cuándo bajarte.</p></details>
-        <details><summary>¿Qué camión pasa aquí?</summary>
-          <p>Te dice cuál es la parada más cercana caminando y a qué hora pasan los próximos camiones, según el horario oficial de Qrobus.</p></details>
+      <h2 id="tituloAyuda">Cómo se usa</h2>
+      <ol class="pasos-ayuda">
+        <li><span class="num" aria-hidden="true">1</span><span><strong>Di o escribe a dónde vas</strong><small>En Inicio, en "Busca un lugar" o con "Dictar".</small></span></li>
+        <li><span class="num" aria-hidden="true">2</span><span><strong>Compara y elige</strong><small>Ves cuánto cuesta en Uber, DiDi e inDrive y cómo llegar en Qrobus.</small></span></li>
+        <li><span class="num" aria-hidden="true">3</span><span><strong>Empieza el viaje con avisos</strong><small>Grieta te avisa cuándo pasa tu camión y cuándo bajarte.</small></span></li>
+      </ol>
+      <h2 id="tituloPreguntas">Preguntas</h2>
+      <div class="grupo ayuda" role="group" aria-labelledby="tituloPreguntas">
         <details><summary>¿Los precios son exactos?</summary>
-          <p>No. Son los precios normales a esa hora según lo que registramos. Si la app te marca otro, escríbelo en "¿La app ya te dio precio? Compáralo" y Grieta te dice si conviene pedirlo, esperar o irte en camión.</p></details>
+          <p>Son los precios normales a esa hora. Si la app te marca otro, compáralo en "¿La app ya te dio precio?".</p></details>
         <details><summary>No encuentro un lugar</summary>
-          <p>Escribe la calle y la colonia. Si aun así no sale, toca "Elígelo en el mapa" y marca el punto.</p></details>
+          <p>Escribe la calle y la colonia, o toca "Elígelo en el mapa".</p></details>
+        <details><summary>¿Por qué me habla Grieta?</summary>
+          <p>Para avisarte durante el viaje. Puedes apagar la voz aquí abajo, en "Voz de Grieta".</p></details>
+        <details><summary>¿Las horas del camión son seguras?</summary>
+          <p>Salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse unos minutos.</p></details>
       </div>
       <a class="boton oscuro" href="tel:4422100407"><svg class="icono"><use href="#i-telefono"/></svg>Llamar a Qrobus: 442 210 04 07</a>
       <button id="verBienvenida" type="button" class="enlace">Volver a elegir cómo ves la pantalla</button>
@@ -334,7 +339,6 @@
         <button id="editarGuardados" type="button" class="enlace" aria-pressed="false">Editar</button>
       </div>
       <ul id="listaGuardados" class="filas grupo" aria-labelledby="tituloGuardados"></ul>
-      <p class="nota pie" id="infoAjustes"></p>
       <p class="medidas" id="medidas"></p>
     </section>
   </main>

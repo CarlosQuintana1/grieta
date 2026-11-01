@@ -97,7 +97,7 @@ aplicarAcc();
 // Pantallas: cada una dice si lleva mapa, encabezado y a que pestana pertenece.
 const PANTALLAS = {
   bienvenida: {},
-  inicio: { tab: "inicio", mapa: true },
+  inicio: { tab: "inicio" },
   buscar: { tab: "inicio", encabezado: true },
   elegirMapa: { tab: "inicio", mapa: true, encabezado: true },
   opciones: { tab: "inicio", mapa: true, encabezado: true },
@@ -115,6 +115,7 @@ function mostrar(nombre) {
   if (!$("chofer").hidden) tarjetaChofer(false);
   if (guia.activa && nombre !== "guia") terminarGuia(true);
   if (nombre === "inicio") {
+    estado.guardarComo = null;
     limpiarRuta();
     pintarViajes();
     pintarRutina();
@@ -227,6 +228,12 @@ const esGps = (l) => l?.nombre === "Tu ubicación";
 
 function poner(cual, lugar) {
   estado[cual] = lugar;
+  if (cual === "destino" && estado.guardarComo) {
+    const nombre = estado.guardarComo;
+    estado.guardarComo = null;
+    if (nombre === true) estado.pedirNombre = true;
+    else guardarComo(nombre);
+  }
   capas[cual]?.remove();
   capas[cual] = L.marker([lugar.lat, lugar.lon], { icon: icono(cual), keyboard: false }).addTo(mapa);
   if (cual === "origen") {
@@ -654,6 +661,11 @@ function pintarOpciones(r) {
   const ya = guardados.find((g) => Grieta.metros(g.lat, g.lon, estado.destino.lat, estado.destino.lon) < 30);
   $("guardarLugar").textContent = ya ? `Guardado como ${ya.nombre}` : "Guardar este lugar";
   $("guardarLugar").disabled = Boolean(ya);
+  // Venía de "Agregar lugar": se abren los nombres para que elija cómo guardarlo
+  if (estado.pedirNombre && !ya) {
+    estado.pedirNombre = false;
+    setTimeout(() => { $("guardarLugar").click(); $("nombresLugar").scrollIntoView({ block: "center", behavior: "smooth" }); }, 400);
+  }
   // Solo cuando se eligio otra hora de salida: ahi importa saber que los precios no son de ahorita.
   const cuando = estado.momento === 0 ? "" : estado.momento < ESPERAS.length ? momentos()[estado.momento].etiqueta.toLowerCase() : `${r.ctx.dia === hoyDia() ? "hoy" : `el ${DIAS[r.ctx.dia]}`} a las ${hora(r.ctx.minuto)}`;
   $("resumenRuta").textContent = cuando ? `Saliendo ${cuando}` : "";
@@ -1645,13 +1657,29 @@ let guardados = leer("grieta-lugares", []);
 let editando = false;
 // El ultimo lugar quitado, para poder deshacerlo mientras sigues en Ajustes.
 let quitado = null;
+function iconoLugar(nombre) {
+  const n = sinAcentos(nombre);
+  if (n === "casa") return "casa";
+  if (/escuela|uni|facultad|prepa|colegio|tec\b/.test(n)) return "escuela";
+  if (/trabajo|oficina/.test(n)) return "maletin";
+  if (/hospital|clinica|imss|issste|doctor|medic/.test(n)) return "hospital";
+  return "pin";
+}
 function pintarGuardados() {
   // Casa siempre primero: es el viaje que mas se repite.
   guardados.sort((a, b) => (b.nombre === "Casa") - (a.nombre === "Casa"));
   $("vozCasa").hidden = !guardados.some((g) => g.nombre === "Casa");
-  $("guardados").hidden = !guardados.length;
-  $("guardados").innerHTML = guardados.map((g, i) =>
-    `<button type="button" class="chip" data-i="${i}" aria-label="Ir a ${escapar(g.nombre)}">${ico(g.nombre === "Casa" ? "casa" : "pin")}${escapar(g.nombre)}</button>`).join("");
+  // En modo voz, los demas lugares tambien a un toque, hasta tres para no llenar la pantalla
+  $("vozLugares").innerHTML = guardados.filter((g) => g.nombre !== "Casa").slice(0, 3).map((g) =>
+    `<button type="button" class="boton-voz" data-i="${guardados.indexOf(g)}">${ico(iconoLugar(g.nombre))}Ir a ${escapar(g.nombre)}</button>`).join("");
+  // Tus lugares como fichas grandes; si falta la casa, su ficha invita a agregarla.
+  const fichas = guardados.map((g, i) => `<button type="button" class="lugar" data-i="${i}" aria-label="Ir a ${escapar(g.nombre)}">
+    <span class="circulo">${ico(iconoLugar(g.nombre))}</span><strong>${escapar(g.nombre)}</strong></button>`);
+  if (!guardados.some((g) => g.nombre === "Casa")) fichas.push(`<button type="button" class="lugar nuevo" data-nuevo="Casa">
+    <span class="circulo">${ico("casa")}</span><strong>Agregar casa</strong></button>`);
+  if (guardados.length < 6) fichas.push(`<button type="button" class="lugar nuevo" data-nuevo="">
+    <span class="circulo">${ico("mas")}</span><strong>Agregar lugar</strong></button>`);
+  $("guardados").innerHTML = fichas.join("");
   $("editarGuardados").hidden = !guardados.length;
   $("editarGuardados").textContent = editando ? "Listo" : "Editar";
   $("editarGuardados").setAttribute("aria-pressed", String(editando));
@@ -1659,9 +1687,9 @@ function pintarGuardados() {
       <button type="button" class="quitar" data-deshacer>Deshacer</button></div></li>` : "";
   $("listaGuardados").innerHTML = deshacer + (guardados.length
     ? guardados.map((g, i) => editando
-      ? `<li><div class="fila"><span class="circulo">${ico(g.nombre === "Casa" ? "casa" : "pin")}</span><span class="fila-texto"><strong>${escapar(g.nombre)}</strong></span>
+      ? `<li><div class="fila"><span class="circulo">${ico(iconoLugar(g.nombre))}</span><span class="fila-texto"><strong>${escapar(g.nombre)}</strong></span>
           <button type="button" class="quitar" data-quitar="${i}" aria-label="Quitar ${escapar(g.nombre)}">Quitar</button></div></li>`
-      : `<li><button type="button" data-i="${i}"><span class="circulo">${ico(g.nombre === "Casa" ? "casa" : "pin")}</span>
+      : `<li><button type="button" data-i="${i}"><span class="circulo">${ico(iconoLugar(g.nombre))}</span>
           <span class="fila-texto"><strong>${escapar(g.nombre)}</strong><small>Ir a ${escapar(g.nombre)}</small></span>${ico("chevron", "chevron")}</button></li>`).join("")
     : quitado ? "" : `<li class="vacio">Cuando elijas un destino, toca "Guardar este lugar".</li>`);
 }
@@ -1687,9 +1715,21 @@ $("vozDestino").addEventListener("click", () => {
   abrirBuscar("hacia");
   hablar("Este navegador no deja dictar. Escribe a dónde vas.");
 });
+$("vozLugares").addEventListener("click", (e) => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  const lugar = guardados[b.dataset.i];
+  hablar(`Vamos a ${lugar.nombre}.`);
+  irA(lugar);
+});
 $("guardados").addEventListener("click", (e) => {
   const b = e.target.closest("button");
-  if (b) irA(guardados[b.dataset.i]);
+  if (!b) return;
+  if (!b.hasAttribute("data-nuevo")) return irA(guardados[b.dataset.i]);
+  // Agregar: se busca el lugar y al elegirlo se guarda con ese nombre, o se pregunta cuál ponerle
+  estado.guardarComo = b.dataset.nuevo || true;
+  abrirBuscar("hacia");
+  $("tituloPantalla").textContent = b.dataset.nuevo === "Casa" ? "¿Dónde está tu casa?" : "Agregar un lugar";
 });
 $("listaGuardados").addEventListener("click", (e) => {
   if (e.target.closest("[data-deshacer]") && quitado) {
@@ -2028,6 +2068,7 @@ function pintarResumenPerfil() {
   const icono = `#i-${{ normal: "caminar", poco: "baston", silla: "silla" }[acc.movilidad ?? "normal"]}`;
   $("textoPerfil").textContent = frase;
   $("ajustesAvatar").setAttribute("href", icono);
+  $("inicioAvatar").setAttribute("href", icono);
   if ($("perfilFrase").textContent === frase) return;
   $("perfilFrase").textContent = frase;
   $("perfilAvatar").setAttribute("href", icono);

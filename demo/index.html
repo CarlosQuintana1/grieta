@@ -41,6 +41,10 @@
       <symbol id="i-telefono" viewBox="0 0 24 24"><path d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4.5 5.5a2 2 0 0 1 2-2z"/></symbol>
       <symbol id="i-persona" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></symbol>
       <symbol id="i-palomita" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+      <symbol id="i-escuela" viewBox="0 0 24 24"><path d="M2 9.5 12 5l10 4.5-10 4.5z"/><path d="M6.5 11.5V16c0 1.5 2.5 3 5.5 3s5.5-1.5 5.5-3v-4.5M21.5 9.5v5"/></symbol>
+      <symbol id="i-maletin" viewBox="0 0 24 24"><rect x="3" y="7.5" width="18" height="12" rx="2"/><path d="M9 7.5v-2A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5v2M3 12.5h18"/></symbol>
+      <symbol id="i-hospital" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/></symbol>
+      <symbol id="i-mas" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
       <symbol id="i-ojo" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
       <symbol id="i-letra" viewBox="0 0 24 24"><path d="M2.5 18 7.5 6l5 12M4.5 13.5h6"/><circle cx="17.5" cy="15" r="3"/><path d="M20.5 12v6"/></symbol>
       <symbol id="i-caminar" viewBox="0 0 24 24"><circle cx="13" cy="4.5" r="2"/><path d="M8 21l3-7 3 2.5V21"/><path d="M11 14l1-5.5-3.5 2L7 13.5"/><path d="M12 8.5l2.5 3 3 1"/></symbol>
@@ -58,7 +62,6 @@
   </header>
 
   <div id="mapa" aria-hidden="true"></div>
-  <button id="abrirPerfil" type="button" class="boton-perfil"><svg class="icono"><use href="#i-persona"/></svg><span>Tu perfil</span></button>
 
   <main id="hoja" class="hoja">
     <p id="estado" class="estado" role="status"></p>
@@ -140,31 +143,39 @@
         <button id="vozDestino" type="button" class="boton-voz"><svg class="icono"><use href="#i-microfono"/></svg>Decir a dónde voy</button>
         <button id="vozRutina" type="button" class="boton-voz" hidden><svg class="icono"><use href="#i-reloj"/></svg><span></span></button>
         <button id="vozCasa" type="button" class="boton-voz" hidden><svg class="icono"><use href="#i-casa"/></svg>Llévame a casa</button>
+        <div id="vozLugares" class="voz-lugares"></div>
         <button id="vozCamion" type="button" class="boton-voz"><svg class="icono"><use href="#i-camion"/></svg>¿Qué camión pasa aquí?</button>
         <button id="vozDonde" type="button" class="boton-voz"><svg class="icono"><use href="#i-localizar"/></svg>¿Dónde estoy?</button>
         <button id="vozRepetir" type="button" class="boton-voz oscuro"><svg class="icono"><use href="#i-repetir"/></svg>Repetir</button>
         <div id="respuestaVoz" class="respuesta" aria-live="polite"></div>
       </div>
       <div id="inicioNormal">
-      <h1 id="tituloInicio" class="titulo-grande" tabindex="-1">¿A dónde vas?</h1>
+      <div class="inicio-cabeza">
+        <h1 id="tituloInicio" class="titulo-grande" tabindex="-1">¿A dónde vas?</h1>
+        <button id="abrirPerfil" type="button" class="boton-perfil" aria-label="Tu perfil de viaje">
+          <span class="avatar chico" aria-hidden="true"><svg class="icono"><use id="inicioAvatar" href="#i-caminar"/></svg></span>
+        </button>
+      </div>
       <div class="buscador">
         <svg class="icono tenue"><use href="#i-lupa"/></svg>
         <button id="abrirBuscar" type="button" class="buscador-campo">Busca un lugar</button>
         <button type="button" class="mic dictar" aria-label="Dictar a dónde vas" hidden><svg class="icono"><use href="#i-microfono"/></svg><span>Dictar</span></button>
       </div>
+      <p class="desde"><svg class="icono ambar"><use href="#i-localizar"/></svg><span id="desdeTexto">Buscando tu ubicación...</span><button id="cambiarDesde" type="button" class="enlace">Cambiar</button></p>
       <button id="rutina" type="button" class="sugerencia" hidden>
         <svg class="icono"><use href="#i-reloj"/></svg>
         <span class="fila-texto"><strong id="rutinaTexto"></strong><small>Como otros días a esta hora. Toca para ver cómo llegar</small></span>
       </button>
-      <p class="desde"><svg class="icono ambar"><use href="#i-localizar"/></svg><span id="desdeTexto">Buscando tu ubicación...</span><button id="cambiarDesde" type="button" class="enlace">Cambiar</button></p>
-      <div id="guardados" class="chips" aria-label="Lugares guardados" role="group" hidden></div>
-      <div class="atajos">
+      <h2 id="tituloLugares" class="seccion">Tus lugares</h2>
+      <div id="guardados" class="lugares" role="group" aria-labelledby="tituloLugares"></div>
+      <h2 id="tituloAtajos" class="seccion">Aquí cerca</h2>
+      <div class="atajos" role="group" aria-labelledby="tituloAtajos">
         <button id="pasanAqui" type="button" class="atajo">
-          <svg class="icono ambar"><use href="#i-camion"/></svg>
+          <span class="circulo"><svg class="icono"><use href="#i-camion"/></svg></span>
           <strong>¿Qué camión pasa aquí?</strong>
         </button>
         <button id="dondeEstoy" type="button" class="atajo">
-          <svg class="icono ambar"><use href="#i-localizar"/></svg>
+          <span class="circulo"><svg class="icono"><use href="#i-localizar"/></svg></span>
           <strong>¿Dónde estoy?</strong>
         </button>
       </div>
@@ -178,7 +189,7 @@
       </div>
       <div id="bloqueViajes" hidden>
         <p id="ahorroMes" class="ahorro-mes" hidden></p>
-        <h2 id="tituloViajes">Tus viajes recientes</h2>
+        <h2 id="tituloViajes" class="seccion">Tus viajes recientes</h2>
         <ul id="listaViajes" class="filas" aria-labelledby="tituloViajes"></ul>
       </div>
       </div>

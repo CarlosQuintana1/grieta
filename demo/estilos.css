@@ -144,12 +144,23 @@ input::placeholder { color: var(--tenue); }
 input[type="search"]::-webkit-search-cancel-button { display: none; }
 input[type="number"] { appearance: textfield; }
 input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-.atajos { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
+/* Tus lugares: fichas grandes con icono, lo que mas se repite a un toque */
+.lugares { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.lugar { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 12px; min-height: 96px;
+  padding: 14px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); text-align: left; }
+.lugar strong { font-weight: 700; font-size: 1.02rem; line-height: 1.2; overflow-wrap: anywhere; }
+.lugar .circulo { width: 46px; height: 46px; background: color-mix(in srgb, var(--ambar) 16%, var(--superficie)); border: none; }
+.lugar .circulo .icono { width: 26px; height: 26px; }
+.lugar.nuevo { background: transparent; border-style: dashed; color: var(--tenue); }
+.lugar.nuevo .circulo { background: var(--superficie); color: var(--tenue); }
+.seccion { margin-top: 26px; }
+.atajos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .atajo {
   display: flex; align-items: center; gap: 10px; min-height: 64px; padding: 10px 12px;
   border-radius: var(--radio); border: 1px solid var(--linea); background: var(--superficie);
 }
-.atajo strong { font-weight: 700; line-height: 1.2; font-size: 0.92rem; }
+.atajo strong { font-weight: 700; line-height: 1.2; font-size: 0.92rem; text-align: left; }
+.atajo .circulo { width: 38px; height: 38px; }
 .atajo .icono { width: 26px; height: 26px; }
 .respuesta:not(:empty) { margin-top: 16px; padding: 14px 16px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); }
 .desde { display: flex; align-items: center; gap: 8px; margin-top: 6px; font-size: 0.88rem; color: var(--tenue); }
@@ -462,12 +473,12 @@ html.modo-voz #opciones .plegable, html.modo-voz #compararPrecio, html.modo-voz 
 .campo-y-boton .boton { width: auto; margin-top: 0; }
 
 /* Perfil: boton sobre el mapa del inicio, con texto para que se entienda sin adivinar el icono. */
-.boton-perfil { display: none; position: fixed; z-index: 700; top: calc(max(10px, env(safe-area-inset-top)) + 4px); right: 12px;
-  align-items: center; gap: 8px; min-height: 44px; padding: 0 16px 0 12px; border-radius: 999px; font-weight: 700;
-  background: var(--superficie); color: var(--tinta); border: 2px solid var(--ambar); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35); }
-.boton-perfil .icono { color: var(--ambar); }
-body[data-pantalla="inicio"] .boton-perfil { display: inline-flex; }
-html.modo-voz .boton-perfil { display: none; }
+/* Perfil en la cabecera del inicio, junto al titulo */
+.inicio-cabeza { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.inicio-cabeza h1 { margin: 0; }
+.boton-perfil { flex: none; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; }
+.boton-perfil .avatar.chico { width: 46px; height: 46px; }
+.boton-perfil .avatar.chico .icono { width: 26px; height: 26px; }
 .tarjeta-perfil { display: flex; align-items: center; gap: 12px; width: 100%; margin-top: 8px; padding: 14px; border-radius: var(--radio);
   background: var(--superficie); border: 2px solid var(--ambar); text-align: left; }
 .tarjeta-perfil .enlace { min-height: 0; }
@@ -582,3 +593,8 @@ html.grande .campo-y-boton .boton { flex: 1 0 100%; }
   background: color-mix(in srgb, var(--ambar) 12%, var(--superficie)); border: 1px solid color-mix(in srgb, var(--ambar) 35%, transparent); }
 .a-pie .icono { width: 30px; height: 30px; color: var(--ambar); }
 .a-pie strong { font-weight: 700; }
+
+/* Con letra grande, tus lugares y los atajos en una sola columna: mas espacio para tocar y leer */
+html.grande .lugares, html.grande .atajos { grid-template-columns: 1fr; }
+html.grande .lugar { flex-direction: row; align-items: center; justify-content: flex-start; min-height: 72px; }
+.voz-lugares { display: contents; }

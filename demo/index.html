@@ -39,6 +39,7 @@
       <symbol id="i-atras" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
       <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></symbol>
       <symbol id="i-telefono" viewBox="0 0 24 24"><path d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4.5 5.5a2 2 0 0 1 2-2z"/></symbol>
+      <symbol id="i-persona" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></symbol>
       <symbol id="i-palomita" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
     </defs>
   </svg>
@@ -50,6 +51,7 @@
   </header>
 
   <div id="mapa" aria-hidden="true"></div>
+  <button id="abrirPerfil" type="button" class="boton-perfil"><svg class="icono"><use href="#i-persona"/></svg><span>Tu perfil</span></button>
 
   <main id="hoja" class="hoja">
     <span class="agarradera" aria-hidden="true"></span>
@@ -119,6 +121,13 @@
         </button>
       </div>
       <div id="respuesta" class="respuesta" aria-live="polite"></div>
+      <div id="invitaPerfil" class="invita-perfil" hidden>
+        <strong>¿Te cuesta caminar o pagas Tarifa Unidos?</strong>
+        <div class="invita-acciones">
+          <button id="completarPerfil" type="button" class="boton">Completar mi perfil</button>
+          <button id="cerrarInvita" type="button" class="enlace">Ahora no</button>
+        </div>
+      </div>
       <div id="bloqueViajes" hidden>
         <h2 id="tituloViajes">Tus viajes recientes</h2>
         <ul id="listaViajes" class="filas" aria-labelledby="tituloViajes"></ul>
@@ -202,6 +211,7 @@
 
     <section id="detalle" class="pantalla" aria-labelledby="tituloPantalla" hidden>
       <div id="bloqueCamion">
+        <div id="avisoAcceso" class="aviso cuidado" role="status" hidden></div>
         <div class="cabeza-detalle">
           <div>
             <p id="detalleEtiqueta" class="etiqueta"></p>
@@ -291,8 +301,55 @@
       <p id="reporteEstado" class="nota" role="status"></p>
     </section>
 
+    <section id="perfil" class="pantalla" aria-labelledby="tituloPantalla" hidden>
+      <p class="texto">Contesta lo que quieras: Grieta ajusta las rutas y los avisos. Se guarda solo en este teléfono.</p>
+      <div class="pregunta">
+        <h2 id="pVista">¿Cómo ves la pantalla?</h2>
+        <div id="perfilVista" class="filas-opcion" role="radiogroup" aria-labelledby="pVista">
+          <button type="button" role="radio" aria-checked="false" data-v="vista" tabindex="-1"><span class="fila-texto"><strong>Veo bien</strong></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+          <button type="button" role="radio" aria-checked="false" data-v="poco" tabindex="-1"><span class="fila-texto"><strong>Veo poco</strong><small>Letra grande y más contraste</small></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+          <button type="button" role="radio" aria-checked="false" data-v="voz" tabindex="-1"><span class="fila-texto"><strong>No veo</strong><small>Grieta te dice todo en voz alta</small></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+        </div>
+        <div id="perfilLector" class="pregunta-extra" hidden>
+          <h3 id="pLector">¿Tu teléfono ya te lee la pantalla?</h3>
+          <div id="perfilLectorOpciones" class="filas-opcion" role="radiogroup" aria-labelledby="pLector">
+            <button type="button" role="radio" aria-checked="false" data-v="si" tabindex="-1"><span class="fila-texto"><strong>Sí, uso VoiceOver o TalkBack</strong></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+            <button type="button" role="radio" aria-checked="false" data-v="no" tabindex="-1"><span class="fila-texto"><strong>No, que Grieta me hable</strong></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+          </div>
+        </div>
+      </div>
+      <div class="pregunta">
+        <h2 id="pMovilidad">¿Cómo te mueves?</h2>
+        <div id="perfilMovilidad" class="filas-opcion" role="radiogroup" aria-labelledby="pMovilidad">
+          <button type="button" role="radio" aria-checked="false" data-v="normal" tabindex="-1"><span class="fila-texto"><strong>Camino sin problema</strong></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+          <button type="button" role="radio" aria-checked="false" data-v="poco" tabindex="-1"><span class="fila-texto"><strong>Me cuesta caminar</strong><small>Paradas más cerca</small></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+          <button type="button" role="radio" aria-checked="false" data-v="silla" tabindex="-1"><span class="fila-texto"><strong>Uso silla de ruedas o andadera</strong><small>Paradas cerca y aviso si reportaron que no tienen rampa</small></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+        </div>
+      </div>
+      <div class="pregunta">
+        <h2 id="pOido">¿Escuchas bien los avisos?</h2>
+        <div id="perfilOido" class="filas-opcion" role="radiogroup" aria-labelledby="pOido">
+          <button type="button" role="radio" aria-checked="false" data-v="bien" tabindex="-1"><span class="fila-texto"><strong>Sí, escucho bien</strong></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+          <button type="button" role="radio" aria-checked="false" data-v="poco" tabindex="-1"><span class="fila-texto"><strong>Me cuesta escuchar</strong><small>Avisos en pantalla grande y con vibración, sin voz</small></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+        </div>
+      </div>
+      <div class="pregunta">
+        <h2 id="pTarifa">¿Pagas Tarifa Unidos ($2)?</h2>
+        <div id="perfilTarifa" class="filas-opcion" role="radiogroup" aria-labelledby="pTarifa">
+          <button type="button" role="radio" aria-checked="false" data-v="si" tabindex="-1"><span class="fila-texto"><strong>Sí</strong><small>Estudiante, mayor de 60 o persona con discapacidad</small></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+          <button type="button" role="radio" aria-checked="false" data-v="no" tabindex="-1"><span class="fila-texto"><strong>No, pago la tarifa normal</strong></span><svg class="icono palomita"><use href="#i-palomita"/></svg></button>
+        </div>
+      </div>
+      <button id="perfilListo" type="button" class="boton">Listo</button>
+    </section>
+
     <section id="ajustes" class="pantalla" aria-labelledby="tituloAjustes" hidden>
       <h1 id="tituloAjustes" class="titulo-grande" tabindex="-1">Ayuda y ajustes</h1>
+      <button id="resumenPerfil" type="button" class="tarjeta-perfil">
+        <span class="circulo"><svg class="icono"><use href="#i-persona"/></svg></span>
+        <span class="fila-texto"><strong>Tu perfil de viaje</strong><small id="textoPerfil"></small></span>
+        <span class="enlace">Cambiar</span>
+      </button>
       <h2 id="tituloAyuda">Cómo se usa</h2>
       <ol class="pasos-ayuda">
         <li><span class="num" aria-hidden="true">1</span><span><strong>Di o escribe a dónde vas</strong><small>En Inicio, en "Busca un lugar" o con "Dictar".</small></span></li>
@@ -311,7 +368,6 @@
           <p>Salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse unos minutos.</p></details>
       </div>
       <a class="boton oscuro" href="tel:4422100407"><svg class="icono"><use href="#i-telefono"/></svg>Llamar a Qrobus: 442 210 04 07</a>
-      <button id="verBienvenida" type="button" class="enlace">Volver a elegir cómo ves la pantalla</button>
       <h2>Accesibilidad</h2>
       <div class="grupo">
         <div class="fila-tema">

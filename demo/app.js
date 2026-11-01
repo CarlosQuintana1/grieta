@@ -47,7 +47,7 @@ const capas = {};
 let lugares = [];
 
 // Ajustes guardados en este telefono.
-const acc = { modoVoz: false, grande: false, contraste: false, daltonico: false, voz: true, lenta: false, camino: false, unidos: false, tema: "auto", ...leer("grieta-acc", {}) };
+const acc = { modoVoz: false, grande: false, contraste: false, daltonico: false, voz: true, lenta: false, camino: false, unidos: false, tema: "auto", movilidad: "normal", oido: "bien", lector: "no", ...leer("grieta-acc", {}) };
 // Con "Como el telefono", los colores siguen el modo claro u oscuro del sistema.
 const sistemaClaro = matchMedia("(prefers-color-scheme: light)");
 const OPCIONES = { modoVoz: "optModoVoz", grande: "optGrande", contraste: "optContraste", daltonico: "optDaltonico", voz: "optVoz", lenta: "optLenta", camino: "optCamino", unidos: "optUnidos" };
@@ -65,6 +65,7 @@ function aplicarAcc() {
   $("optUnidos2").checked = acc.unidos;
   recolorear();
   document.querySelector('meta[name="theme-color"]').content = tono("--fondo");
+  pintarResumenPerfil();
 }
 sistemaClaro.addEventListener("change", () => { if (acc.tema === "auto") aplicarAcc(); });
 $("optTema").addEventListener("click", (e) => {
@@ -79,6 +80,7 @@ for (const [k, id] of Object.entries(OPCIONES)) {
   $(id).addEventListener("change", (e) => {
     acc[k] = e.target.checked;
     if (k === "modoVoz" && acc.modoVoz) Object.assign(acc, { voz: true, grande: true });
+    if (k === "camino") acc.movilidad = acc.camino ? (acc.movilidad === "silla" ? "silla" : "poco") : "normal";
     guardarAcc();
     aplicarAcc();
     if (k === "camino" || k === "unidos") calcular();
@@ -104,14 +106,19 @@ const PANTALLAS = {
   guia: {},
   reporte: { tab: "reporte" },
   ajustes: { tab: "ajustes" },
+  perfil: { tab: "ajustes", encabezado: true },
 };
-const titulos = { buscar: "Buscar", camiones: "Camiones cerca", elegirMapa: "Elige en el mapa" };
+const titulos = { buscar: "Buscar", camiones: "Camiones cerca", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje" };
 
 function mostrar(nombre) {
   const conf = PANTALLAS[nombre];
   if (!$("chofer").hidden) tarjetaChofer(false);
   if (guia.activa && nombre !== "guia") terminarGuia(true);
-  if (nombre === "inicio") { limpiarRuta(); pintarViajes(); }
+  if (nombre === "inicio") {
+    limpiarRuta();
+    pintarViajes();
+    $("invitaPerfil").hidden = acc.modoVoz || leer("grieta-perfil", false) || leer("grieta-invita-cerrada", false);
+  }
   if (nombre === "opciones") quitarTrazo();
   if (nombre !== "elegirMapa") capas.punto?.remove();
   if (nombre !== "camiones") { capas.paradas?.remove(); capas.paradas = null; }
@@ -757,6 +764,26 @@ function pintarDetalle(sinMapa) {
     <span class="fila-texto"><strong>${escapar(p.titulo)}</strong><small>${escapar(cruce(p.nota))}</small></span>
     <span class="hora">${hora(p.hora)}</span></li>`).join("");
   if (!sinMapa) dibujar(o);
+  avisarAcceso(o);
+}
+
+// Con silla de ruedas o andadera, avisa si alguien reporto que la parada de subida o bajada no tiene rampa,
+// tiene la banqueta rota o un obstaculo.
+const DIFICIL = ["sin_rampa", "banqueta", "obstaculo"];
+async function avisarAcceso(o) {
+  $("avisoAcceso").hidden = true;
+  if (acc.movilidad !== "silla" || !o.paradas) return;
+  const paradas = [o.paradas.sube, o.paradas.baja].map((i) => Grieta.qrobus.paradas[i]);
+  const avisos = await Promise.all(paradas.map(([lat, lon]) => reportesCerca(lat, lon, 60)));
+  if (estado.elegida !== o) return;
+  const problemas = paradas.map(([, , nombre], k) => {
+    const tipos = [...new Set(avisos[k].filter((a) => DIFICIL.includes(a.tipo)).map((a) => NOMBRES_REPORTE[a.tipo].toLowerCase()))];
+    return tipos.length ? `${cruce(nombre)}: ${tipos.join(", ")}` : null;
+  }).filter(Boolean);
+  if (!problemas.length) return;
+  $("avisoAcceso").innerHTML = `${ico("alerta")}<span class="fila-texto"><strong>Cuidado con la accesibilidad</strong><small>${problemas.map(escapar).join(". ")}.</small></span>`;
+  $("avisoAcceso").hidden = false;
+  hablar(`Cuidado con la accesibilidad. ${problemas.join(". ")}.`, true, true);
 }
 
 function pintarApps(o) {
@@ -1687,6 +1714,7 @@ document.querySelector('#bienvenida [data-paso="vista"]').addEventListener("clic
 document.querySelector('#bienvenida [data-paso="lector"]').addEventListener("click", (e) => {
   const b = e.target.closest("[data-lector]");
   if (!b) return;
+  acc.lector = b.dataset.lector;
   acc.voz = b.dataset.lector === "no";
   guardarAcc();
   aplicarAcc();
@@ -1703,7 +1731,60 @@ $("sinUbicacion").addEventListener("click", () => {
   sinUbicacion("");
   terminarBienvenida();
 });
-$("verBienvenida").addEventListener("click", abrirBienvenida);
+// Perfil de viaje: lo que la persona necesita para moverse, guardado solo en este telefono.
+// Se pregunta por necesidades, no por diagnosticos, y cada respuesta ajusta los mismos interruptores de Ajustes.
+function vistaActual() {
+  return acc.modoVoz ? "voz" : acc.grande && acc.contraste ? "poco" : "vista";
+}
+function pintarResumenPerfil() {
+  if (!$("textoPerfil")) return;
+  const partes = [
+    { vista: "Veo bien", poco: "Veo poco", voz: "No veo" }[vistaActual()],
+    { normal: "Camino sin problema", poco: "Me cuesta caminar", silla: "Silla de ruedas o andadera" }[acc.movilidad ?? "normal"],
+  ];
+  if (acc.oido === "poco") partes.push("Avisos sin voz");
+  if (acc.unidos) partes.push("Tarifa Unidos");
+  $("textoPerfil").textContent = partes.join(" · ");
+}
+const cambiarPerfil = (cambio) => {
+  cambio();
+  guardarAcc();
+  aplicarAcc();
+  calcular();
+};
+const marcarVista = radios("perfilVista", (v) => cambiarPerfil(() => {
+  Object.assign(acc, { modoVoz: v === "voz", grande: v !== "vista", contraste: v === "poco" });
+  if (v === "voz") acc.voz = acc.lector !== "si";
+  $("perfilLector").hidden = v !== "voz";
+}));
+const marcarLector = radios("perfilLectorOpciones", (v) => cambiarPerfil(() => { acc.lector = v; acc.voz = v === "no"; }));
+const marcarMovilidad = radios("perfilMovilidad", (v) => cambiarPerfil(() => { acc.movilidad = v; acc.camino = v !== "normal"; }));
+const marcarOido = radios("perfilOido", (v) => cambiarPerfil(() => {
+  acc.oido = v;
+  acc.voz = v === "bien" && !(acc.modoVoz && acc.lector === "si");
+}));
+const marcarTarifa = radios("perfilTarifa", (v) => cambiarPerfil(() => { acc.unidos = v === "si"; }));
+function abrirPerfil() {
+  marcarVista(vistaActual());
+  marcarLector(acc.modoVoz ? acc.lector : null);
+  marcarMovilidad(acc.movilidad ?? (acc.camino ? "poco" : "normal"));
+  marcarOido(acc.oido ?? "bien");
+  marcarTarifa(acc.unidos ? "si" : "no");
+  $("perfilLector").hidden = !acc.modoVoz;
+  ir("perfil");
+}
+$("abrirPerfil").addEventListener("click", abrirPerfil);
+$("resumenPerfil").addEventListener("click", abrirPerfil);
+$("completarPerfil").addEventListener("click", abrirPerfil);
+$("perfilListo").addEventListener("click", () => {
+  escribir("grieta-perfil", true);
+  hablar("Listo, guardé tu perfil.", false, true);
+  history.back();
+});
+$("cerrarInvita").addEventListener("click", () => {
+  escribir("grieta-invita-cerrada", true);
+  $("invitaPerfil").hidden = true;
+});
 
 // Medidas de la pantalla en Ajustes, para revisar como acomoda iOS la app instalada.
 function medirPantalla() {

@@ -7,6 +7,12 @@ eligen en Ajustes. Lo primero que pregunta es cómo ves la pantalla: veo bien, v
 te lee la pantalla para no hablar encima de VoiceOver o TalkBack, y después pide la ubicación. Se puede volver
 a elegir desde Ajustes. El inicio muestra tus últimos viajes para repetirlos con un toque.
 
+"Tu perfil", arriba a la derecha en el inicio y en Ayuda y ajustes, pregunta por necesidades y no por
+diagnósticos: cómo ves la pantalla, cómo te mueves, si escuchas bien los avisos y si pagas Tarifa Unidos.
+Cada respuesta prende los mismos ajustes (letra grande, modo para personas ciegas, caminar poco, voz,
+tarifa), y con silla de ruedas o andadera el detalle de la ruta avisa si reportaron que la parada de
+subida o de bajada no tiene rampa o tiene obstáculos. Se guarda solo en el teléfono.
+
 La lógica no cambió: va por pantallas, una pregunta a la vez:
 ¿a dónde vas?, los caminos posibles (recomendado, más rápido, más barato) con la hora de llegada, el
 detalle paso a paso de uno y la guía durante el viaje. Si el camino es en app, el detalle muestra el

@@ -459,3 +459,23 @@ html.modo-voz #opciones .plegable, html.modo-voz #compararPrecio, html.modo-voz 
 .campo-y-boton input { flex: 1; min-width: 0; padding: 0 14px; border: 1px solid var(--linea); border-radius: var(--radio); background: var(--superficie); }
 .campo-y-boton input:focus-visible { border-color: var(--ambar); outline: none; }
 .campo-y-boton .boton { width: auto; margin-top: 0; }
+
+/* Perfil: boton sobre el mapa del inicio, con texto para que se entienda sin adivinar el icono. */
+.boton-perfil { display: none; position: fixed; z-index: 700; top: calc(max(10px, env(safe-area-inset-top)) + 4px); right: 12px;
+  align-items: center; gap: 8px; min-height: 44px; padding: 0 16px 0 12px; border-radius: 999px; font-weight: 700;
+  background: var(--superficie); color: var(--tinta); border: 2px solid var(--ambar); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35); }
+.boton-perfil .icono { color: var(--ambar); }
+body[data-pantalla="inicio"] .boton-perfil { display: inline-flex; }
+html.modo-voz .boton-perfil { display: none; }
+.tarjeta-perfil { display: flex; align-items: center; gap: 12px; width: 100%; margin-top: 8px; padding: 14px; border-radius: var(--radio);
+  background: var(--superficie); border: 2px solid var(--ambar); text-align: left; }
+.tarjeta-perfil .enlace { min-height: 0; }
+.invita-perfil { margin-top: 16px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--ambar); }
+.invita-perfil strong { display: block; font-weight: 700; }
+.invita-acciones { display: flex; align-items: center; gap: 14px; margin-top: 10px; }
+.invita-acciones .boton { width: auto; min-height: var(--toque); margin-top: 0; padding: 8px 16px; }
+.pregunta { margin-top: 22px; }
+.pregunta h2 { margin: 0 0 8px; color: var(--tinta); font-size: 1.05rem; text-transform: none; letter-spacing: 0; }
+.pregunta h3 { margin: 16px 0 8px; font-size: 1rem; }
+.filas-opcion .fila-texto strong { font-weight: inherit; }
+#perfil .boton { margin-top: 24px; }

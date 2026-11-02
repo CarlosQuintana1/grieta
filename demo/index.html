@@ -274,15 +274,6 @@
 
     <section id="opciones" class="pantalla" aria-labelledby="tituloPantalla" hidden>
       <p class="resumen-ruta" id="resumenRuta"></p>
-      <p class="etiqueta">Elige cómo llegar</p>
-      <h2 id="tituloPrioridad">¿Qué te importa más?</h2>
-      <div id="prioridadViaje" class="segmentado" role="group" aria-labelledby="tituloPrioridad">
-        <button type="button" data-v="equilibrio" aria-pressed="true">Equilibrio</button>
-        <button type="button" data-v="precio" aria-pressed="false">Gastar menos</button>
-        <button type="button" data-v="caminar" aria-pressed="false">Caminar menos</button>
-      </div>
-      <details class="fuentes-viaje"><summary>Precios estimados · Horarios programados</summary><p id="fuentesViaje" class="nota"></p></details>
-      <p id="vigenciaViaje" class="nota" role="status" hidden></p>
       <div id="aPie" class="a-pie" role="status" hidden>
         <svg class="icono"><use href="#i-caminar"/></svg>
         <span class="fila-texto"><strong id="aPieTexto"></strong><small id="aPieDetalle"></small></span>
@@ -290,15 +281,28 @@
       <h2 id="tituloCamion">En Qrobus</h2>
       <div id="ultimoCamion" class="aviso cuidado" role="status" hidden></div>
       <div id="tarjetas" class="tarjetas" role="group" aria-labelledby="tituloCamion"></div>
+      <details id="otrasRutas" class="otras-rutas" hidden>
+        <summary>Ver otras rutas</summary>
+        <div id="tarjetasAlternas" class="tarjetas"></div>
+      </details>
 
       <div id="enApp" class="en-app">
-        <h2 id="tituloEnApp">En app · precios estimados</h2>
+        <h2 id="tituloEnApp">En app</h2>
         <p id="llegadaApp" class="llegada-app"></p>
         <div id="appsRapido" class="apps-rapido" role="group" aria-labelledby="tituloEnApp"></div>
         <p id="avisoRapido" class="nota" role="status"></p>
-        <button id="compararPrecio" type="button" class="enlace">¿La app ya te dio precio? Compáralo</button>
       </div>
 
+      <details class="fuentes-viaje"><summary id="resumenFuentesViaje">Ver de dónde salen los datos</summary><p id="fuentesViaje" class="nota"></p><p id="vigenciaViaje" class="nota" role="status" hidden></p></details>
+      <details id="ajustarViaje" class="ajustar-viaje">
+        <summary>Ajustar viaje</summary>
+      <h2 id="tituloPrioridad">¿Qué te importa más?</h2>
+      <div id="prioridadViaje" class="segmentado" role="group" aria-labelledby="tituloPrioridad">
+        <button type="button" data-v="equilibrio" aria-pressed="true">Equilibrio</button>
+        <button type="button" data-v="precio" aria-pressed="false">Gastar menos</button>
+        <button type="button" data-v="caminar" aria-pressed="false">Caminar menos</button>
+      </div>
+        <button id="compararPrecio" type="button" class="enlace">¿La app ya te dio precio? Compáralo</button>
       <div class="plegable">
         <button id="abrirLlegar" type="button" class="fila-espera" aria-expanded="false" aria-controls="llegar">
           <span><span class="etiqueta tenue">¿Tienes que llegar a una hora?</span><strong>Te digo a qué hora salir</strong></span>
@@ -334,6 +338,8 @@
 
       <label class="interruptor" id="filaUnidos"><span><strong>Pago Tarifa Unidos</strong><small>El camión te cuesta $2 y el transbordo es gratis</small></span><input type="checkbox" role="switch" id="optUnidos2"></label>
 
+      </details>
+
       <div class="guardar">
         <button id="guardarLugar" type="button" class="enlace" aria-expanded="false" aria-controls="nombresLugar">Guardar este lugar</button>
         <div id="nombresLugar" class="chips" role="group" aria-label="Guardar como" hidden>
@@ -353,9 +359,7 @@
     </section>
 
     <section id="detalle" class="pantalla" aria-labelledby="tituloPantalla" hidden>
-      <button id="guardarPlan" type="button" class="boton oscuro">Guardar pasos sin conexión</button>
       <p id="planEstado" class="nota" role="status"></p>
-      <div id="reconocerParada" class="reconocer-parada" hidden></div>
       <div id="bloqueCamion">
         <div id="avisoAcceso" class="aviso cuidado" role="status" hidden></div>
         <div class="cabeza-detalle">
@@ -380,6 +384,8 @@
         <p id="appAviso" class="nota" role="status"></p>
         <button id="avisarLlegada" type="button" class="boton oscuro"><svg class="icono"><use href="#i-altavoz"/></svg>Avísame cuando esté llegando</button>
 
+        <details id="compararApp" class="detalle-secundario">
+          <summary>Comparar el precio que te marca la app</summary>
         <h2 id="tituloComparar">¿Cuánto te marca la app?</h2>
         <div id="appVista" class="segmentado" role="group" aria-labelledby="tituloComparar">
           <button type="button" data-v="uber" aria-pressed="false">Uber</button>
@@ -398,6 +404,11 @@
         <div id="veredicto" aria-live="polite"></div>
         <button id="enviarPrecio" type="button" class="boton oscuro" hidden>Enviar este precio a Grieta</button>
         <p id="gracias" class="nota" role="status"></p>
+        </details>
+      </div>
+      <div class="utilidades-viaje">
+        <div id="reconocerParada" class="reconocer-parada" hidden></div>
+        <button id="guardarPlan" type="button" class="enlace">Guardar pasos sin conexión</button>
       </div>
     </section>
 

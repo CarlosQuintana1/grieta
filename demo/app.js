@@ -494,6 +494,9 @@ async function trazar() {
 
 function esqueletoOpciones() {
   $("aPie").hidden = true;
+  $("otrasRutas").hidden = true;
+  $("otrasRutas").open = false;
+  $("ajustarViaje").open = false;
   $("compararPrecio").hidden = true;
   $("guardarLugar").disabled = true;
   $("guardarLugar").textContent = "Calculando ruta...";
@@ -595,7 +598,7 @@ function calcular() {
   pintarEspera(lista, precios, base);
   if (estado.elegida && document.body.dataset.pantalla === "detalle") {
     // Al cambiar la hora o el precio, el detalle se rehace con el mismo tipo de camino.
-    const igual = r.opciones.find((o) => tituloOpcion(o) === tituloOpcion(estado.elegida)) ?? (estado.elegida.tipo === "app" ? r.opciones.find((o) => o.tipo === "app") : null);
+    const igual = estado.elegida.tipo === "app" ? opcionApp(estado.app) : r.opciones.find((o) => tituloOpcion(o) === tituloOpcion(estado.elegida));
     if (igual) { estado.elegida = igual; pintarDetalle(true); }
   }
   pintarVeredicto(r);
@@ -702,31 +705,28 @@ function pintarOpciones(r) {
   // Los precios de las apps, a la vista sin tener que entrar a una opcion.
   const apps = [...r.directo.porApp].sort((a, b) => a.precio - b.precio);
   const appDirecta = opcionApp(apps[0].app);
-  $("appsRapido").innerHTML = apps.map((x, i) => `<button type="button" class="app-rapida" data-ver-app="${x.app}">
-    ${fichaApp(x.app)}<span class="fila-texto"><strong>${Grieta.nombreApp(x.app)}</strong><small>Precio estimado${i ? "" : " · Menor precio entre apps"}</small></span><strong>${pesos(x.precio)}</strong>
-    ${datosViaje({ ...appDirecta, costo: x.precio })}<span class="razon-viaje">Ver precio esperado, pasos y cómo pedir</span></button>`).join("");
+  $("appsRapido").innerHTML = apps.map((x) => `<button type="button" class="app-rapida app-${x.app}" data-ver-app="${x.app}"
+    aria-label="Ver ${Grieta.nombreApp(x.app)}, unos ${Math.round(x.precio)} pesos, ${Math.round(appDirecta.minutos)} minutos">
+    <span>${Grieta.nombreApp(x.app)}</span><strong>${pesos(x.precio)}</strong></button>`).join("");
   const hasta = Grieta.modelo.hasta;
   const fechaModelo = /^\d{4}-\d{2}-\d{2}$/.test(hasta) ? `${Number(hasta.slice(8))} ${MESES[Number(hasta.slice(5, 7)) - 1]} ${hasta.slice(0, 4)}` : "fecha no disponible";
   $("fuentesViaje").textContent = `Registros de precios hasta ${fechaModelo}. Son estimaciones; confirma el total en la app. Horarios de catálogo de Qrobus, sin seguimiento en vivo.${avisoVigencia()}`;
   $("vigenciaViaje").hidden = !avisoVigencia();
-  $("vigenciaViaje").textContent = "Horario guardado vencido. Confirma la salida en la parada.";
+  $("vigenciaViaje").textContent = "Confirma la salida en la parada: el horario guardado está vencido.";
+  $("resumenFuentesViaje").textContent = avisoVigencia() ? "Horarios sin actualizar · Ver datos" : "Ver de dónde salen los datos";
+  $("resumenFuentesViaje").classList.toggle("datos-vencidos", Boolean(avisoVigencia()));
   $("avisoRapido").textContent = "";
   const enApp = appDirecta;
   $("compararPrecio").hidden = !enApp;
   estado.tarjetas = elegirTarjetas(r);
-  const elogio = "Tiempo aproximado: ";
-  $("llegadaApp").textContent = enApp ? `${elogio}llegas ${hora(llegada(enApp))}, en unos ${Math.round(enApp.minutos)} min` : "";
-  // Contra la app mas barata: cuanto ahorras y cuanto mas tardas yendo en camion.
-  const appBarata = [...r.directo.porApp].sort((a, b) => a.precio - b.precio)[0];
-  $("tarjetas").innerHTML = estado.tarjetas.map(({ o, etiquetas }, i) => {
-    const ahorro = appBarata.precio - o.costo;
-    const razon = estado.prioridad === "caminar" ? "Se prioriza caminar menos." : estado.prioridad === "precio" ? "Se prioriza gastar menos." : "Equilibra costo y tiempo.";
-    const etiqueta = estado.prioridad === "caminar" ? "Menos a pie" : estado.prioridad === "precio" ? "Menor costo" : "Equilibrado";
-    return `<button type="button" class="tarjeta${i === 0 ? " principal" : ""}" data-i="${i}">
-      ${fichaOpcion(o)}<span class="fila-texto"><span class="etiqueta">${i === 0 ? etiqueta : etiquetas.join(" · ")}</span>
-      <strong>${escapar(tituloOpcion(o))}</strong><small>Llegada programada ${hora(llegada(o))}</small></span><span class="precio">${pesos(o.costo)}</span>
-      ${datosViaje(o)}<span class="razon-viaje">${razon}${ahorro >= 5 ? ` Ahorro estimado de ${pesos(ahorro)} frente a la app más barata.` : ""}</span></button>`;
-  }).join("");
+  $("llegadaApp").textContent = `${Math.round(enApp.minutos)} min aprox. · Precios estimados`;
+  const tarjeta = ({ o }, i) => `<button type="button" class="tarjeta${i === 0 ? " principal" : ""}" data-i="${i}">
+    ${fichaOpcion(o)}<span class="fila-texto"><strong>${escapar(tituloOpcion(o))}</strong>
+    <small>${Math.round(o.minutos)} min · Camina ${caminata(o)} min</small></span><span class="precio">${pesos(o.costo)}</span></button>`;
+  $("tarjetas").innerHTML = estado.tarjetas.slice(0, 1).map(tarjeta).join("");
+  $("tarjetasAlternas").innerHTML = estado.tarjetas.slice(1).map((t, i) => tarjeta(t, i + 1)).join("");
+  $("otrasRutas").hidden = estado.tarjetas.length < 2;
+  $("tituloCamion").textContent = estado.prioridad === "precio" ? "Menor costo en camión" : estado.prioridad === "caminar" ? "Menos caminata en camión" : "En Qrobus";
   const hayCamion = r.opciones.some((o) => o.tipo !== "app");
   $("filaUnidos").hidden = !hayCamion;
   $("tituloCamion").hidden = !hayCamion && !r.pasaCerca;
@@ -737,14 +737,15 @@ function pintarOpciones(r) {
   $("ultimoCamion").hidden = !(quedan <= 120);
   if (quedan <= 120) {
     const app = [...r.directo.porApp].sort((x, y) => x.precio - y.precio)[0];
-    $("ultimoCamion").innerHTML = `${ico("alerta")}<span class="fila-texto"><strong>Último ${escapar(c.linea)}: ${hora(c.ultima)} según el horario</strong>
-      <small>En la parada ${escapar(cruce(c.recorrido[0].nombre))}, hacia ${escapar(c.hacia)}. Si lo pierdes, la app más barata te cuesta unos ${pesos(app.precio)} (${Grieta.nombreApp(app.app)}).${avisoVigencia()}</small></span>`;
+    $("ultimoCamion").innerHTML = `<details><summary>${ico("alerta")}<strong>Último ${escapar(c.linea)}: ${hora(c.ultima)}</strong></summary>
+      <p>Según el horario, en ${escapar(cruce(c.recorrido[0].nombre))}, hacia ${escapar(c.hacia)}. Si lo pierdes, una app cuesta unos ${pesos(app.precio)} (${Grieta.nombreApp(app.app)}).${avisoVigencia()}</p></details>`;
+
   }
   if (!hayCamion) {
     $("tarjetas").innerHTML += `<p class="nota">${r.pasaCerca ? "Ningún Qrobus te lleva directo en la próxima hora." : "En la próxima hora no pasa ningún Qrobus cerca."}</p>`;
   }
 }
-$("tarjetas").addEventListener("click", (e) => {
+$("opciones").addEventListener("click", (e) => {
   const t = e.target.closest(".tarjeta");
   if (t) abrirOpcion(t.dataset.i);
 });
@@ -767,13 +768,14 @@ function leerDetalle() {
 
 // Comparar lo que marca la app: lleva directo al detalle del viaje en app, con el campo del precio listo.
 $("compararPrecio").addEventListener("click", () => {
-  const o = opcionApp();
+  const o = opcionApp(estado.app);
   if (!o) return;
   estado.elegida = o;
   estado.etiquetaElegida = "En app";
   titulos.detalle = tituloOpcion(o);
   ir("detalle");
   pintarDetalle();
+  $("compararApp").open = true;
   if (!estado.app) {
     estado.app = [...estado.r.directo.porApp].sort((a, b) => a.precio - b.precio)[0].app;
     for (const x of $("appVista").children) x.setAttribute("aria-pressed", String(x.dataset.v === estado.app));
@@ -928,6 +930,10 @@ function pasosDe(o) {
 function pintarDetalle(sinMapa) {
   const o = estado.elegida;
   const esApp = o.tipo === "app";
+  if (!sinMapa) {
+    $("compararApp").open = false;
+    $("guardarPlan").textContent = "Guardar pasos sin conexión";
+  }
   $("planEstado").textContent = o.transbordos ? "Costo de transbordo no verificado. Confirma la tarifa al subir." : "";
   $("reconocerParada").hidden = esApp;
   if (!esApp && !sinMapa) reconocerParada(o.pasos.find((p) => p.tipo === "camion"), $("reconocerParada"));
@@ -946,7 +952,7 @@ function pintarDetalle(sinMapa) {
   $("pasos").innerHTML = pasosDe(o).map((p, i) => `<li class="${p.camion ? "camion" : ""}">
     ${miniFicha(p.ficha[0], picto(p.ficha[1]))}
     <span class="fila-texto"><strong>${escapar(p.titulo)}</strong><small>${escapar(cruce(p.nota))}</small></span>
-    <span class="hora">${hora(p.hora)}</span></li>`).join("");
+    </li>`).join("");
   if (!sinMapa) dibujar(o);
   avisarAcceso(o);
 }
@@ -978,11 +984,12 @@ function pintarApps(o) {
   const seleccionada = orden.find((x) => Grieta.nombreApp(x.app) === tituloOpcion(o)) ?? barata;
   $("appCifra").textContent = `${Grieta.nombreApp(seleccionada.app)} ${pesos(seleccionada.precio)}`;
   $("appRango").textContent = `Llegada aproximada ${hora(llegada(o))}. Precio esperado entre ${pesos(seleccionada.bajo)} y ${pesos(seleccionada.alto)}.`;
-  // Una fila por app que tambien la abre, la mas barata primero.
-  $("abrirApps").innerHTML = orden.map((x, i) => `<button type="button" class="app-fila${i ? "" : " barata"}" data-app="${x.app}"
-      aria-label="Abrir ${Grieta.nombreApp(x.app)}, unos ${Math.round(x.precio)} pesos${i ? "" : ", la más barata"}">
-      ${fichaApp(x.app)}<span class="fila-texto"><strong>Abrir ${Grieta.nombreApp(x.app)}</strong><small>${i ? "" : "La más barata · "}normal entre ${pesos(x.bajo)} y ${pesos(x.alto)}</small></span>
-      <span class="precio">${pesos(x.precio)}</span>${ico("chevron", "chevron")}</button>`).join("");
+  // La app elegida es la accion principal; las demas se despliegan.
+  const otras = orden.filter((x) => x.app !== seleccionada.app);
+  $("abrirApps").innerHTML = `<button type="button" class="boton" data-app="${seleccionada.app}">Abrir ${Grieta.nombreApp(seleccionada.app)}</button>
+    <details class="detalle-secundario"><summary>Ver otras apps</summary>${otras.map((x) => `<button type="button" class="app-fila" data-app="${x.app}"
+      aria-label="Abrir ${Grieta.nombreApp(x.app)}, unos ${Math.round(x.precio)} pesos">
+      ${fichaApp(x.app)}<span class="fila-texto"><strong>Abrir ${Grieta.nombreApp(x.app)}</strong></span><span class="precio">${pesos(x.precio)}</span></button>`).join("")}</details>`;
   $("appAviso").textContent = "";
 }
 
@@ -2032,16 +2039,16 @@ function opcionApp(app) {
   const x = r.directo.porApp.find((p) => p.app === app) ?? [...r.directo.porApp].sort((a, b) => a.precio - b.precio)[0];
   return { tipo: "app", opcion: `Solo app (${Grieta.nombreApp(x.app)})`, costo: x.precio, minutos: r.directo.minutos };
 }
-function datosViaje(o) {
-  const cambios = Math.max(0, (o.pasos ?? []).filter((p) => p.tipo === "camion").length - 1);
-  return `<span class="datos-viaje"><span>Tiempo total<b>${Math.round(o.minutos)} min</b></span><span>A pie<b>${caminata(o)} min${o.tipo === "app" ? " previstos" : ""}</b></span><span>Cambios de camión<b>${cambios}</b></span><span>Precio${o.tipo === "app" || o.pasos?.some((p) => p.tipo === "app") ? " estimado" : " de catálogo"}<b>${pesos(o.costo)}</b></span></span>`;
-}
 $("prioridadViaje").addEventListener("click", (e) => {
   const b = e.target.closest("[data-v]");
   if (!b) return;
   estado.prioridad = b.dataset.v;
   for (const x of $("prioridadViaje").children) x.setAttribute("aria-pressed", String(x === b));
-  if (estado.r) pintarOpciones(estado.r);
+  if (estado.r) {
+    pintarOpciones(estado.r);
+    $("ajustarViaje").open = false;
+    $("tarjetas").querySelector("button")?.focus();
+  }
 });
 const destinoRegreso = (p) => ({ ...p, nombre: esGps(p) ? "Donde empezaste el viaje" : p.nombre });
 function crearPlan() {
@@ -2052,6 +2059,7 @@ $("guardarPlan").addEventListener("click", () => {
   const nuevos = [p, ...planes.filter((x) => x.destino.nombre !== p.destino.nombre || x.o.opcion !== p.o.opcion)].slice(0, 5);
   if (!guardarLocal("grieta-planes", nuevos)) { $("planEstado").textContent = "No pude guardarlo. Revisa el espacio disponible en este teléfono."; return; }
   planes = nuevos;
+  $("guardarPlan").textContent = "Pasos guardados";
   $("planEstado").textContent = "Pasos guardados. Los encuentras en Inicio, Mis viajes sin conexión.";
 });
 function fechaDato(iso) {

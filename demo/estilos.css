@@ -787,19 +787,33 @@ html:not(.facil) #inicioNormal .dictar-grande:not([hidden]) { display: flex !imp
 .continuar-viaje .boton { margin-top: 8px; }
 #prioridadViaje { flex-wrap: wrap; gap: 6px; }
 #prioridadViaje button { flex: 1 1 95px; padding: 10px 6px; font-size: .8rem; }
-#opciones .tarjeta, #opciones .app-rapida { width: 100%; display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 12px; padding: 16px; align-items: start; border-radius: 18px; }
-#opciones .tarjeta .mini-ficha { width: 44px; height: 44px; }
-#opciones .tarjeta .precio, #opciones .app-rapida > strong { font-size: 1.55rem; line-height: 1.2; color: var(--ambar); }
-#opciones .tarjeta .fila-texto > strong { font-size: 1.05rem; }
-#opciones .apps-rapido { display: grid; grid-template-columns: 1fr; gap: 12px; }
-#opciones .app-rapida span { font-size: inherit; color: inherit; }
-#opciones .app-rapida .ficha-app { width: 44px; height: 44px; }
-.datos-viaje { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 14px; grid-column: 1 / -1; text-align: left; border-top: 1px solid var(--linea); padding-top: 12px; }
-#opciones .datos-viaje span { display: flex; flex-direction: column; font-size: .78rem; color: var(--tenue); }
-#opciones .datos-viaje b { font-size: .96rem; font-weight: 600; color: var(--tinta); }
-.razon-viaje { grid-column: 1 / -1; color: var(--tenue); font-size: .82rem; }
-#opciones .tarjeta .ahorro { font-size: .8rem; margin-top: 6px; }
-#fuentesViaje { margin-bottom: 18px; }
+#opciones .tarjeta { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 16px 14px; min-height: 94px; }
+#opciones .tarjeta .mini-ficha { display: grid; width: 40px; height: 40px; }
+#opciones .tarjeta .fila-texto { overflow-wrap: break-word; }
+#opciones .tarjeta .fila-texto strong { font-size: 1rem; }
+#opciones .tarjeta small { margin-top: 6px; font-size: .82rem; }
+#opciones .tarjeta .precio { color: var(--ambar); font-size: 1.45rem; }
+#opciones .tarjeta.principal { border-width: 1px; }
+#opciones .en-app { padding: 0; margin: 24px 0 0; border: 0; background: none; }
+#opciones .en-app h2 { margin: 0 0 6px; }
+#opciones .llegada-app { margin: 0 0 12px; font-size: .82rem; }
+#opciones .apps-rapido { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+#opciones .app-rapida { align-items: flex-start; justify-content: center; gap: 6px; min-height: 86px; padding: 12px 10px; border-top: 3px solid var(--tono); }
+#opciones .app-rapida span { font-size: .82rem; color: var(--tenue); }
+#opciones .app-rapida strong { font-size: 1.3rem; line-height: 1.2; }
+.otras-rutas { margin-top: 6px; }
+.otras-rutas > summary, .ajustar-viaje > summary, .detalle-secundario > summary { cursor: pointer; min-height: var(--toque); padding: 14px 0; color: var(--ambar); font-size: .88rem; }
+.ajustar-viaje { margin-top: 8px; border-top: 1px solid var(--linea); border-bottom: 1px solid var(--linea); }
+.ajustar-viaje > summary { color: var(--tinta); }
+.ajustar-viaje[open] { padding-bottom: 16px; }
+#opciones .guardar { margin-top: 12px; }
+#opciones .guardar > .enlace, .utilidades-viaje > .enlace { min-height: var(--toque); }
+.utilidades-viaje { margin-top: 18px; }
+#detalle .detalle-secundario { margin-top: 8px; border-top: 1px solid var(--linea); }
+#detalle .utilidades-viaje .reconocer-parada { padding: 0; background: none; border-width: 1px 0 0; border-radius: 0; margin-bottom: 4px; }
+#ultimoCamion { display: block; padding: 12px 14px; }
+#ultimoCamion summary { display: flex; align-items: center; gap: 10px; cursor: pointer; min-height: var(--toque); }
+#ultimoCamion p { font-size: .85rem; color: var(--tenue); margin-top: 8px; }
 .reconocer-parada { margin: 16px 0; padding: 16px; border: 1px solid var(--linea); border-radius: var(--radio); background: var(--superficie); }
 .reconocer-parada h3 { margin-top: 6px; }
 .reporte-fechado { padding: 12px 0; border-top: 1px solid var(--linea); }
@@ -832,37 +846,37 @@ html:not(.facil) #inicioNormal .dictar-grande:not([hidden]) { display: flex !imp
   #inicioNormal .lugar { flex-direction: column; align-items: flex-start; min-height: 126px; }
   #inicioNormal .lugar-nombre { font-size: .9rem; }
   #inicioNormal .titulo-grande { font-size: 1.7rem; }
-  #opciones .tarjeta, #opciones .app-rapida { padding: 12px; gap: 10px; }
 }
 html.grande #inicioNormal .lugares { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 html.grande #inicioNormal .lugar { flex-direction: column; align-items: flex-start; }
 html.grande .guia-controles { grid-template-columns: 1fr; position: static; }
-html.grande .datos-viaje { gap: 12px; }
 
 .reconocer-parada summary { cursor: pointer; min-height: var(--toque); display: flex; flex-direction: column; justify-content: center; color: var(--ambar); font-size: .85rem; }
 .reconocer-parada summary strong { font-size: 1rem; color: var(--tinta); }
 body.alerta .guia-controles { background: var(--alerta); }
 body.alerta #estadoGps, body.alerta .ayuda-viaje .nota { color: var(--tinta); }
 
-#opciones .tarjeta > .fila-texto, #opciones .app-rapida > .fila-texto { grid-column: 2; grid-row: 1; overflow-wrap: break-word; }
-#opciones .tarjeta > .precio, #opciones .app-rapida > strong { grid-column: 3; grid-row: 1; }
-#opciones .app-rapida > .ficha-app { color: var(--sobre-ficha); }
-#opciones .tarjeta .etiqueta { display: block; }
 @media (max-width: 350px) {
-  #opciones .tarjeta, #opciones .app-rapida { grid-template-columns: minmax(0, 1fr) auto; }
-  #opciones .tarjeta > .mini-ficha, #opciones .app-rapida > .mini-ficha { display: none; }
-  #opciones .tarjeta > .fila-texto, #opciones .app-rapida > .fila-texto { grid-column: 1; }
-  #opciones .tarjeta > .precio, #opciones .app-rapida > strong { grid-column: 2; }
+  #opciones .tarjeta { grid-template-columns: minmax(0, 1fr) auto; }
+  #opciones .tarjeta .mini-ficha { display: none; }
+  #opciones .app-rapida { padding: 12px 8px; }
 }
-html.grande #opciones .tarjeta, html.grande #opciones .app-rapida { grid-template-columns: minmax(0, 1fr) auto; }
-html.grande #opciones .tarjeta > .mini-ficha, html.grande #opciones .app-rapida > .mini-ficha { display: none; }
-html.grande #opciones .tarjeta > .fila-texto, html.grande #opciones .app-rapida > .fila-texto { grid-column: 1; }
-html.grande #opciones .tarjeta > .precio, html.grande #opciones .app-rapida > strong { grid-column: 2; }
+html.grande #opciones .tarjeta { grid-template-columns: minmax(0, 1fr) auto; }
+html.grande #opciones .tarjeta .mini-ficha { display: none; }
+html.grande #opciones .apps-rapido, html.modo-voz #opciones .apps-rapido { grid-template-columns: 1fr; }
+html.grande #opciones .app-rapida, html.modo-voz #opciones .app-rapida { flex-direction: row; align-items: center; justify-content: space-between; min-height: var(--toque); }
+html.modo-voz #opciones .tarjeta { min-height: 120px; }
+html.modo-voz #opciones .app-rapida { min-height: 64px; }
 
 body.alerta .reconocer-parada { background: var(--alerta); }
 body.alerta .reconocer-parada summary { color: var(--tinta); }
 body.alerta .ayuda-viaje { border-color: var(--tinta); }
 
-.fuentes-viaje { margin-top: 14px; font-size: .8rem; color: var(--tenue); }
+.fuentes-viaje { margin-top: 12px; font-size: .8rem; color: var(--tenue); }
 .fuentes-viaje summary { cursor: pointer; padding: 8px 0; min-height: var(--toque); }
-#vigenciaViaje { margin: 4px 0 14px; padding-left: 10px; border-left: 3px solid var(--cuidado); font-size: .8rem; }
+#resumenFuentesViaje.datos-vencidos { color: var(--cuidado); }
+#vigenciaViaje { margin-top: 8px; font-size: .8rem; }
+
+html.facil #otrasRutas { display: none !important; }
+
+#guardarLugar:disabled { color: var(--tenue); text-decoration: none; cursor: default; }

@@ -502,7 +502,7 @@ html.modo-voz #opciones .plegable, html.modo-voz #compararPrecio, html.modo-voz 
 .inicio-cabeza h1 { margin: 0; }
 .boton-perfil { flex: none; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; }
 .boton-perfil .avatar.chico { width: 46px; height: 46px; }
-.boton-perfil .avatar.chico .icono { width: 26px; height: 26px; }
+.boton-perfil .avatar.chico .icono { width: 32px; height: 32px; }
 .tarjeta-perfil { display: flex; align-items: center; gap: 12px; width: 100%; margin-top: 8px; padding: 14px; border-radius: var(--radio);
   background: var(--superficie); border: 2px solid var(--ambar); text-align: left; }
 .tarjeta-perfil .mini-ficha { width: 48px; height: 48px; }

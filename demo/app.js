@@ -116,7 +116,7 @@ const PANTALLAS = {
   inicio: { tab: "inicio" },
   buscar: { tab: "inicio", encabezado: true },
   elegirMapa: { tab: "inicio", mapa: true, encabezado: true },
-  opciones: { tab: "inicio", encabezado: true },
+  opciones: { tab: "inicio", mapa: true, encabezado: true },
   detalle: { tab: "inicio", mapa: true, encabezado: true },
   camiones: { tab: "camiones", mapa: true, encabezado: true },
   guia: {},
@@ -705,24 +705,18 @@ function pintarOpciones(r) {
   // Los precios de las apps, a la vista sin tener que entrar a una opcion.
   const apps = [...r.directo.porApp].sort((a, b) => a.precio - b.precio);
   const appDirecta = opcionApp(apps[0].app);
-  $("appsRapido").innerHTML = apps.map((x) => `<button type="button" class="app-rapida app-${x.app}" data-ver-app="${x.app}"
-    aria-label="Ver ${Grieta.nombreApp(x.app)}, unos ${Math.round(x.precio)} pesos, ${Math.round(appDirecta.minutos)} minutos">
-    <span>${Grieta.nombreApp(x.app)}</span><strong>${pesos(x.precio)}</strong></button>`).join("");
-  const hasta = Grieta.modelo.hasta;
-  const fechaModelo = /^\d{4}-\d{2}-\d{2}$/.test(hasta) ? `${Number(hasta.slice(8))} ${MESES[Number(hasta.slice(5, 7)) - 1]} ${hasta.slice(0, 4)}` : "fecha no disponible";
-  $("fuentesViaje").textContent = `Registros de precios hasta ${fechaModelo}. Son estimaciones; confirma el total en la app. Horarios de catálogo de Qrobus, sin seguimiento en vivo.${avisoVigencia()}`;
-  $("vigenciaViaje").hidden = !avisoVigencia();
-  $("vigenciaViaje").textContent = "Confirma la salida en la parada: el horario guardado está vencido.";
-  $("resumenFuentesViaje").textContent = avisoVigencia() ? "Horarios sin actualizar · Ver datos" : "Ver de dónde salen los datos";
-  $("resumenFuentesViaje").classList.toggle("datos-vencidos", Boolean(avisoVigencia()));
+  $("appsRapido").innerHTML = apps.map((x, i) => `<button type="button" class="app-rapida${i ? "" : " barata"}" data-ver-app="${x.app}"
+    aria-label="Ver ${Grieta.nombreApp(x.app)}, unos ${Math.round(x.precio)} pesos${i ? "" : ", la más barata"}, ${Math.round(appDirecta.minutos)} minutos">
+    ${fichaApp(x.app)}<span class="nombre-app">${Grieta.nombreApp(x.app)}</span><strong>${pesos(x.precio)}</strong>
+    <small${i ? ' class="vacio"' : ""}>Más barata</small></button>`).join("");
   $("avisoRapido").textContent = "";
   const enApp = appDirecta;
   $("compararPrecio").hidden = !enApp;
   estado.tarjetas = elegirTarjetas(r);
   $("llegadaApp").textContent = `${Math.round(enApp.minutos)} min aprox. · Precios estimados`;
-  const tarjeta = ({ o }, i) => `<button type="button" class="tarjeta${i === 0 ? " principal" : ""}" data-i="${i}">
-    ${fichaOpcion(o)}<span class="fila-texto"><strong>${escapar(tituloOpcion(o))}</strong>
-    <small>${Math.round(o.minutos)} min · Camina ${caminata(o)} min</small></span><span class="precio">${pesos(o.costo)}</span></button>`;
+  const tarjeta = ({ o, etiquetas }, i) => `<button type="button" class="tarjeta${i === 0 ? " principal" : ""}" data-i="${i}">
+    ${fichaOpcion(o)}<span class="fila-texto"><span class="etiqueta">${escapar(etiquetas[0])}</span><strong>${escapar(tituloOpcion(o))}</strong>
+    <small>${Math.round(o.minutos)} min · Camina ${caminata(o)} min</small></span><span class="precio">${pesos(o.costo)}</span>${ico("chevron", "chevron")}</button>`;
   $("tarjetas").innerHTML = estado.tarjetas.slice(0, 1).map(tarjeta).join("");
   $("tarjetasAlternas").innerHTML = estado.tarjetas.slice(1).map((t, i) => tarjeta(t, i + 1)).join("");
   $("otrasRutas").hidden = estado.tarjetas.length < 2;
@@ -738,7 +732,7 @@ function pintarOpciones(r) {
   if (quedan <= 120) {
     const app = [...r.directo.porApp].sort((x, y) => x.precio - y.precio)[0];
     $("ultimoCamion").innerHTML = `<details><summary>${ico("alerta")}<strong>Último ${escapar(c.linea)}: ${hora(c.ultima)}</strong></summary>
-      <p>Según el horario, en ${escapar(cruce(c.recorrido[0].nombre))}, hacia ${escapar(c.hacia)}. Si lo pierdes, una app cuesta unos ${pesos(app.precio)} (${Grieta.nombreApp(app.app)}).${avisoVigencia()}</p></details>`;
+      <p>Según el horario, en ${escapar(cruce(c.recorrido[0].nombre))}, hacia ${escapar(c.hacia)}. Si lo pierdes, una app cuesta unos ${pesos(app.precio)} (${Grieta.nombreApp(app.app)}).</p></details>`;
 
   }
   if (!hayCamion) {
@@ -1148,15 +1142,6 @@ function recolorear() {
   capas.camion?.eachLayer((c) => c.setStyle(c.options.tono === "linea" ? { color: ambar } : c.options.tono === "punto" ? { fillColor: ambar } : { color: tono("--tinta") }));
 }
 
-// Si el horario guardado ya paso su fecha, se avisa que las horas pueden variar.
-function avisoVigencia() {
-  const v = Grieta.qrobus?.vigencia;
-  if (!v) return "";
-  const hoy = new Date();
-  const fin = new Date(Number(v.slice(0, 4)), Number(v.slice(4, 6)) - 1, Number(v.slice(6)));
-  return hoy > fin ? ` El horario guardado venció el ${fin.getDate()} ${MESES[fin.getMonth()]} ${fin.getFullYear()}: las horas pueden variar.` : "";
-}
-
 // Camiones cerca
 const iconoParada = (cerca) => L.divIcon({ className: "", iconSize: cerca ? [38, 38] : [30, 30],
   html: `<span class="parada-mapa${cerca ? " cerca" : ""}">${ico("camion")}</span>` });
@@ -1251,7 +1236,7 @@ function pintarCamiones(punto, lista, primera) {
     <div id="avisosParada" class="avisos"><p class="nota">Buscando avisos...</p></div>
     ${lista.length > 1 ? `<details class="otras"><summary>Ver ${lista.length - 1 === 1 ? "otra parada" : `otras ${lista.length - 1} paradas`} cerca${ico("chevron", "chevron")}</summary>
       ${lista.slice(1).map((x) => `<h3>${escapar(cruce(x.nombre))} <span class="tenue">a ${distanciaTexto(x.caminado ?? x.m, true)}${x.caminado ? " caminando" : " en línea recta"}</span></h3>${filas(x)}`).join("")}</details>` : ""}
-    <p class="nota pie">Las horas salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse.${avisoVigencia()}</p>`;
+    <p class="nota pie">Las horas salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse.</p>`;
   $("irParada").addEventListener("click", () => poner("destino", { nombre: `Parada ${p.nombre}`, lat: p.lat, lon: p.lon }));
   if (primera) hablar(`La parada más cercana es ${p.nombre}. ` +
     p.lineas.slice(0, 4).map((l) => `Línea ${l.linea} hacia ${l.hacia}, a las ${hora(l.horas[0])} según el horario.`).join(" "));

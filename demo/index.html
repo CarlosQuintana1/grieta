@@ -278,6 +278,14 @@
         <svg class="icono"><use href="#i-caminar"/></svg>
         <span class="fila-texto"><strong id="aPieTexto"></strong><small id="aPieDetalle"></small></span>
       </div>
+      <div id="enApp" class="en-app">
+        <h2 id="tituloEnApp">Viaje en app</h2>
+        <p id="llegadaApp" class="llegada-app"></p>
+        <div id="appsRapido" class="apps-rapido" role="group" aria-labelledby="tituloEnApp"></div>
+        <p id="avisoRapido" class="nota" role="status"></p>
+        <button id="compararPrecio" type="button" class="enlace">¿La app ya te dio precio? Compáralo</button>
+      </div>
+
       <h2 id="tituloCamion">En Qrobus</h2>
       <div id="ultimoCamion" class="aviso cuidado" role="status" hidden></div>
       <div id="tarjetas" class="tarjetas" role="group" aria-labelledby="tituloCamion"></div>
@@ -286,14 +294,6 @@
         <div id="tarjetasAlternas" class="tarjetas"></div>
       </details>
 
-      <div id="enApp" class="en-app">
-        <h2 id="tituloEnApp">En app</h2>
-        <p id="llegadaApp" class="llegada-app"></p>
-        <div id="appsRapido" class="apps-rapido" role="group" aria-labelledby="tituloEnApp"></div>
-        <p id="avisoRapido" class="nota" role="status"></p>
-      </div>
-
-      <details class="fuentes-viaje"><summary id="resumenFuentesViaje">Ver de dónde salen los datos</summary><p id="fuentesViaje" class="nota"></p><p id="vigenciaViaje" class="nota" role="status" hidden></p></details>
       <details id="ajustarViaje" class="ajustar-viaje">
         <summary>Ajustar viaje</summary>
       <h2 id="tituloPrioridad">¿Qué te importa más?</h2>
@@ -302,7 +302,7 @@
         <button type="button" data-v="precio" aria-pressed="false">Gastar menos</button>
         <button type="button" data-v="caminar" aria-pressed="false">Caminar menos</button>
       </div>
-        <button id="compararPrecio" type="button" class="enlace">¿La app ya te dio precio? Compáralo</button>
+
       <div class="plegable">
         <button id="abrirLlegar" type="button" class="fila-espera" aria-expanded="false" aria-controls="llegar">
           <span><span class="etiqueta tenue">¿Tienes que llegar a una hora?</span><strong>Te digo a qué hora salir</strong></span>

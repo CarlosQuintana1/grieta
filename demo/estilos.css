@@ -787,19 +787,23 @@ html:not(.facil) #inicioNormal .dictar-grande:not([hidden]) { display: flex !imp
 .continuar-viaje .boton { margin-top: 8px; }
 #prioridadViaje { flex-wrap: wrap; gap: 6px; }
 #prioridadViaje button { flex: 1 1 95px; padding: 10px 6px; font-size: .8rem; }
-#opciones .tarjeta { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 16px 14px; min-height: 94px; }
+#opciones .tarjeta { display: flex; align-items: center; gap: 12px; padding: 14px; min-height: 100px; }
 #opciones .tarjeta .mini-ficha { display: grid; width: 40px; height: 40px; }
 #opciones .tarjeta .fila-texto { overflow-wrap: break-word; }
 #opciones .tarjeta .fila-texto strong { font-size: 1rem; }
 #opciones .tarjeta small { margin-top: 6px; font-size: .82rem; }
 #opciones .tarjeta .precio { color: var(--ambar); font-size: 1.45rem; }
-#opciones .tarjeta.principal { border-width: 1px; }
-#opciones .en-app { padding: 0; margin: 24px 0 0; border: 0; background: none; }
+#opciones .tarjeta.principal { border: 2px solid var(--ambar); }
+#opciones .en-app { padding: 0; margin: 4px 0 0; border: 0; background: none; }
 #opciones .en-app h2 { margin: 0 0 6px; }
 #opciones .llegada-app { margin: 0 0 12px; font-size: .82rem; }
 #opciones .apps-rapido { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-#opciones .app-rapida { align-items: flex-start; justify-content: center; gap: 6px; min-height: 86px; padding: 12px 10px; border-top: 3px solid var(--tono); }
-#opciones .app-rapida span { font-size: .82rem; color: var(--tenue); }
+#opciones .app-rapida { display: grid; justify-items: start; align-content: start; gap: 6px; min-height: 132px; padding: 12px 10px; border: 1px solid var(--linea); }
+#opciones .app-rapida.barata { border: 2px solid var(--ambar); padding: 11px 9px; }
+#opciones .app-rapida .ficha-app { width: 32px; height: 32px; margin: 0; color: var(--sobre-ficha); font-size: .85rem; }
+#opciones .app-rapida .nombre-app { font-size: .82rem; color: var(--tinta); }
+#opciones .app-rapida small { font-size: .6rem; letter-spacing: .02em; }
+#compararPrecio { min-height: var(--toque); }
 #opciones .app-rapida strong { font-size: 1.3rem; line-height: 1.2; }
 .otras-rutas { margin-top: 6px; }
 .otras-rutas > summary, .ajustar-viaje > summary, .detalle-secundario > summary { cursor: pointer; min-height: var(--toque); padding: 14px 0; color: var(--ambar); font-size: .88rem; }
@@ -857,25 +861,22 @@ body.alerta .guia-controles { background: var(--alerta); }
 body.alerta #estadoGps, body.alerta .ayuda-viaje .nota { color: var(--tinta); }
 
 @media (max-width: 350px) {
-  #opciones .tarjeta { grid-template-columns: minmax(0, 1fr) auto; }
   #opciones .tarjeta .mini-ficha { display: none; }
   #opciones .app-rapida { padding: 12px 8px; }
 }
-html.grande #opciones .tarjeta { grid-template-columns: minmax(0, 1fr) auto; }
 html.grande #opciones .tarjeta .mini-ficha { display: none; }
 html.grande #opciones .apps-rapido, html.modo-voz #opciones .apps-rapido { grid-template-columns: 1fr; }
-html.grande #opciones .app-rapida, html.modo-voz #opciones .app-rapida { flex-direction: row; align-items: center; justify-content: space-between; min-height: var(--toque); }
+html.grande #opciones .app-rapida, html.modo-voz #opciones .app-rapida { grid-template-columns: 32px minmax(0, 1fr) auto; align-items: center; gap: 4px 12px; min-height: 76px; }
+html.grande #opciones .app-rapida .ficha-app, html.modo-voz #opciones .app-rapida .ficha-app { grid-column: 1; grid-row: 1 / 3; }
+html.grande #opciones .app-rapida .nombre-app, html.modo-voz #opciones .app-rapida .nombre-app { grid-column: 2; grid-row: 1; }
+html.grande #opciones .app-rapida strong, html.modo-voz #opciones .app-rapida strong { grid-column: 3; grid-row: 1; }
+html.grande #opciones .app-rapida small, html.modo-voz #opciones .app-rapida small { grid-column: 2 / -1; grid-row: 2; }
 html.modo-voz #opciones .tarjeta { min-height: 120px; }
 html.modo-voz #opciones .app-rapida { min-height: 64px; }
 
 body.alerta .reconocer-parada { background: var(--alerta); }
 body.alerta .reconocer-parada summary { color: var(--tinta); }
 body.alerta .ayuda-viaje { border-color: var(--tinta); }
-
-.fuentes-viaje { margin-top: 12px; font-size: .8rem; color: var(--tenue); }
-.fuentes-viaje summary { cursor: pointer; padding: 8px 0; min-height: var(--toque); }
-#resumenFuentesViaje.datos-vencidos { color: var(--cuidado); }
-#vigenciaViaje { margin-top: 8px; font-size: .8rem; }
 
 html.facil #otrasRutas { display: none !important; }
 

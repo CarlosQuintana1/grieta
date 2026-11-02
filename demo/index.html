@@ -196,7 +196,6 @@
         <button id="vozRepetir" type="button" class="boton-voz oscuro"><svg class="icono"><use href="#i-repetir"/></svg>Repetir</button>
         <div id="respuestaVoz" class="respuesta" aria-live="polite"></div>
       </div>
-      <div id="continuarInicio" class="continuar-viaje" hidden></div>
       <div id="inicioNormal">
       <div class="inicio-cabeza">
         <h1 id="tituloInicio" class="titulo-grande" tabindex="-1">¿A dónde vas?</h1>
@@ -204,6 +203,12 @@
           <span class="avatar chico" aria-hidden="true"><svg class="icono"><use id="inicioAvatar" href="#p-caminar"/></svg></span>
         </button>
       </div>
+      <div class="buscador">
+        <svg class="icono tenue"><use href="#i-lupa"/></svg>
+        <button id="abrirBuscar" type="button" class="buscador-campo">Busca un lugar</button>
+        <button type="button" class="mic dictar" aria-label="Dictar a dónde vas" hidden><svg class="icono"><use href="#i-microfono"/></svg><span>Dictar</span></button>
+      </div>
+      <button type="button" class="boton dictar dictar-grande" aria-label="Decir a dónde voy" hidden><svg class="picto"><use href="#p-decir"/></svg><span>Decir a dónde voy</span></button>
       <p class="desde"><svg class="icono ambar"><use href="#i-localizar"/></svg><span id="desdeTexto">Buscando tu ubicación...</span><button id="cambiarDesde" type="button" class="enlace">Cambiar</button></p>
       <button id="rutina" type="button" class="sugerencia" hidden>
         <svg class="icono"><use href="#i-reloj"/></svg>
@@ -211,12 +216,6 @@
       </button>
       <h2 id="tituloLugares" class="seccion">Tus lugares</h2>
       <div id="guardados" class="lugares" role="group" aria-labelledby="tituloLugares"></div>
-      <div class="buscador">
-        <svg class="icono tenue"><use href="#i-lupa"/></svg>
-        <button id="abrirBuscar" type="button" class="buscador-campo">Busca un lugar</button>
-        <button type="button" class="mic dictar" aria-label="Dictar a dónde vas" hidden><svg class="icono"><use href="#i-microfono"/></svg><span>Dictar</span></button>
-      </div>
-      <button type="button" class="boton dictar dictar-grande" aria-label="Decir a dónde voy" hidden><svg class="picto"><use href="#p-decir"/></svg><span>Decir a dónde voy</span></button>
       <h2 id="tituloAtajos" class="seccion">Aquí cerca</h2>
       <div class="lugares" role="group" aria-labelledby="tituloAtajos">
         <button id="pasanAqui" type="button" class="lugar tono-anil" aria-label="¿Qué camión pasa aquí?">
@@ -240,16 +239,6 @@
         <ul id="listaViajes" class="filas" aria-labelledby="tituloViajes"></ul>
       </div>
       </div>
-      <div class="accesos-viaje">
-        <button id="abrirPlanes" type="button" class="boton oscuro">Mis viajes sin conexión</button>
-        <button id="volverInicio" type="button" class="enlace" hidden>Calcular mi regreso</button>
-      </div>
-    </section>
-
-    <section id="planes" class="pantalla" aria-labelledby="tituloPantalla" hidden>
-      <p class="nota">Los pasos se guardan en este teléfono. Los mapas, precios nuevos y reportes necesitan conexión.</p>
-      <div id="listaPlanes" class="lista-planes"></div>
-      <div id="planAbierto" hidden></div>
     </section>
 
     <section id="buscar" class="pantalla" aria-labelledby="tituloPantalla" hidden>
@@ -279,29 +268,15 @@
         <span class="fila-texto"><strong id="aPieTexto"></strong><small id="aPieDetalle"></small></span>
       </div>
       <div id="enApp" class="en-app">
-        <h2 id="tituloEnApp">Viaje en app</h2>
+        <h2 id="tituloEnApp">Pedir en app ahora</h2>
         <p id="llegadaApp" class="llegada-app"></p>
         <div id="appsRapido" class="apps-rapido" role="group" aria-labelledby="tituloEnApp"></div>
         <p id="avisoRapido" class="nota" role="status"></p>
         <button id="compararPrecio" type="button" class="enlace">¿La app ya te dio precio? Compáralo</button>
       </div>
-
       <h2 id="tituloCamion">En Qrobus</h2>
       <div id="ultimoCamion" class="aviso cuidado" role="status" hidden></div>
       <div id="tarjetas" class="tarjetas" role="group" aria-labelledby="tituloCamion"></div>
-      <details id="otrasRutas" class="otras-rutas" hidden>
-        <summary>Ver otras rutas</summary>
-        <div id="tarjetasAlternas" class="tarjetas"></div>
-      </details>
-
-      <details id="ajustarViaje" class="ajustar-viaje">
-        <summary>Ajustar viaje</summary>
-      <h2 id="tituloPrioridad">¿Qué te importa más?</h2>
-      <div id="prioridadViaje" class="segmentado" role="group" aria-labelledby="tituloPrioridad">
-        <button type="button" data-v="equilibrio" aria-pressed="true">Equilibrio</button>
-        <button type="button" data-v="precio" aria-pressed="false">Gastar menos</button>
-        <button type="button" data-v="caminar" aria-pressed="false">Caminar menos</button>
-      </div>
 
       <div class="plegable">
         <button id="abrirLlegar" type="button" class="fila-espera" aria-expanded="false" aria-controls="llegar">
@@ -338,8 +313,6 @@
 
       <label class="interruptor" id="filaUnidos"><span><strong>Pago Tarifa Unidos</strong><small>El camión te cuesta $2 y el transbordo es gratis</small></span><input type="checkbox" role="switch" id="optUnidos2"></label>
 
-      </details>
-
       <div class="guardar">
         <button id="guardarLugar" type="button" class="enlace" aria-expanded="false" aria-controls="nombresLugar">Guardar este lugar</button>
         <div id="nombresLugar" class="chips" role="group" aria-label="Guardar como" hidden>
@@ -359,7 +332,6 @@
     </section>
 
     <section id="detalle" class="pantalla" aria-labelledby="tituloPantalla" hidden>
-      <p id="planEstado" class="nota" role="status"></p>
       <div id="bloqueCamion">
         <div id="avisoAcceso" class="aviso cuidado" role="status" hidden></div>
         <div class="cabeza-detalle">
@@ -384,8 +356,6 @@
         <p id="appAviso" class="nota" role="status"></p>
         <button id="avisarLlegada" type="button" class="boton oscuro"><svg class="icono"><use href="#i-altavoz"/></svg>Avísame cuando esté llegando</button>
 
-        <details id="compararApp" class="detalle-secundario">
-          <summary>Comparar el precio que te marca la app</summary>
         <h2 id="tituloComparar">¿Cuánto te marca la app?</h2>
         <div id="appVista" class="segmentado" role="group" aria-labelledby="tituloComparar">
           <button type="button" data-v="uber" aria-pressed="false">Uber</button>
@@ -404,11 +374,6 @@
         <div id="veredicto" aria-live="polite"></div>
         <button id="enviarPrecio" type="button" class="boton oscuro" hidden>Enviar este precio a Grieta</button>
         <p id="gracias" class="nota" role="status"></p>
-        </details>
-      </div>
-      <div class="utilidades-viaje">
-        <div id="reconocerParada" class="reconocer-parada" hidden></div>
-        <button id="guardarPlan" type="button" class="enlace">Guardar pasos sin conexión</button>
       </div>
     </section>
 
@@ -422,26 +387,7 @@
       <p id="guiaBaja" class="guia-baja" hidden></p>
       <div id="barraParadas" class="barra-paradas" role="progressbar" aria-valuemin="0" hidden></div>
       <p id="guiaDetalle" class="guia-detalle" aria-live="polite"></p>
-      <p id="estadoGps" class="nota" role="status"></p>
-      <button id="yaMeSubi" type="button" class="boton" hidden>Ya me subí</button>
-      <button id="yaBaje" type="button" class="boton" hidden>Ya me bajé</button>
-      <div class="guia-controles">
-        <button id="repetir" type="button" class="boton oscuro"><svg class="icono"><use href="#i-repetir"/></svg>Repetir</button>
-        <button id="necesitoAyuda" type="button" class="boton oscuro" aria-expanded="false" aria-controls="ayudaViaje">Necesito ayuda</button>
-      </div>
-      <div id="ayudaViaje" class="ayuda-viaje" hidden>
-        <h2>¿Qué pasó?</h2>
-        <div id="recuperarViaje" class="acciones-recuperar">
-          <button type="button" class="boton oscuro" data-recuperar="perdido">No alcancé el camión</button>
-          <button type="button" class="boton oscuro" data-recuperar="lleno">Viene lleno</button>
-          <button type="button" class="boton oscuro" data-recuperar="otro">Tomé otro camión</button>
-          <button type="button" class="boton oscuro" data-recuperar="pase">Me pasé de parada</button>
-          <button type="button" class="boton oscuro" data-recuperar="ruta">Buscar otra ruta desde aquí</button>
-        </div>
-        <p id="recuperarEstado" class="nota" role="status"></p>
-        <button id="recalcularViaje" type="button" class="boton" hidden>Ya estoy abajo: buscar otra ruta</button>
-      </div>
-      <details id="opcionesGuia" class="otras"><summary id="masAccionesGuia">Parada y otras acciones</summary>
+      <button id="yaMeSubi" type="button" class="boton oscuro" hidden>Ya me subí</button>
       <div id="enParada" class="en-parada" hidden>
         <p class="nota">¿Qué ves en la parada? Avisa a los demás:</p>
         <div class="dos-botones">
@@ -450,19 +396,14 @@
         </div>
       </div>
       <div class="guia-acciones">
-
+        <button id="repetir" type="button" class="boton"><svg class="icono"><use href="#i-repetir"/></svg>Repetir</button>
         <button id="avisarChofer" type="button" class="boton oscuro">Avisar al chofer</button>
         <button id="dondeGuia" type="button" class="boton oscuro"><svg class="icono"><use href="#i-localizar"/></svg>¿Dónde estoy?</button>
         <button id="avisarFamiliar" type="button" class="boton oscuro" hidden><svg class="picto"><use href="#p-familiar"/></svg><span></span></button>
         <button id="compartir" type="button" class="enlace compartir"><svg class="icono"><use href="#i-compartir"/></svg>Compartir mi viaje</button>
-        <button id="referenciaGuia" type="button" class="boton oscuro">Reconocer mi parada</button>
-        <div id="paradaGuia" class="reconocer-parada" hidden></div>
-        <button id="reportarGuia" type="button" class="boton oscuro">Reportar un problema</button>
-        <button id="pausarViaje" type="button" class="boton oscuro">Pausar y volver al inicio</button>
         <button id="terminar" type="button" class="boton borde" aria-live="polite">Terminar viaje</button>
       </div>
-      </details>
-      <p id="notaGuia" class="nota">Deja la pantalla encendida: así Grieta sigue tu ubicación. Las horas del camión salen del horario oficial, no de su ubicación.</p>
+      <p class="nota">Deja la pantalla encendida: así Grieta sigue tu ubicación. Las horas del camión salen del horario oficial, no de su ubicación.</p>
     </section>
 
 
@@ -693,7 +634,6 @@
         <button id="editarGuardados" type="button" class="enlace" aria-pressed="false">Editar</button>
       </div>
       <ul id="listaGuardados" class="filas grupo" aria-labelledby="tituloGuardados"></ul>
-      <button id="reportarGeneral" type="button" class="boton oscuro">Reportar un problema aquí</button>
       <p class="medidas" id="medidas"></p>
     </section>
   </main>
@@ -702,7 +642,7 @@
 
   <nav id="pestanas" class="pestanas" aria-label="Secciones">
     <button type="button" data-tab="inicio"><svg class="picto picto-lucide"><use href="#p-house"/></svg><span class="pestana-texto">Inicio</span></button>
-    <button type="button" data-tab="camiones"><svg class="picto"><use href="#p-camiones"/></svg><span class="pestana-texto">Cerca</span></button>
+    <button type="button" data-tab="reporte"><svg class="picto picto-lucide"><use href="#p-flag"/></svg><span class="pestana-texto">Reportar</span></button>
     <button type="button" data-tab="ajustes"><svg class="picto picto-lucide"><use href="#p-settings"/></svg><span class="pestana-texto">Ajustes</span></button>
   </nav>
 

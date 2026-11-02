@@ -153,6 +153,7 @@ function mostrar(nombre) {
     if (b.dataset.tab === conf.tab) b.setAttribute("aria-current", "page");
     else b.removeAttribute("aria-current");
   }
+  if (nombre === "ajustes") requestAnimationFrame(medirPantalla);
   $("hoja").scrollTop = 0;
   // El foco va al titulo para que el lector de pantalla anuncie el cambio.
   const titulo = conf.encabezado ? $("tituloPantalla") : [...$(nombre).querySelectorAll("h1")].find((h) => !h.closest("[hidden]"));
@@ -2398,8 +2399,25 @@ $("cerrarInvita").addEventListener("click", () => {
 // Medidas de la pantalla en Ajustes, para revisar como acomoda iOS la app instalada.
 function medirPantalla() {
   const css = getComputedStyle(document.documentElement);
-  $("medidas").textContent = `Pantalla ${screen.width}×${screen.height} · vista ${innerWidth}×${innerHeight} · ` +
+  const etiqueta = document.querySelector('#pestanas [data-tab="inicio"] .pestana-texto');
+  const caja = etiqueta?.getBoundingClientRect();
+  const estilo = etiqueta ? getComputedStyle(etiqueta) : null;
+  const centro = caja ? document.elementFromPoint(caja.left + caja.width / 2, caja.top + caja.height / 2) : null;
+  const pestanas = $("pestanas").getBoundingClientRect();
+  const claseCentro = centro ? String(centro.className?.baseVal ?? centro.className ?? "") : "";
+  const medidasBase = `Pantalla ${screen.width}×${screen.height} · vista ${innerWidth}×${innerHeight} · ` +
     `${navigator.standalone ? "instalada" : "navegador"} · zona segura ${css.getPropertyValue("--zona-arriba").trim()} / ${css.getPropertyValue("--zona-abajo").trim()}`;
+  const diagnostico = `Inicio getBoundingClientRect: top ${caja?.top.toFixed(1) ?? "n/d"} px · height ${caja?.height.toFixed(1) ?? "n/d"} px · width ${caja?.width.toFixed(1) ?? "n/d"} px · ` +
+    `color ${estilo?.color ?? "n/d"} · opacity ${estilo?.opacity ?? "n/d"} · visibility ${estilo?.visibility ?? "n/d"} · display ${estilo?.display ?? "n/d"} · ` +
+    `font-size ${estilo?.fontSize ?? "n/d"} · font-family ${estilo?.fontFamily ?? "n/d"} · -webkit-text-fill-color ${estilo?.getPropertyValue("-webkit-text-fill-color") ?? "n/d"} · ` +
+    `elementFromPoint ${centro?.tagName.toLowerCase() ?? "n/d"}#${centro?.id || "—"}.${claseCentro || "—"} · ` +
+    `#pestanas top ${pestanas.top.toFixed(1)} px · height ${pestanas.height.toFixed(1)} px · bottom ${pestanas.bottom.toFixed(1)} px · ` +
+    `visualViewport.height ${window.visualViewport?.height.toFixed(1) ?? "n/d"} px · matchMedia standalone ${matchMedia("(display-mode: standalone)").matches}`;
+  const lineaBase = document.createElement("span");
+  lineaBase.textContent = medidasBase;
+  const lineaDiagnostico = document.createElement("span");
+  lineaDiagnostico.textContent = diagnostico;
+  $("medidas").replaceChildren(lineaBase, document.createElement("br"), lineaDiagnostico);
 }
 addEventListener("resize", () => { if ($("medidas")) medirPantalla(); });
 

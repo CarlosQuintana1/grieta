@@ -726,8 +726,8 @@ function pintarOpciones(r) {
   $("ultimoCamion").hidden = !(quedan <= 120);
   if (quedan <= 120) {
     const app = [...r.directo.porApp].sort((x, y) => x.precio - y.precio)[0];
-    $("ultimoCamion").innerHTML = `${ico("alerta")}<span class="fila-texto"><strong>El último ${escapar(c.linea)} de hoy pasa a las ${hora(c.ultima)}</strong>
-      <small>Desde ${escapar(c.recorrido[0].nombre)}. Si lo pierdes, la app más barata te cuesta unos ${pesos(app.precio)} (${Grieta.nombreApp(app.app)}).</small></span>`;
+    $("ultimoCamion").innerHTML = `${ico("alerta")}<span class="fila-texto"><strong>Último ${escapar(c.linea)}: ${hora(c.ultima)} según el horario</strong>
+      <small>En la parada ${escapar(cruce(c.recorrido[0].nombre))}, hacia ${escapar(c.hacia)}. Si lo pierdes, la app más barata te cuesta unos ${pesos(app.precio)} (${Grieta.nombreApp(app.app)}).${avisoVigencia()}</small></span>`;
   }
   if (!hayCamion) {
     $("tarjetas").innerHTML += `<p class="nota">${r.pasaCerca ? "Ningún Qrobus te lleva directo en la próxima hora." : "En la próxima hora no pasa ningún Qrobus cerca."}</p>`;
@@ -1117,13 +1117,13 @@ function recolorear() {
   capas.camion?.eachLayer((c) => c.setStyle(c.options.tono === "linea" ? { color: ambar } : c.options.tono === "punto" ? { fillColor: ambar } : { color: tono("--tinta") }));
 }
 
-// Si el horario oficial ya paso su fecha, se dice; se sigue usando porque Qrobus no ha publicado otro.
+// Si el horario guardado ya paso su fecha, se avisa que las horas pueden variar.
 function avisoVigencia() {
   const v = Grieta.qrobus?.vigencia;
   if (!v) return "";
   const hoy = new Date();
   const fin = new Date(Number(v.slice(0, 4)), Number(v.slice(4, 6)) - 1, Number(v.slice(6)));
-  return hoy > fin ? ` Ese horario venció el ${fin.getDate()} ${MESES[fin.getMonth()]} ${fin.getFullYear()} y Qrobus todavía no publica el nuevo: las horas pueden variar.` : "";
+  return hoy > fin ? ` El horario guardado venció el ${fin.getDate()} ${MESES[fin.getMonth()]} ${fin.getFullYear()}: las horas pueden variar.` : "";
 }
 
 // Camiones cerca
@@ -2255,11 +2255,9 @@ function pintarResumenPerfil() {
   if (!$("textoPerfil")) return;
   const frase = frasePerfil();
   const movilidad = acc.movilidad ?? (acc.camino ? "poco" : "normal");
-  const icono = `#i-${{ normal: "caminar", poco: "baston", silla: "silla" }[movilidad]}`;
   const pictograma = `#p-${{ normal: "caminar", poco: "caminar", silla: "silla" }[movilidad]}`;
   $("textoPerfil").textContent = resumenCortoPerfil();
   $("ajustesAvatar").setAttribute("href", pictograma);
-  $("inicioAvatar").setAttribute("href", icono);
   $("perfilFrase").textContent = frase;
   $("perfilAyuda").textContent = movilidad === "silla"
     ? "Grieta busca paradas cercanas y te avisa si reportaron que no tienen rampa."

@@ -132,6 +132,12 @@ const Grieta = (() => {
 
   // Primera salida de un recorrido que pasa por la posicion pos despues del minuto t.
   function salidaDesde(p, ctx, pos, t, ventana = VENTANA_MIN) {
+    // Una salida perdida se descarta tambien desde otras paradas del mismo recorrido.
+    for (const x of ctx.omitir ?? []) {
+      if ((x.dia !== undefined && x.dia !== ctx.dia) || p.linea !== x.linea || p.hacia !== x.hacia) continue;
+      const i = p.paradas.findIndex((k) => metros(...qrobus.paradas[k].slice(0, 2), x.parada.lat, x.parada.lon) < 50);
+      if (i >= 0) t = Math.max(t, x.sale - p.minutos[i] + p.minutos[pos] + 1);
+    }
     const ayer = ctx.minuto < MADRUGADA ? primeraDesde(p.salidas[ctx.servicioAyer], p.minutos[pos] - 1440, t, ventana) : undefined;
     return ayer ?? primeraDesde(p.salidas[ctx.servicio], p.minutos[pos], t, ventana);
   }
@@ -296,8 +302,9 @@ const Grieta = (() => {
     return { accion, fuerza, activas: activas.sort((a, b) => b.w - a.w) };
   }
 
-  function evaluar({ origen, destino, dia, minuto, app, precioVisto, margen, kmCalle, caminarMax, tarifa, caminatas }) {
+  function evaluar({ origen, destino, dia, minuto, app, precioVisto, margen, kmCalle, caminarMax, tarifa, caminatas, omitir = [] }) {
     const ctx = contexto(dia, minuto);
+    ctx.omitir = omitir;
     const { directo, opciones: lista, pasaCerca } = opciones(ctx, origen, destino, kmCalle, caminarMax, tarifa, caminatas);
     const res = { ctx, directo, opciones: lista, pasaCerca };
 

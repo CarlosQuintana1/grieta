@@ -412,6 +412,7 @@ html.claro .interruptor input::after, html.claro .interruptor input:checked::aft
 }
 .pestanas button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 54px; font-size: 0.72rem; font-weight: 600; line-height: 1.15; color: var(--tenue); text-align: center; border-radius: 12px; }
 .pestanas button[aria-current="page"] { color: var(--ambar); font-weight: 700; }
+.pestana-texto { display: block; color: inherit; line-height: 1.15; }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
 
@@ -667,6 +668,7 @@ html.facil .buscador .dictar { display: none !important; }
 
 /* Pictogramas macizos: relleno, sin trazo */
 .picto { width: 24px; height: 24px; flex: none; fill: currentColor; stroke: none; }
+.picto-lucide { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .boton-voz .picto { width: 32px; height: 32px; }
 .dos-botones .picto, #avisarFamiliar .picto { width: 22px; height: 22px; }
 .dictar-grande .picto { width: 28px; height: 28px; }

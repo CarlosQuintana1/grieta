@@ -10,7 +10,7 @@ const ACCIONES = { "pedir ya": "Pídelo ya", esperar: "Espera un poco", camion: 
 const SIMBOLOS = { "pedir ya": "palomita", esperar: "reloj", camion: "camion" };
 
 const escapar = (t) => String(t ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
-const picto = (nombre) => `<svg class="picto" aria-hidden="true"><use href="#p-${nombre}"/></svg>`;
+const picto = (nombre, clase = "") => `<svg class="picto ${clase}" aria-hidden="true"><use href="#p-${nombre}"/></svg>`;
 // Ficha chica de color con su pictograma: la que llevan todas las filas y listas
 // Cada app con su ficha propia: una letra y su color, sin usar logotipos de las empresas
 const fichaApp = (app) => `<span class="mini-ficha ficha-app app-${app}" aria-hidden="true">${{ uber: "U", didi: "D", indrive: "iD" }[app]}</span>`;
@@ -1831,10 +1831,10 @@ function pintarGuardados() {
     `<button type="button" class="boton-voz" data-i="${guardados.indexOf(g)}">${picto(iconoLugar(g.nombre))}Ir a ${escapar(g.nombre)}</button>`).join("");
   // Tus lugares como fichas grandes; si falta la casa, su ficha invita a agregarla.
   const ficha = (attrs, clase, icono, nombre) => `<button type="button" class="lugar ${clase}" ${attrs}>
-    <span class="lugar-icono">${picto(icono)}</span><span class="lugar-nombre">${escapar(nombre)}</span></button>`;
+    <span class="lugar-icono">${picto(icono, icono === "plus" ? "picto-lucide" : "")}</span><span class="lugar-nombre">${escapar(nombre)}</span></button>`;
   const fichas = guardados.map((g, i) => ficha(`data-i="${i}" aria-label="Ir a ${escapar(g.nombre)}"`, tonoLugar(g.nombre, i), iconoLugar(g.nombre), g.nombre));
   if (!guardados.some((g) => g.nombre === "Casa")) fichas.push(ficha('data-nuevo="Casa"', "nuevo tono-obsidiana", "casa", "Agregar casa"));
-  if (guardados.length < 6) fichas.push(ficha('data-nuevo=""', "nuevo tono-obsidiana", "agregar", "Agregar"));
+  if (guardados.length < 6) fichas.push(ficha('data-nuevo=""', "nuevo tono-obsidiana", "plus", "Agregar"));
   $("guardados").innerHTML = fichas.join("");
   $("editarGuardados").hidden = !guardados.length;
   $("editarGuardados").textContent = editando ? "Listo" : "Editar";

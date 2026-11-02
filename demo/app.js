@@ -55,10 +55,13 @@ let lugares = [];
 const acc = { modoVoz: false, facil: false, grande: false, contraste: false, daltonico: false, voz: true, lenta: false, camino: false, unidos: false, tema: "auto", movilidad: "normal", oido: "bien", lector: "no", ...leer("grieta-acc", {}) };
 // Con "Como el telefono", los colores siguen el modo claro u oscuro del sistema.
 const sistemaClaro = matchMedia("(prefers-color-scheme: light)");
-const OPCIONES = { modoVoz: "optModoVoz", facil: "optFacil", grande: "optGrande", contraste: "optContraste", daltonico: "optDaltonico", voz: "optVoz", lenta: "optLenta", camino: "optCamino", unidos: "optUnidos" };
+const OPCIONES = { grande: "optGrande", contraste: "optContraste", daltonico: "optDaltonico", voz: "optVoz", lenta: "optLenta", camino: "optCamino", unidos: "optUnidos" };
+let marcarDensidad = () => {};
+const densidadActual = () => acc.modoVoz ? "voz" : acc.facil ? "facil" : "completa";
 function aplicarAcc() {
   document.documentElement.classList.toggle("claro", acc.tema === "claro" || (acc.tema === "auto" && sistemaClaro.matches));
   for (const b of $("optTema").children) b.setAttribute("aria-pressed", String(b.dataset.v === acc.tema));
+  marcarDensidad(densidadActual());
   document.documentElement.classList.toggle("grande", acc.grande);
   // Modo facil: solo lo esencial y botones grandes, para quien quiere la app lo mas sencilla
   document.documentElement.classList.toggle("facil", acc.facil);
@@ -83,10 +86,16 @@ $("optTema").addEventListener("click", (e) => {
   aplicarAcc();
 });
 const guardarAcc = () => escribir("grieta-acc", acc);
+marcarDensidad = radios("optDensidad", (v) => {
+  acc.modoVoz = v === "voz";
+  acc.facil = v === "facil";
+  if (acc.modoVoz) Object.assign(acc, { voz: true, grande: true });
+  guardarAcc();
+  aplicarAcc();
+});
 for (const [k, id] of Object.entries(OPCIONES)) {
   $(id).addEventListener("change", (e) => {
     acc[k] = e.target.checked;
-    if (k === "modoVoz" && acc.modoVoz) Object.assign(acc, { voz: true, grande: true });
     if (k === "camino") acc.movilidad = acc.camino ? (acc.movilidad === "silla" ? "silla" : "poco") : "normal";
     guardarAcc();
     aplicarAcc();
@@ -1501,6 +1510,16 @@ async function revisarAvisosParada() {
 
 // Avisar a un familiar por WhatsApp: al salir y al llegar, con un toque
 let familiar = leer("grieta-familiar", null);
+function pintarResumenFamiliar() {
+  const resumen = $("textoFamiliar");
+  if (!resumen) return;
+  if (!familiar) {
+    resumen.textContent = "Agrega a alguien de confianza";
+    return;
+  }
+  const telefono = familiar.telefono.replace(/^52/, "").replace(/^(\d{3})(\d{3})(\d{4})$/, "$1 $2 $3");
+  resumen.textContent = `${familiar.nombre} · ${telefono}`;
+}
 function pintarFamiliar() {
   const b = $("avisarFamiliar");
   b.hidden = !familiar || !guia.activa;
@@ -1518,6 +1537,7 @@ $("avisarFamiliar").addEventListener("click", () => {
 function pintarFormaFamiliar() {
   $("familiarNombre").value = familiar?.nombre ?? "";
   $("familiarTel").value = familiar ? familiar.telefono.slice(2) : "";
+  pintarResumenFamiliar();
 }
 $("guardarFamiliar").addEventListener("click", () => {
   const nombre = $("familiarNombre").value.trim().replace(/\s+/g, " ");
@@ -1525,12 +1545,14 @@ $("guardarFamiliar").addEventListener("click", () => {
   if (!nombre && !digitos) {
     familiar = null;
     escribir("grieta-familiar", null);
+    pintarResumenFamiliar();
     return void ($("familiarEstado").textContent = "Listo, ya no hay a quién avisar.");
   }
   if (!nombre) return void ($("familiarEstado").textContent = "Escribe el nombre.");
   if (digitos.length !== 10) return void ($("familiarEstado").textContent = "El teléfono debe tener 10 dígitos.");
   familiar = { nombre: nombre.charAt(0).toUpperCase() + nombre.slice(1), telefono: `52${digitos}` };
   escribir("grieta-familiar", familiar);
+  pintarResumenFamiliar();
   $("familiarEstado").textContent = `Guardado. En tus viajes aparecerá "Avisar a ${familiar.nombre}".`;
 });
 pintarFormaFamiliar();
@@ -2216,12 +2238,20 @@ function frasePerfil() {
   const oido = acc.oido === "poco" ? "te cuesta escuchar" : "escuchas bien";
   return `${vista}, ${movilidad} y ${oido}.${acc.unidos ? " Pagas Tarifa Unidos." : ""}`;
 }
+function resumenCortoPerfil() {
+  const movilidad = acc.movilidad ?? (acc.camino ? "poco" : "normal");
+  const movimiento = { normal: "Caminas bien", poco: "Caminas poco", silla: "Usas silla de ruedas" }[movilidad];
+  const densidad = { completa: "Completa", facil: "Fácil", voz: "Sin pantalla" }[densidadActual()];
+  return `${movimiento} · ${densidad}`;
+}
 function pintarResumenPerfil() {
   if (!$("textoPerfil")) return;
   const frase = frasePerfil();
-  const icono = `#i-${{ normal: "caminar", poco: "baston", silla: "silla" }[acc.movilidad ?? "normal"]}`;
-  $("textoPerfil").textContent = frase;
-  $("ajustesAvatar").setAttribute("href", icono);
+  const movilidad = acc.movilidad ?? (acc.camino ? "poco" : "normal");
+  const icono = `#i-${{ normal: "caminar", poco: "baston", silla: "silla" }[movilidad]}`;
+  const pictograma = `#p-${{ normal: "caminar", poco: "caminar", silla: "silla" }[movilidad]}`;
+  $("textoPerfil").textContent = resumenCortoPerfil();
+  $("ajustesAvatar").setAttribute("href", pictograma);
   $("inicioAvatar").setAttribute("href", icono);
   if ($("perfilFrase").textContent === frase) return;
   $("perfilFrase").textContent = frase;

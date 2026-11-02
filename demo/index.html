@@ -486,36 +486,68 @@
     <section id="ajustes" class="pantalla" aria-labelledby="tituloAjustes" hidden>
       <h1 id="tituloAjustes" class="titulo-grande" tabindex="-1">Ajustes</h1>
       <button id="resumenPerfil" type="button" class="tarjeta-perfil">
-        <span class="avatar chico" aria-hidden="true"><svg class="icono"><use id="ajustesAvatar" href="#i-caminar"/></svg></span>
+        <span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use id="ajustesAvatar" href="#p-caminar"/></svg></span>
         <span class="fila-texto"><strong>Tu perfil de viaje</strong><small id="textoPerfil"></small></span>
         <svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg>
       </button>
-      <h2 id="tituloFamiliar">Avisar a alguien</h2>
-      <div class="grupo familiar" role="group" aria-labelledby="tituloFamiliar">
-        <p class="nota">Al empezar un viaje y al llegar, Grieta te deja avisarle por WhatsApp con un toque. Se guarda solo en este teléfono.</p>
-        <label class="campo"><span>Nombre</span><input id="familiarNombre" type="text" maxlength="30" autocomplete="off" placeholder="Ejemplo: Mamá"></label>
-        <label class="campo"><span>Teléfono a 10 dígitos</span><input id="familiarTel" type="tel" inputmode="tel" maxlength="16" autocomplete="off" placeholder="442 123 4567"></label>
-        <button id="guardarFamiliar" type="button" class="boton">Guardar</button>
-        <p id="familiarEstado" class="nota" role="status"></p>
+      <h2>Ayuda</h2>
+      <div class="ajustes-lista">
+        <details class="ajuste-desplegable">
+          <summary class="fila-ajustes">
+            <span class="mini-ficha tono-hospital" aria-hidden="true"><svg class="picto"><use href="#p-familiar"/></svg></span>
+            <span class="fila-texto"><strong id="tituloFamiliar">Avisar a alguien</strong><small id="textoFamiliar">Agrega a alguien de confianza</small></span>
+            <span class="flecha-ajustes" aria-hidden="true">›</span>
+          </summary>
+          <div class="ajuste-panel">
+            <div class="familiar" role="group" aria-labelledby="tituloFamiliar">
+              <p class="nota">Al empezar un viaje y al llegar, Grieta te deja avisarle por WhatsApp con un toque. Se guarda solo en este teléfono.</p>
+              <label class="campo"><span>Nombre</span><input id="familiarNombre" type="text" maxlength="30" autocomplete="off" placeholder="Ejemplo: Mamá"></label>
+              <label class="campo"><span>Teléfono a 10 dígitos</span><input id="familiarTel" type="tel" inputmode="tel" maxlength="16" autocomplete="off" placeholder="442 123 4567"></label>
+              <button id="guardarFamiliar" type="button" class="boton">Guardar</button>
+              <p id="familiarEstado" class="nota" role="status"></p>
+            </div>
+          </div>
+        </details>
+        <details class="ajuste-desplegable">
+          <summary class="fila-ajustes">
+            <span class="mini-ficha tono-ciruela" aria-hidden="true"><svg class="picto"><use href="#p-lugar"/></svg></span>
+            <span class="fila-texto"><strong id="tituloAyuda">Cómo usar Grieta</strong><small>Apréndelo en 3 pasos</small></span>
+            <span class="flecha-ajustes" aria-hidden="true">›</span>
+          </summary>
+          <div class="ajuste-panel">
+            <ol class="pasos-ayuda">
+              <li><span class="num" aria-hidden="true">1</span><span><strong>Di o escribe a dónde vas</strong><small>En Inicio, en "Busca un lugar" o con "Dictar".</small></span></li>
+              <li><span class="num" aria-hidden="true">2</span><span><strong>Compara y elige</strong><small>Ves cuánto cuesta en Uber, DiDi e inDrive y cómo llegar en Qrobus.</small></span></li>
+              <li><span class="num" aria-hidden="true">3</span><span><strong>Empieza el viaje con avisos</strong><small>Grieta te avisa cuándo pasa tu camión y cuándo bajarte.</small></span></li>
+            </ol>
+          </div>
+        </details>
+        <details class="ajuste-desplegable">
+          <summary class="fila-ajustes">
+            <span class="mini-ficha tono-obsidiana" aria-hidden="true"><svg class="picto"><use href="#p-reportar"/></svg></span>
+            <span class="fila-texto"><strong id="tituloPreguntas">Preguntas frecuentes</strong><small>Respuestas sobre Grieta</small></span>
+            <span class="flecha-ajustes" aria-hidden="true">›</span>
+          </summary>
+          <div class="ajuste-panel">
+            <div class="grupo ayuda" role="group" aria-labelledby="tituloPreguntas">
+              <details><summary>¿Los precios son exactos?</summary>
+                <p>Son los precios normales a esa hora. Si la app te marca otro, compáralo en "¿La app ya te dio precio?".</p></details>
+              <details><summary>No encuentro un lugar</summary>
+                <p>Escribe la calle y la colonia, o toca "Elígelo en el mapa".</p></details>
+              <details><summary>¿Por qué me habla Grieta?</summary>
+                <p>Para avisarte durante el viaje. Puedes apagar la voz aquí abajo, en "Voz de Grieta".</p></details>
+              <details><summary>¿Las horas del camión son seguras?</summary>
+                <p>Salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse unos minutos.</p></details>
+            </div>
+          </div>
+        </details>
+        <a id="llamarQrobus" class="fila-ajustes" href="tel:+524422100407" aria-label="Llamar a Qrobus al 442 210 0407">
+          <span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-qrobus"/></svg></span>
+          <span class="fila-texto"><strong>Llamar a Qrobus</strong><small>Atención telefónica</small></span>
+          <span class="flecha-ajustes" aria-hidden="true">›</span>
+        </a>
       </div>
-      <h2 id="tituloAyuda">Cómo se usa</h2>
-      <ol class="pasos-ayuda">
-        <li><span class="num" aria-hidden="true">1</span><span><strong>Di o escribe a dónde vas</strong><small>En Inicio, en "Busca un lugar" o con "Dictar".</small></span></li>
-        <li><span class="num" aria-hidden="true">2</span><span><strong>Compara y elige</strong><small>Ves cuánto cuesta en Uber, DiDi e inDrive y cómo llegar en Qrobus.</small></span></li>
-        <li><span class="num" aria-hidden="true">3</span><span><strong>Empieza el viaje con avisos</strong><small>Grieta te avisa cuándo pasa tu camión y cuándo bajarte.</small></span></li>
-      </ol>
-      <h2 id="tituloPreguntas">Preguntas</h2>
-      <div class="grupo ayuda" role="group" aria-labelledby="tituloPreguntas">
-        <details><summary>¿Los precios son exactos?</summary>
-          <p>Son los precios normales a esa hora. Si la app te marca otro, compáralo en "¿La app ya te dio precio?".</p></details>
-        <details><summary>No encuentro un lugar</summary>
-          <p>Escribe la calle y la colonia, o toca "Elígelo en el mapa".</p></details>
-        <details><summary>¿Por qué me habla Grieta?</summary>
-          <p>Para avisarte durante el viaje. Puedes apagar la voz aquí abajo, en "Voz de Grieta".</p></details>
-        <details><summary>¿Las horas del camión son seguras?</summary>
-          <p>Salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse unos minutos.</p></details>
-      </div>
-      <h2>Accesibilidad</h2>
+      <h2 id="tituloAccesibilidad">Accesibilidad</h2>
       <div class="grupo">
         <div class="fila-tema">
           <strong id="tituloTema">Colores de la pantalla</strong>
@@ -525,15 +557,24 @@
             <button type="button" data-v="claro" aria-pressed="false">Claro</button>
           </div>
         </div>
-        <label class="interruptor"><span><strong>Modo para personas ciegas</strong><small>Grieta dice todo en voz alta, sin mapa y con pocos botones grandes</small></span><input type="checkbox" role="switch" id="optModoVoz"></label>
-        <label class="interruptor"><span><strong>Modo fácil</strong><small>Solo lo esencial, con botones grandes</small></span><input type="checkbox" role="switch" id="optFacil"></label>
+        <div class="densidad-fila">
+          <strong id="tituloDensidad">Densidad</strong>
+          <div id="optDensidad" class="selector-densidad" role="radiogroup" aria-labelledby="tituloDensidad">
+            <button type="button" role="radio" aria-checked="true" data-v="completa" tabindex="0">Completa</button>
+            <button type="button" role="radio" aria-checked="false" data-v="facil" tabindex="-1">Fácil</button>
+            <button type="button" role="radio" aria-checked="false" data-v="voz" tabindex="-1">Sin pantalla</button>
+          </div>
+        </div>
         <label class="interruptor"><span><strong>Letra grande</strong></span><input type="checkbox" role="switch" id="optGrande"></label>
         <label class="interruptor"><span><strong>Alto contraste</strong></span><input type="checkbox" role="switch" id="optContraste"></label>
         <label class="interruptor"><span><strong>Colores para daltonismo</strong><small>Azul y naranja en vez de ámbar y rojo</small></span><input type="checkbox" role="switch" id="optDaltonico"></label>
+      </div>
+      <h2 id="tituloVoz">Voz</h2>
+      <div class="grupo">
         <label class="interruptor"><span><strong>Voz de Grieta</strong><small>Apágala si tu teléfono ya te lee la pantalla (VoiceOver o TalkBack)</small></span><input type="checkbox" role="switch" id="optVoz"></label>
         <label class="interruptor"><span><strong>Voz más lenta</strong></span><input type="checkbox" role="switch" id="optLenta"></label>
       </div>
-      <h2>Preferencias de viaje</h2>
+      <h2 id="tituloPreferencias">Preferencias de viaje</h2>
       <div class="grupo">
         <label class="interruptor"><span><strong>Caminar poco</strong><small>Solo paradas a menos de 300 metros</small></span><input type="checkbox" role="switch" id="optCamino"></label>
         <label class="interruptor"><span><strong>Pago Tarifa Unidos ($2)</strong><small>Estudiantes, mayores de 60 y personas con discapacidad; el transbordo es gratis</small></span><input type="checkbox" role="switch" id="optUnidos"></label>

@@ -1833,8 +1833,8 @@ function pintarGuardados() {
   const ficha = (attrs, clase, icono, nombre) => `<button type="button" class="lugar ${clase}" ${attrs}>
     <span class="lugar-icono">${picto(icono, icono === "plus" ? "picto-lucide" : "")}</span><span class="lugar-nombre">${escapar(nombre)}</span></button>`;
   const fichas = guardados.map((g, i) => ficha(`data-i="${i}" aria-label="Ir a ${escapar(g.nombre)}"`, tonoLugar(g.nombre, i), iconoLugar(g.nombre), g.nombre));
-  if (!guardados.some((g) => g.nombre === "Casa")) fichas.push(ficha('data-nuevo="Casa"', "nuevo tono-obsidiana", "casa", "Agregar casa"));
-  if (guardados.length < 6) fichas.push(ficha('data-nuevo=""', "nuevo tono-obsidiana", "plus", "Agregar"));
+  if (!guardados.some((g) => g.nombre === "Casa")) fichas.push(ficha('data-nuevo="Casa"', "nuevo tono-casa", "casa", "Agregar casa"));
+  if (guardados.length < 6) fichas.push(ficha('data-nuevo=""', "nuevo tono-ciruela", "plus", "Agregar"));
   $("guardados").innerHTML = fichas.join("");
   $("editarGuardados").hidden = !guardados.length;
   $("editarGuardados").textContent = editando ? "Listo" : "Editar";

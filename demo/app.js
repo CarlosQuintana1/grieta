@@ -2236,13 +2236,19 @@ function frasePerfil() {
   const vista = { vista: "Ves bien", poco: "Ves poco", voz: "No ves" }[vistaActual()];
   const movilidad = { normal: "caminas sin problema", poco: "te cuesta caminar", silla: "usas silla de ruedas o andadera" }[acc.movilidad ?? "normal"];
   const oido = acc.oido === "poco" ? "te cuesta escuchar" : "escuchas bien";
-  return `${vista}, ${movilidad} y ${oido}.${acc.unidos ? " Pagas Tarifa Unidos." : ""}`;
+  const forma = acc.modoVoz ? "" : acc.facil ? " y prefieres lo esencial" : " y prefieres todas las opciones";
+  const lector = acc.modoVoz ? (acc.lector === "si" ? " y usas lector de pantalla" : " y quieres que Grieta te hable") : "";
+  const tarifa = acc.unidos ? "Pagas Tarifa Unidos" : "Pagas tarifa normal";
+  return `${vista}, ${movilidad}, ${oido}${forma}${lector}. ${tarifa}.`;
 }
 function resumenCortoPerfil() {
+  const vista = { vista: "Ves bien", poco: "Ves poco", voz: "No ves" }[vistaActual()];
   const movilidad = acc.movilidad ?? (acc.camino ? "poco" : "normal");
   const movimiento = { normal: "Caminas bien", poco: "Caminas poco", silla: "Usas silla de ruedas" }[movilidad];
   const densidad = { completa: "Completa", facil: "Fácil", voz: "Sin pantalla" }[densidadActual()];
-  return `${movimiento} · ${densidad}`;
+  const oido = acc.oido === "poco" ? "Avisos con vibración" : "Avisos con voz";
+  const tarifa = acc.unidos ? "Tarifa Unidos" : "Tarifa normal";
+  return [vista, movimiento, densidad, oido, tarifa, acc.modoVoz ? (acc.lector === "si" ? "Usas lector de pantalla" : "Grieta te habla") : ""].filter(Boolean).join(" · ");
 }
 function pintarResumenPerfil() {
   if (!$("textoPerfil")) return;
@@ -2253,10 +2259,13 @@ function pintarResumenPerfil() {
   $("textoPerfil").textContent = resumenCortoPerfil();
   $("ajustesAvatar").setAttribute("href", pictograma);
   $("inicioAvatar").setAttribute("href", icono);
-  if ($("perfilFrase").textContent === frase) return;
   $("perfilFrase").textContent = frase;
-  $("perfilAvatar").setAttribute("href", icono);
-  const avatar = document.querySelector(".perfil-hero .avatar");
+  $("perfilAyuda").textContent = movilidad === "silla"
+    ? "Grieta busca paradas cercanas y te avisa si reportaron que no tienen rampa."
+    : movilidad === "poco" ? "Grieta busca paradas más cerca para que camines menos."
+      : "Grieta compara tus opciones y te avisa cuándo bajarte del camión.";
+  $("perfilAvatar").setAttribute("href", pictograma);
+  const avatar = document.querySelector(".perfil-hero .mini-ficha");
   avatar.classList.remove("salta");
   void avatar.offsetWidth;
   avatar.classList.add("salta");
@@ -2271,10 +2280,65 @@ const EFECTOS = {
   perfilForma: { completa: "Precios, horarios, comparar y esperar.", facil: "Solo lo esencial, con botones grandes." },
 };
 const efecto = (grupo, v) => { $(`${grupo}Efecto`).textContent = EFECTOS[grupo][v] ?? ""; };
+const RESPUESTAS_PERFIL = {
+  perfilVista: { vista: "Veo bien", poco: "Veo poco", voz: "No veo" },
+  perfilLectorOpciones: { si: "Uso lector de pantalla", no: "Quiero que Grieta me hable" },
+  perfilForma: { completa: "Quiero todas las opciones", facil: "Quiero lo esencial" },
+  perfilMovilidad: { normal: "Camino sin problema", poco: "Me cuesta caminar", silla: "Uso silla de ruedas o andadera" },
+  perfilOido: { bien: "Escucho bien los avisos", poco: "Me cuesta escuchar" },
+  perfilTarifa: { si: "Pago Tarifa Unidos", no: "Pago tarifa normal" },
+};
+function actualizarFilasPerfil() {
+  const movilidad = acc.movilidad ?? (acc.camino ? "poco" : "normal");
+  const valores = {
+    perfilVista: vistaActual(),
+    perfilLectorOpciones: acc.lector ?? "no",
+    perfilForma: acc.facil ? "facil" : "completa",
+    perfilMovilidad: movilidad,
+    perfilOido: acc.oido ?? "bien",
+    perfilTarifa: acc.unidos ? "si" : "no",
+  };
+  for (const [grupo, valor] of Object.entries(valores)) {
+    const fila = document.querySelector(`[data-grupo-perfil="${grupo}"]`);
+    const boton = fila.querySelector(".fila-perfil");
+    const respuesta = RESPUESTAS_PERFIL[grupo][valor];
+    efecto(grupo, valor);
+    fila.querySelector(".respuesta-perfil").textContent = respuesta;
+    boton.setAttribute("aria-label", `${fila.dataset.pregunta}: ${respuesta}. ${EFECTOS[grupo][valor]}`);
+  }
+  marcarVista(valores.perfilVista);
+  marcarLector(acc.modoVoz ? valores.perfilLectorOpciones : null);
+  marcarForma(valores.perfilForma);
+  marcarMovilidad(valores.perfilMovilidad);
+  marcarOido(valores.perfilOido);
+  marcarTarifa(valores.perfilTarifa);
+  $("perfilLector").hidden = !acc.modoVoz;
+  $("preguntaForma").hidden = acc.modoVoz;
+}
+function cerrarFilasPerfil(excepto = null) {
+  for (const boton of document.querySelectorAll(".fila-perfil")) {
+    if (boton === excepto) continue;
+    boton.setAttribute("aria-expanded", "false");
+    $(boton.getAttribute("aria-controls")).hidden = true;
+  }
+}
+document.querySelector(".perfil-preguntas").addEventListener("click", (e) => {
+  const boton = e.target.closest(".fila-perfil");
+  if (!boton) return;
+  const abrir = boton.getAttribute("aria-expanded") !== "true";
+  cerrarFilasPerfil(boton);
+  boton.setAttribute("aria-expanded", String(abrir));
+  $(boton.getAttribute("aria-controls")).hidden = !abrir;
+});
 const cambiarPerfil = (cambio) => {
+  const panel = document.activeElement.closest?.(".opciones-perfil");
+  const botonFila = panel?.parentElement.querySelector(".fila-perfil");
   cambio();
   guardarAcc();
   aplicarAcc();
+  actualizarFilasPerfil();
+  cerrarFilasPerfil();
+  botonFila?.focus();
   calcular();
 };
 const marcarVista = radios("perfilVista", (v) => cambiarPerfil(() => {
@@ -2313,14 +2377,9 @@ function abrirPerfil() {
   marcarOido(acc.oido ?? "bien");
   marcarTarifa(acc.unidos ? "si" : "no");
   $("perfilLector").hidden = !acc.modoVoz;
-  efecto("perfilVista", vistaActual());
-  efecto("perfilLectorOpciones", acc.lector);
-  efecto("perfilMovilidad", acc.movilidad ?? (acc.camino ? "poco" : "normal"));
-  efecto("perfilOido", acc.oido ?? "bien");
-  efecto("perfilTarifa", acc.unidos ? "si" : "no");
   marcarForma(acc.facil ? "facil" : "completa");
-  efecto("perfilForma", acc.facil ? "facil" : "completa");
-  $("preguntaForma").hidden = acc.modoVoz;
+  actualizarFilasPerfil();
+  cerrarFilasPerfil();
   ir("perfil");
 }
 $("abrirPerfil").addEventListener("click", abrirPerfil);

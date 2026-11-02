@@ -203,12 +203,6 @@
           <span class="avatar chico" aria-hidden="true"><svg class="icono"><use id="inicioAvatar" href="#p-caminar"/></svg></span>
         </button>
       </div>
-      <div class="buscador">
-        <svg class="icono tenue"><use href="#i-lupa"/></svg>
-        <button id="abrirBuscar" type="button" class="buscador-campo">Busca un lugar</button>
-        <button type="button" class="mic dictar" aria-label="Dictar a dónde vas" hidden><svg class="icono"><use href="#i-microfono"/></svg><span>Dictar</span></button>
-      </div>
-      <button type="button" class="boton dictar dictar-grande" aria-label="Decir a dónde voy" hidden><svg class="picto"><use href="#p-decir"/></svg><span>Decir a dónde voy</span></button>
       <p class="desde"><svg class="icono ambar"><use href="#i-localizar"/></svg><span id="desdeTexto">Buscando tu ubicación...</span><button id="cambiarDesde" type="button" class="enlace">Cambiar</button></p>
       <button id="rutina" type="button" class="sugerencia" hidden>
         <svg class="icono"><use href="#i-reloj"/></svg>
@@ -216,6 +210,12 @@
       </button>
       <h2 id="tituloLugares" class="seccion">Tus lugares</h2>
       <div id="guardados" class="lugares" role="group" aria-labelledby="tituloLugares"></div>
+      <div class="buscador">
+        <svg class="icono tenue"><use href="#i-lupa"/></svg>
+        <button id="abrirBuscar" type="button" class="buscador-campo">Busca un lugar</button>
+        <button type="button" class="mic dictar" aria-label="Dictar a dónde vas" hidden><svg class="icono"><use href="#i-microfono"/></svg><span>Dictar</span></button>
+      </div>
+      <button type="button" class="boton dictar dictar-grande" aria-label="Decir a dónde voy" hidden><svg class="picto"><use href="#p-decir"/></svg><span>Decir a dónde voy</span></button>
       <h2 id="tituloAtajos" class="seccion">Aquí cerca</h2>
       <div class="lugares" role="group" aria-labelledby="tituloAtajos">
         <button id="pasanAqui" type="button" class="lugar tono-anil" aria-label="¿Qué camión pasa aquí?">

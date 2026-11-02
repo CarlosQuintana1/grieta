@@ -1787,7 +1787,7 @@ function pintarAhorro() {
   const total = historial.filter((h) => { const f = new Date(h.fecha); return f.getFullYear() === hoy.getFullYear() && f.getMonth() === hoy.getMonth(); })
     .reduce((s, h) => s + (h.ahorro || 0), 0);
   $("ahorroMes").hidden = total < 1;
-  $("ahorroMes").innerHTML = `Este mes llevas <strong>${pesos(total)} ahorrados</strong> por ir en camión en vez de pedir app.`;
+  $("ahorroMes").innerHTML = `<strong>${pesos(total)} de ahorro estimado</strong> este mes frente al precio esperado en app.`;
 }
 function fechaViaje(iso) {
   const f = new Date(iso);

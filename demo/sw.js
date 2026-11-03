@@ -1,5 +1,5 @@
 // Guarda la app y los horarios para que funcione sin internet. Cambiar la version renueva todo.
-const VERSION = "grieta-57";
+const VERSION = "grieta-58";
 const BASE = [
   "./", "index.html", "estilos.css", "app.js", "grieta.js", "logo.png", "icono-192.png", "manifest.webmanifest",
   "datos/modelo.json", "datos/qrobus.json", "datos/lugares.json", "datos/config.json",
@@ -16,6 +16,24 @@ self.addEventListener("activate", (e) => {
   e.waitUntil(caches.keys()
     .then((claves) => Promise.all(claves.filter((k) => k !== VERSION).map((k) => caches.delete(k))))
     .then(() => self.clients.claim()));
+});
+
+// Los audios son opcionales: un archivo que todavia no existe no impide guardar la app.
+self.addEventListener("message", (e) => {
+  if (e.data?.tipo !== "guardar-audios" || !Array.isArray(e.data.ids)) return;
+  e.waitUntil((async () => {
+    const cache = await caches.open(VERSION);
+    const ids = e.data.ids.filter((id) => typeof id === "string" && /^[a-z_]+$/.test(id)).slice(0, 100);
+    const disponibles = await Promise.all(ids.map(async (id) => {
+      const url = new URL(`audio/oto/${id}.mp3`, self.registration.scope).href;
+      try {
+        const respuesta = await fetch(url);
+        if (respuesta.ok) { await cache.put(url, respuesta); return id; }
+      } catch {}
+      return (await cache.match(url)) ? id : null;
+    }));
+    e.ports[0]?.postMessage(disponibles.filter(Boolean));
+  })());
 });
 
 // Lo propio y las librerias: primero internet para tener siempre lo ultimo; sin conexion, lo guardado.

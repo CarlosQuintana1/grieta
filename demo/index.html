@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://tile.openstreetmap.org; connect-src 'self' https://photon.komoot.io https://router.project-osrm.org https://routing.openstreetmap.de https://grieta-api-qro.azurewebsites.net http://localhost:3000; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://tile.openstreetmap.org; connect-src 'self' https://photon.komoot.io https://router.project-osrm.org https://routing.openstreetmap.de https://grieta-api-qro.azurewebsites.net http://localhost:3000; media-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
   <meta name="theme-color" content="#0b0a09">
   <title>Grieta</title>
   <link rel="icon" href="icono-192.png">
@@ -601,6 +601,13 @@
       </div>
       <h2 id="tituloVoz">Voz</h2>
       <div class="grupo">
+        <div id="filaLengua" class="fila-tema" hidden>
+          <strong id="tituloLengua">Lengua</strong>
+          <div id="optLengua" class="segmentado" role="group" aria-labelledby="tituloLengua">
+            <button type="button" data-v="es" aria-pressed="true">Español</button>
+            <button id="nombreOtomi" type="button" data-v="oto" aria-pressed="false"></button>
+          </div>
+        </div>
         <label class="interruptor"><span><strong>Voz de Grieta</strong><small>Apágala si tu teléfono ya te lee la pantalla (VoiceOver o TalkBack)</small></span><input type="checkbox" role="switch" id="optVoz"></label>
         <label class="interruptor"><span><strong>Voz más lenta</strong></span><input type="checkbox" role="switch" id="optLenta"></label>
       </div>

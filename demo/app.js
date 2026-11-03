@@ -51,8 +51,58 @@ const estado = { origen: null, destino: null, editando: "hacia", kmCalle: null, 
 const capas = {};
 let lugares = [];
 
+const FRASES = {
+  a_donde_vas: "¿A dónde vas?",
+  vamos_lugar: "Vamos a {lugar}.",
+  vamos_casa: "Vamos a casa.",
+  buscando_ubicacion: "Buscando dónde estás.",
+  sin_ubicacion: "No pude ver tu ubicación.",
+  no_escuche: "No te escuché. Toca el botón otra vez y habla después del tono.",
+  camina_parada: "Camina a {parada}",
+  llegaste_parada: "Llegaste a la parada",
+  espera_linea: "Espera la línea {linea} hacia {hacia}",
+  horario_pasa: "según el horario pasa a las {hora}",
+  aviso_pasar: "Te aviso cuando esté por pasar.",
+  ya_casi: "Ya casi",
+  ya_paso: "Ya pasó",
+  viene_lleno: "Viene lleno",
+  espera_siguiente: "Si puedes, espera la siguiente.",
+  siguiente: "Según el horario, la siguiente pasa a las {hora}.",
+  ya_me_subi: "Ya me subí",
+  subi_linea: "Ya me subí a la {linea}",
+  faltan_paradas: "Faltan {n} paradas",
+  dos_paradas: "Bajas en dos paradas",
+  preparate_bajar: "Prepárate para bajar.",
+  siguiente_parada: "Bájate en la siguiente parada",
+  bajate: "Bájate aquí",
+  transbordo: "Bájate aquí y cambia de camión",
+  despues_transbordo: "Después cambias de camión; te aviso.",
+  ya_casi_llegas: "Ya casi llegas",
+  llegaste: "Llegaste",
+  acceso: "Cuidado con la accesibilidad. {problemas}.",
+  referencia_parada: "Referencia: {referencia}.",
+  aviso_parada: "Cuidado: {avisos}.",
+  confirmar_fin: "¿Terminar el viaje? Ya no te voy a avisar cuándo bajarte. Toca otra vez para confirmar.",
+  empezar: "Empezar viaje con avisos",
+  repetir: "Repetir",
+  terminar: "Terminar viaje",
+};
+const NOMBRE_OTOMI = "Hñöñho";
+const frase = (id, valores = {}) => ({ id, valores });
+const textoFrase = (mensaje) => Array.isArray(mensaje) ? mensaje.map(textoFrase).join("")
+  : mensaje?.id ? FRASES[mensaje.id].replace(/\{(\w+)\}/g, (_, clave) => String(mensaje.valores[clave] ?? "")) : String(mensaje ?? "");
+let lenguasDisponibles = [];
+let audiosOto = new Set();
+let vozGrieta = null;
+let audio;
+let ultimoMensaje = null;
+let grabacion = null;
+let finalizarLectura = null;
+let turnoVoz = 0;
+let colaVoz = Promise.resolve();
+
 // Ajustes guardados en este telefono.
-const acc = { modoVoz: false, facil: false, grande: false, contraste: false, daltonico: false, voz: true, lenta: false, camino: false, unidos: false, tema: "auto", movilidad: "normal", oido: "bien", lector: "no", ...leer("grieta-acc", {}) };
+const acc = { modoVoz: false, facil: false, grande: false, contraste: false, daltonico: false, voz: true, lenta: false, camino: false, unidos: false, tema: "auto", movilidad: "normal", oido: "bien", lector: "no", lengua: "es", ...leer("grieta-acc", {}) };
 // Con "Como el telefono", los colores siguen el modo claro u oscuro del sistema.
 const sistemaClaro = matchMedia("(prefers-color-scheme: light)");
 const OPCIONES = { grande: "optGrande", contraste: "optContraste", daltonico: "optDaltonico", voz: "optVoz", lenta: "optLenta", camino: "optCamino", unidos: "optUnidos" };
@@ -76,6 +126,7 @@ function aplicarAcc() {
   recolorear();
   document.querySelector('meta[name="theme-color"]').content = tono("--fondo");
   pintarResumenPerfil();
+  if (!acc.voz) detenerVoz();
 }
 sistemaClaro.addEventListener("change", () => { if (acc.tema === "auto") aplicarAcc(); });
 $("optTema").addEventListener("click", (e) => {
@@ -195,29 +246,127 @@ $("pestanas").addEventListener("click", (e) => {
   ir(tab);
 });
 
+for (const [id, clave] of Object.entries({ tituloInicio: "a_donde_vas", empezar: "empezar", repetir: "repetir", vozRepetir: "repetir", terminar: "terminar", yaPaso: "ya_paso", vieneLleno: "viene_lleno" })) {
+  const boton = $(id);
+  boton.lastChild.textContent = textoFrase(frase(clave));
+}
+
 // Voz y vibracion, con un tono por pulso para que en iPhone tambien haya senal.
-let vozGrieta = null;
-let audio;
-let ultimoDicho = "";
 // Los nombres de las paradas son cruces escritos con abreviaturas: se leen como se dicen.
 const DECIR = [[/\s*\/\s*/g, " y "], [/\bBlvd\./g, "bulevar"], [/\bAv\./g, "avenida"], [/\bFracc\./g, "fraccionamiento"], [/\bCol\./g, "colonia"], [/\bUaq\b/g, "UAQ"]];
 // Lo urgente interrumpe lo que se esta diciendo; lo secundario espera su turno.
 // Con la voz de Grieta apagada, lo que no se ve en pantalla se le pasa al lector de pantalla del telefono.
-function hablar(texto, enCola = false, enPantalla = false) {
-  ultimoDicho = texto;
-  if (!acc.voz && acc.modoVoz && !enPantalla) {
-    $("anuncio").textContent = "";
-    setTimeout(() => { $("anuncio").textContent = texto; }, 60);
-  }
-  if (!acc.voz || !("speechSynthesis" in window)) return;
-  if (!enCola) speechSynthesis.cancel();
+function detenerVoz() {
+  turnoVoz++;
+  grabacion?.pause();
+  grabacion = null;
+  finalizarLectura?.();
+  finalizarLectura = null;
+  colaVoz = Promise.resolve();
+  if ("speechSynthesis" in window) speechSynthesis.cancel();
+}
+function vozEspanol(texto, alTerminar) {
+  if (!("speechSynthesis" in window)) return alTerminar?.();
   const u = new SpeechSynthesisUtterance(DECIR.reduce((t, [a, b]) => t.replace(a, b), texto));
   vozGrieta ??= speechSynthesis.getVoices().find((v) => v.lang === "es-MX") ?? speechSynthesis.getVoices().find((v) => v.lang.startsWith("es"));
   if (vozGrieta) u.voice = vozGrieta;
   u.lang = "es-MX";
   u.rate = acc.lenta ? 0.8 : 1;
+  u.onend = u.onerror = alTerminar;
   speechSynthesis.speak(u);
 }
+function esperarVoz(texto) {
+  if (!/[\p{L}\p{N}]/u.test(texto)) return Promise.resolve();
+  return new Promise((resolve) => {
+    const fin = () => { if (finalizarLectura === fin) finalizarLectura = null; resolve(); };
+    finalizarLectura = fin;
+    vozEspanol(texto, fin);
+  });
+}
+function reproducirAudio(id) {
+  return new Promise((resolve) => {
+    const clip = new Audio(`audio/oto/${id}.mp3`);
+    clip.playbackRate = acc.lenta ? 0.8 : 1;
+    grabacion = clip;
+    const fin = (reproducido = false) => {
+      clip.onended = clip.onerror = null;
+      if (grabacion === clip) grabacion = null;
+      if (finalizarLectura === cancelar) finalizarLectura = null;
+      resolve(reproducido);
+    };
+    const cancelar = () => fin(false);
+    finalizarLectura = cancelar;
+    clip.onended = () => fin(true);
+    clip.onerror = cancelar;
+    clip.play().catch(cancelar);
+  });
+}
+async function leerGrabaciones(mensaje, turno) {
+  let pendiente = "";
+  const partes = [mensaje].flat(Infinity);
+  for (const parte of partes) {
+    if (turno !== turnoVoz) return;
+    if (parte?.id && audiosOto.has(parte.id)) {
+      await esperarVoz(pendiente);
+      pendiente = "";
+      if (turno !== turnoVoz) return;
+      const reproducido = await reproducirAudio(parte.id);
+      if (turno !== turnoVoz) return;
+      // Los nombres, numeros y horas siempre se dicen en espanol despues de la grabacion.
+      pendiente = reproducido ? [...FRASES[parte.id].matchAll(/\{(\w+)\}/g)].map((m) => parte.valores[m[1]] ?? "").join(", ") : textoFrase(parte);
+    } else pendiente += textoFrase(parte);
+  }
+  if (turno === turnoVoz) await esperarVoz(pendiente);
+}
+function hablar(mensaje, enCola = false, enPantalla = false, soloEspanol = false) {
+  const texto = textoFrase(mensaje);
+  ultimoMensaje = mensaje;
+  if (!acc.voz && acc.modoVoz && !enPantalla) {
+    $("anuncio").textContent = "";
+    setTimeout(() => { $("anuncio").textContent = texto; }, 60);
+  }
+  if (!acc.voz) return;
+  if (!enCola) detenerVoz();
+  if (!soloEspanol && acc.lengua === "oto" && lenguasDisponibles.includes("oto") && audiosOto.size) {
+    const turno = turnoVoz;
+    colaVoz = colaVoz.then(() => { if (turno === turnoVoz) return leerGrabaciones(mensaje, turno); }).catch(() => {});
+  } else vozEspanol(texto);
+}
+async function prepararLenguas(config) {
+  lenguasDisponibles = Array.isArray(config.lenguas) ? config.lenguas.filter((l) => l === "oto") : [];
+  if (!lenguasDisponibles.length) return;
+  $("nombreOtomi").textContent = NOMBRE_OTOMI;
+  $("filaLengua").hidden = false;
+  for (const b of $("optLengua").children) b.setAttribute("aria-pressed", String(b.dataset.v === acc.lengua));
+  if ("serviceWorker" in navigator) {
+    try {
+      const registro = await navigator.serviceWorker.ready;
+      audiosOto = await new Promise((resolve) => {
+        const canal = new MessageChannel();
+        const fin = (ids) => { clearTimeout(limite); canal.port1.close(); resolve(new Set(ids)); };
+        const limite = setTimeout(() => fin([]), 8000);
+        canal.port1.onmessage = (e) => fin(Array.isArray(e.data) ? e.data : []);
+        registro.active.postMessage({ tipo: "guardar-audios", ids: Object.keys(FRASES) }, [canal.port2]);
+      });
+    } catch {}
+  } else {
+    const disponibles = await Promise.all(Object.keys(FRASES).map(async (id) => {
+      try {
+        const respuesta = await fetch(`audio/oto/${id}.mp3`);
+        return respuesta.ok ? id : null;
+      } catch { return null; }
+    }));
+    audiosOto = new Set(disponibles.filter(Boolean));
+  }
+}
+$("optLengua").addEventListener("click", (e) => {
+  const boton = e.target.closest("button");
+  if (!boton || (boton.dataset.v !== "es" && !lenguasDisponibles.includes(boton.dataset.v))) return;
+  detenerVoz();
+  acc.lengua = boton.dataset.v;
+  guardarAcc();
+  for (const b of $("optLengua").children) b.setAttribute("aria-pressed", String(b === boton));
+});
 function vibrar(patron) {
   navigator.vibrate?.(patron);
   try {
@@ -951,7 +1100,7 @@ async function avisarAcceso(o) {
   if (!problemas.length) return;
   $("avisoAcceso").innerHTML = `${ico("alerta")}<span class="fila-texto"><strong>Cuidado con la accesibilidad</strong><small>${problemas.map(escapar).join(". ")}.</small></span>`;
   $("avisoAcceso").hidden = false;
-  hablar(`Cuidado con la accesibilidad. ${problemas.join(". ")}.`, true, true);
+  hablar(frase("acceso", { problemas: problemas.join(". ") }), true, true);
 }
 
 function pintarApps(o) {
@@ -1249,7 +1398,7 @@ function dondeEstoy(destino) {
   const contar = (t) => { $(destino === "guia" ? "guiaDetalle" : destino === "voz" ? "respuestaVoz" : "respuesta").textContent = t; };
   if (!navigator.geolocation) { contar("Tu navegador no comparte la ubicación."); return hablar("Tu navegador no comparte la ubicación.", false, true); }
   contar("Buscando dónde estás...");
-  hablar("Buscando dónde estás.", false, true);
+  hablar(frase("buscando_ubicacion"), false, true);
   navigator.geolocation.getCurrentPosition(async ({ coords }) => {
     const { latitude: lat, longitude: lon } = coords;
     let lugar = "";
@@ -1269,7 +1418,7 @@ function dondeEstoy(destino) {
       (parada ? `La parada más cercana es ${cruce(parada.nombre)}, ${cuanto}.` : "No hay paradas de Qrobus a menos de 500 metros.");
     contar(texto);
     hablar(texto, false, true);
-  }, () => { contar("No pude ver tu ubicación."); hablar("No pude ver tu ubicación.", false, true); }, { enableHighAccuracy: true, timeout: 10000 });
+  }, () => { contar("No pude ver tu ubicación."); hablar(frase("sin_ubicacion"), false, true); }, { enableHighAccuracy: true, timeout: 10000 });
 }
 $("dondeEstoy").addEventListener("click", () => dondeEstoy("inicio"));
 $("dondeGuia").addEventListener("click", () => dondeEstoy("guia"));
@@ -1281,7 +1430,7 @@ function dictar(boton) {
   rec.lang = "es-MX";
   boton.classList.add("oyendo");
   boton.setAttribute("aria-pressed", "true");
-  if ("speechSynthesis" in window) speechSynthesis.cancel();
+  detenerVoz();
   // El tono marca cuando empezar a hablar, sobre todo para quien no ve el boton.
   vibrar([120]);
   if (acc.modoVoz) $("respuestaVoz").textContent = "Te escucho. Di a dónde vas.";
@@ -1290,7 +1439,7 @@ function dictar(boton) {
     const dicho = sinAcentos(texto).replace(/^(a|al|a la|hacia|llevame a|ir a)\s+/, "");
     const guardado = guardados.find((g) => sinAcentos(g.nombre) === dicho);
     if (guardado) {
-      hablar(`Vamos a ${guardado.nombre}.`);
+      hablar(frase("vamos_lugar", { lugar: guardado.nombre }));
       estado.editando = "hacia";
       return poner("destino", guardado);
     }
@@ -1305,7 +1454,7 @@ function dictar(boton) {
       clearInterval(leerRes);
       const res = estado.resultados ?? [];
       if (acc.modoVoz && res.length) {
-        hablar(`Vamos a ${res[0].nombre}. Si no es, regresa y vuelve a decirlo.`);
+        hablar([frase("vamos_lugar", { lugar: res[0].nombre }), " Si no es, regresa y vuelve a decirlo."]);
         return elegir(res[0]);
       }
       hablar(res.length
@@ -1313,7 +1462,7 @@ function dictar(boton) {
         : `No encontré ${texto}. Intenta con otro nombre.`);
     }, 400);
   };
-  rec.onerror = () => hablar("No te escuché. Toca el botón otra vez y habla después del tono.");
+  rec.onerror = () => hablar(frase("no_escuche"));
   rec.onend = () => {
     boton.classList.remove("oyendo");
     boton.setAttribute("aria-pressed", "false");
@@ -1333,6 +1482,7 @@ if (Reconocer) {
 const guia = { activa: false };
 
 function ponerTitulo(titulo) {
+  titulo = textoFrase(titulo);
   const largo = cruce(titulo).length;
   $("guiaTitulo").classList.toggle("largo", largo > 26 && largo <= 44);
   $("guiaTitulo").classList.toggle("muy-largo", largo > 44);
@@ -1348,17 +1498,17 @@ function decir(titulo, detalle, etapa, alerta = false) {
   $("guiaPicto").setAttribute("href", `#p-${nombre}`);
   if (etapa) $("guiaEtapa").textContent = guia.camion && etapa !== "Llegaste" ? `${etapa} · ${guia.camion.linea}` : etapa;
   ponerTitulo(titulo);
-  $("guiaDetalle").textContent = cruce(detalle ?? "");
+  $("guiaDetalle").textContent = cruce(textoFrase(detalle));
   document.body.classList.toggle("alerta", alerta);
   pintarGuia();
-  hablar(detalle ? `${titulo}. ${detalle}` : titulo, false, true);
+  hablar(detalle ? [titulo, ". ", detalle] : titulo, false, true);
 }
 // Barra con un segmento por parada del recorrido; con mas de 12 se agrupan.
 function pintarGuia() {
   const c = guia.camion;
   $("enParada").hidden = !c || guia.enApp || !["parada", "esperando"].includes(guia.fase);
   pintarFamiliar();
-  $("yaMeSubi").textContent = c ? `Ya me subí a la ${c.linea}` : "Ya me subí";
+  $("yaMeSubi").textContent = textoFrase(c ? frase("subi_linea", { linea: c.linea }) : frase("ya_me_subi"));
   $("guiaBaja").hidden = !c;
   $("barraParadas").hidden = !c;
   if (!c) return;
@@ -1432,8 +1582,8 @@ function iniciarGuia(o) {
   }, 15000);
   const inicio = o.pasos[0];
   const c = guia.camion;
-  decir(inicio.tipo === "app" ? `Pide ${Grieta.nombreApp(inicio.app)} a ${inicio.parada}` : `Camina a ${inicio.parada}`,
-    `Ahí tomas la línea ${c.linea} hacia ${c.hacia}, a las ${hora(c.sale)} según el horario.${tramos.length > 1 ? " Después cambias de camión; te aviso." : ""} Te aviso antes de bajar.`, "Hacia la parada");
+  decir(inicio.tipo === "app" ? `Pide ${Grieta.nombreApp(inicio.app)} a ${inicio.parada}` : frase("camina_parada", { parada: inicio.parada }),
+    [`Ahí tomas la línea ${c.linea} hacia ${c.hacia}, a las ${hora(c.sale)} según el horario.`, tramos.length > 1 ? [" ", frase("despues_transbordo")] : "", " Te aviso antes de bajar."], "Hacia la parada");
   if (!guia.enApp) medirCaminata(estado.gps ?? estado.origen, c.recorrido[0]);
   programarAvisos(tramos);
   seguir(avanzarCamion);
@@ -1453,7 +1603,7 @@ async function programarAvisos(tramos) {
     const ahora = ahoraMin();
     const avisos = tramos.filter((c) => c.sale - 5 > ahora).map((c) => ({ cuando: cuando(c.sale - 5), titulo: `La ${c.linea} pasa en 5 minutos`, texto: `Según el horario, a las ${hora(c.sale)}. Ve a la parada.` }));
     const ultimo = tramos.at(-1);
-    if (ultimo.llega - 3 > ahora) avisos.push({ cuando: cuando(ultimo.llega - 3), titulo: "Ya casi llegas", texto: `Bajas en ${cruce(ultimo.baja)}. Prepárate y toca el timbre.` });
+    if (ultimo.llega - 3 > ahora) avisos.push({ cuando: cuando(ultimo.llega - 3), titulo: textoFrase(frase("ya_casi_llegas")), texto: `Bajas en ${cruce(ultimo.baja)}. Prepárate y toca el timbre.` });
     if (!avisos.length || !guia.activa) return;
     await llamar("/notificaciones", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ suscripcion: suscripcion.toJSON(), avisos: avisos.slice(0, 6) }) });
     guia.push = suscripcion.endpoint;
@@ -1496,9 +1646,9 @@ async function revisarAvisosParada() {
   const lleno = de.find((a) => a.tipo === "lleno" && a.minutos <= 10);
   if (paso) unaVez(`gente-paso-${guia.k}`, () => {
     const sig = siguienteDe(c.linea, c.recorrido[0]);
-    decir(`Alguien avisó que la ${c.linea} ya pasó`, `Hace ${paso.minutos || "menos de un"} minuto${paso.minutos === 1 ? "" : "s"}.${sig ? ` Según el horario, la siguiente pasa a las ${hora(sig)}.` : ""}`, "En la parada");
+    decir(`Alguien avisó que la ${c.linea} ya pasó`, [`Hace ${paso.minutos || "menos de un"} minuto${paso.minutos === 1 ? "" : "s"}.`, sig ? [" ", frase("siguiente", { hora: hora(sig) })] : ""], "En la parada");
   });
-  else if (lleno) unaVez(`gente-lleno-${guia.k}`, () => decir(`Alguien avisó que la ${c.linea} viene llena`, "Si puedes, espera la siguiente.", "En la parada"));
+  else if (lleno) unaVez(`gente-lleno-${guia.k}`, () => decir(`Alguien avisó que la ${c.linea} viene llena`, frase("espera_siguiente"), "En la parada"));
 }
 
 // Avisar a un familiar por WhatsApp: al salir y al llegar, con un toque
@@ -1577,7 +1727,7 @@ function avanzarCamion(lat, lon, velocidad = 0) {
     if (guia.fase === "parada" && d[0] < 40) {
       guia.fase = "esperando";
       vibrar([300, 120, 300]);
-      decir("Llegaste a la parada", `${r[0].nombre}. Espera la línea ${c.linea} hacia ${c.hacia}; según el horario pasa a las ${hora(c.sale)}. Te aviso cuando esté por pasar.`, "En la parada");
+      decir(frase("llegaste_parada"), [`${r[0].nombre}. `, frase("espera_linea", { linea: c.linea, hacia: c.hacia }), "; ", frase("horario_pasa", { hora: hora(c.sale) }), ". ", frase("aviso_pasar")], "En la parada");
       leerReferencias(r[0]);
     }
     // Si ya va por la ruta del camion, lejos de la parada de subida, se subio.
@@ -1595,7 +1745,7 @@ function avanzarCamion(lat, lon, velocidad = 0) {
   if (guia.fase === "fin") {
     const dest = guia.destino;
     if (dest && Grieta.metros(lat, lon, dest.lat, dest.lon) < 40) {
-      unaVez("destino", () => { vibrar([300, 120, 300, 120, 300]); decir("Llegaste", `Estás en ${dest.nombre}.${familiar ? ` Puedes avisarle a ${familiar.nombre} que llegaste.` : ""} Toca Terminar viaje cuando quieras.`, "Llegaste"); });
+      unaVez("destino", () => { vibrar([300, 120, 300, 120, 300]); decir(frase("llegaste"), `Estás en ${dest.nombre}.${familiar ? ` Puedes avisarle a ${familiar.nombre} que llegaste.` : ""} Toca Terminar viaje cuando quieras.`, "Llegaste"); });
     }
     return;
   }
@@ -1611,7 +1761,7 @@ function avanzarCamion(lat, lon, velocidad = 0) {
         const sig = guia.tramos[guia.k + 1];
         Object.assign(guia, { k: guia.k + 1, camion: sig, fase: "parada", actual: 0, enApp: false });
         $("yaMeSubi").hidden = false;
-        decir("Bájate aquí y cambia de camión", `Camina a ${sig.recorrido[0].nombre} y toma la línea ${sig.linea} hacia ${sig.hacia}, a las ${hora(sig.sale)} según el horario.`, "Transbordo", true);
+        decir(frase("transbordo"), `Camina a ${sig.recorrido[0].nombre} y toma la línea ${sig.linea} hacia ${sig.hacia}, a las ${hora(sig.sale)} según el horario.`, "Transbordo", true);
         medirCaminata({ lat, lon }, sig.recorrido[0]);
         return;
       }
@@ -1619,18 +1769,18 @@ function avanzarCamion(lat, lon, velocidad = 0) {
       guia.actual = r.length - 1;
       $("yaMeSubi").hidden = true;
       const fin = guia.o.pasos.at(-1);
-      decir("Bájate aquí", `${final.nombre}. ${fin.tipo === "caminar" ? `Después camina unos ${Math.max(1, Math.round(fin.min))} minutos a tu destino.` : `Después pide ${Grieta.nombreApp(fin.app)} a tu destino.`}`, "Tu parada", true);
+      decir(frase("bajate"), `${final.nombre}. ${fin.tipo === "caminar" ? `Después camina unos ${Math.max(1, Math.round(fin.min))} minutos a tu destino.` : `Después pide ${Grieta.nombreApp(fin.app)} a tu destino.`}`, "Tu parada", true);
     });
   } else if (faltan === 1) {
-    unaVez(clave("una"), () => { vibrar([700, 150, 700]); decir("Bájate en la siguiente parada", `Toca el timbre ahora. Bajas en ${final.nombre}.`, "Próxima parada", true); });
+    unaVez(clave("una"), () => { vibrar([700, 150, 700]); decir(frase("siguiente_parada"), `Toca el timbre ahora. Bajas en ${final.nombre}.`, "Próxima parada", true); });
   } else if (faltan === 2) {
-    unaVez(clave("dos"), () => { vibrar([400, 150, 400]); decir("Bajas en dos paradas", `Prepárate. Tu parada es ${final.nombre}.`, "En el camión"); });
+    unaVez(clave("dos"), () => { vibrar([400, 150, 400]); decir(frase("dos_paradas"), `Prepárate. Tu parada es ${final.nombre}.`, "En el camión"); });
   } else {
     // En pantalla siempre; en voz cada 5 paradas y en cada una de las ultimas 5.
-    ponerTitulo(`Faltan ${faltan} paradas`);
+    ponerTitulo(frase("faltan_paradas", { n: faltan }));
     $("guiaDetalle").textContent = `Vas por ${cruce(r[guia.actual].nombre)}.`;
     pintarGuia();
-    if (faltan <= 5 || faltan % 5 === 0) unaVez(clave(`faltan${faltan}`), () => decir(`Faltan ${faltan} paradas`, `Vas por ${r[guia.actual].nombre}.`, "En el camión"));
+    if (faltan <= 5 || faltan % 5 === 0) unaVez(clave(`faltan${faltan}`), () => decir(frase("faltan_paradas", { n: faltan }), `Vas por ${r[guia.actual].nombre}.`, "En el camión"));
   }
 }
 
@@ -1642,7 +1792,7 @@ function subir(desde = 0) {
   const r = guia.camion.recorrido;
   const faltan = r.length - 1 - desde;
   guia.dichos.add(`faltan${faltan}-${guia.k}`);
-  decir(`Faltan ${faltan} paradas`, `Vas en la ${guia.camion.linea}. Te aviso dos paradas antes de bajar.`, "En el camión");
+  decir(frase("faltan_paradas", { n: faltan }), `Vas en la ${guia.camion.linea}. Te aviso dos paradas antes de bajar.`, "En el camión");
 }
 $("yaMeSubi").addEventListener("click", () => subir(guia.actual));
 
@@ -1657,15 +1807,15 @@ function iniciarDestino() {
   decir(`Rumbo a ${estado.destino.nombre}`, "Te aviso a un kilómetro, a 300 metros y al llegar.", "En camino");
   seguir((lat, lon) => {
     const m = Grieta.metros(lat, lon, estado.destino.lat, estado.destino.lon);
-    if (m < 80) unaVez("llegaste", () => { vibrar([900, 200, 900]); decir("Llegaste", estado.destino.nombre, "Llegaste"); });
-    else if (m < 300) unaVez("300", () => { vibrar([700, 150, 700]); decir("Estás a 300 metros", "Prepárate para bajar.", "Ya casi", true); });
+    if (m < 80) unaVez("llegaste", () => { vibrar([900, 200, 900]); decir(frase("llegaste"), estado.destino.nombre, "Llegaste"); });
+    else if (m < 300) unaVez("300", () => { vibrar([700, 150, 700]); decir("Estás a 300 metros", frase("preparate_bajar"), textoFrase(frase("ya_casi")), true); });
     else if (m < 1000) unaVez("1000", () => { vibrar([400, 150, 400]); decir("Falta un kilómetro", null, "En camino"); });
     else $("guiaDetalle").textContent = `Faltan ${(m / 1000).toFixed(1)} km.`;
   });
 }
 
 $("repetir").addEventListener("click", () => {
-  if (acc.voz) return hablar(ultimoDicho || $("guiaTitulo").textContent);
+  if (acc.voz) return hablar(ultimoMensaje || $("guiaTitulo").textContent);
   // Sin la voz de Grieta, el aviso se vuelve a escribir para que el lector de pantalla lo lea otra vez.
   const aviso = $("guiaTitulo").innerHTML;
   $("guiaTitulo").innerHTML = "";
@@ -1674,13 +1824,13 @@ $("repetir").addEventListener("click", () => {
 // Terminar a medio camino apaga los avisos de bajar: se confirma con un segundo toque. Al llegar, no.
 function restaurarTerminar() {
   delete $("terminar").dataset.confirmar;
-  $("terminar").textContent = "Terminar viaje";
+  $("terminar").textContent = textoFrase(frase("terminar"));
 }
 $("terminar").addEventListener("click", () => {
   if (guia.activa && guia.fase !== "fin" && !$("terminar").dataset.confirmar) {
     $("terminar").dataset.confirmar = "1";
     $("terminar").textContent = "Toca otra vez para terminar";
-    hablar("¿Terminar el viaje? Ya no te voy a avisar cuándo bajarte. Toca otra vez para confirmar.", false, true);
+    hablar(frase("confirmar_fin"), false, true);
     clearTimeout(guia.confirmar);
     guia.confirmar = setTimeout(restaurarTerminar, 5000);
     return;
@@ -1704,7 +1854,7 @@ $("compartir").addEventListener("click", () => {
     const p = capas.aqui.getLatLng();
     enviar(p.lat, p.lng);
   } else {
-    navigator.geolocation?.getCurrentPosition(({ coords }) => enviar(coords.latitude, coords.longitude), () => hablar("No pude ver tu ubicación."));
+    navigator.geolocation?.getCurrentPosition(({ coords }) => enviar(coords.latitude, coords.longitude), () => hablar(frase("sin_ubicacion")));
   }
 });
 
@@ -1722,7 +1872,7 @@ function terminarGuia() {
   capas.aqui?.remove();
   capas.aqui = null;
   document.body.classList.remove("alerta");
-  if ("speechSynthesis" in window) speechSynthesis.cancel();
+  detenerVoz();
 }
 
 // Viajes recientes en el inicio: los ultimos destinos con avisos, para repetirlos con un toque.
@@ -1770,7 +1920,7 @@ function pintarRutina() {
   estado.rutina = { nombre: r.nombre, lat: r.lat, lon: r.lon };
 }
 $("rutina").addEventListener("click", () => irA({ ...estado.rutina }));
-$("vozRutina").addEventListener("click", () => { hablar(`Vamos a ${estado.rutina.nombre}.`); irA({ ...estado.rutina }); });
+$("vozRutina").addEventListener("click", () => { hablar(frase("vamos_lugar", { lugar: estado.rutina.nombre })); irA({ ...estado.rutina }); });
 
 // Lo ahorrado este mes por ir en camion en vez de la app mas barata.
 function pintarAhorro() {
@@ -1855,10 +2005,10 @@ function ayudaVoz() {
   return `Estás en el inicio. Hay ${botones.length} botones grandes, de arriba a abajo: ${botones.join(", ")}. ` +
     "Para ir a algún lado, toca el primero y di el lugar después del tono.";
 }
-$("vozCasa").addEventListener("click", () => { hablar("Vamos a casa."); irA(guardados.find((g) => g.nombre === "Casa")); });
+$("vozCasa").addEventListener("click", () => { hablar(frase("vamos_casa")); irA(guardados.find((g) => g.nombre === "Casa")); });
 $("vozCamion").addEventListener("click", () => abrirCamiones());
 $("vozDonde").addEventListener("click", () => dondeEstoy("voz"));
-$("vozRepetir").addEventListener("click", () => hablar(ultimoDicho || ayudaVoz()));
+$("vozRepetir").addEventListener("click", () => hablar(ultimoMensaje || ayudaVoz()));
 $("vozDestino").addEventListener("click", () => {
   if (Reconocer) return dictar($("vozDestino"));
   abrirBuscar("hacia");
@@ -1868,7 +2018,7 @@ $("vozLugares").addEventListener("click", (e) => {
   const b = e.target.closest("button");
   if (!b) return;
   const lugar = guardados[b.dataset.i];
-  hablar(`Vamos a ${lugar.nombre}.`);
+  hablar(frase("vamos_lugar", { lugar: lugar.nombre }));
   irA(lugar);
 });
 $("guardados").addEventListener("click", (e) => {
@@ -1992,8 +2142,13 @@ async function leerReferencias(parada) {
   if (!lista.length) return;
   const refs = lista.filter((x) => x.tipo === "referencia" && x.descripcion).map((x) => x.descripcion);
   const avisos = lista.filter((x) => x.tipo !== "referencia").map((x) => (NOMBRES_REPORTE[x.tipo] ?? "aviso").toLowerCase());
-  const texto = [refs.length ? `Referencia: ${refs[0]}.` : "", avisos.length ? `Cuidado: ${[...new Set(avisos)].join(", ")}.` : ""].join(" ").trim();
-  if (texto) hablar(texto, true);
+  const mensajes = [];
+  if (refs.length) mensajes.push(frase("referencia_parada", { referencia: refs[0] }));
+  if (avisos.length) {
+    if (mensajes.length) mensajes.push(" ");
+    mensajes.push(frase("aviso_parada", { avisos: [...new Set(avisos)].join(", ") }));
+  }
+  if (mensajes.length) hablar(mensajes, true);
 }
 
 // Reportar un problema donde estas parado.
@@ -2410,6 +2565,7 @@ Promise.all([
   fetch("datos/config.json").then((r) => r.json()).catch(() => ({})),
 ]).then(([, l, config]) => {
   lugares = l;
+  prepararLenguas(config);
   // En local se usa la API local, para que las pruebas no escriban en la base de produccion.
   API = ["localhost", "127.0.0.1"].includes(location.hostname) ? "http://localhost:3000/api" : config.api || "";
   pintarGuardados();
@@ -2450,6 +2606,6 @@ $("avisarChofer").addEventListener("click", () => {
   $("choferDestino").textContent = `Voy a ${cruce(destino)}.`;
   tarjetaChofer(true);
 });
-$("choferVoz").addEventListener("click", () => hablar(`${$("choferDestino").textContent} ¿Me avisa cuando lleguemos, por favor?`));
+$("choferVoz").addEventListener("click", () => hablar(`${$("choferDestino").textContent} ¿Me avisa cuando lleguemos, por favor?`, false, false, true));
 $("choferCerrar").addEventListener("click", () => tarjetaChofer(false));
 addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("chofer").hidden) tarjetaChofer(false); });

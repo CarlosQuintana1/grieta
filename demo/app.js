@@ -656,10 +656,15 @@ function resumenOpciones() {
   const rec = estado.tarjetas?.[0]?.o;
   const app = [...r.directo.porApp].sort((a, b) => a.precio - b.precio)[0];
   const enApp = r.opciones.find((o) => o.tipo === "app");
-  const primero = `Para ir a ${estado.destino.nombre}, en app lo más barato es ${Grieta.nombreApp(app.app)}, unos ${Math.round(app.precio)} pesos` +
+  const criterios = criteriosViaje(r);
+  const primero = `Para ir a ${estado.destino.nombre}, en app el menor precio estimado es ${Grieta.nombreApp(app.app)}, ${rangoVoz(limitesPrecio(app))}` +
     (enApp ? `; llegas a las ${hora(llegada(enApp))}. ` : ". ");
-  if (!rec) return `${primero}Ahorita ningún camión te lleva.`;
-  return `${primero}En camión, ${tituloOpcion(rec)} cuesta ${Math.round(rec.costo)} pesos y llegas a las ${hora(llegada(rec))}. ` +
+  const comparacion = criterios.economica === criterios.rapida
+    ? `${tituloOpcion(criterios.economica)} es la opción más económica y la más rápida, unos ${Math.round(criterios.rapida.minutos)} minutos. `
+    : `La opción más económica es ${tituloOpcion(criterios.economica)}. La más rápida es ${tituloOpcion(criterios.rapida)}, unos ${Math.round(criterios.rapida.minutos)} minutos. `;
+  if (!rec) return `${primero}${comparacion}Ahorita ningún camión te lleva.`;
+  return `${primero}${comparacion}` +
+    `En camión, ${tituloOpcion(rec)}, ${precioOpcionVoz(rec)} y llegas a las ${hora(llegada(rec))}. ` +
     "Toca una opción para escuchar los pasos.";
 }
 
@@ -787,7 +792,7 @@ const caminata = (o) => Math.round((o.pasos ?? []).filter((p) => p.tipo === "cam
 // Solo camion lleva el camion en anil; si combina con app, el auto en verde
 const fichaOpcion = (o) => (o.pasos?.some((p) => p.tipo === "app") ? miniFicha("tono-hospital", picto("app")) : miniFicha("tono-anil", picto("qrobus")));
 
-// Maximo tres caminos con camion: el mas rapido, el mas barato y uno equilibrado si es distinto.
+// Maximo tres caminos con camion: el mas barato, el mas rapido y uno equilibrado si es distinto.
 // El viaje solo en app no lleva tarjeta: ya tiene su seccion con el precio de cada app.
 // Las etiquetas se comparan contra todas las opciones, para no decir "mas rapido" si la app llega antes.
 const valorOpcion = (o) => o.costo + 1.5 * o.minutos;
@@ -801,9 +806,12 @@ function elegirTarjetas(r) {
     if (ya) ya.etiquetas.push(etiqueta);
     else lista.push({ o, etiquetas: [etiqueta] });
   };
-  agregar(menor(ops, valorOpcion), menor(r.opciones, valorOpcion).tipo === "app" ? "En camión" : "Recomendado");
-  if (menor(r.opciones, (o) => o.minutos).tipo !== "app") agregar(menor(ops, (o) => o.minutos), "Más rápido");
-  agregar(menor(ops, (o) => o.costo), "Más barato");
+  const criterios = criteriosViaje(r);
+  const economica = [...ops].sort((a, b) => a.costo - b.costo || a.minutos - b.minutos)[0];
+  agregar(economica, economica === criterios.economica ? "Más económica" : "Menor precio en Qrobus");
+  if (criterios.rapida.tipo !== "app") agregar(criterios.rapida, "Más rápida");
+  const equilibrada = menor(ops, valorOpcion);
+  if (!lista.some((x) => x.o === equilibrada)) agregar(equilibrada, menor(r.opciones, valorOpcion).tipo === "app" ? "Otra opción" : "Recomendado");
   // Si quedan menos de tres, la siguiente mejor como alternativa.
   // Nunca una alternativa que otra opcion le gana en precio y en tiempo a la vez.
   const perdedora = (o) => r.opciones.some((x) => x !== o && x.costo <= o.costo && x.minutos <= o.minutos);
@@ -815,6 +823,33 @@ function elegirTarjetas(r) {
 }
 
 const llegada = (o) => estado.r.ctx.minuto + o.minutos;
+
+const limitesPrecio = (x) => ({ bajo: Math.floor(x.bajo ?? x.precio), alto: Math.ceil(x.alto ?? x.precio) });
+const rangoTexto = (x) => `${pesos(x.bajo)}–${Math.round(x.alto)}`;
+const rangoVoz = (x) => `entre ${Math.round(x.bajo)} y ${Math.round(x.alto)} pesos`;
+const partesRango = (x) => `<span>${pesos(x.bajo)}</span><wbr><span>–${Math.round(x.alto)}</span>`;
+function rangoTramo(o, p) {
+  const tramo = p.hacia ? o.trazo.acceso : o.trazo.salida;
+  return Grieta.cotizar({ origen: tramo.puntos[0], destino: tramo.puntos[1], dia: estado.r.ctx.dia, minuto: estado.r.ctx.minuto }).porApp.find((x) => x.app === p.app);
+}
+function rangoOpcion(o) {
+  if (o.tipo === "app") return limitesPrecio(estado.r.directo.mejor);
+  const apps = (o.pasos ?? []).filter((p) => p.tipo === "app");
+  if (!apps.length) return null;
+  // El total del motor ya viene redondeado; la tarifa del camion se suma antes de redondear el rango.
+  const pasaje = acc.unidos ? 2 : Grieta.qrobus.pasaje;
+  const fijo = pasaje + (acc.unidos ? 0 : pasaje / 2) * (o.transbordos ?? 0);
+  const rangos = apps.map((p) => rangoTramo(o, p));
+  return limitesPrecio({ bajo: fijo + rangos.reduce((s, x) => s + x.bajo, 0), alto: fijo + rangos.reduce((s, x) => s + x.alto, 0) });
+}
+function criteriosViaje(r) {
+  return {
+    economica: [...r.opciones].sort((a, b) => a.costo - b.costo || a.minutos - b.minutos)[0],
+    rapida: [...r.opciones].sort((a, b) => a.minutos - b.minutos || a.costo - b.costo)[0],
+  };
+}
+const precioOpcionTexto = (o) => { const rango = rangoOpcion(o); return rango ? `aprox. ${rangoTexto(rango)}` : pesos(o.costo); };
+const precioOpcionVoz = (o) => { const rango = rangoOpcion(o); return rango ? `precio estimado ${rangoVoz(rango)}` : `${Math.round(o.costo)} pesos`; };
 
 function pintarOpciones(r) {
   titulos.opciones = `A ${estado.destino.nombre}`;
@@ -834,14 +869,15 @@ function pintarOpciones(r) {
   // Los precios de las apps, a la vista sin tener que entrar a una opcion.
   const apps = [...r.directo.porApp].sort((a, b) => a.precio - b.precio);
   $("appsRapido").innerHTML = apps.map((x, i) => `<button type="button" class="app-rapida${i ? "" : " barata"}" data-app="${x.app}"
-      aria-label="Abrir ${Grieta.nombreApp(x.app)}, unos ${Math.round(x.precio)} pesos${i ? "" : ", la más barata"}">
-      <span class="app-cabeza">${fichaApp(x.app)}<span>${Grieta.nombreApp(x.app)}</span></span><strong>${pesos(x.precio)}</strong><small${i ? ' class="vacio"' : ""}>Más barata</small></button>`).join("");
+      aria-label="Abrir ${Grieta.nombreApp(x.app)}, precio estimado ${rangoVoz(limitesPrecio(x))}${i ? "" : ", la app más económica"}">
+      <span class="app-cabeza">${fichaApp(x.app)}<span>${Grieta.nombreApp(x.app)}</span></span><strong class="precio-rango">${partesRango(limitesPrecio(x))}</strong><small${i ? ' class="vacio"' : ""}>Menor precio</small></button>`).join("");
   $("avisoRapido").textContent = "";
   const enApp = r.opciones.find((o) => o.tipo === "app");
   $("compararPrecio").hidden = !enApp;
   estado.tarjetas = elegirTarjetas(r);
-  const elogio = !enApp ? "" : menor(r.opciones, valorOpcion) === enApp ? "Lo recomendado: " : menor(r.opciones, (o) => o.minutos) === enApp ? "Lo más rápido: " : "";
-  $("llegadaApp").textContent = enApp ? `${elogio}llegas ${hora(llegada(enApp))}, en unos ${Math.round(enApp.minutos)} min` : "";
+  const criterios = criteriosViaje(r);
+  const etiquetasApp = [criterios.economica === enApp && "Más económica", criterios.rapida === enApp && "Más rápida"].filter(Boolean);
+  $("llegadaApp").textContent = enApp ? `${etiquetasApp.length ? etiquetasApp.join(" · ") + " · " : ""}Llegas ${hora(llegada(enApp))} · ${Math.round(enApp.minutos)} min estimados` : "";
   // Contra la app mas barata: cuanto ahorras y cuanto mas tardas yendo en camion.
   const appBarata = [...r.directo.porApp].sort((a, b) => a.precio - b.precio)[0];
   $("tarjetas").innerHTML = estado.tarjetas.map(({ o, etiquetas }, i) => {
@@ -849,12 +885,15 @@ function pintarOpciones(r) {
     if (caminata(o)) pie.push(`caminas ${caminata(o)} min`);
     const ahorro = appBarata.precio - o.costo;
     const mas = enApp ? Math.round(o.minutos - enApp.minutos) : 0;
-    const contra = ahorro >= 5 ? `<span class="ahorro">Ahorras ${pesos(ahorro)}${mas > 0 ? ` · ${mas} min más que en app` : ""}</span>` : "";
-    return `<button type="button" class="tarjeta${etiquetas.includes("Recomendado") ? " principal" : ""}" data-i="${i}">
+    const ahorroTexto = ahorro >= 5 ? `Ahorras aprox. ${pesos(ahorro)}${mas > 0 ? ` · ${mas} min más que en app` : ""}` : "";
+    const contra = ahorroTexto ? `<span class="ahorro">${ahorroTexto}</span>` : "";
+    const rango = rangoOpcion(o);
+    return `<button type="button" class="tarjeta${etiquetas.includes("Recomendado") ? " principal" : ""}" data-i="${i}"
+      aria-label="${escapar(`${etiquetas.join(" y ")}. ${tituloOpcion(o)}. ${pie.join(". ")}. ${precioOpcionVoz(o)}. ${ahorroTexto}`)}">
       ${fichaOpcion(o)}
       <span class="fila-texto"><span class="etiqueta">${etiquetas.join(" · ")}</span>
         <strong>${escapar(tituloOpcion(o))}</strong><small>${pie.join(" · ")}</small>${contra}</span>
-      <span class="precio">${pesos(o.costo)}</span>${ico("chevron", "chevron")}
+      <span class="precio${rango ? " precio-rango" : ""}">${rango ? `<small class="precio-nota">Aprox.</small>${partesRango(rango)}` : pesos(o.costo)}</span>${ico("chevron", "chevron")}
     </button>`;
   }).join("");
   const hayCamion = r.opciones.some((o) => o.tipo !== "app");
@@ -868,7 +907,7 @@ function pintarOpciones(r) {
   if (quedan <= 120) {
     const app = [...r.directo.porApp].sort((x, y) => x.precio - y.precio)[0];
     $("ultimoCamion").innerHTML = `${ico("alerta")}<span class="fila-texto"><strong>Último ${escapar(c.linea)}: ${hora(c.ultima)} según el horario</strong>
-      <small>En la parada ${escapar(cruce(c.recorrido[0].nombre))}, hacia ${escapar(c.hacia)}. Si lo pierdes, la app más barata te cuesta unos ${pesos(app.precio)} (${Grieta.nombreApp(app.app)}).${avisoVigencia()}</small></span>`;
+      <small>En la parada ${escapar(cruce(c.recorrido[0].nombre))}, hacia ${escapar(c.hacia)}. Si lo pierdes, ${Grieta.nombreApp(app.app)} se estima en ${rangoTexto(limitesPrecio(app))}.${avisoVigencia()}</small></span>`;
   }
   if (!hayCamion) {
     $("tarjetas").innerHTML += `<p class="nota">${r.pasaCerca ? "Ningún Qrobus te lleva directo en la próxima hora." : "En la próxima hora no pasa ningún Qrobus cerca."}</p>`;
@@ -881,7 +920,7 @@ $("tarjetas").addEventListener("click", (e) => {
 function abrirOpcion(i) {
   const { o, etiquetas } = estado.tarjetas[i];
   estado.elegida = o;
-  estado.etiquetaElegida = etiquetas[0];
+  estado.etiquetaElegida = etiquetas.join(" · ");
   titulos.detalle = tituloOpcion(o);
   ir("detalle");
   pintarDetalle();
@@ -892,7 +931,7 @@ function leerDetalle() {
   const o = estado.elegida;
   if (o.tipo !== "app") return hablar(`${pasosEnVoz(o)} Abajo está el botón Empezar viaje con avisos: tócalo y te guío hasta que te bajes.`);
   const apps = [...estado.r.directo.porApp].sort((a, b) => a.precio - b.precio);
-  hablar(`En app: ${apps.map((x) => `${Grieta.nombreApp(x.app)}, unos ${Math.round(x.precio)} pesos`).join("; ")}. Toca el botón de la app para pedirla.`);
+  hablar(`Precios estimados en app: ${apps.map((x) => `${Grieta.nombreApp(x.app)}, ${rangoVoz(limitesPrecio(x))}`).join("; ")}. Toca el botón de la app para pedirla.`);
 }
 
 // Comparar lo que marca la app: lleva directo al detalle del viaje en app, con el campo del precio listo.
@@ -926,8 +965,8 @@ function pintarEspera(lista, precios, base) {
   const minimo = Math.round(Math.min(...cercanos)) < Math.round(Math.max(...cercanos)) ? Math.min(...cercanos) : -1;
   $("horas").innerHTML = lista.map((m, i) => `
     <button type="button" data-i="${i}" aria-pressed="${i === estado.momento}" class="${i < ESPERAS.length && cercanos[i] === minimo ? "barata" : ""}"
-      aria-label="${m.etiqueta}${m.vacia ? ", elegir día y hora" : `, ${Math.round(precios[i].mejor.precio)} pesos`}">
-      <span>${m.corta ?? m.etiqueta}</span><strong>${m.vacia ? "+" : pesos(precios[i].mejor.precio)}</strong>
+      aria-label="${m.etiqueta}${m.vacia ? ", elegir día y hora" : `, precio aproximado ${Math.round(precios[i].mejor.precio)} pesos`}">
+      <span>${m.corta ?? m.etiqueta}</span><strong>${m.vacia ? "+" : pesos(precios[i].mejor.precio)}</strong>${m.vacia ? "" : '<small class="precio-nota">Aprox.</small>'}
     </button>`).join("");
   // Lo que cambia es la franja de 3 horas del modelo, no el trafico de este momento.
   const ahora = cercanos[0];
@@ -948,7 +987,7 @@ function pintarEspera(lista, precios, base) {
   const barata = tramos.reduce((x, y) => (y.p < x.p ? y : x), tramos[0]);
   $("mejorHora").textContent = (!barata ? "" : barata.a <= hoy.minuto
     ? "Ahorita es la hora más barata de hoy. "
-    : `Lo más barato hoy es de ${hora(barata.a)} a ${hora(barata.b)}: ${pesos(barata.p)}. `) +
+    : `Lo más barato hoy es de ${hora(barata.a)} a ${hora(barata.b)}: unos ${pesos(barata.p)}. `) +
     "Son precios normales según nuestros registros, no lo que marca la app en este momento.";
 }
 // "A que hora salgo": se prueba salir cada 5 minutos desde ahora (hasta 4 horas antes) y se queda la salida
@@ -982,7 +1021,7 @@ function calcularSalida() {
     <p class="hora-salida">Sal a las ${hora(x.t)}</p><p>${detalle}</p>
     <button type="button" class="boton oscuro" data-salir="${x.t}">Ver esta ruta</button></div>`;
   $("salida").innerHTML =
-    (camion ? bloque("En Qrobus", camion, `${escapar(tituloOpcion(camion.o))}, ${pesos(camion.o.costo)}. Llegas a las ${hora(camion.t + camion.o.minutos)}.`) : "") +
+    (camion ? bloque("En Qrobus", camion, `${escapar(tituloOpcion(camion.o))}, ${camion.conApp ? "aprox. " : ""}${pesos(camion.o.costo)}. Llegas a las ${hora(camion.t + camion.o.minutos)}.`) : "") +
     (app ? bloque("En app", app, `Pide ${escapar(tituloOpcion(app.o))}, unos ${pesos(app.o.costo)}. Llegas a las ${hora(app.t + app.o.minutos)}.`) : "");
   hablar([camion && `En camión, sal a las ${hora(camion.t)} y toma ${tituloOpcion(camion.o)}.`, app && `En app, pídela a las ${hora(app.t)}.`].filter(Boolean).join(" "), false, true);
 }
@@ -1031,7 +1070,7 @@ function pasosDe(o) {
   if (o.tipo === "app") {
     const app = tituloOpcion(o);
     return [
-      { ficha: ["tono-hospital", "app"], titulo: `Pide ${app}`, nota: `Debería costar unos ${pesos(o.costo)}.`, hora: estado.r.ctx.minuto },
+      { ficha: ["tono-hospital", "app"], titulo: `Pide ${app}`, nota: `Precio estimado ${rangoVoz(rangoOpcion(o))}.`, hora: estado.r.ctx.minuto },
       { ficha: ["tono-casa", "lugar"], titulo: `Llegas a ${estado.destino.nombre}`, nota: `Unos ${Math.round(o.minutos)} minutos, contando la espera.`, hora: llegada(o) },
     ];
   }
@@ -1047,8 +1086,8 @@ function pasosDe(o) {
       ? { ficha: camina, titulo: `Camina ${min} min a la parada`, nota: p.parada, hora: inicio }
       : { ficha: camina, titulo: `Camina ${min} min a tu destino`, nota: `${estado.destino.nombre}. Llegas a las ${hora(llegada(o))}.`, hora: inicio };
     if (p.tipo === "app") return p.hacia
-      ? { ficha: enApp, titulo: `Pide ${Grieta.nombreApp(p.app)} hasta la parada`, nota: `${p.parada} · unos ${pesos(p.costo)}`, hora: inicio }
-      : { ficha: enApp, titulo: `Pide ${Grieta.nombreApp(p.app)} a tu destino`, nota: `Unos ${pesos(p.costo)}. Llegas a las ${hora(llegada(o))}.`, hora: inicio };
+      ? { ficha: enApp, titulo: `Pide ${Grieta.nombreApp(p.app)} hasta la parada`, nota: `${p.parada}. Precio estimado ${rangoVoz(limitesPrecio(rangoTramo(o, p)))}.`, hora: inicio }
+      : { ficha: enApp, titulo: `Pide ${Grieta.nombreApp(p.app)} a tu destino`, nota: `Precio estimado ${rangoVoz(limitesPrecio(rangoTramo(o, p)))}. Llegas a las ${hora(llegada(o))}.`, hora: inicio };
     return { ficha: ["tono-anil", "qrobus"], camion: true, titulo: `Toma la línea ${p.linea} a las ${hora(p.sale)}`, nota: `Hacia ${p.hacia}. Bájate en ${p.baja}, ${p.paradas} paradas después, a las ${hora(p.llega)}. Te aviso antes.`, hora: inicio };
   });
 }
@@ -1066,7 +1105,7 @@ function pintarDetalle(sinMapa) {
   }
   const etiqueta = estado.etiquetaElegida ?? "Recomendado";
   $("detalleEtiqueta").textContent = etiqueta === "Recomendado" ? "Ruta recomendada" : etiqueta;
-  $("detalleCifra").textContent = `${Math.round(o.minutos)} min · ${pesos(o.costo)}`;
+  $("detalleCifra").textContent = `${Math.round(o.minutos)} min · ${precioOpcionTexto(o)}`;
   $("detalleLlegada").innerHTML = `Llegas <strong>${hora(llegada(o))}</strong>`;
   $("pasos").innerHTML = pasosDe(o).map((p, i) => `<li class="${p.camion ? "camion" : ""}">
     ${miniFicha(p.ficha[0], picto(p.ficha[1]))}
@@ -1099,15 +1138,15 @@ function pintarApps(o) {
   const r = estado.r;
   const orden = [...r.directo.porApp].sort((a, b) => a.precio - b.precio);
   const barata = orden[0];
-  $("appEtiqueta").textContent = estado.momento === 0 ? "Precio esperado ahora" : `Precio esperado a las ${hora(r.ctx.minuto)}`;
-  $("appCifra").textContent = `${Grieta.nombreApp(barata.app)} ${pesos(barata.precio)}`;
+  $("appEtiqueta").textContent = estado.momento === 0 ? "Precio estimado ahora" : `Precio estimado a las ${hora(r.ctx.minuto)}`;
+  $("appCifra").textContent = `${Grieta.nombreApp(barata.app)} · ${rangoTexto(limitesPrecio(barata))}`;
   $("appRango").textContent = `Llegas a las ${hora(llegada(o))}`;
   // Una fila por app que tambien la abre, la mas barata primero.
   $("abrirApps").innerHTML = orden.map((x, i) => `<button type="button" class="app-fila${i ? "" : " barata"}" data-app="${x.app}"
-      aria-label="Abrir ${Grieta.nombreApp(x.app)}, unos ${Math.round(x.precio)} pesos${i ? "" : ", la más barata"}">
-      ${fichaApp(x.app)}<span class="fila-texto"><strong>Abrir ${Grieta.nombreApp(x.app)}</strong><small>${i ? "" : "La más barata · "}normal entre ${pesos(x.bajo)} y ${pesos(x.alto)}</small></span>
-      <span class="precio">${pesos(x.precio)}</span>${ico("chevron", "chevron")}</button>`).join("");
-  $("appAviso").textContent = "";
+      aria-label="Abrir ${Grieta.nombreApp(x.app)}, precio estimado ${rangoVoz(limitesPrecio(x))}${i ? "" : ", la app más económica"}">
+      ${fichaApp(x.app)}<span class="fila-texto"><strong>Abrir ${Grieta.nombreApp(x.app)}</strong><small>${i ? "Precio estimado" : "Menor precio en app"}</small></span>
+      <span class="precio precio-rango">${partesRango(limitesPrecio(x))}</span>${ico("chevron", "chevron")}</button>`).join("");
+  $("appAviso").textContent = "El precio puede variar. Confírmalo al abrir la app.";
 }
 
 $("empezar").addEventListener("click", () => iniciarGuia(estado.elegida));
@@ -1150,26 +1189,29 @@ function pintarVeredicto(r) {
   const porque = d.accion === "esperar"
     ? ` Está arriba de lo normal y te sobra tiempo: vuelve a revisar en unos minutos${sigFranja < 24 ? `; lo normal cambia de franja a las ${hora(sigFranja * 60)}` : ""}.`
     : "";
-  // Muy arriba de lo normal: lo mas probable es alta demanda, y otra app puede salir mas barata.
+  // Se compara contra el modelo; no se conoce la demanda real de cada app.
   const otra = r.directo.porApp.filter((x) => x.app !== d.esperado.app).sort((x, y) => x.precio - y.precio)[0];
   const alta = d.relacion >= 1.4
-    ? ` <strong>${Grieta.nombreApp(d.esperado.app)} está en alta demanda.</strong>${otra && otra.precio < visto * 0.85 ? ` ${Grieta.nombreApp(otra.app)} debería salir en unos ${pesos(otra.precio)}: revísala antes de pedir.` : ""}`
+    ? ` <strong>Revisa otra app antes de pedir.</strong>${otra && otra.precio < visto * 0.85 ? ` ${Grieta.nombreApp(otra.app)} se estima en ${rangoTexto(limitesPrecio(otra))}.` : ""}`
     : "";
-  const camion = d.accion === "camion" && estado.tarjetas?.length;
+  const candidatas = (estado.tarjetas ?? []).map(({ o }, i) => ({ o, i })).filter(({ o }) => o.costo <= visto * 0.7);
+  const camion = d.accion === "camion" ? candidatas.sort((a, b) => a.o.minutos - b.o.minutos || a.o.costo - b.o.costo)[0] : null;
+  const extra = camion ? camion.o.minutos - (r.opciones.find((o) => o.tipo === "app")?.minutos ?? r.directo.minutos) : d.extra;
   $("veredicto").innerHTML = `
     <div class="recomendacion">
       <p class="etiqueta">Recomendación</p>
       <p class="veredicto">${ico(SIMBOLOS[d.accion], "simbolo")}${ACCIONES[d.accion]}</p>
-      <p>${Grieta.nombreApp(d.esperado.app)} te marca ${pesos(visto)} y lo normal a esta hora es ${pesos(d.esperado.precio)}.${alta}${porque}
-        ${d.accion === "camion" && d.extra < 1e8 ? `El camión tarda ${Math.round(d.extra)} min más, pero te ahorras la diferencia.` : ""}</p>
-      ${camion ? `<button type="button" class="boton ver-camion">${ico("camion")}Ver cómo ir en ${escapar(tituloOpcion(estado.tarjetas[0].o))}</button>` : ""}
+      <p>${Grieta.nombreApp(d.esperado.app)} te marca ${pesos(visto)}. Nuestro rango estimado es ${rangoTexto(limitesPrecio(d.esperado))}.${alta}${porque}
+        ${d.accion === "camion" && extra < 1e8 ? `El camión tarda ${Math.round(extra)} min más, pero te ahorras la diferencia.` : ""}</p>
+      ${camion ? `<button type="button" class="boton ver-camion" data-i="${camion.i}">${ico("camion")}Ver cómo ir en ${escapar(tituloOpcion(camion.o))}</button>` : ""}
       <p class="reglas">${d.activas.some((a) => a.accion === d.accion)
         ? `Porque ${escapar(d.activas.find((a) => a.accion === d.accion).texto)}.`
         : "El precio no está tan arriba o el camión tarda demasiado."}</p>
     </div>`;
 }
 $("veredicto").addEventListener("click", (e) => {
-  if (e.target.closest(".ver-camion")) abrirOpcion(0);
+  const b = e.target.closest(".ver-camion");
+  if (b) abrirOpcion(b.dataset.i);
 });
 
 const enlaceUber = () => {

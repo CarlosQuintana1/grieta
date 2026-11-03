@@ -15,6 +15,11 @@
   --toque: 48px;
   --radio: 14px;
   --pestanas: 64px;
+  --texto-precio-rango: 1rem;
+  --texto-precio-nota: 0.72rem;
+  --texto-cifra-comparacion: 1.45rem;
+  --espacio-precio: 0.25rem;
+  --ancho-precio-rango: 6rem;
 }
 html { font-size: 17px; }
 html.grande { font-size: 21px; --toque: 56px; }
@@ -435,7 +440,7 @@ html.claro .interruptor input::after, html.claro .interruptor input:checked::aft
 .en-app h2 { margin-bottom: 2px; }
 .llegada-app { color: var(--tenue); font-size: 0.85rem; margin-bottom: 10px; }
 .llegada-app::first-letter { text-transform: uppercase; }
-.apps-rapido { display: grid; grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); gap: 8px; }
+.apps-rapido { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .app-rapida { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-height: var(--toque); padding: 10px 12px;
   border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); text-align: left; }
 .app-rapida span { font-size: 0.85rem; color: var(--tenue); font-weight: 600; }
@@ -705,9 +710,19 @@ html.daltonico .linea-caja { background: #273d76; }
 html.claro .app-didi { --tono: #8a4200; } html.claro .app-indrive { --tono: #275c1a; }
 html.daltonico .app-didi { --tono: #174e8a; } html.daltonico .app-indrive { --tono: #5a408c; }
 .app-rapida { justify-content: flex-start; gap: 6px; }
-.app-cabeza { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.app-cabeza { display: flex; flex-direction: column; align-items: flex-start; gap: var(--espacio-precio); margin-bottom: 4px; }
 .app-rapida .ficha-app { width: 32px; height: 32px; margin: 0; font-size: 0.85rem; }
 .app-rapida small.vacio { visibility: hidden; }
+.precio-rango { white-space: normal; }
+:is(.app-rapida, .app-fila, .tarjeta) .precio-rango { font-size: var(--texto-precio-rango); }
+.precio-rango span { color: inherit; font: inherit; white-space: nowrap; }
+.precio-nota { display: block; color: var(--tenue); font-size: var(--texto-precio-nota); font-weight: 400; }
+.tarjeta .precio-rango { flex: none; max-width: var(--ancho-precio-rango); }
+.app-fila { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; row-gap: var(--espacio-precio); }
+.app-fila > .mini-ficha { grid-row: 1 / span 2; }
+.app-fila > .fila-texto, .app-fila > .precio-rango { grid-column: 2; }
+.app-fila > .chevron { grid-column: 3; grid-row: 1 / span 2; }
+#appCifra, #detalleCifra { font-size: var(--texto-cifra-comparacion); white-space: normal; }
 .app-fila .ficha-app { width: 44px; height: 44px; }
 .app-rapida .ficha-app { color: #fff; font-weight: 800; }
 

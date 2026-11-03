@@ -250,6 +250,7 @@ for (const [id, clave] of Object.entries({ tituloInicio: "a_donde_vas", empezar:
   const boton = $(id);
   boton.lastChild.textContent = textoFrase(frase(clave));
 }
+$("nombreOtomi").textContent = NOMBRE_OTOMI;
 
 // Voz y vibracion, con un tono por pulso para que en iPhone tambien haya senal.
 // Los nombres de las paradas son cruces escritos con abreviaturas: se leen como se dicen.
@@ -335,9 +336,6 @@ function hablar(mensaje, enCola = false, enPantalla = false, soloEspanol = false
 async function prepararLenguas(config) {
   lenguasDisponibles = Array.isArray(config.lenguas) ? config.lenguas.filter((l) => l === "oto") : [];
   if (!lenguasDisponibles.length) return;
-  $("nombreOtomi").textContent = NOMBRE_OTOMI;
-  $("filaLengua").hidden = false;
-  for (const b of $("optLengua").children) b.setAttribute("aria-pressed", String(b.dataset.v === acc.lengua));
   if ("serviceWorker" in navigator) {
     try {
       const registro = await navigator.serviceWorker.ready;
@@ -358,15 +356,9 @@ async function prepararLenguas(config) {
     }));
     audiosOto = new Set(disponibles.filter(Boolean));
   }
+  if (audiosOto.size) EFECTOS.perfilLengua.oto = "Si falta un audio, ese aviso se dice en español.";
+  actualizarFilasPerfil();
 }
-$("optLengua").addEventListener("click", (e) => {
-  const boton = e.target.closest("button");
-  if (!boton || (boton.dataset.v !== "es" && !lenguasDisponibles.includes(boton.dataset.v))) return;
-  detenerVoz();
-  acc.lengua = boton.dataset.v;
-  guardarAcc();
-  for (const b of $("optLengua").children) b.setAttribute("aria-pressed", String(b === boton));
-});
 function vibrar(patron) {
   navigator.vibrate?.(patron);
   try {
@@ -2396,7 +2388,7 @@ function resumenCortoPerfil() {
   const densidad = { completa: "Completa", facil: "Fácil", voz: "Sin pantalla" }[densidadActual()];
   const oido = acc.oido === "poco" ? "Avisos con vibración" : "Avisos con voz";
   const tarifa = acc.unidos ? "Tarifa Unidos" : "Tarifa normal";
-  return [vista, movimiento, densidad, oido, tarifa, acc.modoVoz ? (acc.lector === "si" ? "Usas lector de pantalla" : "Grieta te habla") : ""].filter(Boolean).join(" · ");
+  return [vista, movimiento, densidad, oido, tarifa, acc.modoVoz ? (acc.lector === "si" ? "Usas lector de pantalla" : "Grieta te habla") : "", acc.lengua === "oto" ? `Prefieres ${NOMBRE_OTOMI}` : ""].filter(Boolean).join(" · ");
 }
 function pintarResumenPerfil() {
   if (!$("textoPerfil")) return;
@@ -2424,6 +2416,7 @@ const EFECTOS = {
   perfilOido: { bien: "Durante el viaje te aviso con voz.", poco: "Avisos en pantalla grande y con vibración, sin voz." },
   perfilTarifa: { si: "Calculo el camión a $2 y el transbordo gratis.", no: "Calculo el camión con la tarifa normal." },
   perfilForma: { completa: "Precios, horarios, comparar y esperar.", facil: "Solo lo esencial, con botones grandes." },
+  perfilLengua: { es: "Los avisos se dicen en español.", oto: "Por ahora los avisos siguen en español. Faltan audios revisados." },
 };
 const efecto = (grupo, v) => { $(`${grupo}Efecto`).textContent = EFECTOS[grupo][v] ?? ""; };
 const RESPUESTAS_PERFIL = {
@@ -2433,6 +2426,7 @@ const RESPUESTAS_PERFIL = {
   perfilMovilidad: { normal: "Camino sin problema", poco: "Me cuesta caminar", silla: "Uso silla de ruedas o andadera" },
   perfilOido: { bien: "Escucho bien los avisos", poco: "Me cuesta escuchar" },
   perfilTarifa: { si: "Pago Tarifa Unidos", no: "Pago tarifa normal" },
+  perfilLengua: { es: "Español", oto: NOMBRE_OTOMI },
 };
 function actualizarFilasPerfil() {
   const movilidad = acc.movilidad ?? (acc.camino ? "poco" : "normal");
@@ -2443,6 +2437,7 @@ function actualizarFilasPerfil() {
     perfilMovilidad: movilidad,
     perfilOido: acc.oido ?? "bien",
     perfilTarifa: acc.unidos ? "si" : "no",
+    perfilLengua: acc.lengua === "oto" ? "oto" : "es",
   };
   for (const [grupo, valor] of Object.entries(valores)) {
     const fila = document.querySelector(`[data-grupo-perfil="${grupo}"]`);
@@ -2456,6 +2451,7 @@ function actualizarFilasPerfil() {
   marcarMovilidad(valores.perfilMovilidad);
   marcarOido(valores.perfilOido);
   marcarTarifa(valores.perfilTarifa);
+  marcarLengua(valores.perfilLengua);
   $("perfilLector").hidden = !acc.modoVoz;
   $("preguntaForma").hidden = acc.modoVoz;
 }
@@ -2494,6 +2490,10 @@ const marcarForma = radios("perfilForma", (v) => cambiarPerfil(() => {
 const marcarTarifa = radios("perfilTarifa", (v) => cambiarPerfil(() => {
   efecto("perfilTarifa", v);
   acc.unidos = v === "si";
+}));
+const marcarLengua = radios("perfilLengua", (v) => cambiarPerfil(() => {
+  detenerVoz();
+  acc.lengua = v;
 }));
 function abrirPerfil() {
   marcarVista(vistaActual());

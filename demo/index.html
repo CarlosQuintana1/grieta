@@ -500,6 +500,18 @@
             </div>
           </div>
         </div>
+        <div id="filaLengua" class="item-perfil" data-grupo-perfil="perfilLengua">
+          <div class="fila-perfil">
+            <span class="mini-ficha tono-ciruela" aria-hidden="true"><svg class="picto"><use href="#p-decir"/></svg></span>
+            <div class="fila-texto"><h3 id="tituloLengua">Lengua que prefieres</h3><strong class="respuesta-perfil"></strong><small id="perfilLenguaEfecto" class="efecto fila-perfil-efecto"></small></div>
+          </div>
+          <div class="opciones-perfil">
+            <div id="perfilLengua" class="fichas dos" role="radiogroup" aria-labelledby="tituloLengua" aria-describedby="perfilLenguaEfecto">
+              <button type="button" role="radio" aria-checked="false" data-v="es" tabindex="-1" class="ficha"><span>Español</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+              <button type="button" role="radio" aria-checked="false" data-v="oto" tabindex="-1" class="ficha"><span id="nombreOtomi"></span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+            </div>
+          </div>
+        </div>
         <div id="preguntaTarifa" class="item-perfil" data-grupo-perfil="perfilTarifa">
           <div class="fila-perfil">
             <span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-qrobus"/></svg></span>
@@ -601,13 +613,6 @@
       </div>
       <h2 id="tituloVoz">Voz</h2>
       <div class="grupo">
-        <div id="filaLengua" class="fila-tema" hidden>
-          <strong id="tituloLengua">Lengua</strong>
-          <div id="optLengua" class="segmentado" role="group" aria-labelledby="tituloLengua">
-            <button type="button" data-v="es" aria-pressed="true">Español</button>
-            <button id="nombreOtomi" type="button" data-v="oto" aria-pressed="false"></button>
-          </div>
-        </div>
         <label class="interruptor"><span><strong>Voz de Grieta</strong><small>Apágala si tu teléfono ya te lee la pantalla (VoiceOver o TalkBack)</small></span><input type="checkbox" role="switch" id="optVoz"></label>
         <label class="interruptor"><span><strong>Voz más lenta</strong></span><input type="checkbox" role="switch" id="optLenta"></label>
       </div>

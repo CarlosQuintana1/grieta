@@ -125,6 +125,27 @@
       "lat": 20.7418,
       "lon": -100.4472,
       "verificado": true
+    },
+    {
+      "id": "pena-flor",
+      "nombre": "Blvd. Peña Flor y Prol. Bernardo Quintana",
+      "lat": 20.646499,
+      "lon": -100.479798,
+      "verificado": false
+    },
+    {
+      "id": "parque-innovacion",
+      "nombre": "Parque Tecnológico Innovación Querétaro",
+      "lat": 20.555781,
+      "lon": -100.267338,
+      "verificado": false
+    },
+    {
+      "id": "santa-clara",
+      "nombre": "Santa Clara, Circuito 11 de Febrero",
+      "lat": 20.514658,
+      "lon": -100.475767,
+      "verificado": false
     }
   ]
 }

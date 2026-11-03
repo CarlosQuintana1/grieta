@@ -143,6 +143,42 @@
       "a": "jurica",
       "b": "santa-rosa",
       "escala": "media"
+    },
+    {
+      "id": 25,
+      "a": "pena-flor",
+      "b": "centro",
+      "escala": "media"
+    },
+    {
+      "id": 26,
+      "a": "pena-flor",
+      "b": "carrillo",
+      "escala": "media"
+    },
+    {
+      "id": 27,
+      "a": "parque-innovacion",
+      "b": "centro",
+      "escala": "larga"
+    },
+    {
+      "id": 28,
+      "a": "parque-innovacion",
+      "b": "taq",
+      "escala": "larga"
+    },
+    {
+      "id": 29,
+      "a": "santa-clara",
+      "b": "centro",
+      "escala": "larga"
+    },
+    {
+      "id": 30,
+      "a": "santa-clara",
+      "b": "pueblito",
+      "escala": "media"
     }
   ]
 }

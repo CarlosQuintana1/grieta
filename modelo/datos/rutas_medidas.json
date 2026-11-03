@@ -431,6 +431,114 @@
       "escala": "media",
       "distancia_km": 12.514,
       "duracion_libre_min": 13.12
+    },
+    {
+      "ruta_id": 49,
+      "par_id": 25,
+      "origen": "pena-flor",
+      "destino": "centro",
+      "escala": "media",
+      "distancia_km": 15.255,
+      "duracion_libre_min": 16.36
+    },
+    {
+      "ruta_id": 50,
+      "par_id": 25,
+      "origen": "centro",
+      "destino": "pena-flor",
+      "escala": "media",
+      "distancia_km": 15.795,
+      "duracion_libre_min": 16.72
+    },
+    {
+      "ruta_id": 51,
+      "par_id": 26,
+      "origen": "pena-flor",
+      "destino": "carrillo",
+      "escala": "media",
+      "distancia_km": 7.298,
+      "duracion_libre_min": 8.36
+    },
+    {
+      "ruta_id": 52,
+      "par_id": 26,
+      "origen": "carrillo",
+      "destino": "pena-flor",
+      "escala": "media",
+      "distancia_km": 8.302,
+      "duracion_libre_min": 9.46
+    },
+    {
+      "ruta_id": 53,
+      "par_id": 27,
+      "origen": "parque-innovacion",
+      "destino": "centro",
+      "escala": "larga",
+      "distancia_km": 20.305,
+      "duracion_libre_min": 18.52
+    },
+    {
+      "ruta_id": 54,
+      "par_id": 27,
+      "origen": "centro",
+      "destino": "parque-innovacion",
+      "escala": "larga",
+      "distancia_km": 18.359,
+      "duracion_libre_min": 16.15
+    },
+    {
+      "ruta_id": 55,
+      "par_id": 28,
+      "origen": "parque-innovacion",
+      "destino": "taq",
+      "escala": "larga",
+      "distancia_km": 18.355,
+      "duracion_libre_min": 17.77
+    },
+    {
+      "ruta_id": 56,
+      "par_id": 28,
+      "origen": "taq",
+      "destino": "parque-innovacion",
+      "escala": "larga",
+      "distancia_km": 16.01,
+      "duracion_libre_min": 13.71
+    },
+    {
+      "ruta_id": 57,
+      "par_id": 29,
+      "origen": "santa-clara",
+      "destino": "centro",
+      "escala": "larga",
+      "distancia_km": 14.255,
+      "duracion_libre_min": 14.94
+    },
+    {
+      "ruta_id": 58,
+      "par_id": 29,
+      "origen": "centro",
+      "destino": "santa-clara",
+      "escala": "larga",
+      "distancia_km": 13.777,
+      "duracion_libre_min": 13.45
+    },
+    {
+      "ruta_id": 59,
+      "par_id": 30,
+      "origen": "santa-clara",
+      "destino": "pueblito",
+      "escala": "media",
+      "distancia_km": 6.949,
+      "duracion_libre_min": 8.52
+    },
+    {
+      "ruta_id": 60,
+      "par_id": 30,
+      "origen": "pueblito",
+      "destino": "santa-clara",
+      "escala": "media",
+      "distancia_km": 5.958,
+      "duracion_libre_min": 7.04
     }
   ]
 }

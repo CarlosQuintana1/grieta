@@ -774,6 +774,12 @@ $("compararPrecio").addEventListener("click", () => {
 const inicioFranja = (minuto) => Math.max(...Grieta.CORTES.filter((c) => c * 60 <= minuto % 1440)) * 60;
 
 function pintarEspera(lista, precios, base) {
+  if (!$("horaLlegada").value) $("horaLlegada").value = Grieta.hhmm(Math.ceil((ahoraMin() + 60) / 5) * 5);
+  if (!estado.otra) {
+    const m = normalizar(lista.at(-1));
+    $("dia").value = String(m.dia);
+    $("hora").value = Grieta.hhmm(m.minuto);
+  }
   const cercanos = precios.slice(0, ESPERAS.length).map((p) => p.mejor.precio);
   // Solo se resalta la hora mas barata si de verdad lo es: si todas cuestan lo mismo, ninguna.
   const minimo = Math.round(Math.min(...cercanos)) < Math.round(Math.max(...cercanos)) ? Math.min(...cercanos) : -1;
@@ -806,12 +812,6 @@ function pintarEspera(lista, precios, base) {
 }
 // "A que hora salgo": se prueba salir cada 5 minutos desde ahora (hasta 4 horas antes) y se queda la salida
 // mas tarde que todavia llega a tiempo, en camion y en app.
-$("abrirLlegar").addEventListener("click", () => {
-  const abierto = $("abrirLlegar").getAttribute("aria-expanded") === "true";
-  $("abrirLlegar").setAttribute("aria-expanded", String(!abierto));
-  $("llegar").hidden = abierto;
-  if (!abierto && !$("horaLlegada").value) $("horaLlegada").value = Grieta.hhmm(Math.ceil((ahoraMin() + 60) / 5) * 5);
-});
 function calcularSalida() {
   const [h, m] = ($("horaLlegada").value || "").split(":").map(Number);
   if (!Number.isFinite(h)) return void ($("salida").innerHTML = `<p class="nota">Elige a qué hora tienes que llegar.</p>`);
@@ -862,16 +862,10 @@ $("salida").addEventListener("click", (e) => {
   $("hoja").scrollTop = 0;
 });
 
-$("abrirEspera").addEventListener("click", () => {
-  const abierto = $("abrirEspera").getAttribute("aria-expanded") === "true";
-  $("abrirEspera").setAttribute("aria-expanded", String(!abierto));
-  $("espera").hidden = abierto;
-});
 $("horas").addEventListener("click", (e) => {
   const b = e.target.closest("button");
   if (!b) return;
   estado.momento = Number(b.dataset.i);
-  $("otraHora").hidden = estado.momento !== ESPERAS.length;
   if (estado.momento === ESPERAS.length && !estado.otra) {
     const m = momentos().at(-1);
     $("dia").value = String((m.dia + Math.floor(m.minuto / 1440)) % 7);
@@ -885,7 +879,11 @@ function leerOtra() {
   const [h, m] = ($("hora").value || "12:00").split(":").map(Number);
   estado.otra = { dia: Number($("dia").value), minuto: h * 60 + m };
 }
-for (const id of ["dia", "hora"]) $(id).addEventListener("input", () => { leerOtra(); calcular(); });
+for (const id of ["dia", "hora"]) $(id).addEventListener("input", () => {
+  leerOtra();
+  estado.momento = ESPERAS.length;
+  calcular();
+});
 
 // Detalle de un camino, con la hora de cada paso sacada de los mismos pasos.
 function pasosDe(o) {
@@ -1024,19 +1022,13 @@ function pintarVeredicto(r) {
       <p>${Grieta.nombreApp(d.esperado.app)} te marca ${pesos(visto)} y lo normal a esta hora es ${pesos(d.esperado.precio)}.${alta}${porque}
         ${d.accion === "camion" && d.extra < 1e8 ? `El camión tarda ${Math.round(d.extra)} min más, pero te ahorras la diferencia.` : ""}</p>
       ${camion ? `<button type="button" class="boton ver-camion">${ico("camion")}Ver cómo ir en ${escapar(tituloOpcion(estado.tarjetas[0].o))}</button>` : ""}
-      <button type="button" class="porque" aria-expanded="false" aria-controls="reglas">¿Por qué?</button>
-      <ul id="reglas" class="reglas" hidden>${d.activas.length
-        ? d.activas.slice(0, 3).map((a) => `<li>${Math.round(a.w * 100)}%: si ${a.texto}, ${ACCIONES[a.accion].toLowerCase()}</li>`).join("")
-        : "<li>Ninguna señal para irte en camión: el precio no está tan arriba o el camión tarda demasiado.</li>"}</ul>
+      <p class="reglas">${d.activas.some((a) => a.accion === d.accion)
+        ? `Porque ${escapar(d.activas.find((a) => a.accion === d.accion).texto)}.`
+        : "El precio no está tan arriba o el camión tarda demasiado."}</p>
     </div>`;
 }
 $("veredicto").addEventListener("click", (e) => {
-  if (e.target.closest(".ver-camion")) return abrirOpcion(0);
-  const b = e.target.closest(".porque");
-  if (!b) return;
-  const abierto = b.getAttribute("aria-expanded") === "true";
-  b.setAttribute("aria-expanded", String(!abierto));
-  $("reglas").hidden = abierto;
+  if (e.target.closest(".ver-camion")) abrirOpcion(0);
 });
 
 const enlaceUber = () => {
@@ -1218,8 +1210,8 @@ function pintarCamiones(punto, lista, primera) {
     ${filas(p)}
     <h2>Avisos de la parada</h2>
     <div id="avisosParada" class="avisos"><p class="nota">Buscando avisos...</p></div>
-    ${lista.length > 1 ? `<details class="otras"><summary>Ver ${lista.length - 1 === 1 ? "otra parada" : `otras ${lista.length - 1} paradas`} cerca${ico("chevron", "chevron")}</summary>
-      ${lista.slice(1).map((x) => `<h3>${escapar(cruce(x.nombre))} <span class="tenue">a ${distanciaTexto(x.caminado ?? x.m, true)}${x.caminado ? " caminando" : " en línea recta"}</span></h3>${filas(x)}`).join("")}</details>` : ""}
+    ${lista.length > 1 ? `<section class="otras" aria-labelledby="tituloOtrasParadas"><h2 id="tituloOtrasParadas">Otras paradas cerca</h2>
+      ${lista.slice(1).map((x) => `<h3>${escapar(cruce(x.nombre))} <span class="tenue">a ${distanciaTexto(x.caminado ?? x.m, true)}${x.caminado ? " caminando" : " en línea recta"}</span></h3>${filas(x)}`).join("")}</section>` : ""}
     <p class="nota pie">Las horas salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse.${avisoVigencia()}</p>`;
   $("irParada").addEventListener("click", () => poner("destino", { nombre: `Parada ${p.nombre}`, lat: p.lat, lon: p.lon }));
   if (primera) hablar(`La parada más cercana es ${p.nombre}. ` +
@@ -2299,11 +2291,9 @@ function actualizarFilasPerfil() {
   };
   for (const [grupo, valor] of Object.entries(valores)) {
     const fila = document.querySelector(`[data-grupo-perfil="${grupo}"]`);
-    const boton = fila.querySelector(".fila-perfil");
     const respuesta = RESPUESTAS_PERFIL[grupo][valor];
     efecto(grupo, valor);
     fila.querySelector(".respuesta-perfil").textContent = respuesta;
-    boton.setAttribute("aria-label", `${fila.dataset.pregunta}: ${respuesta}. ${EFECTOS[grupo][valor]}`);
   }
   marcarVista(valores.perfilVista);
   marcarLector(acc.modoVoz ? valores.perfilLectorOpciones : null);
@@ -2314,30 +2304,11 @@ function actualizarFilasPerfil() {
   $("perfilLector").hidden = !acc.modoVoz;
   $("preguntaForma").hidden = acc.modoVoz;
 }
-function cerrarFilasPerfil(excepto = null) {
-  for (const boton of document.querySelectorAll(".fila-perfil")) {
-    if (boton === excepto) continue;
-    boton.setAttribute("aria-expanded", "false");
-    $(boton.getAttribute("aria-controls")).hidden = true;
-  }
-}
-document.querySelector(".perfil-preguntas").addEventListener("click", (e) => {
-  const boton = e.target.closest(".fila-perfil");
-  if (!boton) return;
-  const abrir = boton.getAttribute("aria-expanded") !== "true";
-  cerrarFilasPerfil(boton);
-  boton.setAttribute("aria-expanded", String(abrir));
-  $(boton.getAttribute("aria-controls")).hidden = !abrir;
-});
 const cambiarPerfil = (cambio) => {
-  const panel = document.activeElement.closest?.(".opciones-perfil");
-  const botonFila = panel?.parentElement.querySelector(".fila-perfil");
   cambio();
   guardarAcc();
   aplicarAcc();
   actualizarFilasPerfil();
-  cerrarFilasPerfil();
-  botonFila?.focus();
   calcular();
 };
 const marcarVista = radios("perfilVista", (v) => cambiarPerfil(() => {
@@ -2378,7 +2349,6 @@ function abrirPerfil() {
   $("perfilLector").hidden = !acc.modoVoz;
   marcarForma(acc.facil ? "facil" : "completa");
   actualizarFilasPerfil();
-  cerrarFilasPerfil();
   ir("perfil");
 }
 $("abrirPerfil").addEventListener("click", abrirPerfil);

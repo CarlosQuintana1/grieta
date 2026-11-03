@@ -278,26 +278,21 @@
       <div id="ultimoCamion" class="aviso cuidado" role="status" hidden></div>
       <div id="tarjetas" class="tarjetas" role="group" aria-labelledby="tituloCamion"></div>
 
-      <div class="plegable">
-        <button id="abrirLlegar" type="button" class="fila-espera" aria-expanded="false" aria-controls="llegar">
-          <span><span class="etiqueta tenue">¿Tienes que llegar a una hora?</span><strong>Te digo a qué hora salir</strong></span>
-          <svg class="icono chevron"><use href="#i-chevron"/></svg>
-        </button>
-        <div id="llegar" class="llegar" hidden>
+      <section class="seccion-viaje" aria-labelledby="tituloLlegar">
+        <h2 id="tituloLlegar">¿Tienes que llegar a una hora?</h2>
+        <div id="llegar" class="llegar">
           <label class="campo"><span>Tengo que llegar a las</span><input id="horaLlegada" type="time"></label>
           <button id="calcularSalida" type="button" class="boton">¿A qué hora salgo?</button>
           <div id="salida" aria-live="polite"></div>
         </div>
-      </div>
+      </section>
 
-      <div class="plegable">
-        <button id="abrirEspera" type="button" class="fila-espera" aria-expanded="false" aria-controls="espera">
-          <span><span class="etiqueta tenue">¿Conviene esperar?</span><strong id="respuestaEspera"></strong></span>
-          <svg class="icono chevron"><use href="#i-chevron"/></svg>
-        </button>
-        <div id="espera" hidden>
+      <section class="seccion-viaje" aria-labelledby="tituloEspera">
+        <h2 id="tituloEspera">¿Conviene esperar?</h2>
+        <p id="respuestaEspera" class="respuesta-espera"></p>
+        <div id="espera">
           <div id="horas" class="horas" role="group" aria-label="Precio en app según la hora de salida"></div>
-          <div id="otraHora" class="otra" hidden>
+          <div id="otraHora" class="otra">
             <label>Día
               <select id="dia">
                 <option value="0">Lunes</option><option value="1">Martes</option><option value="2">Miércoles</option>
@@ -309,7 +304,7 @@
           </div>
           <p id="mejorHora" class="nota"></p>
         </div>
-      </div>
+      </section>
 
       <label class="interruptor" id="filaUnidos"><span><strong>Pago Tarifa Unidos</strong><small>El camión te cuesta $2 y el transbordo es gratis</small></span><input type="checkbox" role="switch" id="optUnidos2"></label>
 
@@ -443,14 +438,12 @@
       <p id="perfilAyuda" class="perfil-nota"></p>
       <h2 class="perfil-subtitulo">Tu forma de viajar</h2>
       <div class="perfil-preguntas">
-        <div class="item-perfil" data-grupo-perfil="perfilVista" data-pregunta="Cómo ves la pantalla">
-          <button id="abrirPerfilVista" type="button" class="fila-perfil" aria-expanded="false" aria-controls="panelPerfilVista">
+        <div class="item-perfil" data-grupo-perfil="perfilVista">
+          <div class="fila-perfil">
             <span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-ojo"/></svg></span>
-            <span class="fila-texto"><strong class="respuesta-perfil"></strong><small id="perfilVistaEfecto" class="efecto fila-perfil-efecto"></small></span>
-            <span class="flecha-perfil" aria-hidden="true">›</span>
-          </button>
-          <div id="panelPerfilVista" class="opciones-perfil" hidden>
-            <h3 id="pVista">¿Cómo ves la pantalla?</h3>
+            <div class="fila-texto"><h3 id="pVista">¿Cómo ves la pantalla?</h3><strong class="respuesta-perfil"></strong><small id="perfilVistaEfecto" class="efecto fila-perfil-efecto"></small></div>
+          </div>
+          <div id="panelPerfilVista" class="opciones-perfil">
             <div id="perfilVista" class="fichas" role="radiogroup" aria-labelledby="pVista" aria-describedby="perfilVistaEfecto">
               <button type="button" role="radio" aria-checked="false" data-v="vista" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-ojo"/></svg><span>Veo bien</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
               <button type="button" role="radio" aria-checked="false" data-v="poco" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-letra"/></svg><span>Veo poco</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
@@ -458,42 +451,36 @@
             </div>
           </div>
         </div>
-        <div id="perfilLector" class="item-perfil" data-grupo-perfil="perfilLectorOpciones" data-pregunta="Si tu teléfono te lee la pantalla" hidden>
-          <button id="abrirPerfilLector" type="button" class="fila-perfil" aria-expanded="false" aria-controls="panelPerfilLector">
+        <div id="perfilLector" class="item-perfil" data-grupo-perfil="perfilLectorOpciones" hidden>
+          <div class="fila-perfil">
             <span class="mini-ficha tono-ciruela" aria-hidden="true"><svg class="picto"><use href="#p-decir"/></svg></span>
-            <span class="fila-texto"><strong class="respuesta-perfil"></strong><small id="perfilLectorOpcionesEfecto" class="efecto fila-perfil-efecto"></small></span>
-            <span class="flecha-perfil" aria-hidden="true">›</span>
-          </button>
-          <div id="panelPerfilLector" class="opciones-perfil" hidden>
-            <h3 id="pLector">¿Tu teléfono ya te lee la pantalla?</h3>
+            <div class="fila-texto"><h3 id="pLector">¿Tu teléfono ya te lee la pantalla?</h3><strong class="respuesta-perfil"></strong><small id="perfilLectorOpcionesEfecto" class="efecto fila-perfil-efecto"></small></div>
+          </div>
+          <div id="panelPerfilLector" class="opciones-perfil">
             <div id="perfilLectorOpciones" class="fichas dos" role="radiogroup" aria-labelledby="pLector" aria-describedby="perfilLectorOpcionesEfecto">
               <button type="button" role="radio" aria-checked="false" data-v="si" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-persona"/></svg><span>Sí, uso VoiceOver o TalkBack</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
               <button type="button" role="radio" aria-checked="false" data-v="no" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-altavoz"/></svg><span>No, que Grieta me hable</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
             </div>
           </div>
         </div>
-        <div id="preguntaForma" class="item-perfil" data-grupo-perfil="perfilForma" data-pregunta="Cómo quieres ver Grieta">
-          <button id="abrirPerfilForma" type="button" class="fila-perfil" aria-expanded="false" aria-controls="panelPerfilForma">
+        <div id="preguntaForma" class="item-perfil" data-grupo-perfil="perfilForma">
+          <div class="fila-perfil">
             <span class="mini-ficha tono-obsidiana" aria-hidden="true"><svg class="picto"><use href="#p-letra"/></svg></span>
-            <span class="fila-texto"><strong class="respuesta-perfil"></strong><small id="perfilFormaEfecto" class="efecto fila-perfil-efecto"></small></span>
-            <span class="flecha-perfil" aria-hidden="true">›</span>
-          </button>
-          <div id="panelPerfilForma" class="opciones-perfil" hidden>
-            <h3 id="pForma">¿Cómo quieres ver Grieta?</h3>
+            <div class="fila-texto"><h3 id="pForma">¿Cómo quieres ver Grieta?</h3><strong class="respuesta-perfil"></strong><small id="perfilFormaEfecto" class="efecto fila-perfil-efecto"></small></div>
+          </div>
+          <div id="panelPerfilForma" class="opciones-perfil">
             <div id="perfilForma" class="fichas dos" role="radiogroup" aria-labelledby="pForma" aria-describedby="perfilFormaEfecto">
               <button type="button" role="radio" aria-checked="false" data-v="completa" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-lista"/></svg><span>Completa</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
               <button type="button" role="radio" aria-checked="false" data-v="facil" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-boton"/></svg><span>Fácil</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
             </div>
           </div>
         </div>
-        <div id="preguntaMovilidad" class="item-perfil" data-grupo-perfil="perfilMovilidad" data-pregunta="Cómo te mueves">
-          <button id="abrirPerfilMovilidad" type="button" class="fila-perfil" aria-expanded="false" aria-controls="panelPerfilMovilidad">
+        <div id="preguntaMovilidad" class="item-perfil" data-grupo-perfil="perfilMovilidad">
+          <div class="fila-perfil">
             <span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-caminar"/></svg></span>
-            <span class="fila-texto"><strong class="respuesta-perfil"></strong><small id="perfilMovilidadEfecto" class="efecto fila-perfil-efecto"></small></span>
-            <span class="flecha-perfil" aria-hidden="true">›</span>
-          </button>
-          <div id="panelPerfilMovilidad" class="opciones-perfil" hidden>
-            <h3 id="pMovilidad">¿Cómo te mueves?</h3>
+            <div class="fila-texto"><h3 id="pMovilidad">¿Cómo te mueves?</h3><strong class="respuesta-perfil"></strong><small id="perfilMovilidadEfecto" class="efecto fila-perfil-efecto"></small></div>
+          </div>
+          <div id="panelPerfilMovilidad" class="opciones-perfil">
             <div id="perfilMovilidad" class="fichas" role="radiogroup" aria-labelledby="pMovilidad" aria-describedby="perfilMovilidadEfecto">
               <button type="button" role="radio" aria-checked="false" data-v="normal" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-caminar"/></svg><span>Camino sin problema</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
               <button type="button" role="radio" aria-checked="false" data-v="poco" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-baston"/></svg><span>Me cuesta caminar</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
@@ -501,28 +488,24 @@
             </div>
           </div>
         </div>
-        <div id="preguntaOido" class="item-perfil" data-grupo-perfil="perfilOido" data-pregunta="Cómo escuchas los avisos">
-          <button id="abrirPerfilOido" type="button" class="fila-perfil" aria-expanded="false" aria-controls="panelPerfilOido">
+        <div id="preguntaOido" class="item-perfil" data-grupo-perfil="perfilOido">
+          <div class="fila-perfil">
             <span class="mini-ficha tono-ciruela" aria-hidden="true"><svg class="picto"><use href="#p-decir"/></svg></span>
-            <span class="fila-texto"><strong class="respuesta-perfil"></strong><small id="perfilOidoEfecto" class="efecto fila-perfil-efecto"></small></span>
-            <span class="flecha-perfil" aria-hidden="true">›</span>
-          </button>
-          <div id="panelPerfilOido" class="opciones-perfil" hidden>
-            <h3 id="pOido">¿Escuchas bien los avisos?</h3>
+            <div class="fila-texto"><h3 id="pOido">¿Escuchas bien los avisos?</h3><strong class="respuesta-perfil"></strong><small id="perfilOidoEfecto" class="efecto fila-perfil-efecto"></small></div>
+          </div>
+          <div id="panelPerfilOido" class="opciones-perfil">
             <div id="perfilOido" class="fichas dos" role="radiogroup" aria-labelledby="pOido" aria-describedby="perfilOidoEfecto">
               <button type="button" role="radio" aria-checked="false" data-v="bien" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-altavoz"/></svg><span>Sí, escucho bien</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
               <button type="button" role="radio" aria-checked="false" data-v="poco" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-vibrar"/></svg><span>Me cuesta escuchar</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
             </div>
           </div>
         </div>
-        <div id="preguntaTarifa" class="item-perfil" data-grupo-perfil="perfilTarifa" data-pregunta="Si pagas Tarifa Unidos">
-          <button id="abrirPerfilTarifa" type="button" class="fila-perfil" aria-expanded="false" aria-controls="panelPerfilTarifa">
+        <div id="preguntaTarifa" class="item-perfil" data-grupo-perfil="perfilTarifa">
+          <div class="fila-perfil">
             <span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-qrobus"/></svg></span>
-            <span class="fila-texto"><strong class="respuesta-perfil"></strong><small id="perfilTarifaEfecto" class="efecto fila-perfil-efecto"></small></span>
-            <span class="flecha-perfil" aria-hidden="true">›</span>
-          </button>
-          <div id="panelPerfilTarifa" class="opciones-perfil" hidden>
-            <h3 id="pTarifa">¿Pagas Tarifa Unidos?</h3>
+            <div class="fila-texto"><h3 id="pTarifa">¿Pagas Tarifa Unidos?</h3><strong class="respuesta-perfil"></strong><small id="perfilTarifaEfecto" class="efecto fila-perfil-efecto"></small></div>
+          </div>
+          <div id="panelPerfilTarifa" class="opciones-perfil">
             <div id="perfilTarifa" class="fichas dos" role="radiogroup" aria-labelledby="pTarifa" aria-describedby="perfilTarifaEfecto">
               <button type="button" role="radio" aria-checked="false" data-v="si" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-boleto"/></svg><span>Sí, pago $2</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
               <button type="button" role="radio" aria-checked="false" data-v="no" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-camion"/></svg><span>Pago tarifa normal</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
@@ -542,12 +525,11 @@
       </button>
       <h2>Ayuda</h2>
       <div class="ajustes-lista">
-        <details class="ajuste-desplegable">
-          <summary class="fila-ajustes">
+        <section class="ajuste-seccion" aria-labelledby="tituloFamiliar">
+          <div class="fila-ajustes">
             <span class="mini-ficha tono-hospital" aria-hidden="true"><svg class="picto"><use href="#p-familiar"/></svg></span>
-            <span class="fila-texto"><strong id="tituloFamiliar">Avisar a alguien</strong><small id="textoFamiliar">Agrega a alguien de confianza</small></span>
-            <span class="flecha-ajustes" aria-hidden="true">›</span>
-          </summary>
+            <div class="fila-texto"><h3 id="tituloFamiliar">Avisar a alguien</h3><small id="textoFamiliar">Agrega a alguien de confianza</small></div>
+          </div>
           <div class="ajuste-panel">
             <div class="familiar" role="group" aria-labelledby="tituloFamiliar">
               <p class="nota">Al empezar un viaje y al llegar, Grieta te deja avisarle por WhatsApp con un toque. Se guarda solo en este teléfono.</p>
@@ -557,13 +539,12 @@
               <p id="familiarEstado" class="nota" role="status"></p>
             </div>
           </div>
-        </details>
-        <details class="ajuste-desplegable">
-          <summary class="fila-ajustes">
+        </section>
+        <section class="ajuste-seccion" aria-labelledby="tituloAyuda">
+          <div class="fila-ajustes">
             <span class="mini-ficha tono-ciruela" aria-hidden="true"><svg class="picto"><use href="#p-lugar"/></svg></span>
-            <span class="fila-texto"><strong id="tituloAyuda">Cómo usar Grieta</strong><small>Apréndelo en 3 pasos</small></span>
-            <span class="flecha-ajustes" aria-hidden="true">›</span>
-          </summary>
+            <div class="fila-texto"><h3 id="tituloAyuda">Cómo usar Grieta</h3><small>Apréndelo en 3 pasos</small></div>
+          </div>
           <div class="ajuste-panel">
             <ol class="pasos-ayuda">
               <li><span class="num" aria-hidden="true">1</span><span><strong>Di o escribe a dónde vas</strong><small>En Inicio, en "Busca un lugar" o con "Dictar".</small></span></li>
@@ -571,30 +552,29 @@
               <li><span class="num" aria-hidden="true">3</span><span><strong>Empieza el viaje con avisos</strong><small>Grieta te avisa cuándo pasa tu camión y cuándo bajarte.</small></span></li>
             </ol>
           </div>
-        </details>
-        <details class="ajuste-desplegable">
-          <summary class="fila-ajustes">
+        </section>
+        <section class="ajuste-seccion" aria-labelledby="tituloPreguntas">
+          <div class="fila-ajustes">
             <span class="mini-ficha tono-obsidiana" aria-hidden="true"><svg class="picto"><use href="#p-reportar"/></svg></span>
-            <span class="fila-texto"><strong id="tituloPreguntas">Preguntas frecuentes</strong><small>Respuestas sobre Grieta</small></span>
-            <span class="flecha-ajustes" aria-hidden="true">›</span>
-          </summary>
+            <div class="fila-texto"><h3 id="tituloPreguntas">Preguntas frecuentes</h3><small>Respuestas sobre Grieta</small></div>
+          </div>
           <div class="ajuste-panel">
             <div class="grupo ayuda" role="group" aria-labelledby="tituloPreguntas">
-              <details><summary>¿Los precios son exactos?</summary>
-                <p>Son los precios normales a esa hora. Si la app te marca otro, compáralo en "¿La app ya te dio precio?".</p></details>
-              <details><summary>No encuentro un lugar</summary>
-                <p>Escribe la calle y la colonia, o toca "Elígelo en el mapa".</p></details>
-              <details><summary>¿Por qué me habla Grieta?</summary>
-                <p>Para avisarte durante el viaje. Puedes apagar la voz aquí abajo, en "Voz de Grieta".</p></details>
-              <details><summary>¿Las horas del camión son seguras?</summary>
-                <p>Salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse unos minutos.</p></details>
+              <div class="pregunta-ayuda"><strong>¿Los precios son exactos?</strong>
+                <p>Son los precios normales a esa hora. Si la app te marca otro, compáralo en "¿La app ya te dio precio?".</p></div>
+              <div class="pregunta-ayuda"><strong>No encuentro un lugar</strong>
+                <p>Escribe la calle y la colonia, o toca "Elígelo en el mapa".</p></div>
+              <div class="pregunta-ayuda"><strong>¿Por qué me habla Grieta?</strong>
+                <p>Para avisarte durante el viaje. Puedes apagar la voz aquí abajo, en "Voz de Grieta".</p></div>
+              <div class="pregunta-ayuda"><strong>¿Las horas del camión son seguras?</strong>
+                <p>Salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse unos minutos.</p></div>
             </div>
           </div>
-        </details>
+        </section>
         <a id="llamarQrobus" class="fila-ajustes" href="tel:+524422100407" aria-label="Llamar a Qrobus al 442 210 0407">
           <span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-qrobus"/></svg></span>
           <span class="fila-texto"><strong>Llamar a Qrobus</strong><small>Atención telefónica</small></span>
-          <span class="flecha-ajustes" aria-hidden="true">›</span>
+          <svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg>
         </a>
       </div>
       <h2 id="tituloAccesibilidad">Accesibilidad</h2>

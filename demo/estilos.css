@@ -216,11 +216,9 @@ html.grande body.con-mapa #mapa { min-height: 20%; }
 html.grande body.con-mapa .hoja { max-height: 80%; }
 .precio { font-size: 1.45rem; font-weight: 700; white-space: nowrap; }
 .tarjeta.principal .precio { color: var(--ambar); }
-.plegable { margin-top: 14px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); }
-.fila-espera { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 64px; padding: 12px 14px; }
-.fila-espera strong { display: block; margin-top: 4px; font-weight: 700; }
-.fila-espera[aria-expanded="true"] .chevron { transform: rotate(90deg); }
-#espera { padding: 0 14px 14px; }
+.seccion-viaje { margin-top: 14px; padding: 14px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); }
+.seccion-viaje h2 { margin: 0 0 10px; }
+.respuesta-espera { margin-bottom: 12px; font-weight: 700; }
 .horas { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
 .horas button {
   min-height: 64px; padding: 8px 4px; border-radius: 12px; border: 1px solid var(--linea); text-align: center;
@@ -233,7 +231,7 @@ html.grande body.con-mapa .hoja { max-height: 80%; }
 .horas button:nth-child(5) { grid-column: 1 / -1; min-height: 48px; display: flex; align-items: baseline; justify-content: center; gap: 10px; }
 .horas button:nth-child(5) span { font-size: 0.9rem; }
 .otra { display: flex; gap: 10px; margin-top: 12px; }
-.otra label { flex: 1; font-size: 0.8rem; color: var(--tenue); }
+.otra label { flex: 1; min-width: 0; font-size: 0.8rem; color: var(--tenue); }
 .otra select, .otra input { margin-top: 4px; padding: 0 12px; border: 1px solid var(--linea); border-radius: 12px; background: var(--fondo); }
 #filaUnidos { margin-top: 14px; padding: 8px 14px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); }
 .guardar { margin-top: 8px; }
@@ -279,9 +277,7 @@ html.grande body.con-mapa .hoja { max-height: 80%; }
 .segmentado button[aria-pressed="true"] { background: var(--ambar); color: var(--sobre-ambar); font-weight: 700; }
 .recomendacion { margin-top: 16px; padding: 16px; border-radius: 0 var(--radio) var(--radio) 0; background: var(--superficie); border-left: 4px solid var(--ambar); }
 .recomendacion .veredicto { font-size: 1.6rem; font-weight: 800; margin: 4px 0 8px; }
-.porque { color: var(--ambar); font-weight: 700; min-height: var(--toque); margin-top: 6px; }
 .reglas { font-size: 0.85rem; color: var(--tenue); }
-.reglas li { padding: 4px 0; }
 
 /* Viaje en curso */
 .guia-barra { display: flex; justify-content: space-between; align-items: center; margin-bottom: 26px; }
@@ -318,9 +314,6 @@ body.alerta :focus-visible { outline-color: #0b0a09; }
 .hora-camion small { color: var(--tenue); font-size: 0.75rem; }
 .avisos { display: grid; gap: 10px; }
 .otras { margin-top: 22px; border-top: 1px solid var(--linea); }
-.otras summary { display: flex; align-items: center; justify-content: space-between; min-height: var(--toque); padding: 8px 0; color: var(--ambar); font-weight: 700; cursor: pointer; list-style: none; }
-.otras summary::-webkit-details-marker { display: none; }
-.otras[open] summary .chevron { transform: rotate(90deg); }
 .otras h3 .tenue { color: var(--tenue); font-weight: 600; font-size: 0.85rem; }
 .aviso { display: flex; gap: 12px; align-items: flex-start; padding: 14px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); }
 .aviso .icono { color: var(--ambar); }
@@ -351,17 +344,13 @@ textarea::placeholder { color: var(--tenue); }
 /* Ajustes */
 .grupo { padding: 0 14px; border-radius: var(--radio); background: var(--superficie); }
 .ajustes-lista { overflow: hidden; border: 1px solid var(--linea); border-radius: var(--radio); background: var(--superficie); }
-.ajuste-desplegable:not(:last-child), .ajustes-lista > .fila-ajustes { border-bottom: 1px solid var(--linea); }
-.ajuste-desplegable > summary { list-style: none; cursor: pointer; }
-.ajuste-desplegable > summary::-webkit-details-marker { display: none; }
+.ajuste-seccion { border-bottom: 1px solid var(--linea); }
 .fila-ajustes { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 68px; padding: 10px 12px; text-decoration: none; }
 .fila-ajustes:focus-visible { outline-offset: -3px; }
 .fila-ajustes .mini-ficha { width: 44px; height: 44px; }
 .fila-ajustes .mini-ficha .picto { width: 24px; height: 24px; }
-.fila-ajustes .fila-texto strong { display: block; font-weight: 700; }
+.fila-ajustes .fila-texto strong, .fila-ajustes h3 { margin: 0; font-size: 1rem; display: block; font-weight: 700; }
 .fila-ajustes .fila-texto small { display: block; margin-top: 2px; color: var(--tenue); font-size: 0.8rem; line-height: 1.3; }
-.flecha-ajustes { flex: none; color: var(--ambar); font-size: 1.6rem; line-height: 1; transition: transform 120ms ease-out; }
-.ajuste-desplegable[open] > .fila-ajustes .flecha-ajustes { transform: rotate(90deg); }
 .ajuste-panel { padding: 0 14px 14px; }
 .ajuste-panel .familiar { padding: 0; background: transparent; }
 .ajuste-panel .pasos-ayuda { margin: 2px 0 0; }
@@ -461,7 +450,7 @@ html.modo-voz body.con-mapa .hoja { margin-top: 0; border-radius: 0; border-top:
 /* Sin mapa arriba, el contenido baja de la hora y la bateria. */
 html.modo-voz body.con-mapa:not(:has(#encabezado:not([hidden]))) .hoja { padding-top: max(20px, env(safe-area-inset-top)); }
 /* En modo para personas ciegas, Como llegar se queda con lo necesario para decidir: menos cosas que recorrer con el dedo. */
-html.modo-voz #opciones .plegable, html.modo-voz #compararPrecio, html.modo-voz #filaUnidos { display: none; }
+html.modo-voz #compararPrecio, html.modo-voz #filaUnidos { display: none; }
 .inicio-voz { display: grid; gap: 12px; }
 .inicio-voz .nota { margin: 0 0 6px; font-size: 1rem; }
 .boton-voz { display: flex; align-items: center; gap: 14px; width: 100%; min-height: 84px; padding: 14px 20px; border-radius: var(--radio);
@@ -469,19 +458,15 @@ html.modo-voz #opciones .plegable, html.modo-voz #compararPrecio, html.modo-voz 
 .boton-voz .icono { width: 30px; height: 30px; flex: none; }
 .boton-voz.oscuro { background: var(--superficie); color: var(--tinta); border-color: var(--linea); }
 
-/* Ayuda: tres pasos a la vista y preguntas cortas plegadas */
+/* Ayuda: pasos y respuestas a la vista */
 .pasos-ayuda { display: grid; gap: 10px; }
 .pasos-ayuda li { display: flex; gap: 14px; align-items: flex-start; padding: 16px; border-radius: var(--radio); background: var(--superficie); }
 .pasos-ayuda .num { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; background: var(--ambar); color: var(--sobre-ambar); }
 .pasos-ayuda strong { display: block; font-weight: 700; }
 .pasos-ayuda small { display: block; color: var(--tenue); font-size: 0.88rem; margin-top: 2px; }
-.ayuda details { border-bottom: 1px solid var(--linea); }
-.ayuda details:last-child { border-bottom: none; }
-.ayuda summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; font-weight: 700; cursor: pointer; list-style: none; }
-.ayuda summary::-webkit-details-marker { display: none; }
-.ayuda summary::after { content: "+"; color: var(--ambar); font-size: 1.4rem; font-weight: 600; }
-.ayuda details[open] summary::after { content: "−"; }
-.ayuda details p { padding: 0 0 14px; color: var(--tinta); }
+.pregunta-ayuda { padding: 14px 0; border-bottom: 1px solid var(--linea); }
+.pregunta-ayuda:last-child { border-bottom: none; }
+.pregunta-ayuda strong { display: block; margin-bottom: 8px; font-weight: 700; }
 .fila-tema { padding: 12px 0; border-bottom: 1px solid var(--linea); }
 .fila-tema .segmentado { margin-top: 8px; }
 .fila-tema .segmentado button { font-size: 0.8rem; }
@@ -532,17 +517,14 @@ html.modo-voz #opciones .plegable, html.modo-voz #compararPrecio, html.modo-voz 
 .perfil-preguntas { overflow: hidden; border: 1px solid var(--linea); border-radius: var(--radio); background: var(--superficie); }
 .item-perfil:not(:last-child) { border-bottom: 1px solid var(--linea); }
 .fila-perfil { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 72px; padding: 10px 12px; text-align: left; }
-.fila-perfil:focus-visible { outline-offset: -3px; }
 .fila-perfil .mini-ficha { width: 48px; height: 48px; }
 .fila-perfil .mini-ficha .picto { width: 26px; height: 26px; }
 .fila-perfil .fila-texto { flex: 1; min-width: 0; }
 .fila-perfil .fila-texto strong { display: block; font-weight: 700; }
 .fila-perfil .fila-texto small { display: block; margin-top: 2px; color: var(--tenue); font-size: 0.8rem; line-height: 1.3; }
 .fila-perfil .fila-texto .efecto { min-height: 0; margin: 2px 0 0; }
-.flecha-perfil { flex: none; color: var(--ambar); font-size: 1.6rem; line-height: 1; transition: transform 120ms ease-out; }
-.fila-perfil[aria-expanded="true"] .flecha-perfil { transform: rotate(90deg); }
 .opciones-perfil { padding: 0 12px 14px; }
-.opciones-perfil h3 { margin: 4px 0 8px; font-size: 0.9rem; }
+.fila-perfil h3 { margin: 0 0 4px; font-size: 0.9rem; }
 .opciones-perfil .fichas, .opciones-perfil .fichas.dos { grid-template-columns: 1fr; gap: 8px; }
 .opciones-perfil .ficha { flex-direction: row; justify-content: flex-start; min-height: 64px; padding: 12px 40px 12px 12px; text-align: left; }
 .opciones-perfil .ficha .icono { width: 28px; height: 28px; }
@@ -590,7 +572,6 @@ button:active, .boton:active, .chip:active, .tarjeta:active, .app-fila:active, .
 .esqueletos-apps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 
 /* A que hora salgo */
-.llegar { padding: 0 14px 14px; }
 .llegar .campo input { font-size: 1.2rem; }
 .salida-opcion { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--linea); }
 .salida-opcion .hora-salida { font-size: 1.5rem; font-weight: 800; margin: 2px 0 4px; }
@@ -656,7 +637,7 @@ html.grande .lugar-nombre, html.facil .lugar-nombre { font-size: 0.95rem; }
 html.facil { font-size: 19px; --toque: 56px; }
 html.facil .lugares { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 html.facil #invitaPerfil, html.facil #bloqueViajes, html.facil #rutina,
-html.facil #compararPrecio, html.facil .plegable, html.facil #filaUnidos, html.facil #resumenRuta,
+html.facil #compararPrecio, html.facil #filaUnidos, html.facil #resumenRuta,
 html.facil #tarjetas > :not(:first-child) { display: none !important; }
 
 /* Modo facil: decir a donde vas es el boton principal, grande y arriba */

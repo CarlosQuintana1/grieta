@@ -87,7 +87,7 @@ const FRASES = {
   repetir: "Repetir",
   terminar: "Terminar viaje",
 };
-const NOMBRE_OTOMI = "Hñöñho";
+const NOMBRE_OTOMI = "Hñöñho (Otomí)";
 const frase = (id, valores = {}) => ({ id, valores });
 const textoFrase = (mensaje) => Array.isArray(mensaje) ? mensaje.map(textoFrase).join("")
   : mensaje?.id ? FRASES[mensaje.id].replace(/\{(\w+)\}/g, (_, clave) => String(mensaje.valores[clave] ?? "")) : String(mensaje ?? "");

@@ -103,6 +103,7 @@ let colaVoz = Promise.resolve();
 
 // Ajustes guardados en este telefono.
 const acc = { modoVoz: false, facil: false, grande: false, contraste: false, daltonico: false, voz: true, lenta: false, camino: false, unidos: false, tema: "auto", movilidad: "normal", oido: "bien", lector: "no", lengua: "es", ...leer("grieta-acc", {}) };
+acc.idioma ??= acc.lengua === "oto" ? "oto" : "es";
 // Con "Como el telefono", los colores siguen el modo claro u oscuro del sistema.
 const sistemaClaro = matchMedia("(prefers-color-scheme: light)");
 const OPCIONES = { grande: "optGrande", contraste: "optContraste", daltonico: "optDaltonico", voz: "optVoz", lenta: "optLenta", camino: "optCamino", unidos: "optUnidos" };
@@ -356,7 +357,6 @@ async function prepararLenguas(config) {
     }));
     audiosOto = new Set(disponibles.filter(Boolean));
   }
-  if (audiosOto.size) EFECTOS.perfilLengua.oto = "Si falta un audio, ese aviso se dice en español.";
   actualizarFilasPerfil();
 }
 function vibrar(patron) {
@@ -466,7 +466,7 @@ const fichaLugar = (l, i, icon) => icon === "reloj" ? miniFicha("tono-obsidiana"
   : icon === "localizar" ? miniFicha("tono-maiz", picto("donde")) : miniFicha(tonoLugar(l.nombre, i), picto(iconoLugar(l.nombre)));
 const filaLugar = (l, i, icon = "pin") => `<li><button type="button" data-i="${i}">
   ${fichaLugar(l, i, icon)}
-  <span class="fila-texto"><strong>${escapar(l.nombre)}</strong>${l.detalle ? `<small>${escapar(l.detalle)}</small>` : ""}</span>
+  <span class="fila-texto"><strong translate="no">${escapar(l.nombre)}</strong>${l.detalle ? `<small translate="no">${escapar(l.detalle)}</small>` : ""}</span>
   ${ico("chevron", "chevron")}</button></li>`;
 
 const cerca = () => estado.gps ?? estado.origen;
@@ -1326,7 +1326,7 @@ function pintarParadas(punto, lista) {
 // La distancia real a pie llega despues que la pantalla: se pone y se dice una sola vez
 function ponerCaminata(p, metros) {
   if (!$("distanciaParada") || p.dicho) return;
-  if (!metros) return void ($("caminaParada").textContent = p.caminado ? $("caminaParada").textContent : "No pude calcular el camino a pie.");
+  if (!metros) return void ($("caminaParada").textContent = p.caminado ? Interfaz.original($("caminaParada")) : "No pude calcular el camino a pie.");
   p.caminado = metros;
   p.dicho = true;
   $("distanciaParada").textContent = `Parada más cercana · a ${distanciaTexto(metros, true)} caminando`;
@@ -1385,7 +1385,7 @@ function pintarCamiones(punto, lista, primera) {
   caja.innerHTML = `
     <div class="parada-cerca">
       <p class="etiqueta" id="distanciaParada">Parada más cercana · ${p.caminado ? `a ${distanciaTexto(p.caminado, true)} caminando` : `a ${distanciaTexto(p.m, true)} en línea recta`}</p>
-      <p class="parada-nombre">${escapar(cruce(p.nombre))}</p>
+      <p class="parada-nombre" translate="no">${escapar(cruce(p.nombre))}</p>
       <p class="nota" id="caminaParada">${p.caminado ? `Camina ${minutosCaminando(p.caminado)} min` : "Calculando el camino a pie..."}</p>
     </div>
     <button id="irParada" type="button" class="boton oscuro">${ico("ruta")}Ver cómo llegar a la parada</button>
@@ -1394,7 +1394,7 @@ function pintarCamiones(punto, lista, primera) {
     <h2>Avisos de la parada</h2>
     <div id="avisosParada" class="avisos"><p class="nota">Buscando avisos...</p></div>
     ${lista.length > 1 ? `<section class="otras" aria-labelledby="tituloOtrasParadas"><h2 id="tituloOtrasParadas">Otras paradas cerca</h2>
-      ${lista.slice(1).map((x) => `<h3>${escapar(cruce(x.nombre))} <span class="tenue">a ${distanciaTexto(x.caminado ?? x.m, true)}${x.caminado ? " caminando" : " en línea recta"}</span></h3>${filas(x)}`).join("")}</section>` : ""}
+      ${lista.slice(1).map((x) => `<h3><span translate="no">${escapar(cruce(x.nombre))}</span> <span class="tenue">a ${distanciaTexto(x.caminado ?? x.m, true)}${x.caminado ? " caminando" : " en línea recta"}</span></h3>${filas(x)}`).join("")}</section>` : ""}
     <p class="nota pie">Las horas salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse.${avisoVigencia()}</p>`;
   $("irParada").addEventListener("click", () => poner("destino", { nombre: `Parada ${p.nombre}`, lat: p.lat, lon: p.lon }));
   if (primera) hablar(`La parada más cercana es ${p.nombre}. ` +
@@ -1421,7 +1421,7 @@ function pintarCamiones(punto, lista, primera) {
     caja.innerHTML = avisos.length
       ? avisos.slice(0, 4).map((a) => `<div class="aviso${a.tipo === "referencia" ? "" : " cuidado"}">
           ${ico(a.tipo === "referencia" ? "localizar" : "alerta")}
-          <span class="fila-texto"><strong>${NOMBRES_REPORTE[a.tipo] ?? "Aviso"}</strong>${a.descripcion ? `<small>${escapar(a.descripcion)}</small>` : ""}</span></div>`).join("")
+          <span class="fila-texto"><strong>${NOMBRES_REPORTE[a.tipo] ?? "Aviso"}</strong>${a.descripcion ? `<small translate="no">${escapar(a.descripcion)}</small>` : ""}</span></div>`).join("")
       : `<p class="nota">Nadie ha dejado avisos de esta parada. <button type="button" class="enlace" id="reportarParada">Reportar algo aquí</button></p>`;
     $("reportarParada")?.addEventListener("click", abrirReporte);
     if (avisos.length) leerReferencias(p);
@@ -1500,7 +1500,7 @@ function dictar(boton) {
   rec.onend = () => {
     boton.classList.remove("oyendo");
     boton.setAttribute("aria-pressed", "false");
-    if ($("respuestaVoz").textContent.startsWith("Te escucho")) $("respuestaVoz").textContent = "";
+    if (Interfaz.original($("respuestaVoz")).startsWith("Te escucho")) $("respuestaVoz").textContent = "";
   };
   rec.start();
 }
@@ -1547,7 +1547,7 @@ function pintarGuia() {
   $("barraParadas").hidden = !c;
   if (!c) return;
   const r = c.recorrido;
-  $("guiaBaja").innerHTML = `Bajas en <strong>${escapar(cruce(r.at(-1).nombre))}</strong>`;
+  $("guiaBaja").innerHTML = `Bajas en <strong translate="no">${escapar(cruce(r.at(-1).nombre))}</strong>`;
   const n = r.length - 1;
   const actual = guia.fase === "camion" || guia.fase === "fin" ? guia.actual : 0;
   const g = Math.min(n, 12);
@@ -1744,7 +1744,7 @@ function medirCaminata(desde, parada) {
     if (!c || !guia.activa || guia.fase !== "parada") return;
     guia.pie = { metros: c.metros, recta };
     const texto = `Son ${distanciaTexto(c.metros)} caminando, unos ${minutosCaminando(c.metros)} minutos.`;
-    $("guiaDetalle").textContent = `${texto} ${$("guiaDetalle").textContent}`;
+    $("guiaDetalle").textContent = `${texto} ${Interfaz.original($("guiaDetalle"))}`;
     hablar(texto, true);
   });
 }
@@ -1849,7 +1849,7 @@ function iniciarDestino() {
 }
 
 $("repetir").addEventListener("click", () => {
-  if (acc.voz) return hablar(ultimoMensaje || $("guiaTitulo").textContent);
+  if (acc.voz) return hablar(ultimoMensaje || Interfaz.original($("guiaTitulo")));
   // Sin la voz de Grieta, el aviso se vuelve a escribir para que el lector de pantalla lo lea otra vez.
   const aviso = $("guiaTitulo").innerHTML;
   $("guiaTitulo").innerHTML = "";
@@ -1973,7 +1973,7 @@ function pintarViajes() {
   $("bloqueViajes").hidden = !viajes.length;
   $("listaViajes").innerHTML = viajes.slice(0, 3).map((v, i) => `<li><button type="button" data-i="${i}" aria-label="Ir otra vez a ${escapar(v.destino.nombre)}">
       ${miniFicha(tonoLugar(v.destino.nombre, i), picto(iconoLugar(v.destino.nombre)))}
-      <span class="fila-texto"><strong>${escapar(v.destino.nombre)}</strong><small>${escapar(v.camino)} · ${fechaViaje(v.fecha)}</small></span>
+      <span class="fila-texto"><strong translate="no">${escapar(v.destino.nombre)}</strong><small>${escapar(v.camino)} · ${fechaViaje(v.fecha)}</small></span>
       ${ico("chevron", "chevron")}</button></li>`).join("");
 }
 $("listaViajes").addEventListener("click", (e) => {
@@ -2007,9 +2007,9 @@ function pintarGuardados() {
   $("vozLugares").innerHTML = guardados.filter((g) => g.nombre !== "Casa").slice(0, 3).map((g) =>
     `<button type="button" class="boton-voz" data-i="${guardados.indexOf(g)}">${picto(iconoLugar(g.nombre))}Ir a ${escapar(g.nombre)}</button>`).join("");
   // Tus lugares como fichas grandes; si falta la casa, su ficha invita a agregarla.
-  const ficha = (attrs, clase, icono, nombre) => `<button type="button" class="lugar ${clase}" ${attrs}>
-    <span class="lugar-icono">${picto(icono, icono === "plus" ? "picto-lucide" : "")}</span><span class="lugar-nombre">${escapar(nombre)}</span></button>`;
-  const fichas = guardados.map((g, i) => ficha(`data-i="${i}" aria-label="Ir a ${escapar(g.nombre)}"`, tonoLugar(g.nombre, i), iconoLugar(g.nombre), g.nombre));
+  const ficha = (attrs, clase, icono, nombre, propio = false) => `<button type="button" class="lugar ${clase}" ${attrs}>
+    <span class="lugar-icono">${picto(icono, icono === "plus" ? "picto-lucide" : "")}</span><span class="lugar-nombre"${propio ? ' translate="no"' : ""}>${escapar(nombre)}</span></button>`;
+  const fichas = guardados.map((g, i) => ficha(`data-i="${i}" aria-label="Ir a ${escapar(g.nombre)}"`, tonoLugar(g.nombre, i), iconoLugar(g.nombre), g.nombre, true));
   if (!guardados.some((g) => g.nombre === "Casa")) fichas.push(ficha('data-nuevo="Casa"', "nuevo tono-casa", "casa", "Agregar casa"));
   if (guardados.length < 6) fichas.push(ficha('data-nuevo=""', "nuevo tono-ciruela", "plus", "Agregar"));
   $("guardados").innerHTML = fichas.join("");
@@ -2020,10 +2020,10 @@ function pintarGuardados() {
       <button type="button" class="quitar" data-deshacer>Deshacer</button></div></li>` : "";
   $("listaGuardados").innerHTML = deshacer + (guardados.length
     ? guardados.map((g, i) => editando
-      ? `<li><div class="fila">${miniFicha(tonoLugar(g.nombre, i), picto(iconoLugar(g.nombre)))}<span class="fila-texto"><strong>${escapar(g.nombre)}</strong></span>
+      ? `<li><div class="fila">${miniFicha(tonoLugar(g.nombre, i), picto(iconoLugar(g.nombre)))}<span class="fila-texto"><strong translate="no">${escapar(g.nombre)}</strong></span>
           <button type="button" class="quitar" data-quitar="${i}" aria-label="Quitar ${escapar(g.nombre)}">Quitar</button></div></li>`
       : `<li><button type="button" data-i="${i}">${miniFicha(tonoLugar(g.nombre, i), picto(iconoLugar(g.nombre)))}
-          <span class="fila-texto"><strong>${escapar(g.nombre)}</strong><small>Ir a ${escapar(g.nombre)}</small></span>${ico("chevron", "chevron")}</button></li>`).join("")
+          <span class="fila-texto"><strong translate="no">${escapar(g.nombre)}</strong><small>Ir a ${escapar(g.nombre)}</small></span>${ico("chevron", "chevron")}</button></li>`).join("")
     : quitado ? "" : `<li class="vacio">Cuando elijas un destino, toca "Guardar este lugar".</li>`);
 }
 function guardarLugares() {
@@ -2035,7 +2035,7 @@ const irA = (lugar) => { estado.editando = "hacia"; poner("destino", lugar); };
 // Botones del modo para personas ciegas.
 // Lo que se dice al entrar: cuantos botones hay y en que orden, de arriba a abajo.
 function ayudaVoz() {
-  const botones = [...document.querySelectorAll("#inicioVoz .boton-voz")].filter((b) => !b.hidden).map((b) => b.textContent.trim());
+  const botones = [...document.querySelectorAll("#inicioVoz .boton-voz")].filter((b) => !b.hidden).map((b) => Interfaz.original(b).trim());
   return `Estás en el inicio. Hay ${botones.length} botones grandes, de arriba a abajo: ${botones.join(", ")}. ` +
     "Para ir a algún lado, toca el primero y di el lugar después del tono.";
 }
@@ -2430,7 +2430,7 @@ function resumenCortoPerfil() {
   const densidad = { completa: "Completa", facil: "Fácil", voz: "Sin pantalla" }[densidadActual()];
   const oido = acc.oido === "poco" ? "Avisos con vibración" : "Avisos con voz";
   const tarifa = acc.unidos ? "Tarifa Unidos" : "Tarifa normal";
-  return [vista, movimiento, densidad, oido, tarifa, acc.modoVoz ? (acc.lector === "si" ? "Usas lector de pantalla" : "Grieta te habla") : "", acc.lengua === "oto" ? `Prefieres ${NOMBRE_OTOMI}` : ""].filter(Boolean).join(" · ");
+  return [vista, movimiento, densidad, oido, tarifa, acc.modoVoz ? (acc.lector === "si" ? "Usas lector de pantalla" : "Grieta te habla") : "", acc.idioma === "oto" ? `Prefieres ${NOMBRE_OTOMI}` : ""].filter(Boolean).join(" · ");
 }
 function pintarResumenPerfil() {
   if (!$("textoPerfil")) return;
@@ -2458,7 +2458,7 @@ const EFECTOS = {
   perfilOido: { bien: "Durante el viaje te aviso con voz.", poco: "Avisos en pantalla grande y con vibración, sin voz." },
   perfilTarifa: { si: "Calculo el camión a $2 y el transbordo gratis.", no: "Calculo el camión con la tarifa normal." },
   perfilForma: { completa: "Precios, horarios, comparar y esperar.", facil: "Solo lo esencial, con botones grandes." },
-  perfilLengua: { es: "Los avisos se dicen en español.", oto: "Por ahora los avisos siguen en español. Faltan audios revisados." },
+  perfilLengua: { es: "La interfaz está en español. El audio sigue en español.", oto: "La traducción de la interfaz todavía no está disponible. El audio sigue en español." },
 };
 const efecto = (grupo, v) => { $(`${grupo}Efecto`).textContent = EFECTOS[grupo][v] ?? ""; };
 const RESPUESTAS_PERFIL = {
@@ -2479,7 +2479,7 @@ function actualizarFilasPerfil() {
     perfilMovilidad: movilidad,
     perfilOido: acc.oido ?? "bien",
     perfilTarifa: acc.unidos ? "si" : "no",
-    perfilLengua: acc.lengua === "oto" ? "oto" : "es",
+    perfilLengua: acc.idioma === "oto" ? "oto" : "es",
   };
   for (const [grupo, valor] of Object.entries(valores)) {
     const fila = document.querySelector(`[data-grupo-perfil="${grupo}"]`);
@@ -2534,8 +2534,8 @@ const marcarTarifa = radios("perfilTarifa", (v) => cambiarPerfil(() => {
   acc.unidos = v === "si";
 }));
 const marcarLengua = radios("perfilLengua", (v) => cambiarPerfil(() => {
-  detenerVoz();
-  acc.lengua = v;
+  acc.idioma = v;
+  Interfaz.cambiar(v);
 }));
 function abrirPerfil() {
   marcarVista(vistaActual());
@@ -2587,6 +2587,12 @@ function medirPantalla() {
 addEventListener("resize", () => { if ($("medidas")) medirPantalla(); });
 
 // Sin conexion: la app y los horarios quedan guardados en el telefono.
+Interfaz.iniciar(acc.idioma, () => {
+  EFECTOS.perfilLengua.oto = Interfaz.disponible
+    ? "La interfaz cambia de idioma. El audio sigue en español."
+    : "La traducción de la interfaz todavía no está disponible. El audio sigue en español.";
+  actualizarFilasPerfil();
+});
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 function avisoConexion() {
   avisar(navigator.onLine ? "" : "Sin internet: puedes ver qué camión pasa y tus lugares guardados; para buscar calles hace falta conexión.");
@@ -2648,6 +2654,6 @@ $("avisarChofer").addEventListener("click", () => {
   $("choferDestino").textContent = `Voy a ${cruce(destino)}.`;
   tarjetaChofer(true);
 });
-$("choferVoz").addEventListener("click", () => hablar(`${$("choferDestino").textContent} ¿Me avisa cuando lleguemos, por favor?`, false, false, true));
+$("choferVoz").addEventListener("click", () => hablar(`${Interfaz.original($("choferDestino"))} ¿Me avisa cuando lleguemos, por favor?`, false, false, true));
 $("choferCerrar").addEventListener("click", () => tarjetaChofer(false));
 addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("chofer").hidden) tarjetaChofer(false); });

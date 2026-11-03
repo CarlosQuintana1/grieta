@@ -1,0 +1,6211 @@
+{
+  "codigo": "es",
+  "mensajes": [
+    {
+      "clave": "texto_6bd4648ba2",
+      "es": "(si quieres)",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_e36be0214d",
+      "es": ", elegir día y hora",
+      "contextos": [
+        "demo/app.js:968 · pintarEspera"
+      ]
+    },
+    {
+      "clave": "texto_184b191dc0",
+      "es": ", la app más económica",
+      "contextos": [
+        "demo/app.js:872 · pintarOpciones",
+        "demo/app.js:1146 · pintarApps"
+      ]
+    },
+    {
+      "clave": "texto_1eeac90574",
+      "es": ", precio aproximado {v1} pesos",
+      "contextos": [
+        "demo/app.js:968 · pintarEspera"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "Math.round(precios[i].mejor.precio)",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_8f627991ab",
+      "es": "a unos {v1} en línea recta",
+      "contextos": [
+        "demo/app.js:1450 · dondeEstoy"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "distanciaTexto(parada.m)"
+        }
+      }
+    },
+    {
+      "clave": "texto_1e412ea368",
+      "es": "A {v1}",
+      "contextos": [
+        "demo/app.js:607 · trazar",
+        "demo/app.js:855 · pintarOpciones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "estado.destino.nombre"
+        }
+      },
+      "selector": "#tituloPantalla"
+    },
+    {
+      "clave": "texto_923f61c51e",
+      "es": "a {v1} caminando",
+      "contextos": [
+        "demo/app.js:1387 · pintarCamiones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "distanciaTexto(p.caminado, true)"
+        }
+      }
+    },
+    {
+      "clave": "texto_3edadc1c2a",
+      "es": "a {v1} caminando, unos {v2} minutos",
+      "contextos": [
+        "demo/app.js:1449 · dondeEstoy"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "distanciaTexto(parada.caminado)"
+        },
+        "v2": {
+          "expresion": "minutosCaminando(parada.caminado)"
+        }
+      }
+    },
+    {
+      "clave": "texto_3b8c9e34a7",
+      "es": "a {v1} en línea recta",
+      "contextos": [
+        "demo/app.js:1387 · pintarCamiones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "distanciaTexto(p.m, true)"
+        }
+      }
+    },
+    {
+      "clave": "texto_cce656bfce",
+      "es": "A {v1} km",
+      "contextos": [
+        "demo/app.js:477 · conDistancia"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "km.toFixed(1)"
+        }
+      }
+    },
+    {
+      "clave": "texto_357f97e471",
+      "es": "A {v1} m",
+      "contextos": [
+        "demo/app.js:477 · conDistancia"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "Math.round(km * 1000)",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_4f4d3bc569",
+      "es": "a {v2}{v3}",
+      "contextos": [
+        "demo/app.js:1397 · pintarCamiones"
+      ],
+      "variables": {
+        "v2": {
+          "expresion": "distanciaTexto(x.caminado ?? x.m, true)",
+          "traducir": true
+        },
+        "v3": {
+          "expresion": "x.caminado ? \" caminando\" : \" en línea recta\"",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_f2a4712205",
+      "es": "Abajo, ahora no.",
+      "contextos": [
+        "demo/app.js:2315 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_5da9b91dcf",
+      "es": "Abajo, no.",
+      "contextos": [
+        "demo/app.js:2314 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_a127e10f03",
+      "es": "Abajo, uso silla de ruedas o andadera.",
+      "contextos": [
+        "demo/app.js:2316 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_78dba6d45c",
+      "es": "abr",
+      "contextos": [
+        "demo/app.js:7 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_de7008e5d2",
+      "es": "Abrir una app",
+      "contextos": [
+        "demo/index.html · pantallas · aria-label"
+      ]
+    },
+    {
+      "clave": "texto_51f7bcd157",
+      "es": "Abrir {v3}, precio estimado {v4}{v5}",
+      "contextos": [
+        "demo/app.js:871 · pintarOpciones · aria-label",
+        "demo/app.js:1145 · pintarApps · aria-label"
+      ],
+      "variables": {
+        "v3": {
+          "expresion": "Grieta.nombreApp(x.app)"
+        },
+        "v4": {
+          "expresion": "rangoVoz(limitesPrecio(x))",
+          "traducir": true,
+          "formato": "rango_voz"
+        },
+        "v5": {
+          "expresion": "i ? \"\" : \", la app más económica\"",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_3ebd7a93a6",
+      "es": "Abrir {v7}",
+      "contextos": [
+        "demo/app.js:1145 · pintarApps"
+      ],
+      "variables": {
+        "v7": {
+          "expresion": "Grieta.nombreApp(x.app)"
+        }
+      }
+    },
+    {
+      "clave": "texto_9bd1f4e4a0",
+      "es": "Accesibilidad",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloAccesibilidad"
+      ]
+    },
+    {
+      "clave": "texto_10a6546d21",
+      "es": "Activa la ubicación o elige desde dónde sales en Inicio.",
+      "contextos": [
+        "demo/app.js:1348 · abrirCamiones"
+      ]
+    },
+    {
+      "clave": "texto_1a540d3703",
+      "es": "Activa la ubicación para recibir los avisos.",
+      "contextos": [
+        "demo/app.js:1590 · seguir"
+      ]
+    },
+    {
+      "clave": "texto_53afafa4f6",
+      "es": "Activa la ubicación para reportar",
+      "contextos": [
+        "demo/app.js:2228 · abrirReporte"
+      ]
+    },
+    {
+      "clave": "texto_2d3f889dd0",
+      "es": "Activa la ubicación.",
+      "contextos": [
+        "demo/app.js:2254 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_1d8e08fd63",
+      "es": "ago",
+      "contextos": [
+        "demo/app.js:7 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_17b105fd3c",
+      "es": "Agrega a alguien de confianza",
+      "contextos": [
+        "demo/index.html · pantallas · #textoFamiliar",
+        "demo/app.js:1694 · pintarResumenFamiliar"
+      ]
+    },
+    {
+      "clave": "texto_bc5581f6f2",
+      "es": "Agregar",
+      "contextos": [
+        "demo/app.js:2014 · pintarGuardados"
+      ]
+    },
+    {
+      "clave": "texto_8f28d48980",
+      "es": "Agregar casa",
+      "contextos": [
+        "demo/app.js:2013 · pintarGuardados"
+      ]
+    },
+    {
+      "clave": "texto_8f5d7ed95e",
+      "es": "Agregar foto (si quieres)",
+      "contextos": [
+        "demo/index.html · pantallas · #fotoTexto",
+        "demo/app.js:2203 · abrirReporte",
+        "demo/app.js:2249 · inicio",
+        "demo/app.js:2282 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_2335ae8e2a",
+      "es": "Agregar un lugar",
+      "contextos": [
+        "demo/app.js:2065 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_00cd944998",
+      "es": "Ahora",
+      "contextos": [
+        "demo/app.js:712 · momentos"
+      ]
+    },
+    {
+      "clave": "texto_6c64e27848",
+      "es": "Ahora no",
+      "contextos": [
+        "demo/index.html · pantallas · #sinUbicacion",
+        "demo/index.html · pantallas · #cerrarInvita"
+      ]
+    },
+    {
+      "clave": "texto_1f6b2bd9c3",
+      "es": "Ahorita es la hora más barata de hoy.",
+      "contextos": [
+        "demo/app.js:989 · pintarEspera"
+      ]
+    },
+    {
+      "clave": "texto_87924d4e97",
+      "es": "Ahorras aprox. {v1}{v2}",
+      "contextos": [
+        "demo/app.js:888 · pintarOpciones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "pesos(ahorro)",
+          "formato": "importe"
+        },
+        "v2": {
+          "expresion": "mas > 0 ? ` · ${mas} min más que en app` : \"\"",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_e81fb09656",
+      "es": "Ahí tomas la línea {v1} hacia {v2}, a las {v3} según el horario.",
+      "contextos": [
+        "demo/app.js:1620 · iniciarGuia"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "c.linea"
+        },
+        "v2": {
+          "expresion": "c.hacia"
+        },
+        "v3": {
+          "expresion": "hora(c.sale)",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_4f2debbbf4",
+      "es": "Ajustes",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloAjustes",
+        "demo/index.html · pantallas · #pestanas"
+      ]
+    },
+    {
+      "clave": "texto_b92fd934c7",
+      "es": "Al empezar un viaje y al llegar, Grieta te deja avisarle por WhatsApp con un toque.",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_2fc26f0b33",
+      "es": "Al empezar un viaje y al llegar, Grieta te deja avisarle por WhatsApp con un toque. Se guarda solo en este teléfono.",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_f0ab18819e",
+      "es": "Al final puedes saltar estas preguntas.",
+      "contextos": [
+        "demo/app.js:2316 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_144b6fbeee",
+      "es": "Alguien avisó que la {v1} viene llena",
+      "contextos": [
+        "demo/app.js:1685 · revisarAvisosParada"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "c.linea"
+        }
+      }
+    },
+    {
+      "clave": "texto_926d318f5d",
+      "es": "Alguien avisó que la {v1} ya pasó",
+      "contextos": [
+        "demo/app.js:1683 · revisarAvisosParada"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "c.linea"
+        }
+      }
+    },
+    {
+      "clave": "texto_0a82f0a785",
+      "es": "Alto contraste",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_ab6db59923",
+      "es": "am",
+      "contextos": [
+        "demo/app.js:31 · hora"
+      ]
+    },
+    {
+      "clave": "texto_7e7a150157",
+      "es": "Aprox.",
+      "contextos": [
+        "demo/app.js:896 · pintarOpciones",
+        "demo/app.js:969 · pintarEspera"
+      ]
+    },
+    {
+      "clave": "texto_e9dac13b56",
+      "es": "aprox.",
+      "contextos": [
+        "demo/app.js:1024 · calcularSalida"
+      ]
+    },
+    {
+      "clave": "texto_7af7fd2c2d",
+      "es": "aprox. {v1}",
+      "contextos": [
+        "demo/app.js:851 · precioOpcionTexto"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "rangoTexto(rango)",
+          "formato": "rango"
+        }
+      }
+    },
+    {
+      "clave": "texto_88919cc289",
+      "es": "Apréndelo en 3 pasos",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_500ac20bcd",
+      "es": "Apágala si tu teléfono ya te lee la pantalla (VoiceOver o TalkBack)",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_195b820a59",
+      "es": "Aquí cerca",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloAtajos"
+      ]
+    },
+    {
+      "clave": "texto_9e87c441a6",
+      "es": "Arriba, camino sin problema.",
+      "contextos": [
+        "demo/app.js:2316 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_19ed29594d",
+      "es": "Arriba, sí.",
+      "contextos": [
+        "demo/app.js:2314 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_8c3219ed43",
+      "es": "Así sé desde dónde sales y cuándo avisarte que te bajes.",
+      "contextos": [
+        "demo/app.js:2315 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_d6b7401747",
+      "es": "Así te mueves",
+      "contextos": [
+        "demo/index.html · pantallas · #perfil"
+      ]
+    },
+    {
+      "clave": "texto_931265f842",
+      "es": "Atención telefónica",
+      "contextos": [
+        "demo/index.html · pantallas · #llamarQrobus"
+      ]
+    },
+    {
+      "clave": "texto_63f0c41334",
+      "es": "Avisa a los demás:",
+      "contextos": [
+        "demo/index.html · pantallas · #enParada"
+      ]
+    },
+    {
+      "clave": "texto_d9c82c3f92",
+      "es": "Avisar a alguien",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloFamiliar"
+      ]
+    },
+    {
+      "clave": "texto_fbd6b6387d",
+      "es": "Avisar a {v1} que {v2}",
+      "contextos": [
+        "demo/app.js:1704 · pintarFamiliar"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "familiar.nombre"
+        },
+        "v2": {
+          "expresion": "guia.dichos.has(\"destino\") ? \"llegué\" : \"ya salí\"",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_658c46a637",
+      "es": "Avisar al chofer",
+      "contextos": [
+        "demo/index.html · pantallas · #avisarChofer"
+      ]
+    },
+    {
+      "clave": "texto_3e1da47705",
+      "es": "Aviso",
+      "contextos": [
+        "demo/app.js:1424 · pintarCamiones",
+        "demo/app.js:2168 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_0e5b198dd6",
+      "es": "Avisos con vibración",
+      "contextos": [
+        "demo/app.js:2431 · resumenCortoPerfil"
+      ]
+    },
+    {
+      "clave": "texto_321d518ecc",
+      "es": "Avisos con voz",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida",
+        "demo/app.js:2431 · resumenCortoPerfil"
+      ]
+    },
+    {
+      "clave": "texto_0df64b0643",
+      "es": "Avisos de la parada",
+      "contextos": [
+        "demo/app.js:1385 · pintarCamiones"
+      ]
+    },
+    {
+      "clave": "texto_cca5188d34",
+      "es": "Avisos en pantalla grande y con vibración, sin voz.",
+      "contextos": [
+        "demo/app.js:2458 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_8b2cf04879",
+      "es": "Avisos grandes y con vibración",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_a6e9d0813c",
+      "es": "Avísame cuando esté llegando",
+      "contextos": [
+        "demo/index.html · pantallas · #avisarLlegada"
+      ]
+    },
+    {
+      "clave": "texto_32b40035b0",
+      "es": "Ayuda",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_8df78a1cd7",
+      "es": "Azul y naranja en vez de ámbar y rojo",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_6591b18b98",
+      "es": "Bajas aquí",
+      "contextos": [
+        "demo/app.js:1276 · dibujar"
+      ]
+    },
+    {
+      "clave": "texto_8c9c3754fb",
+      "es": "Bajas en",
+      "contextos": [
+        "demo/app.js:1550 · pintarGuia"
+      ]
+    },
+    {
+      "clave": "texto_12f7db610f",
+      "es": "Bajas en dos paradas",
+      "contextos": [
+        "demo/app.js:74 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_25738757b2",
+      "es": "Bajas en {v1}.",
+      "contextos": [
+        "demo/app.js:1640 · programarAvisos"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "cruce(ultimo.baja)"
+        }
+      }
+    },
+    {
+      "clave": "texto_6219e91312",
+      "es": "Bajas en {v1}. Prepárate y toca el timbre.",
+      "contextos": [
+        "demo/app.js:1640 · programarAvisos"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "cruce(ultimo.baja)"
+        }
+      }
+    },
+    {
+      "clave": "texto_e5230a01ad",
+      "es": "Banqueta rota",
+      "contextos": [
+        "demo/index.html · pantallas · #tipoReporte",
+        "demo/app.js:2167 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_56fb53e681",
+      "es": "Bienvenida a Grieta.",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloBienvenida"
+      ]
+    },
+    {
+      "clave": "texto_b16f3167bf",
+      "es": "Busca un lugar",
+      "contextos": [
+        "demo/index.html · pantallas · #abrirBuscar"
+      ]
+    },
+    {
+      "clave": "texto_634c3cd219",
+      "es": "Buscando avisos...",
+      "contextos": [
+        "demo/app.js:1385 · pintarCamiones · #avisosParada"
+      ]
+    },
+    {
+      "clave": "texto_71a0432668",
+      "es": "Buscando dónde estás.",
+      "contextos": [
+        "demo/app.js:58 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_b4877c4c6d",
+      "es": "Buscando dónde estás...",
+      "contextos": [
+        "demo/index.html · pantallas · #reporteDonde",
+        "demo/app.js:1434 · dondeEstoy",
+        "demo/app.js:2207 · abrirReporte"
+      ]
+    },
+    {
+      "clave": "texto_cfbd525cf1",
+      "es": "Buscando la calle...",
+      "contextos": [
+        "demo/app.js:588 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_82d8556878",
+      "es": "Buscando tu ubicación...",
+      "contextos": [
+        "demo/index.html · pantallas · #desdeTexto"
+      ]
+    },
+    {
+      "clave": "texto_5f55edf900",
+      "es": "Buscar",
+      "contextos": [
+        "demo/app.js:179 · inicio",
+        "demo/app.js:451 · prepararBuscar"
+      ]
+    },
+    {
+      "clave": "texto_56845dbeda",
+      "es": "Bájate aquí",
+      "contextos": [
+        "demo/app.js:77 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_2dd8468893",
+      "es": "Bájate aquí y cambia de camión",
+      "contextos": [
+        "demo/app.js:78 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_b6e75a73f1",
+      "es": "Bájate en la siguiente parada",
+      "contextos": [
+        "demo/app.js:76 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_89884f2838",
+      "es": "Bájate en {v2}, {v3} paradas después, a las {v4}.",
+      "contextos": [
+        "demo/app.js:1091 · pasosDe"
+      ],
+      "variables": {
+        "v2": {
+          "expresion": "p.baja"
+        },
+        "v3": {
+          "expresion": "p.paradas"
+        },
+        "v4": {
+          "expresion": "hora(p.llega)",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_a78e69b314",
+      "es": "Búsquedas recientes",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloRecientes"
+      ]
+    },
+    {
+      "clave": "texto_8ca9c0ac06",
+      "es": "Calculando el camino a pie...",
+      "contextos": [
+        "demo/app.js:1389 · pintarCamiones"
+      ]
+    },
+    {
+      "clave": "texto_3381938fed",
+      "es": "Calculando...",
+      "contextos": [
+        "demo/app.js:636 · esqueletoOpciones",
+        "demo/app.js:1029 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_1fc8c7f8b1",
+      "es": "Calculo el camión a $2 y el transbordo gratis.",
+      "contextos": [
+        "demo/app.js:2459 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_cf008f9b6e",
+      "es": "Calculo el camión con la tarifa normal.",
+      "contextos": [
+        "demo/app.js:2459 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_b322167924",
+      "es": "Cambiar",
+      "contextos": [
+        "demo/index.html · pantallas · #cambiarDesde",
+        "demo/app.js:399 · poner",
+        "demo/app.js:435 · sinUbicacion"
+      ]
+    },
+    {
+      "clave": "texto_16f419c589",
+      "es": "Camina a {parada}",
+      "contextos": [
+        "demo/app.js:61 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_e0666032b7",
+      "es": "Camina a {v1} y toma la línea {v2} hacia {v3}, a las {v4} según el horario.",
+      "contextos": [
+        "demo/app.js:1798 · avanzarCamion"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "sig.recorrido[0].nombre"
+        },
+        "v2": {
+          "expresion": "sig.linea"
+        },
+        "v3": {
+          "expresion": "sig.hacia"
+        },
+        "v4": {
+          "expresion": "hora(sig.sale)",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_3e29978ac5",
+      "es": "Camina {v1} min",
+      "contextos": [
+        "demo/app.js:1333 · ponerCaminata",
+        "demo/app.js:1389 · pintarCamiones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "minutosCaminando(p.caminado)"
+        }
+      }
+    },
+    {
+      "clave": "texto_ff0625723b",
+      "es": "Camina {v1} min a la parada",
+      "contextos": [
+        "demo/app.js:1086 · pasosDe"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "min",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_585761820b",
+      "es": "Camina {v1} min a tu destino",
+      "contextos": [
+        "demo/app.js:1087 · pasosDe"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "min",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_1282eca92d",
+      "es": "Camina {v1} min y cambia de camión",
+      "contextos": [
+        "demo/app.js:1084 · pasosDe"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "min",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_9d0f83880e",
+      "es": "Caminando llegas en {v1} min",
+      "contextos": [
+        "demo/app.js:754 · mostrarAPie"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "minutosCaminando(c.metros)"
+        }
+      }
+    },
+    {
+      "clave": "texto_612f28c927",
+      "es": "Caminar poco",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_c705ebd88a",
+      "es": "Caminas bien",
+      "contextos": [
+        "demo/app.js:2429 · resumenCortoPerfil"
+      ]
+    },
+    {
+      "clave": "texto_5901231fb6",
+      "es": "Caminas poco",
+      "contextos": [
+        "demo/app.js:2429 · resumenCortoPerfil"
+      ]
+    },
+    {
+      "clave": "texto_3bdcae9523",
+      "es": "caminas sin problema",
+      "contextos": [
+        "demo/app.js:2419 · frasePerfil"
+      ]
+    },
+    {
+      "clave": "texto_faf1957920",
+      "es": "caminas {v1} min",
+      "contextos": [
+        "demo/app.js:885 · pintarOpciones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "caminata(o)"
+        }
+      }
+    },
+    {
+      "clave": "texto_ca77442887",
+      "es": "Camino sin problema",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida",
+        "demo/index.html · pantallas · #perfilMovilidad",
+        "demo/app.js:2468 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_8a7ba16259",
+      "es": "Camiones aquí",
+      "contextos": [
+        "demo/index.html · pantallas · #pasanAqui"
+      ]
+    },
+    {
+      "clave": "texto_17e5c0f853",
+      "es": "Camiones cerca",
+      "contextos": [
+        "demo/app.js:179 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_9a33432b00",
+      "es": "Casa",
+      "contextos": [
+        "demo/index.html · pantallas · #nombresLugar",
+        "demo/app.js:2004 · pintarGuardados",
+        "demo/app.js:2005 · pintarGuardados",
+        "demo/app.js:2007 · pintarGuardados",
+        "demo/app.js:2013 · pintarGuardados",
+        "demo/app.js:2042 · inicio",
+        "demo/app.js:2065 · inicio",
+        "demo/app.js:2633 · accionInicial"
+      ]
+    },
+    {
+      "clave": "texto_aeccae342e",
+      "es": "Cerrar",
+      "contextos": [
+        "demo/index.html · pantallas · #choferCerrar"
+      ]
+    },
+    {
+      "clave": "texto_2f3e8dcc24",
+      "es": "Claro",
+      "contextos": [
+        "demo/index.html · pantallas · #optTema"
+      ]
+    },
+    {
+      "clave": "texto_809f137c39",
+      "es": "Colores de la pantalla",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloTema"
+      ]
+    },
+    {
+      "clave": "texto_bca2ba20da",
+      "es": "Colores para daltonismo",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_ae72c0eee0",
+      "es": "Como el teléfono",
+      "contextos": [
+        "demo/index.html · pantallas · #optTema"
+      ]
+    },
+    {
+      "clave": "texto_6968be4e35",
+      "es": "Como otros días a esta hora.",
+      "contextos": [
+        "demo/index.html · pantallas · #rutina"
+      ]
+    },
+    {
+      "clave": "texto_9c87920242",
+      "es": "Como otros días a esta hora. Toca para ver cómo llegar",
+      "contextos": [
+        "demo/index.html · pantallas · #rutina"
+      ]
+    },
+    {
+      "clave": "texto_3d30719c39",
+      "es": "Compara y elige",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_4bc2f1f5dc",
+      "es": "Compartir mi viaje",
+      "contextos": [
+        "demo/index.html · pantallas · #compartir"
+      ]
+    },
+    {
+      "clave": "texto_e13942698a",
+      "es": "Completa",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida",
+        "demo/index.html · pantallas · #perfilForma",
+        "demo/index.html · pantallas · #optDensidad",
+        "demo/app.js:2430 · resumenCortoPerfil"
+      ]
+    },
+    {
+      "clave": "texto_097b177914",
+      "es": "Completar mi perfil",
+      "contextos": [
+        "demo/index.html · pantallas · #completarPerfil"
+      ]
+    },
+    {
+      "clave": "texto_01d052fe92",
+      "es": "Compáralo",
+      "contextos": [
+        "demo/index.html · pantallas · #compararPrecio"
+      ]
+    },
+    {
+      "clave": "texto_88d92e7674",
+      "es": "Confírmalo al abrir la app.",
+      "contextos": [
+        "demo/app.js:1149 · pintarApps"
+      ]
+    },
+    {
+      "clave": "texto_c6095368cd",
+      "es": "Copié \"{v1}\".",
+      "contextos": [
+        "demo/app.js:1241 · abrirApp"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "destino"
+        }
+      }
+    },
+    {
+      "clave": "texto_df8d5fe0ae",
+      "es": "Cuando elijas un destino, toca \"Guardar este lugar\".",
+      "contextos": [
+        "demo/app.js:2027 · pintarGuardados"
+      ]
+    },
+    {
+      "clave": "texto_e8afa1c71c",
+      "es": "Cuidado con la accesibilidad",
+      "contextos": [
+        "demo/app.js:1132 · avisarAcceso"
+      ]
+    },
+    {
+      "clave": "texto_a37768e6d4",
+      "es": "Cuidado con la accesibilidad. {problemas}.",
+      "contextos": [
+        "demo/app.js:82 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_6556337e0e",
+      "es": "Cuidado: {avisos}.",
+      "contextos": [
+        "demo/app.js:84 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_f906d695cd",
+      "es": "Cuéntanos más",
+      "contextos": [
+        "demo/index.html · pantallas · #reporteResto"
+      ]
+    },
+    {
+      "clave": "texto_e59f7d6c86",
+      "es": "Cómo usar Grieta",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloAyuda"
+      ]
+    },
+    {
+      "clave": "texto_588f252ada",
+      "es": "Da igual: en la próxima hora lo normal casi no cambia",
+      "contextos": [
+        "demo/app.js:978 · pintarEspera"
+      ]
+    },
+    {
+      "clave": "texto_98757bedb9",
+      "es": "Decir a dónde voy",
+      "contextos": [
+        "demo/index.html · pantallas · #vozDestino",
+        "demo/index.html · pantallas · aria-label",
+        "demo/index.html · pantallas · #inicioNormal"
+      ]
+    },
+    {
+      "clave": "texto_cd8b4d6139",
+      "es": "Decirlo en voz alta",
+      "contextos": [
+        "demo/index.html · pantallas · #choferVoz"
+      ]
+    },
+    {
+      "clave": "texto_14237cbdbb",
+      "es": "Deja la pantalla encendida: así Grieta sigue tu ubicación.",
+      "contextos": [
+        "demo/index.html · pantallas · #guia"
+      ]
+    },
+    {
+      "clave": "texto_9b8a40b4b7",
+      "es": "Deja la pantalla encendida: así Grieta sigue tu ubicación. Las horas del camión salen del horario oficial, no de su ubicación.",
+      "contextos": [
+        "demo/index.html · pantallas · #guia"
+      ]
+    },
+    {
+      "clave": "texto_0d7d7140dd",
+      "es": "Densidad",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloDensidad"
+      ]
+    },
+    {
+      "clave": "texto_209cad1464",
+      "es": "Desde dónde sales",
+      "contextos": [
+        "demo/app.js:454 · prepararBuscar"
+      ]
+    },
+    {
+      "clave": "texto_f7636347a7",
+      "es": "Desde {v1}",
+      "contextos": [
+        "demo/app.js:398 · poner"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "esGps(lugar) ? \"tu ubicación\" : lugar.nombre",
+          "traducir": true,
+          "solo": [
+            "tu ubicación"
+          ]
+        }
+      }
+    },
+    {
+      "clave": "texto_29fa864fd7",
+      "es": "Deshacer",
+      "contextos": [
+        "demo/app.js:2019 · pintarGuardados"
+      ]
+    },
+    {
+      "clave": "texto_63607cf8ae",
+      "es": "Después cambias de camión; te aviso.",
+      "contextos": [
+        "demo/app.js:79 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_22bbb31970",
+      "es": "Después camina unos {v1} minutos a tu destino.",
+      "contextos": [
+        "demo/app.js:1806 · avanzarCamion"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "Math.max(1, Math.round(fin.min))",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_b645306abd",
+      "es": "Después pide {v1} a tu destino.",
+      "contextos": [
+        "demo/app.js:1806 · avanzarCamion"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "Grieta.nombreApp(fin.app)"
+        }
+      }
+    },
+    {
+      "clave": "texto_8f049ccaff",
+      "es": "Di a dónde vas.",
+      "contextos": [
+        "demo/app.js:1470 · dictar"
+      ]
+    },
+    {
+      "clave": "texto_fee05da5fd",
+      "es": "Di o escribe a dónde vas",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_f6f8057c7a",
+      "es": "dic",
+      "contextos": [
+        "demo/app.js:7 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_3b11ce3e65",
+      "es": "Dictar",
+      "contextos": [
+        "demo/index.html · pantallas · #inicioNormal",
+        "demo/index.html · pantallas · #buscar"
+      ]
+    },
+    {
+      "clave": "texto_0da39fd812",
+      "es": "Dictar a dónde vas",
+      "contextos": [
+        "demo/index.html · pantallas · aria-label"
+      ]
+    },
+    {
+      "clave": "texto_587f39f013",
+      "es": "Dictar el lugar",
+      "contextos": [
+        "demo/index.html · pantallas · aria-label"
+      ]
+    },
+    {
+      "clave": "texto_af38104112",
+      "es": "DiDi",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_424e93aa51",
+      "es": "Domingo",
+      "contextos": [
+        "demo/index.html · pantallas · #dia"
+      ]
+    },
+    {
+      "clave": "texto_7800630f3d",
+      "es": "domingo",
+      "contextos": [
+        "demo/app.js:6 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_fa6699df66",
+      "es": "Donde estás ahora",
+      "contextos": [
+        "demo/app.js:492 · sugerir"
+      ]
+    },
+    {
+      "clave": "texto_80e7437d9d",
+      "es": "Durante el viaje te aviso con voz.",
+      "contextos": [
+        "demo/app.js:2458 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_ffd6f24b18",
+      "es": "Día",
+      "contextos": [
+        "demo/index.html · pantallas · #otraHora"
+      ]
+    },
+    {
+      "clave": "texto_bab3d182cf",
+      "es": "Dónde estoy",
+      "contextos": [
+        "demo/index.html · pantallas · #dondeEstoy"
+      ]
+    },
+    {
+      "clave": "texto_2eba946b2e",
+      "es": "Editar",
+      "contextos": [
+        "demo/index.html · pantallas · #editarGuardados",
+        "demo/app.js:2017 · pintarGuardados"
+      ]
+    },
+    {
+      "clave": "texto_0cb2b03cf8",
+      "es": "Ejemplo: Hospital",
+      "contextos": [
+        "demo/index.html · pantallas · placeholder"
+      ]
+    },
+    {
+      "clave": "texto_94f43e9497",
+      "es": "Ejemplo: la parada está frente al OXXO, junto al poste amarillo",
+      "contextos": [
+        "demo/index.html · pantallas · placeholder"
+      ]
+    },
+    {
+      "clave": "texto_8052735f0d",
+      "es": "Ejemplo: Mamá",
+      "contextos": [
+        "demo/index.html · pantallas · placeholder"
+      ]
+    },
+    {
+      "clave": "texto_b83abafbc1",
+      "es": "El audio sigue en español.",
+      "contextos": [
+        "demo/app.js:2592 · inicio",
+        "demo/app.js · perfilLengua"
+      ]
+    },
+    {
+      "clave": "texto_558f573763",
+      "es": "El camión tarda {v1} min más, pero te ahorras la diferencia.",
+      "contextos": [
+        "demo/app.js:1205 · pintarVeredicto"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "Math.round(extra)",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_6a3e15d067",
+      "es": "El camión te cuesta $2 y el transbordo es gratis",
+      "contextos": [
+        "demo/index.html · pantallas · #filaUnidos"
+      ]
+    },
+    {
+      "clave": "texto_7851ed31aa",
+      "es": "El horario guardado venció el {v1} {v2} {v3}: las horas pueden variar.",
+      "contextos": [
+        "demo/app.js:1301 · avisoVigencia"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "fin.getDate()"
+        },
+        "v2": {
+          "expresion": "MESES[fin.getMonth()]"
+        },
+        "v3": {
+          "expresion": "fin.getFullYear()"
+        }
+      }
+    },
+    {
+      "clave": "texto_f9339eab84",
+      "es": "El precio no está tan arriba o el camión tarda demasiado.",
+      "contextos": [
+        "demo/app.js:1209 · pintarVeredicto"
+      ]
+    },
+    {
+      "clave": "texto_7060c3a22c",
+      "es": "El precio puede variar.",
+      "contextos": [
+        "demo/app.js:1149 · pintarApps"
+      ]
+    },
+    {
+      "clave": "texto_88d4c8d956",
+      "es": "El precio puede variar. Confírmalo al abrir la app.",
+      "contextos": [
+        "demo/app.js:1149 · pintarApps"
+      ]
+    },
+    {
+      "clave": "texto_bb6a3d8138",
+      "es": "El teléfono debe tener 10 dígitos.",
+      "contextos": [
+        "demo/app.js:1729 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_a2551ca530",
+      "es": "el {v1}",
+      "contextos": [
+        "demo/app.js:866 · pintarOpciones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "DIAS[r.ctx.dia]"
+        }
+      }
+    },
+    {
+      "clave": "texto_f213c04150",
+      "es": "Elegir",
+      "contextos": [
+        "demo/app.js:435 · sinUbicacion"
+      ]
+    },
+    {
+      "clave": "texto_742a056f80",
+      "es": "Elegir en el mapa",
+      "contextos": [
+        "demo/app.js:536 · filaMapa"
+      ]
+    },
+    {
+      "clave": "texto_a636245163",
+      "es": "Elige a qué hora tienes que llegar.",
+      "contextos": [
+        "demo/app.js:997 · calcularSalida"
+      ]
+    },
+    {
+      "clave": "texto_5a49912663",
+      "es": "Elige en el mapa",
+      "contextos": [
+        "demo/app.js:179 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_1288575efc",
+      "es": "Elige la app y escribe el precio para darte una recomendación.",
+      "contextos": [
+        "demo/app.js:1184 · pintarVeredicto"
+      ]
+    },
+    {
+      "clave": "texto_b9483c4f8c",
+      "es": "Elige qué problema encontraste.",
+      "contextos": [
+        "demo/app.js:2253 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_5d3ab56ae0",
+      "es": "Elige un lugar guardado o elígelo en el mapa.",
+      "contextos": [
+        "demo/app.js:527 · sugerir"
+      ]
+    },
+    {
+      "clave": "texto_2d21259ea7",
+      "es": "Elige una más tarde.",
+      "contextos": [
+        "demo/app.js:1000 · calcularSalida"
+      ]
+    },
+    {
+      "clave": "texto_042fcafd6a",
+      "es": "Elígelo en el mapa",
+      "contextos": [
+        "demo/app.js:536 · filaMapa"
+      ]
+    },
+    {
+      "clave": "texto_3b39ef005c",
+      "es": "Empezar viaje con avisos",
+      "contextos": [
+        "demo/index.html · pantallas · #empezar",
+        "demo/app.js:86 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_9550f392eb",
+      "es": "Empieza el viaje con avisos",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_40d348234c",
+      "es": "En 1 h",
+      "contextos": [
+        "demo/app.js:712 · momentos"
+      ]
+    },
+    {
+      "clave": "texto_b3b03abed1",
+      "es": "En app",
+      "contextos": [
+        "demo/app.js:942 · inicio",
+        "demo/app.js:1025 · calcularSalida"
+      ]
+    },
+    {
+      "clave": "texto_c7ff837b82",
+      "es": "En app · precios estimados",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloEnApp"
+      ]
+    },
+    {
+      "clave": "texto_e699931fdd",
+      "es": "En camino",
+      "contextos": [
+        "demo/app.js:1841 · iniciarDestino",
+        "demo/app.js:1846 · iniciarDestino"
+      ]
+    },
+    {
+      "clave": "texto_fa9d67f12c",
+      "es": "En el camión",
+      "contextos": [
+        "demo/app.js:1530 · decir",
+        "demo/app.js:1811 · avanzarCamion",
+        "demo/app.js:1817 · avanzarCamion",
+        "demo/app.js:1829 · subir"
+      ]
+    },
+    {
+      "clave": "texto_7f6489aa71",
+      "es": "En Inicio, en \"Busca un lugar\" o con \"Dictar\".",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_bf9c802f85",
+      "es": "en la línea {v1} hacia {v2}",
+      "contextos": [
+        "demo/app.js:1879 · enviar"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "guia.camion.linea"
+        },
+        "v2": {
+          "expresion": "guia.camion.hacia"
+        }
+      }
+    },
+    {
+      "clave": "texto_8ca0ef121e",
+      "es": "En la parada",
+      "contextos": [
+        "demo/app.js:1614 · iniciarGuia",
+        "demo/app.js:1615 · iniciarGuia",
+        "demo/app.js:1683 · revisarAvisosParada",
+        "demo/app.js:1685 · revisarAvisosParada",
+        "demo/app.js:1764 · avanzarCamion"
+      ]
+    },
+    {
+      "clave": "texto_433a5bb86f",
+      "es": "En la parada {v1}",
+      "contextos": [
+        "demo/app.js:2216 · fijar"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "cruce(p.nombre)"
+        }
+      }
+    },
+    {
+      "clave": "texto_4c1aa18888",
+      "es": "En la parada {v4}, hacia {v5}.",
+      "contextos": [
+        "demo/app.js:909 · pintarOpciones"
+      ],
+      "variables": {
+        "v4": {
+          "expresion": "escapar(cruce(c.recorrido[0].nombre))"
+        },
+        "v5": {
+          "expresion": "escapar(c.hacia)"
+        }
+      }
+    },
+    {
+      "clave": "texto_d5bb5159c7",
+      "es": "En la parada {v4}, hacia {v5}. Si lo pierdes, {v6} se estima en {v7}.{v8}",
+      "contextos": [
+        "demo/app.js:909 · pintarOpciones"
+      ],
+      "variables": {
+        "v4": {
+          "expresion": "escapar(cruce(c.recorrido[0].nombre))"
+        },
+        "v5": {
+          "expresion": "escapar(c.hacia)"
+        },
+        "v6": {
+          "expresion": "Grieta.nombreApp(app.app)"
+        },
+        "v7": {
+          "expresion": "rangoTexto(limitesPrecio(app))",
+          "formato": "rango"
+        },
+        "v8": {
+          "expresion": "avisoVigencia()"
+        }
+      }
+    },
+    {
+      "clave": "texto_447227506f",
+      "es": "En la próxima hora no pasa ningún Qrobus cerca.",
+      "contextos": [
+        "demo/app.js:913 · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_4450c1ec40",
+      "es": "en la {v1}",
+      "contextos": [
+        "demo/app.js:1711 · inicio"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "c.linea"
+        }
+      }
+    },
+    {
+      "clave": "texto_028931ae25",
+      "es": "en línea recta",
+      "contextos": [
+        "demo/app.js:1397 · pintarCamiones"
+      ]
+    },
+    {
+      "clave": "texto_a10382ebc7",
+      "es": "En medio, me cuesta caminar.",
+      "contextos": [
+        "demo/app.js:2316 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_1ea154933d",
+      "es": "En Qrobus",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloCamion",
+        "demo/app.js:1024 · calcularSalida"
+      ]
+    },
+    {
+      "clave": "texto_9a447a5935",
+      "es": "En tu ubicación actual",
+      "contextos": [
+        "demo/app.js:2219 · fijar"
+      ]
+    },
+    {
+      "clave": "texto_5920c47597",
+      "es": "En tus viajes aparecerá \"Avisar a {v1}\".",
+      "contextos": [
+        "demo/app.js:1733 · inicio"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "familiar.nombre"
+        }
+      }
+    },
+    {
+      "clave": "texto_52d5989f10",
+      "es": "En {v1}",
+      "contextos": [
+        "demo/app.js:2223 · fijar"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "calle"
+        }
+      }
+    },
+    {
+      "clave": "texto_907487bdb3",
+      "es": "en {v1} h {v2} min",
+      "contextos": [
+        "demo/app.js:1341 · enCuanto"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "Math.floor(f / 60)"
+        },
+        "v2": {
+          "expresion": "f % 60"
+        }
+      }
+    },
+    {
+      "clave": "texto_4c031ea927",
+      "es": "En {v1} min",
+      "contextos": [
+        "demo/app.js:712 · momentos"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "m"
+        }
+      }
+    },
+    {
+      "clave": "texto_8c1ddac830",
+      "es": "en {v1} min",
+      "contextos": [
+        "demo/app.js:1341 · enCuanto"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "f"
+        }
+      }
+    },
+    {
+      "clave": "texto_bfa2700b77",
+      "es": "ene",
+      "contextos": [
+        "demo/app.js:7 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_dc8659db6d",
+      "es": "Enter",
+      "contextos": [
+        "demo/app.js:578 · inicio",
+        "demo/app.js:1177 · inicio",
+        "demo/app.js:2121 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_88412066ba",
+      "es": "entre {v1} y {v2} pesos",
+      "contextos": [
+        "demo/app.js:829 · rangoVoz"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "Math.round(x.bajo)",
+          "formato": "numero"
+        },
+        "v2": {
+          "expresion": "Math.round(x.alto)",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_59ee4b1e62",
+      "es": "Enviar este precio a Grieta",
+      "contextos": [
+        "demo/index.html · pantallas · #enviarPrecio"
+      ]
+    },
+    {
+      "clave": "texto_9739d880d5",
+      "es": "Enviar reporte",
+      "contextos": [
+        "demo/index.html · pantallas · #enviarReporte"
+      ]
+    },
+    {
+      "clave": "texto_c0bc1e08f9",
+      "es": "es",
+      "contextos": [
+        "demo/app.js:105 · inicio",
+        "demo/app.js:106 · inicio",
+        "demo/app.js:2482 · actualizarFilasPerfil"
+      ]
+    },
+    {
+      "clave": "texto_735ac1ef26",
+      "es": "Esa hora ya pasó o no da tiempo de llegar.",
+      "contextos": [
+        "demo/app.js:1000 · calcularSalida"
+      ]
+    },
+    {
+      "clave": "texto_545f80e084",
+      "es": "Esa hora ya pasó o no da tiempo de llegar. Elige una más tarde.",
+      "contextos": [
+        "demo/app.js:1000 · calcularSalida"
+      ]
+    },
+    {
+      "clave": "texto_037c968467",
+      "es": "Escape",
+      "contextos": [
+        "demo/app.js:2659 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_bf001556de",
+      "es": "Escribe el nombre.",
+      "contextos": [
+        "demo/app.js:1728 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_231a971d9c",
+      "es": "Escribe el precio",
+      "contextos": [
+        "demo/index.html · pantallas · placeholder"
+      ]
+    },
+    {
+      "clave": "texto_66419f33e0",
+      "es": "Escribe la calle y la colonia, o toca \"Elígelo en el mapa\".",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_84d6f3db6e",
+      "es": "Escribes desde dónde sales",
+      "contextos": [
+        "demo/index.html · pantallas · #sinUbicacion"
+      ]
+    },
+    {
+      "clave": "texto_60e4a53f8b",
+      "es": "Escuchar los pasos",
+      "contextos": [
+        "demo/index.html · pantallas · #escuchar"
+      ]
+    },
+    {
+      "clave": "texto_2406e0053c",
+      "es": "escuchas bien",
+      "contextos": [
+        "demo/app.js:2420 · frasePerfil"
+      ]
+    },
+    {
+      "clave": "texto_cc53ec093e",
+      "es": "Escucho bien los avisos",
+      "contextos": [
+        "demo/app.js:2469 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_428e470b74",
+      "es": "Escuela",
+      "contextos": [
+        "demo/index.html · pantallas · #nombresLugar"
+      ]
+    },
+    {
+      "clave": "texto_04afb84ba1",
+      "es": "Espera la línea {linea} hacia {hacia}",
+      "contextos": [
+        "demo/app.js:63 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_0b9a62e7f6",
+      "es": "Espera un poco",
+      "contextos": [
+        "demo/app.js:8 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_45c721109b",
+      "es": "este mes frente al precio esperado en app.",
+      "contextos": [
+        "demo/app.js:1966 · pintarAhorro"
+      ]
+    },
+    {
+      "clave": "texto_7891e778dc",
+      "es": "Estudiante, mayor de 60 o persona con discapacidad",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_cda77e9e04",
+      "es": "Estudiantes, mayores de 60 y personas con discapacidad; el transbordo es gratis",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_8ccb77adc9",
+      "es": "Está arriba de lo normal y te sobra tiempo: vuelve a revisar en unos minutos{v1}.",
+      "contextos": [
+        "demo/app.js:1190 · pintarVeredicto"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "sigFranja < 24 ? `; lo normal cambia de franja a las ${hora(sigFranja * 60)}` : \"\"",
+          "formato": "hora",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_24c3071505",
+      "es": "Estás a 300 metros",
+      "contextos": [
+        "demo/app.js:1845 · iniciarDestino"
+      ]
+    },
+    {
+      "clave": "texto_5a0fe8946c",
+      "es": "Estás en {v1}.",
+      "contextos": [
+        "demo/app.js:1451 · dondeEstoy"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "lugar"
+        }
+      }
+    },
+    {
+      "clave": "texto_d06bc3e09f",
+      "es": "Estás en {v1}.{v2} Toca Terminar viaje cuando quieras.",
+      "contextos": [
+        "demo/app.js:1782 · avanzarCamion"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "dest.nombre"
+        },
+        "v2": {
+          "expresion": "familiar ? ` Puedes avisarle a ${familiar.nombre} que llegaste.` : \"\""
+        }
+      }
+    },
+    {
+      "clave": "texto_10fe0b5df9",
+      "es": "Estás fuera de Querétaro.",
+      "contextos": [
+        "demo/app.js:421 · ubicar"
+      ]
+    },
+    {
+      "clave": "texto_833334561a",
+      "es": "Falta señalización",
+      "contextos": [
+        "demo/index.html · pantallas · #tipoReporte",
+        "demo/app.js:2168 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_a2052dc507",
+      "es": "Falta un kilómetro",
+      "contextos": [
+        "demo/app.js:1846 · iniciarDestino"
+      ]
+    },
+    {
+      "clave": "texto_18e6600bae",
+      "es": "Faltan",
+      "contextos": [
+        "demo/app.js:1523 · ponerTitulo"
+      ]
+    },
+    {
+      "clave": "texto_eebff8c118",
+      "es": "Faltan {n} paradas",
+      "contextos": [
+        "demo/app.js:73 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_b899f84e75",
+      "es": "Faltan {v1} km.",
+      "contextos": [
+        "demo/app.js:1847 · iniciarDestino"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "(m / 1000).toFixed(1)"
+        }
+      }
+    },
+    {
+      "clave": "texto_70c748e63d",
+      "es": "feb",
+      "contextos": [
+        "demo/app.js:7 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_56cf25ec89",
+      "es": "Foto lista.",
+      "contextos": [
+        "demo/app.js:2249 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_646d5dfa89",
+      "es": "Foto lista. Toca para cambiarla",
+      "contextos": [
+        "demo/app.js:2249 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_7a6eabd661",
+      "es": "Fácil",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida",
+        "demo/index.html · pantallas · #perfilForma",
+        "demo/index.html · pantallas · #optDensidad",
+        "demo/app.js:2430 · resumenCortoPerfil"
+      ]
+    },
+    {
+      "clave": "texto_333e0a1e27",
+      "es": "G",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_b600eea309",
+      "es": "Gracias.",
+      "contextos": [
+        "demo/app.js:1663 · avisarParada"
+      ]
+    },
+    {
+      "clave": "texto_41a2eba09f",
+      "es": "Gracias. Se lo diré a quien espere aquí.",
+      "contextos": [
+        "demo/app.js:1663 · avisarParada"
+      ]
+    },
+    {
+      "clave": "texto_3d4e626cc2",
+      "es": "Gracias. Tu reporte ayuda a quien pase por aquí.",
+      "contextos": [
+        "demo/app.js:2273 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_f813848dda",
+      "es": "Gracias. {v1}",
+      "contextos": [
+        "demo/app.js:1662 · avisarParada"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "sig ? `Según el horario, la siguiente ${c.linea} pasa a las ${hora(sig)}.` : `No encontré otra ${c.linea} hoy en el horario.`",
+          "formato": "hora",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_d5c9be6d17",
+      "es": "Gracias: con tu precio Grieta calcula mejor.",
+      "contextos": [
+        "demo/app.js:2303 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_95d72fde2e",
+      "es": "Grieta busca paradas cercanas y te avisa si reportaron que no tienen rampa.",
+      "contextos": [
+        "demo/app.js:2444 · pintarResumenPerfil"
+      ]
+    },
+    {
+      "clave": "texto_3d92b8dd37",
+      "es": "Grieta busca paradas más cerca para que camines menos.",
+      "contextos": [
+        "demo/app.js:2445 · pintarResumenPerfil"
+      ]
+    },
+    {
+      "clave": "texto_157e3b8bda",
+      "es": "Grieta compara tus opciones y te avisa cuándo bajarte del camión.",
+      "contextos": [
+        "demo/app.js:2446 · pintarResumenPerfil"
+      ]
+    },
+    {
+      "clave": "texto_473d757904",
+      "es": "Grieta no habla encima de tu lector.",
+      "contextos": [
+        "demo/app.js:2456 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_9fc90539af",
+      "es": "Grieta se acomoda a ti.",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_9003ff37e8",
+      "es": "Grieta se acomoda a ti. Lo puedes cambiar después.",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_b59c6dd135",
+      "es": "Grieta te avisa cuándo pasa tu camión y cuándo bajarte.",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_b4bb6328d9",
+      "es": "Grieta te dice todo en voz alta, con pocos botones y muy grandes",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_ab585a65b3",
+      "es": "Grieta te habla",
+      "contextos": [
+        "demo/app.js:2433 · resumenCortoPerfil"
+      ]
+    },
+    {
+      "clave": "texto_ae6563aa98",
+      "es": "Grieta te lee todo en voz alta.",
+      "contextos": [
+        "demo/app.js:2456 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_584f30d170",
+      "es": "Grieta te lo dice en voz alta",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_0bd7ebab09",
+      "es": "Guardado como {v1}",
+      "contextos": [
+        "demo/app.js:858 · pintarOpciones",
+        "demo/app.js:2100 · guardarComo"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "nombre"
+        }
+      }
+    },
+    {
+      "clave": "texto_7a37f9b594",
+      "es": "Guardado.",
+      "contextos": [
+        "demo/app.js:1733 · inicio"
+      ],
+      "variables": {}
+    },
+    {
+      "clave": "texto_b6e43363d2",
+      "es": "Guardado. En tus viajes aparecerá \"Avisar a {v1}\".",
+      "contextos": [
+        "demo/app.js:1733 · inicio"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "familiar.nombre"
+        }
+      }
+    },
+    {
+      "clave": "texto_13e51a210f",
+      "es": "Guardar",
+      "contextos": [
+        "demo/index.html · pantallas · #guardarNombre",
+        "demo/index.html · pantallas · #guardarFamiliar"
+      ]
+    },
+    {
+      "clave": "texto_f2d4b82910",
+      "es": "Guardar como",
+      "contextos": [
+        "demo/index.html · pantallas · aria-label"
+      ]
+    },
+    {
+      "clave": "texto_69b9160bb6",
+      "es": "Guardar este lugar",
+      "contextos": [
+        "demo/index.html · pantallas · #guardarLugar",
+        "demo/app.js:858 · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_0aa2cb515e",
+      "es": "Hace {v1} minuto{v2}.",
+      "contextos": [
+        "demo/app.js:1683 · revisarAvisosParada"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "paso.minutos || \"menos de un\""
+        },
+        "v2": {
+          "expresion": "paso.minutos === 1 ? \"\" : \"s\"",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_854cf9b64e",
+      "es": "hacia",
+      "contextos": [
+        "demo/app.js:50 · inicio",
+        "demo/app.js:401 · poner",
+        "demo/app.js:463 · inicio",
+        "demo/app.js:1477 · dictar",
+        "demo/app.js:1480 · dictar",
+        "demo/app.js:2033 · irA",
+        "demo/app.js:2048 · inicio",
+        "demo/app.js:2064 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_426b3dddb4",
+      "es": "Hacia la parada",
+      "contextos": [
+        "demo/app.js:1530 · decir",
+        "demo/app.js:1620 · iniciarGuia"
+      ]
+    },
+    {
+      "clave": "texto_bc3f4bca11",
+      "es": "Hacia {v1}.",
+      "contextos": [
+        "demo/app.js:1091 · pasosDe"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "p.hacia"
+        }
+      }
+    },
+    {
+      "clave": "texto_0b5b404e9a",
+      "es": "Hacia {v1}. Bájate en {v2}, {v3} paradas después, a las {v4}. Te aviso antes.",
+      "contextos": [
+        "demo/app.js:1091 · pasosDe"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "p.hacia"
+        },
+        "v2": {
+          "expresion": "p.baja"
+        },
+        "v3": {
+          "expresion": "p.paradas"
+        },
+        "v4": {
+          "expresion": "hora(p.llega)",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_a246e9dcb7",
+      "es": "Hacia {v3}",
+      "contextos": [
+        "demo/app.js:1378 · filas"
+      ],
+      "variables": {
+        "v3": {
+          "expresion": "escapar(l.hacia)"
+        }
+      }
+    },
+    {
+      "clave": "texto_503f312cde",
+      "es": "Hora",
+      "contextos": [
+        "demo/index.html · pantallas · #otraHora"
+      ]
+    },
+    {
+      "clave": "texto_ae41373cea",
+      "es": "Idioma de la interfaz",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloLengua"
+      ]
+    },
+    {
+      "clave": "texto_3478318400",
+      "es": "inDrive",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_58fcc9468f",
+      "es": "Inicio",
+      "contextos": [
+        "demo/index.html · pantallas · #pestanas"
+      ]
+    },
+    {
+      "clave": "texto_932aaca5f2",
+      "es": "Ir a {v1}",
+      "contextos": [
+        "demo/app.js:1953 · pintarRutina"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "r.nombre"
+        }
+      }
+    },
+    {
+      "clave": "texto_89bc0a4642",
+      "es": "Ir a {v4}",
+      "contextos": [
+        "demo/app.js:2025 · pintarGuardados"
+      ],
+      "variables": {
+        "v4": {
+          "expresion": "escapar(g.nombre)"
+        }
+      }
+    },
+    {
+      "clave": "texto_451163ff57",
+      "es": "Ir otra vez a {v2}",
+      "contextos": [
+        "demo/app.js:1974 · pintarViajes · aria-label"
+      ],
+      "variables": {
+        "v2": {
+          "expresion": "escapar(v.destino.nombre)"
+        }
+      }
+    },
+    {
+      "clave": "texto_ca7b8cbccb",
+      "es": "Jueves",
+      "contextos": [
+        "demo/index.html · pantallas · #dia"
+      ]
+    },
+    {
+      "clave": "texto_15b84102a7",
+      "es": "jueves",
+      "contextos": [
+        "demo/app.js:6 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_5c022ffb48",
+      "es": "jul",
+      "contextos": [
+        "demo/app.js:7 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_eb687afb0f",
+      "es": "jun",
+      "contextos": [
+        "demo/app.js:7 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_6d0d2adb57",
+      "es": "kilómetros",
+      "contextos": [
+        "demo/app.js:1339 · distanciaTexto"
+      ]
+    },
+    {
+      "clave": "texto_1f34503f65",
+      "es": "km",
+      "contextos": [
+        "demo/app.js:1339 · distanciaTexto"
+      ]
+    },
+    {
+      "clave": "texto_d33a310712",
+      "es": "La interfaz cambia de idioma.",
+      "contextos": [
+        "demo/app.js:2592 · inicio",
+        "demo/app.js · perfilLengua"
+      ]
+    },
+    {
+      "clave": "texto_e92e18fc63",
+      "es": "La interfaz cambia de idioma. El audio sigue en español.",
+      "contextos": [
+        "demo/app.js:2592 · inicio",
+        "demo/app.js · perfilLengua"
+      ]
+    },
+    {
+      "clave": "texto_1c8fc9ce03",
+      "es": "La interfaz está en español.",
+      "contextos": [
+        "demo/app.js:2461 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_1a8e27e7b0",
+      "es": "La interfaz está en español. El audio sigue en español.",
+      "contextos": [
+        "demo/app.js:2461 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_714d69230c",
+      "es": "La parada está a unos {v1} caminando.",
+      "contextos": [
+        "demo/app.js:1774 · avanzarCamion"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "distanciaTexto(resta)"
+        }
+      }
+    },
+    {
+      "clave": "texto_a2dd7920bc",
+      "es": "La parada está a {v1} en línea recta.",
+      "contextos": [
+        "demo/app.js:1774 · avanzarCamion"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "distanciaTexto(d[0])"
+        }
+      }
+    },
+    {
+      "clave": "texto_dc43b20594",
+      "es": "La parada más cercana es {v1}, {v2}.",
+      "contextos": [
+        "demo/app.js:1452 · dondeEstoy"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "cruce(parada.nombre)"
+        },
+        "v2": {
+          "expresion": "cuanto"
+        }
+      }
+    },
+    {
+      "clave": "texto_f929d93aa6",
+      "es": "La traducción de la interfaz todavía no está disponible.",
+      "contextos": [
+        "demo/app.js:2461 · inicio",
+        "demo/app.js:2593 · inicio",
+        "demo/app.js · perfilLengua"
+      ]
+    },
+    {
+      "clave": "texto_d15476857f",
+      "es": "La traducción de la interfaz todavía no está disponible. El audio sigue en español.",
+      "contextos": [
+        "demo/app.js:2461 · inicio",
+        "demo/app.js:2593 · inicio",
+        "demo/app.js · perfilLengua"
+      ]
+    },
+    {
+      "clave": "texto_3d5dd99ecf",
+      "es": "La {v1} debe estar por pasar",
+      "contextos": [
+        "demo/app.js:1614 · iniciarGuia"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "c.linea"
+        }
+      }
+    },
+    {
+      "clave": "texto_c90bde72e4",
+      "es": "La {v1} pasa en 5 minutos",
+      "contextos": [
+        "demo/app.js:1638 · programarAvisos"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "c.linea"
+        }
+      }
+    },
+    {
+      "clave": "texto_be351f58a0",
+      "es": "La {v1} pasa en unos {v2} minutos",
+      "contextos": [
+        "demo/app.js:1615 · iniciarGuia"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "c.linea"
+        },
+        "v2": {
+          "expresion": "Math.round(falta)",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_7d6947c952",
+      "es": "Las horas del camión salen del horario oficial, no de su ubicación.",
+      "contextos": [
+        "demo/index.html · pantallas · #guia"
+      ]
+    },
+    {
+      "clave": "texto_05002fbf15",
+      "es": "Las horas salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse.{v7}",
+      "contextos": [
+        "demo/app.js:1385 · pintarCamiones"
+      ],
+      "variables": {
+        "v7": {
+          "expresion": "avisoVigencia()"
+        }
+      }
+    },
+    {
+      "clave": "texto_2a4c215b77",
+      "es": "Letra grande",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_60a6bf050f",
+      "es": "Letra grande y más contraste",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_5de449dcbc",
+      "es": "Letra grande y más contraste.",
+      "contextos": [
+        "demo/app.js:2455 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_b5fa51d564",
+      "es": "Listo",
+      "contextos": [
+        "demo/index.html · pantallas · #perfilListo",
+        "demo/app.js:2017 · pintarGuardados"
+      ]
+    },
+    {
+      "clave": "texto_3540304906",
+      "es": "Listo, Grieta te va a hablar.",
+      "contextos": [
+        "demo/app.js:2314 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_467bafc484",
+      "es": "Listo, Grieta te va a hablar. ¿Tu teléfono ya te lee la pantalla, como VoiceOver o TalkBack? Arriba, sí. Abajo, no.",
+      "contextos": [
+        "demo/app.js:2314 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_601dcb2198",
+      "es": "Listo, ya no hay a quién avisar.",
+      "contextos": [
+        "demo/app.js:1726 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_e56aab3981",
+      "es": "Llamar a Qrobus",
+      "contextos": [
+        "demo/index.html · pantallas · #llamarQrobus"
+      ]
+    },
+    {
+      "clave": "texto_7925cb7917",
+      "es": "Llamar a Qrobus al 442 210 0407",
+      "contextos": [
+        "demo/index.html · pantallas · aria-label"
+      ]
+    },
+    {
+      "clave": "texto_0e440835bc",
+      "es": "Llegas",
+      "contextos": [
+        "demo/app.js:1109 · pintarDetalle"
+      ]
+    },
+    {
+      "clave": "texto_168417d812",
+      "es": "Llegas a las {v1}",
+      "contextos": [
+        "demo/app.js:1143 · pintarApps"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "hora(llegada(o))",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_d29143c66b",
+      "es": "Llegas a las {v2}.",
+      "contextos": [
+        "demo/app.js:1090 · pasosDe"
+      ],
+      "variables": {
+        "v2": {
+          "expresion": "hora(llegada(o))",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_fa4b6e842b",
+      "es": "Llegas a las {v3}.",
+      "contextos": [
+        "demo/app.js:1025 · calcularSalida"
+      ],
+      "variables": {
+        "v3": {
+          "expresion": "hora(app.t + app.o.minutos)",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_f9887b8b62",
+      "es": "Llegas a {v1}",
+      "contextos": [
+        "demo/app.js:1074 · pasosDe"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "estado.destino.nombre"
+        }
+      }
+    },
+    {
+      "clave": "texto_7048b5db17",
+      "es": "Llegas {hora} · {minutos} min",
+      "contextos": [
+        "demo/app.js · composición de opciones"
+      ],
+      "selector": "#tarjetas small",
+      "variables": {
+        "hora": {
+          "formato": "hora"
+        },
+        "minutos": {
+          "formato": "numero"
+        },
+        "caminar": {
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_b3e3717003",
+      "es": "Llegas {hora} · {minutos} min · caminas {caminar} min",
+      "contextos": [
+        "demo/app.js · composición de opciones"
+      ],
+      "selector": "#tarjetas small",
+      "variables": {
+        "hora": {
+          "formato": "hora"
+        },
+        "minutos": {
+          "formato": "numero"
+        },
+        "caminar": {
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_b680e1a89c",
+      "es": "Llegas {hora}. {minutos} min. caminas {caminar} min. {precio}. {ahorro}",
+      "contextos": [
+        "demo/app.js · composición de opciones"
+      ],
+      "selector": "#tarjetas .tarjeta",
+      "variables": {
+        "hora": {
+          "formato": "hora"
+        },
+        "minutos": {
+          "formato": "numero"
+        },
+        "caminar": {
+          "formato": "numero"
+        },
+        "precio": {
+          "formato": "precio_voz",
+          "traducir": true
+        },
+        "ahorro": {
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_89c7fd4cdc",
+      "es": "Llegas {hora}. {minutos} min. {precio}. {ahorro}",
+      "contextos": [
+        "demo/app.js · composición de opciones"
+      ],
+      "selector": "#tarjetas .tarjeta",
+      "variables": {
+        "hora": {
+          "formato": "hora"
+        },
+        "minutos": {
+          "formato": "numero"
+        },
+        "precio": {
+          "formato": "precio_voz",
+          "traducir": true
+        },
+        "ahorro": {
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_05c85f357a",
+      "es": "Llegas {v1}",
+      "contextos": [
+        "demo/app.js:884 · pintarOpciones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "hora(llegada(o))",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_6024524550",
+      "es": "Llegaste",
+      "contextos": [
+        "demo/app.js:81 · inicio",
+        "demo/app.js:1530 · decir",
+        "demo/app.js:1533 · decir",
+        "demo/app.js:1782 · avanzarCamion",
+        "demo/app.js:1844 · iniciarDestino"
+      ]
+    },
+    {
+      "clave": "texto_cc4d4b8108",
+      "es": "Llegaste a la parada",
+      "contextos": [
+        "demo/app.js:62 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_5b1463aade",
+      "es": "llegué",
+      "contextos": [
+        "demo/app.js:1704 · pintarFamiliar"
+      ]
+    },
+    {
+      "clave": "texto_5b8e6b53ba",
+      "es": "Llévame a casa",
+      "contextos": [
+        "demo/index.html · pantallas · #vozCasa"
+      ]
+    },
+    {
+      "clave": "texto_8085356bed",
+      "es": "Lo más barato hoy es de {v1} a {v2}: unos {v3}.",
+      "contextos": [
+        "demo/app.js:990 · pintarEspera"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "hora(barata.a)",
+          "formato": "hora"
+        },
+        "v2": {
+          "expresion": "hora(barata.b)",
+          "formato": "hora"
+        },
+        "v3": {
+          "expresion": "pesos(barata.p)",
+          "formato": "importe"
+        }
+      }
+    },
+    {
+      "clave": "texto_d50ef34b69",
+      "es": "Lo puedes cambiar después en tu perfil.",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_dd2f229731",
+      "es": "Lo puedes cambiar después.",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_c978d996b6",
+      "es": "Los reportes todavía no están conectados al servidor.",
+      "contextos": [
+        "demo/app.js:2255 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_6c62b52a50",
+      "es": "Lugar o calle",
+      "contextos": [
+        "demo/index.html · pantallas · #buscar",
+        "demo/index.html · pantallas · placeholder",
+        "demo/app.js:454 · prepararBuscar"
+      ]
+    },
+    {
+      "clave": "texto_b2cf98e9c0",
+      "es": "Lugares conocidos",
+      "contextos": [
+        "demo/app.js:486 · sugerir"
+      ]
+    },
+    {
+      "clave": "texto_ac14f1c69b",
+      "es": "Lugares guardados",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloGuardados"
+      ]
+    },
+    {
+      "clave": "texto_d0e8086218",
+      "es": "Lunes",
+      "contextos": [
+        "demo/index.html · pantallas · #dia"
+      ]
+    },
+    {
+      "clave": "texto_6020ac9750",
+      "es": "lunes",
+      "contextos": [
+        "demo/app.js:6 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_2738e1f7f1",
+      "es": "mapa",
+      "contextos": [
+        "demo/app.js:36 · inicio",
+        "demo/app.js:47 · inicio",
+        "demo/app.js:218 · reencuadrar",
+        "demo/app.js:705 · encuadrar"
+      ]
+    },
+    {
+      "clave": "texto_f37d4063c9",
+      "es": "Mapa y letra normal",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_b6d50fb730",
+      "es": "Mapa y letra normal.",
+      "contextos": [
+        "demo/app.js:2455 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_51609286fb",
+      "es": "mar",
+      "contextos": [
+        "demo/app.js:7 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_fff8867b82",
+      "es": "Martes",
+      "contextos": [
+        "demo/index.html · pantallas · #dia"
+      ]
+    },
+    {
+      "clave": "texto_bd539dd597",
+      "es": "martes",
+      "contextos": [
+        "demo/app.js:6 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_ee4d988c65",
+      "es": "may",
+      "contextos": [
+        "demo/app.js:7 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_4356f82bed",
+      "es": "Me cuesta caminar",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida",
+        "demo/index.html · pantallas · #perfilMovilidad",
+        "demo/app.js:2468 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_9ea9e24900",
+      "es": "Me cuesta escuchar",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida",
+        "demo/index.html · pantallas · #perfilOido",
+        "demo/app.js:2469 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_64d7a5a9da",
+      "es": "Menor precio",
+      "contextos": [
+        "demo/app.js:871 · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_02c2274c2e",
+      "es": "Menor precio en app",
+      "contextos": [
+        "demo/app.js:1147 · pintarApps"
+      ]
+    },
+    {
+      "clave": "texto_78a512ce79",
+      "es": "Menor precio en Qrobus",
+      "contextos": [
+        "demo/app.js:811 · elegirTarjetas"
+      ]
+    },
+    {
+      "clave": "texto_dd3f84061a",
+      "es": "Mi ubicación ahorita:",
+      "contextos": [
+        "demo/app.js:1880 · enviar"
+      ],
+      "variables": {}
+    },
+    {
+      "clave": "texto_dad5376668",
+      "es": "Mi viaje",
+      "contextos": [
+        "demo/app.js:1883 · enviar"
+      ]
+    },
+    {
+      "clave": "texto_0635bc16dd",
+      "es": "Miércoles",
+      "contextos": [
+        "demo/index.html · pantallas · #dia"
+      ]
+    },
+    {
+      "clave": "texto_ba08108cd6",
+      "es": "miércoles",
+      "contextos": [
+        "demo/app.js:6 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_9d1ef6d5b9",
+      "es": "Mueve el mapa y toca dónde está el lugar.",
+      "contextos": [
+        "demo/index.html · pantallas · #elegirTexto"
+      ]
+    },
+    {
+      "clave": "texto_85c1088888",
+      "es": "Mueve el mapa y toca dónde está {v1}.",
+      "contextos": [
+        "demo/app.js:545 · elegirEnMapa"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "estado.eligiendo === \"origen\" ? \"el lugar de donde sales\" : \"el lugar a donde vas\"",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_9c5d6c22b1",
+      "es": "Más cercana",
+      "contextos": [
+        "demo/app.js:1318 · pintarParadas"
+      ]
+    },
+    {
+      "clave": "texto_3ac9140c1e",
+      "es": "Más económica",
+      "contextos": [
+        "demo/app.js:811 · elegirTarjetas",
+        "demo/app.js:879 · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_c4931b426e",
+      "es": "Más económica y Más rápida",
+      "contextos": [
+        "demo/app.js · composición de opciones"
+      ]
+    },
+    {
+      "clave": "texto_3be99fa974",
+      "es": "Más rápida",
+      "contextos": [
+        "demo/app.js:812 · elegirTarjetas",
+        "demo/app.js:879 · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_8bcbe8b0d5",
+      "es": "Nadie ha dejado avisos de esta parada.",
+      "contextos": [
+        "demo/app.js:1425 · pintarCamiones"
+      ]
+    },
+    {
+      "clave": "texto_8088da219c",
+      "es": "NFD",
+      "contextos": [
+        "demo/app.js:21 · sinAcentos"
+      ]
+    },
+    {
+      "clave": "texto_e2b1474e3a",
+      "es": "Ningún Qrobus te lleva directo en la próxima hora.",
+      "contextos": [
+        "demo/app.js:913 · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_88207fd1f2",
+      "es": "No encontré \"{v1}\".",
+      "contextos": [
+        "demo/app.js:529 · sugerir"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "escapar(texto)"
+        }
+      }
+    },
+    {
+      "clave": "texto_2728e9c86d",
+      "es": "No encontré \"{v1}\". Prueba con la calle y la colonia, o elígelo en el mapa.",
+      "contextos": [
+        "demo/app.js:529 · sugerir"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "escapar(texto)"
+        }
+      }
+    },
+    {
+      "clave": "texto_3b8c326378",
+      "es": "No encontré cómo llegar a esa hora desde ahora.",
+      "contextos": [
+        "demo/app.js:1019 · calcularSalida"
+      ]
+    },
+    {
+      "clave": "texto_b3ec4b85ed",
+      "es": "No encontré cómo llegar a esa hora desde ahora. Prueba una hora más tarde.",
+      "contextos": [
+        "demo/app.js:1019 · calcularSalida"
+      ]
+    },
+    {
+      "clave": "texto_3980978932",
+      "es": "No encontré el nombre de la calle.",
+      "contextos": [
+        "demo/app.js:1451 · dondeEstoy"
+      ]
+    },
+    {
+      "clave": "texto_11f7435605",
+      "es": "No encontré otra {v1} hoy en el horario.",
+      "contextos": [
+        "demo/app.js:1662 · avisarParada"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "c.linea"
+        }
+      }
+    },
+    {
+      "clave": "texto_b8ec4effc7",
+      "es": "No encuentro un lugar",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_3acc8aa01b",
+      "es": "No hay conexión con el buscador.",
+      "contextos": [
+        "demo/app.js:527 · sugerir"
+      ]
+    },
+    {
+      "clave": "texto_120d35599c",
+      "es": "No hay conexión con el buscador. Elige un lugar guardado o elígelo en el mapa.",
+      "contextos": [
+        "demo/app.js:527 · sugerir"
+      ]
+    },
+    {
+      "clave": "texto_e7848d84bf",
+      "es": "No hay paradas de Qrobus a menos de 500 metros.",
+      "contextos": [
+        "demo/app.js:1452 · dondeEstoy"
+      ]
+    },
+    {
+      "clave": "texto_62bc4d767d",
+      "es": "No hay paradas de Qrobus con servicio a menos de un kilómetro.",
+      "contextos": [
+        "demo/app.js:1355 · abrirCamiones"
+      ]
+    },
+    {
+      "clave": "texto_108885387b",
+      "es": "No hay rampa",
+      "contextos": [
+        "demo/index.html · pantallas · #tipoReporte",
+        "demo/app.js:2167 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_57d7c659b5",
+      "es": "No pude calcular el camino a pie.",
+      "contextos": [
+        "demo/app.js:1329 · ponerCaminata"
+      ]
+    },
+    {
+      "clave": "texto_a7c774343a",
+      "es": "No pude ver tu ubicación.",
+      "contextos": [
+        "demo/app.js:59 · inicio",
+        "demo/app.js:429 · ubicar",
+        "demo/app.js:1455 · dondeEstoy"
+      ]
+    },
+    {
+      "clave": "texto_f992899f8c",
+      "es": "No se pudo enviar: no hay conexión con Grieta.",
+      "contextos": [
+        "demo/app.js:2285 · inicio",
+        "demo/app.js:2307 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_ba155392c8",
+      "es": "No se pudo enviar: no hay conexión con Grieta. Revisa tu internet e intenta otra vez.",
+      "contextos": [
+        "demo/app.js:2285 · inicio",
+        "demo/app.js:2307 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_75e472d510",
+      "es": "No se pudo enviar: {v1}.",
+      "contextos": [
+        "demo/app.js:2286 · inicio",
+        "demo/app.js:2308 · inicio"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "err.message"
+        }
+      }
+    },
+    {
+      "clave": "texto_2bcc5a0cf2",
+      "es": "No te escuché.",
+      "contextos": [
+        "demo/app.js:60 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_069c47bd54",
+      "es": "No te escuché. Toca el botón otra vez y habla después del tono.",
+      "contextos": [
+        "demo/app.js:60 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_018e8ba367",
+      "es": "No veo",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida",
+        "demo/index.html · pantallas · #perfilVista",
+        "demo/app.js:2465 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_e1c687385f",
+      "es": "No ves",
+      "contextos": [
+        "demo/app.js:2418 · frasePerfil",
+        "demo/app.js:2427 · resumenCortoPerfil"
+      ]
+    },
+    {
+      "clave": "texto_e156353c0b",
+      "es": "No, ayúdame",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_322c9babcf",
+      "es": "No, pago la tarifa normal",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_fd0da4d32e",
+      "es": "No, que Grieta me hable",
+      "contextos": [
+        "demo/index.html · pantallas · #perfilLectorOpciones"
+      ]
+    },
+    {
+      "clave": "texto_59be721b79",
+      "es": "No: desde las {v1} lo normal sube {v2}",
+      "contextos": [
+        "demo/app.js:977 · pintarEspera"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "hora(inicioFranja(lista[peor.i].minuto))",
+          "formato": "hora"
+        },
+        "v2": {
+          "expresion": "pesos(peor.p - ahora)",
+          "formato": "importe"
+        }
+      }
+    },
+    {
+      "clave": "texto_562bb15757",
+      "es": "Nombre",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_a7248eeb45",
+      "es": "Normal",
+      "contextos": [
+        "demo/index.html · pantallas · #prisa"
+      ]
+    },
+    {
+      "clave": "texto_317b32c143",
+      "es": "normal",
+      "contextos": [
+        "demo/app.js:105 · inicio",
+        "demo/app.js:151 · inicio",
+        "demo/app.js:753 · mostrarAPie",
+        "demo/app.js:2397 · inicio",
+        "demo/app.js:2419 · frasePerfil",
+        "demo/app.js:2428 · resumenCortoPerfil",
+        "demo/app.js:2438 · pintarResumenPerfil",
+        "demo/app.js:2474 · actualizarFilasPerfil",
+        "demo/app.js:2521 · inicio",
+        "demo/app.js:2543 · abrirPerfil"
+      ]
+    },
+    {
+      "clave": "texto_15467b2056",
+      "es": "nov",
+      "contextos": [
+        "demo/app.js:7 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_863b4041b9",
+      "es": "Nuestro rango estimado es {v5}.{v6}{v7} {v8}",
+      "contextos": [
+        "demo/app.js:1200 · pintarVeredicto"
+      ],
+      "variables": {
+        "v5": {
+          "expresion": "rangoTexto(limitesPrecio(d.esperado))",
+          "formato": "rango"
+        },
+        "v6": {
+          "expresion": "alta"
+        },
+        "v7": {
+          "expresion": "porque"
+        },
+        "v8": {
+          "expresion": "d.accion === \"camion\" && extra < 1e8 ? `El camión tarda ${Math.round(extra)} min más, pero te ahorras la diferencia.` : \"\"",
+          "formato": "numero",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_4a31da43b9",
+      "es": "Obstáculo",
+      "contextos": [
+        "demo/index.html · pantallas · #tipoReporte"
+      ]
+    },
+    {
+      "clave": "texto_61e29d02ae",
+      "es": "Obstáculo en el camino",
+      "contextos": [
+        "demo/app.js:2168 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_65e10716f3",
+      "es": "oct",
+      "contextos": [
+        "demo/app.js:7 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_1b1c27c397",
+      "es": "Oscuro",
+      "contextos": [
+        "demo/index.html · pantallas · #optTema"
+      ]
+    },
+    {
+      "clave": "texto_fc6bb9bef6",
+      "es": "Otra cosa",
+      "contextos": [
+        "demo/index.html · pantallas · #tipoReporte"
+      ]
+    },
+    {
+      "clave": "texto_5ec64b369b",
+      "es": "Otra hora",
+      "contextos": [
+        "demo/app.js:714 · momentos"
+      ]
+    },
+    {
+      "clave": "texto_8801b9b9b8",
+      "es": "Otra opción",
+      "contextos": [
+        "demo/app.js:814 · elegirTarjetas",
+        "demo/app.js:821 · elegirTarjetas"
+      ]
+    },
+    {
+      "clave": "texto_f31da68425",
+      "es": "Otras paradas cerca",
+      "contextos": [
+        "demo/app.js:1396 · pintarCamiones · #tituloOtrasParadas"
+      ]
+    },
+    {
+      "clave": "texto_b63fd25449",
+      "es": "Otro nombre",
+      "contextos": [
+        "demo/index.html · pantallas · #nombresLugar"
+      ]
+    },
+    {
+      "clave": "texto_28225c0815",
+      "es": "Pagas tarifa normal",
+      "contextos": [
+        "demo/app.js:2423 · frasePerfil"
+      ]
+    },
+    {
+      "clave": "texto_0266ae56a6",
+      "es": "Pagas Tarifa Unidos",
+      "contextos": [
+        "demo/app.js:2423 · frasePerfil"
+      ]
+    },
+    {
+      "clave": "texto_e911c1d0b4",
+      "es": "Pago tarifa normal",
+      "contextos": [
+        "demo/index.html · pantallas · #perfilTarifa",
+        "demo/app.js:2470 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_ab1b6a1c76",
+      "es": "Pago Tarifa Unidos",
+      "contextos": [
+        "demo/index.html · pantallas · #filaUnidos",
+        "demo/app.js:2470 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_42878feb08",
+      "es": "Pago Tarifa Unidos ($2)",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_b1afb1e9ff",
+      "es": "Para avisarte durante el viaje.",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_98add9d174",
+      "es": "Para avisarte durante el viaje. Puedes apagar la voz aquí abajo, en \"Voz de Grieta\".",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_8276d44171",
+      "es": "Para saber desde dónde sales",
+      "contextos": [
+        "demo/index.html · pantallas · #permisoUbicacion"
+      ]
+    },
+    {
+      "clave": "texto_e431788e40",
+      "es": "Parada más cercana · a {v1} caminando",
+      "contextos": [
+        "demo/app.js:1332 · ponerCaminata"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "distanciaTexto(metros, true)"
+        }
+      }
+    },
+    {
+      "clave": "texto_27552fd99d",
+      "es": "Parada más cercana · {v1}",
+      "contextos": [
+        "demo/app.js:1385 · pintarCamiones · #distanciaParada"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "p.caminado ? `a ${distanciaTexto(p.caminado, true)} caminando` : `a ${distanciaTexto(p.m, true)} en línea recta`",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_4bf085056a",
+      "es": "Parada sin techo",
+      "contextos": [
+        "demo/index.html · pantallas · #tipoReporte",
+        "demo/app.js:2167 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_8be4cea8c5",
+      "es": "Parada {v1}",
+      "contextos": [
+        "demo/app.js:1399 · pintarCamiones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "p.nombre"
+        }
+      }
+    },
+    {
+      "clave": "texto_f30142a498",
+      "es": "Paradas cerca, y te aviso si reportaron que no tienen rampa.",
+      "contextos": [
+        "demo/app.js:2457 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_42fe5f9d82",
+      "es": "Paradas del recorrido",
+      "contextos": [
+        "demo/app.js:1565 · pintarGuia"
+      ]
+    },
+    {
+      "clave": "texto_2cbe285a6f",
+      "es": "Paradas más cerca",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_d3c2dca1df",
+      "es": "Paso 1 de 6",
+      "contextos": [
+        "demo/index.html · pantallas · aria-valuetext"
+      ]
+    },
+    {
+      "clave": "texto_cca3c37853",
+      "es": "PASO 1 DE 6",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_3c55715ba3",
+      "es": "PASO 2 DE 6",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_5b0b52c855",
+      "es": "PASO 3 DE 6",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_ec39bb152a",
+      "es": "PASO 4 DE 6",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_3e6141e513",
+      "es": "PASO 5 DE 6",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_64aef7fbd6",
+      "es": "PASO 6 DE 6",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_2ca6132ac8",
+      "es": "Paso {v1} de {v2}",
+      "contextos": [
+        "demo/app.js:2331 · irPaso"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "numero"
+        },
+        "v2": {
+          "expresion": "orden.length"
+        }
+      }
+    },
+    {
+      "clave": "texto_487d9a2685",
+      "es": "PASO {v1} DE {v2}",
+      "contextos": [
+        "demo/app.js:2332 · irPaso"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "numero"
+        },
+        "v2": {
+          "expresion": "orden.length"
+        }
+      }
+    },
+    {
+      "clave": "texto_c3a2faa146",
+      "es": "Pedir en app",
+      "contextos": [
+        "demo/app.js:1098 · pintarDetalle"
+      ]
+    },
+    {
+      "clave": "texto_25017383ee",
+      "es": "Pide {v1}",
+      "contextos": [
+        "demo/app.js:1073 · pasosDe"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "app"
+        }
+      }
+    },
+    {
+      "clave": "texto_7b33215b01",
+      "es": "Pide {v1} a tu destino",
+      "contextos": [
+        "demo/app.js:1090 · pasosDe"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "Grieta.nombreApp(p.app)"
+        }
+      }
+    },
+    {
+      "clave": "texto_ed488439c4",
+      "es": "Pide {v1} a {v2}",
+      "contextos": [
+        "demo/app.js:1619 · iniciarGuia"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "Grieta.nombreApp(inicio.app)"
+        },
+        "v2": {
+          "expresion": "inicio.parada"
+        }
+      }
+    },
+    {
+      "clave": "texto_5126c0b2de",
+      "es": "Pide {v1} hasta la parada",
+      "contextos": [
+        "demo/app.js:1089 · pasosDe"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "Grieta.nombreApp(p.app)"
+        }
+      }
+    },
+    {
+      "clave": "texto_f99fe8e4b1",
+      "es": "Pide {v1}, unos {v2}.",
+      "contextos": [
+        "demo/app.js:1025 · calcularSalida"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "escapar(tituloOpcion(app.o))"
+        },
+        "v2": {
+          "expresion": "pesos(app.o.costo)",
+          "formato": "importe"
+        }
+      }
+    },
+    {
+      "clave": "texto_2ceda0e863",
+      "es": "Pide {v1}, unos {v2}. Llegas a las {v3}.",
+      "contextos": [
+        "demo/app.js:1025 · calcularSalida"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "escapar(tituloOpcion(app.o))"
+        },
+        "v2": {
+          "expresion": "pesos(app.o.costo)",
+          "formato": "importe"
+        },
+        "v3": {
+          "expresion": "hora(app.t + app.o.minutos)",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_96f2f0811d",
+      "es": "pm",
+      "contextos": [
+        "demo/app.js:31 · hora"
+      ]
+    },
+    {
+      "clave": "texto_15fb280585",
+      "es": "Pocos botones, muy grandes, y Grieta te dice todo en voz alta.",
+      "contextos": [
+        "demo/app.js:2455 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_5918a62303",
+      "es": "Porque {v1}.",
+      "contextos": [
+        "demo/app.js:1208 · pintarVeredicto"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "escapar(d.activas.find((a) => a.accion === d.accion).texto)"
+        }
+      }
+    },
+    {
+      "clave": "texto_30e41d3ee2",
+      "es": "precio",
+      "contextos": [
+        "demo/app.js:726 · calcular",
+        "demo/app.js:950 · inicio",
+        "demo/app.js:1169 · inicio",
+        "demo/app.js:1171 · inicio",
+        "demo/app.js:1174 · verVeredicto",
+        "demo/app.js:1176 · inicio",
+        "demo/app.js:1177 · inicio",
+        "demo/app.js:1184 · pintarVeredicto",
+        "demo/app.js:2299 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_70eea8da01",
+      "es": "Precio en app según la hora de salida",
+      "contextos": [
+        "demo/index.html · pantallas · aria-label"
+      ]
+    },
+    {
+      "clave": "texto_6b7c883403",
+      "es": "Precio estimado",
+      "contextos": [
+        "demo/app.js:1147 · pintarApps"
+      ]
+    },
+    {
+      "clave": "texto_640c6aabdc",
+      "es": "Precio estimado a las {v1}",
+      "contextos": [
+        "demo/app.js:1141 · pintarApps"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "hora(r.ctx.minuto)",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_420f7b2536",
+      "es": "Precio estimado ahora",
+      "contextos": [
+        "demo/index.html · pantallas · #appEtiqueta",
+        "demo/app.js:1141 · pintarApps"
+      ]
+    },
+    {
+      "clave": "texto_fdfe32a937",
+      "es": "precio estimado {v1}",
+      "contextos": [
+        "demo/app.js:852 · precioOpcionVoz"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "rangoVoz(rango)",
+          "traducir": true,
+          "formato": "rango_voz"
+        }
+      }
+    },
+    {
+      "clave": "texto_ede486db3c",
+      "es": "Precio estimado {v1}.",
+      "contextos": [
+        "demo/app.js:1073 · pasosDe"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "rangoVoz(rangoOpcion(o))",
+          "traducir": true,
+          "formato": "rango_voz"
+        }
+      }
+    },
+    {
+      "clave": "texto_49dbefe893",
+      "es": "Precio estimado {v1}. Llegas a las {v2}.",
+      "contextos": [
+        "demo/app.js:1090 · pasosDe"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "rangoVoz(limitesPrecio(rangoTramo(o, p)))",
+          "traducir": true,
+          "formato": "rango_voz"
+        },
+        "v2": {
+          "expresion": "hora(llegada(o))",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_4da4f33fc6",
+      "es": "Precio estimado {v2}.",
+      "contextos": [
+        "demo/app.js:1089 · pasosDe"
+      ],
+      "variables": {
+        "v2": {
+          "expresion": "rangoVoz(limitesPrecio(rangoTramo(o, p)))",
+          "traducir": true,
+          "formato": "rango_voz"
+        }
+      }
+    },
+    {
+      "clave": "texto_59901b0ab2",
+      "es": "Precio que te marca",
+      "contextos": [
+        "demo/index.html · pantallas · #bloqueApp"
+      ]
+    },
+    {
+      "clave": "texto_d744242c64",
+      "es": "Precios, horarios, comparar y esperar",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_ed4ea5218c",
+      "es": "Precios, horarios, comparar y esperar.",
+      "contextos": [
+        "demo/app.js:2460 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_57de6e5255",
+      "es": "Preferencias de viaje",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloPreferencias"
+      ]
+    },
+    {
+      "clave": "texto_bfe1c0294a",
+      "es": "Prefieres {v1}",
+      "contextos": [
+        "demo/app.js:2433 · resumenCortoPerfil"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "NOMBRE_OTOMI"
+        }
+      }
+    },
+    {
+      "clave": "texto_a3f351ce05",
+      "es": "Preguntas frecuentes",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloPreguntas"
+      ]
+    },
+    {
+      "clave": "texto_d07d5e5beb",
+      "es": "Pregúntale al chofer si es la {v2} hacia {v3}.",
+      "contextos": [
+        "demo/app.js:1614 · iniciarGuia"
+      ],
+      "variables": {
+        "v2": {
+          "expresion": "c.linea"
+        },
+        "v3": {
+          "expresion": "c.hacia"
+        }
+      }
+    },
+    {
+      "clave": "texto_5d04865d84",
+      "es": "Prepárate para bajar.",
+      "contextos": [
+        "demo/app.js:75 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_acaff3c367",
+      "es": "Prepárate y toca el timbre.",
+      "contextos": [
+        "demo/app.js:1640 · programarAvisos"
+      ],
+      "variables": {}
+    },
+    {
+      "clave": "texto_f9cd26139d",
+      "es": "Prepárate.",
+      "contextos": [
+        "demo/app.js:1811 · avanzarCamion"
+      ],
+      "variables": {}
+    },
+    {
+      "clave": "texto_19b16b7e18",
+      "es": "Prepárate. Tu parada es {v1}.",
+      "contextos": [
+        "demo/app.js:1811 · avanzarCamion"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "final.nombre"
+        }
+      }
+    },
+    {
+      "clave": "texto_45e390c16c",
+      "es": "Primero necesito saber dónde estás.",
+      "contextos": [
+        "demo/app.js:1348 · abrirCamiones"
+      ]
+    },
+    {
+      "clave": "texto_a1954fdd3d",
+      "es": "Primero necesito saber dónde estás. Activa la ubicación o elige desde dónde sales en Inicio.",
+      "contextos": [
+        "demo/app.js:1348 · abrirCamiones"
+      ]
+    },
+    {
+      "clave": "texto_50e815f11e",
+      "es": "Progreso de bienvenida",
+      "contextos": [
+        "demo/index.html · pantallas · aria-label"
+      ]
+    },
+    {
+      "clave": "texto_20602e1fa5",
+      "es": "Prueba con la calle y la colonia, o elígelo en el mapa.",
+      "contextos": [
+        "demo/app.js:529 · sugerir"
+      ],
+      "variables": {}
+    },
+    {
+      "clave": "texto_48e8386721",
+      "es": "Prueba una hora más tarde.",
+      "contextos": [
+        "demo/app.js:1019 · calcularSalida"
+      ]
+    },
+    {
+      "clave": "texto_ddbd8d6444",
+      "es": "Próxima parada",
+      "contextos": [
+        "demo/app.js:1809 · avanzarCamion"
+      ]
+    },
+    {
+      "clave": "texto_4cd5c0ef15",
+      "es": "Próximos camiones",
+      "contextos": [
+        "demo/app.js:1385 · pintarCamiones"
+      ]
+    },
+    {
+      "clave": "texto_4444ec4125",
+      "es": "Puedes apagar la voz aquí abajo, en \"Voz de Grieta\".",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_14a927367d",
+      "es": "Puedes avisarle a {v1} que llegaste.",
+      "contextos": [
+        "demo/app.js:1782 · avanzarCamion"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "familiar.nombre"
+        }
+      }
+    },
+    {
+      "clave": "texto_7cf31587c8",
+      "es": "Punto en el mapa",
+      "contextos": [
+        "demo/app.js:584 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_6cd3b641cc",
+      "es": "PushManager",
+      "contextos": [
+        "demo/app.js:1630 · programarAvisos"
+      ]
+    },
+    {
+      "clave": "texto_2f93ddbc26",
+      "es": "Pídelo ya",
+      "contextos": [
+        "demo/app.js:8 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_649f6d2295",
+      "es": "Queda a {v1} por calles",
+      "contextos": [
+        "demo/app.js:754 · mostrarAPie"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "distanciaTexto(c.metros)"
+        }
+      }
+    },
+    {
+      "clave": "texto_a2a9ca8795",
+      "es": "Quiero lo esencial",
+      "contextos": [
+        "demo/app.js:2467 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_2f322ed874",
+      "es": "Quiero que Grieta me hable",
+      "contextos": [
+        "demo/app.js:2466 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_841576de67",
+      "es": "Quiero todas las opciones",
+      "contextos": [
+        "demo/app.js:2467 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_f039f4a8c9",
+      "es": "Quitar",
+      "contextos": [
+        "demo/app.js:2023 · pintarGuardados"
+      ]
+    },
+    {
+      "clave": "texto_6e6c878559",
+      "es": "Quitar {v4}",
+      "contextos": [
+        "demo/app.js:2023 · pintarGuardados · aria-label"
+      ],
+      "variables": {
+        "v4": {
+          "expresion": "escapar(g.nombre)"
+        }
+      }
+    },
+    {
+      "clave": "texto_df2375a7f3",
+      "es": "Quitaste {v1}",
+      "contextos": [
+        "demo/app.js:2019 · pintarGuardados"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "escapar(quitado.lugar.nombre)"
+        }
+      }
+    },
+    {
+      "clave": "texto_0f15d9ca89",
+      "es": "Recomendación",
+      "contextos": [
+        "demo/app.js:1200 · pintarVeredicto"
+      ]
+    },
+    {
+      "clave": "texto_5fa7218b75",
+      "es": "Recomendado",
+      "contextos": [
+        "demo/app.js:814 · elegirTarjetas",
+        "demo/app.js:891 · pintarOpciones",
+        "demo/app.js:1106 · pintarDetalle",
+        "demo/app.js:1107 · pintarDetalle"
+      ]
+    },
+    {
+      "clave": "texto_10ddff5fcc",
+      "es": "Referencia",
+      "contextos": [
+        "demo/app.js:2168 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_ec5e5afc6d",
+      "es": "Referencia para encontrar la parada",
+      "contextos": [
+        "demo/index.html · pantallas · #tipoReporte"
+      ]
+    },
+    {
+      "clave": "texto_b3e8a22f84",
+      "es": "Referencia: {referencia}.",
+      "contextos": [
+        "demo/app.js:83 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_393dce59ad",
+      "es": "Regresar",
+      "contextos": [
+        "demo/index.html · pantallas · aria-label",
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_91a7a94f21",
+      "es": "Repetir",
+      "contextos": [
+        "demo/index.html · pantallas · #vozRepetir",
+        "demo/index.html · pantallas · #repetir",
+        "demo/app.js:87 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_6e9e5f0a00",
+      "es": "Reportar",
+      "contextos": [
+        "demo/index.html · pantallas · #pestanas"
+      ]
+    },
+    {
+      "clave": "texto_9b3c1a25ae",
+      "es": "Reportar algo aquí",
+      "contextos": [
+        "demo/app.js:1425 · pintarCamiones · #reportarParada"
+      ]
+    },
+    {
+      "clave": "texto_d809ed9677",
+      "es": "Respuestas sobre Grieta",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_31056106ce",
+      "es": "Resultados",
+      "contextos": [
+        "demo/app.js:486 · sugerir"
+      ]
+    },
+    {
+      "clave": "texto_8ed7e61f70",
+      "es": "Resultados cerca de ti",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloResultados"
+      ]
+    },
+    {
+      "clave": "texto_5122b13e84",
+      "es": "Revisa otra app antes de pedir.",
+      "contextos": [
+        "demo/app.js:1195 · pintarVeredicto"
+      ]
+    },
+    {
+      "clave": "texto_1dda1673c8",
+      "es": "Revisa tu internet e intenta otra vez.",
+      "contextos": [
+        "demo/app.js:2285 · inicio",
+        "demo/app.js:2307 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_8d416a5611",
+      "es": "Rumbo a {v1}",
+      "contextos": [
+        "demo/app.js:1841 · iniciarDestino"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "estado.destino.nombre"
+        }
+      }
+    },
+    {
+      "clave": "texto_11f7e34808",
+      "es": "Ruta recomendada",
+      "contextos": [
+        "demo/app.js:1107 · pintarDetalle"
+      ]
+    },
+    {
+      "clave": "texto_1f6fdbad02",
+      "es": "Ruta {v1}",
+      "contextos": [
+        "demo/app.js:2652 · inicio"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "c.linea"
+        }
+      }
+    },
+    {
+      "clave": "texto_d871e68675",
+      "es": "Sal a las {v2}",
+      "contextos": [
+        "demo/app.js:1020 · bloque"
+      ],
+      "variables": {
+        "v2": {
+          "expresion": "hora(x.t)",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_0b20663d3c",
+      "es": "Salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse unos minutos.",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_7ee6079686",
+      "es": "Saliendo {v1}",
+      "contextos": [
+        "demo/app.js:867 · pintarOpciones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "cuando"
+        }
+      }
+    },
+    {
+      "clave": "texto_ecebe9dfe1",
+      "es": "Saltar",
+      "contextos": [
+        "demo/index.html · pantallas · #saltarBienvenida"
+      ]
+    },
+    {
+      "clave": "texto_cc95f9dbfd",
+      "es": "Saltar estas preguntas",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_f59753eb80",
+      "es": "SCRIPT",
+      "contextos": [
+        "demo/app.js:2644 · tarjetaChofer"
+      ]
+    },
+    {
+      "clave": "texto_4652aad627",
+      "es": "Se guarda solo en este teléfono.",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_a4d12fc291",
+      "es": "Se guardó tu reporte, pero no se pudo subir la foto.",
+      "contextos": [
+        "demo/app.js:2273 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_5d602a258c",
+      "es": "Se lo diré a quien espere aquí.",
+      "contextos": [
+        "demo/app.js:1663 · avisarParada"
+      ]
+    },
+    {
+      "clave": "texto_0bbc7f1e92",
+      "es": "Secciones",
+      "contextos": [
+        "demo/index.html · pantallas · aria-label"
+      ]
+    },
+    {
+      "clave": "texto_ff6a1b5a82",
+      "es": "según el horario pasa a las {hora}",
+      "contextos": [
+        "demo/app.js:64 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_5d3929bdad",
+      "es": "Según el horario pasa a las {v1}.",
+      "contextos": [
+        "demo/app.js:1614 · iniciarGuia"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "hora(c.sale)",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_3b59e04c07",
+      "es": "Según el horario pasa a las {v1}. Pregúntale al chofer si es la {v2} hacia {v3}.",
+      "contextos": [
+        "demo/app.js:1614 · iniciarGuia"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "hora(c.sale)",
+          "formato": "hora"
+        },
+        "v2": {
+          "expresion": "c.linea"
+        },
+        "v3": {
+          "expresion": "c.hacia"
+        }
+      }
+    },
+    {
+      "clave": "texto_7ebf71d89b",
+      "es": "Según el horario, a las {v1}.",
+      "contextos": [
+        "demo/app.js:1615 · iniciarGuia"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "hora(c.sale)",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_bce78e65c6",
+      "es": "Según el horario, a las {v1}. Ve a la parada.",
+      "contextos": [
+        "demo/app.js:1638 · programarAvisos"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "hora(c.sale)",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_0c859810ab",
+      "es": "Según el horario, la siguiente pasa a las {hora}.",
+      "contextos": [
+        "demo/app.js:70 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_e0ac58bcc3",
+      "es": "Según el horario, la siguiente {v1} pasa a las {v2}.",
+      "contextos": [
+        "demo/app.js:1662 · avisarParada"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "c.linea"
+        },
+        "v2": {
+          "expresion": "hora(sig)",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_c19588ee9c",
+      "es": "sep",
+      "contextos": [
+        "demo/app.js:7 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_f18e2d8a06",
+      "es": "Si la app te marca otro, compáralo en \"¿La app ya te dio precio?\".",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_b63bf503d7",
+      "es": "Si lo pierdes, {v6} se estima en {v7}.{v8}",
+      "contextos": [
+        "demo/app.js:909 · pintarOpciones"
+      ],
+      "variables": {
+        "v6": {
+          "expresion": "Grieta.nombreApp(app.app)"
+        },
+        "v7": {
+          "expresion": "rangoTexto(limitesPrecio(app))",
+          "formato": "rango"
+        },
+        "v8": {
+          "expresion": "avisoVigencia()"
+        }
+      }
+    },
+    {
+      "clave": "texto_fc451774c1",
+      "es": "Si puedes, espera la siguiente.",
+      "contextos": [
+        "demo/app.js:69 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_4cd92a6e7c",
+      "es": "Si te sientes bien para ir a pie, no cuesta nada",
+      "contextos": [
+        "demo/app.js:755 · mostrarAPie"
+      ]
+    },
+    {
+      "clave": "texto_5e38b2ed89",
+      "es": "Silla de ruedas o andadera",
+      "contextos": [
+        "demo/index.html · pantallas · #perfilMovilidad"
+      ]
+    },
+    {
+      "clave": "texto_569af249b2",
+      "es": "sin api",
+      "contextos": [
+        "demo/app.js:2161 · llamar",
+        "demo/app.js:2284 · inicio",
+        "demo/app.js:2306 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_c59af363a3",
+      "es": "sin conexion",
+      "contextos": [
+        "demo/app.js:2162 · llamar",
+        "demo/app.js:2284 · inicio",
+        "demo/app.js:2306 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_a8d71d210b",
+      "es": "Sin internet: puedes ver qué camión pasa y tus lugares guardados; para buscar calles hace falta conexión.",
+      "contextos": [
+        "demo/app.js:2598 · avisoConexion"
+      ]
+    },
+    {
+      "clave": "texto_c4dc040a07",
+      "es": "Sin nombre",
+      "contextos": [
+        "demo/app.js:511 · sugerir"
+      ]
+    },
+    {
+      "clave": "texto_4cac929693",
+      "es": "Sin pantalla",
+      "contextos": [
+        "demo/index.html · pantallas · #optDensidad",
+        "demo/app.js:2430 · resumenCortoPerfil"
+      ]
+    },
+    {
+      "clave": "texto_8d5c6d561e",
+      "es": "Sin prisa",
+      "contextos": [
+        "demo/index.html · pantallas · #prisa"
+      ]
+    },
+    {
+      "clave": "texto_b900515afb",
+      "es": "Sin ubicación",
+      "contextos": [
+        "demo/app.js:1573 · seguir",
+        "demo/app.js:1590 · seguir"
+      ]
+    },
+    {
+      "clave": "texto_1e07105ac8",
+      "es": "Sin ubicación: elige desde dónde sales",
+      "contextos": [
+        "demo/app.js:434 · sinUbicacion"
+      ]
+    },
+    {
+      "clave": "texto_b098b66891",
+      "es": "Sirve para calcular cuánto te cuesta el camión.",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_3db2135cc9",
+      "es": "Sirve para elegir cómo avisarte durante el viaje.",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_bc59cd4c49",
+      "es": "Sirve para encontrar paradas a tu medida.",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_484c0b841d",
+      "es": "Sirve para encontrar paradas y guiarte.",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_a35e660764",
+      "es": "Solo aparece si elegiste “No veo”.",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_a6e2e3f901",
+      "es": "Solo app (",
+      "contextos": [
+        "demo/app.js:785 · tituloOpcion"
+      ]
+    },
+    {
+      "clave": "texto_4a141ad686",
+      "es": "Solo lo esencial, con botones grandes",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_9a125fc03c",
+      "es": "Solo lo esencial, con botones grandes.",
+      "contextos": [
+        "demo/app.js:2460 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_12b2152a34",
+      "es": "Solo paradas a menos de 300 metros",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_05c1eb634f",
+      "es": "Son los precios normales a esa hora.",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_92bd867fbc",
+      "es": "Son los precios normales a esa hora. Si la app te marca otro, compáralo en \"¿La app ya te dio precio?\".",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_6f6fd8bd74",
+      "es": "Son precios normales según nuestros registros, no lo que marca la app en este momento.",
+      "contextos": [
+        "demo/app.js:991 · pintarEspera"
+      ]
+    },
+    {
+      "clave": "texto_b227f7ff9c",
+      "es": "Son {v1} caminando, unos {v2} minutos.",
+      "contextos": [
+        "demo/app.js:1746 · medirCaminata"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "distanciaTexto(c.metros)"
+        },
+        "v2": {
+          "expresion": "minutosCaminando(c.metros)"
+        }
+      }
+    },
+    {
+      "clave": "texto_681edf43cd",
+      "es": "Subes a la {v1}",
+      "contextos": [
+        "demo/app.js:1276 · dibujar"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "lineas[k] ?? \"\"",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_f7a8575b1a",
+      "es": "Sábado",
+      "contextos": [
+        "demo/index.html · pantallas · #dia"
+      ]
+    },
+    {
+      "clave": "texto_04bc66d1db",
+      "es": "sábado",
+      "contextos": [
+        "demo/app.js:6 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_7392158895",
+      "es": "Sí",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_c1aefb541e",
+      "es": "Sí, escucho bien",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida",
+        "demo/index.html · pantallas · #perfilOido"
+      ]
+    },
+    {
+      "clave": "texto_8e0b77b894",
+      "es": "Sí, pago $2",
+      "contextos": [
+        "demo/index.html · pantallas · #perfilTarifa"
+      ]
+    },
+    {
+      "clave": "texto_e4d0f7ec71",
+      "es": "Sí, usar mi ubicación",
+      "contextos": [
+        "demo/index.html · pantallas · aria-label",
+        "demo/index.html · pantallas · #permisoUbicacion"
+      ]
+    },
+    {
+      "clave": "texto_2704ebb380",
+      "es": "Sí, uso VoiceOver o TalkBack",
+      "contextos": [
+        "demo/index.html · pantallas · #perfilLectorOpciones"
+      ]
+    },
+    {
+      "clave": "texto_61be17666f",
+      "es": "Sí, ya uso uno",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_7bdf2a03eb",
+      "es": "Sí: desde las {v1} lo normal baja {v2}",
+      "contextos": [
+        "demo/app.js:976 · pintarEspera"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "hora(inicioFranja(lista[mejor.i].minuto))",
+          "formato": "hora"
+        },
+        "v2": {
+          "expresion": "pesos(ahora - mejor.p)",
+          "formato": "importe"
+        }
+      }
+    },
+    {
+      "clave": "texto_4a6cc7bc09",
+      "es": "También a las {v1}",
+      "contextos": [
+        "demo/app.js:1380 · filas"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "hora(l.horas[1])",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_82c2d641d0",
+      "es": "tarifa",
+      "contextos": [
+        "demo/app.js:2321 · ordenPasos",
+        "demo/app.js:2408 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_8713a0e05f",
+      "es": "Tarifa normal",
+      "contextos": [
+        "demo/app.js:2432 · resumenCortoPerfil"
+      ]
+    },
+    {
+      "clave": "texto_892c4d0438",
+      "es": "Tarifa Unidos",
+      "contextos": [
+        "demo/app.js:2432 · resumenCortoPerfil"
+      ]
+    },
+    {
+      "clave": "texto_58efbac1cf",
+      "es": "Te aviso a un kilómetro, a 300 metros y al llegar.",
+      "contextos": [
+        "demo/app.js:1841 · iniciarDestino"
+      ]
+    },
+    {
+      "clave": "texto_18307ac493",
+      "es": "Te aviso antes de bajar.",
+      "contextos": [
+        "demo/app.js:1620 · iniciarGuia"
+      ]
+    },
+    {
+      "clave": "texto_9d4166c128",
+      "es": "Te aviso antes.",
+      "contextos": [
+        "demo/app.js:1091 · pasosDe"
+      ],
+      "variables": {}
+    },
+    {
+      "clave": "texto_0e4839a595",
+      "es": "Te aviso cuando esté por pasar.",
+      "contextos": [
+        "demo/app.js:65 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_f48ccce1c8",
+      "es": "Te aviso cuando llegue.",
+      "contextos": [
+        "demo/app.js:1711 · inicio"
+      ],
+      "variables": {}
+    },
+    {
+      "clave": "texto_9a5bd3f8e7",
+      "es": "Te aviso dos paradas antes de bajar.",
+      "contextos": [
+        "demo/app.js:1829 · subir"
+      ],
+      "variables": {}
+    },
+    {
+      "clave": "texto_54da007a8c",
+      "es": "Te aviso si una parada no tiene rampa",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_f273ac3e43",
+      "es": "Te busco la parada que más te convenga.",
+      "contextos": [
+        "demo/app.js:2457 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_c5aae5312c",
+      "es": "Te busco paradas más cerca.",
+      "contextos": [
+        "demo/app.js:2457 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_ceda8aa442",
+      "es": "te cuesta caminar",
+      "contextos": [
+        "demo/app.js:2419 · frasePerfil"
+      ]
+    },
+    {
+      "clave": "texto_fd5f26a892",
+      "es": "te cuesta escuchar",
+      "contextos": [
+        "demo/app.js:2420 · frasePerfil"
+      ]
+    },
+    {
+      "clave": "texto_090f3f7017",
+      "es": "Te escucho",
+      "contextos": [
+        "demo/app.js:1503 · dictar"
+      ]
+    },
+    {
+      "clave": "texto_9d8ee4599d",
+      "es": "Te escucho.",
+      "contextos": [
+        "demo/app.js:1470 · dictar"
+      ]
+    },
+    {
+      "clave": "texto_59989d219f",
+      "es": "Te escucho. Di a dónde vas.",
+      "contextos": [
+        "demo/app.js:1470 · dictar"
+      ]
+    },
+    {
+      "clave": "texto_ea7f8b9276",
+      "es": "Te llevo a {v1}: en la tienda toca Abrir y",
+      "contextos": [
+        "demo/app.js:1241 · abrirApp"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "Grieta.nombreApp(app)"
+        }
+      }
+    },
+    {
+      "clave": "texto_37b945da29",
+      "es": "Teléfono a 10 dígitos",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_bd40d271ec",
+      "es": "Tengo prisa",
+      "contextos": [
+        "demo/index.html · pantallas · #prisa"
+      ]
+    },
+    {
+      "clave": "texto_56d2f9b357",
+      "es": "Tengo que llegar a las",
+      "contextos": [
+        "demo/index.html · pantallas · #llegar"
+      ]
+    },
+    {
+      "clave": "texto_0eba8ec06b",
+      "es": "Terminar viaje",
+      "contextos": [
+        "demo/index.html · pantallas · #terminar",
+        "demo/app.js:88 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_46cfefb7bb",
+      "es": "Toca el botón otra vez y habla después del tono.",
+      "contextos": [
+        "demo/app.js:60 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_d6b99be895",
+      "es": "Toca el timbre ahora.",
+      "contextos": [
+        "demo/app.js:1809 · avanzarCamion"
+      ],
+      "variables": {}
+    },
+    {
+      "clave": "texto_2e46094e30",
+      "es": "Toca el timbre ahora. Bajas en {v1}.",
+      "contextos": [
+        "demo/app.js:1809 · avanzarCamion"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "final.nombre"
+        }
+      }
+    },
+    {
+      "clave": "texto_14745c354f",
+      "es": "Toca otra vez para confirmar.",
+      "contextos": [
+        "demo/app.js:85 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_5721b4cc13",
+      "es": "Toca otra vez para terminar",
+      "contextos": [
+        "demo/app.js:1866 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_3deb8760d6",
+      "es": "Toca para cambiarla",
+      "contextos": [
+        "demo/app.js:2249 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_b0d14a60aa",
+      "es": "Toca para ver cómo llegar",
+      "contextos": [
+        "demo/index.html · pantallas · #rutina"
+      ]
+    },
+    {
+      "clave": "texto_791e40e84a",
+      "es": "Tocas el punto y yo busco la calle",
+      "contextos": [
+        "demo/app.js:534 · filaMapa"
+      ]
+    },
+    {
+      "clave": "texto_f3df7e52cc",
+      "es": "Todavía no sé dónde estás.",
+      "contextos": [
+        "demo/app.js:2254 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_e55207b784",
+      "es": "Todavía no sé dónde estás. Activa la ubicación.",
+      "contextos": [
+        "demo/app.js:2254 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_e5f0112bf4",
+      "es": "Toma la línea {v1} a las {v2}",
+      "contextos": [
+        "demo/app.js:1091 · pasosDe"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "p.linea"
+        },
+        "v2": {
+          "expresion": "hora(p.sale)",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_e1ddc0cbc9",
+      "es": "Trabajo",
+      "contextos": [
+        "demo/index.html · pantallas · #nombresLugar"
+      ]
+    },
+    {
+      "clave": "texto_18fffd3399",
+      "es": "Transbordo",
+      "contextos": [
+        "demo/app.js:1798 · avanzarCamion"
+      ]
+    },
+    {
+      "clave": "texto_35fcb4be5e",
+      "es": "Tu forma de viajar",
+      "contextos": [
+        "demo/index.html · pantallas · #perfil"
+      ]
+    },
+    {
+      "clave": "texto_6e4584b30b",
+      "es": "Tu navegador no comparte la ubicación.",
+      "contextos": [
+        "demo/app.js:418 · ubicar",
+        "demo/app.js:1433 · dondeEstoy",
+        "demo/app.js:1573 · seguir"
+      ]
+    },
+    {
+      "clave": "texto_aa5b29a5cb",
+      "es": "Tu parada",
+      "contextos": [
+        "demo/app.js:1806 · avanzarCamion"
+      ]
+    },
+    {
+      "clave": "texto_3490d28967",
+      "es": "Tu parada es {v1}.",
+      "contextos": [
+        "demo/app.js:1811 · avanzarCamion"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "final.nombre"
+        }
+      }
+    },
+    {
+      "clave": "texto_655bb0878d",
+      "es": "Tu perfil de viaje",
+      "contextos": [
+        "demo/index.html · pantallas · aria-label",
+        "demo/index.html · pantallas · #resumenPerfil",
+        "demo/app.js:179 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_3a9a3dfa74",
+      "es": "Tu perfil, 1 de 3.",
+      "contextos": [
+        "demo/app.js:2316 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_5217a58076",
+      "es": "Tu perfil, 1 de 3. ¿Cómo te mueves? Arriba, camino sin problema. En medio, me cuesta caminar. Abajo, uso silla de ruedas o andadera. Al final puedes saltar estas preguntas.",
+      "contextos": [
+        "demo/app.js:2316 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_2979208c8c",
+      "es": "Tu reporte ayuda a quien pase por aquí.",
+      "contextos": [
+        "demo/app.js:2273 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_ffb94f626e",
+      "es": "Tu ubicación",
+      "contextos": [
+        "demo/app.js:385 · esGps",
+        "demo/app.js:422 · ubicar"
+      ]
+    },
+    {
+      "clave": "texto_c4a48e25fe",
+      "es": "tu ubicación",
+      "contextos": [
+        "demo/app.js:398 · poner"
+      ]
+    },
+    {
+      "clave": "texto_a4f173d79d",
+      "es": "Tus lugares",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloLugares"
+      ]
+    },
+    {
+      "clave": "texto_92cafffcf9",
+      "es": "Tus viajes recientes",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloViajes"
+      ]
+    },
+    {
+      "clave": "texto_dbf6df3a31",
+      "es": "UAQ",
+      "contextos": [
+        "demo/app.js:258 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_3cfbdbc3ba",
+      "es": "Uber",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_cebbec153a",
+      "es": "Unos {v1} minutos, contando la espera.",
+      "contextos": [
+        "demo/app.js:1074 · pasosDe"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "Math.round(o.minutos)",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_e52711dfe4",
+      "es": "Usar este punto: {v1}",
+      "contextos": [
+        "demo/app.js:596 · inicio"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "lugar.nombre"
+        }
+      }
+    },
+    {
+      "clave": "texto_1276ef1ab0",
+      "es": "Usas lector de pantalla",
+      "contextos": [
+        "demo/app.js:2433 · resumenCortoPerfil"
+      ]
+    },
+    {
+      "clave": "texto_a5d39f8aee",
+      "es": "Usas silla de ruedas",
+      "contextos": [
+        "demo/app.js:2429 · resumenCortoPerfil"
+      ]
+    },
+    {
+      "clave": "texto_ac2b76ac0e",
+      "es": "usas silla de ruedas o andadera",
+      "contextos": [
+        "demo/app.js:2419 · frasePerfil"
+      ]
+    },
+    {
+      "clave": "texto_06207b7223",
+      "es": "Uso lector de pantalla",
+      "contextos": [
+        "demo/app.js:2466 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_4311b0ea62",
+      "es": "Uso silla de ruedas o andadera",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida",
+        "demo/app.js:2468 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_6fb8d4c85a",
+      "es": "Vamos a casa.",
+      "contextos": [
+        "demo/app.js:57 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_6b46fe5d5c",
+      "es": "Vamos a {lugar}.",
+      "contextos": [
+        "demo/app.js:56 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_ab1b5a3712",
+      "es": "Vas a {v1}.",
+      "contextos": [
+        "demo/app.js:410 · poner"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "lugar.nombre"
+        }
+      }
+    },
+    {
+      "clave": "texto_d0e677a6ed",
+      "es": "Vas a {v1}. ¿Desde dónde sales?",
+      "contextos": [
+        "demo/app.js:410 · poner"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "lugar.nombre"
+        }
+      }
+    },
+    {
+      "clave": "texto_3aaa71abc5",
+      "es": "Vas en la {v1}.",
+      "contextos": [
+        "demo/app.js:1829 · subir"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "guia.camion.linea"
+        }
+      }
+    },
+    {
+      "clave": "texto_1fb55c80f7",
+      "es": "Vas en la {v1}. Te aviso dos paradas antes de bajar.",
+      "contextos": [
+        "demo/app.js:1829 · subir"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "guia.camion.linea"
+        }
+      }
+    },
+    {
+      "clave": "texto_5d3dcaaf8b",
+      "es": "Vas por {v1}.",
+      "contextos": [
+        "demo/app.js:1815 · avanzarCamion",
+        "demo/app.js:1817 · avanzarCamion"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "r[guia.actual].nombre"
+        }
+      }
+    },
+    {
+      "clave": "texto_027e7e3d87",
+      "es": "Ve a la parada.",
+      "contextos": [
+        "demo/app.js:1638 · programarAvisos"
+      ],
+      "variables": {}
+    },
+    {
+      "clave": "texto_035d663bdb",
+      "es": "Veo bien",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida",
+        "demo/index.html · pantallas · #perfilVista",
+        "demo/app.js:2465 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_2c7a10948f",
+      "es": "Veo poco",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida",
+        "demo/index.html · pantallas · #perfilVista",
+        "demo/app.js:2465 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_36567722e9",
+      "es": "Ver esta ruta",
+      "contextos": [
+        "demo/app.js:1020 · bloque"
+      ]
+    },
+    {
+      "clave": "texto_a0acf351ad",
+      "es": "Ves bien",
+      "contextos": [
+        "demo/app.js:2418 · frasePerfil",
+        "demo/app.js:2427 · resumenCortoPerfil"
+      ]
+    },
+    {
+      "clave": "texto_8bf6e9882e",
+      "es": "Ves cuánto cuesta en Uber, DiDi e inDrive y cómo llegar en Qrobus.",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_21f61da7bb",
+      "es": "Ves poco",
+      "contextos": [
+        "demo/app.js:2418 · frasePerfil",
+        "demo/app.js:2427 · resumenCortoPerfil"
+      ]
+    },
+    {
+      "clave": "texto_1517e28584",
+      "es": "Vete en camión",
+      "contextos": [
+        "demo/app.js:8 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_12bba03fb9",
+      "es": "Viene lleno",
+      "contextos": [
+        "demo/index.html · pantallas · #vieneLleno",
+        "demo/app.js:68 · inicio",
+        "demo/app.js:1407 · pintarCamiones"
+      ]
+    },
+    {
+      "clave": "texto_7e9a9f126f",
+      "es": "Viernes",
+      "contextos": [
+        "demo/index.html · pantallas · #dia"
+      ]
+    },
+    {
+      "clave": "texto_5b456b3ff1",
+      "es": "viernes",
+      "contextos": [
+        "demo/app.js:6 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_85174b79d1",
+      "es": "VoiceOver o TalkBack",
+      "contextos": [
+        "demo/index.html · pantallas · #bienvenida"
+      ]
+    },
+    {
+      "clave": "texto_3ca6c6397d",
+      "es": "Voy a {v1}.",
+      "contextos": [
+        "demo/app.js:2654 · inicio"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "cruce(destino)"
+        }
+      }
+    },
+    {
+      "clave": "texto_e5563a3682",
+      "es": "Voy a {v1}{v2}.",
+      "contextos": [
+        "demo/app.js:1880 · enviar"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "estado.destino?.nombre ?? \"mi destino\""
+        },
+        "v2": {
+          "expresion": "linea"
+        }
+      }
+    },
+    {
+      "clave": "texto_fb8153345e",
+      "es": "Voy a {v1}{v2}. Mi ubicación ahorita:",
+      "contextos": [
+        "demo/app.js:1880 · enviar"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "estado.destino?.nombre ?? \"mi destino\""
+        },
+        "v2": {
+          "expresion": "linea"
+        }
+      }
+    },
+    {
+      "clave": "texto_c9566ca43b",
+      "es": "Voz",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloVoz"
+      ]
+    },
+    {
+      "clave": "texto_85753516e8",
+      "es": "Voz de Grieta",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_1dc149d56e",
+      "es": "Voz más lenta",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_a1fce43638",
+      "es": "y",
+      "contextos": [
+        "demo/app.js:258 · inicio",
+        "demo/app.js:892 · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_0524be6c8f",
+      "es": "y prefieres lo esencial",
+      "contextos": [
+        "demo/app.js:2421 · frasePerfil"
+      ]
+    },
+    {
+      "clave": "texto_48a9b8111f",
+      "es": "y prefieres todas las opciones",
+      "contextos": [
+        "demo/app.js:2421 · frasePerfil"
+      ]
+    },
+    {
+      "clave": "texto_c9a93de68b",
+      "es": "y quieres que Grieta te hable",
+      "contextos": [
+        "demo/app.js:2422 · frasePerfil"
+      ]
+    },
+    {
+      "clave": "texto_b2c89d7fe3",
+      "es": "y usas lector de pantalla",
+      "contextos": [
+        "demo/app.js:2422 · frasePerfil"
+      ]
+    },
+    {
+      "clave": "texto_f04de2e262",
+      "es": "Ya casi",
+      "contextos": [
+        "demo/app.js:66 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_c5b0be76e1",
+      "es": "Ya casi llegas",
+      "contextos": [
+        "demo/app.js:80 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_e35e4f6a37",
+      "es": "Ya llegué a {v1}.",
+      "contextos": [
+        "demo/app.js:1710 · inicio"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "destino"
+        }
+      }
+    },
+    {
+      "clave": "texto_ea6f94e5c8",
+      "es": "Ya me subí",
+      "contextos": [
+        "demo/index.html · pantallas · #yaMeSubi",
+        "demo/app.js:71 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_571d4d1cb1",
+      "es": "Ya me subí a la {linea}",
+      "contextos": [
+        "demo/app.js:72 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_8784b982b6",
+      "es": "Ya no te voy a avisar cuándo bajarte.",
+      "contextos": [
+        "demo/app.js:85 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_8b8e37fcbe",
+      "es": "Ya pasó",
+      "contextos": [
+        "demo/index.html · pantallas · #yaPaso",
+        "demo/app.js:67 · inicio",
+        "demo/app.js:1407 · pintarCamiones"
+      ]
+    },
+    {
+      "clave": "texto_db0bc41a0a",
+      "es": "ya salí",
+      "contextos": [
+        "demo/app.js:1704 · pintarFamiliar"
+      ]
+    },
+    {
+      "clave": "texto_c28b91e4fc",
+      "es": "Ya voy en camino a {v1}{v2}{v3}.",
+      "contextos": [
+        "demo/app.js:1711 · inicio"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "destino"
+        },
+        "v2": {
+          "expresion": "c ? ` en la ${c.linea}` : \"\"",
+          "traducir": true
+        },
+        "v3": {
+          "expresion": "c ? `. Llego como a las ${hora(guia.tramos?.at(-1)?.llega ?? c.llega)}` : \"\"",
+          "formato": "hora",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_678eb7251d",
+      "es": "Ya voy en camino a {v1}{v2}{v3}. Te aviso cuando llegue.",
+      "contextos": [
+        "demo/app.js:1711 · inicio"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "destino"
+        },
+        "v2": {
+          "expresion": "c ? ` en la ${c.linea}` : \"\"",
+          "traducir": true
+        },
+        "v3": {
+          "expresion": "c ? `. Llego como a las ${hora(guia.tramos?.at(-1)?.llega ?? c.llega)}` : \"\"",
+          "formato": "hora",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_1d917cf0ae",
+      "es": "{etiquetas}. {ruta}. Llegas {hora}. {minutos} min. caminas {caminar} min. {precio}. {ahorro}",
+      "contextos": [
+        "demo/app.js · composición de opciones"
+      ],
+      "selector": "#tarjetas .tarjeta",
+      "variables": {
+        "etiquetas": {
+          "traducir": true
+        },
+        "hora": {
+          "formato": "hora"
+        },
+        "minutos": {
+          "formato": "numero"
+        },
+        "caminar": {
+          "formato": "numero"
+        },
+        "precio": {
+          "formato": "precio_voz",
+          "traducir": true
+        },
+        "ahorro": {
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_68799098ea",
+      "es": "{etiquetas}. {ruta}. Llegas {hora}. {minutos} min. {precio}. {ahorro}",
+      "contextos": [
+        "demo/app.js · composición de opciones"
+      ],
+      "selector": "#tarjetas .tarjeta",
+      "variables": {
+        "etiquetas": {
+          "traducir": true
+        },
+        "hora": {
+          "formato": "hora"
+        },
+        "minutos": {
+          "formato": "numero"
+        },
+        "caminar": {
+          "formato": "numero"
+        },
+        "precio": {
+          "formato": "precio_voz",
+          "traducir": true
+        },
+        "ahorro": {
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_09c5889de6",
+      "es": "{numero} pesos",
+      "contextos": [
+        "demo/app.js · composición de opciones"
+      ],
+      "variables": {
+        "numero": {
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_6502ecd398",
+      "es": "{v1} a las {v2}",
+      "contextos": [
+        "demo/app.js:866 · pintarOpciones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "r.ctx.dia === hoyDia() ? \"hoy\" : `el ${DIAS[r.ctx.dia]}`",
+          "traducir": true
+        },
+        "v2": {
+          "expresion": "hora(r.ctx.minuto)",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_a60ec8fcd4",
+      "es": "{v1} de ahorro estimado",
+      "contextos": [
+        "demo/app.js:1966 · pintarAhorro"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "pesos(total)",
+          "formato": "importe"
+        }
+      }
+    },
+    {
+      "clave": "texto_eacf3ce6fa",
+      "es": "{v1} de {v2} paradas recorridas en la línea {v3}",
+      "contextos": [
+        "demo/app.js:1564 · pintarGuia"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "actual"
+        },
+        "v2": {
+          "expresion": "n",
+          "formato": "numero"
+        },
+        "v3": {
+          "expresion": "c.linea"
+        }
+      }
+    },
+    {
+      "clave": "texto_a89438cef8",
+      "es": "{v1} min",
+      "contextos": [
+        "demo/app.js:884 · pintarOpciones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "Math.round(o.minutos)",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_0187d7c07a",
+      "es": "{v1} min · {v2}",
+      "contextos": [
+        "demo/app.js:1108 · pintarDetalle"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "Math.round(o.minutos)",
+          "formato": "numero"
+        },
+        "v2": {
+          "expresion": "precioOpcionTexto(o)",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_34a61209aa",
+      "es": "{v1} por calles, sin costo",
+      "contextos": [
+        "demo/app.js:755 · mostrarAPie"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "distanciaTexto(c.metros, true)"
+        }
+      }
+    },
+    {
+      "clave": "texto_0772349511",
+      "es": "{v1}, avisó alguien hace {v2} min",
+      "contextos": [
+        "demo/app.js:1407 · pintarCamiones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "a.tipo === \"paso\" ? \"Ya pasó\" : \"Viene lleno\"",
+          "traducir": true
+        },
+        "v2": {
+          "expresion": "a.minutos || \"menos de 1\""
+        }
+      }
+    },
+    {
+      "clave": "texto_80d6285142",
+      "es": "{v1}. Precio estimado {v2}.",
+      "contextos": [
+        "demo/app.js:1089 · pasosDe"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "p.parada"
+        },
+        "v2": {
+          "expresion": "rangoVoz(limitesPrecio(rangoTramo(o, p)))",
+          "traducir": true,
+          "formato": "rango_voz"
+        }
+      }
+    },
+    {
+      "clave": "texto_52c51dfa5f",
+      "es": "{v1}Efecto",
+      "contextos": [
+        "demo/app.js:2463 · efecto"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "grupo"
+        }
+      }
+    },
+    {
+      "clave": "texto_5271135605",
+      "es": "{v1}Llegas {v2} · {v3} min estimados",
+      "contextos": [
+        "demo/app.js:880 · pintarOpciones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "etiquetasApp.length ? etiquetasApp.join(\" · \") + \" · \" : \"\"",
+          "traducir": true
+        },
+        "v2": {
+          "expresion": "hora(llegada(enApp))",
+          "formato": "hora"
+        },
+        "v3": {
+          "expresion": "Math.round(enApp.minutos)",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_7a6e4e3a8c",
+      "es": "{v2}Ir a {v3}",
+      "contextos": [
+        "demo/app.js:2008 · pintarGuardados"
+      ],
+      "variables": {
+        "v2": {
+          "expresion": "picto(iconoLugar(g.nombre))"
+        },
+        "v3": {
+          "expresion": "escapar(g.nombre)"
+        }
+      }
+    },
+    {
+      "clave": "texto_13412ff71d",
+      "es": "{v2}Ver cómo ir en {v3}",
+      "contextos": [
+        "demo/app.js:1206 · pintarVeredicto"
+      ],
+      "variables": {
+        "v2": {
+          "expresion": "ico(\"camion\")"
+        },
+        "v3": {
+          "expresion": "escapar(tituloOpcion(camion.o))"
+        }
+      }
+    },
+    {
+      "clave": "texto_a89eb78a25",
+      "es": "{v3} te marca {v4}.",
+      "contextos": [
+        "demo/app.js:1200 · pintarVeredicto"
+      ],
+      "variables": {
+        "v3": {
+          "expresion": "Grieta.nombreApp(d.esperado.app)"
+        },
+        "v4": {
+          "expresion": "pesos(visto)",
+          "formato": "importe"
+        }
+      }
+    },
+    {
+      "clave": "texto_3b4fcbcd01",
+      "es": "{v3} te marca {v4}. Nuestro rango estimado es {v5}.{v6}{v7} {v8}",
+      "contextos": [
+        "demo/app.js:1200 · pintarVeredicto"
+      ],
+      "variables": {
+        "v3": {
+          "expresion": "Grieta.nombreApp(d.esperado.app)"
+        },
+        "v4": {
+          "expresion": "pesos(visto)",
+          "formato": "importe"
+        },
+        "v5": {
+          "expresion": "rangoTexto(limitesPrecio(d.esperado))",
+          "formato": "rango"
+        },
+        "v6": {
+          "expresion": "alta"
+        },
+        "v7": {
+          "expresion": "porque"
+        },
+        "v8": {
+          "expresion": "d.accion === \"camion\" && extra < 1e8 ? `El camión tarda ${Math.round(extra)} min más, pero te ahorras la diferencia.` : \"\"",
+          "formato": "numero",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_26de2e9224",
+      "es": "{v4}Ver cómo llegar a la parada",
+      "contextos": [
+        "demo/app.js:1385 · pintarCamiones · #irParada"
+      ],
+      "variables": {
+        "v4": {
+          "expresion": "ico(\"ruta\")"
+        }
+      }
+    },
+    {
+      "clave": "perfil_frase",
+      "es": "{vista}, {movilidad}, {oido}{forma}{lector}. {tarifa}.",
+      "selector": "#perfilFrase",
+      "contextos": [
+        "demo/app.js · frasePerfil"
+      ],
+      "variables": {
+        "vista": {
+          "traducir": true,
+          "opciones": [
+            "Ves bien",
+            "Ves poco",
+            "No ves"
+          ]
+        },
+        "movilidad": {
+          "traducir": true,
+          "opciones": [
+            "caminas sin problema",
+            "te cuesta caminar",
+            "usas silla de ruedas o andadera"
+          ]
+        },
+        "oido": {
+          "traducir": true,
+          "opciones": [
+            "te cuesta escuchar",
+            "escuchas bien"
+          ]
+        },
+        "forma": {
+          "traducir": true,
+          "opciones": [
+            " y prefieres lo esencial",
+            " y prefieres todas las opciones",
+            ""
+          ]
+        },
+        "lector": {
+          "traducir": true,
+          "opciones": [
+            " y usas lector de pantalla",
+            " y quieres que Grieta te hable",
+            ""
+          ]
+        },
+        "tarifa": {
+          "traducir": true,
+          "opciones": [
+            "Pagas Tarifa Unidos",
+            "Pagas tarifa normal"
+          ]
+        }
+      }
+    },
+    {
+      "clave": "texto_afa40d4a94",
+      "es": "· {v1} min más que en app",
+      "contextos": [
+        "demo/app.js:888 · pintarOpciones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "mas",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_f9235dcd36",
+      "es": "¿A dónde vas?",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloInicio",
+        "demo/app.js:55 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_4fd4e9b226",
+      "es": "¿A qué hora salgo?",
+      "contextos": [
+        "demo/index.html · pantallas · #calcularSalida"
+      ]
+    },
+    {
+      "clave": "texto_a6fb94a4b6",
+      "es": "¿Conviene esperar?",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloEspera"
+      ]
+    },
+    {
+      "clave": "texto_0e6c1ca193",
+      "es": "¿Cuánto te marca la app?",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloComparar"
+      ]
+    },
+    {
+      "clave": "texto_ed018227d1",
+      "es": "¿Cómo le quieres poner?",
+      "contextos": [
+        "demo/index.html · pantallas · #otroNombre"
+      ]
+    },
+    {
+      "clave": "texto_a4bbff99a1",
+      "es": "¿Cómo quieres ver Grieta?",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloForma",
+        "demo/index.html · pantallas · #pForma"
+      ]
+    },
+    {
+      "clave": "texto_916d8faf39",
+      "es": "¿Cómo te mueves?",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloMovilidad",
+        "demo/index.html · pantallas · #pMovilidad"
+      ]
+    },
+    {
+      "clave": "texto_a3adaf2609",
+      "es": "¿Cómo ves la pantalla?",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloBienvenida",
+        "demo/index.html · pantallas · #pVista"
+      ]
+    },
+    {
+      "clave": "texto_6fd6df5daf",
+      "es": "¿Desde dónde sales?",
+      "contextos": [
+        "demo/app.js:451 · prepararBuscar"
+      ]
+    },
+    {
+      "clave": "texto_f7d8736aa8",
+      "es": "¿Dónde estoy?",
+      "contextos": [
+        "demo/index.html · pantallas · #vozDonde",
+        "demo/index.html · pantallas · aria-label",
+        "demo/index.html · pantallas · #dondeGuia"
+      ]
+    },
+    {
+      "clave": "texto_f1afb73178",
+      "es": "¿Dónde está tu casa?",
+      "contextos": [
+        "demo/app.js:2065 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_e6abc39ca6",
+      "es": "¿Escuchas bien los avisos?",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloOido",
+        "demo/index.html · pantallas · #pOido"
+      ]
+    },
+    {
+      "clave": "texto_9a7e392cd7",
+      "es": "¿La app ya te dio precio?",
+      "contextos": [
+        "demo/index.html · pantallas · #compararPrecio"
+      ]
+    },
+    {
+      "clave": "texto_3f58767c8c",
+      "es": "¿La app ya te dio precio? Compáralo",
+      "contextos": [
+        "demo/index.html · pantallas · #compararPrecio"
+      ]
+    },
+    {
+      "clave": "texto_04bff1d32a",
+      "es": "¿Las horas del camión son seguras?",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_0a7342b9e3",
+      "es": "¿Los precios son exactos?",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_23957ff63f",
+      "es": "¿Me avisa cuando lleguemos, por favor?",
+      "contextos": [
+        "demo/index.html · pantallas · #chofer"
+      ]
+    },
+    {
+      "clave": "texto_512e0a5088",
+      "es": "¿No aparece?",
+      "contextos": [
+        "demo/app.js:536 · filaMapa"
+      ]
+    },
+    {
+      "clave": "texto_e9006c4b02",
+      "es": "¿No aparece? Elígelo en el mapa",
+      "contextos": [
+        "demo/app.js:536 · filaMapa"
+      ]
+    },
+    {
+      "clave": "texto_5df139469e",
+      "es": "¿Pagas Tarifa Unidos?",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloTarifa",
+        "demo/index.html · pantallas · #pTarifa"
+      ]
+    },
+    {
+      "clave": "texto_beb1b20659",
+      "es": "¿Por qué me habla Grieta?",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_d522dc4d2f",
+      "es": "¿Qué camión pasa aquí?",
+      "contextos": [
+        "demo/index.html · pantallas · #vozCamion",
+        "demo/index.html · pantallas · aria-label"
+      ]
+    },
+    {
+      "clave": "texto_6ff24d0780",
+      "es": "¿Qué necesitas?",
+      "contextos": [
+        "demo/index.html · pantallas · #inicioVoz"
+      ]
+    },
+    {
+      "clave": "texto_58e4c963e5",
+      "es": "¿Qué problema encontraste?",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloReporte"
+      ]
+    },
+    {
+      "clave": "texto_0d4cf0a9cd",
+      "es": "¿Qué tanta prisa tienes?",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloPrisa"
+      ]
+    },
+    {
+      "clave": "texto_b6b63d7e85",
+      "es": "¿Qué ves en la parada?",
+      "contextos": [
+        "demo/index.html · pantallas · #enParada"
+      ]
+    },
+    {
+      "clave": "texto_95df5a3773",
+      "es": "¿Qué ves en la parada? Avisa a los demás:",
+      "contextos": [
+        "demo/index.html · pantallas · #enParada"
+      ]
+    },
+    {
+      "clave": "texto_bf2667693b",
+      "es": "¿Te cuesta caminar o pagas Tarifa Unidos?",
+      "contextos": [
+        "demo/index.html · pantallas · #invitaPerfil"
+      ]
+    },
+    {
+      "clave": "texto_fd00e8c43b",
+      "es": "¿Terminar el viaje?",
+      "contextos": [
+        "demo/app.js:85 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_9aa0cb109e",
+      "es": "¿Terminar el viaje? Ya no te voy a avisar cuándo bajarte. Toca otra vez para confirmar.",
+      "contextos": [
+        "demo/app.js:85 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_dbaf263ecb",
+      "es": "¿Tienes que llegar a una hora?",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloLlegar"
+      ]
+    },
+    {
+      "clave": "texto_467962b271",
+      "es": "¿Tu teléfono ya te lee la pantalla, como VoiceOver o TalkBack?",
+      "contextos": [
+        "demo/app.js:2314 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_23719f65f3",
+      "es": "¿Tu teléfono ya te lee la pantalla?",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloLector",
+        "demo/index.html · pantallas · #pLector"
+      ]
+    },
+    {
+      "clave": "texto_4a1341955b",
+      "es": "¿Usamos tu ubicación?",
+      "contextos": [
+        "demo/index.html · pantallas · #tituloUbicacion"
+      ]
+    },
+    {
+      "clave": "texto_f3ea96ed56",
+      "es": "¿Usamos tu ubicación? Así sé desde dónde sales y cuándo avisarte que te bajes. Arriba, sí. Abajo, ahora no.",
+      "contextos": [
+        "demo/app.js:2315 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_e19b5e254d",
+      "es": "¿Vas a {v1}?",
+      "contextos": [
+        "demo/app.js:1952 · pintarRutina"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "r.nombre"
+        }
+      }
+    },
+    {
+      "clave": "texto_8488f0f272",
+      "es": "Último {v2}: {v3} según el horario",
+      "contextos": [
+        "demo/app.js:909 · pintarOpciones"
+      ],
+      "variables": {
+        "v2": {
+          "expresion": "escapar(c.linea)"
+        },
+        "v3": {
+          "expresion": "hora(c.ultima)",
+          "formato": "hora"
+        }
+      }
+    }
+  ]
+}

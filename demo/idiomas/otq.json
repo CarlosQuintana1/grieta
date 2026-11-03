@@ -1,0 +1,3428 @@
+{
+  "codigo": "otq",
+  "nombre": "Hñöñho (Otomí)",
+  "revision": null,
+  "completa": false,
+  "mensajes": [
+    {
+      "clave": "texto_6bd4648ba2",
+      "es": "(si quieres)",
+      "otq": null
+    },
+    {
+      "clave": "texto_e36be0214d",
+      "es": ", elegir día y hora",
+      "otq": null
+    },
+    {
+      "clave": "texto_184b191dc0",
+      "es": ", la app más económica",
+      "otq": null
+    },
+    {
+      "clave": "texto_1eeac90574",
+      "es": ", precio aproximado {v1} pesos",
+      "otq": null
+    },
+    {
+      "clave": "texto_8f627991ab",
+      "es": "a unos {v1} en línea recta",
+      "otq": null
+    },
+    {
+      "clave": "texto_1e412ea368",
+      "es": "A {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_923f61c51e",
+      "es": "a {v1} caminando",
+      "otq": null
+    },
+    {
+      "clave": "texto_3edadc1c2a",
+      "es": "a {v1} caminando, unos {v2} minutos",
+      "otq": null
+    },
+    {
+      "clave": "texto_3b8c9e34a7",
+      "es": "a {v1} en línea recta",
+      "otq": null
+    },
+    {
+      "clave": "texto_cce656bfce",
+      "es": "A {v1} km",
+      "otq": null
+    },
+    {
+      "clave": "texto_357f97e471",
+      "es": "A {v1} m",
+      "otq": null
+    },
+    {
+      "clave": "texto_4f4d3bc569",
+      "es": "a {v2}{v3}",
+      "otq": null
+    },
+    {
+      "clave": "texto_f2a4712205",
+      "es": "Abajo, ahora no.",
+      "otq": null
+    },
+    {
+      "clave": "texto_5da9b91dcf",
+      "es": "Abajo, no.",
+      "otq": null
+    },
+    {
+      "clave": "texto_a127e10f03",
+      "es": "Abajo, uso silla de ruedas o andadera.",
+      "otq": null
+    },
+    {
+      "clave": "texto_78dba6d45c",
+      "es": "abr",
+      "otq": null
+    },
+    {
+      "clave": "texto_de7008e5d2",
+      "es": "Abrir una app",
+      "otq": null
+    },
+    {
+      "clave": "texto_51f7bcd157",
+      "es": "Abrir {v3}, precio estimado {v4}{v5}",
+      "otq": null
+    },
+    {
+      "clave": "texto_3ebd7a93a6",
+      "es": "Abrir {v7}",
+      "otq": null
+    },
+    {
+      "clave": "texto_9bd1f4e4a0",
+      "es": "Accesibilidad",
+      "otq": null
+    },
+    {
+      "clave": "texto_10a6546d21",
+      "es": "Activa la ubicación o elige desde dónde sales en Inicio.",
+      "otq": null
+    },
+    {
+      "clave": "texto_1a540d3703",
+      "es": "Activa la ubicación para recibir los avisos.",
+      "otq": null
+    },
+    {
+      "clave": "texto_53afafa4f6",
+      "es": "Activa la ubicación para reportar",
+      "otq": null
+    },
+    {
+      "clave": "texto_2d3f889dd0",
+      "es": "Activa la ubicación.",
+      "otq": null
+    },
+    {
+      "clave": "texto_1d8e08fd63",
+      "es": "ago",
+      "otq": null
+    },
+    {
+      "clave": "texto_17b105fd3c",
+      "es": "Agrega a alguien de confianza",
+      "otq": null
+    },
+    {
+      "clave": "texto_bc5581f6f2",
+      "es": "Agregar",
+      "otq": null
+    },
+    {
+      "clave": "texto_8f28d48980",
+      "es": "Agregar casa",
+      "otq": null
+    },
+    {
+      "clave": "texto_8f5d7ed95e",
+      "es": "Agregar foto (si quieres)",
+      "otq": null
+    },
+    {
+      "clave": "texto_2335ae8e2a",
+      "es": "Agregar un lugar",
+      "otq": null
+    },
+    {
+      "clave": "texto_00cd944998",
+      "es": "Ahora",
+      "otq": null
+    },
+    {
+      "clave": "texto_6c64e27848",
+      "es": "Ahora no",
+      "otq": null
+    },
+    {
+      "clave": "texto_1f6b2bd9c3",
+      "es": "Ahorita es la hora más barata de hoy.",
+      "otq": null
+    },
+    {
+      "clave": "texto_87924d4e97",
+      "es": "Ahorras aprox. {v1}{v2}",
+      "otq": null
+    },
+    {
+      "clave": "texto_e81fb09656",
+      "es": "Ahí tomas la línea {v1} hacia {v2}, a las {v3} según el horario.",
+      "otq": null
+    },
+    {
+      "clave": "texto_4f2debbbf4",
+      "es": "Ajustes",
+      "otq": null
+    },
+    {
+      "clave": "texto_b92fd934c7",
+      "es": "Al empezar un viaje y al llegar, Grieta te deja avisarle por WhatsApp con un toque.",
+      "otq": null
+    },
+    {
+      "clave": "texto_2fc26f0b33",
+      "es": "Al empezar un viaje y al llegar, Grieta te deja avisarle por WhatsApp con un toque. Se guarda solo en este teléfono.",
+      "otq": null
+    },
+    {
+      "clave": "texto_f0ab18819e",
+      "es": "Al final puedes saltar estas preguntas.",
+      "otq": null
+    },
+    {
+      "clave": "texto_144b6fbeee",
+      "es": "Alguien avisó que la {v1} viene llena",
+      "otq": null
+    },
+    {
+      "clave": "texto_926d318f5d",
+      "es": "Alguien avisó que la {v1} ya pasó",
+      "otq": null
+    },
+    {
+      "clave": "texto_0a82f0a785",
+      "es": "Alto contraste",
+      "otq": null
+    },
+    {
+      "clave": "texto_ab6db59923",
+      "es": "am",
+      "otq": null
+    },
+    {
+      "clave": "texto_7e7a150157",
+      "es": "Aprox.",
+      "otq": null
+    },
+    {
+      "clave": "texto_e9dac13b56",
+      "es": "aprox.",
+      "otq": null
+    },
+    {
+      "clave": "texto_7af7fd2c2d",
+      "es": "aprox. {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_88919cc289",
+      "es": "Apréndelo en 3 pasos",
+      "otq": null
+    },
+    {
+      "clave": "texto_500ac20bcd",
+      "es": "Apágala si tu teléfono ya te lee la pantalla (VoiceOver o TalkBack)",
+      "otq": null
+    },
+    {
+      "clave": "texto_195b820a59",
+      "es": "Aquí cerca",
+      "otq": null
+    },
+    {
+      "clave": "texto_9e87c441a6",
+      "es": "Arriba, camino sin problema.",
+      "otq": null
+    },
+    {
+      "clave": "texto_19ed29594d",
+      "es": "Arriba, sí.",
+      "otq": null
+    },
+    {
+      "clave": "texto_8c3219ed43",
+      "es": "Así sé desde dónde sales y cuándo avisarte que te bajes.",
+      "otq": null
+    },
+    {
+      "clave": "texto_d6b7401747",
+      "es": "Así te mueves",
+      "otq": null
+    },
+    {
+      "clave": "texto_931265f842",
+      "es": "Atención telefónica",
+      "otq": null
+    },
+    {
+      "clave": "texto_63f0c41334",
+      "es": "Avisa a los demás:",
+      "otq": null
+    },
+    {
+      "clave": "texto_d9c82c3f92",
+      "es": "Avisar a alguien",
+      "otq": null
+    },
+    {
+      "clave": "texto_fbd6b6387d",
+      "es": "Avisar a {v1} que {v2}",
+      "otq": null
+    },
+    {
+      "clave": "texto_658c46a637",
+      "es": "Avisar al chofer",
+      "otq": null
+    },
+    {
+      "clave": "texto_3e1da47705",
+      "es": "Aviso",
+      "otq": null
+    },
+    {
+      "clave": "texto_0e5b198dd6",
+      "es": "Avisos con vibración",
+      "otq": null
+    },
+    {
+      "clave": "texto_321d518ecc",
+      "es": "Avisos con voz",
+      "otq": null
+    },
+    {
+      "clave": "texto_0df64b0643",
+      "es": "Avisos de la parada",
+      "otq": null
+    },
+    {
+      "clave": "texto_cca5188d34",
+      "es": "Avisos en pantalla grande y con vibración, sin voz.",
+      "otq": null
+    },
+    {
+      "clave": "texto_8b2cf04879",
+      "es": "Avisos grandes y con vibración",
+      "otq": null
+    },
+    {
+      "clave": "texto_a6e9d0813c",
+      "es": "Avísame cuando esté llegando",
+      "otq": null
+    },
+    {
+      "clave": "texto_32b40035b0",
+      "es": "Ayuda",
+      "otq": null
+    },
+    {
+      "clave": "texto_8df78a1cd7",
+      "es": "Azul y naranja en vez de ámbar y rojo",
+      "otq": null
+    },
+    {
+      "clave": "texto_6591b18b98",
+      "es": "Bajas aquí",
+      "otq": null
+    },
+    {
+      "clave": "texto_8c9c3754fb",
+      "es": "Bajas en",
+      "otq": null
+    },
+    {
+      "clave": "texto_12f7db610f",
+      "es": "Bajas en dos paradas",
+      "otq": null
+    },
+    {
+      "clave": "texto_25738757b2",
+      "es": "Bajas en {v1}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_6219e91312",
+      "es": "Bajas en {v1}. Prepárate y toca el timbre.",
+      "otq": null
+    },
+    {
+      "clave": "texto_e5230a01ad",
+      "es": "Banqueta rota",
+      "otq": null
+    },
+    {
+      "clave": "texto_56fb53e681",
+      "es": "Bienvenida a Grieta.",
+      "otq": null
+    },
+    {
+      "clave": "texto_b16f3167bf",
+      "es": "Busca un lugar",
+      "otq": null
+    },
+    {
+      "clave": "texto_634c3cd219",
+      "es": "Buscando avisos...",
+      "otq": null
+    },
+    {
+      "clave": "texto_71a0432668",
+      "es": "Buscando dónde estás.",
+      "otq": null
+    },
+    {
+      "clave": "texto_b4877c4c6d",
+      "es": "Buscando dónde estás...",
+      "otq": null
+    },
+    {
+      "clave": "texto_cfbd525cf1",
+      "es": "Buscando la calle...",
+      "otq": null
+    },
+    {
+      "clave": "texto_82d8556878",
+      "es": "Buscando tu ubicación...",
+      "otq": null
+    },
+    {
+      "clave": "texto_5f55edf900",
+      "es": "Buscar",
+      "otq": null
+    },
+    {
+      "clave": "texto_56845dbeda",
+      "es": "Bájate aquí",
+      "otq": null
+    },
+    {
+      "clave": "texto_2dd8468893",
+      "es": "Bájate aquí y cambia de camión",
+      "otq": null
+    },
+    {
+      "clave": "texto_b6e75a73f1",
+      "es": "Bájate en la siguiente parada",
+      "otq": null
+    },
+    {
+      "clave": "texto_89884f2838",
+      "es": "Bájate en {v2}, {v3} paradas después, a las {v4}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_a78e69b314",
+      "es": "Búsquedas recientes",
+      "otq": null
+    },
+    {
+      "clave": "texto_8ca9c0ac06",
+      "es": "Calculando el camino a pie...",
+      "otq": null
+    },
+    {
+      "clave": "texto_3381938fed",
+      "es": "Calculando...",
+      "otq": null
+    },
+    {
+      "clave": "texto_1fc8c7f8b1",
+      "es": "Calculo el camión a $2 y el transbordo gratis.",
+      "otq": null
+    },
+    {
+      "clave": "texto_cf008f9b6e",
+      "es": "Calculo el camión con la tarifa normal.",
+      "otq": null
+    },
+    {
+      "clave": "texto_b322167924",
+      "es": "Cambiar",
+      "otq": null
+    },
+    {
+      "clave": "texto_16f419c589",
+      "es": "Camina a {parada}",
+      "otq": null
+    },
+    {
+      "clave": "texto_e0666032b7",
+      "es": "Camina a {v1} y toma la línea {v2} hacia {v3}, a las {v4} según el horario.",
+      "otq": null
+    },
+    {
+      "clave": "texto_3e29978ac5",
+      "es": "Camina {v1} min",
+      "otq": null
+    },
+    {
+      "clave": "texto_ff0625723b",
+      "es": "Camina {v1} min a la parada",
+      "otq": null
+    },
+    {
+      "clave": "texto_585761820b",
+      "es": "Camina {v1} min a tu destino",
+      "otq": null
+    },
+    {
+      "clave": "texto_1282eca92d",
+      "es": "Camina {v1} min y cambia de camión",
+      "otq": null
+    },
+    {
+      "clave": "texto_9d0f83880e",
+      "es": "Caminando llegas en {v1} min",
+      "otq": null
+    },
+    {
+      "clave": "texto_612f28c927",
+      "es": "Caminar poco",
+      "otq": null
+    },
+    {
+      "clave": "texto_c705ebd88a",
+      "es": "Caminas bien",
+      "otq": null
+    },
+    {
+      "clave": "texto_5901231fb6",
+      "es": "Caminas poco",
+      "otq": null
+    },
+    {
+      "clave": "texto_3bdcae9523",
+      "es": "caminas sin problema",
+      "otq": null
+    },
+    {
+      "clave": "texto_faf1957920",
+      "es": "caminas {v1} min",
+      "otq": null
+    },
+    {
+      "clave": "texto_ca77442887",
+      "es": "Camino sin problema",
+      "otq": null
+    },
+    {
+      "clave": "texto_8a7ba16259",
+      "es": "Camiones aquí",
+      "otq": null
+    },
+    {
+      "clave": "texto_17e5c0f853",
+      "es": "Camiones cerca",
+      "otq": null
+    },
+    {
+      "clave": "texto_9a33432b00",
+      "es": "Casa",
+      "otq": null
+    },
+    {
+      "clave": "texto_aeccae342e",
+      "es": "Cerrar",
+      "otq": null
+    },
+    {
+      "clave": "texto_2f3e8dcc24",
+      "es": "Claro",
+      "otq": null
+    },
+    {
+      "clave": "texto_809f137c39",
+      "es": "Colores de la pantalla",
+      "otq": null
+    },
+    {
+      "clave": "texto_bca2ba20da",
+      "es": "Colores para daltonismo",
+      "otq": null
+    },
+    {
+      "clave": "texto_ae72c0eee0",
+      "es": "Como el teléfono",
+      "otq": null
+    },
+    {
+      "clave": "texto_6968be4e35",
+      "es": "Como otros días a esta hora.",
+      "otq": null
+    },
+    {
+      "clave": "texto_9c87920242",
+      "es": "Como otros días a esta hora. Toca para ver cómo llegar",
+      "otq": null
+    },
+    {
+      "clave": "texto_3d30719c39",
+      "es": "Compara y elige",
+      "otq": null
+    },
+    {
+      "clave": "texto_4bc2f1f5dc",
+      "es": "Compartir mi viaje",
+      "otq": null
+    },
+    {
+      "clave": "texto_e13942698a",
+      "es": "Completa",
+      "otq": null
+    },
+    {
+      "clave": "texto_097b177914",
+      "es": "Completar mi perfil",
+      "otq": null
+    },
+    {
+      "clave": "texto_01d052fe92",
+      "es": "Compáralo",
+      "otq": null
+    },
+    {
+      "clave": "texto_88d92e7674",
+      "es": "Confírmalo al abrir la app.",
+      "otq": null
+    },
+    {
+      "clave": "texto_c6095368cd",
+      "es": "Copié \"{v1}\".",
+      "otq": null
+    },
+    {
+      "clave": "texto_df8d5fe0ae",
+      "es": "Cuando elijas un destino, toca \"Guardar este lugar\".",
+      "otq": null
+    },
+    {
+      "clave": "texto_e8afa1c71c",
+      "es": "Cuidado con la accesibilidad",
+      "otq": null
+    },
+    {
+      "clave": "texto_a37768e6d4",
+      "es": "Cuidado con la accesibilidad. {problemas}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_6556337e0e",
+      "es": "Cuidado: {avisos}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_f906d695cd",
+      "es": "Cuéntanos más",
+      "otq": null
+    },
+    {
+      "clave": "texto_e59f7d6c86",
+      "es": "Cómo usar Grieta",
+      "otq": null
+    },
+    {
+      "clave": "texto_588f252ada",
+      "es": "Da igual: en la próxima hora lo normal casi no cambia",
+      "otq": null
+    },
+    {
+      "clave": "texto_98757bedb9",
+      "es": "Decir a dónde voy",
+      "otq": null
+    },
+    {
+      "clave": "texto_cd8b4d6139",
+      "es": "Decirlo en voz alta",
+      "otq": null
+    },
+    {
+      "clave": "texto_14237cbdbb",
+      "es": "Deja la pantalla encendida: así Grieta sigue tu ubicación.",
+      "otq": null
+    },
+    {
+      "clave": "texto_9b8a40b4b7",
+      "es": "Deja la pantalla encendida: así Grieta sigue tu ubicación. Las horas del camión salen del horario oficial, no de su ubicación.",
+      "otq": null
+    },
+    {
+      "clave": "texto_0d7d7140dd",
+      "es": "Densidad",
+      "otq": null
+    },
+    {
+      "clave": "texto_209cad1464",
+      "es": "Desde dónde sales",
+      "otq": null
+    },
+    {
+      "clave": "texto_f7636347a7",
+      "es": "Desde {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_29fa864fd7",
+      "es": "Deshacer",
+      "otq": null
+    },
+    {
+      "clave": "texto_63607cf8ae",
+      "es": "Después cambias de camión; te aviso.",
+      "otq": null
+    },
+    {
+      "clave": "texto_22bbb31970",
+      "es": "Después camina unos {v1} minutos a tu destino.",
+      "otq": null
+    },
+    {
+      "clave": "texto_b645306abd",
+      "es": "Después pide {v1} a tu destino.",
+      "otq": null
+    },
+    {
+      "clave": "texto_8f049ccaff",
+      "es": "Di a dónde vas.",
+      "otq": null
+    },
+    {
+      "clave": "texto_fee05da5fd",
+      "es": "Di o escribe a dónde vas",
+      "otq": null
+    },
+    {
+      "clave": "texto_f6f8057c7a",
+      "es": "dic",
+      "otq": null
+    },
+    {
+      "clave": "texto_3b11ce3e65",
+      "es": "Dictar",
+      "otq": null
+    },
+    {
+      "clave": "texto_0da39fd812",
+      "es": "Dictar a dónde vas",
+      "otq": null
+    },
+    {
+      "clave": "texto_587f39f013",
+      "es": "Dictar el lugar",
+      "otq": null
+    },
+    {
+      "clave": "texto_af38104112",
+      "es": "DiDi",
+      "otq": null
+    },
+    {
+      "clave": "texto_424e93aa51",
+      "es": "Domingo",
+      "otq": null
+    },
+    {
+      "clave": "texto_7800630f3d",
+      "es": "domingo",
+      "otq": null
+    },
+    {
+      "clave": "texto_fa6699df66",
+      "es": "Donde estás ahora",
+      "otq": null
+    },
+    {
+      "clave": "texto_80e7437d9d",
+      "es": "Durante el viaje te aviso con voz.",
+      "otq": null
+    },
+    {
+      "clave": "texto_ffd6f24b18",
+      "es": "Día",
+      "otq": null
+    },
+    {
+      "clave": "texto_bab3d182cf",
+      "es": "Dónde estoy",
+      "otq": null
+    },
+    {
+      "clave": "texto_2eba946b2e",
+      "es": "Editar",
+      "otq": null
+    },
+    {
+      "clave": "texto_0cb2b03cf8",
+      "es": "Ejemplo: Hospital",
+      "otq": null
+    },
+    {
+      "clave": "texto_94f43e9497",
+      "es": "Ejemplo: la parada está frente al OXXO, junto al poste amarillo",
+      "otq": null
+    },
+    {
+      "clave": "texto_8052735f0d",
+      "es": "Ejemplo: Mamá",
+      "otq": null
+    },
+    {
+      "clave": "texto_b83abafbc1",
+      "es": "El audio sigue en español.",
+      "otq": null
+    },
+    {
+      "clave": "texto_558f573763",
+      "es": "El camión tarda {v1} min más, pero te ahorras la diferencia.",
+      "otq": null
+    },
+    {
+      "clave": "texto_6a3e15d067",
+      "es": "El camión te cuesta $2 y el transbordo es gratis",
+      "otq": null
+    },
+    {
+      "clave": "texto_7851ed31aa",
+      "es": "El horario guardado venció el {v1} {v2} {v3}: las horas pueden variar.",
+      "otq": null
+    },
+    {
+      "clave": "texto_f9339eab84",
+      "es": "El precio no está tan arriba o el camión tarda demasiado.",
+      "otq": null
+    },
+    {
+      "clave": "texto_7060c3a22c",
+      "es": "El precio puede variar.",
+      "otq": null
+    },
+    {
+      "clave": "texto_88d4c8d956",
+      "es": "El precio puede variar. Confírmalo al abrir la app.",
+      "otq": null
+    },
+    {
+      "clave": "texto_bb6a3d8138",
+      "es": "El teléfono debe tener 10 dígitos.",
+      "otq": null
+    },
+    {
+      "clave": "texto_a2551ca530",
+      "es": "el {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_f213c04150",
+      "es": "Elegir",
+      "otq": null
+    },
+    {
+      "clave": "texto_742a056f80",
+      "es": "Elegir en el mapa",
+      "otq": null
+    },
+    {
+      "clave": "texto_a636245163",
+      "es": "Elige a qué hora tienes que llegar.",
+      "otq": null
+    },
+    {
+      "clave": "texto_5a49912663",
+      "es": "Elige en el mapa",
+      "otq": null
+    },
+    {
+      "clave": "texto_1288575efc",
+      "es": "Elige la app y escribe el precio para darte una recomendación.",
+      "otq": null
+    },
+    {
+      "clave": "texto_b9483c4f8c",
+      "es": "Elige qué problema encontraste.",
+      "otq": null
+    },
+    {
+      "clave": "texto_5d3ab56ae0",
+      "es": "Elige un lugar guardado o elígelo en el mapa.",
+      "otq": null
+    },
+    {
+      "clave": "texto_2d21259ea7",
+      "es": "Elige una más tarde.",
+      "otq": null
+    },
+    {
+      "clave": "texto_042fcafd6a",
+      "es": "Elígelo en el mapa",
+      "otq": null
+    },
+    {
+      "clave": "texto_3b39ef005c",
+      "es": "Empezar viaje con avisos",
+      "otq": null
+    },
+    {
+      "clave": "texto_9550f392eb",
+      "es": "Empieza el viaje con avisos",
+      "otq": null
+    },
+    {
+      "clave": "texto_40d348234c",
+      "es": "En 1 h",
+      "otq": null
+    },
+    {
+      "clave": "texto_b3b03abed1",
+      "es": "En app",
+      "otq": null
+    },
+    {
+      "clave": "texto_c7ff837b82",
+      "es": "En app · precios estimados",
+      "otq": null
+    },
+    {
+      "clave": "texto_e699931fdd",
+      "es": "En camino",
+      "otq": null
+    },
+    {
+      "clave": "texto_fa9d67f12c",
+      "es": "En el camión",
+      "otq": null
+    },
+    {
+      "clave": "texto_7f6489aa71",
+      "es": "En Inicio, en \"Busca un lugar\" o con \"Dictar\".",
+      "otq": null
+    },
+    {
+      "clave": "texto_bf9c802f85",
+      "es": "en la línea {v1} hacia {v2}",
+      "otq": null
+    },
+    {
+      "clave": "texto_8ca0ef121e",
+      "es": "En la parada",
+      "otq": null
+    },
+    {
+      "clave": "texto_433a5bb86f",
+      "es": "En la parada {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_4c1aa18888",
+      "es": "En la parada {v4}, hacia {v5}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_d5bb5159c7",
+      "es": "En la parada {v4}, hacia {v5}. Si lo pierdes, {v6} se estima en {v7}.{v8}",
+      "otq": null
+    },
+    {
+      "clave": "texto_447227506f",
+      "es": "En la próxima hora no pasa ningún Qrobus cerca.",
+      "otq": null
+    },
+    {
+      "clave": "texto_4450c1ec40",
+      "es": "en la {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_028931ae25",
+      "es": "en línea recta",
+      "otq": null
+    },
+    {
+      "clave": "texto_a10382ebc7",
+      "es": "En medio, me cuesta caminar.",
+      "otq": null
+    },
+    {
+      "clave": "texto_1ea154933d",
+      "es": "En Qrobus",
+      "otq": null
+    },
+    {
+      "clave": "texto_9a447a5935",
+      "es": "En tu ubicación actual",
+      "otq": null
+    },
+    {
+      "clave": "texto_5920c47597",
+      "es": "En tus viajes aparecerá \"Avisar a {v1}\".",
+      "otq": null
+    },
+    {
+      "clave": "texto_52d5989f10",
+      "es": "En {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_907487bdb3",
+      "es": "en {v1} h {v2} min",
+      "otq": null
+    },
+    {
+      "clave": "texto_4c031ea927",
+      "es": "En {v1} min",
+      "otq": null
+    },
+    {
+      "clave": "texto_8c1ddac830",
+      "es": "en {v1} min",
+      "otq": null
+    },
+    {
+      "clave": "texto_bfa2700b77",
+      "es": "ene",
+      "otq": null
+    },
+    {
+      "clave": "texto_dc8659db6d",
+      "es": "Enter",
+      "otq": null
+    },
+    {
+      "clave": "texto_88412066ba",
+      "es": "entre {v1} y {v2} pesos",
+      "otq": null
+    },
+    {
+      "clave": "texto_59ee4b1e62",
+      "es": "Enviar este precio a Grieta",
+      "otq": null
+    },
+    {
+      "clave": "texto_9739d880d5",
+      "es": "Enviar reporte",
+      "otq": null
+    },
+    {
+      "clave": "texto_c0bc1e08f9",
+      "es": "es",
+      "otq": null
+    },
+    {
+      "clave": "texto_735ac1ef26",
+      "es": "Esa hora ya pasó o no da tiempo de llegar.",
+      "otq": null
+    },
+    {
+      "clave": "texto_545f80e084",
+      "es": "Esa hora ya pasó o no da tiempo de llegar. Elige una más tarde.",
+      "otq": null
+    },
+    {
+      "clave": "texto_037c968467",
+      "es": "Escape",
+      "otq": null
+    },
+    {
+      "clave": "texto_bf001556de",
+      "es": "Escribe el nombre.",
+      "otq": null
+    },
+    {
+      "clave": "texto_231a971d9c",
+      "es": "Escribe el precio",
+      "otq": null
+    },
+    {
+      "clave": "texto_66419f33e0",
+      "es": "Escribe la calle y la colonia, o toca \"Elígelo en el mapa\".",
+      "otq": null
+    },
+    {
+      "clave": "texto_84d6f3db6e",
+      "es": "Escribes desde dónde sales",
+      "otq": null
+    },
+    {
+      "clave": "texto_60e4a53f8b",
+      "es": "Escuchar los pasos",
+      "otq": null
+    },
+    {
+      "clave": "texto_2406e0053c",
+      "es": "escuchas bien",
+      "otq": null
+    },
+    {
+      "clave": "texto_cc53ec093e",
+      "es": "Escucho bien los avisos",
+      "otq": null
+    },
+    {
+      "clave": "texto_428e470b74",
+      "es": "Escuela",
+      "otq": null
+    },
+    {
+      "clave": "texto_04afb84ba1",
+      "es": "Espera la línea {linea} hacia {hacia}",
+      "otq": null
+    },
+    {
+      "clave": "texto_0b9a62e7f6",
+      "es": "Espera un poco",
+      "otq": null
+    },
+    {
+      "clave": "texto_45c721109b",
+      "es": "este mes frente al precio esperado en app.",
+      "otq": null
+    },
+    {
+      "clave": "texto_7891e778dc",
+      "es": "Estudiante, mayor de 60 o persona con discapacidad",
+      "otq": null
+    },
+    {
+      "clave": "texto_cda77e9e04",
+      "es": "Estudiantes, mayores de 60 y personas con discapacidad; el transbordo es gratis",
+      "otq": null
+    },
+    {
+      "clave": "texto_8ccb77adc9",
+      "es": "Está arriba de lo normal y te sobra tiempo: vuelve a revisar en unos minutos{v1}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_24c3071505",
+      "es": "Estás a 300 metros",
+      "otq": null
+    },
+    {
+      "clave": "texto_5a0fe8946c",
+      "es": "Estás en {v1}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_d06bc3e09f",
+      "es": "Estás en {v1}.{v2} Toca Terminar viaje cuando quieras.",
+      "otq": null
+    },
+    {
+      "clave": "texto_10fe0b5df9",
+      "es": "Estás fuera de Querétaro.",
+      "otq": null
+    },
+    {
+      "clave": "texto_833334561a",
+      "es": "Falta señalización",
+      "otq": null
+    },
+    {
+      "clave": "texto_a2052dc507",
+      "es": "Falta un kilómetro",
+      "otq": null
+    },
+    {
+      "clave": "texto_18e6600bae",
+      "es": "Faltan",
+      "otq": null
+    },
+    {
+      "clave": "texto_eebff8c118",
+      "es": "Faltan {n} paradas",
+      "otq": null
+    },
+    {
+      "clave": "texto_b899f84e75",
+      "es": "Faltan {v1} km.",
+      "otq": null
+    },
+    {
+      "clave": "texto_70c748e63d",
+      "es": "feb",
+      "otq": null
+    },
+    {
+      "clave": "texto_56cf25ec89",
+      "es": "Foto lista.",
+      "otq": null
+    },
+    {
+      "clave": "texto_646d5dfa89",
+      "es": "Foto lista. Toca para cambiarla",
+      "otq": null
+    },
+    {
+      "clave": "texto_7a6eabd661",
+      "es": "Fácil",
+      "otq": null
+    },
+    {
+      "clave": "texto_333e0a1e27",
+      "es": "G",
+      "otq": null
+    },
+    {
+      "clave": "texto_b600eea309",
+      "es": "Gracias.",
+      "otq": null
+    },
+    {
+      "clave": "texto_41a2eba09f",
+      "es": "Gracias. Se lo diré a quien espere aquí.",
+      "otq": null
+    },
+    {
+      "clave": "texto_3d4e626cc2",
+      "es": "Gracias. Tu reporte ayuda a quien pase por aquí.",
+      "otq": null
+    },
+    {
+      "clave": "texto_f813848dda",
+      "es": "Gracias. {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_d5c9be6d17",
+      "es": "Gracias: con tu precio Grieta calcula mejor.",
+      "otq": null
+    },
+    {
+      "clave": "texto_95d72fde2e",
+      "es": "Grieta busca paradas cercanas y te avisa si reportaron que no tienen rampa.",
+      "otq": null
+    },
+    {
+      "clave": "texto_3d92b8dd37",
+      "es": "Grieta busca paradas más cerca para que camines menos.",
+      "otq": null
+    },
+    {
+      "clave": "texto_157e3b8bda",
+      "es": "Grieta compara tus opciones y te avisa cuándo bajarte del camión.",
+      "otq": null
+    },
+    {
+      "clave": "texto_473d757904",
+      "es": "Grieta no habla encima de tu lector.",
+      "otq": null
+    },
+    {
+      "clave": "texto_9fc90539af",
+      "es": "Grieta se acomoda a ti.",
+      "otq": null
+    },
+    {
+      "clave": "texto_9003ff37e8",
+      "es": "Grieta se acomoda a ti. Lo puedes cambiar después.",
+      "otq": null
+    },
+    {
+      "clave": "texto_b59c6dd135",
+      "es": "Grieta te avisa cuándo pasa tu camión y cuándo bajarte.",
+      "otq": null
+    },
+    {
+      "clave": "texto_b4bb6328d9",
+      "es": "Grieta te dice todo en voz alta, con pocos botones y muy grandes",
+      "otq": null
+    },
+    {
+      "clave": "texto_ab585a65b3",
+      "es": "Grieta te habla",
+      "otq": null
+    },
+    {
+      "clave": "texto_ae6563aa98",
+      "es": "Grieta te lee todo en voz alta.",
+      "otq": null
+    },
+    {
+      "clave": "texto_584f30d170",
+      "es": "Grieta te lo dice en voz alta",
+      "otq": null
+    },
+    {
+      "clave": "texto_0bd7ebab09",
+      "es": "Guardado como {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_7a37f9b594",
+      "es": "Guardado.",
+      "otq": null
+    },
+    {
+      "clave": "texto_b6e43363d2",
+      "es": "Guardado. En tus viajes aparecerá \"Avisar a {v1}\".",
+      "otq": null
+    },
+    {
+      "clave": "texto_13e51a210f",
+      "es": "Guardar",
+      "otq": null
+    },
+    {
+      "clave": "texto_f2d4b82910",
+      "es": "Guardar como",
+      "otq": null
+    },
+    {
+      "clave": "texto_69b9160bb6",
+      "es": "Guardar este lugar",
+      "otq": null
+    },
+    {
+      "clave": "texto_0aa2cb515e",
+      "es": "Hace {v1} minuto{v2}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_854cf9b64e",
+      "es": "hacia",
+      "otq": null
+    },
+    {
+      "clave": "texto_426b3dddb4",
+      "es": "Hacia la parada",
+      "otq": null
+    },
+    {
+      "clave": "texto_bc3f4bca11",
+      "es": "Hacia {v1}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_0b5b404e9a",
+      "es": "Hacia {v1}. Bájate en {v2}, {v3} paradas después, a las {v4}. Te aviso antes.",
+      "otq": null
+    },
+    {
+      "clave": "texto_a246e9dcb7",
+      "es": "Hacia {v3}",
+      "otq": null
+    },
+    {
+      "clave": "texto_503f312cde",
+      "es": "Hora",
+      "otq": null
+    },
+    {
+      "clave": "texto_ae41373cea",
+      "es": "Idioma de la interfaz",
+      "otq": null
+    },
+    {
+      "clave": "texto_3478318400",
+      "es": "inDrive",
+      "otq": null
+    },
+    {
+      "clave": "texto_58fcc9468f",
+      "es": "Inicio",
+      "otq": null
+    },
+    {
+      "clave": "texto_932aaca5f2",
+      "es": "Ir a {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_89bc0a4642",
+      "es": "Ir a {v4}",
+      "otq": null
+    },
+    {
+      "clave": "texto_451163ff57",
+      "es": "Ir otra vez a {v2}",
+      "otq": null
+    },
+    {
+      "clave": "texto_ca7b8cbccb",
+      "es": "Jueves",
+      "otq": null
+    },
+    {
+      "clave": "texto_15b84102a7",
+      "es": "jueves",
+      "otq": null
+    },
+    {
+      "clave": "texto_5c022ffb48",
+      "es": "jul",
+      "otq": null
+    },
+    {
+      "clave": "texto_eb687afb0f",
+      "es": "jun",
+      "otq": null
+    },
+    {
+      "clave": "texto_6d0d2adb57",
+      "es": "kilómetros",
+      "otq": null
+    },
+    {
+      "clave": "texto_1f34503f65",
+      "es": "km",
+      "otq": null
+    },
+    {
+      "clave": "texto_d33a310712",
+      "es": "La interfaz cambia de idioma.",
+      "otq": null
+    },
+    {
+      "clave": "texto_e92e18fc63",
+      "es": "La interfaz cambia de idioma. El audio sigue en español.",
+      "otq": null
+    },
+    {
+      "clave": "texto_1c8fc9ce03",
+      "es": "La interfaz está en español.",
+      "otq": null
+    },
+    {
+      "clave": "texto_1a8e27e7b0",
+      "es": "La interfaz está en español. El audio sigue en español.",
+      "otq": null
+    },
+    {
+      "clave": "texto_714d69230c",
+      "es": "La parada está a unos {v1} caminando.",
+      "otq": null
+    },
+    {
+      "clave": "texto_a2dd7920bc",
+      "es": "La parada está a {v1} en línea recta.",
+      "otq": null
+    },
+    {
+      "clave": "texto_dc43b20594",
+      "es": "La parada más cercana es {v1}, {v2}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_f929d93aa6",
+      "es": "La traducción de la interfaz todavía no está disponible.",
+      "otq": null
+    },
+    {
+      "clave": "texto_d15476857f",
+      "es": "La traducción de la interfaz todavía no está disponible. El audio sigue en español.",
+      "otq": null
+    },
+    {
+      "clave": "texto_3d5dd99ecf",
+      "es": "La {v1} debe estar por pasar",
+      "otq": null
+    },
+    {
+      "clave": "texto_c90bde72e4",
+      "es": "La {v1} pasa en 5 minutos",
+      "otq": null
+    },
+    {
+      "clave": "texto_be351f58a0",
+      "es": "La {v1} pasa en unos {v2} minutos",
+      "otq": null
+    },
+    {
+      "clave": "texto_7d6947c952",
+      "es": "Las horas del camión salen del horario oficial, no de su ubicación.",
+      "otq": null
+    },
+    {
+      "clave": "texto_05002fbf15",
+      "es": "Las horas salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse.{v7}",
+      "otq": null
+    },
+    {
+      "clave": "texto_2a4c215b77",
+      "es": "Letra grande",
+      "otq": null
+    },
+    {
+      "clave": "texto_60a6bf050f",
+      "es": "Letra grande y más contraste",
+      "otq": null
+    },
+    {
+      "clave": "texto_5de449dcbc",
+      "es": "Letra grande y más contraste.",
+      "otq": null
+    },
+    {
+      "clave": "texto_b5fa51d564",
+      "es": "Listo",
+      "otq": null
+    },
+    {
+      "clave": "texto_3540304906",
+      "es": "Listo, Grieta te va a hablar.",
+      "otq": null
+    },
+    {
+      "clave": "texto_467bafc484",
+      "es": "Listo, Grieta te va a hablar. ¿Tu teléfono ya te lee la pantalla, como VoiceOver o TalkBack? Arriba, sí. Abajo, no.",
+      "otq": null
+    },
+    {
+      "clave": "texto_601dcb2198",
+      "es": "Listo, ya no hay a quién avisar.",
+      "otq": null
+    },
+    {
+      "clave": "texto_e56aab3981",
+      "es": "Llamar a Qrobus",
+      "otq": null
+    },
+    {
+      "clave": "texto_7925cb7917",
+      "es": "Llamar a Qrobus al 442 210 0407",
+      "otq": null
+    },
+    {
+      "clave": "texto_0e440835bc",
+      "es": "Llegas",
+      "otq": null
+    },
+    {
+      "clave": "texto_168417d812",
+      "es": "Llegas a las {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_d29143c66b",
+      "es": "Llegas a las {v2}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_fa4b6e842b",
+      "es": "Llegas a las {v3}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_f9887b8b62",
+      "es": "Llegas a {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_7048b5db17",
+      "es": "Llegas {hora} · {minutos} min",
+      "otq": null
+    },
+    {
+      "clave": "texto_b3e3717003",
+      "es": "Llegas {hora} · {minutos} min · caminas {caminar} min",
+      "otq": null
+    },
+    {
+      "clave": "texto_b680e1a89c",
+      "es": "Llegas {hora}. {minutos} min. caminas {caminar} min. {precio}. {ahorro}",
+      "otq": null
+    },
+    {
+      "clave": "texto_89c7fd4cdc",
+      "es": "Llegas {hora}. {minutos} min. {precio}. {ahorro}",
+      "otq": null
+    },
+    {
+      "clave": "texto_05c85f357a",
+      "es": "Llegas {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_6024524550",
+      "es": "Llegaste",
+      "otq": null
+    },
+    {
+      "clave": "texto_cc4d4b8108",
+      "es": "Llegaste a la parada",
+      "otq": null
+    },
+    {
+      "clave": "texto_5b1463aade",
+      "es": "llegué",
+      "otq": null
+    },
+    {
+      "clave": "texto_5b8e6b53ba",
+      "es": "Llévame a casa",
+      "otq": null
+    },
+    {
+      "clave": "texto_8085356bed",
+      "es": "Lo más barato hoy es de {v1} a {v2}: unos {v3}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_d50ef34b69",
+      "es": "Lo puedes cambiar después en tu perfil.",
+      "otq": null
+    },
+    {
+      "clave": "texto_dd2f229731",
+      "es": "Lo puedes cambiar después.",
+      "otq": null
+    },
+    {
+      "clave": "texto_c978d996b6",
+      "es": "Los reportes todavía no están conectados al servidor.",
+      "otq": null
+    },
+    {
+      "clave": "texto_6c62b52a50",
+      "es": "Lugar o calle",
+      "otq": null
+    },
+    {
+      "clave": "texto_b2cf98e9c0",
+      "es": "Lugares conocidos",
+      "otq": null
+    },
+    {
+      "clave": "texto_ac14f1c69b",
+      "es": "Lugares guardados",
+      "otq": null
+    },
+    {
+      "clave": "texto_d0e8086218",
+      "es": "Lunes",
+      "otq": null
+    },
+    {
+      "clave": "texto_6020ac9750",
+      "es": "lunes",
+      "otq": null
+    },
+    {
+      "clave": "texto_2738e1f7f1",
+      "es": "mapa",
+      "otq": null
+    },
+    {
+      "clave": "texto_f37d4063c9",
+      "es": "Mapa y letra normal",
+      "otq": null
+    },
+    {
+      "clave": "texto_b6d50fb730",
+      "es": "Mapa y letra normal.",
+      "otq": null
+    },
+    {
+      "clave": "texto_51609286fb",
+      "es": "mar",
+      "otq": null
+    },
+    {
+      "clave": "texto_fff8867b82",
+      "es": "Martes",
+      "otq": null
+    },
+    {
+      "clave": "texto_bd539dd597",
+      "es": "martes",
+      "otq": null
+    },
+    {
+      "clave": "texto_ee4d988c65",
+      "es": "may",
+      "otq": null
+    },
+    {
+      "clave": "texto_4356f82bed",
+      "es": "Me cuesta caminar",
+      "otq": null
+    },
+    {
+      "clave": "texto_9ea9e24900",
+      "es": "Me cuesta escuchar",
+      "otq": null
+    },
+    {
+      "clave": "texto_64d7a5a9da",
+      "es": "Menor precio",
+      "otq": null
+    },
+    {
+      "clave": "texto_02c2274c2e",
+      "es": "Menor precio en app",
+      "otq": null
+    },
+    {
+      "clave": "texto_78a512ce79",
+      "es": "Menor precio en Qrobus",
+      "otq": null
+    },
+    {
+      "clave": "texto_dd3f84061a",
+      "es": "Mi ubicación ahorita:",
+      "otq": null
+    },
+    {
+      "clave": "texto_dad5376668",
+      "es": "Mi viaje",
+      "otq": null
+    },
+    {
+      "clave": "texto_0635bc16dd",
+      "es": "Miércoles",
+      "otq": null
+    },
+    {
+      "clave": "texto_ba08108cd6",
+      "es": "miércoles",
+      "otq": null
+    },
+    {
+      "clave": "texto_9d1ef6d5b9",
+      "es": "Mueve el mapa y toca dónde está el lugar.",
+      "otq": null
+    },
+    {
+      "clave": "texto_85c1088888",
+      "es": "Mueve el mapa y toca dónde está {v1}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_9c5d6c22b1",
+      "es": "Más cercana",
+      "otq": null
+    },
+    {
+      "clave": "texto_3ac9140c1e",
+      "es": "Más económica",
+      "otq": null
+    },
+    {
+      "clave": "texto_c4931b426e",
+      "es": "Más económica y Más rápida",
+      "otq": null
+    },
+    {
+      "clave": "texto_3be99fa974",
+      "es": "Más rápida",
+      "otq": null
+    },
+    {
+      "clave": "texto_8bcbe8b0d5",
+      "es": "Nadie ha dejado avisos de esta parada.",
+      "otq": null
+    },
+    {
+      "clave": "texto_8088da219c",
+      "es": "NFD",
+      "otq": null
+    },
+    {
+      "clave": "texto_e2b1474e3a",
+      "es": "Ningún Qrobus te lleva directo en la próxima hora.",
+      "otq": null
+    },
+    {
+      "clave": "texto_88207fd1f2",
+      "es": "No encontré \"{v1}\".",
+      "otq": null
+    },
+    {
+      "clave": "texto_2728e9c86d",
+      "es": "No encontré \"{v1}\". Prueba con la calle y la colonia, o elígelo en el mapa.",
+      "otq": null
+    },
+    {
+      "clave": "texto_3b8c326378",
+      "es": "No encontré cómo llegar a esa hora desde ahora.",
+      "otq": null
+    },
+    {
+      "clave": "texto_b3ec4b85ed",
+      "es": "No encontré cómo llegar a esa hora desde ahora. Prueba una hora más tarde.",
+      "otq": null
+    },
+    {
+      "clave": "texto_3980978932",
+      "es": "No encontré el nombre de la calle.",
+      "otq": null
+    },
+    {
+      "clave": "texto_11f7435605",
+      "es": "No encontré otra {v1} hoy en el horario.",
+      "otq": null
+    },
+    {
+      "clave": "texto_b8ec4effc7",
+      "es": "No encuentro un lugar",
+      "otq": null
+    },
+    {
+      "clave": "texto_3acc8aa01b",
+      "es": "No hay conexión con el buscador.",
+      "otq": null
+    },
+    {
+      "clave": "texto_120d35599c",
+      "es": "No hay conexión con el buscador. Elige un lugar guardado o elígelo en el mapa.",
+      "otq": null
+    },
+    {
+      "clave": "texto_e7848d84bf",
+      "es": "No hay paradas de Qrobus a menos de 500 metros.",
+      "otq": null
+    },
+    {
+      "clave": "texto_62bc4d767d",
+      "es": "No hay paradas de Qrobus con servicio a menos de un kilómetro.",
+      "otq": null
+    },
+    {
+      "clave": "texto_108885387b",
+      "es": "No hay rampa",
+      "otq": null
+    },
+    {
+      "clave": "texto_57d7c659b5",
+      "es": "No pude calcular el camino a pie.",
+      "otq": null
+    },
+    {
+      "clave": "texto_a7c774343a",
+      "es": "No pude ver tu ubicación.",
+      "otq": null
+    },
+    {
+      "clave": "texto_f992899f8c",
+      "es": "No se pudo enviar: no hay conexión con Grieta.",
+      "otq": null
+    },
+    {
+      "clave": "texto_ba155392c8",
+      "es": "No se pudo enviar: no hay conexión con Grieta. Revisa tu internet e intenta otra vez.",
+      "otq": null
+    },
+    {
+      "clave": "texto_75e472d510",
+      "es": "No se pudo enviar: {v1}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_2bcc5a0cf2",
+      "es": "No te escuché.",
+      "otq": null
+    },
+    {
+      "clave": "texto_069c47bd54",
+      "es": "No te escuché. Toca el botón otra vez y habla después del tono.",
+      "otq": null
+    },
+    {
+      "clave": "texto_018e8ba367",
+      "es": "No veo",
+      "otq": null
+    },
+    {
+      "clave": "texto_e1c687385f",
+      "es": "No ves",
+      "otq": null
+    },
+    {
+      "clave": "texto_e156353c0b",
+      "es": "No, ayúdame",
+      "otq": null
+    },
+    {
+      "clave": "texto_322c9babcf",
+      "es": "No, pago la tarifa normal",
+      "otq": null
+    },
+    {
+      "clave": "texto_fd0da4d32e",
+      "es": "No, que Grieta me hable",
+      "otq": null
+    },
+    {
+      "clave": "texto_59be721b79",
+      "es": "No: desde las {v1} lo normal sube {v2}",
+      "otq": null
+    },
+    {
+      "clave": "texto_562bb15757",
+      "es": "Nombre",
+      "otq": null
+    },
+    {
+      "clave": "texto_a7248eeb45",
+      "es": "Normal",
+      "otq": null
+    },
+    {
+      "clave": "texto_317b32c143",
+      "es": "normal",
+      "otq": null
+    },
+    {
+      "clave": "texto_15467b2056",
+      "es": "nov",
+      "otq": null
+    },
+    {
+      "clave": "texto_863b4041b9",
+      "es": "Nuestro rango estimado es {v5}.{v6}{v7} {v8}",
+      "otq": null
+    },
+    {
+      "clave": "texto_4a31da43b9",
+      "es": "Obstáculo",
+      "otq": null
+    },
+    {
+      "clave": "texto_61e29d02ae",
+      "es": "Obstáculo en el camino",
+      "otq": null
+    },
+    {
+      "clave": "texto_65e10716f3",
+      "es": "oct",
+      "otq": null
+    },
+    {
+      "clave": "texto_1b1c27c397",
+      "es": "Oscuro",
+      "otq": null
+    },
+    {
+      "clave": "texto_fc6bb9bef6",
+      "es": "Otra cosa",
+      "otq": null
+    },
+    {
+      "clave": "texto_5ec64b369b",
+      "es": "Otra hora",
+      "otq": null
+    },
+    {
+      "clave": "texto_8801b9b9b8",
+      "es": "Otra opción",
+      "otq": null
+    },
+    {
+      "clave": "texto_f31da68425",
+      "es": "Otras paradas cerca",
+      "otq": null
+    },
+    {
+      "clave": "texto_b63fd25449",
+      "es": "Otro nombre",
+      "otq": null
+    },
+    {
+      "clave": "texto_28225c0815",
+      "es": "Pagas tarifa normal",
+      "otq": null
+    },
+    {
+      "clave": "texto_0266ae56a6",
+      "es": "Pagas Tarifa Unidos",
+      "otq": null
+    },
+    {
+      "clave": "texto_e911c1d0b4",
+      "es": "Pago tarifa normal",
+      "otq": null
+    },
+    {
+      "clave": "texto_ab1b6a1c76",
+      "es": "Pago Tarifa Unidos",
+      "otq": null
+    },
+    {
+      "clave": "texto_42878feb08",
+      "es": "Pago Tarifa Unidos ($2)",
+      "otq": null
+    },
+    {
+      "clave": "texto_b1afb1e9ff",
+      "es": "Para avisarte durante el viaje.",
+      "otq": null
+    },
+    {
+      "clave": "texto_98add9d174",
+      "es": "Para avisarte durante el viaje. Puedes apagar la voz aquí abajo, en \"Voz de Grieta\".",
+      "otq": null
+    },
+    {
+      "clave": "texto_8276d44171",
+      "es": "Para saber desde dónde sales",
+      "otq": null
+    },
+    {
+      "clave": "texto_e431788e40",
+      "es": "Parada más cercana · a {v1} caminando",
+      "otq": null
+    },
+    {
+      "clave": "texto_27552fd99d",
+      "es": "Parada más cercana · {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_4bf085056a",
+      "es": "Parada sin techo",
+      "otq": null
+    },
+    {
+      "clave": "texto_8be4cea8c5",
+      "es": "Parada {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_f30142a498",
+      "es": "Paradas cerca, y te aviso si reportaron que no tienen rampa.",
+      "otq": null
+    },
+    {
+      "clave": "texto_42fe5f9d82",
+      "es": "Paradas del recorrido",
+      "otq": null
+    },
+    {
+      "clave": "texto_2cbe285a6f",
+      "es": "Paradas más cerca",
+      "otq": null
+    },
+    {
+      "clave": "texto_d3c2dca1df",
+      "es": "Paso 1 de 6",
+      "otq": null
+    },
+    {
+      "clave": "texto_cca3c37853",
+      "es": "PASO 1 DE 6",
+      "otq": null
+    },
+    {
+      "clave": "texto_3c55715ba3",
+      "es": "PASO 2 DE 6",
+      "otq": null
+    },
+    {
+      "clave": "texto_5b0b52c855",
+      "es": "PASO 3 DE 6",
+      "otq": null
+    },
+    {
+      "clave": "texto_ec39bb152a",
+      "es": "PASO 4 DE 6",
+      "otq": null
+    },
+    {
+      "clave": "texto_3e6141e513",
+      "es": "PASO 5 DE 6",
+      "otq": null
+    },
+    {
+      "clave": "texto_64aef7fbd6",
+      "es": "PASO 6 DE 6",
+      "otq": null
+    },
+    {
+      "clave": "texto_2ca6132ac8",
+      "es": "Paso {v1} de {v2}",
+      "otq": null
+    },
+    {
+      "clave": "texto_487d9a2685",
+      "es": "PASO {v1} DE {v2}",
+      "otq": null
+    },
+    {
+      "clave": "texto_c3a2faa146",
+      "es": "Pedir en app",
+      "otq": null
+    },
+    {
+      "clave": "texto_25017383ee",
+      "es": "Pide {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_7b33215b01",
+      "es": "Pide {v1} a tu destino",
+      "otq": null
+    },
+    {
+      "clave": "texto_ed488439c4",
+      "es": "Pide {v1} a {v2}",
+      "otq": null
+    },
+    {
+      "clave": "texto_5126c0b2de",
+      "es": "Pide {v1} hasta la parada",
+      "otq": null
+    },
+    {
+      "clave": "texto_f99fe8e4b1",
+      "es": "Pide {v1}, unos {v2}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_2ceda0e863",
+      "es": "Pide {v1}, unos {v2}. Llegas a las {v3}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_96f2f0811d",
+      "es": "pm",
+      "otq": null
+    },
+    {
+      "clave": "texto_15fb280585",
+      "es": "Pocos botones, muy grandes, y Grieta te dice todo en voz alta.",
+      "otq": null
+    },
+    {
+      "clave": "texto_5918a62303",
+      "es": "Porque {v1}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_30e41d3ee2",
+      "es": "precio",
+      "otq": null
+    },
+    {
+      "clave": "texto_70eea8da01",
+      "es": "Precio en app según la hora de salida",
+      "otq": null
+    },
+    {
+      "clave": "texto_6b7c883403",
+      "es": "Precio estimado",
+      "otq": null
+    },
+    {
+      "clave": "texto_640c6aabdc",
+      "es": "Precio estimado a las {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_420f7b2536",
+      "es": "Precio estimado ahora",
+      "otq": null
+    },
+    {
+      "clave": "texto_fdfe32a937",
+      "es": "precio estimado {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_ede486db3c",
+      "es": "Precio estimado {v1}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_49dbefe893",
+      "es": "Precio estimado {v1}. Llegas a las {v2}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_4da4f33fc6",
+      "es": "Precio estimado {v2}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_59901b0ab2",
+      "es": "Precio que te marca",
+      "otq": null
+    },
+    {
+      "clave": "texto_d744242c64",
+      "es": "Precios, horarios, comparar y esperar",
+      "otq": null
+    },
+    {
+      "clave": "texto_ed4ea5218c",
+      "es": "Precios, horarios, comparar y esperar.",
+      "otq": null
+    },
+    {
+      "clave": "texto_57de6e5255",
+      "es": "Preferencias de viaje",
+      "otq": null
+    },
+    {
+      "clave": "texto_bfe1c0294a",
+      "es": "Prefieres {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_a3f351ce05",
+      "es": "Preguntas frecuentes",
+      "otq": null
+    },
+    {
+      "clave": "texto_d07d5e5beb",
+      "es": "Pregúntale al chofer si es la {v2} hacia {v3}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_5d04865d84",
+      "es": "Prepárate para bajar.",
+      "otq": null
+    },
+    {
+      "clave": "texto_acaff3c367",
+      "es": "Prepárate y toca el timbre.",
+      "otq": null
+    },
+    {
+      "clave": "texto_f9cd26139d",
+      "es": "Prepárate.",
+      "otq": null
+    },
+    {
+      "clave": "texto_19b16b7e18",
+      "es": "Prepárate. Tu parada es {v1}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_45e390c16c",
+      "es": "Primero necesito saber dónde estás.",
+      "otq": null
+    },
+    {
+      "clave": "texto_a1954fdd3d",
+      "es": "Primero necesito saber dónde estás. Activa la ubicación o elige desde dónde sales en Inicio.",
+      "otq": null
+    },
+    {
+      "clave": "texto_50e815f11e",
+      "es": "Progreso de bienvenida",
+      "otq": null
+    },
+    {
+      "clave": "texto_20602e1fa5",
+      "es": "Prueba con la calle y la colonia, o elígelo en el mapa.",
+      "otq": null
+    },
+    {
+      "clave": "texto_48e8386721",
+      "es": "Prueba una hora más tarde.",
+      "otq": null
+    },
+    {
+      "clave": "texto_ddbd8d6444",
+      "es": "Próxima parada",
+      "otq": null
+    },
+    {
+      "clave": "texto_4cd5c0ef15",
+      "es": "Próximos camiones",
+      "otq": null
+    },
+    {
+      "clave": "texto_4444ec4125",
+      "es": "Puedes apagar la voz aquí abajo, en \"Voz de Grieta\".",
+      "otq": null
+    },
+    {
+      "clave": "texto_14a927367d",
+      "es": "Puedes avisarle a {v1} que llegaste.",
+      "otq": null
+    },
+    {
+      "clave": "texto_7cf31587c8",
+      "es": "Punto en el mapa",
+      "otq": null
+    },
+    {
+      "clave": "texto_6cd3b641cc",
+      "es": "PushManager",
+      "otq": null
+    },
+    {
+      "clave": "texto_2f93ddbc26",
+      "es": "Pídelo ya",
+      "otq": null
+    },
+    {
+      "clave": "texto_649f6d2295",
+      "es": "Queda a {v1} por calles",
+      "otq": null
+    },
+    {
+      "clave": "texto_a2a9ca8795",
+      "es": "Quiero lo esencial",
+      "otq": null
+    },
+    {
+      "clave": "texto_2f322ed874",
+      "es": "Quiero que Grieta me hable",
+      "otq": null
+    },
+    {
+      "clave": "texto_841576de67",
+      "es": "Quiero todas las opciones",
+      "otq": null
+    },
+    {
+      "clave": "texto_f039f4a8c9",
+      "es": "Quitar",
+      "otq": null
+    },
+    {
+      "clave": "texto_6e6c878559",
+      "es": "Quitar {v4}",
+      "otq": null
+    },
+    {
+      "clave": "texto_df2375a7f3",
+      "es": "Quitaste {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_0f15d9ca89",
+      "es": "Recomendación",
+      "otq": null
+    },
+    {
+      "clave": "texto_5fa7218b75",
+      "es": "Recomendado",
+      "otq": null
+    },
+    {
+      "clave": "texto_10ddff5fcc",
+      "es": "Referencia",
+      "otq": null
+    },
+    {
+      "clave": "texto_ec5e5afc6d",
+      "es": "Referencia para encontrar la parada",
+      "otq": null
+    },
+    {
+      "clave": "texto_b3e8a22f84",
+      "es": "Referencia: {referencia}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_393dce59ad",
+      "es": "Regresar",
+      "otq": null
+    },
+    {
+      "clave": "texto_91a7a94f21",
+      "es": "Repetir",
+      "otq": null
+    },
+    {
+      "clave": "texto_6e9e5f0a00",
+      "es": "Reportar",
+      "otq": null
+    },
+    {
+      "clave": "texto_9b3c1a25ae",
+      "es": "Reportar algo aquí",
+      "otq": null
+    },
+    {
+      "clave": "texto_d809ed9677",
+      "es": "Respuestas sobre Grieta",
+      "otq": null
+    },
+    {
+      "clave": "texto_31056106ce",
+      "es": "Resultados",
+      "otq": null
+    },
+    {
+      "clave": "texto_8ed7e61f70",
+      "es": "Resultados cerca de ti",
+      "otq": null
+    },
+    {
+      "clave": "texto_5122b13e84",
+      "es": "Revisa otra app antes de pedir.",
+      "otq": null
+    },
+    {
+      "clave": "texto_1dda1673c8",
+      "es": "Revisa tu internet e intenta otra vez.",
+      "otq": null
+    },
+    {
+      "clave": "texto_8d416a5611",
+      "es": "Rumbo a {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_11f7e34808",
+      "es": "Ruta recomendada",
+      "otq": null
+    },
+    {
+      "clave": "texto_1f6fdbad02",
+      "es": "Ruta {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_d871e68675",
+      "es": "Sal a las {v2}",
+      "otq": null
+    },
+    {
+      "clave": "texto_0b20663d3c",
+      "es": "Salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse unos minutos.",
+      "otq": null
+    },
+    {
+      "clave": "texto_7ee6079686",
+      "es": "Saliendo {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_ecebe9dfe1",
+      "es": "Saltar",
+      "otq": null
+    },
+    {
+      "clave": "texto_cc95f9dbfd",
+      "es": "Saltar estas preguntas",
+      "otq": null
+    },
+    {
+      "clave": "texto_f59753eb80",
+      "es": "SCRIPT",
+      "otq": null
+    },
+    {
+      "clave": "texto_4652aad627",
+      "es": "Se guarda solo en este teléfono.",
+      "otq": null
+    },
+    {
+      "clave": "texto_a4d12fc291",
+      "es": "Se guardó tu reporte, pero no se pudo subir la foto.",
+      "otq": null
+    },
+    {
+      "clave": "texto_5d602a258c",
+      "es": "Se lo diré a quien espere aquí.",
+      "otq": null
+    },
+    {
+      "clave": "texto_0bbc7f1e92",
+      "es": "Secciones",
+      "otq": null
+    },
+    {
+      "clave": "texto_ff6a1b5a82",
+      "es": "según el horario pasa a las {hora}",
+      "otq": null
+    },
+    {
+      "clave": "texto_5d3929bdad",
+      "es": "Según el horario pasa a las {v1}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_3b59e04c07",
+      "es": "Según el horario pasa a las {v1}. Pregúntale al chofer si es la {v2} hacia {v3}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_7ebf71d89b",
+      "es": "Según el horario, a las {v1}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_bce78e65c6",
+      "es": "Según el horario, a las {v1}. Ve a la parada.",
+      "otq": null
+    },
+    {
+      "clave": "texto_0c859810ab",
+      "es": "Según el horario, la siguiente pasa a las {hora}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_e0ac58bcc3",
+      "es": "Según el horario, la siguiente {v1} pasa a las {v2}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_c19588ee9c",
+      "es": "sep",
+      "otq": null
+    },
+    {
+      "clave": "texto_f18e2d8a06",
+      "es": "Si la app te marca otro, compáralo en \"¿La app ya te dio precio?\".",
+      "otq": null
+    },
+    {
+      "clave": "texto_b63bf503d7",
+      "es": "Si lo pierdes, {v6} se estima en {v7}.{v8}",
+      "otq": null
+    },
+    {
+      "clave": "texto_fc451774c1",
+      "es": "Si puedes, espera la siguiente.",
+      "otq": null
+    },
+    {
+      "clave": "texto_4cd92a6e7c",
+      "es": "Si te sientes bien para ir a pie, no cuesta nada",
+      "otq": null
+    },
+    {
+      "clave": "texto_5e38b2ed89",
+      "es": "Silla de ruedas o andadera",
+      "otq": null
+    },
+    {
+      "clave": "texto_569af249b2",
+      "es": "sin api",
+      "otq": null
+    },
+    {
+      "clave": "texto_c59af363a3",
+      "es": "sin conexion",
+      "otq": null
+    },
+    {
+      "clave": "texto_a8d71d210b",
+      "es": "Sin internet: puedes ver qué camión pasa y tus lugares guardados; para buscar calles hace falta conexión.",
+      "otq": null
+    },
+    {
+      "clave": "texto_c4dc040a07",
+      "es": "Sin nombre",
+      "otq": null
+    },
+    {
+      "clave": "texto_4cac929693",
+      "es": "Sin pantalla",
+      "otq": null
+    },
+    {
+      "clave": "texto_8d5c6d561e",
+      "es": "Sin prisa",
+      "otq": null
+    },
+    {
+      "clave": "texto_b900515afb",
+      "es": "Sin ubicación",
+      "otq": null
+    },
+    {
+      "clave": "texto_1e07105ac8",
+      "es": "Sin ubicación: elige desde dónde sales",
+      "otq": null
+    },
+    {
+      "clave": "texto_b098b66891",
+      "es": "Sirve para calcular cuánto te cuesta el camión.",
+      "otq": null
+    },
+    {
+      "clave": "texto_3db2135cc9",
+      "es": "Sirve para elegir cómo avisarte durante el viaje.",
+      "otq": null
+    },
+    {
+      "clave": "texto_bc59cd4c49",
+      "es": "Sirve para encontrar paradas a tu medida.",
+      "otq": null
+    },
+    {
+      "clave": "texto_484c0b841d",
+      "es": "Sirve para encontrar paradas y guiarte.",
+      "otq": null
+    },
+    {
+      "clave": "texto_a35e660764",
+      "es": "Solo aparece si elegiste “No veo”.",
+      "otq": null
+    },
+    {
+      "clave": "texto_a6e2e3f901",
+      "es": "Solo app (",
+      "otq": null
+    },
+    {
+      "clave": "texto_4a141ad686",
+      "es": "Solo lo esencial, con botones grandes",
+      "otq": null
+    },
+    {
+      "clave": "texto_9a125fc03c",
+      "es": "Solo lo esencial, con botones grandes.",
+      "otq": null
+    },
+    {
+      "clave": "texto_12b2152a34",
+      "es": "Solo paradas a menos de 300 metros",
+      "otq": null
+    },
+    {
+      "clave": "texto_05c1eb634f",
+      "es": "Son los precios normales a esa hora.",
+      "otq": null
+    },
+    {
+      "clave": "texto_92bd867fbc",
+      "es": "Son los precios normales a esa hora. Si la app te marca otro, compáralo en \"¿La app ya te dio precio?\".",
+      "otq": null
+    },
+    {
+      "clave": "texto_6f6fd8bd74",
+      "es": "Son precios normales según nuestros registros, no lo que marca la app en este momento.",
+      "otq": null
+    },
+    {
+      "clave": "texto_b227f7ff9c",
+      "es": "Son {v1} caminando, unos {v2} minutos.",
+      "otq": null
+    },
+    {
+      "clave": "texto_681edf43cd",
+      "es": "Subes a la {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_f7a8575b1a",
+      "es": "Sábado",
+      "otq": null
+    },
+    {
+      "clave": "texto_04bc66d1db",
+      "es": "sábado",
+      "otq": null
+    },
+    {
+      "clave": "texto_7392158895",
+      "es": "Sí",
+      "otq": null
+    },
+    {
+      "clave": "texto_c1aefb541e",
+      "es": "Sí, escucho bien",
+      "otq": null
+    },
+    {
+      "clave": "texto_8e0b77b894",
+      "es": "Sí, pago $2",
+      "otq": null
+    },
+    {
+      "clave": "texto_e4d0f7ec71",
+      "es": "Sí, usar mi ubicación",
+      "otq": null
+    },
+    {
+      "clave": "texto_2704ebb380",
+      "es": "Sí, uso VoiceOver o TalkBack",
+      "otq": null
+    },
+    {
+      "clave": "texto_61be17666f",
+      "es": "Sí, ya uso uno",
+      "otq": null
+    },
+    {
+      "clave": "texto_7bdf2a03eb",
+      "es": "Sí: desde las {v1} lo normal baja {v2}",
+      "otq": null
+    },
+    {
+      "clave": "texto_4a6cc7bc09",
+      "es": "También a las {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_82c2d641d0",
+      "es": "tarifa",
+      "otq": null
+    },
+    {
+      "clave": "texto_8713a0e05f",
+      "es": "Tarifa normal",
+      "otq": null
+    },
+    {
+      "clave": "texto_892c4d0438",
+      "es": "Tarifa Unidos",
+      "otq": null
+    },
+    {
+      "clave": "texto_58efbac1cf",
+      "es": "Te aviso a un kilómetro, a 300 metros y al llegar.",
+      "otq": null
+    },
+    {
+      "clave": "texto_18307ac493",
+      "es": "Te aviso antes de bajar.",
+      "otq": null
+    },
+    {
+      "clave": "texto_9d4166c128",
+      "es": "Te aviso antes.",
+      "otq": null
+    },
+    {
+      "clave": "texto_0e4839a595",
+      "es": "Te aviso cuando esté por pasar.",
+      "otq": null
+    },
+    {
+      "clave": "texto_f48ccce1c8",
+      "es": "Te aviso cuando llegue.",
+      "otq": null
+    },
+    {
+      "clave": "texto_9a5bd3f8e7",
+      "es": "Te aviso dos paradas antes de bajar.",
+      "otq": null
+    },
+    {
+      "clave": "texto_54da007a8c",
+      "es": "Te aviso si una parada no tiene rampa",
+      "otq": null
+    },
+    {
+      "clave": "texto_f273ac3e43",
+      "es": "Te busco la parada que más te convenga.",
+      "otq": null
+    },
+    {
+      "clave": "texto_c5aae5312c",
+      "es": "Te busco paradas más cerca.",
+      "otq": null
+    },
+    {
+      "clave": "texto_ceda8aa442",
+      "es": "te cuesta caminar",
+      "otq": null
+    },
+    {
+      "clave": "texto_fd5f26a892",
+      "es": "te cuesta escuchar",
+      "otq": null
+    },
+    {
+      "clave": "texto_090f3f7017",
+      "es": "Te escucho",
+      "otq": null
+    },
+    {
+      "clave": "texto_9d8ee4599d",
+      "es": "Te escucho.",
+      "otq": null
+    },
+    {
+      "clave": "texto_59989d219f",
+      "es": "Te escucho. Di a dónde vas.",
+      "otq": null
+    },
+    {
+      "clave": "texto_ea7f8b9276",
+      "es": "Te llevo a {v1}: en la tienda toca Abrir y",
+      "otq": null
+    },
+    {
+      "clave": "texto_37b945da29",
+      "es": "Teléfono a 10 dígitos",
+      "otq": null
+    },
+    {
+      "clave": "texto_bd40d271ec",
+      "es": "Tengo prisa",
+      "otq": null
+    },
+    {
+      "clave": "texto_56d2f9b357",
+      "es": "Tengo que llegar a las",
+      "otq": null
+    },
+    {
+      "clave": "texto_0eba8ec06b",
+      "es": "Terminar viaje",
+      "otq": null
+    },
+    {
+      "clave": "texto_46cfefb7bb",
+      "es": "Toca el botón otra vez y habla después del tono.",
+      "otq": null
+    },
+    {
+      "clave": "texto_d6b99be895",
+      "es": "Toca el timbre ahora.",
+      "otq": null
+    },
+    {
+      "clave": "texto_2e46094e30",
+      "es": "Toca el timbre ahora. Bajas en {v1}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_14745c354f",
+      "es": "Toca otra vez para confirmar.",
+      "otq": null
+    },
+    {
+      "clave": "texto_5721b4cc13",
+      "es": "Toca otra vez para terminar",
+      "otq": null
+    },
+    {
+      "clave": "texto_3deb8760d6",
+      "es": "Toca para cambiarla",
+      "otq": null
+    },
+    {
+      "clave": "texto_b0d14a60aa",
+      "es": "Toca para ver cómo llegar",
+      "otq": null
+    },
+    {
+      "clave": "texto_791e40e84a",
+      "es": "Tocas el punto y yo busco la calle",
+      "otq": null
+    },
+    {
+      "clave": "texto_f3df7e52cc",
+      "es": "Todavía no sé dónde estás.",
+      "otq": null
+    },
+    {
+      "clave": "texto_e55207b784",
+      "es": "Todavía no sé dónde estás. Activa la ubicación.",
+      "otq": null
+    },
+    {
+      "clave": "texto_e5f0112bf4",
+      "es": "Toma la línea {v1} a las {v2}",
+      "otq": null
+    },
+    {
+      "clave": "texto_e1ddc0cbc9",
+      "es": "Trabajo",
+      "otq": null
+    },
+    {
+      "clave": "texto_18fffd3399",
+      "es": "Transbordo",
+      "otq": null
+    },
+    {
+      "clave": "texto_35fcb4be5e",
+      "es": "Tu forma de viajar",
+      "otq": null
+    },
+    {
+      "clave": "texto_6e4584b30b",
+      "es": "Tu navegador no comparte la ubicación.",
+      "otq": null
+    },
+    {
+      "clave": "texto_aa5b29a5cb",
+      "es": "Tu parada",
+      "otq": null
+    },
+    {
+      "clave": "texto_3490d28967",
+      "es": "Tu parada es {v1}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_655bb0878d",
+      "es": "Tu perfil de viaje",
+      "otq": null
+    },
+    {
+      "clave": "texto_3a9a3dfa74",
+      "es": "Tu perfil, 1 de 3.",
+      "otq": null
+    },
+    {
+      "clave": "texto_5217a58076",
+      "es": "Tu perfil, 1 de 3. ¿Cómo te mueves? Arriba, camino sin problema. En medio, me cuesta caminar. Abajo, uso silla de ruedas o andadera. Al final puedes saltar estas preguntas.",
+      "otq": null
+    },
+    {
+      "clave": "texto_2979208c8c",
+      "es": "Tu reporte ayuda a quien pase por aquí.",
+      "otq": null
+    },
+    {
+      "clave": "texto_ffb94f626e",
+      "es": "Tu ubicación",
+      "otq": null
+    },
+    {
+      "clave": "texto_c4a48e25fe",
+      "es": "tu ubicación",
+      "otq": null
+    },
+    {
+      "clave": "texto_a4f173d79d",
+      "es": "Tus lugares",
+      "otq": null
+    },
+    {
+      "clave": "texto_92cafffcf9",
+      "es": "Tus viajes recientes",
+      "otq": null
+    },
+    {
+      "clave": "texto_dbf6df3a31",
+      "es": "UAQ",
+      "otq": null
+    },
+    {
+      "clave": "texto_3cfbdbc3ba",
+      "es": "Uber",
+      "otq": null
+    },
+    {
+      "clave": "texto_cebbec153a",
+      "es": "Unos {v1} minutos, contando la espera.",
+      "otq": null
+    },
+    {
+      "clave": "texto_e52711dfe4",
+      "es": "Usar este punto: {v1}",
+      "otq": null
+    },
+    {
+      "clave": "texto_1276ef1ab0",
+      "es": "Usas lector de pantalla",
+      "otq": null
+    },
+    {
+      "clave": "texto_a5d39f8aee",
+      "es": "Usas silla de ruedas",
+      "otq": null
+    },
+    {
+      "clave": "texto_ac2b76ac0e",
+      "es": "usas silla de ruedas o andadera",
+      "otq": null
+    },
+    {
+      "clave": "texto_06207b7223",
+      "es": "Uso lector de pantalla",
+      "otq": null
+    },
+    {
+      "clave": "texto_4311b0ea62",
+      "es": "Uso silla de ruedas o andadera",
+      "otq": null
+    },
+    {
+      "clave": "texto_6fb8d4c85a",
+      "es": "Vamos a casa.",
+      "otq": null
+    },
+    {
+      "clave": "texto_6b46fe5d5c",
+      "es": "Vamos a {lugar}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_ab1b5a3712",
+      "es": "Vas a {v1}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_d0e677a6ed",
+      "es": "Vas a {v1}. ¿Desde dónde sales?",
+      "otq": null
+    },
+    {
+      "clave": "texto_3aaa71abc5",
+      "es": "Vas en la {v1}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_1fb55c80f7",
+      "es": "Vas en la {v1}. Te aviso dos paradas antes de bajar.",
+      "otq": null
+    },
+    {
+      "clave": "texto_5d3dcaaf8b",
+      "es": "Vas por {v1}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_027e7e3d87",
+      "es": "Ve a la parada.",
+      "otq": null
+    },
+    {
+      "clave": "texto_035d663bdb",
+      "es": "Veo bien",
+      "otq": null
+    },
+    {
+      "clave": "texto_2c7a10948f",
+      "es": "Veo poco",
+      "otq": null
+    },
+    {
+      "clave": "texto_36567722e9",
+      "es": "Ver esta ruta",
+      "otq": null
+    },
+    {
+      "clave": "texto_a0acf351ad",
+      "es": "Ves bien",
+      "otq": null
+    },
+    {
+      "clave": "texto_8bf6e9882e",
+      "es": "Ves cuánto cuesta en Uber, DiDi e inDrive y cómo llegar en Qrobus.",
+      "otq": null
+    },
+    {
+      "clave": "texto_21f61da7bb",
+      "es": "Ves poco",
+      "otq": null
+    },
+    {
+      "clave": "texto_1517e28584",
+      "es": "Vete en camión",
+      "otq": null
+    },
+    {
+      "clave": "texto_12bba03fb9",
+      "es": "Viene lleno",
+      "otq": null
+    },
+    {
+      "clave": "texto_7e9a9f126f",
+      "es": "Viernes",
+      "otq": null
+    },
+    {
+      "clave": "texto_5b456b3ff1",
+      "es": "viernes",
+      "otq": null
+    },
+    {
+      "clave": "texto_85174b79d1",
+      "es": "VoiceOver o TalkBack",
+      "otq": null
+    },
+    {
+      "clave": "texto_3ca6c6397d",
+      "es": "Voy a {v1}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_e5563a3682",
+      "es": "Voy a {v1}{v2}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_fb8153345e",
+      "es": "Voy a {v1}{v2}. Mi ubicación ahorita:",
+      "otq": null
+    },
+    {
+      "clave": "texto_c9566ca43b",
+      "es": "Voz",
+      "otq": null
+    },
+    {
+      "clave": "texto_85753516e8",
+      "es": "Voz de Grieta",
+      "otq": null
+    },
+    {
+      "clave": "texto_1dc149d56e",
+      "es": "Voz más lenta",
+      "otq": null
+    },
+    {
+      "clave": "texto_a1fce43638",
+      "es": "y",
+      "otq": null
+    },
+    {
+      "clave": "texto_0524be6c8f",
+      "es": "y prefieres lo esencial",
+      "otq": null
+    },
+    {
+      "clave": "texto_48a9b8111f",
+      "es": "y prefieres todas las opciones",
+      "otq": null
+    },
+    {
+      "clave": "texto_c9a93de68b",
+      "es": "y quieres que Grieta te hable",
+      "otq": null
+    },
+    {
+      "clave": "texto_b2c89d7fe3",
+      "es": "y usas lector de pantalla",
+      "otq": null
+    },
+    {
+      "clave": "texto_f04de2e262",
+      "es": "Ya casi",
+      "otq": null
+    },
+    {
+      "clave": "texto_c5b0be76e1",
+      "es": "Ya casi llegas",
+      "otq": null
+    },
+    {
+      "clave": "texto_e35e4f6a37",
+      "es": "Ya llegué a {v1}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_ea6f94e5c8",
+      "es": "Ya me subí",
+      "otq": null
+    },
+    {
+      "clave": "texto_571d4d1cb1",
+      "es": "Ya me subí a la {linea}",
+      "otq": null
+    },
+    {
+      "clave": "texto_8784b982b6",
+      "es": "Ya no te voy a avisar cuándo bajarte.",
+      "otq": null
+    },
+    {
+      "clave": "texto_8b8e37fcbe",
+      "es": "Ya pasó",
+      "otq": null
+    },
+    {
+      "clave": "texto_db0bc41a0a",
+      "es": "ya salí",
+      "otq": null
+    },
+    {
+      "clave": "texto_c28b91e4fc",
+      "es": "Ya voy en camino a {v1}{v2}{v3}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_678eb7251d",
+      "es": "Ya voy en camino a {v1}{v2}{v3}. Te aviso cuando llegue.",
+      "otq": null
+    },
+    {
+      "clave": "texto_1d917cf0ae",
+      "es": "{etiquetas}. {ruta}. Llegas {hora}. {minutos} min. caminas {caminar} min. {precio}. {ahorro}",
+      "otq": null
+    },
+    {
+      "clave": "texto_68799098ea",
+      "es": "{etiquetas}. {ruta}. Llegas {hora}. {minutos} min. {precio}. {ahorro}",
+      "otq": null
+    },
+    {
+      "clave": "texto_09c5889de6",
+      "es": "{numero} pesos",
+      "otq": null
+    },
+    {
+      "clave": "texto_6502ecd398",
+      "es": "{v1} a las {v2}",
+      "otq": null
+    },
+    {
+      "clave": "texto_a60ec8fcd4",
+      "es": "{v1} de ahorro estimado",
+      "otq": null
+    },
+    {
+      "clave": "texto_eacf3ce6fa",
+      "es": "{v1} de {v2} paradas recorridas en la línea {v3}",
+      "otq": null
+    },
+    {
+      "clave": "texto_a89438cef8",
+      "es": "{v1} min",
+      "otq": null
+    },
+    {
+      "clave": "texto_0187d7c07a",
+      "es": "{v1} min · {v2}",
+      "otq": null
+    },
+    {
+      "clave": "texto_34a61209aa",
+      "es": "{v1} por calles, sin costo",
+      "otq": null
+    },
+    {
+      "clave": "texto_0772349511",
+      "es": "{v1}, avisó alguien hace {v2} min",
+      "otq": null
+    },
+    {
+      "clave": "texto_80d6285142",
+      "es": "{v1}. Precio estimado {v2}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_52c51dfa5f",
+      "es": "{v1}Efecto",
+      "otq": null
+    },
+    {
+      "clave": "texto_5271135605",
+      "es": "{v1}Llegas {v2} · {v3} min estimados",
+      "otq": null
+    },
+    {
+      "clave": "texto_7a6e4e3a8c",
+      "es": "{v2}Ir a {v3}",
+      "otq": null
+    },
+    {
+      "clave": "texto_13412ff71d",
+      "es": "{v2}Ver cómo ir en {v3}",
+      "otq": null
+    },
+    {
+      "clave": "texto_a89eb78a25",
+      "es": "{v3} te marca {v4}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_3b4fcbcd01",
+      "es": "{v3} te marca {v4}. Nuestro rango estimado es {v5}.{v6}{v7} {v8}",
+      "otq": null
+    },
+    {
+      "clave": "texto_26de2e9224",
+      "es": "{v4}Ver cómo llegar a la parada",
+      "otq": null
+    },
+    {
+      "clave": "perfil_frase",
+      "es": "{vista}, {movilidad}, {oido}{forma}{lector}. {tarifa}.",
+      "otq": null
+    },
+    {
+      "clave": "texto_afa40d4a94",
+      "es": "· {v1} min más que en app",
+      "otq": null
+    },
+    {
+      "clave": "texto_f9235dcd36",
+      "es": "¿A dónde vas?",
+      "otq": null
+    },
+    {
+      "clave": "texto_4fd4e9b226",
+      "es": "¿A qué hora salgo?",
+      "otq": null
+    },
+    {
+      "clave": "texto_a6fb94a4b6",
+      "es": "¿Conviene esperar?",
+      "otq": null
+    },
+    {
+      "clave": "texto_0e6c1ca193",
+      "es": "¿Cuánto te marca la app?",
+      "otq": null
+    },
+    {
+      "clave": "texto_ed018227d1",
+      "es": "¿Cómo le quieres poner?",
+      "otq": null
+    },
+    {
+      "clave": "texto_a4bbff99a1",
+      "es": "¿Cómo quieres ver Grieta?",
+      "otq": null
+    },
+    {
+      "clave": "texto_916d8faf39",
+      "es": "¿Cómo te mueves?",
+      "otq": null
+    },
+    {
+      "clave": "texto_a3adaf2609",
+      "es": "¿Cómo ves la pantalla?",
+      "otq": null
+    },
+    {
+      "clave": "texto_6fd6df5daf",
+      "es": "¿Desde dónde sales?",
+      "otq": null
+    },
+    {
+      "clave": "texto_f7d8736aa8",
+      "es": "¿Dónde estoy?",
+      "otq": null
+    },
+    {
+      "clave": "texto_f1afb73178",
+      "es": "¿Dónde está tu casa?",
+      "otq": null
+    },
+    {
+      "clave": "texto_e6abc39ca6",
+      "es": "¿Escuchas bien los avisos?",
+      "otq": null
+    },
+    {
+      "clave": "texto_9a7e392cd7",
+      "es": "¿La app ya te dio precio?",
+      "otq": null
+    },
+    {
+      "clave": "texto_3f58767c8c",
+      "es": "¿La app ya te dio precio? Compáralo",
+      "otq": null
+    },
+    {
+      "clave": "texto_04bff1d32a",
+      "es": "¿Las horas del camión son seguras?",
+      "otq": null
+    },
+    {
+      "clave": "texto_0a7342b9e3",
+      "es": "¿Los precios son exactos?",
+      "otq": null
+    },
+    {
+      "clave": "texto_23957ff63f",
+      "es": "¿Me avisa cuando lleguemos, por favor?",
+      "otq": null
+    },
+    {
+      "clave": "texto_512e0a5088",
+      "es": "¿No aparece?",
+      "otq": null
+    },
+    {
+      "clave": "texto_e9006c4b02",
+      "es": "¿No aparece? Elígelo en el mapa",
+      "otq": null
+    },
+    {
+      "clave": "texto_5df139469e",
+      "es": "¿Pagas Tarifa Unidos?",
+      "otq": null
+    },
+    {
+      "clave": "texto_beb1b20659",
+      "es": "¿Por qué me habla Grieta?",
+      "otq": null
+    },
+    {
+      "clave": "texto_d522dc4d2f",
+      "es": "¿Qué camión pasa aquí?",
+      "otq": null
+    },
+    {
+      "clave": "texto_6ff24d0780",
+      "es": "¿Qué necesitas?",
+      "otq": null
+    },
+    {
+      "clave": "texto_58e4c963e5",
+      "es": "¿Qué problema encontraste?",
+      "otq": null
+    },
+    {
+      "clave": "texto_0d4cf0a9cd",
+      "es": "¿Qué tanta prisa tienes?",
+      "otq": null
+    },
+    {
+      "clave": "texto_b6b63d7e85",
+      "es": "¿Qué ves en la parada?",
+      "otq": null
+    },
+    {
+      "clave": "texto_95df5a3773",
+      "es": "¿Qué ves en la parada? Avisa a los demás:",
+      "otq": null
+    },
+    {
+      "clave": "texto_bf2667693b",
+      "es": "¿Te cuesta caminar o pagas Tarifa Unidos?",
+      "otq": null
+    },
+    {
+      "clave": "texto_fd00e8c43b",
+      "es": "¿Terminar el viaje?",
+      "otq": null
+    },
+    {
+      "clave": "texto_9aa0cb109e",
+      "es": "¿Terminar el viaje? Ya no te voy a avisar cuándo bajarte. Toca otra vez para confirmar.",
+      "otq": null
+    },
+    {
+      "clave": "texto_dbaf263ecb",
+      "es": "¿Tienes que llegar a una hora?",
+      "otq": null
+    },
+    {
+      "clave": "texto_467962b271",
+      "es": "¿Tu teléfono ya te lee la pantalla, como VoiceOver o TalkBack?",
+      "otq": null
+    },
+    {
+      "clave": "texto_23719f65f3",
+      "es": "¿Tu teléfono ya te lee la pantalla?",
+      "otq": null
+    },
+    {
+      "clave": "texto_4a1341955b",
+      "es": "¿Usamos tu ubicación?",
+      "otq": null
+    },
+    {
+      "clave": "texto_f3ea96ed56",
+      "es": "¿Usamos tu ubicación? Así sé desde dónde sales y cuándo avisarte que te bajes. Arriba, sí. Abajo, ahora no.",
+      "otq": null
+    },
+    {
+      "clave": "texto_e19b5e254d",
+      "es": "¿Vas a {v1}?",
+      "otq": null
+    },
+    {
+      "clave": "texto_8488f0f272",
+      "es": "Último {v2}: {v3} según el horario",
+      "otq": null
+    }
+  ]
+}

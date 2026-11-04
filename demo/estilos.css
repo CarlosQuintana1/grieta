@@ -178,6 +178,13 @@ html.contraste .lugar-icono { box-shadow: inset 0 0 0 3px #fff; }
 .desde .icono { width: 18px; height: 18px; }
 .desde span { flex: 1; min-width: 0; }
 .desde .enlace { min-height: var(--toque); padding: 0 4px; }
+.acceso-voz { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 64px; margin: 2px 0 10px; padding: 8px 0; color: var(--ambar); text-align: left; border-bottom: 1px solid var(--linea); }
+.acceso-voz > .icono { width: 24px; height: 24px; }
+.acceso-voz .fila-texto { flex: 1; min-width: 0; }
+.acceso-voz strong, .acceso-voz small { display: block; }
+.acceso-voz strong { font-size: 0.94rem; }
+.acceso-voz small { margin-top: 2px; color: var(--tenue); font-size: 0.78rem; line-height: 1.35; }
+.acceso-voz .chevron { color: var(--tenue); }
 
 /* Filas de lista */
 .filas > li > button, .filas > li > .fila {
@@ -393,7 +400,7 @@ html.claro .interruptor input::after, html.claro .interruptor input:checked::aft
 .cabeza-grupo h2 { margin: 12px 0; }
 .quitar { color: var(--ambar); font-weight: 700; min-height: var(--toque); padding: 0 6px; }
 
-/* Bienvenida: la opcion para quien no ve ocupa la parte de abajo, la mas facil de tocar sin buscarla. */
+/* Bienvenida: la opción de voz ocupa la parte de abajo, la más fácil de tocar. */
 #bienvenida:not([hidden]) { display: flex; flex-direction: column; min-height: 100%; }
 #bienvenida .paso { flex: 1; display: flex; flex-direction: column; }
 #bienvenida .paso[hidden] { display: none; }

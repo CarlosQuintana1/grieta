@@ -115,14 +115,13 @@
         <div class="vista-opciones">
           <button type="button" class="opcion-vista" data-v="vista"><span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-ojo"/></svg></span><span class="opcion-texto"><strong>Veo bien</strong><small>Mapa y letra normal</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
           <button type="button" class="opcion-vista" data-v="poco"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-letra"/></svg></span><span class="opcion-texto"><strong>Veo poco</strong><small>Letra grande y más contraste</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
-          <button type="button" class="opcion-vista" data-v="voz"><span class="mini-ficha tono-ciruela" aria-hidden="true"><svg class="picto"><use href="#p-decir"/></svg></span><span class="opcion-texto"><strong>No veo</strong><small>Grieta te dice todo en voz alta, con pocos botones y muy grandes</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
+          <button type="button" class="opcion-vista" data-v="voz"><span class="mini-ficha tono-ciruela" aria-hidden="true"><svg class="picto"><use href="#p-decir"/></svg></span><span class="opcion-texto"><strong>Quiero que Grieta me hable</strong><small>Grieta te dice todo en voz alta, con pocos botones y muy grandes</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
         </div>
       </div>
       <div data-paso="lector" class="paso" hidden>
         <button type="button" class="enlace regresar">Regresar</button>
         <p class="paso-numero">PASO 2 DE 6</p>
         <h1 id="tituloLector" tabindex="-1">¿Tu teléfono ya te lee la pantalla?</h1>
-        <p class="nota-paso">Solo aparece si elegiste “No veo”.</p>
         <div class="vista-opciones">
           <button type="button" class="opcion-vista" data-lector="si"><span class="mini-ficha tono-escuela" aria-hidden="true"><svg class="picto"><use href="#p-decir"/></svg></span><span class="opcion-texto"><strong>Sí, ya uso uno</strong><small>VoiceOver o TalkBack</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
           <button type="button" class="opcion-vista" data-lector="no"><span class="mini-ficha tono-hospital" aria-hidden="true"><svg class="picto"><use href="#p-familiar"/></svg></span><span class="opcion-texto"><strong>No, ayúdame</strong><small>Grieta te lo dice en voz alta</small></span><span class="flecha-opcion" aria-hidden="true">›</span></button>
@@ -204,6 +203,7 @@
         </button>
       </div>
       <p class="desde"><svg class="icono ambar"><use href="#i-localizar"/></svg><span id="desdeTexto">Buscando tu ubicación...</span><button id="cambiarDesde" type="button" class="enlace">Cambiar</button></p>
+      <button id="activarVoz" type="button" class="acceso-voz"><svg class="icono"><use href="#i-altavoz"/></svg><span class="fila-texto"><strong>Quiero que Grieta me hable</strong><small>Pocos botones, muy grandes, y Grieta te dice todo en voz alta.</small></span><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></button>
       <button id="rutina" type="button" class="sugerencia" hidden>
         <svg class="icono"><use href="#i-reloj"/></svg>
         <span class="fila-texto"><strong id="rutinaTexto"></strong><small>Como otros días a esta hora. Toca para ver cómo llegar</small></span>
@@ -447,7 +447,7 @@
             <div id="perfilVista" class="fichas" role="radiogroup" aria-labelledby="pVista" aria-describedby="perfilVistaEfecto">
               <button type="button" role="radio" aria-checked="false" data-v="vista" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-ojo"/></svg><span>Veo bien</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
               <button type="button" role="radio" aria-checked="false" data-v="poco" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-letra"/></svg><span>Veo poco</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
-              <button type="button" role="radio" aria-checked="false" data-v="voz" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-altavoz"/></svg><span>No veo</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+              <button type="button" role="radio" aria-checked="false" data-v="voz" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-altavoz"/></svg><span>Quiero que Grieta me hable</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
             </div>
           </div>
         </div>
@@ -600,12 +600,13 @@
           </div>
         </div>
         <div class="densidad-fila">
-          <strong id="tituloDensidad">Densidad</strong>
+          <strong id="tituloDensidad">Cómo usar Grieta</strong>
           <div id="optDensidad" class="selector-densidad" role="radiogroup" aria-labelledby="tituloDensidad">
             <button type="button" role="radio" aria-checked="true" data-v="completa" tabindex="0">Completa</button>
             <button type="button" role="radio" aria-checked="false" data-v="facil" tabindex="-1">Fácil</button>
-            <button type="button" role="radio" aria-checked="false" data-v="voz" tabindex="-1">Sin pantalla</button>
+            <button type="button" role="radio" aria-checked="false" data-v="voz" tabindex="-1">Voz</button>
           </div>
+          <p class="nota">Pocos botones, muy grandes, y Grieta te dice todo en voz alta.</p>
         </div>
         <label class="interruptor"><span><strong>Letra grande</strong></span><input type="checkbox" role="switch" id="optGrande"></label>
         <label class="interruptor"><span><strong>Alto contraste</strong></span><input type="checkbox" role="switch" id="optContraste"></label>

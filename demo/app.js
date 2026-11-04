@@ -145,6 +145,13 @@ marcarDensidad = radios("optDensidad", (v) => {
   guardarAcc();
   aplicarAcc();
 });
+$("activarVoz").addEventListener("click", () => {
+  Object.assign(acc, { modoVoz: true, facil: false, grande: true, voz: acc.lector !== "si" });
+  guardarAcc();
+  aplicarAcc();
+  $("vozDestino").focus();
+  hablar(ayudaVoz());
+});
 for (const [k, id] of Object.entries(OPCIONES)) {
   $(id).addEventListener("change", (e) => {
     acc[k] = e.target.checked;
@@ -2405,7 +2412,7 @@ const PASOS_VOZ = {
   oido: "2 de 3. ¿Escuchas bien los avisos? Arriba, sí. Abajo, me cuesta escuchar.",
   tarifa: "3 de 3. ¿Pagas Tarifa Unidos, el pasaje de 2 pesos para estudiantes, mayores de 60 y personas con discapacidad? Arriba, sí. Abajo, no.",
 };
-// Orden de la bienvenida; la pregunta del lector de pantalla solo aparece para quien no ve.
+// Orden de la bienvenida; la pregunta del lector solo aparece con la guía por voz.
 const ordenPasos = () => ["vista", ...(acc.modoVoz ? ["lector"] : ["forma"]), "ubicacion", "movilidad", "oido", "tarifa"];
 let pasoActual = "vista";
 function irPaso(p) {
@@ -2503,7 +2510,7 @@ function vistaActual() {
 }
 // El perfil dicho como una frase: se lee mejor que una lista de opciones
 function frasePerfil() {
-  const vista = { vista: "Ves bien", poco: "Ves poco", voz: "No ves" }[vistaActual()];
+  const vista = { vista: "Ves bien", poco: "Ves poco", voz: "Grieta te habla" }[vistaActual()];
   const movilidad = { normal: "caminas sin problema", poco: "te cuesta caminar", silla: "usas silla de ruedas o andadera" }[acc.movilidad ?? "normal"];
   const oido = acc.oido === "poco" ? "te cuesta escuchar" : "escuchas bien";
   const forma = acc.modoVoz ? "" : acc.facil ? " y prefieres lo esencial" : " y prefieres todas las opciones";
@@ -2512,10 +2519,10 @@ function frasePerfil() {
   return `${vista}, ${movilidad}, ${oido}${forma}${lector}. ${tarifa}.`;
 }
 function resumenCortoPerfil() {
-  const vista = { vista: "Ves bien", poco: "Ves poco", voz: "No ves" }[vistaActual()];
+  const vista = { vista: "Ves bien", poco: "Ves poco", voz: "Grieta te habla" }[vistaActual()];
   const movilidad = acc.movilidad ?? (acc.camino ? "poco" : "normal");
   const movimiento = { normal: "Caminas bien", poco: "Caminas poco", silla: "Usas silla de ruedas" }[movilidad];
-  const densidad = { completa: "Completa", facil: "Fácil", voz: "Sin pantalla" }[densidadActual()];
+  const densidad = { completa: "Completa", facil: "Fácil", voz: "Voz" }[densidadActual()];
   const oido = acc.oido === "poco" ? "Avisos con vibración" : "Avisos con voz";
   const tarifa = acc.unidos ? "Tarifa Unidos" : "Tarifa normal";
   return [vista, movimiento, densidad, oido, tarifa, acc.modoVoz ? (acc.lector === "si" ? "Usas lector de pantalla" : "Grieta te habla") : "", acc.idioma === "oto" ? `Prefieres ${NOMBRE_OTOMI}` : ""].filter(Boolean).join(" · ");
@@ -2550,7 +2557,7 @@ const EFECTOS = {
 };
 const efecto = (grupo, v) => { $(`${grupo}Efecto`).textContent = EFECTOS[grupo][v] ?? ""; };
 const RESPUESTAS_PERFIL = {
-  perfilVista: { vista: "Veo bien", poco: "Veo poco", voz: "No veo" },
+  perfilVista: { vista: "Veo bien", poco: "Veo poco", voz: "Quiero que Grieta me hable" },
   perfilLectorOpciones: { si: "Uso lector de pantalla", no: "Quiero que Grieta me hable" },
   perfilForma: { completa: "Quiero todas las opciones", facil: "Quiero lo esencial" },
   perfilMovilidad: { normal: "Camino sin problema", poco: "Me cuesta caminar", silla: "Uso silla de ruedas o andadera" },

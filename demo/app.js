@@ -680,7 +680,7 @@ function resumenOpciones() {
   const app = [...r.directo.porApp].sort((a, b) => a.precio - b.precio)[0];
   const enApp = r.opciones.find((o) => o.tipo === "app");
   const criterios = criteriosViaje(r);
-  const primero = `Para ir a ${estado.destino.nombre}, en app el menor precio estimado es ${Grieta.nombreApp(app.app)}, ${rangoVoz(limitesPrecio(app))}` +
+  const primero = `Para ir a ${estado.destino.nombre}, en app el menor precio estimado es ${Grieta.nombreApp(app.app)}, ${app.habitual ? "rango habitual " : ""}${rangoVoz(limitesPrecio(app))}` +
     (enApp ? `; llegas a las ${hora(llegada(enApp))}. ` : ". ");
   const comparacion = criterios.economica === criterios.rapida
     ? `${tituloOpcion(criterios.economica)} es la opción más económica y la más rápida, unos ${Math.round(criterios.rapida.minutos)} minutos. `
@@ -847,7 +847,11 @@ function elegirTarjetas(r) {
 
 const llegada = (o) => estado.r.ctx.minuto + o.minutos;
 
-const limitesPrecio = (x) => ({ bajo: Math.floor(x.bajo ?? x.precio), alto: Math.ceil(x.alto ?? x.precio) });
+const rangoDePrecio = (x) => x.habitual ?? x;
+const limitesPrecio = (x) => {
+  const rango = rangoDePrecio(x);
+  return { bajo: Math.floor(rango.bajo ?? x.precio), alto: Math.ceil(rango.alto ?? x.precio) };
+};
 const rangoTexto = (x) => `${pesos(x.bajo)}–${Math.round(x.alto)}`;
 const rangoVoz = (x) => `entre ${Math.round(x.bajo)} y ${Math.round(x.alto)} pesos`;
 const partesRango = (x) => `<span>${pesos(x.bajo)}</span><wbr><span>–${Math.round(x.alto)}</span>`;
@@ -862,7 +866,7 @@ function rangoOpcion(o) {
   // El total del motor ya viene redondeado; la tarifa del camion se suma antes de redondear el rango.
   const pasaje = acc.unidos ? 2 : Grieta.qrobus.pasaje;
   const fijo = pasaje + (acc.unidos ? 0 : pasaje / 2) * (o.transbordos ?? 0);
-  const rangos = apps.map((p) => rangoTramo(o, p));
+  const rangos = apps.map((p) => rangoDePrecio(rangoTramo(o, p)));
   return limitesPrecio({ bajo: fijo + rangos.reduce((s, x) => s + x.bajo, 0), alto: fijo + rangos.reduce((s, x) => s + x.alto, 0) });
 }
 function criteriosViaje(r) {
@@ -894,7 +898,8 @@ function pintarOpciones(r) {
   $("appsRapido").innerHTML = apps.map((x, i) => `<button type="button" class="app-rapida${i ? "" : " barata"}" data-app="${x.app}"
       aria-label="Abrir ${Grieta.nombreApp(x.app)}, precio estimado ${rangoVoz(limitesPrecio(x))}${i ? "" : ", la app más económica"}">
       <span class="app-cabeza">${fichaApp(x.app)}<span>${Grieta.nombreApp(x.app)}</span></span><strong class="precio-rango">${partesRango(limitesPrecio(x))}</strong><small${i ? ' class="vacio"' : ""}>Menor precio</small></button>`).join("");
-  $("avisoRapido").textContent = "";
+  $("tituloEnApp").textContent = apps.every((x) => x.habitual) ? "En app · rango habitual" : "En app · precios estimados";
+  $("avisoRapido").textContent = "El precio puede salir de este rango. Confírmalo al abrir la app.";
   const enApp = r.opciones.find((o) => o.tipo === "app");
   $("compararPrecio").hidden = !enApp;
   estado.tarjetas = elegirTarjetas(r);
@@ -954,7 +959,7 @@ function leerDetalle() {
   const o = estado.elegida;
   if (o.tipo !== "app") return hablar(`${pasosEnVoz(o)} Abajo está el botón Empezar viaje con avisos: tócalo y te guío hasta que te bajes.`);
   const apps = [...estado.r.directo.porApp].sort((a, b) => a.precio - b.precio);
-  hablar(`Precios estimados en app: ${apps.map((x) => `${Grieta.nombreApp(x.app)}, ${rangoVoz(limitesPrecio(x))}`).join("; ")}. Toca el botón de la app para pedirla.`);
+  hablar(`${apps.every((x) => x.habitual) ? "Rangos habituales en app" : "Precios estimados en app"}: ${apps.map((x) => `${Grieta.nombreApp(x.app)}, ${rangoVoz(limitesPrecio(x))}`).join("; ")}. Toca el botón de la app para pedirla.`);
 }
 
 // Comparar lo que marca la app: lleva directo al detalle del viaje en app, con el campo del precio listo.
@@ -1161,7 +1166,8 @@ function pintarApps(o) {
   const r = estado.r;
   const orden = [...r.directo.porApp].sort((a, b) => a.precio - b.precio);
   const barata = orden[0];
-  $("appEtiqueta").textContent = estado.momento === 0 ? "Precio estimado ahora" : `Precio estimado a las ${hora(r.ctx.minuto)}`;
+  const etiquetaPrecio = orden.every((x) => x.habitual) ? "Rango habitual" : "Precio estimado";
+  $("appEtiqueta").textContent = estado.momento === 0 ? `${etiquetaPrecio} ahora` : `${etiquetaPrecio} a las ${hora(r.ctx.minuto)}`;
   $("appCifra").textContent = `${Grieta.nombreApp(barata.app)} · ${rangoTexto(limitesPrecio(barata))}`;
   $("appRango").textContent = `Llegas a las ${hora(llegada(o))}`;
   // Una fila por app que tambien la abre, la mas barata primero.
@@ -1169,7 +1175,7 @@ function pintarApps(o) {
       aria-label="Abrir ${Grieta.nombreApp(x.app)}, precio estimado ${rangoVoz(limitesPrecio(x))}${i ? "" : ", la app más económica"}">
       ${fichaApp(x.app)}<span class="fila-texto"><strong>Abrir ${Grieta.nombreApp(x.app)}</strong><small>${i ? "Precio estimado" : "Menor precio en app"}</small></span>
       <span class="precio precio-rango">${partesRango(limitesPrecio(x))}</span>${ico("chevron", "chevron")}</button>`).join("");
-  $("appAviso").textContent = "El precio puede variar. Confírmalo al abrir la app.";
+  $("appAviso").textContent = "El precio puede salir de este rango. Confírmalo al abrir la app.";
 }
 
 $("empezar").addEventListener("click", () => iniciarGuia(estado.elegida));

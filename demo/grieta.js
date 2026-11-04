@@ -43,7 +43,11 @@ const Grieta = (() => {
     const a = modelo.apps[app];
     const base = a.formula[0] + a.formula[1] * km + a.formula[2] * min;
     const logF = a.intercepto + a.franjas[franja] + a.finde * finde + (a.origen[celdaO] ?? 0) + (a.destino[celdaD] ?? 0);
-    return { precio: base * Math.exp(logF), bajo: base * Math.exp(logF + a.rango[0]), alto: base * Math.exp(logF + a.rango[1]) };
+    const estimado = { precio: base * Math.exp(logF), bajo: base * Math.exp(logF + a.rango[0]), alto: base * Math.exp(logF + a.rango[1]) };
+    if (Array.isArray(a.rango_habitual) && a.rango_habitual.length === 2 && a.rango_habitual.every(Number.isFinite) && a.rango_habitual[0] <= a.rango_habitual[1]) {
+      estimado.habitual = { bajo: base * Math.exp(logF + a.rango_habitual[0]), alto: base * Math.exp(logF + a.rango_habitual[1]) };
+    }
+    return estimado;
   }
 
   function contexto(dia, minuto) {

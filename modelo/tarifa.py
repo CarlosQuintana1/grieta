@@ -74,6 +74,7 @@ class Zonas:
 class Tarifa:
     def __init__(self, df: pd.DataFrame):
         self.apps = {}
+        self.rangos_habituales = {}
         for p in PLATAFORMAS:
             d = df[df["plataforma"] == p]
             if len(d) < 30:
@@ -92,6 +93,7 @@ class Tarifa:
                 destino = d["h3_d"].map(zd)
             residuo = y - tiempo.predict(hora) - origen - destino
             self.apps[p] = (formula, tiempo, zo, zd, residuo.quantile([0.05, 0.95]).values)
+            self.rangos_habituales[p] = residuo.quantile([0.25, 0.75]).values
 
     @staticmethod
     def _hora(d: pd.DataFrame) -> pd.DataFrame:

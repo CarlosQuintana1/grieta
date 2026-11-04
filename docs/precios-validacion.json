@@ -1,0 +1,36 @@
+{
+  "tipo": "validacion temporal, ultimos 6 dias separados; banda descriptiva, sin garantia de cobertura futura",
+  "entrenamiento_hasta": "2026-10-19",
+  "prueba_desde": "2026-10-21",
+  "prueba_hasta": "2026-10-26",
+  "cuantiles": [
+    0.25,
+    0.75
+  ],
+  "apps": {
+    "uber": {
+      "filas_prueba": 214,
+      "cobertura_amplio": 0.8598,
+      "cobertura_habitual": 0.4766,
+      "ancho_medio_amplio": 63.62,
+      "ancho_medio_habitual": 24.88,
+      "error_absoluto_medio": 17.25
+    },
+    "didi": {
+      "filas_prueba": 214,
+      "cobertura_amplio": 0.8224,
+      "cobertura_habitual": 0.4533,
+      "ancho_medio_amplio": 95.06,
+      "ancho_medio_habitual": 29.23,
+      "error_absoluto_medio": 24.15
+    },
+    "indrive": {
+      "filas_prueba": 210,
+      "cobertura_amplio": 0.8143,
+      "cobertura_habitual": 0.3619,
+      "ancho_medio_amplio": 39.59,
+      "ancho_medio_habitual": 15.75,
+      "error_absoluto_medio": 14.74
+    }
+  }
+}

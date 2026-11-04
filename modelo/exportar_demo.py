@@ -38,8 +38,10 @@ def modelo() -> dict:
             "origen": zonas(zo),
             "destino": zonas(zd),
             "rango": [round(float(bajo), 4), round(float(alto), 4)],
+            "rango_habitual": [round(float(x), 4) for x in t.rangos_habituales[p]],
         }
     return {"h3_res": H3_RES, "franjas": FRANJAS, "apps": apps,
+            "cuantiles_habitual": [0.25, 0.75],
             "momentos": int(df["momento_id"].nunique()), "hasta": str(df["dia"].max())}
 
 

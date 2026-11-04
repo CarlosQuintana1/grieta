@@ -912,7 +912,7 @@ function pintarOpciones(r) {
   if (quedan <= 120) {
     const app = [...r.directo.porApp].sort((x, y) => x.precio - y.precio)[0];
     $("ultimoCamion").innerHTML = `${ico("alerta")}<span class="fila-texto"><strong>Último ${escapar(c.linea)}: ${hora(c.ultima)} según el horario</strong>
-      <small>En la parada ${escapar(cruce(c.recorrido[0].nombre))}, hacia ${escapar(c.hacia)}. Si lo pierdes, ${Grieta.nombreApp(app.app)} se estima en ${rangoTexto(limitesPrecio(app))}.${avisoVigencia()}</small></span>`;
+      <small>En la parada ${escapar(cruce(c.recorrido[0].nombre))}, hacia ${escapar(c.hacia)}. Si lo pierdes, ${Grieta.nombreApp(app.app)} se estima en ${rangoTexto(limitesPrecio(app))}.</small></span>`;
   }
   if (!hayCamion) {
     $("tarjetas").innerHTML += `<p class="nota">${r.pasaCerca ? "Ningún Qrobus te lleva directo en la próxima hora." : "En la próxima hora no pasa ningún Qrobus cerca."}</p>`;
@@ -1297,15 +1297,6 @@ function recolorear() {
   capas.camion?.eachLayer((c) => c.setStyle(c.options.tono === "linea" ? { color: ambar } : c.options.tono === "punto" ? { fillColor: ambar } : { color: tono("--tinta") }));
 }
 
-// Si el horario guardado ya paso su fecha, se avisa que las horas pueden variar.
-function avisoVigencia() {
-  const v = Grieta.qrobus?.vigencia;
-  if (!v) return "";
-  const hoy = new Date();
-  const fin = new Date(Number(v.slice(0, 4)), Number(v.slice(4, 6)) - 1, Number(v.slice(6)));
-  return hoy > fin ? ` El horario guardado venció el ${fin.getDate()} ${MESES[fin.getMonth()]} ${fin.getFullYear()}: las horas pueden variar.` : "";
-}
-
 // Camiones cerca
 const iconoParada = (cerca) => L.divIcon({ className: "", iconSize: cerca ? [38, 38] : [30, 30],
   html: `<span class="parada-mapa${cerca ? " cerca" : ""}">${ico("camion")}</span>` });
@@ -1420,7 +1411,7 @@ function actualizarComparacionParadas(lista) {
     <ul class="comparacion-lista">${opciones.map((opcion, i) => `<li><button type="button" class="comparacion-parada${i === 0 ? " recomendada" : ""}" data-comparar-parada="${opcion.indice}" aria-label="${i === 0 ? "Menor tiempo estimado. " : ""}${escapar(cruce(opcion.parada.nombre))}: caminar ${opcion.caminata} minutos, esperar ${opcion.espera} minutos, total ${opcion.total} minutos. Elegir esta parada.">
       <strong>${escapar(cruce(opcion.parada.nombre))}${i === 0 ? " · Conviene más" : ""}</strong><span>Caminar ${opcion.caminata} min · esperar ${opcion.espera} min</span><b>${opcion.total} min para abordar</b></button></li>`).join("")}</ul>
     ${faltantes.length ? `<p class="nota">Sin comparar: ${faltantes.map(escapar).join("; ")}.</p>` : ""}
-    <p class="nota">Estimación con el horario oficial; no conocemos la ubicación en tiempo real de los camiones.${avisoVigencia()}</p>`;
+    <p class="nota">Estimación con el horario oficial; no conocemos la ubicación en tiempo real de los camiones.</p>`;
   caja.querySelectorAll("[data-comparar-parada]").forEach((b) => b.addEventListener("click", () => {
     const opcion = opciones.find((x) => x.indice === Number(b.dataset.compararParada));
     if (opcion) elegirParada(estado.puntoCamiones, lista, opcion.indice);
@@ -1476,12 +1467,12 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
     ${filas(p)}
     <h2>Avisos de la parada</h2>
     <div id="avisosParada" class="avisos"><p class="nota">Buscando avisos...</p></div>
-    <p class="nota">La accesibilidad no está verificada. Los reportes son de la comunidad y pueden haber cambiado.</p>
+    <p class="nota">Los reportes son de la comunidad y pueden haber cambiado.</p>
     <button id="reportarParada" type="button" class="boton oscuro">Reportar algo en esta parada</button>
     <section class="comparacion-paradas" id="comparacionParadas" aria-labelledby="tituloComparacionParadas"><h2 id="tituloComparacionParadas">¿Qué parada me conviene?</h2><p class="nota">Calculando caminos a pie y horarios...</p></section>
     ${lista.length > 1 ? `<section class="otras" aria-labelledby="tituloOtrasParadas"><h2 id="tituloOtrasParadas">Otras paradas cerca</h2>
       ${lista.slice(1).map((x, i) => `<button type="button" class="parada-alternativa" data-parada="${i + 1}" aria-label="Ver camiones y reportar en ${escapar(cruce(x.nombre))}"><strong translate="no">${escapar(cruce(x.nombre))}</strong><span class="tenue">A ${distanciaTexto(x.caminado ?? x.m, true)}${x.caminado ? " caminando" : " en línea recta"}</span></button>${filas(x)}`).join("")}</section>` : ""}
-    <p class="nota pie">Las horas salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse.${avisoVigencia()}</p>`;
+    <p class="nota pie">Las horas salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse.</p>`;
   $("irParada").addEventListener("click", () => poner("destino", { nombre: `Parada ${p.nombre}`, lat: p.lat, lon: p.lon }));
   $("reportarParada").addEventListener("click", () => abrirReporte(p));
   caja.querySelectorAll("[data-parada]").forEach((b) => b.addEventListener("click", () => elegirParada(punto, lista, Number(b.dataset.parada))));

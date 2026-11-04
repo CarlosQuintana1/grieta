@@ -184,19 +184,20 @@ const PANTALLAS = {
   detalle: { tab: "inicio", mapa: true, encabezado: true },
   camiones: { tab: "camiones", mapa: true, encabezado: true },
   camara: { tab: "inicio", encabezado: true },
+  practica: { tab: "inicio", encabezado: true },
   guia: {},
   reporte: { tab: "reporte" },
   ajustes: { tab: "ajustes" },
   perfil: { tab: "ajustes", encabezado: true },
 };
-const titulos = { buscar: "Buscar", camiones: "Camiones cerca", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla" };
+const titulos = { buscar: "Buscar", camiones: "Camiones cerca", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
 
 function mostrar(nombre) {
   ToquesGrieta.reiniciar();
   const conf = PANTALLAS[nombre];
   if (nombre !== "camara") CamaraGrieta.cerrar();
   if (!$("chofer").hidden) tarjetaChofer(false);
-  if (guia.activa && nombre !== "guia") terminarGuia(true);
+  if (guia.activa && !["guia", "camara"].includes(nombre)) terminarGuia(true);
   if (nombre === "inicio") {
     estado.guardarComo = null;
     limpiarRuta();
@@ -221,6 +222,8 @@ function mostrar(nombre) {
     else b.removeAttribute("aria-current");
   }
   if (nombre === "ajustes") requestAnimationFrame(medirPantalla);
+  if (nombre === "camara") CamaraGrieta.abrir();
+  if (nombre === "practica") PracticaGrieta.entrar();
   $("hoja").scrollTop = 0;
   // El foco va al titulo para que el lector de pantalla anuncie el cambio.
   const titulo = conf.encabezado ? $("tituloPantalla") : [...$(nombre).querySelectorAll("h1")].find((h) => !h.closest("[hidden]"));
@@ -2133,8 +2136,8 @@ function guardarLugares() {
 }
 const irA = (lugar) => { estado.editando = "hacia"; poner("destino", lugar); };
 
-function hablarCamara(texto) {
-  if (!acc.voz || acc.lector === "si") return;
+function hablarCamara(texto, urgente = false) {
+  if (!acc.voz || acc.lector === "si" || (guia.activa && window.speechSynthesis?.speaking && !urgente)) return;
   const voces = window.speechSynthesis?.getVoices() ?? [];
   const voz = voces.find((v) => v.localService && v.lang === "es-MX") ?? voces.find((v) => v.localService && v.lang.startsWith("es"));
   $("camaraAudio").textContent = voz ? "" : "Para escuchar sin enviar texto, instala una voz en español en los ajustes de tu teléfono. También puedes usar tu lector de pantalla.";
@@ -2151,7 +2154,12 @@ CamaraGrieta.iniciarInterfaz({
   vozOcupada: () => Boolean(window.speechSynthesis?.speaking),
   explorando: () => ToquesGrieta.describiendo,
   callar: detenerVoz,
-  paradas: () => (Grieta.qrobus?.paradas ?? []).filter((p) => estado.gps && Grieta.metros(p[0], p[1], estado.gps.lat, estado.gps.lon) < 600).map((p) => p[2]),
+  viaje: () => guia.activa && guia.camion ? { linea: guia.camion.linea, hacia: guia.camion.hacia } : null,
+  rutas: () => Grieta.qrobus?.patrones ?? [],
+  paradas: () => {
+    const punto = guia.activa && guia.previo ? guia.previo : estado.gps;
+    return (Grieta.qrobus?.paradas ?? []).filter((p) => punto && Grieta.metros(p[0], p[1], punto.lat, punto.lon) < 600).map((p) => p[2]);
+  },
 });
 function abrirCamara() {
   dictadoActual?.abort();
@@ -2161,12 +2169,22 @@ function abrirCamara() {
 }
 $("vozCamara").addEventListener("click", abrirCamara);
 $("abrirCamara").addEventListener("click", abrirCamara);
+$("guiaCamara").addEventListener("click", abrirCamara);
+$("camaraVolverGuia").addEventListener("click", () => ir(guia.activa ? "guia" : "inicio"));
 
 ToquesGrieta.iniciar({
-  activo: () => acc.modoVoz && acc.lector !== 'si' && acc.toques && !(document.body.dataset.pantalla === 'bienvenida' && pasoActual === 'lector'),
+  activo: () => (document.body.dataset.pantalla === 'practica' || (acc.modoVoz && acc.toques)) && acc.lector !== 'si' && !(document.body.dataset.pantalla === 'bienvenida' && pasoActual === 'lector'),
   original: (elemento, atributo) => Interfaz.original(elemento, atributo),
   cancelar: detenerVoz,
+  alDescribir: (elemento) => PracticaGrieta.descrito(elemento),
   decir: (texto) => { const anterior = ultimoMensaje; hablar(texto, false, true, true); ultimoMensaje = anterior; },
+});
+
+PracticaGrieta.iniciar({
+  ir,
+  lector: () => acc.lector === 'si',
+  decir: (texto) => { if (acc.lector !== 'si') { const anterior = ultimoMensaje; hablar(texto, false, true, true); ultimoMensaje = anterior; } },
+  guardar: () => escribir('grieta-practica-toques', true),
 });
 
 // Botones del modo para personas ciegas.

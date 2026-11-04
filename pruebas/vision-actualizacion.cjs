@@ -44,7 +44,7 @@ const assert = require('node:assert/strict');
         const registro = await navigator.serviceWorker.getRegistration();
         if (navigator.serviceWorker.controller === window.__controladorAnterior || registro.active?.state !== 'activated' || registro.installing || registro.waiting) return false;
         const cache = await caches.open(version), app = await cache.match('app.js');
-        return Boolean(app?.ok && (await app.text()).includes('ToquesGrieta.iniciar') && (await cache.match('toques.js'))?.ok && (await cache.match('index.html'))?.ok);
+        return Boolean(app?.ok && (await app.text()).includes('ToquesGrieta.iniciar') && (await cache.match('toques.js'))?.ok && (await cache.match('practica.js'))?.ok && (await cache.match('vision/transporte.js', {ignoreSearch:true}))?.ok && (await cache.match('index.html'))?.ok);
       }, versionActual);
       if (!actualizada) await pagina.waitForTimeout(100);
     }
@@ -59,6 +59,11 @@ const assert = require('node:assert/strict');
     await pagina.waitForFunction(() => document.querySelector('#camaraEstado').textContent.match(/^(Cámara encendida|No pude)/), null, { timeout: 90000 });
     assert.match(await pagina.locator('#camaraEstado').textContent(), /^Cámara encendida/);
     await pagina.locator('#camaraDetener').tap(); await pagina.locator('#camaraDetener').tap(); assert.equal(errores.length, 0);
+    await pagina.locator('[data-tab="ajustes"]').tap(); await pagina.locator('[data-tab="ajustes"]').tap();
+    await pagina.locator('#practicarAjustes').tap(); await pagina.locator('#practicarAjustes').tap();
+    await pagina.locator('#practicaBoton').tap(); await pagina.locator('#practicaBoton').tap();
+    assert.match(await pagina.locator('#practicaEstado').textContent(), /completada/);
+    console.log('La práctica de toques funciona sin conexión después de actualizar');
     console.log('Nuevo controlador activo: gestos y cámara funcionan sin servidor ni red, cero errores de JavaScript');
   } finally { servidor.kill('SIGTERM'); await navegador.close(); fs.rmSync(temporal, { recursive: true, force: true }); }
 })().catch((error) => { console.error(error); process.exit(1); });

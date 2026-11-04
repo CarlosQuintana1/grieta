@@ -7,7 +7,7 @@ const base=process.env.GRIETA_URL ?? 'http://127.0.0.1:8791';
  const b=await chromium.launch({headless:true,executablePath:exe});
  const ctx=await b.newContext({viewport:{width:390,height:844},permissions:['geolocation'],geolocation:{latitude:20.6,longitude:-100.4}});
  await ctx.addInitScript(({imagen})=>{
-  localStorage.setItem('grieta-bienvenida','true');localStorage.setItem('grieta-acc',JSON.stringify({tema:'oscuro',voz:false,toques:false}));
+  localStorage.setItem('grieta-camara',JSON.stringify({enfoque:'entorno'}));localStorage.setItem('grieta-bienvenida','true');localStorage.setItem('grieta-acc',JSON.stringify({tema:'oscuro',voz:false,toques:false}));
   const original=navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);
   navigator.mediaDevices.getUserMedia=async(opciones)=>{
    window.__peticion=opciones;

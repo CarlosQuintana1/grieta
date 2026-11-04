@@ -187,6 +187,7 @@
       <div id="inicioVoz" class="inicio-voz" hidden>
         <h1 class="titulo-grande" tabindex="-1">¿Qué necesitas?</h1>
         <p id="ayudaToques" class="nota" translate="no" hidden>Toca una vez para escuchar. Toca dos veces seguidas el mismo control para activarlo.</p>
+        <button id="practicarInicio" type="button" class="enlace" translate="no">Practicar los toques</button>
         <button id="vozDestino" type="button" class="boton-voz"><svg class="picto"><use href="#p-decir"/></svg>Decir a dónde voy</button>
         <button id="vozCamara" type="button" class="boton-voz oscuro"><svg class="icono" aria-hidden="true"><use href="#i-camara"/></svg>Describir con la cámara</button>
         <button id="vozRutina" type="button" class="boton-voz" hidden><svg class="icono"><use href="#i-reloj"/></svg><span></span></button>
@@ -387,6 +388,7 @@
       <p id="guiaDetalle" class="guia-detalle" aria-live="polite"></p>
       <button id="yaMeSubi" type="button" class="boton oscuro" hidden>Ya me subí</button>
       <div id="enParada" class="en-parada" hidden>
+        <button id="guiaCamara" type="button" class="boton oscuro" translate="no">¿Es el camión que busco?</button>
         <p class="nota">¿Qué ves en la parada? Avisa a los demás:</p>
         <div class="dos-botones">
           <button id="yaPaso" type="button" class="boton oscuro"><svg class="picto"><use href="#p-yapaso"/></svg>Ya pasó</button>
@@ -531,29 +533,53 @@
       <div class="acciones-fijas"><button id="perfilListo" type="button" class="boton">Listo</button></div>
     </section>
 
+    <section id="practica" class="pantalla" aria-labelledby="tituloPantalla" translate="no" hidden>
+      <p id="practicaAyuda" class="nota"></p>
+      <p id="practicaEstado" role="status" aria-live="polite" aria-atomic="true"></p>
+      <button id="practicaBoton" type="button" class="boton">Botón de práctica</button>
+      <p class="nota">Puedes practicar las veces que quieras. Este botón no abre la cámara, no pide permisos y no envía nada.</p>
+      <button id="practicaTerminar" type="button" class="boton oscuro" hidden>Terminar práctica</button>
+      <button id="practicaRepetir" type="button" class="boton oscuro">Volver a practicar</button>
+      <button id="practicaSalir" type="button" class="enlace">Salir de la práctica</button>
+    </section>
+
     <section id="camara" class="pantalla camara" aria-labelledby="tituloPantalla" translate="no" hidden>
-      <p>Apunta el teléfono frente a ti. Describo algunos objetos y leo letreros en español.</p>
-      <p class="nota">Experimental: puede omitir obstáculos. Usa tu bastón o acompañamiento. No indica cuándo cruzar.</p>
-      <fieldset class="camara-modelo"><legend>Reconocimiento</legend>
-        <label><input id="camaraDetalle" name="camaraModelo" type="radio" value="detalle" checked>Más detalle</label>
-        <label><input id="camaraLigero" name="camaraModelo" type="radio" value="ligero">Más ligero</label>
+      <p id="camaraAyuda">Apunta al letrero de un camión o de una parada.</p>
+      <fieldset class="camara-modelo"><legend>¿Qué quieres escuchar?</legend>
+        <label><input id="camaraViaje" name="camaraEnfoque" type="radio" value="viaje" checked>Mi viaje</label>
+        <label><input id="camaraEntorno" name="camaraEnfoque" type="radio" value="entorno">Todo el entorno</label>
       </fieldset>
-      <p id="camaraRendimiento" class="nota" role="status"></p>
-      <p id="camaraCalidad" class="nota" role="status"></p>
-      <p id="camaraAlerta" class="camara-alerta" role="alert" aria-live="assertive"></p>
+      <p id="camaraObjetivo" class="nota" role="status"></p>
+      <button id="camaraIniciar" type="button" class="boton">Iniciar cámara</button>
+      <button id="camaraDetener" type="button" class="boton" hidden>Detener cámara</button>
       <video id="camaraVideo" autoplay muted playsinline aria-label="Vista de la cámara trasera" hidden></video>
       <p id="camaraEstado" class="nota" role="status">Cámara apagada. La primera vez se descargan los modelos (aprox. 40 MB en Más detalle).</p>
       <p id="camaraAudio" class="nota" role="status"></p>
+      <p id="camaraRendimiento" class="nota" role="status"></p>
+      <p id="camaraCalidad" class="nota" role="status"></p>
+      <p id="camaraAlerta" class="camara-alerta" role="alert" aria-live="assertive"></p>
+      <p id="camaraCamionResultado" class="respuesta" aria-live="off"></p>
       <p id="camaraResultado" class="respuesta" aria-live="off"></p>
       <p id="camaraLectura" class="oculto" aria-live="polite" aria-atomic="true"></p>
-      <button id="camaraIniciar" type="button" class="boton">Iniciar cámara</button>
-      <button id="camaraDetener" type="button" class="boton" hidden>Detener cámara</button>
+      <button id="camaraBuscarCamion" type="button" class="boton oscuro" disabled>Leer número del camión</button>
       <button id="camaraLeer" type="button" class="boton oscuro" disabled>Leer letrero ahora</button>
       <button id="camaraRepetir" type="button" class="boton oscuro" disabled>Repetir descripción</button>
+      <button id="camaraVolverGuia" type="button" class="boton oscuro" hidden>Volver a mi viaje</button>
+      <div id="camaraRutaPanel">
+        <label for="camaraRuta">Ruta que buscas</label>
+        <div class="campo"><input id="camaraRuta" type="text" inputmode="text" maxlength="12" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Por ejemplo, C55" aria-describedby="camaraRutaAyuda"></div>
+        <p id="camaraRutaAyuda" class="nota">Si dejas el campo vacío, uso la ruta del viaje que estás siguiendo.</p>
+        <fieldset id="camaraSentidos" class="camara-modelo" hidden><legend>Sentido (si lo sabes)</legend><div id="camaraSentidoOpciones"></div></fieldset>
+      </div>
+      <fieldset class="camara-modelo"><legend>Detalle de imagen</legend>
+        <label><input id="camaraDetalle" name="camaraModelo" type="radio" value="detalle" checked>Más detalle</label>
+        <label><input id="camaraLigero" name="camaraModelo" type="radio" value="ligero">Más ligero</label>
+      </fieldset>
       <label class="interruptor"><span><strong>Avisos experimentales de vehículos</strong><small>Avisa si un vehículo crece al centro de la imagen. Intenta compensar el movimiento del teléfono, pero puede fallar. No detecta cruces.</small></span><input id="camaraAvisos" type="checkbox" role="switch"></label>
       <p id="camaraVibracion" class="nota"></p>
       <button id="camaraProbar" type="button" class="enlace" hidden>Probar vibración</button>
-      <p class="nota">Con avisos activos, usa Leer letrero ahora para dedicar el análisis a los vehículos.</p>
+      <p class="nota">Con avisos activos, activa Leer número del camión o Leer letrero ahora para hacer una lectura.</p>
+      <p class="nota">Experimental: puede omitir obstáculos. Usa tu bastón o acompañamiento. No indica cuándo cruzar.</p>
       <p class="nota">Las imágenes se analizan en tu teléfono. No se guardan ni se envían. La cámara se apaga al salir o al ocultar la app. El audio sigue tus ajustes de voz.</p>
     </section>
 
@@ -647,6 +673,7 @@
         <label class="interruptor"><span><strong translate="no">Tocar para escuchar</strong><small translate="no">En modo Voz: un toque describe; dos toques rápidos activan. Con VoiceOver o TalkBack se usan los gestos del teléfono.</small></span><input type="checkbox" role="switch" id="optToques"></label>
         <label class="interruptor"><span><strong>Voz más lenta</strong></span><input type="checkbox" role="switch" id="optLenta"></label>
       </div>
+      <button id="practicarAjustes" type="button" class="enlace" translate="no">Practicar los toques</button>
       <h2 id="tituloPreferencias">Preferencias de viaje</h2>
       <div class="grupo">
         <label class="interruptor"><span><strong>Caminar poco</strong><small>Solo paradas a menos de 300 metros</small></span><input type="checkbox" role="switch" id="optCamino"></label>
@@ -685,8 +712,10 @@
   <script src="vision/movimiento.js?v=3"></script>
   <script src="vision/seguimiento.js?v=3"></script>
   <script src="vision/observaciones.js?v=3"></script>
+  <script src="vision/transporte.js?v=73"></script>
   <script src="camara.js"></script>
   <script src="toques.js"></script>
+  <script src="practica.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

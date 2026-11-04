@@ -1,12 +1,13 @@
 const ToquesGrieta = (() => {
   const INSTRUCCION = 'Toca una vez para escuchar. Toca dos veces seguidas el mismo control para activarlo.';
   const AYUDAS = {
+    practicaBoton: 'Este botón solo sirve para practicar. No hace acciones fuera de esta pantalla.', camaraBuscarCamion: 'Lee varias imágenes del letrero de un solo camión para comparar la ruta.',
     vozDestino: 'Escucha tu destino para buscar cómo llegar.', vozCamara: 'Abre la cámara para describir objetos y leer letreros.',
     vozCamion: 'Busca paradas y rutas cercanas.', vozDonde: 'Dice la ubicación detectada.', vozRepetir: 'Vuelve a leer el último aviso.',
     camaraIniciar: 'Pide permiso y enciende la cámara.', camaraDetener: 'Apaga la cámara y el reconocimiento.',
     camaraLeer: 'Busca texto en la imagen y lo lee.', enviarReporte: 'Envía el reporte que preparaste.', empezar: 'Inicia la guía del viaje.',
   };
-  let habilitado = () => false, decir = () => {}, cancelar = () => {}, original = (e, a) => a ? e.getAttribute(a) : e.textContent;
+  let alDescribir = () => {}, habilitado = () => false, decir = () => {}, cancelar = () => {}, original = (e, a) => a ? e.getAttribute(a) : e.textContent;
   let proteccion = 0, serie = 0, nativo, elegido, ultimo = -Infinity, punto, arrastre = false, permitido, previo;
   const activo = () => Boolean(habilitado());
   const normalizar = (s) => String(s ?? '').replace(/\s+/g, ' ').trim();
@@ -42,7 +43,7 @@ const ToquesGrieta = (() => {
   function explorar(e) {
     marca(elegido)?.classList.remove('toque-elegido'); elegido = e; marca(e).classList.add('toque-elegido');
     if (!campo(e) && !deshabilitado(e)) e.focus({ preventScroll: true });
-    anunciar(descripcion(e));
+    anunciar(descripcion(e)); alDescribir(e);
   }
   function anunciar(texto) {
     proteccion = performance.now();
@@ -89,7 +90,7 @@ const ToquesGrieta = (() => {
   addEventListener('dblclick', (e) => { if (activo() && control(e.target)) e.preventDefault(); }, true);
   addEventListener('keydown', (e) => { if (!['Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) reiniciar(); }, true);
   addEventListener('wheel', reiniciar, { capture: true, passive: true });
-  function iniciar(opciones) { habilitado = opciones.activo; decir = opciones.decir; cancelar = opciones.cancelar ?? (() => {}); original = opciones.original ?? original; reiniciar(); }
+  function iniciar(opciones) { habilitado = opciones.activo; decir = opciones.decir; cancelar = opciones.cancelar ?? (() => {}); alDescribir = opciones.alDescribir ?? (() => {}); original = opciones.original ?? original; reiniciar(); }
   return { iniciar, reiniciar, activo, instrucciones: INSTRUCCION, get describiendo() {
     if (!proteccion) return false;
     if (performance.now() - proteccion < 400) return true;

@@ -820,3 +820,7 @@ html.grande #inicioNormal .lugar { flex-direction: column; align-items: flex-sta
 
 html.modo-voz :is(button,a,input,select,textarea,label) { touch-action: manipulation; }
 .toque-elegido { outline: 3px solid var(--ambar); outline-offset: 3px; }
+
+#practica .enlace { min-height: var(--toque); }
+#camaraRutaPanel > label { display: block; font-weight: 700; margin-bottom: 8px; }
+#camaraSentidoOpciones { width: 100%; }

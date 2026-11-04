@@ -4991,6 +4991,13 @@
       ]
     },
     {
+      "clave": "aviso_traduccion_provisional",
+      "es": "Traducción automática provisional. El audio sigue en español.",
+      "contextos": [
+        "demo/app.js · idioma de la interfaz"
+      ]
+    },
+    {
       "clave": "texto_18fffd3399",
       "es": "Transbordo",
       "contextos": [

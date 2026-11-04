@@ -15,7 +15,9 @@ const Interfaz = (() => {
   const literal = (t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
   function revisar(c, base = fuente) {
-    if (c?.codigo !== "otq" || c.completa !== true || typeof c.revision !== "string" || !c.revision.trim() || !Array.isArray(c.mensajes) || !c.mensajes.length) return false;
+    const revisado = typeof c?.revision === "string" && Boolean(c.revision.trim());
+    const provisional = c?.provisional === true && c.fuente?.tipo === "automatica" && typeof c.fuente?.nombre === "string" && Boolean(c.fuente.nombre.trim()) && /^https:\/\//.test(c.fuente?.url ?? "");
+    if (c?.codigo !== "otq" || c.completa !== true || (!revisado && !provisional) || !Array.isArray(c.mensajes) || !c.mensajes.length) return false;
     if (!Array.isArray(base?.mensajes) || c.mensajes.length !== base.mensajes.length || !base.mensajes.every((m) => m && typeof m.clave === "string" && typeof m.es === "string")) return false;
     const originales = new Map(base.mensajes.map((m) => [m.clave, m.es]));
     const vistos = new Set();
@@ -63,7 +65,9 @@ const Interfaz = (() => {
       });
       return texto.slice(0, texto.indexOf(texto.trim())) + resultado + (texto.match(/\s*$/)?.[0] ?? "");
     }
-    if (elemento.closest("#textoPerfil") && original.includes(" · ")) return original.split(" · ").map((p) => traducir(p, elemento, nivel + 1)).join(" · ");
+    if (elemento.closest("#textoPerfil, #llegadaApp, #detalleEtiqueta, .tarjeta .etiqueta") && original.includes("·")) {
+      return texto.split(/(\s*·\s*)/).map((p, i) => i % 2 ? p : traducir(p, elemento, nivel + 1)).join("");
+    }
     if (elemento.closest("#guiaEtapa") && original.includes(" · ")) {
       const [etapa, ...linea] = original.split(" · ");
       return [traducir(etapa, elemento, nivel + 1), ...linea].join(" · ");
@@ -181,5 +185,5 @@ const Interfaz = (() => {
     } catch {}
     aplicar();
   }
-  return { iniciar, cambiar, original, revisar, get disponible() { return Boolean(catalogo); } };
+  return { iniciar, cambiar, original, revisar, get disponible() { return Boolean(catalogo); }, get provisional() { return Boolean(catalogo?.provisional); } };
 })();

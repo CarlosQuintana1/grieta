@@ -2589,7 +2589,7 @@ addEventListener("resize", () => { if ($("medidas")) medirPantalla(); });
 // Sin conexion: la app y los horarios quedan guardados en el telefono.
 Interfaz.iniciar(acc.idioma, () => {
   EFECTOS.perfilLengua.oto = Interfaz.disponible
-    ? "La interfaz cambia de idioma. El audio sigue en español."
+    ? Interfaz.provisional ? "Traducción automática provisional. El audio sigue en español." : "La interfaz cambia de idioma. El audio sigue en español."
     : "La traducción de la interfaz todavía no está disponible. El audio sigue en español.";
   actualizarFilasPerfil();
 });

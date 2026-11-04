@@ -7,6 +7,7 @@ const { once } = require('node:events');
 const assert = require('node:assert/strict');
 (async () => {
   const repo = process.env.GRIETA_REPO ?? path.join(__dirname, '..');
+  const versionActual = /const VERSION = "([^"]+)"/.exec(fs.readFileSync(path.join(repo, 'demo/sw.js'), 'utf8'))[1];
   const temporal = fs.mkdtempSync(path.join(os.tmpdir(), 'grieta-actualizacion-'));
   const archivo = spawnSync('git', ['archive', '4b12ba3', 'demo'], { cwd: repo, maxBuffer: 80 * 1024 * 1024 });
   assert.equal(archivo.status, 0);
@@ -33,7 +34,7 @@ const assert = require('node:assert/strict');
     console.log('Instalación antigua: código y modelo nuevos funcionan aun con el service worker 68 activo');
     fs.copyFileSync(path.join(repo, 'demo/sw.js'), path.join(destino, 'sw.js'));
     await pagina.evaluate(async () => (await navigator.serviceWorker.getRegistration()).update());
-    await pagina.waitForFunction(async () => { const claves = await caches.keys(); return claves.includes('grieta-70') && !claves.includes('grieta-68'); }, null, { timeout: 60000 });
+    await pagina.waitForFunction(async (version) => { const claves = await caches.keys(); return claves.includes(version) && !claves.includes('grieta-68'); }, versionActual, { timeout: 60000 });
     const apagado = once(servidor, 'exit'); servidor.kill('SIGTERM'); await apagado;
     await contexto.setOffline(true); await pagina.reload({ waitUntil: 'domcontentloaded' });
     await pagina.locator('#abrirCamara').click(); await pagina.locator('#camaraIniciar').click();

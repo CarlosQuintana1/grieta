@@ -1,6 +1,6 @@
 self.exports = {};
 importScripts('vendor/mediapipe/vision_bundle.js');
-let detector;
+let detector, lienzo;
 self.onmessage = async ({ data }) => {
   try {
     if (data.tipo === 'iniciar') {
@@ -12,9 +12,20 @@ self.onmessage = async ({ data }) => {
       });
       postMessage({ tipo: 'listo' });
     } else if (data.tipo === 'detectar') {
-      const imagen = new ImageData(new Uint8ClampedArray(data.pixeles), data.ancho, data.alto);
+      const imagen = data.imagen ?? new ImageData(new Uint8ClampedArray(data.pixeles), data.ancho, data.alto);
       const inicio = performance.now();
-      const detecciones = detector.detect(imagen).detections;
+      let detecciones;
+      try {
+        try { detecciones = detector.detect(imagen).detections; }
+        catch (error) {
+          if (!data.imagen) throw error;
+          lienzo ??= new OffscreenCanvas(data.ancho, data.alto);
+          if (lienzo.width !== data.ancho || lienzo.height !== data.alto) { lienzo.width = data.ancho; lienzo.height = data.alto; }
+          const contexto = lienzo.getContext('2d', { willReadFrequently: true });
+          contexto.drawImage(imagen, 0, 0);
+          detecciones = detector.detect(contexto.getImageData(0, 0, data.ancho, data.alto)).detections;
+        }
+      } finally { data.imagen?.close(); }
       postMessage({ tipo: 'objetos', detecciones, ancho: data.ancho, alto: data.alto, ms: performance.now() - inicio });
     }
   } catch { postMessage({ tipo: 'error' }); }

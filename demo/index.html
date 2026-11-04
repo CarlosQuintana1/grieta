@@ -543,12 +543,13 @@
       <video id="camaraVideo" autoplay muted playsinline aria-label="Vista de la cámara trasera" hidden></video>
       <p id="camaraEstado" class="nota" role="status">Cámara apagada. La primera vez se descargan los modelos (aprox. 40 MB en Más detalle).</p>
       <p id="camaraAudio" class="nota" role="status"></p>
-      <p id="camaraResultado" class="respuesta" role="status" aria-live="polite"></p>
+      <p id="camaraResultado" class="respuesta" aria-live="off"></p>
+      <p id="camaraLectura" class="oculto" aria-live="polite" aria-atomic="true"></p>
       <button id="camaraIniciar" type="button" class="boton">Iniciar cámara</button>
       <button id="camaraDetener" type="button" class="boton" hidden>Detener cámara</button>
       <button id="camaraLeer" type="button" class="boton oscuro" disabled>Leer letrero ahora</button>
       <button id="camaraRepetir" type="button" class="boton oscuro" disabled>Repetir descripción</button>
-      <label class="interruptor"><span><strong>Avisos experimentales de vehículos</strong><small>Avisa si un vehículo crece al centro de la imagen. Mover el teléfono puede causar avisos falsos. No detecta cruces.</small></span><input id="camaraAvisos" type="checkbox" role="switch"></label>
+      <label class="interruptor"><span><strong>Avisos experimentales de vehículos</strong><small>Avisa si un vehículo crece al centro de la imagen. Intenta compensar el movimiento del teléfono, pero puede fallar. No detecta cruces.</small></span><input id="camaraAvisos" type="checkbox" role="switch"></label>
       <p id="camaraVibracion" class="nota"></p>
       <button id="camaraProbar" type="button" class="enlace" hidden>Probar vibración</button>
       <p class="nota">Con avisos activos, usa Leer letrero ahora para dedicar el análisis a los vehículos.</p>
@@ -678,8 +679,9 @@
   <script src="https://cdn.jsdelivr.net/npm/h3-js@4.1.0/dist/h3-js.umd.js" integrity="sha256-CHDZTeOFA732tj3OjEgSpC3ENWXxWuNWlK7fT5fq9Ug=" crossorigin="anonymous"></script>
   <script src="grieta.js"></script>
   <script src="idioma.js"></script>
-  <script src="vision/seguimiento.js?v=2"></script>
-  <script src="vision/observaciones.js?v=2"></script>
+  <script src="vision/movimiento.js?v=3"></script>
+  <script src="vision/seguimiento.js?v=3"></script>
+  <script src="vision/observaciones.js?v=3"></script>
   <script src="camara.js"></script>
   <script src="app.js"></script>
 </body>

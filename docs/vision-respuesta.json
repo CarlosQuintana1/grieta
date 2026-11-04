@@ -1,0 +1,48 @@
+{
+  "entorno": "Chromium en CPU de macOS, detector Lite2 real, voz simulada",
+  "imagen": "COCO val2017 000000322864.jpg",
+  "duracion_por_caso_s": 12,
+  "limitaciones": "Fotografía animada; no caminata ni tráfico real. La latencia excluye la preparación de la cámara.",
+  "moderado": [
+    {
+      "version": "/antes/",
+      "imagenes": 20,
+      "intervalo_mediano_ms": 604,
+      "primera_descripcion_ms": 778,
+      "primer_envio_voz_simulada_ms": 7451,
+      "maximos_pendientes": 1,
+      "errores": []
+    },
+    {
+      "version": "/demo/",
+      "imagenes": 58,
+      "intervalo_mediano_ms": 204,
+      "primera_descripcion_ms": 424,
+      "primer_envio_voz_simulada_ms": 1037,
+      "maximos_pendientes": 1,
+      "errores": []
+    }
+  ],
+  "amplio": [
+    {
+      "version": "/antes/",
+      "movimiento": "amplio",
+      "imagenes": 20,
+      "intervalo_mediano_ms": 605,
+      "primera_descripcion_ms": 1395,
+      "primer_envio_voz_simulada_ms": 7443,
+      "maximos_pendientes": 1,
+      "errores": []
+    },
+    {
+      "version": "/demo/",
+      "movimiento": "amplio",
+      "imagenes": 58,
+      "intervalo_mediano_ms": 204,
+      "primera_descripcion_ms": 422,
+      "primer_envio_voz_simulada_ms": 1037,
+      "maximos_pendientes": 1,
+      "errores": []
+    }
+  ]
+}

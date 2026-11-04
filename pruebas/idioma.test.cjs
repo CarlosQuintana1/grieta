@@ -79,7 +79,7 @@ test('el worker conserva el código y los dos catálogos para leerlos sin red', 
       for (const archivo of archivos) {
         const url = new URL(archivo, origen);
         const contenido = url.origin === new URL(origen).origin
-          ? fs.readFileSync(path.join(raiz, archivo === './' ? 'index.html' : archivo)) : 'Dependencia de prueba';
+          ? fs.readFileSync(path.join(raiz, url.pathname === '/' ? 'index.html' : url.pathname.slice(1))) : 'Dependencia de prueba';
         guardadas.set(url.href, new Response(contenido));
       }
     },

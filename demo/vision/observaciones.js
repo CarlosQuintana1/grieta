@@ -25,10 +25,11 @@
       const centro = o.caja.x + o.caja.w / 2;
       const lado = centro < 0.33 ? 'a la izquierda' : centro > 0.67 ? 'a la derecha' : 'al centro';
       const clave = `${o.clase}:${lado}`;
-      if (!grupos.has(clave)) grupos.set(clave, { clase: o.clase, lado, n: 0 });
+      if (!grupos.has(clave)) grupos.set(clave, { clase: o.clase, lado, n: 0, confianza: o.confianza });
       grupos.get(clave).n++;
+      grupos.get(clave).confianza = Math.min(grupos.get(clave).confianza, o.confianza);
     }
-    return [...grupos.entries()].slice(0, 3).map(([clave, { clase, lado, n }]) => ({ clave, texto: `${n > 1 ? `${n} ${etiquetas[clase][1]}` : nombres[clase]} ${lado}` }));
+    return [...grupos.entries()].slice(0, 3).map(([clave, { clase, lado, n, confianza }]) => ({ clave, clase, confianza, texto: `${n > 1 ? `${n} ${etiquetas[clase][1]}` : nombres[clase]} ${lado}` }));
   }
   function textoLegible(datos) {
     if (!Number.isFinite(datos?.confidence) || datos.confidence < 65) return '';

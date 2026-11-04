@@ -2142,6 +2142,7 @@ function hablarCamara(texto) {
 }
 CamaraGrieta.iniciarInterfaz({
   hablar: hablarCamara,
+  vozOcupada: () => Boolean(window.speechSynthesis?.speaking),
   callar: detenerVoz,
   paradas: () => (Grieta.qrobus?.paradas ?? []).filter((p) => estado.gps && Grieta.metros(p[0], p[1], estado.gps.lat, estado.gps.lon) < 600).map((p) => p[2]),
 });

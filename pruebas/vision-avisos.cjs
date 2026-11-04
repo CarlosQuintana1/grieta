@@ -20,14 +20,15 @@ const assert = require('node:assert/strict');
       postMessage(d) {
         let respuesta = { tipo: 'listo' };
         if (d.tipo === 'detectar') {
-          const w = [.15, .2, .25][Math.min(this.numero++, 2)];
+          const w = [.12, .15, .2, .25, .3][Math.min(this.numero++, 4)];
           respuesta = { tipo: 'objetos', ms: 10, ancho: d.ancho, alto: d.alto, detecciones: [{ categories: [{ categoryName: 'car', score: .9 }], boundingBox: { originX: (.5 - w / 2) * d.ancho, originY: .35 * d.alto, width: w * d.ancho, height: (w + .05) * d.alto } }] };
         }
-        setTimeout(() => { if (this.activo) this.onmessage?.({ data: respuesta }); }, 10);
+        d.imagen?.close();
+        setTimeout(() => { if (this.activo) this.onmessage?.({ data: respuesta }); }, window.__retraso ?? 10);
       }
     };
   });
-  await contexto.route('**/vision/activos.json', (r) => r.fulfill({ json: [] }));
+  await contexto.route('**/vision/activos.json*', (r) => r.fulfill({ json: [] }));
   const pagina = await contexto.newPage(); const errores = [];
   pagina.on('pageerror', (e) => errores.push(e.message));
   await pagina.goto(process.env.GRIETA_URL ?? 'http://127.0.0.1:8791');
@@ -51,6 +52,13 @@ const assert = require('node:assert/strict');
   await pagina.locator('#camaraDetener').click();
   assert.equal(await pagina.evaluate(() => window.__liberaciones), 1);
   assert.deepEqual(await pagina.evaluate(() => window.__pistas.map((p) => p.readyState)), ['ended']);
+  await pagina.evaluate(() => { window.__retraso = 1350; });
+  await pagina.locator('#camaraIniciar').click();
+  await pagina.waitForFunction(() => document.querySelector('#camaraResultado').textContent.includes('imagen reciente'), null, { timeout: 10000 });
+  assert.equal(await pagina.locator('#camaraRepetir').isDisabled(), true);
+  await pagina.locator('#camaraDetener').click();
+  await pagina.evaluate(() => { window.__retraso = 10; });
+  console.log('Resultados tardíos descartados y descripción vieja retirada');
   await pagina.locator('#camaraLigero').check();
   await pagina.reload(); await pagina.locator('#abrirCamara').click();
   assert(await pagina.locator('#camaraLigero').isChecked());

@@ -11,12 +11,16 @@ Más detalle usa EfficientDet-Lite2 int8 con entrada de 448 × 448; Más ligero 
 No entrené desde cero ni añadí clases que estos modelos no tengan.
 
 Se aprovechan las 80 etiquetas, con prioridad para vehículos, personas y señales. Se agrupan objetos
-distintos y se eliminan cajas duplicadas. Se requiere confianza mínima 0.55 y dos fotogramas
-consecutivos para describir. El ciclo intenta analizar cada 600 ms; un teléfono lento tardará más.
-La imagen fuente llega hasta 960 px en detalle y 640 px en ligero. La voz tiene pausas de 5 segundos.
+distintos y se eliminan cajas duplicadas. Se requiere puntuación mínima 0.55 y confirmación de clase en una ventana de tres imágenes, aunque
+cambie de posición; una puntuación de al menos 0.85 permite descripción inmediata. El ciclo intenta
+analizar cada 200–250 ms, según movimiento y tiempo de inferencia; un teléfono lento tardará más.
+La imagen fuente llega hasta 960 px en detalle y 640 px en ligero. La voz evita acumular resultados y tiene pausas mínimas de dos segundos.
+La vista se actualiza aparte del anuncio accesible. En movimiento se narra primero un objeto; una
+descripción vieja no bloquea indefinidamente otra más reciente.
 
-Se avisa de oscuridad, exceso de luz, falta de detalle o movimiento global sostenido. Estas reglas
-pueden fallar y no sustituyen una evaluación de la lente o enfoque. El OCR español sigue con
+Se avisa de oscuridad, exceso de luz o falta de detalle. Mover el teléfono no detiene la descripción
+ni pide que se mantenga quieto. Estas reglas
+pueden fallar y no sustituyen una evaluación de la lente o enfoque. El OCR elige la toma más nítida de tres capturas en unos 120 ms, sin exigir quietud, y sigue con
 Tesseract.js/core 7.0.0 y `4.0.0_fast/spa`, confianza mínima 65. La coincidencia de paradas requiere
 nombre único de dos palabras distintivas dentro de 600 m del GPS disponible; no confirma la parada.
 
@@ -28,9 +32,13 @@ centro de la imagen. Solo observa crecimiento aparente; no determina velocidad, 
 real ni tiempo hasta una colisión. Mover el teléfono o acercarse a un vehículo estacionado puede causar
 avisos falsos. Una ausencia de avisos nunca significa que sea seguro avanzar.
 
-La asociación usa clase y solapamiento entre cajas. Requiere puntuación 0.65, tres observaciones en al
+La asociación usa clase y solapamiento entre cajas, transformando las anteriores con una estimación
+afín del fondo. Se buscan puntos de textura fuera de los objetos detectados y se exige consenso y
+cobertura suficientes. Se compensa parte del desplazamiento, giro y zoom en la imagen, no movimiento
+3D ni todos los efectos de caminar. Si la estimación es incierta, continúa la descripción y se reinicia
+solo el seguimiento usado para el aviso. La asociación Requiere puntuación 0.65, tres observaciones en al
 menos 600 ms, área final mínima de 6 % e incremento de al menos 50 %, posición central y crecimiento
-consistente. Descarta pérdida de seguimiento, movimiento global, mala calidad y resultados tardíos.
+consistente. Descarta pérdida de seguimiento, compensación incierta, mala calidad, cajas recortadas y resultados tardíos.
 Hay una pausa de ocho segundos entre avisos. Son umbrales experimentales, sin validación en tráfico.
 
 Con avisos activos, el OCR automático se pausa para dedicar el procesamiento a detectar; el botón
@@ -96,3 +104,37 @@ La versión 70 separa la caché inmutable de modelos/runtimes del código de la 
 lista de activos llevan una revisión para evitar mezclas al actualizar desde 68/69. La prueba
 `vision-actualizacion.cjs` mantiene el service worker 68 activo mientras carga código nuevo, inicia el
 modelo, actualiza a 70 y repite sin servidor ni red; requiere el historial Git del proyecto.
+
+
+## Respuesta con la cámara en movimiento — versión 71
+
+La captura transfiere ImageBitmap al worker cuando es posible, con alternativa RGBA y liberación de
+recursos. Hay como máximo una imagen enviada al detector; se toma otra reciente al terminar y se
+ignoran resultados con más de 1.2 s. Los motores se preparan en paralelo. No se cambiaron los pesos
+Lite0/Lite2 ni se entrenó un modelo nuevo: esta mejora corrige captura, seguimiento, cadencia y voz.
+
+Se comparó versión 70 con 71 usando el detector Lite2 real, una foto oficial COCO val2017
+`000000322864.jpg` animada durante 12 s por caso y voz local simulada. En el caso amplio: desplazamiento
+horizontal de hasta 140 px en una imagen de 960 px, vertical de 60 px, giro de ±0.18 rad y zoom de
+1.00–1.24, dibujados cada 80 ms. No es un video real de una persona caminando ni prueba de tráfico.
+
+| Medida en el caso amplio | Versión 70 | Versión 71 |
+|---|---:|---:|
+| Intervalo mediano entre análisis | 605 ms | 204 ms |
+| Imágenes analizadas en 12 s | 20 | 58 |
+| Primera descripción visual desde la captura | 1395 ms | 422 ms |
+| Primer envío a voz simulada desde la captura | 7443 ms | 1037 ms |
+| Máximo de imágenes pendientes | 1 | 1 |
+
+Medición de Chromium en CPU de macOS. No representa latencia del iPhone, tiempo total desde abrir la
+cámara ni audio físico de VoiceOver. El caso moderado y los datos están en `vision-respuesta.json`.
+Se reproduce con `VISION_IMAGEN`, `GRIETA_ANTES_URL`, `GRIETA_URL` y opcionalmente
+`VISION_MOVIMIENTO=amplio` en `pruebas/vision-latencia.cjs`. Las imágenes siguen en memoria local.
+
+Los tests de movimiento verifican giros, traslación, zoom, fondos ambiguos, seguimiento independiente
+del coche y ausencia de aviso por zoom sobre un coche estático. Movimiento extremo, desenfoque,
+poca luz, parallax y oclusiones pueden impedir reconocer o compensar; no se garantiza detección en
+cualquier movimiento. Falta validar con teléfono en mano, caminata real y lector de pantalla.
+
+Referencias técnicas: [transferencia de imagen](https://developer.mozilla.org/en-US/docs/Web/API/Window/createImageBitmap)
+y [estimación afín robusta](https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html).

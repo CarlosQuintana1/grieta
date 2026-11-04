@@ -1,11 +1,12 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+require('../demo/vision/movimiento.js');
 require('../demo/vision/seguimiento.js');
 require('../demo/vision/observaciones.js');
 const { objetos, textoLegible, paradaPosible } = globalThis.GrietaVision;
 const deteccion = (clase, score, x) => ({ categories: [{ categoryName: clase, score }], boundingBox: { originX: x, originY: 0, width: 60, height: 80 } });
 test('omite clases desconocidas, baja confianza y duplicados', () => {
-  assert.deepEqual(objetos([deteccion('person', .9, 0), deteccion('person', .8, 10), deteccion('pothole', .99, 200), deteccion('car', .54, 200)], 640), [{ clave: 'person:a la izquierda', texto: 'una persona a la izquierda' }]);
+  assert.deepEqual(objetos([deteccion('person', .9, 0), deteccion('person', .8, 10), deteccion('pothole', .99, 200), deteccion('car', .54, 200)], 640).map(({ clave, texto }) => ({ clave, texto })), [{ clave: 'person:a la izquierda', texto: 'una persona a la izquierda' }]);
 });
 test('describe la posición en la imagen sin afirmar distancia', () => {
   assert.match(objetos([deteccion('bus', .8, 500)], 640)[0].texto, /camión a la derecha$/);

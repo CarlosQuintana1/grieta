@@ -341,6 +341,13 @@ const Grieta = (() => {
     }).filter((x) => x.lineas.length).slice(0, 3);
   }
 
+  function horariosParada(lat, lon, dia, minuto) {
+    const dias = Math.floor(minuto / 1440);
+    const minutoDia = ((minuto % 1440) + 1440) % 1440;
+    const paradas = pasanAqui(lat, lon, (dia + dias) % 7, minutoDia, 1);
+    return paradas[0]?.lineas ?? [];
+  }
+
   // Precio del mismo viaje a otra hora; si pasa de medianoche cuenta como el dia siguiente.
   function cotizar({ origen, destino, dia, minuto, kmCalle }) {
     const d = (dia + Math.floor(minuto / 1440)) % 7;
@@ -355,5 +362,5 @@ const Grieta = (() => {
 
   const nombreApp = (a) => ({ uber: "Uber", didi: "DiDi", indrive: "inDrive" })[a];
 
-  return { cargar, cotizar, evaluar, decidir, pasanAqui, hhmm, metros, CORTES, nombreApp, get modelo() { return modelo; }, get qrobus() { return qrobus; } };
+  return { cargar, cotizar, evaluar, decidir, pasanAqui, horariosParada, hhmm, metros, CORTES, nombreApp, get modelo() { return modelo; }, get qrobus() { return qrobus; } };
 })();

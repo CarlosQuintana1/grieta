@@ -322,6 +322,13 @@ body.alerta :focus-visible { outline-color: #0b0a09; }
 .parada-alternativa { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; min-height: 48px; padding: 10px 0; color: var(--tinta); text-align: left; border-bottom: 1px solid var(--linea); }
 .parada-alternativa strong { color: var(--ambar); font-weight: 650; }
 .parada-alternativa .tenue { flex: none; color: var(--tenue); font-size: 0.85rem; }
+.comparacion-paradas { margin-top: 24px; padding-top: 4px; border-top: 1px solid var(--linea); }
+.comparacion-lista { list-style: none; margin: 8px 0 0; padding: 0; }
+.comparacion-parada { display: grid; gap: 5px; width: 100%; min-height: 72px; padding: 12px 0; text-align: left; border-bottom: 1px solid var(--linea); }
+.comparacion-parada strong { font-weight: 650; }
+.comparacion-parada span { color: var(--tenue); }
+.comparacion-parada b { color: var(--ambar); }
+.comparacion-parada.recomendada strong { color: var(--ambar); }
 .aviso { display: flex; gap: 12px; align-items: flex-start; padding: 14px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); }
 .aviso .icono { color: var(--ambar); }
 .aviso.cuidado { border-color: var(--cuidado); }

@@ -1318,7 +1318,7 @@ function pintarParadas(punto, lista, seleccionada = false) {
       if (i === 0) return void ($("hoja").scrollTop = 0);
       elegirParada(punto, lista, i);
     });
-    if (i === 0) m.bindTooltip("Más cercana", { permanent: true, direction: "top", offset: [0, -20], className: "etiqueta-mapa" });
+    if (i === 0) m.bindTooltip(seleccionada ? "Parada seleccionada" : "Más cercana", { permanent: true, direction: "top", offset: [0, -20], className: "etiqueta-mapa" });
     return m;
   });
   const aPie = L.polyline([[punto.lat, punto.lon], [lista[0].lat, lista[0].lon]], { color: tono("--tinta"), weight: 3, dashArray: "1 7", lineCap: "round" });
@@ -1328,13 +1328,14 @@ function pintarParadas(punto, lista, seleccionada = false) {
 }
 // La distancia real a pie llega despues que la pantalla: se pone y se dice una sola vez
 function ponerCaminata(p, metros, seleccionada = false) {
-  if (!$("distanciaParada") || p.dicho) return;
+  if (!$("distanciaParada")) return;
   if (!metros) return void ($("caminaParada").textContent = p.caminado ? Interfaz.original($("caminaParada")) : "No pude calcular el camino a pie.");
   p.caminado = metros;
-  p.dicho = true;
   $("distanciaParada").textContent = `${seleccionada ? "Parada elegida" : "Parada más cercana"} · a ${distanciaTexto(metros, true)} caminando`;
   $("caminaParada").textContent = `Camina ${minutosCaminando(metros)} min`;
-  hablar(`Caminando son ${distanciaTexto(metros)}, unos ${minutosCaminando(metros)} minutos.`, true);
+  actualizarComparacionParadas(estado.listaCamiones ?? []);
+  if (!p.dicho) hablar(`Caminando son ${distanciaTexto(metros)}, unos ${minutosCaminando(metros)} minutos.`, true);
+  p.dicho = true;
 }
 // 250 metros, 1.2 kilómetros: redondeado como lo diría una persona
 const distanciaTexto = (m, corta = false) => m < 1000
@@ -1346,6 +1347,7 @@ let revisionCamiones = 0;
 $("pasanAqui").addEventListener("click", () => abrirCamiones());
 function abrirCamiones() {
   revisionCamiones++;
+  estado.recomendacionAnunciada = null;
   ir("camiones");
   const caja = $("camionesContenido");
   const punto = estado.gps ?? estado.origen;
@@ -1382,6 +1384,53 @@ function elegirParada(punto, lista, indice) {
   $("hoja").scrollTop = 0;
 }
 
+function compararParadas(lista) {
+  const minuto = ahoraMin();
+  const faltantes = [];
+  const opciones = lista.map((parada, indice) => {
+    if (!Number.isFinite(parada.caminado)) {
+      faltantes.push(`${cruce(parada.nombre)}: camino a pie`);
+      return null;
+    }
+    const caminata = minutosCaminando(parada.caminado);
+    const llegada = minuto + caminata;
+    const lineas = Grieta.horariosParada(parada.lat, parada.lon, hoyDia(), llegada);
+    const salidas = lineas.flatMap((linea) => linea.horas).filter((hora) => Number.isFinite(hora));
+    if (!salidas.length) {
+      faltantes.push(`${cruce(parada.nombre)}: próximo horario`);
+      return null;
+    }
+    const salida = Math.min(...salidas);
+    const espera = Math.max(0, Math.ceil(salida - llegada));
+    return { parada, indice, caminata, espera, total: caminata + espera, salida };
+  }).filter(Boolean).sort((a, b) => a.total - b.total || a.caminata - b.caminata || a.parada.m - b.parada.m);
+  return { opciones, faltantes };
+}
+
+function actualizarComparacionParadas(lista) {
+  const caja = $("comparacionParadas");
+  if (!caja) return;
+  const { opciones, faltantes } = compararParadas(lista);
+  if (!opciones.length) {
+    caja.innerHTML = `<p class="nota">Todavía no puedo comparar estas paradas:</p><ul>${faltantes.map((x) => `<li>${escapar(x)}</li>`).join("")}</ul>`;
+    return;
+  }
+  const empate = opciones.length > 1 && opciones[0].total === opciones[1].total;
+  caja.innerHTML = `<p class="nota">${empate ? "Empate en tiempo estimado; se muestra primero la de menos caminata." : `Conviene más ${escapar(cruce(opciones[0].parada.nombre))}: menos tiempo estimado hasta abordar.`}</p>
+    <ul class="comparacion-lista">${opciones.map((opcion, i) => `<li><button type="button" class="comparacion-parada${i === 0 ? " recomendada" : ""}" data-comparar-parada="${opcion.indice}" aria-label="${i === 0 ? "Menor tiempo estimado. " : ""}${escapar(cruce(opcion.parada.nombre))}: caminar ${opcion.caminata} minutos, esperar ${opcion.espera} minutos, total ${opcion.total} minutos. Elegir esta parada.">
+      <strong>${escapar(cruce(opcion.parada.nombre))}${i === 0 ? " · Conviene más" : ""}</strong><span>Caminar ${opcion.caminata} min · esperar ${opcion.espera} min</span><b>${opcion.total} min para abordar</b></button></li>`).join("")}</ul>
+    ${faltantes.length ? `<p class="nota">Sin comparar: ${faltantes.map(escapar).join("; ")}.</p>` : ""}
+    <p class="nota">Estimación con el horario oficial; no conocemos la ubicación en tiempo real de los camiones.${avisoVigencia()}</p>`;
+  caja.querySelectorAll("[data-comparar-parada]").forEach((b) => b.addEventListener("click", () => {
+    const opcion = opciones.find((x) => x.indice === Number(b.dataset.compararParada));
+    if (opcion) elegirParada(estado.puntoCamiones, lista, opcion.indice);
+  }));
+  if (acc.modoVoz && estado.recomendacionAnunciada !== opciones[0].parada.nombre) {
+    estado.recomendacionAnunciada = opciones[0].parada.nombre;
+    hablar(`La parada con menos tiempo estimado es ${opciones[0].parada.nombre}: caminar ${opciones[0].caminata} minutos y esperar ${opciones[0].espera}, ${opciones[0].total} minutos en total.`, true);
+  }
+}
+
 // La mas cercana en linea recta puede estar del otro lado de una avenida: se comparan caminando y se reordena.
 async function ordenarPorCaminata(punto, lista) {
   if (lista.length < 2) return;
@@ -1391,7 +1440,16 @@ async function ordenarPorCaminata(punto, lista) {
   lista.forEach((x, i) => { if (reales[i]) x.caminado = reales[i].metros; });
   const distancia = (x) => x.caminado ?? x.m * 1.3;
   const orden = [...lista].sort((a, b) => distancia(a) - distancia(b));
-  if (orden[0] === lista[0]) return ponerCaminata(lista[0], lista[0].caminado);
+  if (orden[0] === lista[0]) {
+    ponerCaminata(lista[0], lista[0].caminado);
+    document.querySelectorAll(".parada-alternativa[data-parada]").forEach((b) => {
+      const parada = lista[Number(b.dataset.parada)];
+      const texto = b.querySelector(".tenue");
+      if (parada && texto) texto.textContent = `A ${distanciaTexto(parada.caminado ?? parada.m, true)}${parada.caminado ? " caminando" : " en línea recta"}`;
+    });
+    actualizarComparacionParadas(lista);
+    return;
+  }
   orden[0].dicho = true;
   pintarCamiones(punto, orden, false);
   hablar(`Caminando, la parada más cercana es ${orden[0].nombre}, a ${distanciaTexto(distancia(orden[0]))}.`);
@@ -1420,12 +1478,16 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
     <div id="avisosParada" class="avisos"><p class="nota">Buscando avisos...</p></div>
     <p class="nota">La accesibilidad no está verificada. Los reportes son de la comunidad y pueden haber cambiado.</p>
     <button id="reportarParada" type="button" class="boton oscuro">Reportar algo en esta parada</button>
+    <section class="comparacion-paradas" id="comparacionParadas" aria-labelledby="tituloComparacionParadas"><h2 id="tituloComparacionParadas">¿Qué parada me conviene?</h2><p class="nota">Calculando caminos a pie y horarios...</p></section>
     ${lista.length > 1 ? `<section class="otras" aria-labelledby="tituloOtrasParadas"><h2 id="tituloOtrasParadas">Otras paradas cerca</h2>
       ${lista.slice(1).map((x, i) => `<button type="button" class="parada-alternativa" data-parada="${i + 1}" aria-label="Ver camiones y reportar en ${escapar(cruce(x.nombre))}"><strong translate="no">${escapar(cruce(x.nombre))}</strong><span class="tenue">A ${distanciaTexto(x.caminado ?? x.m, true)}${x.caminado ? " caminando" : " en línea recta"}</span></button>${filas(x)}`).join("")}</section>` : ""}
     <p class="nota pie">Las horas salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse.${avisoVigencia()}</p>`;
   $("irParada").addEventListener("click", () => poner("destino", { nombre: `Parada ${p.nombre}`, lat: p.lat, lon: p.lon }));
   $("reportarParada").addEventListener("click", () => abrirReporte(p));
   caja.querySelectorAll("[data-parada]").forEach((b) => b.addEventListener("click", () => elegirParada(punto, lista, Number(b.dataset.parada))));
+  estado.puntoCamiones = punto;
+  estado.listaCamiones = lista;
+  actualizarComparacionParadas(lista);
   if (primera) hablar(`La parada más cercana es ${p.nombre}. ` +
     p.lineas.slice(0, 4).map((l) => `Línea ${l.linea} hacia ${l.hacia}, a las ${hora(l.horas[0])} según el horario.`).join(" "));
   // Lo que avisó la gente en esta parada en la última media hora, junto a su línea

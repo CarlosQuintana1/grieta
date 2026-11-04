@@ -12,6 +12,10 @@
     "sha256": "0720bf247bd76e6594ea28fa9c6f7c5242be774818997dbbeffc4da460c723bb"
   },
   {
+    "ruta": "modelos/efficientdet_lite2.tflite",
+    "sha256": "b3f50554cb0ea559e90328845f7d9ba4d13c8bff372914d24e06bc8bb72fa896"
+  },
+  {
     "ruta": "modelos/spa.traineddata.gz",
     "sha256": "8db1167a8c9bb015ac8e97278384c3b07dfa9bc8271569beea071d9e296b4487"
   },

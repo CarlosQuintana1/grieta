@@ -1,65 +1,92 @@
 # Cámara que habla
 
-Desde Inicio o Voz, abro **Describir con la cámara** y toco **Iniciar cámara**. La primera vez descarga
-aproximadamente 37 MB; después funciona sin conexión si el navegador conserva la caché.
+Desde Inicio o Voz abro **Describir con la cámara**. Elijo **Más detalle** (predeterminado) o **Más
+ligero** antes de iniciar. El modo detallado descarga unos 40 MB en el primer uso. En una instalación
+que ya usó la versión 68, solo añade el modelo de 7.5 MB. Las preferencias quedan en el teléfono.
 
-Reconoce objetos comunes cada dos segundos y lee texto español aproximadamente cada 15 segundos.
-**Leer letrero ahora** pide otra lectura. **Detener cámara**, salir, ocultar la app o bloquearla detienen
-la sesión. Siempre requiere permiso y usa la cámara trasera cuando está disponible; no pide micrófono.
+## Reconocimiento
 
-## Modelo y alcance
+Más detalle usa EfficientDet-Lite2 int8 con entrada de 448 × 448; Más ligero conserva Lite0 int8 de
+320 × 320. Ambos son modelos preentrenados de Google/TensorFlow sobre COCO, con MediaPipe 0.10.21.
+No entrené desde cero ni añadí clases que estos modelos no tengan.
 
-- EfficientDet-Lite0 int8, versión 1, entrenado por Google/TensorFlow con COCO. No lo entrené desde cero.
-- MediaPipe Tasks Vision 0.10.21: inferencia CPU en un worker con imágenes de hasta 640 px.
-- Tesseract.js y tesseract.js-core 7.0.0, datos españoles `4.0.0_fast/spa`: OCR en workers separados.
-- Los archivos están en `demo/vision/`, con hashes SHA-256 en `activos.json` y licencias junto a ellos.
-- Se anuncian las clases de `observaciones.js` con puntuación mínima 0.60 y presencia en dos fotogramas
-  consecutivos. La posición corresponde a la imagen; no se calcula distancia física.
-- Se descarta OCR con confianza media inferior a 65. Una coincidencia de nombre de parada exige dos
-  palabras distintivas y un único resultado del catálogo a menos de 600 m del GPS disponible. Se indica
-  que es una coincidencia de texto; no prueba que el objeto enfocado sea una parada.
+Se aprovechan las 80 etiquetas, con prioridad para vehículos, personas y señales. Se agrupan objetos
+distintos y se eliminan cajas duplicadas. Se requiere confianza mínima 0.55 y dos fotogramas
+consecutivos para describir. El ciclo intenta analizar cada 600 ms; un teléfono lento tardará más.
+La imagen fuente llega hasta 960 px en detalle y 640 px en ligero. La voz tiene pausas de 5 segundos.
 
-No detecta todos los obstáculos. COCO no aporta clases específicas para baches, escalones, postes ni
-rampas. No estima profundidad, no interpreta el color del semáforo y no indica cuándo cruzar.
-La cámara es experimental y no sustituye bastón, acompañamiento ni las técnicas de orientación.
-No hay mediciones de precisión sobre calles de Querétaro. Entrenar un detector propio requiere un
-conjunto de fotos locales etiquetadas y una evaluación independiente; no se generan métricas ficticias.
+Se avisa de oscuridad, exceso de luz, falta de detalle o movimiento global sostenido. Estas reglas
+pueden fallar y no sustituyen una evaluación de la lente o enfoque. El OCR español sigue con
+Tesseract.js/core 7.0.0 y `4.0.0_fast/spa`, confianza mínima 65. La coincidencia de paradas requiere
+nombre único de dos palabras distintivas dentro de 600 m del GPS disponible; no confirma la parada.
 
-## Privacidad y caché
+## Avisos de vehículos
 
-Los píxeles pasan en memoria del video al canvas y a los workers, sin peticiones de red ni guardado.
-No hay endpoint de cámara en la API. Solo se descargan recursos estáticos desde el mismo origen.
-La caché `grieta-vision-1` contiene código y modelos; el service worker la conserva al actualizar la app.
-El borrado de datos del sitio libera esa descarga. Si no hay espacio o red inicial, la sesión muestra
-un error recuperable. Los activos nuevos se comprueban con SHA-256 antes de guardarlos.
+Están apagados al inicio. **Avisos experimentales de vehículos** activa un aviso de voz/lector y pide
+una vibración cuando una caja de auto, moto, bicicleta, camión o autobús crece de manera sostenida al
+centro de la imagen. Solo observa crecimiento aparente; no determina velocidad, distancia, trayectoria
+real ni tiempo hasta una colisión. Mover el teléfono o acercarse a un vehículo estacionado puede causar
+avisos falsos. Una ausencia de avisos nunca significa que sea seguro avanzar.
 
-Las descripciones de la cámara usan únicamente una voz española con `localService: true`; si no hay
-una instalada, la app lo explica. Con lector de pantalla se usan anuncios accesibles, sin voz duplicada.
-El texto reconocido se muestra en español incluso si la interfaz está en hñöñho.
+La asociación usa clase y solapamiento entre cajas. Requiere puntuación 0.65, tres observaciones en al
+menos 600 ms, área final mínima de 6 % e incremento de al menos 50 %, posición central y crecimiento
+consistente. Descarta pérdida de seguimiento, movimiento global, mala calidad y resultados tardíos.
+Hay una pausa de ocho segundos entre avisos. Son umbrales experimentales, sin validación en tráfico.
 
-## Comprobaciones
+Con avisos activos, el OCR automático se pausa para dedicar el procesamiento a detectar; el botón
+**Leer letrero ahora** sigue disponible. Las lecturas no pisan un aviso recién emitido. Con análisis
+lento se explica que los avisos pueden omitirse y se propone usar Más ligero.
 
-`node --test pruebas/vision.test.cjs` comprueba confianza, clases, posiciones, límites del texto y nombres
-ambiguos de paradas. `node --check` revisa los scripts. En navegador se verificaron el modelo real con
-la imagen oficial de perros, OCR real sobre un letrero de prueba, arranque sin red después de descargar,
-permiso denegado, cierre de pistas, navegación desde Voz y ausencia de envíos de imágenes.
+**Probar vibración** permite comprobarla: una respuesta positiva de la API no prueba que el motor
+físico haya vibrado. Safari/iPhone no soporta vibración web; se explica la alternativa de voz/lector.
+La pantalla se mantiene encendida mediante Wake Lock cuando el navegador lo permite. Salir, ocultar
+la app, detener o un fallo liberan cámara, workers, vibración y bloqueo de pantalla.
 
-Pendiente de comprobar en dispositivos físicos: Safari de iPhone y Chrome de Android, VoiceOver y
-TalkBack, rendimiento térmico/batería y reconocimiento en calle. No confundir las pruebas del navegador
-con una validación para desplazarse sin ver.
+## Límites y privacidad
+
+No identifica pasos peatonales, banqueta, baches, escalones o el momento de cruzar. No interpreta el
+color de un semáforo. Es una ayuda experimental para describir y no un sistema anticolisión ni un
+sustituto del bastón o acompañamiento. Falta validación de campo con personas usuarias y teléfonos.
+
+El procesamiento continúa dentro del dispositivo: imágenes en memoria, ningún envío ni guardado.
+Solo se descargan recursos estáticos del mismo origen. Modelos y runtimes tienen hashes SHA-256 y
+licencias en `demo/vision/`; la caché de activos persiste al actualizar. La voz de cámara solo utiliza
+voces españolas locales. Con lector no duplica el audio. El texto de cámara se muestra en español.
+
+## Evaluación reproducible
+
+Se compararon ambos modelos sobre 34 imágenes oficiales de COCO val2017 y 344 anotaciones de diez
+clases de calle, incluidas personas, vehículos, señales y mobiliario. Se seleccionaron antes de inferir:
+las primeras 16 con al menos cinco instancias, más dos imágenes nuevas por cada una de nueve clases
+que tuvieran alguna instancia de al menos 1024 px². Se evaluaron todas las instancias no crowd de esas
+clases, incluidas pequeñas, con confianza 0.55 y coincidencia única de clase e IoU ≥ 0.5.
+
+| Modelo | Coincidencias / anotaciones | Predicciones evaluadas | Mediana de inferencia |
+|---|---:|---:|---:|
+| Lite0 | 65 / 344 | 67 | 52 ms |
+| Lite2 | 90 / 344 | 92 | 161 ms |
+
+Resultado de Chromium en CPU de macOS; no representa tiempo en teléfonos. Los dos modelos dejaron
+muchos objetos sin detectar. Estos conteos no son mAP ni un porcentaje de precisión para Querétaro y
+no miden el seguimiento de vehículos. Los resultados por imagen están en `vision-comparacion.json`.
+
+Para repetir: `python3 scripts/preparar-evaluacion-vision.py --destino /tmp/grieta-coco`, servir `demo/`
+y ejecutar `COCO_MUESTRA=/tmp/grieta-coco node pruebas/vision-comparar.cjs` con Playwright instalado.
+Los scripts aceptan `CHROMIUM_EXECUTABLE` y `GRIETA_URL`. Los datos de evaluación no se suben al repo.
+
+`node --test pruebas/vision.test.cjs` revisa filtros, conteo, cajas, seguimiento y calidad. Las pruebas
+`vision-navegador.cjs`, `vision-privacidad.cjs`, `vision-offline.cjs` y `vision-avisos.cjs` cubren motores
+reales, OCR, voz local, caché con servidor apagado, permisos, cancelación y avisos simulados. La prueba
+de navegador recibe `VISION_IMAGEN` con la imagen oficial de perros; la de avisos simula detecciones,
+vibración y Wake Lock. Ninguna verifica vibración física ni detecta colisiones reales.
+
+No verificado: iPhone y Android físicos, VoiceOver/TalkBack, batería, temperatura y tráfico real.
 
 ## Fuentes
 
-- [Detector y modelos oficiales](https://developers.google.com/edge/mediapipe/solutions/vision/object_detector/index)
-- [API web y workers](https://developers.google.com/edge/mediapipe/solutions/vision/object_detector/web_js)
-- [Tesseract.js](https://github.com/naptha/tesseract.js)
-- [Datos de español](https://github.com/naptha/tessdata/tree/gh-pages/4.0.0_fast)
-
-Para repetir las pruebas de navegador, instalo Playwright fuera de `demo/`, sirvo la app en `:8791` y
-uso `NODE_PATH` si no está instalado en el repo. `vision-navegador.cjs` recibe `VISION_IMAGEN` con la
-[imagen oficial de ejemplo](https://developers.google.com/static/edge/mediapipe/images/solutions/object-detection-output.png).
-`GRIETA_URL` cambia el servidor y `CHROMIUM_EXECUTABLE` permite usar un Chromium ya instalado.
-`node pruebas/vision-privacidad.cjs` comprueba la elección de voz local y el primer uso sin conexión.
-
-`node pruebas/vision-offline.cjs` levanta un servidor temporal, descarga los activos y lo apaga antes
-de recrear los dos motores desde caché. Usa cámara simulada; no abre la cámara real.
+- [Modelos oficiales y alcance](https://developers.google.com/edge/mediapipe/solutions/vision/object_detector/index)
+- [COCO](https://cocodataset.org/#download)
+- [Vibración y compatibilidad](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/vibrate)
+- [Bloqueo de pantalla](https://developer.mozilla.org/en-US/docs/Web/API/Screen_Wake_Lock_API)
+- [OCR](https://github.com/naptha/tesseract.js)
+- [Imagen oficial de prueba](https://developers.google.com/static/edge/mediapipe/images/solutions/object-detection-output.png)

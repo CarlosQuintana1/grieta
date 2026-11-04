@@ -1,7 +1,7 @@
 // Guarda la app y los horarios para que funcione sin internet. Cambiar la version renueva todo.
-const VERSION = "grieta-68";
+const VERSION = "grieta-69";
 const BASE = [
-  "./", "index.html", "estilos.css", "app.js", "grieta.js", "idioma.js", "camara.js", "vision/observaciones.js", "vision/detector-worker.js", "vision/lector-worker.js", "vision/activos.json", "logo.png", "icono-192.png", "manifest.webmanifest",
+  "./", "index.html", "estilos.css", "app.js", "grieta.js", "idioma.js", "camara.js", "vision/observaciones.js", "vision/seguimiento.js", "vision/detector-worker.js", "vision/lector-worker.js", "vision/activos.json", "logo.png", "icono-192.png", "manifest.webmanifest",
   "idiomas/es.json", "idiomas/otq.json",
   "datos/modelo.json", "datos/qrobus.json", "datos/lugares.json", "datos/config.json",
   "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css",

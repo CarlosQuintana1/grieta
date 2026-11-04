@@ -2,11 +2,17 @@ const CamaraGrieta = (() => {
   const $ = (id) => document.getElementById(id);
   const CACHE = 'grieta-vision-1';
   let sesion = 0, activa = false, flujo, detector, ocr, reloj, vigilancia, abortar;
-  let hablar, callar, paradas, anterior = new Set(), ultimaFrase = '', ultimoAviso = 0, ultimoTexto = '', leyendo = false, ultimaLectura = 0, vacios = 0;
+  let bloqueo, previa, calidadActual, problemaAnterior = '', repeticiones = 0, ultimoRiesgo = -Infinity, lento = 0;
+  const seguimiento = new GrietaSeguimiento.Seguimiento();
+  const modeloActual = () => $('camaraDetalle').checked ? 'detalle' : 'ligero';
+  let hablar, callar, paradas, anterior = new Set(), ultimaFrase = '', ultimoAviso = 0, ultimoTexto = '', ultimoNarrado = '', leyendo = false, ultimaLectura = 0, vacios = 0;
   const lienzo = document.createElement('canvas');
   const contexto = lienzo.getContext('2d', { willReadFrequently: true });
   const url = (ruta) => new URL(`vision/${ruta}`, location.href).href;
   const vigente = (turno) => turno === sesion && activa;
+  function vibrar(patron) {
+    try { return typeof navigator.vibrate === 'function' && navigator.vibrate(patron) === true; } catch { return false; }
+  }
   function informar(texto, voz = true) {
     $('camaraEstado').textContent = texto;
     if (voz) hablar(texto);
@@ -17,6 +23,8 @@ const CamaraGrieta = (() => {
     $('camaraLeer').disabled = !ocr || !flujo;
     $('camaraRepetir').disabled = !ultimaFrase;
     $('camaraVideo').hidden = !flujo;
+    $('camaraDetalle').disabled = activa;
+    $('camaraLigero').disabled = activa;
   }
   function cerrar(anunciar = false) {
     const estaba = activa;
@@ -24,6 +32,13 @@ const CamaraGrieta = (() => {
     sesion++;
     clearTimeout(reloj);
     clearTimeout(vigilancia);
+    bloqueo?.release().catch(() => {});
+    bloqueo = null;
+    vibrar(0);
+    previa = calidadActual = null;
+    seguimiento.reiniciar();
+    problemaAnterior = ''; repeticiones = lento = 0; ultimoRiesgo = -Infinity;
+    $('camaraCalidad').textContent = $('camaraAlerta').textContent = $('camaraRendimiento').textContent = '';
     abortar?.abort();
     abortar = null;
     flujo?.getTracks().forEach((pista) => pista.stop());
@@ -37,7 +52,7 @@ const CamaraGrieta = (() => {
     lienzo.width = lienzo.height = 0;
     anterior = new Set();
     vacios = 0;
-    ultimaFrase = ultimoTexto = '';
+    ultimaFrase = ultimoTexto = ultimoNarrado = '';
     $('camaraResultado').textContent = '';
     $('camaraAudio').textContent = '';
     leyendo = false;
@@ -64,7 +79,9 @@ const CamaraGrieta = (() => {
   async function preparar(turno, signal) {
     const r = await fetch(url('activos.json'), { signal });
     if (!r.ok) throw Error('descarga');
-    const activos = await r.json();
+    const lista = await r.json();
+    const elegido = modeloActual() === 'detalle' ? 'efficientdet_lite2' : 'efficientdet_lite0';
+    const activos = lista.filter((a) => !a.ruta.endsWith('.tflite') || a.ruta.endsWith(`${elegido}.tflite`));
     const cache = await caches.open(CACHE);
     let completos = 0;
     for (const archivo of activos) {
@@ -102,7 +119,7 @@ const CamaraGrieta = (() => {
       await preparar(turno, signal);
       if (!vigente(turno)) return;
       detector = new Worker('vision/detector-worker.js');
-      await pedir(detector, { tipo: 'iniciar' }, 'listo', signal);
+      await pedir(detector, { tipo: 'iniciar', modelo: modeloActual() }, 'listo', signal);
       if (!vigente(turno)) return;
       ocr = new Worker('vision/lector-worker.js');
       await pedir(ocr, { tipo: 'iniciar' }, 'listo', signal);
@@ -122,11 +139,16 @@ const CamaraGrieta = (() => {
         clearTimeout(vigilancia);
         if (data.tipo === 'error') return fallo(turno, 'No pude analizar la imagen. Detuve la cámara. Vuelve a intentar.');
         describir(data);
-        reloj = setTimeout(() => analizar(turno), 2000);
+        lento = data.ms > 800 ? lento + 1 : 0;
+        const avisoLento = 'Análisis lento: los avisos de vehículos pueden omitirse. Detén la cámara y elige Más ligero.';
+        if (lento >= 3 && $('camaraRendimiento').textContent !== avisoLento) $('camaraRendimiento').textContent = avisoLento;
+        if (!lento && $('camaraRendimiento').textContent === avisoLento) $('camaraRendimiento').textContent = '';
+        reloj = setTimeout(() => analizar(turno), Math.max(120, 600 - data.ms));
       };
       detector.onerror = () => fallo(turno, 'Falló el reconocimiento local. Detuve la cámara. Vuelve a intentar.');
       informar('Cámara encendida. Puedo omitir obstáculos; no indico cuándo cruzar. Apunta el teléfono frente a ti.');
       ultimoAviso = ultimaLectura = Date.now();
+      mantenerPantalla(turno);
       analizar(turno);
     } catch (e) {
       const texto = e.name === 'NotAllowedError' ? 'No diste permiso para la cámara. Puedes habilitarlo en los permisos del navegador y volver a intentar.'
@@ -135,6 +157,35 @@ const CamaraGrieta = (() => {
         : 'No pude preparar la cámara. Revisa la conexión y vuelve a intentar; las imágenes se analizan en tu teléfono.';
       fallo(turno, texto);
     }
+  }
+  async function mantenerPantalla(turno) {
+    if (!navigator.wakeLock) return;
+    try {
+      const permiso = await navigator.wakeLock.request('screen');
+      if (!vigente(turno)) { await permiso.release(); return; }
+      bloqueo = permiso;
+    } catch { if (vigente(turno)) $('camaraRendimiento').textContent = 'Mantén esta pantalla abierta; el teléfono puede apagarla.'; }
+  }
+  function revisarEntorno(data) {
+    const estado = calidadActual;
+    if (!estado) return;
+    const problema = estado.problema ?? (estado.movimiento > .1 ? 'movida' : '');
+    repeticiones = problema === problemaAnterior ? repeticiones + 1 : 1;
+    problemaAnterior = problema;
+    const textos = { oscura: 'La imagen está muy oscura. Busca mejor luz si puedes hacerlo con seguridad.', expuesta: 'La imagen está demasiado iluminada. Evita apuntar directamente a la luz.', 'sin-detalle': 'No hay suficiente detalle en la imagen. Revisa que la lente esté descubierta y limpia.', movida: 'La imagen se mueve mucho. Mantén el teléfono estable.' };
+    if (repeticiones >= 3 && $('camaraCalidad').textContent !== (textos[problema] ?? '')) {
+      $('camaraCalidad').textContent = textos[problema] ?? '';
+      if (textos[problema] && Date.now() - ultimoRiesgo > 6000) { hablar(textos[problema]); ultimoAviso = Date.now(); }
+    }
+    if (Date.now() - ultimoRiesgo > 6000) $('camaraAlerta').textContent = '';
+    const detectados = GrietaVision.deteccionesValidas(data.detecciones, data.ancho, data.alto);
+    const aviso = seguimiento.actualizar(detectados, estado.capturada, Boolean(problema) || data.ms > 800 || performance.now() - estado.capturada > 1200);
+    if (!aviso || !$('camaraAvisos').checked) return;
+    ultimoRiesgo = Date.now();
+    const frase = `Atención: ${GrietaVision.nombres[aviso.clase]} ocupa más espacio al centro de la imagen. Puede haber movimiento; verifica tu entorno.`;
+    $('camaraAlerta').textContent = frase;
+    if (typeof navigator.vibrate === 'function' && !vibrar([160, 100, 160])) $('camaraVibracion').textContent = 'La vibración no está disponible ahora. El aviso sigue por voz o lector de pantalla.';
+    hablar(frase);
   }
   function fallo(turno, texto) {
     if (!vigente(turno)) return;
@@ -151,25 +202,32 @@ const CamaraGrieta = (() => {
   }
   function analizar(turno) {
     if (!vigente(turno)) return;
-    if (!capturar(640)) { reloj = setTimeout(() => analizar(turno), 500); return; }
+    if (!capturar(modeloActual() === 'detalle' ? 960 : 640)) { reloj = setTimeout(() => analizar(turno), 500); return; }
     const imagen = contexto.getImageData(0, 0, lienzo.width, lienzo.height);
+    calidadActual = GrietaSeguimiento.calidad(imagen.data, imagen.width, imagen.height, previa);
+    previa = calidadActual;
+    calidadActual.capturada = performance.now();
     vigilancia = setTimeout(() => fallo(turno, 'El teléfono tardó demasiado en reconocer la imagen. Detuve la cámara.'), 30000);
     detector.postMessage({ tipo: 'detectar', pixeles: imagen.data.buffer, ancho: imagen.width, alto: imagen.height }, [imagen.data.buffer]);
-    if (!leyendo && Date.now() - ultimaLectura > 15000) leerTexto(false);
+    if (!leyendo && !$('camaraAvisos').checked && !calidadActual.problema && calidadActual.movimiento < .1 && Date.now() - ultimaLectura > 15000) leerTexto(false);
   }
   function describir(data) {
-    const objetos = GrietaVision.objetos(data.detecciones, data.ancho);
+    revisarEntorno(data);
+    if (calidadActual?.problema) { $('camaraResultado').textContent = ''; return; }
+    if (Date.now() - ultimoRiesgo < 6000) return;
+    const objetos = GrietaVision.objetos(data.detecciones, data.ancho, data.alto);
     const estables = objetos.filter((o) => anterior.has(o.clave));
     anterior = new Set(objetos.map((o) => o.clave));
     vacios = objetos.length ? 0 : vacios + 1;
     if (!estables.length && vacios < 3) return;
-    if (leyendo || Date.now() - ultimoAviso < 8000) return;
+    if (leyendo) return;
     const frase = estables.length ? `Parece haber ${estables.map((o) => o.texto).join(', ')} en la imagen.` : 'No reconozco objetos con suficiente certeza. Eso no significa que el paso esté libre.';
-    if (frase === ultimaFrase && Date.now() - ultimoAviso < 30000) return;
     ultimaFrase = frase;
-    ultimoAviso = Date.now();
     $('camaraResultado').textContent = frase;
     botones();
+    if (Date.now() - ultimoAviso < 5000 || (frase === ultimoNarrado && Date.now() - ultimoAviso < 30000)) return;
+    ultimoNarrado = frase;
+    ultimoAviso = Date.now();
     hablar(frase);
   }
   async function leerTexto(manual = true) {
@@ -191,7 +249,7 @@ const CamaraGrieta = (() => {
         frase = `El texto parece decir: ${texto}.${parada ? ` Coincide con el nombre ${parada} del catálogo; confirma la parada antes de abordar.` : ''}`;
         ultimoTexto = texto;
       } else if (manual) frase = 'No pude leer texto con suficiente claridad. Acércate al letrero si puedes hacerlo con seguridad y vuelve a intentar.';
-      if (frase) {
+      if (frase && Date.now() - ultimoRiesgo > 6000) {
         ultimaFrase = frase;
         ultimoAviso = Date.now();
         $('camaraResultado').textContent = frase;
@@ -203,6 +261,23 @@ const CamaraGrieta = (() => {
   }
   function iniciarInterfaz(opciones) {
     ({ hablar, callar, paradas } = opciones);
+    let guardado = {};
+    try { guardado = JSON.parse(localStorage.getItem('grieta-camara')) ?? {}; } catch {}
+    $('camaraDetalle').checked = guardado.modelo !== 'ligero';
+    $('camaraLigero').checked = guardado.modelo === 'ligero';
+    $('camaraAvisos').checked = guardado.avisos === true;
+    for (const id of ['camaraDetalle', 'camaraLigero', 'camaraAvisos']) $(id).addEventListener('change', () => {
+      seguimiento.reiniciar();
+      vibrar(0);
+      $('camaraAlerta').textContent = '';
+      try { localStorage.setItem('grieta-camara', JSON.stringify({ modelo: modeloActual(), avisos: $('camaraAvisos').checked })); } catch {}
+    });
+    $('camaraVibracion').textContent = typeof navigator.vibrate === 'function' ? 'La vibración depende del teléfono y sus ajustes. Puedes probarla aquí.' : 'Este navegador no permite vibrar. Los avisos se muestran y usan tu voz local o lector de pantalla.';
+    $('camaraProbar').hidden = typeof navigator.vibrate !== 'function';
+    $('camaraProbar').addEventListener('click', () => {
+      const aceptado = vibrar([160, 100, 160]);
+      $('camaraVibracion').textContent = aceptado ? 'Se pidió una vibración de prueba. Confirma si la sentiste antes de usar los avisos.' : 'El teléfono rechazó la vibración. Los avisos siguen por voz o lector de pantalla.';
+    });
     $('camaraIniciar').addEventListener('click', iniciar);
     $('camaraDetener').addEventListener('click', () => { cerrar(true); $('camaraIniciar').focus(); });
     $('camaraLeer').addEventListener('click', () => leerTexto());

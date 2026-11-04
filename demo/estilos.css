@@ -806,3 +806,14 @@ html.grande #inicioNormal .lugar { flex-direction: column; align-items: flex-sta
 .camara video { display: block; width: 100%; max-height: 240px; object-fit: contain; background: var(--superficie); border-radius: var(--radio); }
 .camara p { margin: 16px 0; }
 .camara .respuesta:empty { display: none; }
+
+.camara-modelo { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 16px 0; padding: 0; border: none; }
+.camara-modelo legend { font-weight: 700; margin-bottom: 8px; }
+.camara-modelo label { display: flex; align-items: center; gap: 8px; min-height: var(--toque); }
+.camara-modelo input { accent-color: var(--ambar); width: 22px; height: 22px; }
+.camara-alerta:not(:empty) { border-left: 4px solid var(--cuidado); padding-left: 12px; font-weight: 700; }
+.camara .enlace { min-height: var(--toque); }
+
+.camara p:empty { margin: 0; padding: 0; border: none; }
+.camara-modelo input { appearance: auto; -webkit-appearance: radio; min-height: 0; flex: none; }
+.camara-modelo input:focus-visible { outline: 3px solid var(--ambar); outline-offset: 3px; }

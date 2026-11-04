@@ -1,7 +1,7 @@
 // Guarda la app y los horarios para que funcione sin internet. Cambiar la version renueva todo.
-const VERSION = "grieta-67";
+const VERSION = "grieta-68";
 const BASE = [
-  "./", "index.html", "estilos.css", "app.js", "grieta.js", "idioma.js", "logo.png", "icono-192.png", "manifest.webmanifest",
+  "./", "index.html", "estilos.css", "app.js", "grieta.js", "idioma.js", "camara.js", "vision/observaciones.js", "vision/detector-worker.js", "vision/lector-worker.js", "vision/activos.json", "logo.png", "icono-192.png", "manifest.webmanifest",
   "idiomas/es.json", "idiomas/otq.json",
   "datos/modelo.json", "datos/qrobus.json", "datos/lugares.json", "datos/config.json",
   "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css",
@@ -15,7 +15,7 @@ self.addEventListener("install", (e) => {
 
 self.addEventListener("activate", (e) => {
   e.waitUntil(caches.keys()
-    .then((claves) => Promise.all(claves.filter((k) => k !== VERSION).map((k) => caches.delete(k))))
+    .then((claves) => Promise.all(claves.filter((k) => k !== VERSION && k !== "grieta-vision-1").map((k) => caches.delete(k))))
     .then(() => self.clients.claim()));
 });
 
@@ -41,6 +41,10 @@ self.addEventListener("message", (e) => {
 // Buscador, rutas, mapa y API: siempre de internet.
 self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url);
+  if (url.origin === location.origin && url.pathname.includes("/vision/") && e.request.method === "GET") {
+    e.respondWith(caches.open("grieta-vision-1").then(async (cache) => (await cache.match(e.request)) ?? (await (await caches.open(VERSION)).match(e.request)) ?? fetch(e.request)));
+    return;
+  }
   const propio = url.origin === location.origin || url.hostname === "cdnjs.cloudflare.com" || url.hostname === "cdn.jsdelivr.net";
   if (e.request.method !== "GET" || !propio) return;
   e.respondWith(fetch(e.request)

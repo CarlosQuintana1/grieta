@@ -1,0 +1,78 @@
+[
+  {
+    "ruta": "modelos/LICENSE-efficientdet",
+    "sha256": "8707eef0533987efc5b155d64761eeb6e20793f50b9bd1a68dad1cf4719d0ed8"
+  },
+  {
+    "ruta": "modelos/LICENSE-tesseract",
+    "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  },
+  {
+    "ruta": "modelos/efficientdet_lite0.tflite",
+    "sha256": "0720bf247bd76e6594ea28fa9c6f7c5242be774818997dbbeffc4da460c723bb"
+  },
+  {
+    "ruta": "modelos/spa.traineddata.gz",
+    "sha256": "8db1167a8c9bb015ac8e97278384c3b07dfa9bc8271569beea071d9e296b4487"
+  },
+  {
+    "ruta": "vendor/mediapipe/LICENSE",
+    "sha256": "8707eef0533987efc5b155d64761eeb6e20793f50b9bd1a68dad1cf4719d0ed8"
+  },
+  {
+    "ruta": "vendor/mediapipe/vision_bundle.js",
+    "sha256": "bf58c9b3f592304422947b51e1f7de360c67d4dfeaa900064352da0c5a7c9115"
+  },
+  {
+    "ruta": "vendor/mediapipe/wasm/vision_wasm_internal.js",
+    "sha256": "4a97e2520ba506c680ecd6ba6acfb146888afa0e2746d57f205352bc6ebb82eb"
+  },
+  {
+    "ruta": "vendor/mediapipe/wasm/vision_wasm_internal.wasm",
+    "sha256": "f00ec4731faa23b3e714d00e88d4d10e2df5c0a427d3a2b4ae6e3526fdd14ef7"
+  },
+  {
+    "ruta": "vendor/mediapipe/wasm/vision_wasm_nosimd_internal.js",
+    "sha256": "927def7b465c51b86e4b3060f93646aca4e27121f4b8fc0483786e407ea9cf1f"
+  },
+  {
+    "ruta": "vendor/mediapipe/wasm/vision_wasm_nosimd_internal.wasm",
+    "sha256": "3821ea9b1f7fb8c549ef2a064ef5c85750bf375c545a49fd6eea0df44a95f1f4"
+  },
+  {
+    "ruta": "vendor/tesseract/LICENSE.md",
+    "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1"
+  },
+  {
+    "ruta": "vendor/tesseract/core/LICENSE",
+    "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1"
+  },
+  {
+    "ruta": "vendor/tesseract/core/tesseract-core-lstm.wasm.js",
+    "sha256": "eef5f8b2f8e20e150680b20adaec4a60babafee3adbe8a94583c81fee46e8680"
+  },
+  {
+    "ruta": "vendor/tesseract/core/tesseract-core-relaxedsimd-lstm.wasm.js",
+    "sha256": "861a536cf9ef8e63cb644d57bab39c388f37f7d6b6f60024b741c5f6b39a59b3"
+  },
+  {
+    "ruta": "vendor/tesseract/core/tesseract-core-simd-lstm.wasm.js",
+    "sha256": "c58b46a4c796c0b8afccf77591d5b875b6896b45d402bbce8caa6f5362447b38"
+  },
+  {
+    "ruta": "vendor/tesseract/tesseract.min.js",
+    "sha256": "000c27d9cd0def655f77b36c72a389c0ab13793aa31cb4d7aab56d09c0afbc7e"
+  },
+  {
+    "ruta": "vendor/tesseract/tesseract.min.js.LICENSE.txt",
+    "sha256": "cdf963ced7d25a0f98901a547647b4d6e2dbe0197fd78c87a059a87b0e542fe2"
+  },
+  {
+    "ruta": "vendor/tesseract/worker.min.js",
+    "sha256": "576b7df7e3393e137e51849357c9adb53fe7ac1bb69bfa06cf3d61520f182c6d"
+  },
+  {
+    "ruta": "vendor/tesseract/worker.min.js.LICENSE.txt",
+    "sha256": "45f54171aeaa1d10c0c1a66f374b7bba1f02472b1487fbe892eec04f840002ac"
+  }
+]

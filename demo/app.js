@@ -178,15 +178,17 @@ const PANTALLAS = {
   opciones: { tab: "inicio", mapa: true, encabezado: true },
   detalle: { tab: "inicio", mapa: true, encabezado: true },
   camiones: { tab: "camiones", mapa: true, encabezado: true },
+  camara: { tab: "inicio", encabezado: true },
   guia: {},
   reporte: { tab: "reporte" },
   ajustes: { tab: "ajustes" },
   perfil: { tab: "ajustes", encabezado: true },
 };
-const titulos = { buscar: "Buscar", camiones: "Camiones cerca", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje" };
+const titulos = { buscar: "Buscar", camiones: "Camiones cerca", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla" };
 
 function mostrar(nombre) {
   const conf = PANTALLAS[nombre];
+  if (nombre !== "camara") CamaraGrieta.cerrar();
   if (!$("chofer").hidden) tarjetaChofer(false);
   if (guia.activa && nombre !== "guia") terminarGuia(true);
   if (nombre === "inicio") {
@@ -1548,9 +1550,12 @@ $("dondeEstoy").addEventListener("click", () => dondeEstoy("inicio"));
 $("dondeGuia").addEventListener("click", () => dondeEstoy("guia"));
 
 // Dictar: llena el buscador, busca y lee las primeras opciones.
+let dictadoActual = null;
 const Reconocer = window.SpeechRecognition || window.webkitSpeechRecognition;
 function dictar(boton) {
   const rec = new Reconocer();
+  dictadoActual?.abort();
+  dictadoActual = rec;
   rec.lang = "es-MX";
   boton.classList.add("oyendo");
   boton.setAttribute("aria-pressed", "true");
@@ -2121,6 +2126,33 @@ function guardarLugares() {
   pintarGuardados();
 }
 const irA = (lugar) => { estado.editando = "hacia"; poner("destino", lugar); };
+
+function hablarCamara(texto) {
+  if (!acc.voz || acc.lector === "si") return;
+  const voces = window.speechSynthesis?.getVoices() ?? [];
+  const voz = voces.find((v) => v.localService && v.lang === "es-MX") ?? voces.find((v) => v.localService && v.lang.startsWith("es"));
+  $("camaraAudio").textContent = voz ? "" : "Para escuchar sin enviar texto, instala una voz en español en los ajustes de tu teléfono. También puedes usar tu lector de pantalla.";
+  if (!voz) return;
+  detenerVoz();
+  const mensaje = new SpeechSynthesisUtterance(texto);
+  mensaje.voice = voz;
+  mensaje.lang = voz.lang;
+  mensaje.rate = acc.lenta ? 0.8 : 1;
+  speechSynthesis.speak(mensaje);
+}
+CamaraGrieta.iniciarInterfaz({
+  hablar: hablarCamara,
+  callar: detenerVoz,
+  paradas: () => (Grieta.qrobus?.paradas ?? []).filter((p) => estado.gps && Grieta.metros(p[0], p[1], estado.gps.lat, estado.gps.lon) < 600).map((p) => p[2]),
+});
+function abrirCamara() {
+  dictadoActual?.abort();
+  detenerVoz();
+  ir("camara");
+  hablar("Cámara que habla. Toca Iniciar cámara para comenzar. Las imágenes se analizan solo en tu teléfono.", false, false, true);
+}
+$("vozCamara").addEventListener("click", abrirCamara);
+$("abrirCamara").addEventListener("click", abrirCamara);
 
 // Botones del modo para personas ciegas.
 // Lo que se dice al entrar: cuantos botones hay y en que orden, de arriba a abajo.

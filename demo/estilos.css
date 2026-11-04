@@ -817,3 +817,6 @@ html.grande #inicioNormal .lugar { flex-direction: column; align-items: flex-sta
 .camara p:empty { margin: 0; padding: 0; border: none; }
 .camara-modelo input { appearance: auto; -webkit-appearance: radio; min-height: 0; flex: none; }
 .camara-modelo input:focus-visible { outline: 3px solid var(--ambar); outline-offset: 3px; }
+
+html.modo-voz :is(button,a,input,select,textarea,label) { touch-action: manipulation; }
+.toque-elegido { outline: 3px solid var(--ambar); outline-offset: 3px; }

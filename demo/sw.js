@@ -1,7 +1,7 @@
 // Guarda la app y los horarios para que funcione sin internet. Cambiar la version renueva todo.
-const VERSION = "grieta-71";
+const VERSION = "grieta-72";
 const BASE = [
-  "./", "index.html", "estilos.css", "app.js", "grieta.js", "idioma.js", "camara.js", "vision/observaciones.js?v=3", "vision/seguimiento.js?v=3", "vision/movimiento.js?v=3", "vision/detector-worker.js?v=3", "vision/lector-worker.js?v=3", "vision/activos.json?v=3", "logo.png", "icono-192.png", "manifest.webmanifest",
+  "./", "index.html", "estilos.css", "app.js", "toques.js", "grieta.js", "idioma.js", "camara.js", "vision/observaciones.js?v=3", "vision/seguimiento.js?v=3", "vision/movimiento.js?v=3", "vision/detector-worker.js?v=3", "vision/lector-worker.js?v=3", "vision/activos.json?v=3", "logo.png", "icono-192.png", "manifest.webmanifest",
   "idiomas/es.json", "idiomas/otq.json",
   "datos/modelo.json", "datos/qrobus.json", "datos/lugares.json", "datos/config.json",
   "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css",
@@ -10,7 +10,7 @@ const BASE = [
 ];
 
 self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(VERSION).then((c) => c.addAll(BASE)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(VERSION).then((c) => c.addAll(BASE.map((ruta) => new Request(new URL(ruta, location.href), { cache: "reload" })))).then(() => self.skipWaiting()));
 });
 
 self.addEventListener("activate", (e) => {

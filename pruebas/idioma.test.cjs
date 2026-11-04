@@ -77,7 +77,8 @@ test('el worker conserva el código y los dos catálogos para leerlos sin red', 
   const cache = {
     async addAll(archivos) {
       for (const archivo of archivos) {
-        const url = new URL(archivo, origen);
+        assert.equal(archivo.cache, 'reload');
+        const url = new URL(archivo.url, origen);
         const contenido = url.origin === new URL(origen).origin
           ? fs.readFileSync(path.join(raiz, url.pathname === '/' ? 'index.html' : url.pathname.slice(1))) : 'Dependencia de prueba';
         guardadas.set(url.href, new Response(contenido));
@@ -86,7 +87,7 @@ test('el worker conserva el código y los dos catálogos para leerlos sin red', 
     async put(solicitud, respuesta) { guardadas.set(solicitud.url, respuesta); },
   };
   const entorno = vm.createContext({
-    URL, location: new URL(origen),
+    URL, Request, location: new URL(origen),
     self: { addEventListener: (nombre, fn) => manejadores.set(nombre, fn), skipWaiting: async () => {}, clients: { claim: async () => {} } },
     caches: {
       open: async () => cache,

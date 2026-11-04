@@ -186,6 +186,7 @@
     <section id="inicio" class="pantalla" aria-labelledby="tituloInicio">
       <div id="inicioVoz" class="inicio-voz" hidden>
         <h1 class="titulo-grande" tabindex="-1">¿Qué necesitas?</h1>
+        <p id="ayudaToques" class="nota" translate="no" hidden>Toca una vez para escuchar. Toca dos veces seguidas el mismo control para activarlo.</p>
         <button id="vozDestino" type="button" class="boton-voz"><svg class="picto"><use href="#p-decir"/></svg>Decir a dónde voy</button>
         <button id="vozCamara" type="button" class="boton-voz oscuro"><svg class="icono" aria-hidden="true"><use href="#i-camara"/></svg>Describir con la cámara</button>
         <button id="vozRutina" type="button" class="boton-voz" hidden><svg class="icono"><use href="#i-reloj"/></svg><span></span></button>
@@ -643,6 +644,7 @@
       <h2 id="tituloVoz">Voz</h2>
       <div class="grupo">
         <label class="interruptor"><span><strong>Voz de Grieta</strong><small>Apágala si tu teléfono ya te lee la pantalla (VoiceOver o TalkBack)</small></span><input type="checkbox" role="switch" id="optVoz"></label>
+        <label class="interruptor"><span><strong translate="no">Tocar para escuchar</strong><small translate="no">En modo Voz: un toque describe; dos toques rápidos activan. Con VoiceOver o TalkBack se usan los gestos del teléfono.</small></span><input type="checkbox" role="switch" id="optToques"></label>
         <label class="interruptor"><span><strong>Voz más lenta</strong></span><input type="checkbox" role="switch" id="optLenta"></label>
       </div>
       <h2 id="tituloPreferencias">Preferencias de viaje</h2>
@@ -659,6 +661,7 @@
     </section>
   </main>
 
+  <p id="descripcionToque" class="oculto" aria-live="polite" aria-atomic="true"></p>
   <p id="anuncio" class="oculto" aria-live="assertive"></p>
 
   <nav id="pestanas" class="pestanas" aria-label="Secciones">
@@ -683,6 +686,7 @@
   <script src="vision/seguimiento.js?v=3"></script>
   <script src="vision/observaciones.js?v=3"></script>
   <script src="camara.js"></script>
+  <script src="toques.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

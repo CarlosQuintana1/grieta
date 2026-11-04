@@ -1,0 +1,116 @@
+const { chromium } = require('playwright');
+const assert = require('node:assert/strict');
+(async () => {
+  const navegador = await chromium.launch({ headless: true, executablePath: process.env.CHROMIUM_EXECUTABLE });
+  try {
+    const contexto = await navegador.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, serviceWorkers: 'block' });
+    await contexto.addInitScript(() => {
+      if (!sessionStorage.getItem('probar-bienvenida')) { localStorage.setItem('grieta-bienvenida', 'true'); if (!localStorage.getItem('grieta-acc')) localStorage.setItem('grieta-acc', JSON.stringify({ modoVoz: true, voz: true, lector: 'no', tema: 'oscuro' })); }
+      window.__voces = [];
+      window.SpeechSynthesisUtterance = function (text) { this.text = text; };
+      Object.defineProperty(window, 'speechSynthesis', { value: { speaking: false, getVoices: () => [{ lang: 'es-MX', localService: true }], cancel() { this.speaking = false; }, speak(m) { window.__voces.push(m.text); this.speaking = Boolean(window.__retenerVoz); if (!this.speaking) m.onend?.(); } } });
+    });
+    const pagina = await contexto.newPage(), errores = []; pagina.on('pageerror', (e) => errores.push(e.message));
+    await pagina.goto(process.env.GRIETA_URL ?? 'http://127.0.0.1:8791');
+    await pagina.evaluate(() => { ultimoMensaje = 'Un aviso anterior'; });
+    await pagina.locator('#vozCamara').tap();
+    assert.equal(await pagina.locator('body').getAttribute('data-pantalla'), 'inicio');
+    assert.match(await pagina.locator('#descripcionToque').textContent(), /Describir con la cámara/);
+    assert.equal(await pagina.evaluate(() => ultimoMensaje), 'Un aviso anterior');
+    await pagina.locator('#vozCamara').tap();
+    assert.equal(await pagina.locator('body').getAttribute('data-pantalla'), 'camara');
+    await contexto.route('**/vision/activos.json*', (r) => r.fulfill({ json: [] }));
+    await pagina.evaluate(() => {
+      window.__permisos = 0; window.__workerOriginal = window.Worker;
+      window.Worker = class { postMessage() { setTimeout(() => this.onmessage?.({ data: { tipo: 'listo' } }), 0); } terminate() {} };
+      navigator.mediaDevices.getUserMedia = async () => { window.__permisos++; throw new DOMException('Prueba', 'NotAllowedError'); };
+    });
+    await pagina.locator('#camaraIniciar').tap(); assert.equal(await pagina.evaluate(() => window.__permisos), 0); assert.equal(await pagina.locator('#camaraDetener').isVisible(), false);
+    await pagina.locator('#camaraIniciar').tap(); await pagina.waitForFunction(() => document.querySelector('#camaraEstado').textContent.startsWith('No diste permiso'));
+    assert.equal(await pagina.evaluate(() => window.__permisos), 1); await pagina.evaluate(() => window.Worker = window.__workerOriginal);
+    console.log('La cámara solo solicita permiso al activar con doble toque');
+    await pagina.locator('[data-tab="ajustes"]').tap(); await pagina.locator('[data-tab="ajustes"]').tap();
+    assert.equal(await pagina.locator('body').getAttribute('data-pantalla'), 'ajustes');
+    console.log('Un toque describe sin navegar ni perder el aviso anterior; doble toque navega una sola vez');
+    await pagina.evaluate(() => {
+      const zona = document.createElement('div'); zona.id = 'zonaPrueba';
+      zona.innerHTML = '<button id="accionToque" type="button" class="boton">Acción de prueba</button><label class="interruptor"><span>Opción de prueba</span><input id="checkToque" type="checkbox"></label><label><span>Destino de prueba</span><input id="campoToque" type="text"></label><label class="boton archivo">Archivo de prueba<input id="archivoToque" type="file"></label><button id="abrirVentana" class="boton">Abrir ventana</button><button id="otroToque" class="boton">Otra acción</button><button id="noDisponible" class="boton" disabled>No disponible</button>';
+      document.getElementById('ajustes').prepend(zona); window.__acciones = 0; window.__cambios = 0; window.__otros = 0;
+      document.getElementById('accionToque').addEventListener('click', (e) => { window.__acciones++; window.__detalle = e.detail; window.__confiable = e.isTrusted; window.__activacion = navigator.userActivation.isActive; });
+      document.getElementById('checkToque').addEventListener('change', () => window.__cambios++);
+      document.getElementById('otroToque').addEventListener('click', () => window.__otros++);
+      document.getElementById('abrirVentana').addEventListener('click', () => window.open('about:blank#toque'));
+    });
+    const accion = pagina.locator('#accionToque'), check = pagina.locator('#checkToque');
+    await pagina.evaluate(() => { window.__retenerVoz = true; });
+    await accion.tap(); await pagina.waitForTimeout(450); assert.equal(await pagina.evaluate(() => ToquesGrieta.describiendo), true);
+    await pagina.evaluate(() => { window.__retenerVoz = false; speechSynthesis.speaking = false; });
+    assert.equal(await pagina.evaluate(() => ToquesGrieta.describiendo), false);
+    console.log('La descripción del control conserva prioridad hasta terminar la voz');
+    await pagina.waitForTimeout(700); await accion.tap(); await pagina.waitForTimeout(750); await accion.tap(); assert.equal(await pagina.evaluate(() => window.__acciones), 0);
+    await accion.tap(); assert.equal(await pagina.evaluate(() => window.__acciones), 1); assert(await pagina.evaluate(() => window.__confiable && window.__activacion));
+    await check.tap(); assert.equal(await check.isChecked(), false); assert.equal(await pagina.evaluate(() => window.__cambios), 0); assert.match(await pagina.locator('#descripcionToque').textContent(), /Desactivado/);
+    await check.tap(); assert(await check.isChecked()); assert.equal(await pagina.evaluate(() => window.__cambios), 1); await pagina.waitForTimeout(70); assert.match(await pagina.locator('#descripcionToque').textContent(), /Activado/);
+    const etiqueta = pagina.locator('label').filter({ hasText: 'Opción de prueba' });
+    await pagina.waitForTimeout(700); await etiqueta.tap(); assert(await check.isChecked()); await etiqueta.tap(); assert.equal(await check.isChecked(), false); assert.equal(await pagina.evaluate(() => window.__cambios), 2); await pagina.waitForTimeout(70); assert.match(await pagina.locator('#descripcionToque').textContent(), /Desactivado/);
+    console.log('Cadencia, evento confiable y activación del navegador conservados; interruptor y etiqueta cambian una sola vez');
+    const campo = pagina.locator('#campoToque'); await campo.tap(); assert.equal(await campo.evaluate((e) => e === document.activeElement), false);
+    await campo.tap(); assert(await campo.evaluate((e) => e === document.activeElement)); await pagina.keyboard.type('Centro'); assert.equal(await campo.inputValue(), 'Centro');
+    console.log('Campo: primer toque describe sin enfocar; segundo permite escribir');
+    let archivos = 0; pagina.on('filechooser', () => archivos++);
+    const archivo = pagina.locator('#archivoToque'); await archivo.tap(); await pagina.waitForTimeout(100); assert.equal(archivos, 0);
+    const elegir = pagina.waitForEvent('filechooser'); await archivo.tap(); const selector = await elegir; await selector.setFiles([]); assert.equal(archivos, 1);
+    const ventana = pagina.locator('#abrirVentana'); await ventana.tap(); assert.equal(contexto.pages().length, 1);
+    const abrir = pagina.waitForEvent('popup'); await ventana.tap(); const nueva = await abrir; await nueva.close();
+    console.log('Archivo y ventana externa solo se abren con el segundo toque confiable');
+    await accion.focus(); await pagina.keyboard.press('Enter'); assert.equal(await pagina.evaluate(() => window.__acciones), 2); assert.equal(await pagina.evaluate(() => window.__detalle), 0);
+    await pagina.evaluate(() => document.getElementById('accionToque').click()); assert.equal(await pagina.evaluate(() => window.__acciones), 3);
+    await accion.tap(); await pagina.locator('#otroToque').tap(); assert.equal(await pagina.evaluate(() => window.__otros), 0); await pagina.locator('#otroToque').tap(); assert.equal(await pagina.evaluate(() => window.__otros), 1);
+    await pagina.locator('#noDisponible').tap({ force: true }); assert.match(await pagina.locator('#descripcionToque').textContent(), /no está disponible/);
+    console.log('Teclado, clic de la app, controles distintos y botones deshabilitados comprobados');
+    await pagina.evaluate(() => { const b = document.createElement('button'); b.id = 'etiquetaTraducida'; b.setAttribute('aria-label', 'Buscar'); document.getElementById('zonaPrueba').prepend(b); Interfaz.cambiar('oto'); });
+    await pagina.waitForFunction(() => document.getElementById('etiquetaTraducida').getAttribute('aria-label') !== 'Buscar');
+    await pagina.locator('#etiquetaTraducida').evaluate((e) => { e.textContent = 'Prueba'; });
+    await pagina.locator('#etiquetaTraducida').tap(); assert.match(await pagina.locator('#descripcionToque').textContent(), /^Buscar/);
+    await pagina.evaluate(() => Interfaz.cambiar('es'));
+    console.log('Las etiquetas accesibles se leen en español aunque la interfaz esté traducida');
+    await accion.scrollIntoViewIfNeeded();
+    const caja = await accion.boundingBox(), cd = await contexto.newCDPSession(pagina);
+    const antesScroll = await pagina.locator('#hoja').evaluate((e) => e.scrollTop), accionesAntes = await pagina.evaluate(() => window.__acciones);
+    await cd.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: caja.x + caja.width / 2, y: caja.y + caja.height / 2 }] });
+    for (let i = 1; i <= 6; i++) { await cd.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: caja.x + caja.width / 2, y: caja.y + caja.height / 2 - i * 10 }] }); await pagina.waitForTimeout(20); }
+    await cd.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+    await pagina.waitForTimeout(150);
+    assert.equal(await pagina.evaluate(() => window.__acciones), accionesAntes);
+    assert(await pagina.locator('#hoja').evaluate((e, antes) => e.scrollTop > antes, antesScroll));
+    console.log('Desplazar la pantalla desde un botón no activa la acción');
+    await pagina.locator('#resumenPerfil').tap(); await pagina.locator('#resumenPerfil').tap();
+    await pagina.locator('#perfilLectorOpciones [data-v="si"]').tap();
+    assert.equal(await pagina.evaluate(() => acc.lector), 'si'); assert.equal(await pagina.evaluate(() => acc.voz), false);
+    await pagina.locator('[data-tab="inicio"]').tap(); assert.equal(await pagina.locator('body').getAttribute('data-pantalla'), 'inicio');
+    assert.equal(await pagina.evaluate(() => ToquesGrieta.activo()), false);
+    await pagina.evaluate(() => { acc.lector = 'no'; acc.toques = false; aplicarAcc(); }); await pagina.locator('[data-tab="ajustes"]').tap(); assert.equal(await pagina.locator('body').getAttribute('data-pantalla'), 'ajustes');
+    await pagina.locator('#optToques').check(); assert.equal(await pagina.evaluate(() => acc.toques), true);
+    await pagina.reload(); assert.equal(await pagina.evaluate(() => acc.toques), true);
+    console.log('Lector del sistema y opción apagada sin doble filtro; preferencia persistente');
+    await pagina.locator('[data-tab="ajustes"]').tap(); await pagina.locator('[data-tab="ajustes"]').tap();
+    await pagina.locator('#optToques').tap(); assert(await pagina.locator('#optToques').isChecked());
+    await pagina.locator('#optToques').tap(); assert.equal(await pagina.evaluate(() => acc.toques), false);
+    await pagina.reload(); assert.equal(await pagina.evaluate(() => acc.toques), false);
+    await pagina.locator('[data-tab="ajustes"]').tap(); await pagina.locator('#optToques').check();
+    await pagina.locator('[data-tab="inicio"]').tap(); await pagina.locator('[data-tab="inicio"]').tap();
+
+    await pagina.setViewportSize({ width: 320, height: 844 }); await pagina.evaluate(() => { acc.grande = true; acc.tema = 'claro'; aplicarAcc(); });
+    assert(await pagina.evaluate(() => document.documentElement.scrollWidth <= innerWidth)); assert.equal(errores.length, 0);
+    await pagina.screenshot({ path: require('node:path').join(require('node:os').tmpdir(), 'grieta-toques-320.png'), animations: 'disabled' });
+    console.log('320 px, claro y letra grande sin desbordamiento ni errores de JavaScript');
+    await pagina.evaluate(() => { localStorage.clear(); sessionStorage.setItem('probar-bienvenida', 'si'); }); await pagina.reload();
+    await pagina.locator('#bienvenida [data-v="voz"]').tap();
+    assert.equal(await pagina.evaluate(() => ToquesGrieta.activo()), false);
+    await pagina.locator('[data-lector="no"]').tap();
+    assert.equal(await pagina.evaluate(() => ToquesGrieta.activo()), true);
+    assert(await pagina.locator('#bienvenida [data-paso="ubicacion"]').isVisible());
+    console.log('La bienvenida permite configurar el lector sin doble filtro y después explica el modo propio');
+
+  } finally { await navegador.close(); }
+})().catch((error) => { console.error(error); process.exit(1); });

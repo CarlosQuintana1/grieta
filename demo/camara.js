@@ -5,7 +5,7 @@ const CamaraGrieta = (() => {
   let bloqueo, previa, calidadActual, problemaAnterior = '', repeticiones = 0, ultimoRiesgo = -Infinity, lento = 0;
   const seguimiento = new GrietaSeguimiento.Seguimiento();
   const modeloActual = () => $('camaraDetalle').checked ? 'detalle' : 'ligero';
-  let hablar, callar, paradas, vozOcupada = () => false, anterior = [], ultimaFrase = '', ultimoAviso = 0, ultimoTexto = '', ultimoNarrado = '', leyendo = false, ultimaLectura = 0, vacios = 0;
+  let hablar, callar, paradas, vozOcupada = () => false, explorando = () => false, anterior = [], ultimaFrase = '', ultimoAviso = 0, ultimoTexto = '', ultimoNarrado = '', leyendo = false, ultimaLectura = 0, vacios = 0;
   const lienzo = document.createElement('canvas');
   const contexto = lienzo.getContext('2d', { willReadFrequently: true });
   const lienzoTexto = document.createElement('canvas');
@@ -151,7 +151,7 @@ const CamaraGrieta = (() => {
           $('camaraResultado').textContent = 'Actualizando la descripción con una imagen reciente.';
           $('camaraLectura').textContent = '';
           ultimaFrase = ''; anterior = []; seguimiento.reiniciar();
-          callar(); botones();
+          if (!explorando()) callar(); botones();
         }
         lento = data.ms > 800 ? lento + 1 : 0;
         const avisoLento = 'Análisis lento: los avisos de vehículos pueden omitirse. Detén la cámara y elige Más ligero.';
@@ -189,7 +189,7 @@ const CamaraGrieta = (() => {
     const textos = { oscura: 'La imagen está muy oscura. Busca mejor luz si puedes hacerlo con seguridad.', expuesta: 'La imagen está demasiado iluminada. Evita apuntar directamente a la luz.', 'sin-detalle': 'No hay suficiente detalle en la imagen. Revisa que la lente esté descubierta y limpia.' };
     if (repeticiones >= 3 && $('camaraCalidad').textContent !== (textos[problema] ?? '')) {
       $('camaraCalidad').textContent = textos[problema] ?? '';
-      if (textos[problema] && Date.now() - ultimoRiesgo > 6000) { hablar(textos[problema]); ultimoAviso = Date.now(); }
+      if (textos[problema] && !explorando() && Date.now() - ultimoRiesgo > 6000) { hablar(textos[problema]); ultimoAviso = Date.now(); }
     }
     if (Date.now() - ultimoRiesgo > 6000) $('camaraAlerta').textContent = '';
     const detectados = GrietaVision.deteccionesValidas(data.detecciones, data.ancho, data.alto);
@@ -264,13 +264,13 @@ const CamaraGrieta = (() => {
     botones();
     const voz = calidadActual.movimiento > .06 && estables.length ? `Parece haber ${estables[0].texto}.` : frase;
     const transcurrido = Date.now() - ultimoAviso;
-    if (leyendo || transcurrido < 2000 || (vozOcupada() && (transcurrido < 3500 || voz === ultimoNarrado)) || (voz === ultimoNarrado && transcurrido < 30000)) return;
+    if (leyendo || explorando() || transcurrido < 2000 || (vozOcupada() && (transcurrido < 3500 || voz === ultimoNarrado)) || (voz === ultimoNarrado && transcurrido < 30000)) return;
     ultimoNarrado = voz;
     ultimoAviso = Date.now();
     narrar(voz);
   }
   async function leerTexto(manual = true) {
-    if (!activa || !ocr || leyendo || !$('camaraVideo').videoWidth) return;
+    if (!activa || !ocr || leyendo || (!manual && explorando()) || !$('camaraVideo').videoWidth) return;
     const turno = sesion;
     const lector = ocr;
     leyendo = true;
@@ -304,7 +304,7 @@ const CamaraGrieta = (() => {
         ultimaFrase = frase;
         ultimoAviso = Date.now();
         $('camaraResultado').textContent = frase;
-        hablar(frase);
+        if (manual || !explorando()) hablar(frase);
       }
       informar('Cámara encendida. Puedes leer otro letrero o detenerla.', false);
     } catch { fallo(turno, 'No pude leer la imagen. Detuve la cámara. Puedes volver a intentar.'); }
@@ -313,6 +313,7 @@ const CamaraGrieta = (() => {
   function iniciarInterfaz(opciones) {
     ({ hablar, callar, paradas } = opciones);
     vozOcupada = opciones.vozOcupada ?? (() => false);
+    explorando = opciones.explorando ?? (() => false);
     let guardado = {};
     try { guardado = JSON.parse(localStorage.getItem('grieta-camara')) ?? {}; } catch {}
     $('camaraDetalle').checked = guardado.modelo !== 'ligero';

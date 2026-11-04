@@ -16,7 +16,7 @@ const assert = require('node:assert/strict');
   const servidor = spawn('python3', ['-m', 'http.server', '8806', '--bind', '127.0.0.1', '--directory', destino], { stdio: 'ignore' });
   const navegador = await chromium.launch({ executablePath: process.env.CHROMIUM_EXECUTABLE, headless: true, args: ['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream'] });
   try {
-    const contexto = await navegador.newContext();
+    const contexto = await navegador.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
     await contexto.addInitScript(() => { localStorage.setItem('grieta-bienvenida', 'true'); localStorage.setItem('grieta-acc', JSON.stringify({ voz: false })); });
     const pagina = await contexto.newPage(); const errores = [];
     pagina.on('pageerror', (e) => errores.push(e.message));
@@ -24,7 +24,10 @@ const assert = require('node:assert/strict');
     await pagina.waitForFunction(() => navigator.serviceWorker.controller);
     fs.cpSync(path.join(repo, 'demo'), destino, { recursive: true });
     fs.writeFileSync(path.join(destino, 'sw.js'), anterior);
+    const depuracion = await contexto.newCDPSession(pagina);
+    await depuracion.send('Network.clearBrowserCache');
     await pagina.reload();
+    assert.equal(await pagina.evaluate(() => acc.toques), true);
     assert.equal(await pagina.evaluate(() => typeof GrietaVision.deteccionesValidas), 'function');
     await pagina.locator('#abrirCamara').click(); await pagina.locator('#camaraIniciar').click();
     await pagina.waitForFunction(() => document.querySelector('#camaraEstado').textContent.match(/^(Cámara encendida|No pude)/), null, { timeout: 180000 });
@@ -33,14 +36,29 @@ const assert = require('node:assert/strict');
     await pagina.locator('#camaraDetener').click();
     console.log('Instalación antigua: código y modelo nuevos funcionan aun con el service worker 68 activo');
     fs.copyFileSync(path.join(repo, 'demo/sw.js'), path.join(destino, 'sw.js'));
-    await pagina.evaluate(async () => (await navigator.serviceWorker.getRegistration()).update());
-    await pagina.waitForFunction(async (version) => { const claves = await caches.keys(); return claves.includes(version) && !claves.includes('grieta-68'); }, versionActual, { timeout: 60000 });
+    await pagina.evaluate(async () => { window.__controladorAnterior = navigator.serviceWorker.controller; await (await navigator.serviceWorker.getRegistration()).update(); });
+    const limiteActualizacion = Date.now() + 60000;
+    let actualizada = false;
+    while (!actualizada && Date.now() < limiteActualizacion) {
+      actualizada = await pagina.evaluate(async (version) => {
+        const registro = await navigator.serviceWorker.getRegistration();
+        if (navigator.serviceWorker.controller === window.__controladorAnterior || registro.active?.state !== 'activated' || registro.installing || registro.waiting) return false;
+        const cache = await caches.open(version), app = await cache.match('app.js');
+        return Boolean(app?.ok && (await app.text()).includes('ToquesGrieta.iniciar') && (await cache.match('toques.js'))?.ok && (await cache.match('index.html'))?.ok);
+      }, versionActual);
+      if (!actualizada) await pagina.waitForTimeout(100);
+    }
+    assert(actualizada, 'La actualización debe estar activa y todos sus módulos en caché antes de desconectar');
     const apagado = once(servidor, 'exit'); servidor.kill('SIGTERM'); await apagado;
     await contexto.setOffline(true); await pagina.reload({ waitUntil: 'domcontentloaded' });
-    await pagina.locator('#abrirCamara').click(); await pagina.locator('#camaraIniciar').click();
+    assert.equal(await pagina.evaluate(() => typeof ToquesGrieta), 'object');
+    await pagina.evaluate(() => { acc.modoVoz = true; acc.voz = false; aplicarAcc(); });
+    await pagina.locator('#vozCamara').tap(); assert.equal(await pagina.locator('body').getAttribute('data-pantalla'), 'inicio');
+    await pagina.locator('#vozCamara').tap(); assert.equal(await pagina.locator('body').getAttribute('data-pantalla'), 'camara');
+    await pagina.locator('#camaraIniciar').tap(); await pagina.locator('#camaraIniciar').tap();
     await pagina.waitForFunction(() => document.querySelector('#camaraEstado').textContent.match(/^(Cámara encendida|No pude)/), null, { timeout: 90000 });
     assert.match(await pagina.locator('#camaraEstado').textContent(), /^Cámara encendida/);
-    await pagina.locator('#camaraDetener').click(); assert.equal(errores.length, 0);
-    console.log('Después de actualizar: arranque sin servidor ni red, cero errores de JavaScript');
+    await pagina.locator('#camaraDetener').tap(); await pagina.locator('#camaraDetener').tap(); assert.equal(errores.length, 0);
+    console.log('Nuevo controlador activo: gestos y cámara funcionan sin servidor ni red, cero errores de JavaScript');
   } finally { servidor.kill('SIGTERM'); await navegador.close(); fs.rmSync(temporal, { recursive: true, force: true }); }
 })().catch((error) => { console.error(error); process.exit(1); });

@@ -154,7 +154,11 @@ const Interfaz = (() => {
     aplicar();
   }
   // La voz conserva el texto original aunque la pantalla ya este traducida.
-  function original(elemento) {
+  function original(elemento, atributo = null) {
+    if (atributo) {
+      const actual = elemento.getAttribute(atributo), previo = propiedades.get(elemento)?.get(atributo);
+      return previo && actual === previo.actual ? previo.es : actual;
+    }
     return [...elemento.childNodes].map((n) => {
       if (n.nodeType !== Node.TEXT_NODE) return original(n);
       const previo = textos.get(n);

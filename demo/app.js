@@ -102,7 +102,7 @@ let turnoVoz = 0;
 let colaVoz = Promise.resolve();
 
 // Ajustes guardados en este telefono.
-const acc = { modoVoz: false, facil: false, grande: false, contraste: false, daltonico: false, voz: true, lenta: false, camino: false, unidos: false, tema: "auto", movilidad: "normal", oido: "bien", lector: "no", lengua: "es", ...leer("grieta-acc", {}) };
+const acc = { toques: true, modoVoz: false, facil: false, grande: false, contraste: false, daltonico: false, voz: true, lenta: false, camino: false, unidos: false, tema: "auto", movilidad: "normal", oido: "bien", lector: "no", lengua: "es", ...leer("grieta-acc", {}) };
 acc.idioma ??= acc.lengua === "oto" ? "oto" : "es";
 // Con "Como el telefono", los colores siguen el modo claro u oscuro del sistema.
 const sistemaClaro = matchMedia("(prefers-color-scheme: light)");
@@ -127,6 +127,10 @@ function aplicarAcc() {
   recolorear();
   document.querySelector('meta[name="theme-color"]').content = tono("--fondo");
   pintarResumenPerfil();
+  $('optToques').checked = acc.toques;
+  $('optToques').disabled = !acc.modoVoz || acc.lector === 'si';
+  $('ayudaToques').hidden = !acc.modoVoz || acc.lector === 'si' || !acc.toques;
+  ToquesGrieta.reiniciar();
   if (!acc.voz) detenerVoz();
 }
 sistemaClaro.addEventListener("change", () => { if (acc.tema === "auto") aplicarAcc(); });
@@ -141,7 +145,7 @@ const guardarAcc = () => escribir("grieta-acc", acc);
 marcarDensidad = radios("optDensidad", (v) => {
   acc.modoVoz = v === "voz";
   acc.facil = v === "facil";
-  if (acc.modoVoz) Object.assign(acc, { voz: true, grande: true });
+  if (acc.modoVoz) Object.assign(acc, { voz: acc.lector !== "si", grande: true });
   guardarAcc();
   aplicarAcc();
 });
@@ -152,6 +156,7 @@ $("activarVoz").addEventListener("click", () => {
   $("vozDestino").focus();
   hablar(ayudaVoz());
 });
+$('optToques').addEventListener('change', () => { acc.toques = $('optToques').checked; guardarAcc(); aplicarAcc(); });
 for (const [k, id] of Object.entries(OPCIONES)) {
   $(id).addEventListener("change", (e) => {
     acc[k] = e.target.checked;
@@ -187,6 +192,7 @@ const PANTALLAS = {
 const titulos = { buscar: "Buscar", camiones: "Camiones cerca", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla" };
 
 function mostrar(nombre) {
+  ToquesGrieta.reiniciar();
   const conf = PANTALLAS[nombre];
   if (nombre !== "camara") CamaraGrieta.cerrar();
   if (!$("chofer").hidden) tarjetaChofer(false);
@@ -2143,6 +2149,7 @@ function hablarCamara(texto) {
 CamaraGrieta.iniciarInterfaz({
   hablar: hablarCamara,
   vozOcupada: () => Boolean(window.speechSynthesis?.speaking),
+  explorando: () => ToquesGrieta.describiendo,
   callar: detenerVoz,
   paradas: () => (Grieta.qrobus?.paradas ?? []).filter((p) => estado.gps && Grieta.metros(p[0], p[1], estado.gps.lat, estado.gps.lon) < 600).map((p) => p[2]),
 });
@@ -2155,12 +2162,19 @@ function abrirCamara() {
 $("vozCamara").addEventListener("click", abrirCamara);
 $("abrirCamara").addEventListener("click", abrirCamara);
 
+ToquesGrieta.iniciar({
+  activo: () => acc.modoVoz && acc.lector !== 'si' && acc.toques && !(document.body.dataset.pantalla === 'bienvenida' && pasoActual === 'lector'),
+  original: (elemento, atributo) => Interfaz.original(elemento, atributo),
+  cancelar: detenerVoz,
+  decir: (texto) => { const anterior = ultimoMensaje; hablar(texto, false, true, true); ultimoMensaje = anterior; },
+});
+
 // Botones del modo para personas ciegas.
 // Lo que se dice al entrar: cuantos botones hay y en que orden, de arriba a abajo.
 function ayudaVoz() {
   const botones = [...document.querySelectorAll("#inicioVoz .boton-voz")].filter((b) => !b.hidden).map((b) => Interfaz.original(b).trim());
-  return `Estás en el inicio. Hay ${botones.length} botones grandes, de arriba a abajo: ${botones.join(", ")}. ` +
-    "Para ir a algún lado, toca el primero y di el lugar después del tono.";
+  return `${ToquesGrieta.activo() ? ToquesGrieta.instrucciones + ' ' : ''}Estás en el inicio. Hay ${botones.length} botones grandes, de arriba a abajo: ${botones.join(", ")}. ` +
+    "Para ir a algún lado, activa el primer botón y di el lugar después del tono.";
 }
 $("vozCasa").addEventListener("click", () => { hablar(frase("vamos_casa")); irA(guardados.find((g) => g.nombre === "Casa")); });
 $("vozCamion").addEventListener("click", () => abrirCamiones());
@@ -2449,6 +2463,8 @@ const PASOS_VOZ = {
 const ordenPasos = () => ["vista", ...(acc.modoVoz ? ["lector"] : ["forma"]), "ubicacion", "movilidad", "oido", "tarifa"];
 let pasoActual = "vista";
 function irPaso(p) {
+  ToquesGrieta.reiniciar();
+  const anteriorPaso = pasoActual;
   pasoActual = p;
   const orden = ordenPasos();
   const numero = orden.indexOf(p) + 1;
@@ -2463,7 +2479,7 @@ function irPaso(p) {
   $("bienvenida").setAttribute("aria-labelledby", titulo.id);
   titulo.focus({ preventScroll: true });
   $("hoja").scrollTop = 0;
-  if (acc.modoVoz && PASOS_VOZ[p]) hablar(PASOS_VOZ[p], false, true);
+  if (acc.modoVoz && PASOS_VOZ[p]) hablar(`${p === 'ubicacion' && anteriorPaso === 'lector' && ToquesGrieta.activo() ? ToquesGrieta.instrucciones + ' ' : ''}${PASOS_VOZ[p]}`, false, true);
 }
 function abrirBienvenida() {
   ir("bienvenida", true);

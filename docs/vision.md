@@ -90,3 +90,9 @@ No verificado: iPhone y Android físicos, VoiceOver/TalkBack, batería, temperat
 - [Bloqueo de pantalla](https://developer.mozilla.org/en-US/docs/Web/API/Screen_Wake_Lock_API)
 - [OCR](https://github.com/naptha/tesseract.js)
 - [Imagen oficial de prueba](https://developers.google.com/static/edge/mediapipe/images/solutions/object-detection-output.png)
+
+
+La versión 70 separa la caché inmutable de modelos/runtimes del código de la app. Los scripts y la
+lista de activos llevan una revisión para evitar mezclas al actualizar desde 68/69. La prueba
+`vision-actualizacion.cjs` mantiene el service worker 68 activo mientras carga código nuevo, inicia el
+modelo, actualiza a 70 y repite sin servidor ni red; requiere el historial Git del proyecto.

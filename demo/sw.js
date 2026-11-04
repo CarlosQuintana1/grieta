@@ -1,7 +1,7 @@
 // Guarda la app y los horarios para que funcione sin internet. Cambiar la version renueva todo.
-const VERSION = "grieta-69";
+const VERSION = "grieta-70";
 const BASE = [
-  "./", "index.html", "estilos.css", "app.js", "grieta.js", "idioma.js", "camara.js", "vision/observaciones.js", "vision/seguimiento.js", "vision/detector-worker.js", "vision/lector-worker.js", "vision/activos.json", "logo.png", "icono-192.png", "manifest.webmanifest",
+  "./", "index.html", "estilos.css", "app.js", "grieta.js", "idioma.js", "camara.js", "vision/observaciones.js?v=2", "vision/seguimiento.js?v=2", "vision/detector-worker.js?v=2", "vision/lector-worker.js?v=2", "vision/activos.json?v=2", "logo.png", "icono-192.png", "manifest.webmanifest",
   "idiomas/es.json", "idiomas/otq.json",
   "datos/modelo.json", "datos/qrobus.json", "datos/lugares.json", "datos/config.json",
   "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css",
@@ -41,7 +41,7 @@ self.addEventListener("message", (e) => {
 // Buscador, rutas, mapa y API: siempre de internet.
 self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url);
-  if (url.origin === location.origin && url.pathname.includes("/vision/") && e.request.method === "GET") {
+  if (url.origin === location.origin && (url.pathname.includes("/vision/vendor/") || url.pathname.includes("/vision/modelos/")) && e.request.method === "GET") {
     e.respondWith(caches.open("grieta-vision-1").then(async (cache) => (await cache.match(e.request)) ?? (await (await caches.open(VERSION)).match(e.request)) ?? fetch(e.request)));
     return;
   }

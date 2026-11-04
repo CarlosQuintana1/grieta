@@ -1,0 +1,45 @@
+const { chromium } = require('playwright');
+const fs = require('node:fs');
+const path = require('node:path');
+const os = require('node:os');
+const { spawn, spawnSync } = require('node:child_process');
+const { once } = require('node:events');
+const assert = require('node:assert/strict');
+(async () => {
+  const repo = process.env.GRIETA_REPO ?? path.join(__dirname, '..');
+  const temporal = fs.mkdtempSync(path.join(os.tmpdir(), 'grieta-actualizacion-'));
+  const archivo = spawnSync('git', ['archive', '4b12ba3', 'demo'], { cwd: repo, maxBuffer: 80 * 1024 * 1024 });
+  assert.equal(archivo.status, 0);
+  const extraer = spawnSync('tar', ['-x', '-C', temporal], { input: archivo.stdout }); assert.equal(extraer.status, 0);
+  const destino = path.join(temporal, 'demo'); const anterior = fs.readFileSync(path.join(destino, 'sw.js'));
+  const servidor = spawn('python3', ['-m', 'http.server', '8806', '--bind', '127.0.0.1', '--directory', destino], { stdio: 'ignore' });
+  const navegador = await chromium.launch({ executablePath: process.env.CHROMIUM_EXECUTABLE, headless: true, args: ['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream'] });
+  try {
+    const contexto = await navegador.newContext();
+    await contexto.addInitScript(() => { localStorage.setItem('grieta-bienvenida', 'true'); localStorage.setItem('grieta-acc', JSON.stringify({ voz: false })); });
+    const pagina = await contexto.newPage(); const errores = [];
+    pagina.on('pageerror', (e) => errores.push(e.message));
+    await pagina.goto('http://127.0.0.1:8806');
+    await pagina.waitForFunction(() => navigator.serviceWorker.controller);
+    fs.cpSync(path.join(repo, 'demo'), destino, { recursive: true });
+    fs.writeFileSync(path.join(destino, 'sw.js'), anterior);
+    await pagina.reload();
+    assert.equal(await pagina.evaluate(() => typeof GrietaVision.deteccionesValidas), 'function');
+    await pagina.locator('#abrirCamara').click(); await pagina.locator('#camaraIniciar').click();
+    await pagina.waitForFunction(() => document.querySelector('#camaraEstado').textContent.match(/^(Cámara encendida|No pude)/), null, { timeout: 180000 });
+    assert.match(await pagina.locator('#camaraEstado').textContent(), /^Cámara encendida/);
+    assert(await pagina.evaluate(async () => (await fetch('sw.js').then((r) => r.text())).includes('grieta-68')));
+    await pagina.locator('#camaraDetener').click();
+    console.log('Instalación antigua: código y modelo nuevos funcionan aun con el service worker 68 activo');
+    fs.copyFileSync(path.join(repo, 'demo/sw.js'), path.join(destino, 'sw.js'));
+    await pagina.evaluate(async () => (await navigator.serviceWorker.getRegistration()).update());
+    await pagina.waitForFunction(async () => { const claves = await caches.keys(); return claves.includes('grieta-70') && !claves.includes('grieta-68'); }, null, { timeout: 60000 });
+    const apagado = once(servidor, 'exit'); servidor.kill('SIGTERM'); await apagado;
+    await contexto.setOffline(true); await pagina.reload({ waitUntil: 'domcontentloaded' });
+    await pagina.locator('#abrirCamara').click(); await pagina.locator('#camaraIniciar').click();
+    await pagina.waitForFunction(() => document.querySelector('#camaraEstado').textContent.match(/^(Cámara encendida|No pude)/), null, { timeout: 90000 });
+    assert.match(await pagina.locator('#camaraEstado').textContent(), /^Cámara encendida/);
+    await pagina.locator('#camaraDetener').click(); assert.equal(errores.length, 0);
+    console.log('Después de actualizar: arranque sin servidor ni red, cero errores de JavaScript');
+  } finally { servidor.kill('SIGTERM'); await navegador.close(); fs.rmSync(temporal, { recursive: true, force: true }); }
+})().catch((error) => { console.error(error); process.exit(1); });

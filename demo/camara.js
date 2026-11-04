@@ -77,7 +77,7 @@ const CamaraGrieta = (() => {
     });
   }
   async function preparar(turno, signal) {
-    const r = await fetch(url('activos.json'), { signal });
+    const r = await fetch(url('activos.json') + '?v=2', { signal });
     if (!r.ok) throw Error('descarga');
     const lista = await r.json();
     const elegido = modeloActual() === 'detalle' ? 'efficientdet_lite2' : 'efficientdet_lite0';
@@ -118,10 +118,10 @@ const CamaraGrieta = (() => {
     try {
       await preparar(turno, signal);
       if (!vigente(turno)) return;
-      detector = new Worker('vision/detector-worker.js');
+      detector = new Worker('vision/detector-worker.js?v=2');
       await pedir(detector, { tipo: 'iniciar', modelo: modeloActual() }, 'listo', signal);
       if (!vigente(turno)) return;
-      ocr = new Worker('vision/lector-worker.js');
+      ocr = new Worker('vision/lector-worker.js?v=2');
       await pedir(ocr, { tipo: 'iniciar' }, 'listo', signal);
       if (!vigente(turno)) return;
       informar('Permite usar la cámara para describir lo que apunta el teléfono.');

@@ -15,9 +15,12 @@ la realizó y la fecha en `revision`; quitar `provisional` después de validar e
 ## Catálogos
 
 `demo/idiomas/es.json` registra los textos fuente, las claves, el contexto y las variables. El catálogo
-actual de `demo/idiomas/otq.json` es automático y provisional. Cuando se revise, la traducción puede
-cambiar el orden de las
-variables, pero debe conservar cada nombre y cada aparición. Por ejemplo, `{hora}` y `{lugar}` llevan
+actual de `demo/idiomas/otq.json` contiene 685 mensajes automáticos y provisionales. `fuente` registra el
+servicio y la fecha; `adaptaciones` explica las etiquetas breves y las correcciones de nombres propios.
+Microsoft Translator admite otomí de Querétaro con el código `otq`:
+https://learn.microsoft.com/es-es/azure/ai-services/translator/language-support
+La traducción puede cambiar el orden de las variables, pero debe conservar cada nombre y cada
+aparición. Por ejemplo, `{hora}` y `{lugar}` llevan
 los datos del viaje; no son palabras que haya que traducir. Los contextos distinguen una instrucción,
 un encabezado, una etiqueta o un nombre para lector de pantalla.
 
@@ -26,6 +29,7 @@ que se conservan. Los formatos de precio, número y hora ayudan a reconocer los 
 Los nombres de lugares, calles, paradas, líneas y apps se mantienen. El contenido de reportes y los
 nombres guardados tienen `translate="no"`; el mapa, sus créditos y la tarjeta para el chofer conservan
 su contenido. Los datos internos y los enlaces no se traducen.
+La traducción se guarda en el catálogo local; la app no envía los textos del viaje a un traductor.
 
 Antes de considerar confiable un catálogo hay que revisar las frases completas con hablantes de la
 variante que se va a usar. Un diccionario no sustituye la revisión de las instrucciones de viaje. Después
@@ -43,9 +47,14 @@ https://www.inali.gob.mx/sitios/clin-inali/html/v_otomi.html
 ## Comprobación
 
 `node --test pruebas/idioma.test.cjs` comprueba integridad de los catálogos, variables de viaje,
-rechazo de traducciones pendientes y recuperación de los archivos de idioma desde la caché sin red.
+números y nombres de apps y Tarifa Unidos, rechazo de traducciones pendientes y recuperación de los
+archivos de idioma desde la caché sin red.
 La app carga el catálogo de texto por separado de las grabaciones. El worker guarda los dos catálogos
 y `idioma.js` con los demás archivos de la app.
 
-El catálogo provisional se revisó por estructura y cobertura de claves. Las frases no se han validado
-con hablantes; la longitud y el uso en lectores de pantalla requieren revisión después de la demo.
+El catálogo provisional se revisó por estructura y cobertura de claves. Se recorrieron el perfil,
+ajustes, opciones, detalle, reporte y guía a 390 × 844 y a 320 px con letra grande y tema claro; el modo
+Fácil conservó una sola opción de camión. El idioma persistió al recargar y el selector permitió volver
+a español. Un viaje completo con ubicación simulada llegó al destino en ambas interfaces con los mismos
+18 avisos de voz, en español. Las frases no se han validado con hablantes. iPhone, VoiceOver y uso sin
+red en un teléfono: no verificados.

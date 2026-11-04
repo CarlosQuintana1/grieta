@@ -25,12 +25,12 @@
     {
       "clave": "texto_184b191dc0",
       "es": ", la app más económica",
-      "otq": ", ár nt'ot'e mäs bojä"
+      "otq": ", ár nt'ot'e menu ar bojä"
     },
     {
       "clave": "texto_1eeac90574",
       "es": ", precio aproximado {v1} pesos",
-      "otq": ", precio aproximado {v1} pesos"
+      "otq": ", Ar njut'i mäs o menu {v1} pesos"
     },
     {
       "clave": "texto_8f627991ab",
@@ -100,17 +100,17 @@
     {
       "clave": "texto_51f7bcd157",
       "es": "Abrir {v3}, precio estimado {v4}{v5}",
-      "otq": "Abrir {v3}, precio estimado {v4}{v5}"
+      "otq": "Gi xoki {v3}; Ar njut'i mäs o menu {v4}{v5}"
     },
     {
       "clave": "texto_3ebd7a93a6",
       "es": "Abrir {v7}",
-      "otq": "Abrir {v7}"
+      "otq": "Gi xoki {v7}"
     },
     {
       "clave": "texto_9bd1f4e4a0",
       "es": "Accesibilidad",
-      "otq": "Accesibilidad"
+      "otq": "Pa nga̲tho"
     },
     {
       "clave": "texto_10a6546d21",
@@ -180,7 +180,7 @@
     {
       "clave": "texto_87924d4e97",
       "es": "Ahorras aprox. {v1}{v2}",
-      "otq": "Ahorras aprox. {v1}{v2}"
+      "otq": "Gi jut'i aprox. {v1} menya {v2}"
     },
     {
       "clave": "texto_e81fb09656",
@@ -230,17 +230,17 @@
     {
       "clave": "texto_7e7a150157",
       "es": "Aprox.",
-      "otq": "aprox."
+      "otq": "Mäs o menu"
     },
     {
       "clave": "texto_e9dac13b56",
       "es": "aprox.",
-      "otq": "aprox."
+      "otq": "Mäs o menu"
     },
     {
       "clave": "texto_7af7fd2c2d",
       "es": "aprox. {v1}",
-      "otq": "aprox. {v1}"
+      "otq": "Mäs o menu {v1}"
     },
     {
       "clave": "texto_88919cc289",
@@ -305,7 +305,7 @@
     {
       "clave": "texto_3e1da47705",
       "es": "Aviso",
-      "otq": "Aviso"
+      "otq": "'nar aviso"
     },
     {
       "clave": "texto_0e5b198dd6",
@@ -440,7 +440,7 @@
     {
       "clave": "texto_a78e69b314",
       "es": "Búsquedas recientes",
-      "otq": "Búsquedas recientes"
+      "otq": "Nä'ä gá mí honi nu'bu̲"
     },
     {
       "clave": "texto_8ca9c0ac06",
@@ -550,7 +550,7 @@
     {
       "clave": "texto_aeccae342e",
       "es": "Cerrar",
-      "otq": "Cerrar"
+      "otq": "Njot'i 'me̲hna"
     },
     {
       "clave": "texto_2f3e8dcc24",
@@ -675,7 +675,7 @@
     {
       "clave": "texto_0d7d7140dd",
       "es": "Densidad",
-      "otq": "Densidad"
+      "otq": "Da 'ñets'i ya opciones"
     },
     {
       "clave": "texto_209cad1464",
@@ -690,7 +690,7 @@
     {
       "clave": "texto_29fa864fd7",
       "es": "Deshacer",
-      "otq": "Deshacer"
+      "otq": "Pengi"
     },
     {
       "clave": "texto_63607cf8ae",
@@ -725,7 +725,7 @@
     {
       "clave": "texto_3b11ce3e65",
       "es": "Dictar",
-      "otq": "Dictar"
+      "otq": "Ñä"
     },
     {
       "clave": "texto_0da39fd812",
@@ -780,7 +780,7 @@
     {
       "clave": "texto_0cb2b03cf8",
       "es": "Ejemplo: Hospital",
-      "otq": "Ejemplo: Hospital"
+      "otq": "'Nar nt'udi: Hospital"
     },
     {
       "clave": "texto_94f43e9497",
@@ -905,7 +905,7 @@
     {
       "clave": "texto_c7ff837b82",
       "es": "En app · precios estimados",
-      "otq": "Jar nt'ot'e · Precios estimados"
+      "otq": "Jar nt'ot'e · Ar njut'i mäs o menu"
     },
     {
       "clave": "texto_e699931fdd",
@@ -1140,7 +1140,7 @@
     {
       "clave": "texto_833334561a",
       "es": "Falta señalización",
-      "otq": "Falta señalización"
+      "otq": "Signos hingi 'bu̲hu̲"
     },
     {
       "clave": "texto_a2052dc507",
@@ -1275,7 +1275,7 @@
     {
       "clave": "texto_7a37f9b594",
       "es": "Guardado.",
-      "otq": "Guardado."
+      "otq": "Ya xta guardado."
     },
     {
       "clave": "texto_b6e43363d2",
@@ -1675,12 +1675,12 @@
     {
       "clave": "texto_02c2274c2e",
       "es": "Menor precio en app",
-      "otq": "Precio mäs bajo jar nt'ot'e"
+      "otq": "Menu ar bojä jar nt'ot'e"
     },
     {
       "clave": "texto_78a512ce79",
       "es": "Menor precio en Qrobus",
-      "otq": "Precio xí hñets'i'i jar Qrobus"
+      "otq": "Menu ar bojä jar Qrobus"
     },
     {
       "clave": "texto_dd3f84061a",
@@ -1880,12 +1880,12 @@
     {
       "clave": "texto_a7248eeb45",
       "es": "Normal",
-      "otq": "Normal"
+      "otq": "Komo nzäm'bu̲"
     },
     {
       "clave": "texto_317b32c143",
       "es": "normal",
-      "otq": "normal"
+      "otq": "Komo nzäm'bu̲"
     },
     {
       "clave": "texto_15467b2056",
@@ -1900,7 +1900,7 @@
     {
       "clave": "texto_4a31da43b9",
       "es": "Obstáculo",
-      "otq": "Obstáculo"
+      "otq": "Algo xi 'ñu"
     },
     {
       "clave": "texto_61e29d02ae",
@@ -1950,7 +1950,7 @@
     {
       "clave": "texto_0266ae56a6",
       "es": "Pagas Tarifa Unidos",
-      "otq": "Nu'i gí jut'i Unidos Fare"
+      "otq": "Nu'i gí jut'i Tarifa Unidos"
     },
     {
       "clave": "texto_e911c1d0b4",
@@ -1960,12 +1960,12 @@
     {
       "clave": "texto_ab1b6a1c76",
       "es": "Pago Tarifa Unidos",
-      "otq": "Dí gut'i Unidos Fare"
+      "otq": "Dí gut'i Tarifa Unidos"
     },
     {
       "clave": "texto_42878feb08",
       "es": "Pago Tarifa Unidos ($2)",
-      "otq": "Gut'i ar tarifa ar Unidos ($2)"
+      "otq": "Dí gut'i Tarifa Unidos ($2)"
     },
     {
       "clave": "texto_b1afb1e9ff",
@@ -2125,7 +2125,7 @@
     {
       "clave": "texto_6b7c883403",
       "es": "Precio estimado",
-      "otq": "Precio estimado"
+      "otq": "Ar njut'i mäs o menu"
     },
     {
       "clave": "texto_640c6aabdc",
@@ -2140,12 +2140,12 @@
     {
       "clave": "texto_fdfe32a937",
       "es": "precio estimado {v1}",
-      "otq": "precio estimado {v1}"
+      "otq": "Ar njut'i mäs o menu {v1}"
     },
     {
       "clave": "texto_ede486db3c",
       "es": "Precio estimado {v1}.",
-      "otq": "Precio estimado {v1}."
+      "otq": "Ar njut'i mäs o menu {v1}."
     },
     {
       "clave": "texto_49dbefe893",
@@ -2155,7 +2155,7 @@
     {
       "clave": "texto_4da4f33fc6",
       "es": "Precio estimado {v2}.",
-      "otq": "Precio estimado {v2}."
+      "otq": "Ar njut'i mäs o menu {v2}."
     },
     {
       "clave": "texto_59901b0ab2",
@@ -2315,7 +2315,7 @@
     {
       "clave": "texto_5fa7218b75",
       "es": "Recomendado",
-      "otq": "Recomendado"
+      "otq": "Nä'ä mahyoni"
     },
     {
       "clave": "texto_10ddff5fcc",
@@ -2360,7 +2360,7 @@
     {
       "clave": "texto_31056106ce",
       "es": "Resultados",
-      "otq": "Resultados"
+      "otq": "Te dá tini"
     },
     {
       "clave": "texto_8ed7e61f70",
@@ -2385,7 +2385,7 @@
     {
       "clave": "texto_11f7e34808",
       "es": "Ruta recomendada",
-      "otq": "Ruta recomendada"
+      "otq": "Ñu gi johya"
     },
     {
       "clave": "texto_1f6fdbad02",
@@ -2410,7 +2410,7 @@
     {
       "clave": "texto_ecebe9dfe1",
       "es": "Saltar",
-      "otq": "Saltar"
+      "otq": "Hingi dädi nuna ar nt'a̲ni"
     },
     {
       "clave": "texto_cc95f9dbfd",
@@ -2440,7 +2440,7 @@
     {
       "clave": "texto_0bbc7f1e92",
       "es": "Secciones",
-      "otq": "Secciones"
+      "otq": "Ya xeni nt'ot'e"
     },
     {
       "clave": "texto_ff6a1b5a82",
@@ -2680,7 +2680,7 @@
     {
       "clave": "texto_892c4d0438",
       "es": "Tarifa Unidos",
-      "otq": "Unidos fare"
+      "otq": "Tarifa Unidos"
     },
     {
       "clave": "texto_58efbac1cf",
@@ -3350,7 +3350,7 @@
     {
       "clave": "texto_5df139469e",
       "es": "¿Pagas Tarifa Unidos?",
-      "otq": "¿Nu'i gí jut'i United Rate?"
+      "otq": "¿Nu'i gí jut'i Tarifa Unidos?"
     },
     {
       "clave": "texto_beb1b20659",
@@ -3503,6 +3503,196 @@
       "clave": "texto_393dce59ad",
       "fuente": "https://ri-ng.uaq.mx/bitstream/123456789/2755/1/RI005811.pdf",
       "criterio": "Glosa regresar documentada en la investigación de la UAQ."
+    },
+    {
+      "clave": "texto_1eeac90574",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Cuesta más o menos; conserva el precio y la moneda."
+    },
+    {
+      "clave": "texto_51f7bcd157",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Composición de Abre y Cuesta más o menos."
+    },
+    {
+      "clave": "texto_3ebd7a93a6",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Abre {v7}."
+    },
+    {
+      "clave": "texto_9bd1f4e4a0",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Para todos."
+    },
+    {
+      "clave": "texto_87924d4e97",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Pagas unos {v1} menos{v2}; se conserva la abreviatura de estimación."
+    },
+    {
+      "clave": "texto_7e7a150157",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Forma breve de Cuesta más o menos."
+    },
+    {
+      "clave": "texto_e9dac13b56",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Forma breve de Cuesta más o menos."
+    },
+    {
+      "clave": "texto_7af7fd2c2d",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Forma breve de Cuesta más o menos, conservando el precio."
+    },
+    {
+      "clave": "texto_a78e69b314",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Lo que buscaste antes."
+    },
+    {
+      "clave": "texto_0d7d7140dd",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Elige las opciones."
+    },
+    {
+      "clave": "texto_29fa864fd7",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Restaurar el estado anterior; misma forma breve de regresar."
+    },
+    {
+      "clave": "texto_3b11ce3e65",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Habla."
+    },
+    {
+      "clave": "texto_833334561a",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Señales que no están."
+    },
+    {
+      "clave": "texto_a7248eeb45",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Como siempre."
+    },
+    {
+      "clave": "texto_317b32c143",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Como siempre."
+    },
+    {
+      "clave": "texto_4a31da43b9",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Algo que estorba."
+    },
+    {
+      "clave": "texto_6b7c883403",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Cuesta más o menos."
+    },
+    {
+      "clave": "texto_fdfe32a937",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Cuesta más o menos, conservando el dato del viaje."
+    },
+    {
+      "clave": "texto_ede486db3c",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Cuesta más o menos, conservando el dato del viaje."
+    },
+    {
+      "clave": "texto_4da4f33fc6",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Cuesta más o menos, conservando el dato del viaje."
+    },
+    {
+      "clave": "texto_5fa7218b75",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Lo que conviene."
+    },
+    {
+      "clave": "texto_31056106ce",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Lo que encontré."
+    },
+    {
+      "clave": "texto_11f7e34808",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Camino que te conviene."
+    },
+    {
+      "clave": "texto_184b191dc0",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Forma breve de la traducción automática de Cuesta menos dinero; conserva el sentido de menor costo."
+    },
+    {
+      "clave": "texto_c7ff837b82",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Combina el encabezado de app con Cuesta más o menos."
+    },
+    {
+      "clave": "texto_02c2274c2e",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Forma breve de Cuesta menos dinero, aplicada a la app."
+    },
+    {
+      "clave": "texto_78a512ce79",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Forma breve de Cuesta menos dinero; conserva Qrobus."
+    },
+    {
+      "clave": "texto_0266ae56a6",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Conserva el nombre oficial Tarifa Unidos."
+    },
+    {
+      "clave": "texto_ab1b6a1c76",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Conserva el nombre oficial Tarifa Unidos."
+    },
+    {
+      "clave": "texto_42878feb08",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Conserva el nombre oficial Tarifa Unidos y la tarifa fuente."
+    },
+    {
+      "clave": "texto_892c4d0438",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Nombre oficial del programa; no se traduce."
+    },
+    {
+      "clave": "texto_5df139469e",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Conserva el nombre oficial Tarifa Unidos."
+    },
+    {
+      "clave": "texto_3e1da47705",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Un aviso."
+    },
+    {
+      "clave": "texto_aeccae342e",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Cierra esto."
+    },
+    {
+      "clave": "texto_0cb2b03cf8",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Por ejemplo: Hospital."
+    },
+    {
+      "clave": "texto_7a37f9b594",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Ya lo guardé."
+    },
+    {
+      "clave": "texto_ecebe9dfe1",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "No contestes esta pregunta."
+    },
+    {
+      "clave": "texto_0bbc7f1e92",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Partes de la aplicación."
     }
   ]
 }

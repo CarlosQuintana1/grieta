@@ -45,6 +45,10 @@ const Interfaz = (() => {
   function traducir(texto, elemento, nivel = 0) {
     const original = normalizar(texto);
     if (activo !== "otq" || !original || nivel > 5) return texto;
+    const coma = texto.indexOf(",");
+    if (elemento.closest("#horas button") && coma > 0) {
+      return traducir(texto.slice(0, coma), elemento, nivel + 1) + traducir(texto.slice(coma), elemento, nivel + 1);
+    }
     for (const r of reglas) {
       if (r.selector && !elemento.closest(r.selector)) continue;
       const encuentro = r.patron.exec(original);

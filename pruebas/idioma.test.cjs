@@ -16,8 +16,14 @@ const valido = () => ({ codigo: 'otq', completa: true, revision: 'Escenario de p
 test('acepta otro orden de mensajes y variables sin perder datos del viaje', () => {
   assert.equal(revisar(valido(), fuente), true);
 });
-test('rechaza una traducción sin revisar o marcada como incompleta', () => {
+test('rechaza una traducción incompleta o sin revisión ni procedencia automática', () => {
   for (const cambio of [{ revision: null }, { revision: '  ' }, { completa: false }, { codigo: 'es' }]) assert.equal(revisar({ ...valido(), ...cambio }, fuente), false);
+});
+test('acepta un catálogo automático identificado como provisional y con procedencia', () => {
+  const c = { ...valido(), revision: null, provisional: true, fuente: { tipo: 'automatica', nombre: 'Escenario de prueba', url: 'https://example.com/catalogo' } };
+  assert.equal(revisar(c, fuente), true);
+  assert.equal(revisar({ ...c, fuente: null }, fuente), false);
+  assert.equal(revisar({ ...c, provisional: false }, fuente), false);
 });
 test('rechaza variables perdidas, nuevas y repetidas por error', () => {
   for (const otq of ['Prueba {lugar}', 'Prueba {lugar} {hora} {precio}', 'Prueba {lugar} {lugar} {hora}']) {
@@ -39,16 +45,30 @@ test('rechaza datos mal formados sin lanzar errores', () => {
   for (const c of [null, {}, { ...valido(), mensajes: [null, null] }]) assert.equal(revisar(c, fuente), false);
   assert.equal(revisar(valido(), { mensajes: [null, null] }), false);
 });
-test('el catálogo real registra pendientes y no afirma que existe una traducción', () => {
+test('el catálogo real contiene los textos provisionales y conserva todas las variables', () => {
   const base = JSON.parse(fs.readFileSync(path.join(raiz, 'idiomas', 'es.json')));
   const c = JSON.parse(fs.readFileSync(path.join(raiz, 'idiomas', 'otq.json')));
   assert.equal(base.mensajes.length, c.mensajes.length);
   assert.ok(c.mensajes.length > 500);
   assert.equal(new Set(c.mensajes.map(x => x.clave)).size, c.mensajes.length);
-  assert.equal(c.completa, false);
+  assert.equal(c.completa, true);
+  assert.equal(c.provisional, true);
   assert.equal(c.revision, null);
-  assert.ok(c.mensajes.every(x => x.otq === null));
-  assert.equal(revisar(c, base), false);
+  assert.ok(c.mensajes.every(x => typeof x.otq === 'string' && x.otq.trim()));
+  assert.equal(revisar(c, base), true);
+  for (const m of c.mensajes) {
+    const huecos = texto => [...texto.matchAll(/\{(\w+)\}/g)].map(x => x[1]).sort();
+    assert.deepEqual(huecos(m.es), huecos(m.otq), m.es);
+  }
+});
+test('la traducción conserva los números y las marcas que aparecen en los textos fuente', () => {
+  const c = JSON.parse(fs.readFileSync(path.join(raiz, 'idiomas', 'otq.json')));
+  const numeros = texto => [...texto.replace(/\{\w+\}/g, '').matchAll(/\d+(?:[.,]\d+)?/g)].map(x => x[0]).sort();
+  const marcas = /Grieta|Qrobus|Uber|DiDi|inDrive|WhatsApp|VoiceOver|TalkBack|Tarifa Unidos/gi;
+  for (const m of c.mensajes) {
+    assert.deepEqual(numeros(m.es), numeros(m.otq), m.es);
+    assert.deepEqual((m.es.match(marcas) || []).map(x => x.toLowerCase()).sort(), (m.otq.match(marcas) || []).map(x => x.toLowerCase()).sort(), m.es);
+  }
 });
 
 test('el worker conserva el código y los dos catálogos para leerlos sin red', async () => {

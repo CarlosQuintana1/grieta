@@ -122,11 +122,12 @@ horizontal de hasta 140 px en una imagen de 960 px, vertical de 60 px, giro de �
 |---|---:|---:|
 | Intervalo mediano entre análisis | 605 ms | 204 ms |
 | Imágenes analizadas en 12 s | 20 | 58 |
-| Primera descripción visual desde la captura | 1395 ms | 422 ms |
-| Primer envío a voz simulada desde la captura | 7443 ms | 1037 ms |
+| Primera descripción visual | 1395 ms | 422 ms |
+| Primer envío a voz simulada | 7443 ms | 1037 ms |
 | Máximo de imágenes pendientes | 1 | 1 |
 
-Medición de Chromium en CPU de macOS. No representa latencia del iPhone, tiempo total desde abrir la
+El reloj comienza con la primera imagen enviada al detector. Medición de Chromium en CPU de macOS.
+No representa latencia del iPhone, tiempo total desde abrir la
 cámara ni audio físico de VoiceOver. El caso moderado y los datos están en `vision-respuesta.json`.
 Se reproduce con `VISION_IMAGEN`, `GRIETA_ANTES_URL`, `GRIETA_URL` y opcionalmente
 `VISION_MOVIMIENTO=amplio` en `pruebas/vision-latencia.cjs`. Las imágenes siguen en memoria local.

@@ -44,5 +44,6 @@
       "maximos_pendientes": 1,
       "errores": []
     }
-  ]
+  ],
+  "inicio_del_reloj": "Primer envío de imagen al worker detector; excluye apertura y preparación de cámara."
 }

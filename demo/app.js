@@ -170,7 +170,7 @@ const PANTALLAS = {
   elegirMapa: { tab: "inicio", mapa: true, encabezado: true },
   opciones: { tab: "inicio", mapa: true, encabezado: true },
   detalle: { tab: "inicio", mapa: true, encabezado: true },
-  camiones: { tab: "inicio", mapa: true, encabezado: true },
+  camiones: { tab: "camiones", mapa: true, encabezado: true },
   guia: {},
   reporte: { tab: "reporte" },
   ajustes: { tab: "ajustes" },
@@ -225,7 +225,11 @@ function ir(nombre, reemplazar) {
   if (history.state?.p !== nombre) history[reemplazar ? "replaceState" : "pushState"]({ p: nombre }, "");
   mostrar(nombre);
 }
-addEventListener("popstate", (e) => mostrar(e.state?.p ?? "inicio"));
+addEventListener("popstate", (e) => {
+  const pantalla = e.state?.p ?? "inicio";
+  mostrar(pantalla);
+  if (pantalla === "camiones" && (estado.gps ?? estado.origen)) cargarCamiones(estado.gps ?? estado.origen);
+});
 $("atras").addEventListener("click", () => (history.state && history.length > 1 ? history.back() : ir("inicio", true)));
 // En la app instalada de iPhone no hay gesto para regresar: deslizar desde la orilla izquierda hace lo mismo que la flecha,
 // que queda lejos del pulgar. No aplica sobre el mapa ni en la guia, que no tiene encabezado.
@@ -243,6 +247,7 @@ $("pestanas").addEventListener("click", (e) => {
   const b = e.target.closest("button");
   if (!b) return;
   const tab = b.dataset.tab;
+  if (tab === "camiones") return abrirCamiones();
   if (tab === "reporte") return abrirReporte();
   ir(tab);
 });
@@ -1305,15 +1310,13 @@ function avisoVigencia() {
 const iconoParada = (cerca) => L.divIcon({ className: "", iconSize: cerca ? [38, 38] : [30, 30],
   html: `<span class="parada-mapa${cerca ? " cerca" : ""}">${ico("camion")}</span>` });
 // Las paradas en el mapa: tu ubicacion, la mas cercana resaltada con el camino a pie y las demas; tocar una baja a sus camiones.
-function pintarParadas(punto, lista) {
+function pintarParadas(punto, lista, seleccionada = false) {
   capas.paradas?.remove();
   const marcas = lista.map((x, i) => {
     const m = L.marker([x.lat, x.lon], { icon: iconoParada(i === 0), keyboard: false, zIndexOffset: i === 0 ? 500 : 0 });
     m.on("click", () => {
       if (i === 0) return void ($("hoja").scrollTop = 0);
-      const otras = document.querySelector("#camionesContenido .otras");
-      if (otras) otras.open = true;
-      document.querySelectorAll("#camionesContenido .otras h3")[i - 1]?.scrollIntoView({ block: "start", behavior: "smooth" });
+      elegirParada(punto, lista, i);
     });
     if (i === 0) m.bindTooltip("Más cercana", { permanent: true, direction: "top", offset: [0, -20], className: "etiqueta-mapa" });
     return m;
@@ -1321,15 +1324,15 @@ function pintarParadas(punto, lista) {
   const aPie = L.polyline([[punto.lat, punto.lon], [lista[0].lat, lista[0].lon]], { color: tono("--tinta"), weight: 3, dashArray: "1 7", lineCap: "round" });
   capas.paradas = L.featureGroup([aPie, ...marcas]).addTo(mapa);
   setTimeout(() => encuadrar(capas.paradas.getBounds()), 120);
-  seguirCalles(aPie).then((c) => ponerCaminata(lista[0], c?.metros));
+  seguirCalles(aPie).then((c) => ponerCaminata(lista[0], c?.metros, seleccionada));
 }
 // La distancia real a pie llega despues que la pantalla: se pone y se dice una sola vez
-function ponerCaminata(p, metros) {
+function ponerCaminata(p, metros, seleccionada = false) {
   if (!$("distanciaParada") || p.dicho) return;
   if (!metros) return void ($("caminaParada").textContent = p.caminado ? Interfaz.original($("caminaParada")) : "No pude calcular el camino a pie.");
   p.caminado = metros;
   p.dicho = true;
-  $("distanciaParada").textContent = `Parada más cercana · a ${distanciaTexto(metros, true)} caminando`;
+  $("distanciaParada").textContent = `${seleccionada ? "Parada elegida" : "Parada más cercana"} · a ${distanciaTexto(metros, true)} caminando`;
   $("caminaParada").textContent = `Camina ${minutosCaminando(metros)} min`;
   hablar(`Caminando son ${distanciaTexto(metros)}, unos ${minutosCaminando(metros)} minutos.`, true);
 }
@@ -1339,15 +1342,28 @@ const distanciaTexto = (m, corta = false) => m < 1000
   : `${(m / 1000).toFixed(1).replace(".0", "")} ${corta ? "km" : "kilómetros"}`;
 const minutosCaminando = (m) => Math.max(1, Math.round(m / 1000 / 4.5 * 60));
 const enCuanto = (min) => { const f = Math.round(min - ahoraMin()); return f <= 0 ? "ya debe pasar" : f < 60 ? `en ${f} min` : `en ${Math.floor(f / 60)} h ${f % 60} min`; };
+let revisionCamiones = 0;
 $("pasanAqui").addEventListener("click", () => abrirCamiones());
 function abrirCamiones() {
-  const punto = estado.gps ?? estado.origen;
+  revisionCamiones++;
   ir("camiones");
   const caja = $("camionesContenido");
+  const punto = estado.gps ?? estado.origen;
   if (!punto) {
-    caja.innerHTML = `<p class="texto">Primero necesito saber dónde estás. Activa la ubicación o elige desde dónde sales en Inicio.</p>`;
-    return hablar("Primero necesito saber dónde estás.");
+    caja.innerHTML = `<p class="texto">Buscando paradas cerca de ti…</p>`;
+    return ubicar((encontrada) => {
+      const ubicacion = estado.gps ?? estado.origen;
+      if (encontrada && ubicacion) return cargarCamiones(ubicacion);
+      caja.innerHTML = `<p class="texto">No pude ver tu ubicación. Actívala o elige desde dónde sales.</p>
+        <button id="elegirUbicacionCamiones" type="button" class="boton oscuro">Elegir desde dónde sales</button>`;
+      $("elegirUbicacionCamiones").addEventListener("click", () => abrirBuscar("desde"));
+      hablar("No pude ver tu ubicación. Puedes elegir desde dónde sales.");
+    });
   }
+  cargarCamiones(punto);
+}
+function cargarCamiones(punto) {
+  const caja = $("camionesContenido");
   let lista = Grieta.pasanAqui(punto.lat, punto.lon, hoyDia(), ahoraMin());
   // Sin paradas con servicio a 350 m, se busca la mas cercana hasta 1 km para no dejar a nadie sin respuesta.
   if (!lista.length) lista = Grieta.pasanAqui(punto.lat, punto.lon, hoyDia(), ahoraMin(), 1000).slice(0, 1);
@@ -1359,11 +1375,19 @@ function abrirCamiones() {
   ordenarPorCaminata(punto, lista);
 }
 
+function elegirParada(punto, lista, indice) {
+  revisionCamiones++;
+  const orden = [lista[indice], ...lista.filter((_, i) => i !== indice)];
+  pintarCamiones(punto, orden, false, true);
+  $("hoja").scrollTop = 0;
+}
+
 // La mas cercana en linea recta puede estar del otro lado de una avenida: se comparan caminando y se reordena.
 async function ordenarPorCaminata(punto, lista) {
   if (lista.length < 2) return;
+  const revision = revisionCamiones;
   const reales = await Promise.all(lista.map((x) => caminoAPie([punto.lat, punto.lon], [x.lat, x.lon])));
-  if (document.body.dataset.pantalla !== "camiones") return;
+  if (revision !== revisionCamiones || document.body.dataset.pantalla !== "camiones") return;
   lista.forEach((x, i) => { if (reales[i]) x.caminado = reales[i].metros; });
   const distancia = (x) => x.caminado ?? x.m * 1.3;
   const orden = [...lista].sort((a, b) => distancia(a) - distancia(b));
@@ -1373,7 +1397,8 @@ async function ordenarPorCaminata(punto, lista) {
   hablar(`Caminando, la parada más cercana es ${orden[0].nombre}, a ${distanciaTexto(distancia(orden[0]))}.`);
 }
 
-function pintarCamiones(punto, lista, primera) {
+function pintarCamiones(punto, lista, primera, seleccionada = false) {
+  const revision = revisionCamiones;
   const caja = $("camionesContenido");
   const filas = (p) => `<ul class="filas">${p.lineas.slice(0, 6).map((l) => `<li data-linea="${escapar(l.linea)}"><div class="fila">
       <span class="linea-caja">${escapar(l.linea)}</span>
@@ -1381,10 +1406,10 @@ function pintarCamiones(punto, lista, primera) {
       <span class="hora-camion"><strong>${hora(l.horas[0])}</strong><small>${enCuanto(l.horas[0])}</small></span>
     </div></li>`).join("")}</ul>`;
   const p = lista[0];
-  pintarParadas(punto, lista);
+  pintarParadas(punto, lista, seleccionada);
   caja.innerHTML = `
     <div class="parada-cerca">
-      <p class="etiqueta" id="distanciaParada">Parada más cercana · ${p.caminado ? `a ${distanciaTexto(p.caminado, true)} caminando` : `a ${distanciaTexto(p.m, true)} en línea recta`}</p>
+      <p class="etiqueta" id="distanciaParada">${seleccionada ? "Parada elegida" : "Parada más cercana"} · ${p.caminado ? `a ${distanciaTexto(p.caminado, true)} caminando` : `a ${distanciaTexto(p.m, true)} en línea recta`}</p>
       <p class="parada-nombre" translate="no">${escapar(cruce(p.nombre))}</p>
       <p class="nota" id="caminaParada">${p.caminado ? `Camina ${minutosCaminando(p.caminado)} min` : "Calculando el camino a pie..."}</p>
     </div>
@@ -1393,14 +1418,19 @@ function pintarCamiones(punto, lista, primera) {
     ${filas(p)}
     <h2>Avisos de la parada</h2>
     <div id="avisosParada" class="avisos"><p class="nota">Buscando avisos...</p></div>
+    <p class="nota">La accesibilidad no está verificada. Los reportes son de la comunidad y pueden haber cambiado.</p>
+    <button id="reportarParada" type="button" class="boton oscuro">Reportar algo en esta parada</button>
     ${lista.length > 1 ? `<section class="otras" aria-labelledby="tituloOtrasParadas"><h2 id="tituloOtrasParadas">Otras paradas cerca</h2>
-      ${lista.slice(1).map((x) => `<h3><span translate="no">${escapar(cruce(x.nombre))}</span> <span class="tenue">a ${distanciaTexto(x.caminado ?? x.m, true)}${x.caminado ? " caminando" : " en línea recta"}</span></h3>${filas(x)}`).join("")}</section>` : ""}
+      ${lista.slice(1).map((x, i) => `<button type="button" class="parada-alternativa" data-parada="${i + 1}" aria-label="Ver camiones y reportar en ${escapar(cruce(x.nombre))}"><strong translate="no">${escapar(cruce(x.nombre))}</strong><span class="tenue">A ${distanciaTexto(x.caminado ?? x.m, true)}${x.caminado ? " caminando" : " en línea recta"}</span></button>${filas(x)}`).join("")}</section>` : ""}
     <p class="nota pie">Las horas salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse.${avisoVigencia()}</p>`;
   $("irParada").addEventListener("click", () => poner("destino", { nombre: `Parada ${p.nombre}`, lat: p.lat, lon: p.lon }));
+  $("reportarParada").addEventListener("click", () => abrirReporte(p));
+  caja.querySelectorAll("[data-parada]").forEach((b) => b.addEventListener("click", () => elegirParada(punto, lista, Number(b.dataset.parada))));
   if (primera) hablar(`La parada más cercana es ${p.nombre}. ` +
     p.lineas.slice(0, 4).map((l) => `Línea ${l.linea} hacia ${l.hacia}, a las ${hora(l.horas[0])} según el horario.`).join(" "));
   // Lo que avisó la gente en esta parada en la última media hora, junto a su línea
   avisosDeLaGente(p.lat, p.lon).then((avisos) => {
+    if (revision !== revisionCamiones) return;
     for (const a of avisos) {
       const li = document.querySelector(`#camionesContenido > .filas li[data-linea="${a.linea}"]`);
       if (!li || li.querySelector(".aviso-gente")) continue;
@@ -1408,6 +1438,7 @@ function pintarCamiones(punto, lista, primera) {
     }
   });
   reportesCerca(p.lat, p.lon, 60).then((avisos) => {
+    if (revision !== revisionCamiones) return;
     const caja = $("avisosParada");
     if (!caja) return;
     // Un aviso por tipo: varios reportes iguales se juntan y se quedan las descripciones distintas.
@@ -1422,8 +1453,7 @@ function pintarCamiones(punto, lista, primera) {
       ? avisos.slice(0, 4).map((a) => `<div class="aviso${a.tipo === "referencia" ? "" : " cuidado"}">
           ${ico(a.tipo === "referencia" ? "localizar" : "alerta")}
           <span class="fila-texto"><strong>${NOMBRES_REPORTE[a.tipo] ?? "Aviso"}</strong>${a.descripcion ? `<small translate="no">${escapar(a.descripcion)}</small>` : ""}</span></div>`).join("")
-      : `<p class="nota">Nadie ha dejado avisos de esta parada. <button type="button" class="enlace" id="reportarParada">Reportar algo aquí</button></p>`;
-    $("reportarParada")?.addEventListener("click", abrirReporte);
+      : `<p class="nota">Todavía no hay avisos de esta parada.</p>`;
     if (avisos.length) leerReferencias(p);
   });
 }
@@ -2195,7 +2225,7 @@ const marcarReporte = radios("tipoReporte", (v) => {
   if (v) $("reporteEstado").className = "nota";
   if (nuevo) setTimeout(() => $("enviarReporte").scrollIntoView({ block: "nearest", behavior: "smooth" }), 50);
 });
-function abrirReporte() {
+function abrirReporte(paradaFijada = null) {
   Object.assign(reporte, { tipo: null, lat: null, lon: null, parada: null });
   marcarReporte(null);
   $("descripcion").value = "";
@@ -2223,6 +2253,11 @@ function abrirReporte() {
       if (calle) $("reporteDonde").textContent = `En ${calle}`;
     } catch {}
   };
+  if (paradaFijada) {
+    Object.assign(reporte, { lat: paradaFijada.lat, lon: paradaFijada.lon, parada: paradaFijada.nombre });
+    $("reporteDonde").textContent = `En la parada ${cruce(paradaFijada.nombre)}`;
+    return;
+  }
   navigator.geolocation?.getCurrentPosition(
     ({ coords }) => fijar(coords.latitude, coords.longitude),
     () => (estado.origen ? fijar(estado.origen.lat, estado.origen.lon) : ($("reporteDonde").textContent = "Activa la ubicación para reportar")),

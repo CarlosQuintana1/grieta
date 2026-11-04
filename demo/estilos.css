@@ -319,7 +319,9 @@ body.alerta :focus-visible { outline-color: #0b0a09; }
 .hora-camion small { color: var(--tenue); font-size: 0.75rem; }
 .avisos { display: grid; gap: 10px; }
 .otras { margin-top: 22px; border-top: 1px solid var(--linea); }
-.otras h3 .tenue { color: var(--tenue); font-weight: 600; font-size: 0.85rem; }
+.parada-alternativa { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; min-height: 48px; padding: 10px 0; color: var(--tinta); text-align: left; border-bottom: 1px solid var(--linea); }
+.parada-alternativa strong { color: var(--ambar); font-weight: 650; }
+.parada-alternativa .tenue { flex: none; color: var(--tenue); font-size: 0.85rem; }
 .aviso { display: flex; gap: 12px; align-items: flex-start; padding: 14px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); }
 .aviso .icono { color: var(--ambar); }
 .aviso.cuidado { border-color: var(--cuidado); }

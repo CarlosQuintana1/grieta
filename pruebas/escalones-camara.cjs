@@ -1,0 +1,61 @@
+const { chromium } = require('playwright');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+(async () => {
+ const base = process.env.ESCALONES_MUESTRA ?? '/private/tmp/grieta-escalones/muestra';
+ const imagenes = ['ADE_val_00000218.jpg','ADE_val_00000620.jpg','ADE_val_00000074.jpg'].map(n => 'data:image/jpeg;base64,'+fs.readFileSync(path.join(base,n)).toString('base64'));
+ const navegador = await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_EXECUTABLE});
+ try {
+  const contexto = await navegador.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true,serviceWorkers:'block'});
+  await contexto.addInitScript(({imagenes}) => {
+   localStorage.setItem('grieta-bienvenida','true');
+   localStorage.setItem('grieta-acc',JSON.stringify({voz:true,lector:'no',modoVoz:false,tema:'oscuro'}));
+   window.__dichos=[];window.__vibraciones=[];window.__terminados=[];
+   window.SpeechSynthesisUtterance=function(text){this.text=text;};
+   Object.defineProperty(window,'speechSynthesis',{value:{speaking:false,getVoices:()=>[{localService:true,lang:'es-MX'}],cancel:()=>{},speak:m=>{window.__dichos.push(m.text);m.onend?.();}}});
+   Object.defineProperty(navigator,'vibrate',{configurable:true,value:p=>{window.__vibraciones.push(p);return true;}});
+   const Original = window.Worker;
+   window.Worker = class extends Original { constructor(url,opts) { super(url,opts); this.nombre=url; } terminate(){window.__terminados.push(this.nombre);super.terminate();} };
+   navigator.mediaDevices.getUserMedia=async opts=>{
+    window.__permiso=opts;const c=document.createElement('canvas');c.width=960;c.height=720;window.__escena=c;
+    const fotos=await Promise.all(imagenes.map(async src=>{const i=new Image();i.src=src;await i.decode();return i;}));
+    window.__mostrar=n=>{c.getContext('2d').drawImage(fotos[n],0,0,c.width,c.height);};window.__mostrar(0);
+    const stream=c.captureStream(10);window.__pistas=stream.getTracks();return stream;
+   };
+  },{imagenes});
+  const p=await contexto.newPage(),errores=[],red=[];
+  p.on('pageerror',e=>errores.push(e.message));p.on('request',r=>red.push(r.method()));
+  await p.goto(process.env.GRIETA_URL ?? 'http://127.0.0.1:8812');await p.locator('#abrirCamara').tap();
+  assert.equal(await p.locator('#camaraEscalones').isChecked(),false);
+  await p.locator('#camaraEscalones').check();await p.locator('#camaraIniciar').tap();
+  await p.waitForFunction(()=>document.querySelector('#camaraEstado').textContent.startsWith('Cámara encendida'),null,{timeout:120000});
+  await p.waitForFunction(()=>document.querySelector('#camaraSueloAlerta').textContent.includes('Posibles escaleras'),null,{timeout:20000});
+  assert(await p.locator('#camaraViaje').isChecked());assert(await p.locator('#camaraEscalones').isDisabled());
+  assert.equal(await p.evaluate(()=>window.__permiso.audio),false);
+  assert(await p.evaluate(()=>window.__dichos.some(t=>t.startsWith('Posibles escaleras'))));
+  assert(await p.evaluate(()=>window.__vibraciones.some(v=>Array.isArray(v)&&v[0]===180)));
+  console.log('Modelo real con foto anotada: aviso de escaleras en Mi viaje, voz local y solicitud de vibración');
+  await p.locator('#camaraEntorno').check();await p.evaluate(()=>{window.createImageBitmap=undefined;window.__mostrar(1);});
+  await p.waitForFunction(()=>document.querySelector('#camaraSueloAlerta').textContent.includes('Posible escalón'),null,{timeout:20000});
+  assert(await p.evaluate(()=>window.__dichos.some(t=>t.startsWith('Posible escalón'))));
+  await p.screenshot({path:path.join(require('node:os').tmpdir(),'grieta-74-escalon.png'),animations:'disabled'});
+  console.log('Modelo real con foto anotada: escalón en Todo el entorno con transferencia RGBA; independiente del filtro de transporte');
+  await p.evaluate(()=>window.__mostrar(2));
+  await p.waitForFunction(()=>!document.querySelector('#camaraSueloAlerta').textContent,null,{timeout:8000});
+  await p.locator('#camaraDetener').tap();
+  assert.deepEqual(await p.evaluate(()=>window.__pistas.map(t=>t.readyState)),['ended']);
+  assert(await p.evaluate(()=>window.__terminados.some(n=>n.includes('escalones-worker'))));
+  assert.equal(await p.locator('#camaraSueloAlerta').textContent(),'');
+  assert(!await p.evaluate(()=>window.__dichos.some(t=>/puedes avanzar|paso libre|puedes bajar|puedes cruzar/i.test(t))));
+  console.log('Control sin las etiquetas de riesgo, retirada del aviso y cierre de pistas/worker; no instrucciones de avance');
+  await p.locator('#camaraEscalones').uncheck();await p.reload();await p.locator('#abrirCamara').tap();
+  assert.equal(await p.locator('#camaraEscalones').isChecked(),false);
+  assert.match(await p.locator('#camaraSueloEstado').textContent(),/desactivado/);
+  await p.setViewportSize({width:320,height:844});await p.evaluate(()=>{acc.grande=true;acc.tema='claro';aplicarAcc();});
+  assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  await p.screenshot({path:path.join(require('node:os').tmpdir(),'grieta-74-camara-320.png'),animations:'disabled'});
+  assert.deepEqual(errores,[]);assert(red.every(m=>m==='GET'));
+  console.log('Preferencia persistente; 390/320 px, claro y letra grande sin desbordamiento, cero errores JS y solo GET');
+ } finally {await navegador.close();}
+})().catch(e=>{console.error(e);process.exit(1);});

@@ -78,5 +78,15 @@
   {
     "ruta": "vendor/tesseract/worker.min.js.LICENSE.txt",
     "sha256": "45f54171aeaa1d10c0c1a66f374b7bba1f02472b1487fbe892eec04f840002ac"
+  },
+  {
+    "ruta": "modelos/LICENSE-escalones",
+    "sha256": "bb0de8e92fcbf7ce4e28af4925e829c95beac45c705d34086b84541f2ffab65a",
+    "grupo": "escalones"
+  },
+  {
+    "ruta": "modelos/escalones-v1.tflite",
+    "sha256": "46f38877585629fd6cd37e4765d60def43deb367920bfccfa94486ae8f983756",
+    "grupo": "escalones"
   }
 ]

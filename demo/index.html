@@ -549,11 +549,14 @@
         <label><input id="camaraViaje" name="camaraEnfoque" type="radio" value="viaje" checked>Mi viaje</label>
         <label><input id="camaraEntorno" name="camaraEnfoque" type="radio" value="entorno">Todo el entorno</label>
       </fieldset>
+      <label class="interruptor"><span><strong>Escaleras y escalones (prueba)</strong><small>Puede omitirlos. Activa antes de iniciar; descarga unos 9 MB.</small></span><input id="camaraEscalones" type="checkbox" role="switch"></label>
       <p id="camaraObjetivo" class="nota" role="status"></p>
       <button id="camaraIniciar" type="button" class="boton">Iniciar cámara</button>
       <button id="camaraDetener" type="button" class="boton" hidden>Detener cámara</button>
+      <p id="camaraSueloAlerta" class="camara-alerta" role="alert" aria-live="assertive" aria-atomic="true"></p>
       <video id="camaraVideo" autoplay muted playsinline aria-label="Vista de la cámara trasera" hidden></video>
-      <p id="camaraEstado" class="nota" role="status">Cámara apagada. La primera vez se descargan los modelos (aprox. 40 MB en Más detalle).</p>
+      <p id="camaraEstado" class="nota" role="status">Cámara apagada. La primera vez se descargan los modelos (aprox. 50 MB con escaleras y Más detalle).</p>
+      <p id="camaraSueloEstado" class="nota" role="status">Escaleras y escalones: desactivado.</p>
       <p id="camaraAudio" class="nota" role="status"></p>
       <p id="camaraRendimiento" class="nota" role="status"></p>
       <p id="camaraCalidad" class="nota" role="status"></p>
@@ -575,11 +578,12 @@
         <label><input id="camaraDetalle" name="camaraModelo" type="radio" value="detalle" checked>Más detalle</label>
         <label><input id="camaraLigero" name="camaraModelo" type="radio" value="ligero">Más ligero</label>
       </fieldset>
+
       <label class="interruptor"><span><strong>Avisos experimentales de vehículos</strong><small>Avisa si un vehículo crece al centro de la imagen. Intenta compensar el movimiento del teléfono, pero puede fallar. No detecta cruces.</small></span><input id="camaraAvisos" type="checkbox" role="switch"></label>
       <p id="camaraVibracion" class="nota"></p>
       <button id="camaraProbar" type="button" class="enlace" hidden>Probar vibración</button>
       <p class="nota">Con avisos activos, activa Leer número del camión o Leer letrero ahora para hacer una lectura.</p>
-      <p class="nota">Experimental: puede omitir obstáculos. Usa tu bastón o acompañamiento. No indica cuándo cruzar.</p>
+      <p class="nota">Experimental: puede omitir obstáculos y desniveles. No mide altura ni indica cuándo cruzar. Usa tu bastón o acompañamiento.</p>
       <p class="nota">Las imágenes se analizan en tu teléfono. No se guardan ni se envían. La cámara se apaga al salir o al ocultar la app. El audio sigue tus ajustes de voz.</p>
     </section>
 
@@ -713,6 +717,8 @@
   <script src="vision/seguimiento.js?v=3"></script>
   <script src="vision/observaciones.js?v=3"></script>
   <script src="vision/transporte.js?v=73"></script>
+  <script src="vision/desniveles.js?v=74"></script>
+  <script src="vision/camara-suelo.js?v=74"></script>
   <script src="camara.js"></script>
   <script src="toques.js"></script>
   <script src="practica.js"></script>

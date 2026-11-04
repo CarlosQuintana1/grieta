@@ -1,0 +1,744 @@
+{
+  "modelo": "DeepLabV3+ MobileNetV2 ADE20K, pesos oficiales 2018-12-03 sin reentrenar",
+  "sha256": "46f38877585629fd6cd37e4765d60def43deb367920bfccfa94486ae8f983756",
+  "seleccion": "Primeras 6 filas por grupo de pictograph/ade-20k validation, revision 7689e0b7a96474a96a8044bd4650a3e054296087, según etiquetas, antes de inferir. Negativos sin 53/59/121 con pared/piso/barandilla.",
+  "limites": "Muestra de desarrollo: se compararon reescalados sobre las mismas 18 fotos. No es un test independiente, ni una medida de prevención de caídas. Etiquetas pueden omitir desniveles. Positivos de integración elegidos después de esta evaluación.",
+  "resultados": {
+    "completa": [
+      {
+        "archivo": "ADE_val_00000436.jpg",
+        "grupo": "escaleras",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000436.jpg",
+        "ancho": 129,
+        "alto": 97,
+        "tipo": "suelo",
+        "regiones": [
+          {
+            "tipo": "escaleras",
+            "confianza": 0.7785669353700453,
+            "area": 0.007432270438743707,
+            "caja": {
+              "x": 58,
+              "y": 79,
+              "w": 19,
+              "h": 7
+            },
+            "lado": "centro"
+          },
+          {
+            "tipo": "escaleras",
+            "confianza": 0.7144965003518498,
+            "area": 0.0027171741388955484,
+            "caja": {
+              "x": 42,
+              "y": 77,
+              "w": 14,
+              "h": 7
+            },
+            "lado": "centro"
+          }
+        ],
+        "ms": 488.0999999642372
+      },
+      {
+        "archivo": "ADE_val_00000567.jpg",
+        "grupo": "escaleras",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000567.jpg",
+        "ancho": 129,
+        "alto": 97,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 410
+      },
+      {
+        "archivo": "ADE_val_00001358.jpg",
+        "grupo": "escaleras",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00001358.jpg",
+        "ancho": 129,
+        "alto": 94,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 403.30000001192093
+      },
+      {
+        "archivo": "ADE_val_00000947.jpg",
+        "grupo": "escaleras",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000947.jpg",
+        "ancho": 129,
+        "alto": 97,
+        "tipo": "suelo",
+        "regiones": [
+          {
+            "tipo": "escaleras",
+            "confianza": 0.8463639296018161,
+            "area": 0.0020778390473907135,
+            "caja": {
+              "x": 72,
+              "y": 45,
+              "w": 7,
+              "h": 6
+            },
+            "lado": "centro"
+          }
+        ],
+        "ms": 407.0999999642372
+      },
+      {
+        "archivo": "ADE_val_00001376.jpg",
+        "grupo": "escaleras",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00001376.jpg",
+        "ancho": 129,
+        "alto": 97,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 403.39999997615814
+      },
+      {
+        "archivo": "ADE_val_00000218.jpg",
+        "grupo": "escaleras",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000218.jpg",
+        "ancho": 129,
+        "alto": 111,
+        "tipo": "suelo",
+        "regiones": [
+          {
+            "tipo": "escaleras",
+            "confianza": 0.828676067056699,
+            "area": 0.015434038689852643,
+            "caja": {
+              "x": 62,
+              "y": 97,
+              "w": 34,
+              "h": 13
+            },
+            "lado": "centro"
+          },
+          {
+            "tipo": "escaleras",
+            "confianza": 0.7815472198857202,
+            "area": 0.006285355122564425,
+            "caja": {
+              "x": 36,
+              "y": 99,
+              "w": 23,
+              "h": 8
+            },
+            "lado": "centro"
+          }
+        ],
+        "ms": 415.0999999642372
+      },
+      {
+        "archivo": "ADE_val_00000620.jpg",
+        "grupo": "escalon",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000620.jpg",
+        "ancho": 129,
+        "alto": 97,
+        "tipo": "suelo",
+        "regiones": [
+          {
+            "tipo": "escalon",
+            "confianza": 0.7346021195524903,
+            "area": 0.017501798129944856,
+            "caja": {
+              "x": 107,
+              "y": 68,
+              "w": 21,
+              "h": 25
+            },
+            "lado": "derecha"
+          },
+          {
+            "tipo": "escalon",
+            "confianza": 0.7513001761516603,
+            "area": 0.00951010948613442,
+            "caja": {
+              "x": 2,
+              "y": 86,
+              "w": 31,
+              "h": 6
+            },
+            "lado": "izquierda"
+          }
+        ],
+        "ms": 420.4000000357628
+      },
+      {
+        "archivo": "ADE_val_00000198.jpg",
+        "grupo": "escalon",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000198.jpg",
+        "ancho": 129,
+        "alto": 72,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 427.69999998807907
+      },
+      {
+        "archivo": "ADE_val_00000830.jpg",
+        "grupo": "escalon",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000830.jpg",
+        "ancho": 129,
+        "alto": 97,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 424.19999998807907
+      },
+      {
+        "archivo": "ADE_val_00001045.jpg",
+        "grupo": "escalon",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00001045.jpg",
+        "ancho": 129,
+        "alto": 97,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 419.80000001192093
+      },
+      {
+        "archivo": "ADE_val_00000802.jpg",
+        "grupo": "escalon",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000802.jpg",
+        "ancho": 129,
+        "alto": 97,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 417.80000001192093
+      },
+      {
+        "archivo": "ADE_val_00000448.jpg",
+        "grupo": "escalon",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000448.jpg",
+        "ancho": 96,
+        "alto": 129,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 417.80000001192093
+      },
+      {
+        "archivo": "ADE_val_00000074.jpg",
+        "grupo": "negativo",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000074.jpg",
+        "ancho": 129,
+        "alto": 97,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 420.69999998807907
+      },
+      {
+        "archivo": "ADE_val_00001285.jpg",
+        "grupo": "negativo",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00001285.jpg",
+        "ancho": 129,
+        "alto": 93,
+        "tipo": "suelo",
+        "regiones": [
+          {
+            "tipo": "escaleras",
+            "confianza": 0.7117753256769741,
+            "area": 0.002834041843794282,
+            "caja": {
+              "x": 33,
+              "y": 78,
+              "w": 9,
+              "h": 7
+            },
+            "lado": "izquierda"
+          }
+        ],
+        "ms": 407.19999998807907
+      },
+      {
+        "archivo": "ADE_val_00000291.jpg",
+        "grupo": "negativo",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000291.jpg",
+        "ancho": 129,
+        "alto": 89,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 407.89999997615814
+      },
+      {
+        "archivo": "ADE_val_00001397.jpg",
+        "grupo": "negativo",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00001397.jpg",
+        "ancho": 97,
+        "alto": 129,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 405.89999997615814
+      },
+      {
+        "archivo": "ADE_val_00001282.jpg",
+        "grupo": "negativo",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00001282.jpg",
+        "ancho": 129,
+        "alto": 86,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 406.19999998807907
+      },
+      {
+        "archivo": "ADE_val_00001481.jpg",
+        "grupo": "negativo",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00001481.jpg",
+        "ancho": 129,
+        "alto": 97,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 406.4000000357628
+      }
+    ],
+    "recorte": [
+      {
+        "archivo": "ADE_val_00000436.jpg",
+        "grupo": "escaleras",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000436.jpg",
+        "ancho": 683,
+        "alto": 512,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 485.5
+      },
+      {
+        "archivo": "ADE_val_00000567.jpg",
+        "grupo": "escaleras",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000567.jpg",
+        "ancho": 683,
+        "alto": 512,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 407.0999999642372
+      },
+      {
+        "archivo": "ADE_val_00001358.jpg",
+        "grupo": "escaleras",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00001358.jpg",
+        "ancho": 320,
+        "alto": 232,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 404
+      },
+      {
+        "archivo": "ADE_val_00000947.jpg",
+        "grupo": "escaleras",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000947.jpg",
+        "ancho": 683,
+        "alto": 512,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 403.4000000357628
+      },
+      {
+        "archivo": "ADE_val_00001376.jpg",
+        "grupo": "escaleras",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00001376.jpg",
+        "ancho": 683,
+        "alto": 512,
+        "tipo": "suelo",
+        "regiones": [
+          {
+            "tipo": "escaleras",
+            "confianza": 0.7155724906403086,
+            "area": 0.0018027562446167095,
+            "caja": {
+              "x": 0.35620155038759693,
+              "y": 0.3572222222222222,
+              "w": 0.05968992248062015,
+              "h": 0.07222222222222222
+            },
+            "lado": "centro"
+          }
+        ],
+        "ms": 401.69999998807907
+      },
+      {
+        "archivo": "ADE_val_00000218.jpg",
+        "grupo": "escaleras",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000218.jpg",
+        "ancho": 500,
+        "alto": 430,
+        "tipo": "suelo",
+        "regiones": [
+          {
+            "tipo": "escalon",
+            "confianza": 0.8446674792785344,
+            "area": 0.004348987732369985,
+            "caja": {
+              "x": 0.3453488372093023,
+              "y": 0.753883495145631,
+              "w": 0.1193798449612403,
+              "h": 0.05048543689320388
+            },
+            "lado": "centro"
+          },
+          {
+            "tipo": "escaleras",
+            "confianza": 0.7844847050782676,
+            "area": 0.003664107774516445,
+            "caja": {
+              "x": 0.5895348837209302,
+              "y": 0.9242718446601942,
+              "w": 0.14651162790697675,
+              "h": 0.037864077669902914
+            },
+            "lado": "centro"
+          },
+          {
+            "tipo": "escaleras",
+            "confianza": 0.6825985077655676,
+            "area": 0.0011300519304583427,
+            "caja": {
+              "x": 0.6166666666666666,
+              "y": 0.8927184466019418,
+              "w": 0.10310077519379846,
+              "h": 0.018932038834951457
+            },
+            "lado": "centro"
+          }
+        ],
+        "ms": 402.69999998807907
+      },
+      {
+        "archivo": "ADE_val_00000620.jpg",
+        "grupo": "escalon",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000620.jpg",
+        "ancho": 683,
+        "alto": 512,
+        "tipo": "suelo",
+        "regiones": [
+          {
+            "tipo": "escalon",
+            "confianza": 0.7170170148213705,
+            "area": 0.0030568475452196382,
+            "caja": {
+              "x": 0.16085271317829458,
+              "y": 0.8916666666666667,
+              "w": 0.1193798449612403,
+              "h": 0.03611111111111111
+            },
+            "lado": "izquierda"
+          }
+        ],
+        "ms": 403.69999998807907
+      },
+      {
+        "archivo": "ADE_val_00000198.jpg",
+        "grupo": "escalon",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000198.jpg",
+        "ancho": 914,
+        "alto": 512,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 402.89999997615814
+      },
+      {
+        "archivo": "ADE_val_00000830.jpg",
+        "grupo": "escalon",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000830.jpg",
+        "ancho": 683,
+        "alto": 512,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 406.30000001192093
+      },
+      {
+        "archivo": "ADE_val_00001045.jpg",
+        "grupo": "escalon",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00001045.jpg",
+        "ancho": 683,
+        "alto": 512,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 406
+      },
+      {
+        "archivo": "ADE_val_00000802.jpg",
+        "grupo": "escalon",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000802.jpg",
+        "ancho": 683,
+        "alto": 512,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 402.69999998807907
+      },
+      {
+        "archivo": "ADE_val_00000448.jpg",
+        "grupo": "escalon",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000448.jpg",
+        "ancho": 336,
+        "alto": 450,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 403.30000001192093
+      },
+      {
+        "archivo": "ADE_val_00000074.jpg",
+        "grupo": "negativo",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000074.jpg",
+        "ancho": 640,
+        "alto": 480,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 404.9000000357628
+      },
+      {
+        "archivo": "ADE_val_00001285.jpg",
+        "grupo": "negativo",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00001285.jpg",
+        "ancho": 357,
+        "alto": 256,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 404.60000002384186
+      },
+      {
+        "archivo": "ADE_val_00000291.jpg",
+        "grupo": "negativo",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000291.jpg",
+        "ancho": 739,
+        "alto": 512,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 404.5999999642372
+      },
+      {
+        "archivo": "ADE_val_00001397.jpg",
+        "grupo": "negativo",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00001397.jpg",
+        "ancho": 432,
+        "alto": 576,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 404
+      },
+      {
+        "archivo": "ADE_val_00001282.jpg",
+        "grupo": "negativo",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00001282.jpg",
+        "ancho": 450,
+        "alto": 301,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 403.60000002384186
+      },
+      {
+        "archivo": "ADE_val_00001481.jpg",
+        "grupo": "negativo",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00001481.jpg",
+        "ancho": 300,
+        "alto": 225,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 405.69999998807907
+      }
+    ],
+    "directa_descartada": [
+      {
+        "archivo": "ADE_val_00000436.jpg",
+        "grupo": "escaleras",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000436.jpg",
+        "ancho": 129,
+        "alto": 129,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 468.89999997615814
+      },
+      {
+        "archivo": "ADE_val_00000567.jpg",
+        "grupo": "escaleras",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000567.jpg",
+        "ancho": 129,
+        "alto": 129,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 406.5
+      },
+      {
+        "archivo": "ADE_val_00001358.jpg",
+        "grupo": "escaleras",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00001358.jpg",
+        "ancho": 129,
+        "alto": 129,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 404
+      },
+      {
+        "archivo": "ADE_val_00000947.jpg",
+        "grupo": "escaleras",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000947.jpg",
+        "ancho": 129,
+        "alto": 129,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 403.69999998807907
+      },
+      {
+        "archivo": "ADE_val_00001376.jpg",
+        "grupo": "escaleras",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00001376.jpg",
+        "ancho": 129,
+        "alto": 129,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 403.19999998807907
+      },
+      {
+        "archivo": "ADE_val_00000218.jpg",
+        "grupo": "escaleras",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000218.jpg",
+        "ancho": 129,
+        "alto": 129,
+        "tipo": "suelo",
+        "regiones": [
+          {
+            "tipo": "escaleras",
+            "confianza": 0.8336646104463815,
+            "area": 0.028423772609819122,
+            "caja": {
+              "x": 37,
+              "y": 114,
+              "w": 59,
+              "h": 13
+            },
+            "lado": "centro"
+          }
+        ],
+        "ms": 406.19999998807907
+      },
+      {
+        "archivo": "ADE_val_00000620.jpg",
+        "grupo": "escalon",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000620.jpg",
+        "ancho": 129,
+        "alto": 129,
+        "tipo": "suelo",
+        "regiones": [
+          {
+            "tipo": "escalon",
+            "confianza": 0.7262845055924522,
+            "area": 0.002163331530557058,
+            "caja": {
+              "x": 114,
+              "y": 111,
+              "w": 13,
+              "h": 5
+            },
+            "lado": "derecha"
+          }
+        ],
+        "ms": 404.0999999642372
+      },
+      {
+        "archivo": "ADE_val_00000198.jpg",
+        "grupo": "escalon",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000198.jpg",
+        "ancho": 129,
+        "alto": 129,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 406.10000002384186
+      },
+      {
+        "archivo": "ADE_val_00000830.jpg",
+        "grupo": "escalon",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000830.jpg",
+        "ancho": 129,
+        "alto": 129,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 403.80000001192093
+      },
+      {
+        "archivo": "ADE_val_00001045.jpg",
+        "grupo": "escalon",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00001045.jpg",
+        "ancho": 129,
+        "alto": 129,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 405.30000001192093
+      },
+      {
+        "archivo": "ADE_val_00000802.jpg",
+        "grupo": "escalon",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000802.jpg",
+        "ancho": 129,
+        "alto": 129,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 404.19999998807907
+      },
+      {
+        "archivo": "ADE_val_00000448.jpg",
+        "grupo": "escalon",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000448.jpg",
+        "ancho": 129,
+        "alto": 129,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 405.2000000476837
+      },
+      {
+        "archivo": "ADE_val_00000074.jpg",
+        "grupo": "negativo",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000074.jpg",
+        "ancho": 129,
+        "alto": 129,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 403.89999997615814
+      },
+      {
+        "archivo": "ADE_val_00001285.jpg",
+        "grupo": "negativo",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00001285.jpg",
+        "ancho": 129,
+        "alto": 129,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 405.10000002384186
+      },
+      {
+        "archivo": "ADE_val_00000291.jpg",
+        "grupo": "negativo",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00000291.jpg",
+        "ancho": 129,
+        "alto": 129,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 407.80000001192093
+      },
+      {
+        "archivo": "ADE_val_00001397.jpg",
+        "grupo": "negativo",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00001397.jpg",
+        "ancho": 129,
+        "alto": 129,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 405.5
+      },
+      {
+        "archivo": "ADE_val_00001282.jpg",
+        "grupo": "negativo",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00001282.jpg",
+        "ancho": 129,
+        "alto": 129,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 404.0999999642372
+      },
+      {
+        "archivo": "ADE_val_00001481.jpg",
+        "grupo": "negativo",
+        "fuente": "https://huggingface.co/datasets/pictograph/ade-20k/resolve/7689e0b7a96474a96a8044bd4650a3e054296087/valid/0000/ADE_val_00001481.jpg",
+        "ancho": 129,
+        "alto": 129,
+        "tipo": "suelo",
+        "regiones": [],
+        "ms": 406.5
+      }
+    ]
+  }
+}

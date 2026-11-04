@@ -43,7 +43,7 @@ const CamaraGrieta = (() => {
     const clave = JSON.stringify([enViaje(), manual, actual, catalogo().length]);
     if (clave === revisionRuta) return;
     revisionRuta = clave; cambioRuta++; descartarCamion(); anterior = [];
-    ultimaFrase = ''; $('camaraResultado').textContent = ''; $('camaraLectura').textContent = ''; $('camaraRepetir').disabled = true;
+    ultimaFrase = GrietaEscalones.frase; $('camaraResultado').textContent = ''; $('camaraLectura').textContent = ''; $('camaraRepetir').disabled = !ultimaFrase;
     $('camaraRutaPanel').hidden = !enViaje();
     $('camaraObjetivo').hidden = !enViaje();
     $('camaraAyuda').textContent = enViaje() ? 'Apunta al letrero de un camión o de una parada.' : 'Apunta el teléfono frente a ti. Describo algunos objetos y leo letreros en español.';
@@ -66,7 +66,7 @@ const CamaraGrieta = (() => {
     actualizarRuta();
   }
   function guardarCamara() {
-    try { localStorage.setItem('grieta-camara', JSON.stringify({ modelo: modeloActual(), avisos: $('camaraAvisos').checked, enfoque: enViaje() ? 'viaje' : 'entorno' })); } catch {}
+    try { localStorage.setItem('grieta-camara', JSON.stringify({ modelo: modeloActual(), avisos: $('camaraAvisos').checked, enfoque: enViaje() ? 'viaje' : 'entorno', escalones: $('camaraEscalones').checked })); } catch {}
   }
   function abrir() {
     if (viaje()) { $('camaraViaje').checked = true; $('camaraRuta').value = ''; }
@@ -111,10 +111,12 @@ const CamaraGrieta = (() => {
     $('camaraVideo').hidden = !flujo;
     $('camaraDetalle').disabled = activa;
     $('camaraLigero').disabled = activa;
+    $('camaraEscalones').disabled = activa;
   }
   function cerrar(anunciar = false) {
     const estaba = activa;
     activa = false;
+    GrietaEscalones.cerrar();
     ultimoFotograma = -Infinity;
     descartarCamion(); cambioRuta++;
     sesion++;
@@ -168,11 +170,11 @@ const CamaraGrieta = (() => {
     });
   }
   async function preparar(turno, signal) {
-    const r = await fetch(url('activos.json') + '?v=3', { signal });
+    const r = await fetch(url('activos.json') + '?v=4', { signal });
     if (!r.ok) throw Error('descarga');
     const lista = await r.json();
     const elegido = modeloActual() === 'detalle' ? 'efficientdet_lite2' : 'efficientdet_lite0';
-    const activos = lista.filter((a) => !a.ruta.endsWith('.tflite') || a.ruta.endsWith(`${elegido}.tflite`));
+    const activos = lista.filter((a) => a.grupo === 'escalones' ? GrietaEscalones.habilitado() : !a.ruta.endsWith('.tflite') || a.ruta.endsWith(`${elegido}.tflite`));
     const cache = await caches.open(CACHE);
     let completos = 0;
     for (const archivo of activos) {
@@ -211,7 +213,7 @@ const CamaraGrieta = (() => {
       if (!vigente(turno)) return;
       detector = new Worker('vision/detector-worker.js?v=3');
       ocr = new Worker('vision/lector-worker.js?v=3');
-      await Promise.all([pedir(detector, { tipo: 'iniciar', modelo: modeloActual() }, 'listo', signal), pedir(ocr, { tipo: 'iniciar' }, 'listo', signal)]);
+      await Promise.all([pedir(detector, { tipo: 'iniciar', modelo: modeloActual() }, 'listo', signal), pedir(ocr, { tipo: 'iniciar' }, 'listo', signal), GrietaEscalones.preparar(signal, pedir)]);
       if (!vigente(turno)) return;
       informar('Permite usar la cámara para describir lo que apunta el teléfono.');
       const video = await navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } } });
@@ -233,8 +235,8 @@ const CamaraGrieta = (() => {
           descartarCamion();
           $('camaraResultado').textContent = 'Actualizando la descripción con una imagen reciente.';
           $('camaraLectura').textContent = '';
-          ultimaFrase = ''; anterior = []; seguimiento.reiniciar();
-          if (!explorando()) callar(); botones();
+          ultimaFrase = GrietaEscalones.frase; anterior = []; seguimiento.reiniciar();
+          if (!explorando() && !GrietaEscalones.reciente) callar(); botones();
         }
         lento = data.ms > 800 ? lento + 1 : 0;
         const avisoLento = 'Análisis lento: los avisos de vehículos pueden omitirse. Detén la cámara y elige Más ligero.';
@@ -247,12 +249,13 @@ const CamaraGrieta = (() => {
         reloj = setTimeout(() => analizar(turno), GrietaMovimiento.espera(data.ms, calidadActual?.movimiento));
       };
       detector.onerror = () => fallo(turno, 'Falló el reconocimiento local. Detuve la cámara. Vuelve a intentar.');
-      informar('Cámara encendida.');
+      GrietaEscalones.encender($('camaraVideo'), () => calidadActual?.problema);
+      informar(`Cámara encendida. ${GrietaEscalones.activo ? 'Escaleras y escalones: avisos experimentales activos.' : 'Los avisos de escaleras y escalones están desactivados.'}`);
       ultimoAviso = Date.now() - 1000; ultimaLectura = Date.now();
       mantenerPantalla(turno);
       analizar(turno);
     } catch (e) {
-      const texto = e.name === 'NotAllowedError' ? 'No diste permiso para la cámara. Puedes habilitarlo en los permisos del navegador y volver a intentar.'
+      const texto = e.message === 'modelo-escalones' ? 'No pude preparar los avisos de escaleras y escalones. Revisa la conexión o desactívalos antes de iniciar para usar los otros objetos.' : e.name === 'NotAllowedError' ? 'No diste permiso para la cámara. Puedes habilitarlo en los permisos del navegador y volver a intentar.'
         : e.name === 'NotFoundError' ? 'No encontré una cámara en este dispositivo.'
         : e.name === 'QuotaExceededError' ? 'No hay espacio para guardar los modelos en este navegador. Libera espacio y vuelve a intentar.'
         : 'No pude preparar la cámara. Revisa la conexión y vuelve a intentar; las imágenes se analizan en tu teléfono.';
@@ -276,7 +279,7 @@ const CamaraGrieta = (() => {
     const textos = { oscura: 'La imagen está muy oscura. Busca mejor luz si puedes hacerlo con seguridad.', expuesta: 'La imagen está demasiado iluminada. Evita apuntar directamente a la luz.', 'sin-detalle': 'No hay suficiente detalle en la imagen. Revisa que la lente esté descubierta y limpia.' };
     if (repeticiones >= 3 && $('camaraCalidad').textContent !== (textos[problema] ?? '')) {
       $('camaraCalidad').textContent = textos[problema] ?? '';
-      if (textos[problema] && !explorando() && Date.now() - ultimoRiesgo > 6000) { hablar(textos[problema]); ultimoAviso = Date.now(); }
+      if (textos[problema] && !explorando() && !GrietaEscalones.reciente && Date.now() - ultimoRiesgo > 6000) { hablar(textos[problema]); ultimoAviso = Date.now(); }
     }
     if (Date.now() - ultimoRiesgo > 6000) $('camaraAlerta').textContent = '';
     const detectados = GrietaVision.deteccionesValidas(data.detecciones, data.ancho, data.alto);
@@ -344,7 +347,7 @@ const CamaraGrieta = (() => {
   function describir(data) {
     revisarEntorno(data);
     if (calidadActual?.problema) { $('camaraResultado').textContent = ''; return; }
-    if (Date.now() - ultimoRiesgo < 6000) return;
+    if (Date.now() - ultimoRiesgo < 6000 || GrietaEscalones.reciente) return;
     if (enViaje() && $('camaraCamionResultado').textContent && Date.now() - ultimaComparacion < 8000) { $('camaraResultado').textContent = ''; return; }
     const relevantes = enViaje() ? data.detecciones.filter((d) => ['bus', 'traffic light', 'stop sign'].includes(d.categories?.[0]?.categoryName)) : data.detecciones;
     const objetos = GrietaVision.objetos(relevantes, data.ancho, data.alto);
@@ -364,7 +367,7 @@ const CamaraGrieta = (() => {
     narrar(voz);
   }
   async function leerTexto(manual = true) {
-    if (!activa || !ocr || leyendo || (!manual && explorando()) || !$('camaraVideo').videoWidth) return;
+    if (!activa || !ocr || leyendo || (!manual && (explorando() || GrietaEscalones.reciente)) || !$('camaraVideo').videoWidth) return;
     const turno = sesion, revision = cambioRuta;
     const vigenteTexto = () => vigente(turno) && revision === cambioRuta;
     const lector = ocr;
@@ -387,7 +390,7 @@ const CamaraGrieta = (() => {
       if (!mejor) { informar('No pude leer la imagen. Sigue apuntando al letrero para intentar otra lectura.', manual); return; }
       const imagen = mejor.imagen;
       const resultado = await pedir(lector, { tipo: 'leer', pixeles: imagen.data.buffer, ancho: imagen.width, alto: imagen.height }, 'texto', abortar.signal, [imagen.data.buffer]);
-      if (!vigenteTexto()) return;
+      if (!vigenteTexto() || (!manual && GrietaEscalones.reciente)) return;
       const texto = GrietaVision.textoLegible(resultado.datos);
       let frase = '';
       if (texto && (manual || texto !== ultimoTexto)) {
@@ -406,7 +409,7 @@ const CamaraGrieta = (() => {
     finally { if (vigente(turno)) { leyendo = false; botones(); } }
   }
   async function leerCamion(manual = true) {
-    if (!activa || !ocr || leyendo || !enViaje() || (!manual && explorando())) return;
+    if (!activa || !ocr || leyendo || !enViaje() || (!manual && (explorando() || GrietaEscalones.reciente))) return;
     actualizarRuta();
     const turno = sesion, revision = cambioRuta;
     if (!camionVisible || performance.now() - camionVisible.instante > 800 || calidadActual?.problema) {
@@ -436,7 +439,7 @@ const CamaraGrieta = (() => {
         ultimoFotograma = mejor.fotograma;
         const { imagen, instante } = mejor, ref = camionVisible.referencia;
         const datos = await pedir(ocr, { tipo: 'leer', pixeles: imagen.data.buffer, ancho: imagen.width, alto: imagen.height }, 'texto', abortar.signal, [imagen.data.buffer]);
-        if (!vigenteLectura() || ref !== camionVisible.referencia) return;
+        if (!vigenteLectura() || ref !== camionVisible.referencia || (!manual && GrietaEscalones.reciente)) return;
         if (performance.now() - instante > 4000) {
           confirmarCamion.reiniciar(); olvidarComparacion();
           $('camaraCamionResultado').textContent = 'La lectura tardó demasiado. Vuelve a apuntar al letrero.';
@@ -453,7 +456,7 @@ const CamaraGrieta = (() => {
         }
         ultimaFrase = ultimaFraseCamion = resultado.frase;
         const clave = `${identidad}:${resultado.frase}`;
-        if (!explorando() && Date.now() - ultimoRiesgo > 6000 && (clave !== ultimoCamionNarrado || manual)) {
+        if (!explorando() && Date.now() - ultimoRiesgo > 6000 && (manual || !GrietaEscalones.reciente) && (clave !== ultimoCamionNarrado || manual)) {
           narrar(resultado.frase); ultimoCamionNarrado = clave; ultimaComparacion = Date.now();
         }
         break;
@@ -471,10 +474,13 @@ const CamaraGrieta = (() => {
     $('camaraDetalle').checked = guardado.modelo !== 'ligero';
     $('camaraLigero').checked = guardado.modelo === 'ligero';
     $('camaraAvisos').checked = guardado.avisos === true;
+    $('camaraEscalones').checked = guardado.escalones === true;
+    GrietaEscalones.iniciarInterfaz({ hablar, vibrar, alAviso: (texto) => { ultimaFrase = texto; botones(); }, alRetirar: (texto) => { if (ultimaFrase === texto) ultimaFrase = ''; botones(); } });
+    $('camaraEscalones').addEventListener('change', () => { guardarCamara(); GrietaEscalones.preferencia(); });
     $('camaraEntorno').checked = guardado.enfoque === 'entorno';
     $('camaraViaje').checked = guardado.enfoque !== 'entorno';
     for (const id of ['camaraViaje', 'camaraEntorno']) $(id).addEventListener('change', () => {
-      callar(); $('camaraResultado').textContent = ''; $('camaraLectura').textContent = ''; ultimaFrase = ''; actualizarRuta(); guardarCamara(); botones();
+      callar(); $('camaraResultado').textContent = ''; $('camaraLectura').textContent = ''; ultimaFrase = GrietaEscalones.frase; actualizarRuta(); guardarCamara(); botones();
     });
     $('camaraRuta').addEventListener('input', sentidos);
     $('camaraSentidoOpciones').addEventListener('change', actualizarRuta);

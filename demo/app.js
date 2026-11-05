@@ -2257,22 +2257,35 @@ function guardarLugares() {
 }
 const irA = (lugar) => { estado.editando = "hacia"; poner("destino", lugar); };
 
-function hablarCamara(texto, urgente = false) {
-  if (document.body.dataset.pantalla !== "camara" || !camaraConVoz || microfonoActivo || acc.lector === "si" || (guia.activa && window.speechSynthesis?.speaking && !urgente)) return;
-  const voces = window.speechSynthesis?.getVoices() ?? [];
+function prepararVozCamara() {
+  const sintesis = window.speechSynthesis;
+  if (!sintesis || acc.lector === "si") return;
+  // Safari necesita una llamada a speak durante el toque, aunque todavía esté cargando las voces.
+  const inicio = new SpeechSynthesisUtterance("");
+  inicio.volume = 0;
+  sintesis.speak(inicio);
+  sintesis.cancel();
+}
+function hablarCamara(texto, urgente = false, alEmpezar) {
+  if (document.body.dataset.pantalla !== "camara" || !camaraConVoz || microfonoActivo || acc.lector === "si") return;
+  const sintesis = window.speechSynthesis;
+  if (!urgente && (sintesis?.pending || (guia.activa && sintesis?.speaking))) return;
+  const voces = sintesis?.getVoices() ?? [];
   const voz = voces.find((v) => v.localService && v.lang === "es-MX") ?? voces.find((v) => v.localService && v.lang.startsWith("es"));
   $("camaraAudio").textContent = voz ? "" : "Para escuchar sin enviar texto, instala una voz en español en los ajustes de tu teléfono. También puedes usar tu lector de pantalla.";
   if (!voz) return;
-  detenerVoz();
+  if (urgente && (sintesis.speaking || sintesis.pending)) detenerVoz();
   const mensaje = new SpeechSynthesisUtterance(texto);
   mensaje.voice = voz;
   mensaje.lang = voz.lang;
   mensaje.rate = acc.lenta ? 0.8 : 1;
-  speechSynthesis.speak(mensaje);
+  mensaje.onstart = alEmpezar;
+  sintesis.speak(mensaje);
 }
 CamaraGrieta.iniciarInterfaz({
   hablar: hablarCamara,
-  vozOcupada: () => Boolean(window.speechSynthesis?.speaking),
+  prepararVoz: prepararVozCamara,
+  vozOcupada: () => Boolean(window.speechSynthesis?.speaking || window.speechSynthesis?.pending),
   explorando: () => ToquesGrieta.describiendo,
   callar: detenerVoz,
   viaje: () => guia.activa && guia.camion ? { linea: guia.camion.linea, hacia: guia.camion.hacia } : null,

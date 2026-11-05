@@ -7,13 +7,19 @@ function crearCamaraSuelo(config) {
   let opciones = {}, worker, video, calidad, cancelarInicio, sesion = 0, reloj, vigilancia, caduca, muestra, ultimaFrase = '', clave = '', ultimoAviso = -Infinity, ultimoFotograma = -Infinity, vista = 0;
   const escribir = (id, texto) => { if ($(id)) $(id).textContent = texto; };
   const habilitado = () => $(config.casilla)?.checked === true;
+  function informar(texto) {
+    const estado = $(config.estado);
+    if (!estado) return;
+    estado.hidden = texto === config.textos.desactivado || texto === config.textos.activo;
+    estado.textContent = texto;
+  }
   function retirar() {
     clearTimeout(caduca); escribir(config.alerta, '');
     const frase = ultimaFrase; ultimaFrase = clave = '';
     if (frase) opciones.alRetirar?.(frase);
   }
   function preferencia() {
-    if (!worker) escribir(config.estado, habilitado() ? config.textos.espera : config.textos.desactivado);
+    if (!worker) informar(habilitado() ? config.textos.espera : config.textos.desactivado);
   }
   function cerrar() {
     sesion++; cancelarInicio?.abort(); cancelarInicio = null;
@@ -23,7 +29,7 @@ function crearCamaraSuelo(config) {
     preferencia();
   }
   function fallo() {
-    cerrar(); escribir(config.estado, config.textos.fallo); ultimoAviso = Date.now();
+    cerrar(); informar(config.textos.fallo); ultimoAviso = Date.now();
     escribir(config.alerta, config.textos.detenido); opciones.hablar?.(config.textos.fallo, true);
   }
   async function preparar(signal, pedir) {
@@ -32,7 +38,7 @@ function crearCamaraSuelo(config) {
     worker = actual; cancelarInicio = cancelacion;
     const cancelar = () => { if (turno === sesion) cerrar(); };
     signal.addEventListener('abort', cancelar, { once: true });
-    escribir(config.estado, config.textos.preparando);
+    informar(config.textos.preparando);
     try { await pedir(actual, { tipo: 'iniciar' }, 'listo', cancelacion.signal); }
     catch (e) { if (turno !== sesion) throw e; cerrar(); throw Error(config.error); }
     finally { signal.removeEventListener('abort', cancelar); if (cancelarInicio === cancelacion) cancelarInicio = null; }
@@ -68,9 +74,9 @@ function crearCamaraSuelo(config) {
     const ahora = performance.now();
     if (ahora - captura.capturada > 2000 || captura.malaImagen || captura.fotograma <= ultimoFotograma) {
       avisador.reiniciar(); retirar();
-      escribir(config.estado, captura.malaImagen ? config.textos.ilegible : captura.fotograma <= ultimoFotograma ? config.textos.congelado : config.textos.tarde);
+      informar(captura.malaImagen ? config.textos.ilegible : captura.fotograma <= ultimoFotograma ? config.textos.congelado : config.textos.tarde);
     } else {
-      escribir(config.estado, config.textos.activo);
+      informar(config.textos.activo);
       const aviso = avisador.actualizar(data.regiones, { ahora, ...captura });
       if (aviso) {
         retirar(); ultimaFrase = aviso.texto; clave = `${aviso.tipo}:${aviso.lado}`;
@@ -91,7 +97,7 @@ function crearCamaraSuelo(config) {
     const turno = sesion;
     worker.onmessage = ({ data }) => recibir(turno, data);
     worker.onerror = () => { if (turno === sesion) fallo(); };
-    escribir(config.estado, config.textos.activo); analizar(turno);
+    informar(config.textos.activo); analizar(turno);
   }
   function iniciarInterfaz(configuracion) { opciones = configuracion; preferencia(); }
   return { preparar, encender, cerrar, iniciarInterfaz, preferencia, habilitado, get frase() { return ultimaFrase; }, get instante() { return ultimoAviso; }, get activo() { return Boolean(worker && video); }, get reciente() { return Date.now() - ultimoAviso < 6000; } };

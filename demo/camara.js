@@ -9,7 +9,7 @@ const CamaraGrieta = (() => {
   let bloqueo, previa, calidadActual, problemaAnterior = '', repeticiones = 0, ultimoRiesgo = -Infinity, lento = 0;
   const seguimiento = new GrietaSeguimiento.Seguimiento();
   const modeloActual = () => $('camaraDetalle').checked ? 'detalle' : 'ligero';
-  let hablar, callar, paradas, vozOcupada = () => false, explorando = () => false, anterior = [], ultimaFrase = '', ultimoAviso = 0, ultimoTexto = '', ultimoNarrado = '', leyendo = false, ultimaLectura = 0, vacios = 0;
+  let hablar, callar, prepararVoz, paradas, vozOcupada = () => false, explorando = () => false, anterior = [], ultimaFrase = '', ultimoAviso = 0, ultimoTexto = '', ultimoNarrado = '', leyendo = false, ultimaLectura = 0, vacios = 0;
   const lienzo = document.createElement('canvas');
   const contexto = lienzo.getContext('2d', { willReadFrequently: true });
   const lienzoTexto = document.createElement('canvas');
@@ -103,7 +103,9 @@ const CamaraGrieta = (() => {
     try { return typeof navigator.vibrate === 'function' && navigator.vibrate(patron) === true; } catch { return false; }
   }
   function informar(texto, voz = true) {
-    $('camaraEstado').textContent = texto;
+    const estado = $('camaraEstado');
+    estado.textContent = texto;
+    estado.classList.toggle('oculto', texto === 'Cámara encendida.');
     if (voz) hablar(texto);
   }
   function botones() {
@@ -205,6 +207,7 @@ const CamaraGrieta = (() => {
       informar('Este navegador no admite la cámara con reconocimiento local. Prueba Safari o Chrome actualizados.');
       return;
     }
+    prepararVoz?.();
     activa = true;
     const turno = ++sesion;
     ultimaLectura = ultimoAviso = 0;
@@ -213,7 +216,7 @@ const CamaraGrieta = (() => {
     botones();
     $('camara').querySelector('.camara-panel').scrollTop = 0;
     $('camaraDetener').focus();
-    informar('Preparando el reconocimiento en tu teléfono. Puedes detenerlo cuando quieras.');
+    informar('Preparando el reconocimiento en tu teléfono. Puedes detenerlo cuando quieras.', false);
     vigilancia = setTimeout(() => fallo(turno, 'La preparación tardó demasiado. Revisa tu conexión y vuelve a intentar.'), 180000);
     try {
       await preparar(turno, signal);
@@ -222,7 +225,7 @@ const CamaraGrieta = (() => {
       ocr = new Worker('vision/lector-worker.js?v=3');
       await Promise.all([pedir(detector, { tipo: 'iniciar', modelo: modeloActual() }, 'listo', signal), pedir(ocr, { tipo: 'iniciar' }, 'listo', signal), ...suelos.map(s => s.preparar(signal, pedir))]);
       if (!vigente(turno)) return;
-      informar('Permite usar la cámara para describir lo que apunta el teléfono.');
+      informar('Permite usar la cámara para describir lo que apunta el teléfono.', false);
       const video = await navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } } });
       if (!vigente(turno)) { video.getTracks().forEach((p) => p.stop()); return; }
       flujo = video;
@@ -257,8 +260,8 @@ const CamaraGrieta = (() => {
       };
       detector.onerror = () => fallo(turno, 'Falló el reconocimiento local. Detuve la cámara. Vuelve a intentar.');
       suelos.forEach(s => s.encender($('camaraVideo'), () => calidadActual?.problema));
-      informar(`Cámara encendida. ${GrietaEscalones.activo ? 'Escaleras y escalones: avisos experimentales activos.' : 'Los avisos de escaleras y escalones están desactivados.'}${GrietaHoyos.activo ? ' Hoyos: avisos experimentales activos.' : ''}`);
-      ultimoAviso = Date.now() - 1000; ultimaLectura = Date.now();
+      informar('Cámara encendida.', false);
+      ultimaLectura = Date.now();
       mantenerPantalla(turno);
       analizar(turno);
     } catch (e) {
@@ -275,7 +278,7 @@ const CamaraGrieta = (() => {
       const permiso = await navigator.wakeLock.request('screen');
       if (!vigente(turno)) { await permiso.release(); return; }
       bloqueo = permiso;
-    } catch { if (vigente(turno)) $('camaraRendimiento').textContent = 'Mantén esta pantalla abierta; el teléfono puede apagarla.'; }
+    } catch {}
   }
   function revisarEntorno(data) {
     const estado = calidadActual;
@@ -344,13 +347,13 @@ const CamaraGrieta = (() => {
     } catch { imagen?.close(); fallo(turno, 'No pude analizar la imagen. Puedes volver a iniciar la cámara.'); }
     finally { if (vigente(turno)) capturando = false; }
   }
-  function narrar(texto, repetir = false) {
+  function narrar(texto, repetir = false, alEmpezar) {
     if (repetir) {
       const turno = sesion;
       $('camaraLectura').textContent = '';
       requestAnimationFrame(() => { if (vigente(turno)) $('camaraLectura').textContent = texto; });
     } else if (original('camaraLectura') !== texto) $('camaraLectura').textContent = texto;
-    hablar(texto);
+    hablar(texto, false, alEmpezar);
   }
   function describir(data) {
     revisarEntorno(data);
@@ -370,9 +373,11 @@ const CamaraGrieta = (() => {
     const voz = calidadActual.movimiento > .06 && estables.length ? `Parece haber ${estables[0].texto}.` : frase;
     const transcurrido = Date.now() - ultimoAviso;
     if (leyendo || explorando() || Date.now() - ultimaComparacion < 8000 || transcurrido < 2000 || (vozOcupada() && (transcurrido < 3500 || voz === ultimoNarrado)) || (voz === ultimoNarrado && transcurrido < 30000)) return;
-    ultimoNarrado = voz;
     ultimoAviso = Date.now();
-    narrar(voz);
+    const turno = sesion;
+    narrar(voz, false, () => {
+      if (vigente(turno)) ultimoNarrado = voz;
+    });
   }
   async function leerTexto(manual = true) {
     if (!activa || !ocr || leyendo || (!manual && (explorando() || sueloReciente())) || !$('camaraVideo').videoWidth) return;
@@ -412,7 +417,7 @@ const CamaraGrieta = (() => {
         $('camaraResultado').textContent = frase;
         if (manual || !explorando()) narrar(frase);
       }
-      informar('Cámara encendida. Puedes leer otro letrero o detenerla.', false);
+      informar('Cámara encendida.', false);
     } catch { fallo(turno, 'No pude leer la imagen. Detuve la cámara. Puedes volver a intentar.'); }
     finally { if (vigente(turno)) { leyendo = false; botones(); } }
   }
@@ -474,7 +479,7 @@ const CamaraGrieta = (() => {
   }
   function repetir() { if (activa && ultimaFrase) narrar(ultimaFrase, true); }
   function iniciarInterfaz(opciones) {
-    ({ hablar, callar, paradas } = opciones);
+    ({ hablar, callar, prepararVoz, paradas } = opciones);
     vozOcupada = opciones.vozOcupada ?? (() => false);
     explorando = opciones.explorando ?? (() => false);
     viaje = opciones.viaje ?? (() => null); rutas = opciones.rutas ?? (() => []);

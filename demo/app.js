@@ -951,6 +951,12 @@ function criteriosViaje(r) {
 const precioOpcionTexto = (o) => { const rango = rangoOpcion(o); return rango ? `aprox. ${rangoTexto(rango)}` : pesos(o.costo); };
 const precioOpcionVoz = (o) => { const rango = rangoOpcion(o); return rango ? `precio estimado ${rangoVoz(rango)}` : `${Math.round(o.costo)} pesos`; };
 
+// CO₂ que emitiría un auto en el mismo viaje. 135.7 g/km es la meta para autos nuevos de pasajeros (año 2016)
+// de la NOM-163-SEMARNAT-ENER-SCFI-2013: los autos que circulan emiten más, así que la cifra se queda corta.
+const CO2_AUTO_G_KM = 135.7;
+const sinAuto = (o) => o.tipo !== "app" && !o.pasos?.some((p) => p.tipo === "app");
+const co2Auto = (km) => km * CO2_AUTO_G_KM;
+const kgTexto = (g) => `${(g / 1000).toFixed(g < 9950 ? 1 : 0)} kg`;
 function pintarOpciones(r) {
   titulos.opciones = `A ${estado.destino.nombre}`;
   if (document.body.dataset.pantalla === "opciones") $("tituloPantalla").textContent = titulos.opciones;
@@ -988,12 +994,13 @@ function pintarOpciones(r) {
     const mas = enApp ? Math.round(o.minutos - enApp.minutos) : 0;
     const ahorroTexto = ahorro >= 5 ? `Ahorras aprox. ${pesos(ahorro)}${mas > 0 ? ` · ${mas} min más que en app` : ""}` : "";
     const contra = ahorroTexto ? `<span class="ahorro">${ahorroTexto}</span>` : "";
+    const co2 = sinAuto(o) ? `En auto emitiría al menos ${kgTexto(co2Auto(r.directo.km))} de CO₂` : "";
     const rango = rangoOpcion(o);
     return `<button type="button" class="tarjeta${etiquetas.includes("Recomendado") ? " principal" : ""}" data-i="${i}"
-      aria-label="${escapar(`${etiquetas.join(" y ")}. ${tituloOpcion(o)}. ${pie.join(". ")}. ${precioOpcionVoz(o)}. ${ahorroTexto}`)}">
+      aria-label="${escapar(`${etiquetas.join(" y ")}. ${tituloOpcion(o)}. ${pie.join(". ")}. ${precioOpcionVoz(o)}. ${ahorroTexto}${co2 ? `. ${co2}` : ""}`)}">
       ${fichaOpcion(o)}
       <span class="fila-texto"><span class="etiqueta">${etiquetas.join(" · ")}</span>
-        <strong>${escapar(tituloOpcion(o))}</strong><small>${pie.join(" · ")}</small>${contra}</span>
+        <strong>${escapar(tituloOpcion(o))}</strong><small>${pie.join(" · ")}</small>${contra}${co2 ? `<small class="co2">${co2}</small>` : ""}</span>
       <span class="precio${rango ? " precio-rango" : ""}">${rango ? `<small class="precio-nota">Aprox.</small>${partesRango(rango)}` : pesos(o.costo)}</span>${ico("chevron", "chevron")}
     </button>`;
   }).join("");
@@ -1208,6 +1215,8 @@ function pintarDetalle(sinMapa) {
   $("detalleEtiqueta").textContent = etiqueta === "Recomendado" ? "Ruta recomendada" : etiqueta;
   $("detalleCifra").textContent = `${Math.round(o.minutos)} min · ${precioOpcionTexto(o)}`;
   $("detalleLlegada").innerHTML = `Llegas <strong>${hora(llegada(o))}</strong>`;
+  $("detalleCo2").hidden = !sinAuto(o);
+  if (sinAuto(o)) $("co2Auto").textContent = `Al menos ${kgTexto(co2Auto(estado.r.directo.km))}`;
   $("pasos").innerHTML = pasosDe(o).map((p, i) => `<li class="${p.camion ? "camion" : ""}">
     ${miniFicha(p.ficha[0], picto(p.ficha[1]))}
     <span class="fila-texto"><strong>${escapar(p.titulo)}</strong><small>${escapar(cruce(p.nota))}</small></span>
@@ -2255,7 +2264,8 @@ function registrarViaje(o) {
   // Historial sin juntar repetidos: de aqui salen la rutina y lo ahorrado. Solo en el telefono.
   const app = Math.min(...estado.r.directo.porApp.map((x) => x.precio));
   const ahorro = o.tipo === "app" ? 0 : Math.max(0, Math.round(app - o.costo));
-  historial = [{ nombre: d.nombre, lat: d.lat, lon: d.lon, fecha: new Date().toISOString(), ahorro }].concat(historial).slice(0, 80);
+  const co2 = sinAuto(o) ? Math.round(co2Auto(estado.r.directo.km)) : 0;
+  historial = [{ nombre: d.nombre, lat: d.lat, lon: d.lon, fecha: new Date().toISOString(), ahorro, co2 }].concat(historial).slice(0, 80);
   escribir("grieta-historial", historial);
 }
 let historial = leer("grieta-historial", []);
@@ -2296,10 +2306,17 @@ $("vozRutina").addEventListener("click", () => { hablar(frase("vamos_lugar", { l
 function pintarAhorro() {
   // Mes en hora local: en UTC el ultimo dia del mes en la noche ya cuenta como el siguiente.
   const hoy = new Date();
-  const total = historial.filter((h) => { const f = new Date(h.fecha); return f.getFullYear() === hoy.getFullYear() && f.getMonth() === hoy.getMonth(); })
-    .reduce((s, h) => s + (h.ahorro || 0), 0);
-  $("ahorroMes").hidden = total < 1;
-  $("ahorroMes").innerHTML = `<strong>${pesos(total)} de ahorro estimado</strong> este mes frente al precio esperado en app.`;
+  const delMes = historial.filter((h) => { const f = new Date(h.fecha); return f.getFullYear() === hoy.getFullYear() && f.getMonth() === hoy.getMonth(); });
+  const total = delMes.reduce((s, h) => s + (h.ahorro || 0), 0);
+  const co2 = delMes.reduce((s, h) => s + (h.co2 || 0), 0);
+  // Una meta de CO₂ se dice una sola vez, la primera vez que el inicio la muestra.
+  const acumulado = historial.reduce((s, h) => s + (h.co2 || 0), 0);
+  const meta = [100, 50, 25, 10, 5, 1].find((kg) => acumulado >= kg * 1000);
+  const nuevaMeta = meta && meta > leer("grieta-meta-co2", 0) ? meta : null;
+  if (nuevaMeta) { escribir("grieta-meta-co2", nuevaMeta); hablar(`Llevas ${nuevaMeta} kilos de CO₂ que no emitió un auto.`); }
+  $("ahorroMes").hidden = total < 1 && co2 < 100 && !nuevaMeta;
+  $("ahorroMes").innerHTML = [nuevaMeta && `<span class="meta-co2">Llevas ${nuevaMeta} kg de CO₂ que no emitió un auto.</span>`, total >= 1 && `<strong>${pesos(total)} de ahorro estimado</strong> este mes frente al precio esperado en app.`,
+    co2 >= 100 && `<strong>Al menos ${kgTexto(co2)} de CO₂</strong> que no emitió un auto.`].filter(Boolean).join(" ");
 }
 function fechaViaje(iso) {
   const f = new Date(iso);

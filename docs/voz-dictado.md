@@ -7,16 +7,31 @@ salvo que se use lector; elegir uso visual la detiene. Escuchar bien no activa v
 El interruptor de Ajustes y estos accesos guardan la elección explícita.
 
 Durante preparación y escucha del micrófono se cancelan voz/colas y se bloquean
-narración y anuncios de estado de toques. El micrófono espera 650 ms; el tono ocurre
-en `onstart`. El resultado se procesa después de `onend`, con el micrófono cerrado.
-Cambiar de pantalla cancela captura y arranque pendiente; otra captura invalida
-consultas anteriores. Un resultado viejo no elige un destino después de salir.
+narración y anuncios de estado de toques. El dictado no llama a `vibrar` ni genera
+un oscilador de audio: no añade pitido ni tono al sonido que pueda dar el sistema.
+En reposo solicita reconocimiento en el mismo evento, sin la espera fija de 650 ms.
+Solo deja hasta 120 ms de resguardo cuando acaba de cancelar voz que estaba sonando.
 
-La prueba con reconocimiento simulado reproduce la narración tardía que contaminaba
-el dictado. Comprueba que solo «Jardín Zenea» llega al campo, que no se habla durante
-captura y que cancelar no abre después el micrófono. No utiliza micrófono ni voces
-remotas reales. La función de dictado del navegador conserva su servicio habitual;
-esto no convierte el reconocimiento de voz en procesamiento local.
+Un resultado final limpia el estado visual y solicita `abort()` inmediatamente,
+sin esperar `onend`. El texto y la consulta se procesan en ese momento; la respuesta
+hablada espera a que termine el audio o a un resguardo máximo de 250 ms tras abortar.
+Ese resguardo no retrasa el campo, la búsqueda ni la selección de destino. Al detectar
+fin de habla, solicita `stop()` para recuperar el resultado final. Los intermedios
+no eligen destinos. Un segundo toque en el dictado activo cancela la captura.
+
+Elegir un resultado, escribir o cambiar pantalla/ocultar la app invalida dictados
+anteriores. Elegir un lugar corta la captura antes de esperar la ruta por red.
+Una actualización automática del origen por GPS no cancela un dictado en curso.
+Tras dictar, la consulta omite el debounce de 350 ms de escritura y la espera por
+sondeo de 400 ms; los lugares conocidos aparecen antes de esperar al servidor.
+La lectura de resultados se dispara con la respuesta de búsqueda y descarta consultas
+anteriores, sin temporizador de sondeo. El servicio de reconocimiento y la red
+pueden seguir tardando; no hay promesa de tiempo mínimo del sistema ni de hardware.
+
+Las pruebas con reconocimiento simulado comprueban cierre nativo retrasado 1.5 s,
+selección con una ruta que no responde, ausencia de oscilador, consulta inmediata,
+voz sin eco, resultados intermedios/viejos y cancelación. La función del navegador
+conserva su servicio habitual; esto no convierte el dictado en procesamiento local.
 
 Camiones cerca actualiza GPS con `maximumAge: 0`, indica precisión aproximada y ofrece
 Actualizar ubicación. Si falla, usa un punto manual identificado o pide elegir uno;
@@ -32,7 +47,7 @@ Qrobus en Paseos de Zákia. La parada pública 5154, Cto. Universidades / Lycée
 International Jules Verne, sí está en el archivo. No se dedujeron coordenadas de
 capturas, no se inventaron horarios y no se añadió ubicación de ninguna persona.
 
-Pruebas: `voz-dictado.cjs`, `paradas-interfaz.cjs`, `paradas.test.cjs` y
+Pruebas: `dictado-respuesta.cjs`, `voz-dictado.cjs`, `paradas-interfaz.cjs`, `paradas.test.cjs` y
 `paradas-navegador.cjs`, además de regresiones de cámara/toques/tutorial/precios.
 No verificado: audio real de iPhone, voz del lector del sistema entrando al micrófono,
 la caminata real ni las otras paradas de la captura. Un bloqueo transitorio de cámara

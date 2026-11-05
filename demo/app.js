@@ -98,7 +98,9 @@ let vozGrieta = null;
 let microfonoActivo = false;
 let dictadoActual = null;
 let inicioDictado;
-let esperaDictado, revisionDictado = 0;
+let revisionDictado = 0, dictadoIniciado = false, ultimaVozDetenida = -Infinity;
+const cierresDictado = new Set();
+let respuestaDictado = null;
 let audio;
 let ultimoMensaje = null;
 let grabacion = null;
@@ -206,7 +208,7 @@ const PANTALLAS = {
 const titulos = { buscar: "Buscar", camiones: "Camiones cerca", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
 
 function mostrar(nombre) {
-  if (microfonoActivo) cancelarDictado();
+  if (dictadoActual) cancelarDictado();
   ToquesGrieta.reiniciar();
   const conf = PANTALLAS[nombre];
   if (nombre !== "camara") CamaraGrieta.cerrar();
@@ -301,6 +303,7 @@ const DECIR = [[/\s*\/\s*/g, " y "], [/\bBlvd\./g, "bulevar"], [/\bAv\./g, "aven
 // Lo urgente interrumpe lo que se esta diciendo; lo secundario espera su turno.
 // Con la voz de Grieta apagada, lo que no se ve en pantalla se le pasa al lector de pantalla del telefono.
 function detenerVoz() {
+  if (grabacion || window.speechSynthesis?.speaking || window.speechSynthesis?.pending) ultimaVozDetenida = performance.now();
   turnoVoz++;
   grabacion?.pause();
   grabacion = null;
@@ -428,7 +431,8 @@ const avisar = (texto) => { $("estado").textContent = texto; };
 const dentroDeQueretaro = (lat, lon) => Grieta.metros(lat, lon, QUERETARO[0], QUERETARO[1]) / 1000 <= RADIO_KM;
 const esGps = (l) => l?.nombre === "Tu ubicación";
 
-function poner(cual, lugar) {
+function poner(cual, lugar, sinNavegar = false) {
+  if (cual === "destino") cancelarDictado();
   estado[cual] = lugar;
   if (cual === "destino" && estado.guardarComo) {
     const nombre = estado.guardarComo;
@@ -442,6 +446,7 @@ function poner(cual, lugar) {
     $("desdeTexto").textContent = `Desde ${esGps(lugar) ? "tu ubicación" : lugar.nombre}`;
     $("cambiarDesde").textContent = "Cambiar";
   }
+  if (sinNavegar) return;
   estado.editando = "hacia";
   if (estado.origen && estado.destino) return trazar();
   const enBuscar = document.body.dataset.pantalla === "buscar";
@@ -468,7 +473,7 @@ function ubicar(alTerminar, fresca = false) {
       if (!dentroDeQueretaro(coords.latitude, coords.longitude)) return sinUbicacion("Estás fuera de Querétaro.", alTerminar);
       estado.gps = { nombre: "Tu ubicación", lat: coords.latitude, lon: coords.longitude, precision: coords.accuracy, instante: Date.now() };
       if (!estado.origen) {
-        poner("origen", estado.gps);
+        poner("origen", estado.gps, document.body.dataset.pantalla === "buscar");
         mapa.setView([coords.latitude, coords.longitude], 15);
       }
       alTerminar?.(true);
@@ -525,7 +530,7 @@ function conDistancia(l) {
 }
 
 let espera;
-function sugerir(texto) {
+function sugerir(texto, alCompletar = null) {
   clearTimeout(espera);
   const lista = $("resultados");
   const vacio = texto.trim().length < 3;
@@ -548,7 +553,12 @@ function sugerir(texto) {
     estado.resultados = propios.concat(res).slice(0, 8);
     estado.buscado = true;
     lista.innerHTML = (estado.resultados.length ? estado.resultados.map((l, i) => filaLugar(l, i)).join("") : `<li class="vacio">${vacio}</li>`) + filaMapa();
+    alCompletar?.(estado.resultados);
   };
+  if (alCompletar && propios.length) {
+    estado.resultados = propios.slice(0, 8);
+    lista.innerHTML = estado.resultados.map((l, i) => filaLugar(l, i)).join("") + filaMapa();
+  }
   espera = setTimeout(async () => {
     const c = cerca() ?? { lat: QUERETARO[0], lon: QUERETARO[1] };
     const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(texto)}&lat=${c.lat}&lon=${c.lon}&limit=6&bbox=-100.65,20.4,-100.15,20.9`;
@@ -561,7 +571,7 @@ function sugerir(texto) {
       }))),
       texto.trim().length >= 4 ? llamar(`/buscar?q=${encodeURIComponent(texto.trim())}&lat=${c.lat}&lon=${c.lon}`) : Promise.resolve([]),
     ]);
-    if (texto !== $("campoBuscar").value && $("campoBuscar").value) return;
+    if (texto !== $("campoBuscar").value) return;
     const listas = [azure.status === "fulfilled" ? azure.value : [], osm.status === "fulfilled" ? osm.value : []];
     // Se alternan los dos y se quita un lugar si ya hay otro a menos de 80 m.
     const res = [];
@@ -574,7 +584,7 @@ function sugerir(texto) {
       return pintarResultados([], "No hay conexión con el buscador. Elige un lugar guardado o elígelo en el mapa.");
     }
     pintarResultados(res, `No encontré "${escapar(texto)}". Prueba con la calle y la colonia, o elígelo en el mapa.`);
-  }, 350);
+  }, alCompletar ? 0 : 350);
 }
 // El buscador de mapas no conoce todos los negocios y oficinas: siempre queda la opcion de elegir el punto.
 function filaMapa(buscando = true) {
@@ -597,6 +607,7 @@ function elegirEnMapa() {
 $("usarPunto").addEventListener("click", () => {
   const lugar = estado.puntoMapa;
   if (!lugar) return;
+  cancelarDictado();
   capas.punto?.remove();
   const cual = estado.eligiendo;
   estado.eligiendo = null;
@@ -608,6 +619,7 @@ $("usarPunto").addEventListener("click", () => {
 
 function elegir(lugar) {
   if (!lugar) return;
+  cancelarDictado();
   guardarReciente(lugar);
   poner(estado.editando === "desde" ? "origen" : "destino", lugar);
 }
@@ -620,7 +632,7 @@ $("recientes").addEventListener("click", (e) => {
   const b = e.target.closest("button");
   if (b) elegir(recientes[b.dataset.i]);
 });
-$("campoBuscar").addEventListener("input", (e) => sugerir(e.target.value));
+$("campoBuscar").addEventListener("input", (e) => { cancelarDictado(); sugerir(e.target.value); });
 $("campoBuscar").addEventListener("keydown", (e) => {
   if (e.key === "Enter" && estado.resultados?.length && e.target.value.trim().length >= 3) elegir(estado.resultados[0]);
 });
@@ -1598,75 +1610,107 @@ $("dondeGuia").addEventListener("click", () => dondeEstoy("guia"));
 
 // Dictar: llena el buscador, busca y lee las primeras opciones.
 const Reconocer = window.SpeechRecognition || window.webkitSpeechRecognition;
-function cancelarDictado() {
-  revisionDictado++; clearInterval(esperaDictado);
+function actualizarMicrofono() {
+  microfonoActivo = Boolean(dictadoActual || cierresDictado.size);
+  if (microfonoActivo || !respuestaDictado) return;
+  const pendiente = respuestaDictado; respuestaDictado = null;
+  if (pendiente.revision === revisionDictado) hablar(pendiente.mensaje);
+}
+function hablarAlCerrarDictado(mensaje) {
+  if (!microfonoActivo) return hablar(mensaje);
+  respuestaDictado = { mensaje, revision: revisionDictado };
+}
+function terminarDictado(rec, abortar = true) {
+  if (dictadoActual !== rec) return;
   clearTimeout(inicioDictado);
-  const anterior = dictadoActual; dictadoActual = null; microfonoActivo = false;
-  try { anterior?.abort(); } catch {}
-  document.querySelectorAll('.dictar.oyendo').forEach(b => { b.classList.remove('oyendo'); b.setAttribute('aria-pressed', 'false'); });
+  const iniciado = dictadoIniciado;
+  dictadoActual = null; dictadoIniciado = false;
+  document.querySelectorAll('.dictar.oyendo, #vozDestino.oyendo').forEach(b => { b.classList.remove('oyendo'); b.setAttribute('aria-pressed', 'false'); });
+  $("respuestaVoz").textContent = '';
   $("respuestaVoz").setAttribute('aria-live', 'polite');
+  rec.onstart = rec.onresult = rec.onerror = rec.onspeechend = null;
+  if (iniciado && abortar) {
+    cierresDictado.add(rec);
+    let limite;
+    const liberar = () => { clearTimeout(limite); cierresDictado.delete(rec); actualizarMicrofono(); };
+    rec.onaudioend = rec.onend = liberar;
+    // abort() corta la captura; la pausa breve solo protege el retorno de la voz.
+    limite = setTimeout(liberar, 250);
+    try { rec.abort(); } catch { liberar(); }
+  } else rec.onaudioend = rec.onend = null;
+  actualizarMicrofono();
+}
+function cancelarDictado() {
+  revisionDictado++; respuestaDictado = null;
+  if (dictadoActual) terminarDictado(dictadoActual);
 }
 function procesarDictado(texto, revision) {
-    const dicho = sinAcentos(texto).replace(/^(a|al|a la|hacia|llevame a|ir a)\s+/, "");
-    const guardado = guardados.find((g) => sinAcentos(g.nombre) === dicho);
-    if (guardado) {
-      hablar(frase("vamos_lugar", { lugar: guardado.nombre }));
-      estado.editando = "hacia";
-      return poner("destino", guardado);
+  const dicho = sinAcentos(texto).replace(/^(a|al|a la|hacia|llevame a|ir a)\s+/, "");
+  const guardado = guardados.find(g => sinAcentos(g.nombre) === dicho);
+  if (guardado) {
+    estado.editando = "hacia";
+    poner("destino", guardado);
+    return hablarAlCerrarDictado(frase("vamos_lugar", { lugar: guardado.nombre }));
+  }
+  if (document.body.dataset.pantalla !== "buscar") abrirBuscar("hacia");
+  $("campoBuscar").value = texto;
+  estado.resultados = null; estado.buscado = false;
+  if (texto.length < 3) {
+    avisar(textoFrase(frase("no_escuche")));
+    return hablarAlCerrarDictado(frase("no_escuche"));
+  }
+  sugerir(texto, res => {
+    if (revision !== revisionDictado || document.body.dataset.pantalla !== "buscar" || $("campoBuscar").value !== texto) return;
+    if (acc.modoVoz && res.length) {
+      const mensaje = [frase("vamos_lugar", { lugar: res[0].nombre }), " Si no es, regresa y vuelve a decirlo."];
+      elegir(res[0]);
+      return hablarAlCerrarDictado(mensaje);
     }
-    if (document.body.dataset.pantalla !== "buscar") abrirBuscar("hacia");
-    $("campoBuscar").value = texto;
-    estado.resultados = null;
-    estado.buscado = false;
-    sugerir(texto);
-    let intentos = 0;
-    const leerRes = esperaDictado = setInterval(() => {
-      if (revision !== revisionDictado || document.body.dataset.pantalla !== "buscar" || $("campoBuscar").value !== texto) return clearInterval(leerRes);
-      if (!estado.buscado && ++intentos < 12) return;
-      clearInterval(leerRes);
-      const res = estado.resultados ?? [];
-      if (acc.modoVoz && res.length) {
-        hablar([frase("vamos_lugar", { lugar: res[0].nombre }), " Si no es, regresa y vuelve a decirlo."]);
-        return elegir(res[0]);
-      }
-      hablar(res.length
-        ? `Encontré ${res.length} lugares. ` + res.slice(0, 3).map((l, i) => `${i + 1}: ${l.nombre}${l.detalle ? ", " + l.detalle : ""}.`).join(" ") + " Elige uno de la lista."
-        : `No encontré ${texto}. Intenta con otro nombre.`);
-    }, 400);
-
+    hablarAlCerrarDictado(res.length
+      ? `Encontré ${res.length} lugares. ` + res.slice(0, 3).map((l, i) => `${i + 1}: ${l.nombre}${l.detalle ? ", " + l.detalle : ""}.`).join(" ") + " Elige uno de la lista."
+      : `No encontré ${texto}. Intenta con otro nombre.`);
+  });
 }
 function dictar(boton) {
+  const detener = dictadoActual && boton.classList.contains('oyendo');
   cancelarDictado();
-  const rec = new Reconocer();
-  dictadoActual = rec; microfonoActivo = true;
-  const revision = revisionDictado;
-  let texto = '', error = false;
-  rec.lang = "es-MX";
+  if (detener) return;
+  const rec = new Reconocer(), revision = revisionDictado;
+  dictadoActual = rec; actualizarMicrofono();
+  rec.lang = "es-MX"; rec.continuous = false; rec.interimResults = false; rec.maxAlternatives = 1;
   boton.classList.add("oyendo"); boton.setAttribute("aria-pressed", "true");
   $("respuestaVoz").setAttribute('aria-live', 'off');
   detenerVoz();
-  if (acc.modoVoz) $("respuestaVoz").textContent = "Espera el tono y di a dónde vas.";
-  rec.onstart = () => { if (dictadoActual === rec) vibrar([120]); };
-  rec.onresult = e => {
+  if (acc.modoVoz) $("respuestaVoz").textContent = "Di a dónde vas.";
+  rec.onspeechend = () => {
     if (dictadoActual !== rec) return;
-    texto = e.results[0][0].transcript;
+    boton.classList.remove("oyendo"); boton.setAttribute("aria-pressed", "false");
     try { rec.stop(); } catch {}
   };
-  rec.onerror = e => { if (dictadoActual === rec && e.error !== 'aborted') error = true; };
-  rec.onend = () => {
+  rec.onresult = e => {
     if (dictadoActual !== rec) return;
-    dictadoActual = null; microfonoActivo = false;
-    boton.classList.remove("oyendo"); boton.setAttribute("aria-pressed", "false");
-    $("respuestaVoz").textContent = ''; $("respuestaVoz").setAttribute('aria-live', 'polite');
-    if (texto.trim()) procesarDictado(texto.trim(), revision);
-    else if (error) { avisar(textoFrase(frase("no_escuche"))); hablar(frase("no_escuche")); }
+    const texto = Array.from(e.results).filter(r => r.isFinal).map(r => r[0]?.transcript ?? '').join(' ').trim();
+    if (!texto) return;
+    terminarDictado(rec);
+    procesarDictado(texto, revision);
   };
-  inicioDictado = setTimeout(() => {
+  rec.onerror = e => {
     if (dictadoActual !== rec) return;
-    detenerVoz();
-    try { rec.start(); } catch { error = true; rec.onend(); }
-  }, 650);
+    terminarDictado(rec);
+    if (e.error !== 'aborted') { avisar(textoFrase(frase("no_escuche"))); hablarAlCerrarDictado(frase("no_escuche")); }
+  };
+  rec.onend = () => { if (dictadoActual === rec) terminarDictado(rec, false); };
+  const iniciar = () => {
+    if (dictadoActual !== rec) return;
+    const espera = Math.max(0, 120 - (performance.now() - ultimaVozDetenida));
+    if (espera || cierresDictado.size) { inicioDictado = setTimeout(iniciar, Math.max(16, espera)); return; }
+    dictadoIniciado = true;
+    try { rec.start(); } catch { rec.onerror({ error: 'inicio' }); }
+  };
+  iniciar();
 }
+document.addEventListener('visibilitychange', () => { if (document.hidden) cancelarDictado(); });
+addEventListener('pagehide', cancelarDictado);
 if (Reconocer) {
   for (const b of document.querySelectorAll(".dictar")) {
     b.hidden = false;

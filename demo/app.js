@@ -1389,6 +1389,7 @@ function recolorear() {
 const iconoParada = (cerca) => L.divIcon({ className: "", iconSize: cerca ? [38, 38] : [30, 30],
   html: `<span class="parada-mapa${cerca ? " cerca" : ""}">${ico("camion")}</span>` });
 // Las paradas en el mapa: tu ubicacion, la mas cercana resaltada con el camino a pie y las demas; tocar una baja a sus camiones.
+let encuadreParadas = null;
 function pintarParadas(punto, lista, seleccionada = false) {
   capas.paradas?.remove();
   const marcas = lista.map((x, i) => {
@@ -1402,7 +1403,12 @@ function pintarParadas(punto, lista, seleccionada = false) {
   });
   const aPie = L.polyline([[punto.lat, punto.lon], [lista[0].lat, lista[0].lon]], { color: tono("--tinta"), weight: 3, dashArray: "1 7", lineCap: "round" });
   capas.paradas = L.featureGroup([aPie, ...marcas]).addTo(mapa);
-  setTimeout(() => encuadrar(capas.paradas.getBounds()), 120);
+  // Se encuadra tu camino a la parada sugerida, y solo cuando cambia, para que el mapa no brinque.
+  const clave = `${punto.lat},${punto.lon},${lista[0].lat},${lista[0].lon}`;
+  if (clave !== encuadreParadas) {
+    encuadreParadas = clave;
+    setTimeout(() => encuadrar(L.latLngBounds([[punto.lat, punto.lon], [lista[0].lat, lista[0].lon]])), 120);
+  }
   const revision = revisionCamiones;
   seguirCalles(aPie).then(c => {
     if (revision === revisionCamiones && document.body.dataset.pantalla === 'camiones' && estado.listaCamiones?.[0] === lista[0]) ponerCaminata(lista[0], c?.metros, seleccionada);
@@ -1430,6 +1436,7 @@ $("pasanAqui").addEventListener("click", () => abrirCamiones());
 function abrirCamiones() {
   const revision = ++revisionCamiones;
   estado.recomendacionAnunciada = null;
+  encuadreParadas = null;
   ir("camiones");
   const caja = $("camionesContenido");
   caja.innerHTML = `<p class="texto">Actualizando tu ubicación…</p>`;
@@ -1454,7 +1461,7 @@ function abrirCamiones() {
 $("actualizarParadas").addEventListener('click', abrirCamiones);
 function cargarCamiones(punto) {
   const caja = $("camionesContenido");
-  const lista = Grieta.paradasCercanas(punto.lat, punto.lon, 1000, 8).map(p => ({ ...p, lineas: Grieta.horariosParadaPorIndice(p.i, hoyDia(), ahoraMin()) }));
+  const lista = Grieta.paradasCercanas(punto.lat, punto.lon, 1000, 3).map(p => ({ ...p, lineas: Grieta.horariosParadaPorIndice(p.i, hoyDia(), ahoraMin()) }));
   if (!lista.length) {
     caja.innerHTML = `<p class="texto">No encontré paradas en el catálogo a menos de un kilómetro. Puede haber otras paradas que todavía no aparecen aquí.</p>`;
     return hablar("No encontré paradas en el catálogo a menos de un kilómetro. Puede haber otras paradas que todavía no aparecen aquí.");
@@ -1558,7 +1565,6 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
       <p class="nota" id="caminaParada">${p.caminado ? `Camina ${minutosCaminando(p.caminado)} min` : "Calculando el camino a pie..."}</p>
     </div>
     <button id="irParada" type="button" class="boton oscuro">${ico("ruta")}Ver cómo llegar a la parada</button>
-    <p class="nota">Comparamos hasta ocho paradas del catálogo. Puede haber otras paradas que todavía no aparecen aquí.</p>
     <h2>Próximos camiones</h2>
     ${filas(p)}
     <h2>Avisos de la parada</h2>

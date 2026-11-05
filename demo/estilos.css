@@ -653,7 +653,11 @@ button:active, .boton:active, .chip:active, .tarjeta:active, .app-fila:active, .
 /* A que hora salgo */
 .llegar .campo input { font-size: 1.2rem; }
 .salida-opcion { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--linea); }
-.salida-opcion .hora-salida { font-size: 1.5rem; font-weight: 800; margin: 2px 0 4px; }
+.salida-cabeza { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
+.salida-cabeza .mini-ficha { width: 48px; height: 48px; flex: none; }
+.salida-cabeza .mini-ficha .picto { width: 26px; height: 26px; }
+.salida-cabeza .etiqueta { margin: 0; }
+.salida-opcion .hora-salida { font-size: 1.5rem; font-weight: 800; margin: 2px 0 0; }
 .salida-opcion .boton { margin-top: 10px; }
 
 /* Rutina y ahorro en el inicio */

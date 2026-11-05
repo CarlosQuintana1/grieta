@@ -886,7 +886,7 @@ function tituloOpcion(o) {
 }
 const caminata = (o) => Math.round((o.pasos ?? []).filter((p) => p.tipo === "caminar").reduce((s, p) => s + p.min, 0));
 // Solo camion lleva el camion en anil; si combina con app, el auto en verde
-const fichaOpcion = (o) => (o.pasos?.some((p) => p.tipo === "app") ? miniFicha("tono-hospital", picto("app")) : miniFicha("tono-anil", picto("qrobus")));
+const fichaOpcion = (o) => (o.tipo === "app" || o.pasos?.some((p) => p.tipo === "app") ? miniFicha("tono-hospital", picto("app")) : miniFicha("tono-anil", picto("qrobus")));
 
 // Maximo tres caminos con camion: el mas barato, el mas rapido y uno equilibrado si es distinto.
 // El viaje solo en app no lleva tarjeta: ya tiene su seccion con el precio de cada app.
@@ -994,7 +994,7 @@ function pintarOpciones(r) {
     const ahorro = appBarata.precio - o.costo;
     const mas = enApp ? Math.round(o.minutos - enApp.minutos) : 0;
     const ahorroTexto = ahorro >= 5 ? `Ahorras aprox. ${pesos(ahorro)}${mas > 0 ? ` · ${mas} min más que en app` : ""}` : "";
-    const co2 = sinAuto(o) ? `En auto emitiría al menos ${kgTexto(co2Auto(r.directo.km))} de CO₂` : "";
+    const co2 = sinAuto(o) ? `En auto emitiría ${kgTexto(co2Auto(r.directo.km))} de CO₂` : "";
     // Tres datos grandes con su nombre arriba: se leen de un vistazo sin armar una oración.
     const datos = [["Llegas", hora(llegada(o)), ""], ahorro >= 5 && ["Ahorras", pesos(ahorro), " dato-ahorro"], caminata(o) && ["Caminas", `${caminata(o)} min`, ""]].filter(Boolean);
     const duracion = [`${Math.round(o.minutos)} min de viaje`, mas > 0 && `${mas} min más que en app`].filter(Boolean).join(" · ");
@@ -1131,8 +1131,8 @@ function calcularSalida() {
   const camion = aTiempo.filter((x) => x.o.tipo !== "app").sort((a, b) => a.conApp - b.conApp || b.t - a.t || a.o.costo - b.o.costo)[0];
   const app = aTiempo.filter((x) => x.o.tipo === "app").sort((a, b) => b.t - a.t)[0];
   if (!camion && !app) return void ($("salida").innerHTML = `<p class="nota">No encontré cómo llegar a esa hora desde ahora. Prueba una hora más tarde.</p>`);
-  const bloque = (titulo, x, detalle) => `<div class="salida-opcion"><p class="etiqueta">${titulo}</p>
-    <p class="hora-salida">Sal a las ${hora(x.t)}</p><p>${detalle}</p>
+  const bloque = (titulo, x, detalle) => `<div class="salida-opcion"><div class="salida-cabeza">${fichaOpcion(x.o)}
+    <div><p class="etiqueta">${titulo}</p><p class="hora-salida">Sal a las ${hora(x.t)}</p></div></div><p>${detalle}</p>
     <button type="button" class="boton oscuro" data-salir="${x.t}">Ver esta ruta</button></div>`;
   $("salida").innerHTML =
     (camion ? bloque("En Qrobus", camion, `${escapar(tituloOpcion(camion.o))}, ${camion.conApp ? "aprox. " : ""}${pesos(camion.o.costo)}. Llegas a las ${hora(camion.t + camion.o.minutos)}.`) : "") +
@@ -1222,7 +1222,7 @@ function pintarDetalle(sinMapa) {
   $("detalleCifra").textContent = `${Math.round(o.minutos)} min · ${precioOpcionTexto(o)}`;
   $("detalleLlegada").innerHTML = `Llegas <strong>${hora(llegada(o))}</strong>`;
   $("detalleCo2").hidden = !sinAuto(o);
-  if (sinAuto(o)) $("co2Auto").textContent = `Al menos ${kgTexto(co2Auto(estado.r.directo.km))}`;
+  if (sinAuto(o)) $("co2Auto").textContent = kgTexto(co2Auto(estado.r.directo.km));
   $("pasos").innerHTML = pasosDe(o).map((p, i) => `<li class="${p.camion ? "camion" : ""}">
     ${miniFicha(p.ficha[0], picto(p.ficha[1]))}
     <span class="fila-texto"><strong>${escapar(p.titulo)}</strong><small>${escapar(cruce(p.nota))}</small></span>
@@ -1263,7 +1263,6 @@ function pintarApps(o) {
 }
 
 $("empezar").addEventListener("click", () => iniciarGuia(estado.elegida));
-$("avisarLlegada").addEventListener("click", () => iniciarDestino());
 // Cada paso dicho como dos oraciones, con su punto, para que la voz haga la pausa.
 const conPunto = (t) => (/[.!?]$/.test(t) ? t : `${t}.`);
 const pasosEnVoz = (o) => pasosDe(o).map((p) => `${conPunto(p.titulo)} ${conPunto(p.nota)}`).join(" ");
@@ -2182,24 +2181,6 @@ function subir(desde = 0) {
 }
 $("yaMeSubi").addEventListener("click", () => subir(guia.actual));
 
-// Para un viaje en app o en auto: avisa por distancia al destino.
-function iniciarDestino() {
-  terminarGuia();
-  registrarViaje(estado.elegida);
-  ir("guia");
-  Object.assign(guia, { activa: true, o: null, camion: null, dichos: new Set() });
-  mantenerPantalla();
-  $("yaMeSubi").hidden = true;
-  decir(`Rumbo a ${estado.destino.nombre}`, "Te aviso a un kilómetro, a 300 metros y al llegar.", "En camino");
-  seguir((lat, lon) => {
-    const m = Grieta.metros(lat, lon, estado.destino.lat, estado.destino.lon);
-    if (m < 80) unaVez("llegaste", () => { vibrar([900, 200, 900]); decir(frase("llegaste"), estado.destino.nombre, "Llegaste"); });
-    else if (m < 300) unaVez("300", () => { vibrar([700, 150, 700]); decir("Estás a 300 metros", frase("preparate_bajar"), textoFrase(frase("ya_casi")), true); });
-    else if (m < 1000) unaVez("1000", () => { vibrar([400, 150, 400]); decir("Falta un kilómetro", null, "En camino"); });
-    else $("guiaDetalle").textContent = `Faltan ${(m / 1000).toFixed(1)} km.`;
-  });
-}
-
 $("repetir").addEventListener("click", () => {
   if (acc.voz) return hablar(ultimoMensaje || Interfaz.original($("guiaTitulo")));
   // Sin la voz de Grieta, el aviso se vuelve a escribir para que el lector de pantalla lo lea otra vez.
@@ -2323,7 +2304,7 @@ function pintarAhorro() {
   if (nuevaMeta) { escribir("grieta-meta-co2", nuevaMeta); hablar(`Llevas ${nuevaMeta} kilos de CO₂ que no emitió un auto.`); }
   $("ahorroMes").hidden = total < 1 && co2 < 100 && !nuevaMeta;
   $("ahorroMes").innerHTML = [nuevaMeta && `<span class="meta-co2">Llevas ${nuevaMeta} kg de CO₂ que no emitió un auto.</span>`, total >= 1 && `<strong>${pesos(total)} de ahorro estimado</strong> este mes.`,
-    co2 >= 100 && `<strong>Al menos ${kgTexto(co2)} de CO₂</strong> que no emitió un auto.`].filter(Boolean).join(" ");
+    co2 >= 100 && `<strong>${kgTexto(co2)} de CO₂</strong> que no emitió un auto.`].filter(Boolean).join(" ");
 }
 function fechaViaje(iso) {
   const f = new Date(iso);

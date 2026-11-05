@@ -23,7 +23,7 @@ CONSULTAS = {
                "Facultad de Informatica UAQ Juriquilla"],
     "juriquilla": ["Juriquilla, Queretaro"],
     "antea": ["Antea Lifestyle Center", "Antea, Queretaro"],
-    "jurica": ["Jurica, Santiago de Queretaro"],
+    "jurica": ["Jurica Pueblo, 76100 Santiago de Queretaro"],
     "centro": ["Jardin Zenea, Santiago de Queretaro"],
     "taq": ["Terminal de Autobuses de Queretaro"],
     "centro-sur": ["Centro Sur, Santiago de Queretaro"],

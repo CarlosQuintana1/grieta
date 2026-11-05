@@ -402,8 +402,8 @@
       "origen": "jurica",
       "destino": "san-pedro",
       "escala": "media",
-      "distancia_km": 8.717,
-      "duracion_libre_min": 14.85
+      "distancia_km": 10.611,
+      "duracion_libre_min": 12.65
     },
     {
       "ruta_id": 46,
@@ -411,8 +411,8 @@
       "origen": "san-pedro",
       "destino": "jurica",
       "escala": "media",
-      "distancia_km": 8.203,
-      "duracion_libre_min": 13.28
+      "distancia_km": 14.232,
+      "duracion_libre_min": 15.47
     },
     {
       "ruta_id": 47,
@@ -420,8 +420,8 @@
       "origen": "jurica",
       "destino": "santa-rosa",
       "escala": "media",
-      "distancia_km": 13.384,
-      "duracion_libre_min": 14.65
+      "distancia_km": 10.213,
+      "duracion_libre_min": 12.14
     },
     {
       "ruta_id": 48,
@@ -429,8 +429,8 @@
       "origen": "santa-rosa",
       "destino": "jurica",
       "escala": "media",
-      "distancia_km": 12.514,
-      "duracion_libre_min": 13.12
+      "distancia_km": 9.019,
+      "duracion_libre_min": 10.94
     },
     {
       "ruta_id": 49,

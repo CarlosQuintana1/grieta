@@ -9733,6 +9733,27 @@
       "contextos": [
         "demo/app.js · pintarOpciones"
       ]
+    },
+    {
+      "clave": "texto_f1e82f5c98",
+      "es": "¿Cuánto te marca?",
+      "contextos": [
+        "demo/index.html · pantallas · #bloqueApp"
+      ]
+    },
+    {
+      "clave": "texto_2bfe6f5ef0",
+      "es": "Compartir mi precio",
+      "contextos": [
+        "demo/index.html · pantallas · #bloqueApp"
+      ]
+    },
+    {
+      "clave": "texto_f65793b756",
+      "es": "Comparar precio",
+      "contextos": [
+        "demo/index.html · pantallas · #bloqueApp"
+      ]
     }
   ]
 }

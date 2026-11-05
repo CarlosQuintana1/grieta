@@ -5602,6 +5602,21 @@
       "clave": "texto_496d439577",
       "es": "Compartir mi precio con Grieta",
       "nhe": "Xijtitlani ni tlaxtlauili ipan Grieta"
+    },
+    {
+      "clave": "texto_f1e82f5c98",
+      "es": "¿Cuánto te marca?",
+      "nhe": "¿Kech ipati nopa app?"
+    },
+    {
+      "clave": "texto_2bfe6f5ef0",
+      "es": "Compartir mi precio",
+      "nhe": "Xijtitlani ni tlaxtlauili"
+    },
+    {
+      "clave": "texto_f65793b756",
+      "es": "Comparar precio",
+      "nhe": "Xijtlachili"
     }
   ],
   "adaptaciones": [
@@ -5689,6 +5704,21 @@
       "clave": "texto_496d439577",
       "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
       "criterio": "Reusa la traducción automática de «Enviar este precio a Grieta»."
+    },
+    {
+      "clave": "texto_f1e82f5c98",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Reusa la traducción automática de «¿Cuánto te marca la app?»."
+    },
+    {
+      "clave": "texto_2bfe6f5ef0",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Fragmento sin «Grieta» de la traducción automática de «Enviar este precio a Grieta»."
+    },
+    {
+      "clave": "texto_f65793b756",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Reusa la traducción automática de «Compáralo»."
     }
   ]
 }

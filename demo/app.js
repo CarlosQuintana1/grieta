@@ -1006,7 +1006,7 @@ function pintarOpciones(r) {
         <span class="precio${rango ? " precio-rango" : ""}">${rango ? `<small class="precio-nota">Aprox.</small>${partesRango(rango)}` : pesos(o.costo)}</span>${ico("chevron", "chevron")}</span>
       <span class="datos-viaje" aria-hidden="true">${datos.map(([nombre, valor, clase]) => `<span class="dato${clase}"><small>${nombre}</small><b>${valor}</b></span>`).join("")}</span>
       <span class="duracion" aria-hidden="true">${duracion}</span>
-      ${co2 ? `<span class="co2" aria-hidden="true">${ico("auto")}<span>${co2}</span></span>` : ""}
+      ${co2 ? `<span class="co2" aria-hidden="true">${ico("planta")}<span>${co2}</span></span>` : ""}
     </button>`;
   }).join("");
   const hayCamion = r.opciones.some((o) => o.tipo !== "app");
@@ -1060,7 +1060,8 @@ $("compararPrecio").addEventListener("click", () => {
     estado.app = [...estado.r.directo.porApp].sort((a, b) => a.precio - b.precio)[0].app;
     for (const x of $("appVista").children) x.setAttribute("aria-pressed", String(x.dataset.v === estado.app));
   }
-  setTimeout(() => { $("hoja").scrollTop = $("tituloComparar").offsetTop - 16; $("precio").focus({ preventScroll: true }); }, 150);
+  pintarEstimado();
+  setTimeout(() => { $("hoja").scrollTop = 0; $("precio").focus({ preventScroll: true }); }, 150);
 });
 
 // Inicio de la franja de 3 horas que contiene ese minuto.
@@ -1208,7 +1209,7 @@ function pasosDe(o) {
 function pintarDetalle(sinMapa) {
   const o = estado.elegida;
   const esApp = o.tipo === "app";
-  $("tituloPantalla").textContent = titulos.detalle = esApp ? "Pedir en app" : tituloOpcion(o);
+  $("tituloPantalla").textContent = titulos.detalle = esApp ? "Comparar precio" : tituloOpcion(o);
   $("bloqueCamion").hidden = esApp;
   $("bloqueApp").hidden = !esApp;
   if (esApp) {
@@ -1252,11 +1253,7 @@ async function avisarAcceso(o) {
 function pintarApps(o) {
   const r = estado.r;
   const orden = [...r.directo.porApp].sort((a, b) => a.precio - b.precio);
-  const barata = orden[0];
-  const etiquetaPrecio = orden.every((x) => x.habitual) ? "Rango habitual" : "Precio estimado";
-  $("appEtiqueta").textContent = estado.momento === 0 ? `${etiquetaPrecio} ahora` : `${etiquetaPrecio} a las ${hora(r.ctx.minuto)}`;
-  $("appCifra").textContent = `${Grieta.nombreApp(barata.app)} · ${rangoTexto(limitesPrecio(barata))}`;
-  $("appRango").textContent = `Llegas a las ${hora(llegada(o))}`;
+  pintarEstimado();
   // Una fila por app que tambien la abre, la mas barata primero.
   $("abrirApps").innerHTML = orden.map((x, i) => `<button type="button" class="app-fila${i ? "" : " barata"}" data-app="${x.app}"
       aria-label="Abrir ${Grieta.nombreApp(x.app)}, precio estimado ${rangoVoz(limitesPrecio(x))}${i ? "" : ", la app más económica"}">
@@ -1282,7 +1279,12 @@ function segmentado(id, alElegir) {
     calcular();
   });
 }
-segmentado("appVista", (v) => { estado.app = v; if (!$("precio").value) $("precio").focus(); });
+// Lo que Grieta estima para la app elegida, junto al campo, para comparar sin buscarlo.
+function pintarEstimado() {
+  const x = estado.r?.directo.porApp.find((a) => a.app === estado.app);
+  $("estimadoApp").textContent = x ? `Grieta estima ${Grieta.nombreApp(x.app)} en ${rangoTexto(limitesPrecio(x))}.` : "";
+}
+segmentado("appVista", (v) => { estado.app = v; pintarEstimado(); if (!$("precio").value) $("precio").focus(); });
 segmentado("prisa", (v) => { estado.prisa = Number(v); verVeredicto(); });
 $("precio").addEventListener("input", calcular);
 // La recomendacion sale abajo del campo y con el teclado abierto queda tapada: al terminar de escribir se trae a la vista
@@ -1294,7 +1296,7 @@ $("precio").addEventListener("keydown", (e) => { if (e.key === "Enter") e.target
 
 function pintarVeredicto(r) {
   const d = r.decision;
-  $("enviarPrecio").hidden = $("notaCompartir").hidden = !d || !API;
+  $("compartirPrecio").hidden = !d || !API;
   $("gracias").textContent = "";
   if (!d) {
     $("veredicto").innerHTML = estado.app || Number($("precio").value) > 0 ? `<p class="nota">Elige la app y escribe el precio para darte una recomendación.</p>` : "";
@@ -2894,7 +2896,7 @@ $("enviarPrecio").addEventListener("click", async () => {
       }),
     });
     $("gracias").textContent = "Gracias: con tu precio Grieta calcula mejor.";
-    $("enviarPrecio").hidden = $("notaCompartir").hidden = true;
+    $("compartirPrecio").hidden = true;
   } catch (err) {
     $("gracias").textContent = ["sin api", "sin conexion"].includes(err.message)
       ? "No se pudo enviar: no hay conexión con Grieta. Revisa tu internet e intenta otra vez."

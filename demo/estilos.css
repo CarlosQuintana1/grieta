@@ -11,6 +11,7 @@
   --ambar: #e0a03c;
   --sobre-ambar: #0b0a09;
   --cuidado: #e76f5b;
+  --verde: #6fc38a;
   --alerta: #e0a03c;
   --toque: 48px;
   --radio: 14px;
@@ -27,10 +28,10 @@ html.grande { font-size: 21px; --toque: 56px; }
 /* Tema claro: el ambar y el rojo se oscurecen para pasar 4.5:1 sobre fondo claro. El aviso amarillo de la guia
    (--alerta) se queda brillante en los dos temas. */
 html.claro { color-scheme: light; --fondo: #f6f2ea; --superficie: #fffdf8; --superficie-2: #e9e1d5; --tinta: #211a12; --tenue: #675b4e; --linea: #c5b9a8;
-  --ambar: #8f5300; --sobre-ambar: #ffffff; --cuidado: #b0391b; --alerta: #e0a03c; }
-html.contraste { --fondo: #000; --superficie: #000; --tinta: #fff; --tenue: #e6e6e6; --linea: #8c8c8c; --ambar: #ffb21f; --sobre-ambar: #000; --cuidado: #ff8a70; --alerta: #ffb21f; }
+  --ambar: #8f5300; --sobre-ambar: #ffffff; --cuidado: #b0391b; --alerta: #e0a03c; --verde: #1f6b3a; }
+html.contraste { --fondo: #000; --superficie: #000; --tinta: #fff; --tenue: #e6e6e6; --linea: #8c8c8c; --ambar: #ffb21f; --sobre-ambar: #000; --cuidado: #ff8a70; --alerta: #ffb21f; --verde: #7ee0a0; }
 html.claro.contraste { color-scheme: light; --fondo: #fff; --superficie: #fff; --tinta: #000; --tenue: #1f1f1f; --linea: #5c5c5c;
-  --ambar: #6e3d00; --sobre-ambar: #fff; --cuidado: #8f2208; --alerta: #ffb21f; }
+  --ambar: #6e3d00; --sobre-ambar: #fff; --cuidado: #8f2208; --alerta: #ffb21f; --verde: #145a2e; }
 html.daltonico { --ambar: #4c9be8; --cuidado: #e8862a; --alerta: #4c9be8; }
 html.contraste.daltonico { --ambar: #6cb6ff; --cuidado: #ff9f43; --alerta: #6cb6ff; }
 html.claro.daltonico { --ambar: #1d5fa6; --cuidado: #a3500a; --alerta: #4c9be8; }
@@ -242,8 +243,8 @@ body:not(.alerta) #terminar[data-confirmar] { border-color: var(--cuidado); colo
 .dato b { font-size: 1.25rem; font-weight: 700; white-space: nowrap; }
 .dato-ahorro b { color: var(--ambar); }
 .duracion { color: var(--tenue); font-size: 0.9rem; }
-.tarjeta .co2 { display: flex; align-items: center; gap: 8px; padding-top: 10px; border-top: 1px solid var(--linea); color: var(--tenue); font-size: 0.9rem; }
-.tarjeta .co2 .icono { flex: none; width: 20px; height: 20px; color: var(--tenue); }
+.tarjeta .co2 { display: flex; align-items: center; gap: 8px; padding-top: 10px; border-top: 1px solid var(--linea); color: var(--verde); font-size: 0.9rem; font-weight: 600; }
+.tarjeta .co2 .icono { flex: none; width: 22px; height: 22px; color: var(--verde); }
 html.grande .datos-viaje { grid-template-columns: 1fr; }
 html.grande .dato { flex-direction: row; justify-content: space-between; align-items: baseline; }
 /* Comparar el precio de la app: tarjeta grande, no un enlace escondido */
@@ -317,6 +318,27 @@ html.grande body.con-mapa .hoja { max-height: 80%; }
 .segmentado button { min-height: var(--toque); border-radius: 10px; text-align: center; font-weight: 600; font-size: 0.88rem; }
 .precio-campo { margin-top: 10px; }
 .precio-campo input { font-size: 1.4rem; }
+/* Comparar precio: dos pasos numerados, el resultado y la pregunta de compartir */
+.paso-comparar { display: flex; align-items: center; gap: 10px; margin: 18px 0 8px; font-size: 1.1rem; font-weight: 700; }
+.paso-comparar:first-child { margin-top: 0; }
+.paso-comparar .numero { display: grid; place-items: center; flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--ambar); color: var(--sobre-ambar); font-size: 0.95rem; }
+.elegir-app { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.elegir-app button { display: flex; flex-direction: column; align-items: center; gap: 6px; min-height: 84px; padding: 10px 6px; border-radius: var(--radio);
+  background: var(--superficie); border: 2px solid var(--linea); font-weight: 700; }
+.elegir-app button[aria-pressed="true"] { border-color: var(--ambar); background: color-mix(in srgb, var(--ambar) 14%, var(--superficie)); }
+.elegir-app .ficha-app { width: 36px; height: 36px; margin: 0; }
+.campo-pesos { display: flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: var(--radio); background: var(--superficie); border: 2px solid var(--linea); }
+.campo-pesos:focus-within { border-color: var(--ambar); }
+.campo-pesos .signo { font-size: 2rem; font-weight: 700; color: var(--tenue); }
+.campo-pesos input { flex: 1; min-width: 0; padding: 8px 0; border: 0; background: none; color: var(--tinta); font: inherit; font-size: 2rem; font-weight: 700; outline: none; }
+.campo-pesos input::placeholder { font-size: 1.1rem; font-weight: 400; }
+#estimadoApp { margin-top: 8px; }
+.compartir-precio { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; padding: 16px; border-radius: var(--radio);
+  background: color-mix(in srgb, var(--verde) 12%, var(--superficie)); border: 1px solid color-mix(in srgb, var(--verde) 45%, transparent); }
+.compartir-precio strong { font-size: 1.1rem; }
+.compartir-precio small { color: var(--tenue); font-size: 0.88rem; }
+.compartir-precio .boton { margin-top: 4px; }
+#tituloPedir { margin-top: 28px; }
 .prisa-titulo { margin-top: 14px; }
 .prisa-titulo + .segmentado { margin-top: 6px; }
 .segmentado button[aria-pressed="true"] { background: var(--ambar); color: var(--sobre-ambar); font-weight: 700; }
@@ -485,8 +507,8 @@ html.claro .interruptor input::after, html.claro .interruptor input:checked::aft
 .chofer .boton.negro, body.alerta .chofer .boton.negro { background: #000; color: #fff; border-color: #000; }
 .chofer .boton.borde-negro, body.alerta .chofer .boton.borde-negro { background: #fff; color: #000; border: 2px solid #000; }
 
-.en-app { margin-top: 6px; }
-.en-app h2 { margin-bottom: 2px; }
+.en-app { margin-top: 0; }
+.en-app h2 { margin: 0 0 2px; }
 .llegada-app { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 6px 0 12px; color: var(--tenue); font-size: 0.95rem; }
 .llegada-app strong { flex-basis: 100%; color: var(--tinta); font-size: 1.35rem; font-weight: 700; }
 .llegada-app .marca-app { color: var(--ambar); font-weight: 700; }

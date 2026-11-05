@@ -3511,6 +3511,21 @@
       "clave": "texto_496d439577",
       "es": "Compartir mi precio con Grieta",
       "otq": "Pe̲hni nuna ar precio Grieta"
+    },
+    {
+      "clave": "texto_f1e82f5c98",
+      "es": "¿Cuánto te marca?",
+      "otq": "¿Tengu gi gi 'ñudi ár nt'ot'e?"
+    },
+    {
+      "clave": "texto_2bfe6f5ef0",
+      "es": "Compartir mi precio",
+      "otq": "Pe̲hni nuna ar precio"
+    },
+    {
+      "clave": "texto_f65793b756",
+      "es": "Comparar precio",
+      "otq": "Gi hye̲ki"
     }
   ],
   "adaptaciones": [
@@ -3843,6 +3858,21 @@
       "clave": "texto_496d439577",
       "fuente": "https://www.bing.com/translator?from=es&to=otq",
       "criterio": "Reusa la traducción automática de «Enviar este precio a Grieta»."
+    },
+    {
+      "clave": "texto_f1e82f5c98",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Reusa la traducción automática de «¿Cuánto te marca la app?»."
+    },
+    {
+      "clave": "texto_2bfe6f5ef0",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Fragmento sin «Grieta» de la traducción automática de «Enviar este precio a Grieta»."
+    },
+    {
+      "clave": "texto_f65793b756",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Reusa la traducción automática de «Compáralo»."
     }
   ],
   "parcial": true

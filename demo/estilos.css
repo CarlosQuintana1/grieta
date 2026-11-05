@@ -522,11 +522,13 @@ html.modo-voz #compararPrecio, html.modo-voz #filaUnidos { display: none; }
 #perfil .acciones-fijas .boton { margin-top: 0; }
 
 /* Perfil: resumen del viaje y preguntas que se abren al elegirlas */
-.perfil-hero { display: flex; align-items: center; gap: 16px; min-width: 0; padding: 18px; border-radius: var(--radio);
-  background: color-mix(in srgb, var(--ambar) 14%, var(--superficie)); border: 1px solid color-mix(in srgb, var(--ambar) 35%, transparent); }
-.perfil-hero > div { min-width: 0; }
-.perfil-hero .mini-ficha { width: 64px; height: 64px; }
-.perfil-hero .mini-ficha .picto { width: 36px; height: 36px; }
+.perfil-fichas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.perfil-ficha { display: flex; align-items: center; gap: 10px; min-height: 60px; padding: 8px 10px; border-radius: var(--radio);
+  background: var(--superficie); border: 1px solid var(--linea); text-align: left; font-weight: 700; font-size: 1rem; line-height: 1.2; }
+.perfil-ficha .mini-ficha { width: 40px; height: 40px; flex: none; }
+.perfil-ficha .mini-ficha .picto { width: 22px; height: 22px; }
+.perfil-ficha span:last-child { min-width: 0; overflow-wrap: anywhere; }
+html.grande .perfil-fichas { grid-template-columns: 1fr; }
 .avatar { flex: none; width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: var(--ambar); color: var(--sobre-ambar); }
 .avatar .icono { width: 36px; height: 36px; }
 .avatar.chico { width: 44px; height: 44px; }
@@ -570,7 +572,7 @@ html.grande .ficha .marca { position: static; margin-left: auto; }
 .opciones-perfil .ficha .marca { position: absolute; top: 50%; right: 12px; margin: 0; transform: translateY(-50%); }
 /* Al elegir, la ficha responde con un movimiento breve. */
 @keyframes saltito { 40% { transform: scale(1.06); } }
-.ficha.salta, .avatar.salta, .perfil-hero .mini-ficha.salta { animation: saltito 260ms ease-out; }
+.ficha.salta, .avatar.salta { animation: saltito 260ms ease-out; }
 
 /* Bienvenida: preguntas del perfil con barra de avance */
 .avance { display: flex; gap: 6px; margin: 4px 0 12px; }

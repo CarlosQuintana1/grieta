@@ -2988,15 +2988,18 @@ $("bienvenida").addEventListener("click", (e) => {
 function vistaActual() {
   return acc.modoVoz ? "voz" : acc.grande && acc.contraste ? "poco" : "vista";
 }
-// El perfil dicho como una frase: se lee mejor que una lista de opciones
-function frasePerfil() {
-  const vista = { vista: "Ves bien", poco: "Ves poco", voz: "Grieta te habla" }[vistaActual()];
-  const movilidad = { normal: "caminas sin problema", poco: "te cuesta caminar", silla: "usas silla de ruedas o andadera" }[acc.movilidad ?? "normal"];
-  const oido = acc.oido === "poco" ? "te cuesta escuchar" : "escuchas bien";
-  const forma = acc.modoVoz ? "" : acc.facil ? " y prefieres lo esencial" : " y prefieres todas las opciones";
-  const lector = acc.modoVoz ? (acc.lector === "si" ? " y usas lector de pantalla" : " y quieres que Grieta te hable") : "";
-  const tarifa = acc.unidos ? "Pagas Tarifa Unidos" : "Pagas tarifa normal";
-  return `${vista}, ${movilidad}, ${oido}${forma}${lector}. ${tarifa}.`;
+// El perfil en fichas de dos palabras, con el mismo dibujo y color que su pregunta; tocar una lleva a esa pregunta.
+function fichasPerfil() {
+  const movilidad = acc.movilidad ?? (acc.camino ? "poco" : "normal");
+  return [
+    ["perfilVista", "anil", "ojo", { vista: "Veo bien", poco: "Veo poco", voz: "Grieta me habla" }[vistaActual()]],
+    ["perfilLengua", "hospital", "idioma", { es: "Español", oto: "Otomí", nah: "Náhuatl" }[acc.idioma] ?? "Español"],
+    acc.modoVoz && ["perfilLectorOpciones", "ciruela", "decir", acc.lector === "si" ? "Uso lector" : "Grieta me lee"],
+    !acc.modoVoz && ["perfilForma", "obsidiana", "letra", acc.facil ? "Lo esencial" : "Todo completo"],
+    ["perfilMovilidad", "maiz", movilidad === "silla" ? "silla" : "caminar", { normal: "Camino bien", poco: "Camino poco", silla: "Silla o andadera" }[movilidad]],
+    ["perfilOido", "ciruela", "decir", acc.oido === "poco" ? "Escucho poco" : "Escucho bien"],
+    ["perfilTarifa", "anil", "qrobus", acc.unidos ? "Tarifa Unidos" : "Tarifa normal"],
+  ].filter(Boolean);
 }
 function resumenCortoPerfil() {
   const vista = { vista: "Ves bien", poco: "Ves poco", voz: "Grieta te habla" }[vistaActual()];
@@ -3009,18 +3012,21 @@ function resumenCortoPerfil() {
 }
 function pintarResumenPerfil() {
   if (!$("textoPerfil")) return;
-  const frase = frasePerfil();
   const movilidad = acc.movilidad ?? (acc.camino ? "poco" : "normal");
   const pictograma = `#p-${{ normal: "caminar", poco: "caminar", silla: "silla" }[movilidad]}`;
   $("textoPerfil").textContent = resumenCortoPerfil();
   $("ajustesAvatar").setAttribute("href", pictograma);
-  $("perfilFrase").textContent = frase;
-  $("perfilAvatar").setAttribute("href", pictograma);
-  const avatar = document.querySelector(".perfil-hero .mini-ficha");
-  avatar.classList.remove("salta");
-  void avatar.offsetWidth;
-  avatar.classList.add("salta");
+  $("perfilFichas").innerHTML = fichasPerfil().map(([grupo, tono, picto, texto]) =>
+    `<button type="button" class="perfil-ficha" data-ir-perfil="${grupo}" aria-label="${escapar(texto)}. Cambiar">
+      <span class="mini-ficha tono-${tono}" aria-hidden="true"><svg class="picto"><use href="#p-${picto}"/></svg></span><span>${escapar(texto)}</span></button>`).join("");
 }
+$("perfilFichas").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-ir-perfil]");
+  if (!b) return;
+  const item = document.querySelector(`[data-grupo-perfil="${b.dataset.irPerfil}"]`);
+  item.scrollIntoView({ behavior: suave() ? "smooth" : "auto", block: "start" });
+  item.querySelector('[aria-checked="true"]')?.focus({ preventScroll: true });
+});
 // Lo que cambia cada respuesta, abajo de su pregunta
 const EFECTOS = {
   perfilVista: { vista: "Mapa y letra normal.", poco: "Letra grande y más contraste.", voz: "Pocos botones, muy grandes, y Grieta te dice todo en voz alta." },

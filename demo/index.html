@@ -232,7 +232,6 @@
           <span class="lugar-icono"><svg class="picto"><use href="#p-donde"/></svg></span><span class="lugar-nombre">Dónde estoy</span>
         </button>
       </div>
-      <div id="respuesta" class="respuesta" aria-live="polite"></div>
       <div id="invitaPerfil" class="invita-perfil" hidden>
         <strong>¿Te cuesta caminar o pagas Tarifa Unidos?</strong>
         <div class="invita-acciones">
@@ -409,6 +408,10 @@
       <p class="nota">Deja la pantalla encendida: así Grieta sigue tu ubicación. Las horas del camión salen del horario oficial, no de su ubicación.</p>
     </section>
 
+
+    <section id="ubicacion" class="pantalla" aria-labelledby="tituloPantalla" hidden>
+      <p id="ubicacionCalle" class="parada-nombre" role="status" translate="no"></p>
+    </section>
 
     <section id="camiones" class="pantalla" aria-labelledby="tituloPantalla" hidden>
       <p id="camionesUbicacion" class="nota" role="status"></p>

@@ -198,6 +198,7 @@ const PANTALLAS = {
   opciones: { tab: "inicio", mapa: true, encabezado: true },
   detalle: { tab: "inicio", mapa: true, encabezado: true },
   camiones: { tab: "camiones", mapa: true, encabezado: true },
+  ubicacion: { tab: "inicio", mapa: true, encabezado: true },
   camara: { tab: "inicio", encabezado: true },
   practica: { tab: "inicio", encabezado: true },
   guia: {},
@@ -205,7 +206,7 @@ const PANTALLAS = {
   ajustes: { tab: "ajustes" },
   perfil: { tab: "ajustes", encabezado: true },
 };
-const titulos = { buscar: "Buscar", camiones: "Camiones cerca", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
+const titulos = { buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
 
 function actualizarVozEncabezado() {
   const boton = $("vozEncabezado"), enCamara = document.body.dataset.pantalla === "camara";
@@ -234,6 +235,8 @@ function mostrar(nombre) {
   if (nombre === "opciones") quitarTrazo();
   if (nombre !== "elegirMapa") capas.punto?.remove();
   if (nombre !== "camiones") { capas.paradas?.remove(); capas.paradas = null; }
+  if (nombre !== "ubicacion") { capas.yo?.remove(); capas.yo = null; }
+  if (nombre !== "camiones" && nombre !== "ubicacion") { capas.vista?.remove(); capas.vista = null; }
   if ($("dialogoLugar").open) $("dialogoLugar").close();
   if (nombre !== "buscar" && nombre !== "elegirMapa") cambioUbicacionGuardada = null;
   if (quitado && nombre !== quitado.pantalla) { quitado = null; pintarGuardados(); }
@@ -264,7 +267,12 @@ function mostrar(nombre) {
 function reencuadrar(nombre) {
   // Con el mapa oculto (modo para personas ciegas) no hay a donde moverlo: Leaflet calcularia posiciones invalidas.
   if (!$("mapa").offsetHeight) return;
-  const capa = nombre === "detalle" ? capas.camion ?? capas.linea : nombre === "opciones" ? capas.linea : nombre === "camiones" ? capas.paradas : null;
+  if (nombre === "camiones" && estado.listaCamiones?.[0] && estado.puntoCamiones) {
+    const [p, a] = [estado.puntoCamiones, estado.listaCamiones[0]];
+    return encuadrar(L.latLngBounds([[p.lat, p.lon], [a.lat, a.lon]]));
+  }
+  if (nombre === "ubicacion" && capas.yo) return mapa.setView(capas.yo.getLatLng(), 17);
+  const capa = nombre === "detalle" ? capas.camion ?? capas.linea : nombre === "opciones" ? capas.linea : null;
   if (capa) return encuadrar(capa.getBounds());
   const c = estado.gps ?? estado.origen;
   if (nombre === "inicio" && c) suave() ? mapa.flyTo([c.lat, c.lon], 15, { duration: 0.6 }) : mapa.setView([c.lat, c.lon], 15);
@@ -1385,6 +1393,40 @@ function recolorear() {
   capas.camion?.eachLayer((c) => c.setStyle(c.options.tono === "linea" ? { color: ambar } : c.options.tono === "punto" ? { fillColor: ambar } : { color: tono("--tinta") }));
 }
 
+// Paradas en lo que se ve del mapa: se piden al mover o acercar, solo de cerca y con tope, para no cargar la ciudad entera.
+const MAX_PARADAS_VISTA = 60;
+function pintarParadasEnVista() {
+  const pantalla = document.body.dataset.pantalla;
+  if (pantalla !== "camiones" && pantalla !== "ubicacion") return;
+  capas.vista?.remove();
+  capas.vista = null;
+  if (mapa.getZoom() < 15 || !Grieta.qrobus) return;
+  const area = mapa.getBounds().pad(0.1);
+  const centro = mapa.getCenter();
+  const yaPintadas = new Set(pantalla === "camiones" ? (estado.listaCamiones ?? []).map((x) => x.i) : []);
+  const visibles = [];
+  Grieta.qrobus.paradas.forEach(([lat, lon, nombre], i) => {
+    if (!yaPintadas.has(i) && area.contains([lat, lon])) visibles.push({ i, nombre, lat, lon, m: Grieta.metros(centro.lat, centro.lng, lat, lon) });
+  });
+  visibles.sort((a, b) => a.m - b.m);
+  capas.vista = L.layerGroup(visibles.slice(0, MAX_PARADAS_VISTA).map((x) => {
+    const m = L.marker([x.lat, x.lon], { icon: iconoParada(false), keyboard: false });
+    if (pantalla === "camiones" && estado.puntoCamiones) m.on("click", () => elegirParadaDelMapa(x));
+    else m.bindTooltip(cruce(x.nombre), { direction: "top", offset: [0, -16], className: "etiqueta-mapa" });
+    return m;
+  })).addTo(mapa);
+}
+let esperaVista;
+mapa.on("moveend", () => { clearTimeout(esperaVista); esperaVista = setTimeout(pintarParadasEnVista, 250); });
+// Una parada tocada en el mapa pasa a ser la elegida, con su camino a pie y sus camiones.
+function elegirParadaDelMapa(x) {
+  const punto = estado.puntoCamiones;
+  const p = { ...x, m: Grieta.metros(punto.lat, punto.lon, x.lat, x.lon), lineas: Grieta.horariosParadaPorIndice(x.i, hoyDia(), ahoraMin()) };
+  revisionCamiones++;
+  pintarCamiones(punto, [p, ...(estado.listaCamiones ?? []).filter((o) => o.i !== x.i)], false, true);
+  $("hoja").scrollTop = 0;
+}
+
 // Camiones cerca
 const iconoParada = (cerca) => L.divIcon({ className: "", iconSize: cerca ? [38, 38] : [30, 30],
   html: `<span class="parada-mapa${cerca ? " cerca" : ""}">${ico("camion")}</span>` });
@@ -1398,12 +1440,12 @@ function pintarParadas(punto, lista, seleccionada = false) {
       if (i === 0) return void ($("hoja").scrollTop = 0);
       elegirParada(punto, lista, i);
     });
-    if (i === 0) m.bindTooltip(seleccionada ? "Parada seleccionada" : "Sugerida", { permanent: true, direction: "top", offset: [0, -20], className: "etiqueta-mapa" });
+    if (i === 0) m.bindTooltip(seleccionada ? "Parada seleccionada" : "Más cercana", { permanent: true, direction: "top", offset: [0, -20], className: "etiqueta-mapa" });
     return m;
   });
   const aPie = L.polyline([[punto.lat, punto.lon], [lista[0].lat, lista[0].lon]], { color: tono("--tinta"), weight: 3, dashArray: "1 7", lineCap: "round" });
   capas.paradas = L.featureGroup([aPie, ...marcas]).addTo(mapa);
-  // Se encuadra tu camino a la parada sugerida, y solo cuando cambia, para que el mapa no brinque.
+  // Se encuadra tu camino a la parada más cercana, y solo cuando cambia, para que el mapa no brinque.
   const clave = `${punto.lat},${punto.lon},${lista[0].lat},${lista[0].lon}`;
   if (clave !== encuadreParadas) {
     encuadreParadas = clave;
@@ -1572,7 +1614,7 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
   pintarParadas(punto, lista, seleccionada);
   caja.innerHTML = `
     <div class="parada-cerca">
-      <p class="etiqueta" id="distanciaParada">${seleccionada ? "Parada elegida" : "Parada sugerida"}</p>
+      <p class="etiqueta" id="distanciaParada">${seleccionada ? "Parada elegida" : "Parada más cercana"}</p>
       <p class="parada-nombre" translate="no">${escapar(cruce(p.nombre))}</p>
     </div>
     <div class="a-pie" role="status">${ico("caminar")}<span class="fila-texto"><strong id="caminaParada">${p.caminado ? textoCaminata(p.caminado)[0] : "Calculando el camino a pie…"}</strong><small id="caminaDetalle">${p.caminado ? textoCaminata(p.caminado)[1] : `A ${distanciaTexto(p.m, true)} en línea recta`}</small></span></div>
@@ -1592,8 +1634,9 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
   caja.querySelectorAll("[data-parada]").forEach((b) => b.addEventListener("click", () => elegirParada(punto, lista, Number(b.dataset.parada))));
   estado.puntoCamiones = punto;
   estado.listaCamiones = lista;
+  pintarParadasEnVista();
   actualizarComparacionParadas(lista);
-  if (primera) hablar(`La parada sugerida es ${p.nombre}. ` +
+  if (primera) hablar(`La parada más cercana es ${p.nombre}. ` +
     p.lineas.slice(0, 4).map((l) => `Línea ${l.linea} hacia ${l.hacia}, a las ${hora(l.horas[0])} según el horario.`).join(" "));
   // Lo que avisó la gente en esta parada en la última media hora, junto a su línea
   avisosDeLaGente(p.lat, p.lon).then((avisos) => {
@@ -1651,7 +1694,28 @@ function dondeEstoy(destino) {
     hablar(texto, false, true);
   }, () => { contar("No pude ver tu ubicación."); hablar(frase("sin_ubicacion"), false, true); }, { enableHighAccuracy: true, timeout: 10000 });
 }
-$("dondeEstoy").addEventListener("click", () => dondeEstoy("inicio"));
+// Con el mapa visible, Dónde estoy abre el mapa en tu ubicación; en modo de voz se sigue diciendo en voz alta.
+function abrirUbicacion() {
+  if (acc.modoVoz) return dondeEstoy("voz");
+  ir("ubicacion");
+  $("ubicacionCalle").textContent = "Buscando dónde estás…";
+  ubicar((encontrada) => {
+    if (document.body.dataset.pantalla !== "ubicacion") return;
+    if (!encontrada) return void ($("ubicacionCalle").textContent = "No pude ver tu ubicación.");
+    const { lat, lon } = estado.gps;
+    capas.yo?.remove();
+    capas.yo = L.marker([lat, lon], { icon: icono("origen"), keyboard: false, zIndexOffset: 800 }).addTo(mapa);
+    mapa.setView([lat, lon], 17);
+    pintarParadasEnVista();
+    $("ubicacionCalle").textContent = "";
+    fetch(`https://photon.komoot.io/reverse?lat=${lat}&lon=${lon}&limit=1`).then((r) => r.json()).then((r) => {
+      const p = r.features[0]?.properties ?? {};
+      const calle = p.street ?? p.name;
+      if (calle && document.body.dataset.pantalla === "ubicacion") $("ubicacionCalle").textContent = calle;
+    }).catch(() => {});
+  }, true);
+}
+$("dondeEstoy").addEventListener("click", abrirUbicacion);
 $("dondeGuia").addEventListener("click", () => dondeEstoy("guia"));
 
 // Dictar: llena el buscador, busca y lee las primeras opciones.
@@ -3133,7 +3197,7 @@ async function accionInicial() {
     return casa ? irA(casa) : $("guardados").querySelector('[data-nuevo="Casa"]')?.click();
   }
   if (accion === "camiones") return abrirCamiones();
-  if (accion === "donde") return dondeEstoy(acc.modoVoz ? "voz" : "inicio");
+  if (accion === "donde") return abrirUbicacion();
 }
 
 // Tarjeta para ensenarle al chofer a donde vas, con letra enorme. En camion dice la parada; en app, el destino.

@@ -885,8 +885,14 @@ function tituloOpcion(o) {
   return o.pasos[0].tipo === "app" ? [apps[0], camion, ...apps.slice(1)].join(" + ") : [camion, ...apps].join(" + ");
 }
 const caminata = (o) => Math.round((o.pasos ?? []).filter((p) => p.tipo === "caminar").reduce((s, p) => s + p.min, 0));
-// Solo camion lleva el camion en anil; si combina con app, el auto en verde
-const fichaOpcion = (o) => (o.tipo === "app" || o.pasos?.some((p) => p.tipo === "app") ? miniFicha("tono-hospital", picto("app")) : miniFicha("tono-anil", picto("qrobus")));
+// Solo camion lleva el camion en anil y la app el auto en verde
+// Si combina, la ficha se alarga con un tramo por medio en el orden del viaje: auto + camion, camion + auto...
+const fichaOpcion = (o) => {
+  if (o.tipo === "app") return miniFicha("tono-hospital", picto("app"));
+  const tramos = o.pasos.filter((p) => p.tipo !== "caminar").map((p) => (p.tipo === "app" ? "app" : "qrobus")).filter((t, i, a) => t !== a[i - 1]);
+  if (tramos.length === 1) return miniFicha("tono-anil", picto("qrobus"));
+  return `<span class="mini-ficha ficha-combinada" aria-hidden="true">${tramos.map((t) => `<span class="${t === "app" ? "tono-hospital" : "tono-anil"}">${picto(t)}</span>`).join("")}</span>`;
+};
 
 // Maximo tres caminos con camion: el mas barato, el mas rapido y uno equilibrado si es distinto.
 // El viaje solo en app no lleva tarjeta: ya tiene su seccion con el precio de cada app.
@@ -915,6 +921,9 @@ function elegirTarjetas(r) {
   const casiIgual = (o) => lista.some(({ o: x }) => x.costo < o.costo && x.minutos - o.minutos < 5);
   const resto = ops.filter((o) => !lista.some((x) => x.o === o) && !perdedora(o) && !casiIgual(o)).sort((a, b) => valorOpcion(a) - valorOpcion(b));
   if (lista.length < 3 && resto.length) agregar(resto[0], "Otra opción");
+  // Siempre que exista, una tarjeta de solo camion aunque tarde mucho.
+  const soloCamion = ops.filter((o) => o.tipo === "caminando+caminando");
+  if (soloCamion.length && !lista.some((x) => x.o.tipo === "caminando+caminando")) agregar(menor(soloCamion, valorOpcion), "Otra opción");
   return lista;
 }
 
@@ -1259,7 +1268,7 @@ function pintarApps(o) {
       aria-label="Abrir ${Grieta.nombreApp(x.app)}, precio estimado ${rangoVoz(limitesPrecio(x))}${i ? "" : ", la app más económica"}">
       ${fichaApp(x.app)}<span class="fila-texto"><strong>Abrir ${Grieta.nombreApp(x.app)}</strong><small>${i ? "Precio estimado" : "Menor precio en app"}</small></span>
       <span class="precio precio-rango">${partesRango(limitesPrecio(x))}</span>${ico("chevron", "chevron")}</button>`).join("");
-  $("appAviso").textContent = "El precio puede salir de este rango. Confírmalo al abrir la app.";
+  $("appAviso").textContent = "";
 }
 
 $("empezar").addEventListener("click", () => iniciarGuia(estado.elegida));

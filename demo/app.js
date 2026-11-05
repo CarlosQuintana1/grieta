@@ -977,14 +977,15 @@ function pintarOpciones(r) {
   $("appsRapido").innerHTML = apps.map((x, i) => `<button type="button" class="app-rapida${i ? "" : " barata"}" data-app="${x.app}"
       aria-label="Abrir ${Grieta.nombreApp(x.app)}, precio estimado ${rangoVoz(limitesPrecio(x))}${i ? "" : ", la app más económica"}">
       <span class="app-cabeza">${fichaApp(x.app)}<span>${Grieta.nombreApp(x.app)}</span></span><strong class="precio-rango">${partesRango(limitesPrecio(x))}</strong><small${i ? ' class="vacio"' : ""}>Menor precio</small></button>`).join("");
-  $("tituloEnApp").textContent = apps.every((x) => x.habitual) ? "En app · rango habitual" : "En app · precios estimados";
-  $("avisoRapido").textContent = "El precio puede salir de este rango. Confírmalo al abrir la app.";
+  $("avisoRapido").textContent = "El costo es aproximado, confírmalo en la app.";
   const enApp = r.opciones.find((o) => o.tipo === "app");
   $("compararPrecio").hidden = !enApp;
   estado.tarjetas = elegirTarjetas(r);
   const criterios = criteriosViaje(r);
   const etiquetasApp = [criterios.economica === enApp && "Más económica", criterios.rapida === enApp && "Más rápida"].filter(Boolean);
-  $("llegadaApp").textContent = enApp ? `${etiquetasApp.length ? etiquetasApp.join(" · ") + " · " : ""}Llegas ${hora(llegada(enApp))} · ${Math.round(enApp.minutos)} min estimados` : "";
+  // La hora de llegada es lo primero que se lee; la duración y si es la más rápida van abajo, más chicas.
+  $("llegadaApp").innerHTML = enApp ? `<strong>Llegas ${hora(llegada(enApp))}</strong>
+    <span>${Math.round(enApp.minutos)} min de viaje</span>${etiquetasApp.map((t) => `<span class="marca-app">${t}</span>`).join("")}` : "";
   // Contra la app mas barata: cuanto ahorras y cuanto mas tardas yendo en camion.
   const appBarata = [...r.directo.porApp].sort((a, b) => a.precio - b.precio)[0];
   $("tarjetas").innerHTML = estado.tarjetas.map(({ o, etiquetas }, i) => {
@@ -2315,7 +2316,7 @@ function pintarAhorro() {
   const nuevaMeta = meta && meta > leer("grieta-meta-co2", 0) ? meta : null;
   if (nuevaMeta) { escribir("grieta-meta-co2", nuevaMeta); hablar(`Llevas ${nuevaMeta} kilos de CO₂ que no emitió un auto.`); }
   $("ahorroMes").hidden = total < 1 && co2 < 100 && !nuevaMeta;
-  $("ahorroMes").innerHTML = [nuevaMeta && `<span class="meta-co2">Llevas ${nuevaMeta} kg de CO₂ que no emitió un auto.</span>`, total >= 1 && `<strong>${pesos(total)} de ahorro estimado</strong> este mes frente al precio esperado en app.`,
+  $("ahorroMes").innerHTML = [nuevaMeta && `<span class="meta-co2">Llevas ${nuevaMeta} kg de CO₂ que no emitió un auto.</span>`, total >= 1 && `<strong>${pesos(total)} de ahorro estimado</strong> este mes.`,
     co2 >= 100 && `<strong>Al menos ${kgTexto(co2)} de CO₂</strong> que no emitió un auto.`].filter(Boolean).join(" ");
 }
 function fechaViaje(iso) {

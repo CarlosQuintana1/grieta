@@ -466,8 +466,9 @@ html.claro .interruptor input::after, html.claro .interruptor input:checked::aft
 
 .en-app { margin-top: 6px; }
 .en-app h2 { margin-bottom: 2px; }
-.llegada-app { color: var(--tenue); font-size: 0.85rem; margin-bottom: 10px; }
-.llegada-app::first-letter { text-transform: uppercase; }
+.llegada-app { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 6px 0 12px; color: var(--tenue); font-size: 0.95rem; }
+.llegada-app strong { flex-basis: 100%; color: var(--tinta); font-size: 1.35rem; font-weight: 700; }
+.llegada-app .marca-app { color: var(--ambar); font-weight: 700; }
 .apps-rapido { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .app-rapida { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-height: var(--toque); padding: 10px 12px;
   border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); text-align: left; }

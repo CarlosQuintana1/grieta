@@ -5577,6 +5577,21 @@
       "clave": "texto_0ef1300cc5",
       "es": "A {v1} en línea recta",
       "nhe": "Hasta {v1} ipan se tlajko tlajko"
+    },
+    {
+      "clave": "texto_f813ff4f22",
+      "es": "{v1} min de viaje",
+      "nhe": "{v1} min"
+    },
+    {
+      "clave": "texto_3c2a3db1d7",
+      "es": "El costo es aproximado, confírmalo en la app.",
+      "nhe": "Nopa tlaxtlauili uelis kisas tlen ni tlajko. Xijnexti kema tijtlapos nopa aplicación."
+    },
+    {
+      "clave": "texto_f8840116c9",
+      "es": "este mes.",
+      "nhe": "ni metstli."
     }
   ],
   "adaptaciones": [
@@ -5639,6 +5654,21 @@
       "clave": "texto_0ef1300cc5",
       "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
       "criterio": "Forma breve de «a {v1} en línea recta»; reusa su traducción automática."
+    },
+    {
+      "clave": "texto_f813ff4f22",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Forma de «{v1} min»; reusa su traducción automática."
+    },
+    {
+      "clave": "texto_3c2a3db1d7",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Forma breve de «El precio puede salir de este rango. Confírmalo al abrir la app.»; reusa su traducción automática."
+    },
+    {
+      "clave": "texto_f8840116c9",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Fragmento «este mes» de la traducción automática de «este mes frente al precio esperado en app.»."
     }
   ]
 }

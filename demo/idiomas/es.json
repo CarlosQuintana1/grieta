@@ -9698,6 +9698,27 @@
       "contextos": [
         "demo/app.js · camiones"
       ]
+    },
+    {
+      "clave": "texto_f813ff4f22",
+      "es": "{v1} min de viaje",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_3c2a3db1d7",
+      "es": "El costo es aproximado, confírmalo en la app.",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_f8840116c9",
+      "es": "este mes.",
+      "contextos": [
+        "demo/app.js · pintarAhorro"
+      ]
     }
   ]
 }

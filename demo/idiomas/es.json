@@ -6213,6 +6213,3408 @@
           "formato": "hora"
         }
       }
+    },
+    {
+      "clave": "texto_2573edffaf",
+      "es": "Toca una vez para escuchar. Toca dos veces seguidas el mismo control para activarlo.",
+      "contextos": [
+        "demo/index.html · pantallas · #ayudaToques",
+        "demo/toques.js:2 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_9e0cf6546d",
+      "es": "Practicar los toques",
+      "contextos": [
+        "demo/index.html · pantallas · #practicarInicio",
+        "demo/index.html · pantallas · #tutorialPracticar",
+        "demo/index.html · pantallas · #practicarAjustes",
+        "demo/app.js:196 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_af63f4cd19",
+      "es": "Describir con la cámara",
+      "contextos": [
+        "demo/index.html · pantallas · #vozCamara",
+        "demo/index.html · pantallas · #abrirCamara"
+      ]
+    },
+    {
+      "clave": "texto_52c6982142",
+      "es": "Escucha objetos y texto frente a ti",
+      "contextos": [
+        "demo/index.html · pantallas · #abrirCamara"
+      ]
+    },
+    {
+      "clave": "texto_14f7062481",
+      "es": "¿Es el camión que busco?",
+      "contextos": [
+        "demo/index.html · pantallas · #guiaCamara"
+      ]
+    },
+    {
+      "clave": "texto_2f22e87c16",
+      "es": "Náhuatl pendiente de traducción.",
+      "contextos": [
+        "demo/index.html · pantallas · #nahuatlPendiente"
+      ]
+    },
+    {
+      "clave": "texto_e345ef4821",
+      "es": "Paso 1 de 3",
+      "contextos": [
+        "demo/index.html · pantallas · #tutorialProgreso"
+      ]
+    },
+    {
+      "clave": "texto_fae409c2dd",
+      "es": "Saltar tutorial",
+      "contextos": [
+        "demo/index.html · pantallas · #tutorialOmitir"
+      ]
+    },
+    {
+      "clave": "texto_30d3fdec0a",
+      "es": "Busca a dónde vas",
+      "contextos": [
+        "demo/index.html · pantallas · #tutorialTitulo",
+        "demo/tutorial.js:4 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_63e2bbaf1c",
+      "es": "Continuar",
+      "contextos": [
+        "demo/index.html · pantallas · #tutorialContinuar",
+        "demo/tutorial.js:28 · entrar"
+      ]
+    },
+    {
+      "clave": "texto_2afaf363af",
+      "es": "Paso anterior",
+      "contextos": [
+        "demo/index.html · pantallas · #tutorialAnterior"
+      ]
+    },
+    {
+      "clave": "texto_2526e513ab",
+      "es": "Repetir explicación",
+      "contextos": [
+        "demo/index.html · pantallas · #tutorialRepetir"
+      ]
+    },
+    {
+      "clave": "texto_33dae599c2",
+      "es": "Botón de práctica",
+      "contextos": [
+        "demo/index.html · pantallas · #practicaBoton"
+      ]
+    },
+    {
+      "clave": "texto_7c53767147",
+      "es": "Puedes practicar las veces que quieras. Este botón no abre la cámara, no pide permisos y no envía nada.",
+      "contextos": [
+        "demo/index.html · pantallas · #practica"
+      ]
+    },
+    {
+      "clave": "texto_fe38981415",
+      "es": "Terminar práctica",
+      "contextos": [
+        "demo/index.html · pantallas · #practicaTerminar"
+      ]
+    },
+    {
+      "clave": "texto_acf4c2715d",
+      "es": "Volver a practicar",
+      "contextos": [
+        "demo/index.html · pantallas · #practicaRepetir"
+      ]
+    },
+    {
+      "clave": "texto_b23c2453fd",
+      "es": "Salir de la práctica",
+      "contextos": [
+        "demo/index.html · pantallas · #practicaSalir"
+      ]
+    },
+    {
+      "clave": "texto_b3268cc6c6",
+      "es": "Apunta al letrero de un camión o de una parada.",
+      "contextos": [
+        "demo/index.html · pantallas · #camaraAyuda",
+        "demo/camara.js:53 · actualizarRuta"
+      ]
+    },
+    {
+      "clave": "texto_90fad3c019",
+      "es": "¿Qué quieres escuchar?",
+      "contextos": [
+        "demo/index.html · pantallas · #camara"
+      ]
+    },
+    {
+      "clave": "texto_efa2d57f3c",
+      "es": "Todo el entorno",
+      "contextos": [
+        "demo/index.html · pantallas · #camara"
+      ]
+    },
+    {
+      "clave": "texto_9b80ed02a1",
+      "es": "Escaleras y escalones (prueba)",
+      "contextos": [
+        "demo/index.html · pantallas · #camara"
+      ]
+    },
+    {
+      "clave": "texto_84be7db4e3",
+      "es": "Puede omitirlos. Activa antes de iniciar; descarga unos 9 MB.",
+      "contextos": [
+        "demo/index.html · pantallas · #camara"
+      ]
+    },
+    {
+      "clave": "texto_7760444613",
+      "es": "Hoyos (prueba)",
+      "contextos": [
+        "demo/index.html · pantallas · #camara"
+      ]
+    },
+    {
+      "clave": "texto_6e37c0c7a4",
+      "es": "Busca baches visibles. Puede omitir hoyos y alcantarillas abiertas. Activa antes de iniciar; descarga unos 18 MB.",
+      "contextos": [
+        "demo/index.html · pantallas · #camara"
+      ]
+    },
+    {
+      "clave": "texto_932d1387ea",
+      "es": "Iniciar cámara",
+      "contextos": [
+        "demo/index.html · pantallas · #camaraIniciar"
+      ]
+    },
+    {
+      "clave": "texto_3b151c79ca",
+      "es": "Detener cámara",
+      "contextos": [
+        "demo/index.html · pantallas · #camaraDetener"
+      ]
+    },
+    {
+      "clave": "texto_539487886e",
+      "es": "Vista de la cámara trasera",
+      "contextos": [
+        "demo/index.html · pantallas · aria-label"
+      ]
+    },
+    {
+      "clave": "texto_99852df6ba",
+      "es": "Cámara apagada. La primera vez se descargan los modelos (aprox. 68 MB con escaleras, hoyos y Más detalle).",
+      "contextos": [
+        "demo/index.html · pantallas · #camaraEstado"
+      ]
+    },
+    {
+      "clave": "texto_0ffa32d7dc",
+      "es": "Escaleras y escalones: desactivado.",
+      "contextos": [
+        "demo/index.html · pantallas · #camaraSueloEstado",
+        "demo/vision/camara-suelo.js:103 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_f5d1afeb89",
+      "es": "Hoyos: desactivado.",
+      "contextos": [
+        "demo/index.html · pantallas · #camaraHoyosEstado",
+        "demo/vision/camara-suelo.js:115 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_6bc09e5d85",
+      "es": "Leer número del camión",
+      "contextos": [
+        "demo/index.html · pantallas · #camaraBuscarCamion"
+      ]
+    },
+    {
+      "clave": "texto_2b84617be1",
+      "es": "Leer letrero ahora",
+      "contextos": [
+        "demo/index.html · pantallas · #camaraLeer"
+      ]
+    },
+    {
+      "clave": "texto_31f91a51ab",
+      "es": "Repetir descripción",
+      "contextos": [
+        "demo/index.html · pantallas · #camaraRepetir"
+      ]
+    },
+    {
+      "clave": "texto_3d080a382b",
+      "es": "Volver a mi viaje",
+      "contextos": [
+        "demo/index.html · pantallas · #camaraVolverGuia"
+      ]
+    },
+    {
+      "clave": "texto_68f0ef4c59",
+      "es": "Ruta que buscas",
+      "contextos": [
+        "demo/index.html · pantallas · #camaraRutaPanel"
+      ]
+    },
+    {
+      "clave": "texto_2001f11ce0",
+      "es": "Por ejemplo, C55",
+      "contextos": [
+        "demo/index.html · pantallas · placeholder"
+      ]
+    },
+    {
+      "clave": "texto_b68bbfb6ba",
+      "es": "Si dejas el campo vacío, uso la ruta del viaje que estás siguiendo.",
+      "contextos": [
+        "demo/index.html · pantallas · #camaraRutaAyuda"
+      ]
+    },
+    {
+      "clave": "texto_3b2662ce79",
+      "es": "Sentido (si lo sabes)",
+      "contextos": [
+        "demo/index.html · pantallas · #camaraSentidos"
+      ]
+    },
+    {
+      "clave": "texto_8b60aafdb9",
+      "es": "Detalle de imagen",
+      "contextos": [
+        "demo/index.html · pantallas · #camara"
+      ]
+    },
+    {
+      "clave": "texto_d3c56d44d0",
+      "es": "Más detalle",
+      "contextos": [
+        "demo/index.html · pantallas · #camara"
+      ]
+    },
+    {
+      "clave": "texto_027d6d1276",
+      "es": "Más ligero",
+      "contextos": [
+        "demo/index.html · pantallas · #camara"
+      ]
+    },
+    {
+      "clave": "texto_4c737efe14",
+      "es": "Avisos experimentales de vehículos",
+      "contextos": [
+        "demo/index.html · pantallas · #camara"
+      ]
+    },
+    {
+      "clave": "texto_0b86b18bef",
+      "es": "Avisa si un vehículo crece al centro de la imagen. Intenta compensar el movimiento del teléfono, pero puede fallar. No detecta cruces.",
+      "contextos": [
+        "demo/index.html · pantallas · #camara"
+      ]
+    },
+    {
+      "clave": "texto_818f93f719",
+      "es": "Probar vibración",
+      "contextos": [
+        "demo/index.html · pantallas · #camaraProbar"
+      ]
+    },
+    {
+      "clave": "texto_b03bc632d0",
+      "es": "Con avisos activos, activa Leer número del camión o Leer letrero ahora para hacer una lectura.",
+      "contextos": [
+        "demo/index.html · pantallas · #camara"
+      ]
+    },
+    {
+      "clave": "texto_f86434b3a2",
+      "es": "Experimental: puede omitir obstáculos y desniveles. No mide altura ni indica cuándo cruzar. Usa tu bastón o acompañamiento.",
+      "contextos": [
+        "demo/index.html · pantallas · #camara"
+      ]
+    },
+    {
+      "clave": "texto_6fdde16c4d",
+      "es": "Las imágenes se analizan en tu teléfono. No se guardan ni se envían. La cámara se apaga al salir o al ocultar la app. El audio sigue tus ajustes de voz.",
+      "contextos": [
+        "demo/index.html · pantallas · #camara"
+      ]
+    },
+    {
+      "clave": "texto_fdd37ed0a4",
+      "es": "Ver tutorial",
+      "contextos": [
+        "demo/index.html · pantallas · #abrirTutorial"
+      ]
+    },
+    {
+      "clave": "texto_bc75379702",
+      "es": "Tocar para escuchar",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_df3b69d81f",
+      "es": "En modo Voz: un toque describe; dos toques rápidos activan. Con VoiceOver o TalkBack se usan los gestos del teléfono.",
+      "contextos": [
+        "demo/index.html · pantallas · #ajustes"
+      ]
+    },
+    {
+      "clave": "texto_8f26cb859b",
+      "es": "Cámara que habla",
+      "contextos": [
+        "demo/app.js:196 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_d86c32a26c",
+      "es": "el lugar de donde sales",
+      "contextos": [
+        "demo/app.js:572 · elegirEnMapa"
+      ]
+    },
+    {
+      "clave": "texto_1d402a2692",
+      "es": "el lugar a donde vas",
+      "contextos": [
+        "demo/app.js:572 · elegirEnMapa"
+      ]
+    },
+    {
+      "clave": "texto_85e1360ced",
+      "es": "Qrobus {v1}",
+      "contextos": [
+        "demo/app.js:815 · tituloOpcion"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "lineas.join(\" + \")",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_6a29e09e30",
+      "es": "En app · rango habitual",
+      "contextos": [
+        "demo/app.js:905 · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_2cfc5c71ae",
+      "es": "El precio puede salir de este rango. Confírmalo al abrir la app.",
+      "contextos": [
+        "demo/app.js:906 · pintarOpciones",
+        "demo/app.js:1182 · pintarApps"
+      ]
+    },
+    {
+      "clave": "texto_42add9c027",
+      "es": "En la parada {v4}, hacia {v5}. Si lo pierdes, {v6} se estima en {v7}.",
+      "contextos": [
+        "demo/app.js:941 · pintarOpciones"
+      ],
+      "variables": {
+        "v4": {
+          "expresion": "escapar(cruce(c.recorrido[0].nombre))"
+        },
+        "v5": {
+          "expresion": "escapar(c.hacia)"
+        },
+        "v6": {
+          "expresion": "Grieta.nombreApp(app.app)"
+        },
+        "v7": {
+          "expresion": "rangoTexto(limitesPrecio(app))",
+          "formato": "rango"
+        }
+      }
+    },
+    {
+      "clave": "texto_2fef1efeb7",
+      "es": "Rango habitual",
+      "contextos": [
+        "demo/app.js:1173 · pintarApps"
+      ]
+    },
+    {
+      "clave": "texto_7d0a58b37b",
+      "es": "Parada seleccionada",
+      "contextos": [
+        "demo/app.js:1340 · pintarParadas"
+      ]
+    },
+    {
+      "clave": "texto_1a8377d2db",
+      "es": "{v1} · a {v2} caminando",
+      "contextos": [
+        "demo/app.js:1353 · ponerCaminata"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "seleccionada ? \"Parada elegida\" : \"Parada más cercana\"",
+          "traducir": true
+        },
+        "v2": {
+          "expresion": "distanciaTexto(metros, true)"
+        }
+      }
+    },
+    {
+      "clave": "texto_91897adc4a",
+      "es": "Parada elegida",
+      "contextos": [
+        "demo/app.js:1353 · ponerCaminata",
+        "demo/app.js:1489 · pintarCamiones"
+      ]
+    },
+    {
+      "clave": "texto_fa08d91d38",
+      "es": "Parada más cercana",
+      "contextos": [
+        "demo/app.js:1353 · ponerCaminata",
+        "demo/app.js:1489 · pintarCamiones"
+      ]
+    },
+    {
+      "clave": "texto_0b5dcb1af4",
+      "es": "Buscando paradas cerca de ti…",
+      "contextos": [
+        "demo/app.js:1374 · abrirCamiones"
+      ]
+    },
+    {
+      "clave": "texto_7e12766a23",
+      "es": "No pude ver tu ubicación. Actívala o elige desde dónde sales.",
+      "contextos": [
+        "demo/app.js:1378 · abrirCamiones"
+      ]
+    },
+    {
+      "clave": "texto_c53e4a4248",
+      "es": "Elegir desde dónde sales",
+      "contextos": [
+        "demo/app.js:1378 · abrirCamiones · #elegirUbicacionCamiones"
+      ]
+    },
+    {
+      "clave": "texto_40c71a2507",
+      "es": "{v1}: próximo horario",
+      "contextos": [
+        "demo/app.js:1419 · compararParadas"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "cruce(parada.nombre)"
+        }
+      }
+    },
+    {
+      "clave": "texto_d320868d8c",
+      "es": "Todavía no puedo comparar estas paradas:",
+      "contextos": [
+        "demo/app.js:1434 · actualizarComparacionParadas"
+      ]
+    },
+    {
+      "clave": "texto_2ff544d64c",
+      "es": "Estimación con el horario oficial; no conocemos la ubicación en tiempo real de los camiones.",
+      "contextos": [
+        "demo/app.js:1438 · actualizarComparacionParadas"
+      ]
+    },
+    {
+      "clave": "texto_f6242f6155",
+      "es": "Empate en tiempo estimado; se muestra primero la de menos caminata.",
+      "contextos": [
+        "demo/app.js:1438 · actualizarComparacionParadas"
+      ]
+    },
+    {
+      "clave": "texto_c446923f76",
+      "es": "Conviene más {v1}: menos tiempo estimado hasta abordar.",
+      "contextos": [
+        "demo/app.js:1438 · actualizarComparacionParadas"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "escapar(cruce(opciones[0].parada.nombre))"
+        }
+      }
+    },
+    {
+      "clave": "texto_779e5686e0",
+      "es": "Caminar {v10} min · esperar {v11} min",
+      "contextos": [
+        "demo/app.js:1439 · actualizarComparacionParadas"
+      ],
+      "variables": {
+        "v10": {
+          "expresion": "opcion.caminata"
+        },
+        "v11": {
+          "expresion": "opcion.espera"
+        }
+      }
+    },
+    {
+      "clave": "texto_28f23d4cec",
+      "es": "{v12} min para abordar",
+      "contextos": [
+        "demo/app.js:1439 · actualizarComparacionParadas"
+      ],
+      "variables": {
+        "v12": {
+          "expresion": "opcion.total"
+        }
+      }
+    },
+    {
+      "clave": "texto_5bff59cf9f",
+      "es": "Menor tiempo estimado.",
+      "contextos": [
+        "demo/app.js:1439 · actualizarComparacionParadas"
+      ]
+    },
+    {
+      "clave": "texto_3fddd13ea2",
+      "es": "· Conviene más",
+      "contextos": [
+        "demo/app.js:1440 · actualizarComparacionParadas"
+      ]
+    },
+    {
+      "clave": "texto_94a68c2ce3",
+      "es": "Sin comparar: {v1}.",
+      "contextos": [
+        "demo/app.js:1441 · actualizarComparacionParadas"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "faltantes.map(escapar).join(\"; \")",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_157bed6b51",
+      "es": "A {v1}{v2}",
+      "contextos": [
+        "demo/app.js:1467 · ordenarPorCaminata"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "distanciaTexto(parada.caminado ?? parada.m, true)",
+          "traducir": true
+        },
+        "v2": {
+          "expresion": "parada.caminado ? \" caminando\" : \" en línea recta\"",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_bf94a1491d",
+      "es": "{v5}Ver cómo llegar a la parada",
+      "contextos": [
+        "demo/app.js:1487 · pintarCamiones · #irParada"
+      ],
+      "variables": {
+        "v5": {
+          "expresion": "ico(\"ruta\")"
+        }
+      }
+    },
+    {
+      "clave": "texto_0d16203894",
+      "es": "Los reportes son de la comunidad y pueden haber cambiado.",
+      "contextos": [
+        "demo/app.js:1487 · pintarCamiones"
+      ]
+    },
+    {
+      "clave": "texto_5933e6904c",
+      "es": "Reportar algo en esta parada",
+      "contextos": [
+        "demo/app.js:1487 · pintarCamiones · #reportarParada"
+      ]
+    },
+    {
+      "clave": "texto_eebb2fb1fd",
+      "es": "¿Qué parada me conviene?",
+      "contextos": [
+        "demo/app.js:1487 · pintarCamiones · #tituloComparacionParadas"
+      ]
+    },
+    {
+      "clave": "texto_6c3afb4101",
+      "es": "Calculando caminos a pie y horarios...",
+      "contextos": [
+        "demo/app.js:1487 · pintarCamiones · #comparacionParadas"
+      ]
+    },
+    {
+      "clave": "texto_57bfa9bb94",
+      "es": "Las horas salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse.",
+      "contextos": [
+        "demo/app.js:1487 · pintarCamiones"
+      ]
+    },
+    {
+      "clave": "texto_bab35c56e9",
+      "es": "Ver camiones y reportar en {v2}",
+      "contextos": [
+        "demo/app.js:1502 · pintarCamiones · aria-label"
+      ],
+      "variables": {
+        "v2": {
+          "expresion": "escapar(cruce(x.nombre))"
+        }
+      }
+    },
+    {
+      "clave": "texto_e0b0fe73aa",
+      "es": "A {v4}{v5}",
+      "contextos": [
+        "demo/app.js:1502 · pintarCamiones"
+      ],
+      "variables": {
+        "v4": {
+          "expresion": "distanciaTexto(x.caminado ?? x.m, true)",
+          "traducir": true
+        },
+        "v5": {
+          "expresion": "x.caminado ? \" caminando\" : \" en línea recta\"",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_3fd6d5039e",
+      "es": "Todavía no hay avisos de esta parada.",
+      "contextos": [
+        "demo/app.js:1537 · pintarCamiones"
+      ]
+    },
+    {
+      "clave": "texto_161f0e5ed4",
+      "es": "una",
+      "contextos": [
+        "demo/app.js:1923 · avanzarCamion"
+      ]
+    },
+    {
+      "clave": "texto_c1299854f2",
+      "es": "dos",
+      "contextos": [
+        "demo/app.js:1925 · avanzarCamion"
+      ]
+    },
+    {
+      "clave": "texto_ffe6b6e88b",
+      "es": "Para escuchar sin enviar texto, instala una voz en español en los ajustes de tu teléfono. También puedes usar tu lector de pantalla.",
+      "contextos": [
+        "demo/app.js:2153 · hablarCamara"
+      ]
+    },
+    {
+      "clave": "texto_82d095343b",
+      "es": "2 de 3. ¿Escuchas bien los avisos? Arriba, sí. Abajo, me cuesta escuchar.",
+      "contextos": [
+        "demo/app.js:2497 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_21dc270de1",
+      "es": "3 de 3. ¿Pagas Tarifa Unidos, el pasaje de 2 pesos para estudiantes, mayores de 60 y personas con discapacidad? Arriba, sí. Abajo, no.",
+      "contextos": [
+        "demo/app.js:2498 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_618d3ed8b7",
+      "es": "Traducción automática parcial. Algunos textos siguen en español. El audio sigue en español.",
+      "contextos": [
+        "demo/app.js:2778 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_ae72ea3de6",
+      "es": "En Inicio, toca Busca un lugar o Dictar y elige tu destino.",
+      "contextos": [
+        "demo/tutorial.js:5 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_b818adf672",
+      "es": "Compara Qrobus, Uber, DiDi e inDrive. Si eliges camión, toca Empezar viaje con avisos para recibir la guía.",
+      "contextos": [
+        "demo/tutorial.js:6 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_9f9255834b",
+      "es": "Encuentra camiones cerca",
+      "contextos": [
+        "demo/tutorial.js:7 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_f74f2fcb6b",
+      "es": "El botón del centro, Camiones cerca, busca paradas desde tu ubicación.",
+      "contextos": [
+        "demo/tutorial.js:8 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_2faed2d87b",
+      "es": "Elige una parada para consultar rutas y horarios o Reportar algo en esta parada. Los horarios son estimados; no vemos los camiones en tiempo real.",
+      "contextos": [
+        "demo/tutorial.js:9 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_35414a7c78",
+      "es": "Usa la cámara y la voz",
+      "contextos": [
+        "demo/tutorial.js:10 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_0abb2a75e2",
+      "es": "En Inicio o Ajustes, abre Describir con la cámara. En Ajustes puedes elegir el modo Voz.",
+      "contextos": [
+        "demo/tutorial.js:11 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_43437b0a67",
+      "es": "La cámara puede describir algunos objetos y leer letreros. Analiza las imágenes en tu teléfono y puede omitir obstáculos; usa tu bastón o acompañamiento.",
+      "contextos": [
+        "demo/tutorial.js:12 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_9775842c33",
+      "es": "Paso {v1} de {v2}. {v3}. {v4} {v5}",
+      "contextos": [
+        "demo/tutorial.js:17 · leer"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "paso + 1"
+        },
+        "v2": {
+          "expresion": "pasos.length"
+        },
+        "v3": {
+          "expresion": "actual.titulo"
+        },
+        "v4": {
+          "expresion": "actual.texto"
+        },
+        "v5": {
+          "expresion": "actual.detalle"
+        }
+      }
+    },
+    {
+      "clave": "texto_e7aed23a3c",
+      "es": "Empezar a usar Grieta",
+      "contextos": [
+        "demo/tutorial.js:28 · entrar"
+      ]
+    },
+    {
+      "clave": "texto_3ec6273b30",
+      "es": "Apunta el teléfono frente a ti. Describo algunos objetos y leo letreros en español.",
+      "contextos": [
+        "demo/camara.js:53 · actualizarRuta"
+      ]
+    },
+    {
+      "clave": "texto_3f9b54e11a",
+      "es": "Buscas {v1}{v2}.{v3}",
+      "contextos": [
+        "demo/camara.js:57 · actualizarRuta"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "actual.linea"
+        },
+        "v2": {
+          "expresion": "actual.hacia ? ` hacia ${actual.hacia}` : '. Todavía no elegiste el sentido'",
+          "traducir": true
+        },
+        "v3": {
+          "expresion": "manual ? ' Ruta escrita por ti.' : ' Ruta de tu viaje.'",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_2227a73270",
+      "es": "hacia {v1}",
+      "contextos": [
+        "demo/camara.js:57 · actualizarRuta"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "actual.hacia"
+        }
+      }
+    },
+    {
+      "clave": "texto_bc33ae2d07",
+      "es": ". Todavía no elegiste el sentido",
+      "contextos": [
+        "demo/camara.js:57 · actualizarRuta"
+      ]
+    },
+    {
+      "clave": "texto_ad8f8142a7",
+      "es": "Ruta escrita por ti.",
+      "contextos": [
+        "demo/camara.js:57 · actualizarRuta"
+      ]
+    },
+    {
+      "clave": "texto_803045a0f0",
+      "es": "Ruta de tu viaje.",
+      "contextos": [
+        "demo/camara.js:57 · actualizarRuta"
+      ]
+    },
+    {
+      "clave": "texto_4ba4f81ae9",
+      "es": "No encuentro esa ruta en los datos guardados. Revisa el número antes de compararlo.",
+      "contextos": [
+        "demo/camara.js:57 · actualizarRuta"
+      ]
+    },
+    {
+      "clave": "texto_3c4cf3b69b",
+      "es": "Puedo leer el número. Para compararlo, sigue un viaje o escribe la ruta que buscas.",
+      "contextos": [
+        "demo/camara.js:57 · actualizarRuta"
+      ]
+    },
+    {
+      "clave": "texto_975be820b3",
+      "es": "No sé el sentido",
+      "contextos": [
+        "demo/camara.js:68 · sentidos"
+      ]
+    },
+    {
+      "clave": "texto_542336d21a",
+      "es": "Veo varios camiones. Apunta a uno solo para leer su letrero.",
+      "contextos": [
+        "demo/camara.js:86 · revisarCamion"
+      ]
+    },
+    {
+      "clave": "texto_ea6001b223",
+      "es": "Cámara apagada.",
+      "contextos": [
+        "demo/camara.js:158 · cerrar"
+      ]
+    },
+    {
+      "clave": "texto_f407384e2f",
+      "es": "Cancelado",
+      "contextos": [
+        "demo/camara.js:168 · cancelar"
+      ]
+    },
+    {
+      "clave": "texto_664c6187b3",
+      "es": "Preparando cámara: {v1} %.",
+      "contextos": [
+        "demo/camara.js:198 · preparar"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "Math.round(completos / activos.length * 100)",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_8c8c340a43",
+      "es": "Este navegador no admite la cámara con reconocimiento local. Prueba Safari o Chrome actualizados.",
+      "contextos": [
+        "demo/camara.js:204 · iniciar"
+      ]
+    },
+    {
+      "clave": "texto_6831d4a2da",
+      "es": "Preparando el reconocimiento en tu teléfono. Puedes detenerlo cuando quieras.",
+      "contextos": [
+        "demo/camara.js:214 · iniciar"
+      ]
+    },
+    {
+      "clave": "texto_55ea0bce07",
+      "es": "La preparación tardó demasiado. Revisa tu conexión y vuelve a intentar.",
+      "contextos": [
+        "demo/camara.js:215 · iniciar"
+      ]
+    },
+    {
+      "clave": "texto_e894ec52f1",
+      "es": "Permite usar la cámara para describir lo que apunta el teléfono.",
+      "contextos": [
+        "demo/camara.js:223 · iniciar"
+      ]
+    },
+    {
+      "clave": "texto_17b7ae1356",
+      "es": "La cámara se desconectó. Puedes volver a iniciarla.",
+      "contextos": [
+        "demo/camara.js:232 · iniciar"
+      ]
+    },
+    {
+      "clave": "texto_487db32675",
+      "es": "No pude analizar la imagen. Detuve la cámara. Vuelve a intentar.",
+      "contextos": [
+        "demo/camara.js:236 · iniciar"
+      ]
+    },
+    {
+      "clave": "texto_0a5ebdb297",
+      "es": "Actualizando la descripción con una imagen reciente.",
+      "contextos": [
+        "demo/camara.js:241 · iniciar"
+      ]
+    },
+    {
+      "clave": "texto_736c5e35c3",
+      "es": "Análisis lento: los avisos de vehículos pueden omitirse. Detén la cámara y elige Más ligero.",
+      "contextos": [
+        "demo/camara.js:247 · iniciar"
+      ]
+    },
+    {
+      "clave": "texto_63035af067",
+      "es": "Falló el reconocimiento local. Detuve la cámara. Vuelve a intentar.",
+      "contextos": [
+        "demo/camara.js:256 · iniciar"
+      ]
+    },
+    {
+      "clave": "texto_434848b8f5",
+      "es": "Cámara encendida. {v1}{v2}",
+      "contextos": [
+        "demo/camara.js:258 · iniciar"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "GrietaEscalones.activo ? 'Escaleras y escalones: avisos experimentales activos.' : 'Los avisos de escaleras y escalones están desactivados.'",
+          "traducir": true
+        },
+        "v2": {
+          "expresion": "GrietaHoyos.activo ? ' Hoyos: avisos experimentales activos.' : ''",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_b8f9ce2935",
+      "es": "Escaleras y escalones: avisos experimentales activos.",
+      "contextos": [
+        "demo/camara.js:258 · iniciar"
+      ]
+    },
+    {
+      "clave": "texto_8faa6fa159",
+      "es": "Los avisos de escaleras y escalones están desactivados.",
+      "contextos": [
+        "demo/camara.js:258 · iniciar"
+      ]
+    },
+    {
+      "clave": "texto_f28be04a7d",
+      "es": "Hoyos: avisos experimentales activos.",
+      "contextos": [
+        "demo/camara.js:258 · iniciar"
+      ]
+    },
+    {
+      "clave": "texto_cb9ab1e694",
+      "es": "No pude preparar los avisos de hoyos. Revisa la conexión o desactívalos antes de iniciar para usar los otros objetos.",
+      "contextos": [
+        "demo/camara.js:263 · iniciar"
+      ]
+    },
+    {
+      "clave": "texto_47b4bbb943",
+      "es": "No pude preparar los avisos de escaleras y escalones. Revisa la conexión o desactívalos antes de iniciar para usar los otros objetos.",
+      "contextos": [
+        "demo/camara.js:263 · iniciar"
+      ]
+    },
+    {
+      "clave": "texto_4d3a913406",
+      "es": "No diste permiso para la cámara. Puedes habilitarlo en los permisos del navegador y volver a intentar.",
+      "contextos": [
+        "demo/camara.js:263 · iniciar"
+      ]
+    },
+    {
+      "clave": "texto_c54e4b489b",
+      "es": "No encontré una cámara en este dispositivo.",
+      "contextos": [
+        "demo/camara.js:264 · iniciar"
+      ]
+    },
+    {
+      "clave": "texto_c6ceb4e8a2",
+      "es": "No hay espacio para guardar los modelos en este navegador. Libera espacio y vuelve a intentar.",
+      "contextos": [
+        "demo/camara.js:265 · iniciar"
+      ]
+    },
+    {
+      "clave": "texto_845f85e112",
+      "es": "No pude preparar la cámara. Revisa la conexión y vuelve a intentar; las imágenes se analizan en tu teléfono.",
+      "contextos": [
+        "demo/camara.js:266 · iniciar"
+      ]
+    },
+    {
+      "clave": "texto_2c73d6e663",
+      "es": "Mantén esta pantalla abierta; el teléfono puede apagarla.",
+      "contextos": [
+        "demo/camara.js:276 · mantenerPantalla"
+      ]
+    },
+    {
+      "clave": "texto_b74b89446a",
+      "es": "La imagen está muy oscura. Busca mejor luz si puedes hacerlo con seguridad.",
+      "contextos": [
+        "demo/camara.js:284 · revisarEntorno"
+      ]
+    },
+    {
+      "clave": "texto_8aba346480",
+      "es": "La imagen está demasiado iluminada. Evita apuntar directamente a la luz.",
+      "contextos": [
+        "demo/camara.js:284 · revisarEntorno"
+      ]
+    },
+    {
+      "clave": "texto_282045328e",
+      "es": "No hay suficiente detalle en la imagen. Revisa que la lente esté descubierta y limpia.",
+      "contextos": [
+        "demo/camara.js:284 · revisarEntorno"
+      ]
+    },
+    {
+      "clave": "texto_a347833e23",
+      "es": "Atención: {v1} ocupa más espacio al centro de la imagen. Puede haber movimiento; verifica tu entorno.",
+      "contextos": [
+        "demo/camara.js:296 · revisarEntorno"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "GrietaVision.nombres[aviso.clase]"
+        }
+      }
+    },
+    {
+      "clave": "texto_36291abf8f",
+      "es": "La vibración no está disponible ahora. El aviso sigue por voz o lector de pantalla.",
+      "contextos": [
+        "demo/camara.js:298 · revisarEntorno"
+      ]
+    },
+    {
+      "clave": "texto_ac0b7e459b",
+      "es": "El teléfono tardó demasiado en reconocer la imagen. Detuve la cámara.",
+      "contextos": [
+        "demo/camara.js:335 · analizar"
+      ]
+    },
+    {
+      "clave": "texto_8066c31d82",
+      "es": "No pude analizar la imagen. Puedes volver a iniciar la cámara.",
+      "contextos": [
+        "demo/camara.js:341 · analizar"
+      ]
+    },
+    {
+      "clave": "texto_077148e6aa",
+      "es": "Parece haber {v1} en la imagen.",
+      "contextos": [
+        "demo/camara.js:363 · describir"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "estables.map((o) => o.texto).join(', ')",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_adeffad065",
+      "es": "Busco camiones y letreros para tu viaje.",
+      "contextos": [
+        "demo/camara.js:363 · describir"
+      ]
+    },
+    {
+      "clave": "texto_38262b918c",
+      "es": "No reconozco objetos con suficiente certeza. Eso no significa que el paso esté libre.",
+      "contextos": [
+        "demo/camara.js:363 · describir"
+      ]
+    },
+    {
+      "clave": "texto_79418c02b7",
+      "es": "Parece haber {v1}.",
+      "contextos": [
+        "demo/camara.js:367 · describir"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "estables[0].texto",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_2217e0c38a",
+      "es": "Buscando una imagen legible del letrero.",
+      "contextos": [
+        "demo/camara.js:382 · leerTexto"
+      ]
+    },
+    {
+      "clave": "texto_a124add019",
+      "es": "No pude leer la imagen. Sigue apuntando al letrero para intentar otra lectura.",
+      "contextos": [
+        "demo/camara.js:395 · leerTexto"
+      ]
+    },
+    {
+      "clave": "texto_637b7a1596",
+      "es": "El letrero parece coincidir con la parada {v1} del catálogo.",
+      "contextos": [
+        "demo/camara.js:403 · leerTexto"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "parada"
+        }
+      }
+    },
+    {
+      "clave": "texto_1f0fd108c1",
+      "es": "El texto parece decir: {v1}.{v2}",
+      "contextos": [
+        "demo/camara.js:403 · leerTexto"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "texto"
+        },
+        "v2": {
+          "expresion": "parada ? ` Coincide con el nombre ${parada} del catálogo; confirma la parada antes de abordar.` : ''",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_7b12940288",
+      "es": "Coincide con el nombre {v1} del catálogo; confirma la parada antes de abordar.",
+      "contextos": [
+        "demo/camara.js:403 · leerTexto"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "parada"
+        }
+      }
+    },
+    {
+      "clave": "texto_07a36e524b",
+      "es": "No pude leer texto con suficiente claridad. Acércate al letrero si puedes hacerlo con seguridad y vuelve a intentar.",
+      "contextos": [
+        "demo/camara.js:405 · leerTexto"
+      ]
+    },
+    {
+      "clave": "texto_9b2cfd0172",
+      "es": "Cámara encendida. Puedes leer otro letrero o detenerla.",
+      "contextos": [
+        "demo/camara.js:412 · leerTexto"
+      ]
+    },
+    {
+      "clave": "texto_d17ce68558",
+      "es": "No pude leer la imagen. Detuve la cámara. Puedes volver a intentar.",
+      "contextos": [
+        "demo/camara.js:413 · leerTexto"
+      ]
+    },
+    {
+      "clave": "texto_7cb360ebe0",
+      "es": "Todavía no identifico un solo camión para leer su número. Apunta a su letrero; también puedes usar Leer letrero ahora.",
+      "contextos": [
+        "demo/camara.js:422 · leerCamion"
+      ]
+    },
+    {
+      "clave": "texto_1b357f8e92",
+      "es": "Leyendo el letrero en varias imágenes.",
+      "contextos": [
+        "demo/camara.js:430 · leerCamion"
+      ]
+    },
+    {
+      "clave": "texto_6df16cfaf4",
+      "es": "Espero una imagen nueva para volver a comparar el camión.",
+      "contextos": [
+        "demo/camara.js:438 · leerCamion"
+      ]
+    },
+    {
+      "clave": "texto_8fe33abaaa",
+      "es": "La lectura tardó demasiado. Vuelve a apuntar al letrero.",
+      "contextos": [
+        "demo/camara.js:450 · leerCamion"
+      ]
+    },
+    {
+      "clave": "texto_4a978e3b37",
+      "es": "La lectura del camión ya no es reciente. Vuelve a apuntar a su letrero.",
+      "contextos": [
+        "demo/camara.js:457 · leerCamion"
+      ]
+    },
+    {
+      "clave": "texto_a152d1c1bb",
+      "es": "No pude leer el letrero del camión. Detuve la cámara. Puedes volver a intentar.",
+      "contextos": [
+        "demo/camara.js:469 · leerCamion"
+      ]
+    },
+    {
+      "clave": "texto_7af3d135db",
+      "es": "Cámara encendida.",
+      "contextos": [
+        "demo/camara.js:470 · leerCamion"
+      ]
+    },
+    {
+      "clave": "texto_c4f1296141",
+      "es": "La vibración depende del teléfono y sus ajustes. Puedes probarla aquí.",
+      "contextos": [
+        "demo/camara.js:500 · iniciarInterfaz"
+      ]
+    },
+    {
+      "clave": "texto_f883997173",
+      "es": "Este navegador no permite vibrar. Los avisos se muestran y usan tu voz local o lector de pantalla.",
+      "contextos": [
+        "demo/camara.js:500 · iniciarInterfaz"
+      ]
+    },
+    {
+      "clave": "texto_5f17202ffa",
+      "es": "Se pidió una vibración de prueba. Confirma si la sentiste antes de usar los avisos.",
+      "contextos": [
+        "demo/camara.js:504 · iniciarInterfaz"
+      ]
+    },
+    {
+      "clave": "texto_c020ec2e6f",
+      "es": "El teléfono rechazó la vibración. Los avisos siguen por voz o lector de pantalla.",
+      "contextos": [
+        "demo/camara.js:504 · iniciarInterfaz"
+      ]
+    },
+    {
+      "clave": "texto_5e7ce1a20d",
+      "es": "Usa tu lector de pantalla para explorar el botón de práctica y después activarlo con su gesto habitual. Grieta no añade otro doble toque.",
+      "contextos": [
+        "demo/practica.js:5 · instrucciones"
+      ]
+    },
+    {
+      "clave": "texto_33395e561b",
+      "es": "Toca una vez el botón de práctica para escuchar qué hace. Después da dos toques rápidos sobre el mismo botón para activarlo. Puedes escuchar primero y luego dar los dos toques.",
+      "contextos": [
+        "demo/practica.js:5 · instrucciones"
+      ]
+    },
+    {
+      "clave": "texto_fd95a087cb",
+      "es": "Paso 1 de 2. Explora el botón de práctica.",
+      "contextos": [
+        "demo/practica.js:10 · entrar"
+      ]
+    },
+    {
+      "clave": "texto_45810b8270",
+      "es": "Paso 2 de 2. Ya escuchaste el botón. Actívalo con dos toques rápidos en el mismo lugar.",
+      "contextos": [
+        "demo/practica.js:16 · descrito"
+      ]
+    },
+    {
+      "clave": "texto_11f055b8b3",
+      "es": "Práctica completada. Activaste el botón sin hacer ninguna acción fuera de esta práctica.",
+      "contextos": [
+        "demo/practica.js:23 · iniciar"
+      ]
+    },
+    {
+      "clave": "texto_d5e515ad11",
+      "es": "Este botón solo sirve para practicar. No hace acciones fuera de esta pantalla.",
+      "contextos": [
+        "demo/toques.js:4 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_d6a65c278c",
+      "es": "Lee varias imágenes del letrero de un solo camión para comparar la ruta.",
+      "contextos": [
+        "demo/toques.js:4 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_f4f23d4a0e",
+      "es": "Escucha tu destino para buscar cómo llegar.",
+      "contextos": [
+        "demo/toques.js:5 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_4487741a63",
+      "es": "Abre la cámara para describir objetos y leer letreros.",
+      "contextos": [
+        "demo/toques.js:5 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_589ad60e8b",
+      "es": "Busca paradas y rutas cercanas.",
+      "contextos": [
+        "demo/toques.js:6 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_721680a238",
+      "es": "Dice la ubicación detectada.",
+      "contextos": [
+        "demo/toques.js:6 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_55b87edc74",
+      "es": "Vuelve a leer el último aviso.",
+      "contextos": [
+        "demo/toques.js:6 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_67f1a019f7",
+      "es": "Pide permiso y enciende la cámara.",
+      "contextos": [
+        "demo/toques.js:7 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_201cb54b79",
+      "es": "Apaga la cámara y el reconocimiento.",
+      "contextos": [
+        "demo/toques.js:7 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_cbb7fb827c",
+      "es": "Busca texto en la imagen y lo lee.",
+      "contextos": [
+        "demo/toques.js:8 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_27ee06dd03",
+      "es": "Envía el reporte que preparaste.",
+      "contextos": [
+        "demo/toques.js:8 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_735efcf9f0",
+      "es": "Inicia la guía del viaje.",
+      "contextos": [
+        "demo/toques.js:8 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_32d7e82082",
+      "es": "Control",
+      "contextos": [
+        "demo/toques.js:31 · nombre",
+        "demo/toques.js:91 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_719b20338e",
+      "es": "Seleccionado.",
+      "contextos": [
+        "demo/toques.js:37 · descripcion",
+        "demo/toques.js:38 · descripcion"
+      ]
+    },
+    {
+      "clave": "texto_60d00c61ce",
+      "es": "No seleccionado.",
+      "contextos": [
+        "demo/toques.js:37 · descripcion",
+        "demo/toques.js:38 · descripcion"
+      ]
+    },
+    {
+      "clave": "texto_418827137c",
+      "es": "Activado.",
+      "contextos": [
+        "demo/toques.js:37 · descripcion",
+        "demo/toques.js:39 · descripcion"
+      ]
+    },
+    {
+      "clave": "texto_74fc8d58d5",
+      "es": "Desactivado.",
+      "contextos": [
+        "demo/toques.js:37 · descripcion",
+        "demo/toques.js:39 · descripcion"
+      ]
+    },
+    {
+      "clave": "texto_591761c3c4",
+      "es": "Selector.",
+      "contextos": [
+        "demo/toques.js:40 · descripcion"
+      ]
+    },
+    {
+      "clave": "texto_53e7012283",
+      "es": "Adjuntar archivo.",
+      "contextos": [
+        "demo/toques.js:40 · descripcion"
+      ]
+    },
+    {
+      "clave": "texto_6f8ad4693d",
+      "es": "Campo de texto.",
+      "contextos": [
+        "demo/toques.js:40 · descripcion"
+      ]
+    },
+    {
+      "clave": "texto_c51416b3d1",
+      "es": "Enlace.",
+      "contextos": [
+        "demo/toques.js:40 · descripcion"
+      ]
+    },
+    {
+      "clave": "texto_b407e3fa91",
+      "es": "Botón.",
+      "contextos": [
+        "demo/toques.js:40 · descripcion"
+      ]
+    },
+    {
+      "clave": "texto_72ecf9be1d",
+      "es": "Opción.",
+      "contextos": [
+        "demo/toques.js:40 · descripcion"
+      ]
+    },
+    {
+      "clave": "texto_154ca088c8",
+      "es": "Por ahora no está disponible.",
+      "contextos": [
+        "demo/toques.js:41 · descripcion"
+      ]
+    },
+    {
+      "clave": "texto_1a8f09ee97",
+      "es": "Dos toques rápidos para activar.",
+      "contextos": [
+        "demo/toques.js:41 · descripcion"
+      ]
+    },
+    {
+      "clave": "texto_88e12ae748",
+      "es": "Solo camión",
+      "contextos": [
+        "demo/grieta.js:91 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_bbcdbc3cd7",
+      "es": "App hasta la parada + camión",
+      "contextos": [
+        "demo/grieta.js:92 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_41732ff49f",
+      "es": "Camión + app al final",
+      "contextos": [
+        "demo/grieta.js:93 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_c54adab005",
+      "es": "App + camión + app",
+      "contextos": [
+        "demo/grieta.js:94 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_dada8cf163",
+      "es": "línea {v1}: {v2} ({v3}) a {v4}",
+      "contextos": [
+        "demo/grieta.js:166 · armar"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "c.linea"
+        },
+        "v2": {
+          "expresion": "c.recorrido[0].nombre"
+        },
+        "v3": {
+          "expresion": "hhmm(c.sale)"
+        },
+        "v4": {
+          "expresion": "c.baja"
+        }
+      }
+    },
+    {
+      "clave": "texto_492f4abb39",
+      "es": "Solo app ({v1})",
+      "contextos": [
+        "demo/grieta.js:180 · opciones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "nombreApp(directo.mejor.app)"
+        }
+      }
+    },
+    {
+      "clave": "texto_32a7edda34",
+      "es": "con transbordo",
+      "contextos": [
+        "demo/grieta.js:240 · opciones"
+      ]
+    },
+    {
+      "clave": "texto_09c2c6f229",
+      "es": "Solo app",
+      "contextos": [
+        "demo/grieta.js:315 · evaluar",
+        "demo/grieta.js:316 · evaluar"
+      ]
+    },
+    {
+      "clave": "texto_dd6c13f4d0",
+      "es": "El teléfono no vibró. El aviso sigue por voz o lector.",
+      "contextos": [
+        "demo/vision/camara-suelo.js:79 · recibir"
+      ]
+    },
+    {
+      "clave": "texto_f078e63beb",
+      "es": "Escaleras y escalones: se preparan al iniciar.",
+      "contextos": [
+        "demo/vision/camara-suelo.js:103 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_717bcfdb24",
+      "es": "Preparando los avisos experimentales de escaleras y escalones.",
+      "contextos": [
+        "demo/vision/camara-suelo.js:104 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_3063c5f00c",
+      "es": "Escaleras y escalones: reconocimiento experimental activo.",
+      "contextos": [
+        "demo/vision/camara-suelo.js:104 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_3b79e09cef",
+      "es": "Se detuvieron los avisos de escaleras y escalones. Los otros objetos siguen funcionando. Detén y vuelve a iniciar la cámara para reintentarlo.",
+      "contextos": [
+        "demo/vision/camara-suelo.js:105 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_c308c81904",
+      "es": "Escaleras y escalones: avisos detenidos.",
+      "contextos": [
+        "demo/vision/camara-suelo.js:106 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_711505cdc1",
+      "es": "Escaleras y escalones: la imagen es poco legible y puede omitirlos.",
+      "contextos": [
+        "demo/vision/camara-suelo.js:106 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_34cc6eb934",
+      "es": "Escaleras y escalones: espero una imagen nueva de la cámara.",
+      "contextos": [
+        "demo/vision/camara-suelo.js:107 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_190f9c11ee",
+      "es": "El análisis de escaleras y escalones está tardando. Los avisos pueden llegar tarde.",
+      "contextos": [
+        "demo/vision/camara-suelo.js:107 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_17dfe46d37",
+      "es": "Hoyos: se preparan al iniciar.",
+      "contextos": [
+        "demo/vision/camara-suelo.js:115 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_865750ba32",
+      "es": "Preparando los avisos experimentales de hoyos.",
+      "contextos": [
+        "demo/vision/camara-suelo.js:116 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_5c1a05a395",
+      "es": "Hoyos: reconocimiento experimental activo.",
+      "contextos": [
+        "demo/vision/camara-suelo.js:116 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_f872afe8f8",
+      "es": "Se detuvieron los avisos de hoyos. Los otros objetos siguen funcionando. Detén y vuelve a iniciar la cámara para reintentarlo.",
+      "contextos": [
+        "demo/vision/camara-suelo.js:117 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_1b69b6a8a3",
+      "es": "Hoyos: avisos detenidos.",
+      "contextos": [
+        "demo/vision/camara-suelo.js:118 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_e08d1610f1",
+      "es": "Hoyos: la imagen es poco legible y puede omitirlos.",
+      "contextos": [
+        "demo/vision/camara-suelo.js:118 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_a95c558c1f",
+      "es": "Hoyos: espero una imagen nueva de la cámara.",
+      "contextos": [
+        "demo/vision/camara-suelo.js:119 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_8212eb8b23",
+      "es": "El análisis de hoyos está tardando. Los avisos pueden llegar tarde.",
+      "contextos": [
+        "demo/vision/camara-suelo.js:119 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_a19bfdb412",
+      "es": "una persona",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_52b3ff555c",
+      "es": "personas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_14b96e1442",
+      "es": "una bicicleta",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_d97439b9f2",
+      "es": "bicicletas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_f87c97a1bb",
+      "es": "un auto",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_dd18a0f5cc",
+      "es": "autos",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_5b08e2ae0e",
+      "es": "una moto",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_045c3b0ad7",
+      "es": "motos",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_d582a19e77",
+      "es": "un avión",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_59e55457b7",
+      "es": "aviones",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_3307d48628",
+      "es": "un camión",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_e1b0d4bcb0",
+      "es": "camiones",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_bbb12090f5",
+      "es": "un tren",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_ece45dcc46",
+      "es": "trenes",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_612d8ab18f",
+      "es": "un camión de carga",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_5768895918",
+      "es": "camiones de carga",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_de38a24d58",
+      "es": "una embarcación",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_1ccc0816b6",
+      "es": "embarcaciones",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_e17cfc9d16",
+      "es": "un semáforo",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_714abde789",
+      "es": "semáforos",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_91d364cc3b",
+      "es": "un hidrante",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_3389f34443",
+      "es": "hidrantes",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_fc770e563b",
+      "es": "una señal de alto",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_55a9770ff1",
+      "es": "señales de alto",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_2f6831c616",
+      "es": "un parquímetro",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_24689d2103",
+      "es": "parquímetros",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_85ac3e81cc",
+      "es": "una banca",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_ef166becc2",
+      "es": "bancas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_e5ea503352",
+      "es": "un ave",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_f63a5fe50a",
+      "es": "aves",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_5fcac0e5d8",
+      "es": "un gato",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_7051fd3b01",
+      "es": "gatos",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_c1bd11f3bb",
+      "es": "un perro",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_2cc8248a5f",
+      "es": "perros",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_0c056ad649",
+      "es": "un caballo",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_44f7d0ef03",
+      "es": "caballos",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_a1931356af",
+      "es": "una oveja",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_61de60d7e2",
+      "es": "ovejas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_cd65749df9",
+      "es": "una vaca",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_5661c84b77",
+      "es": "vacas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_41d0d4967a",
+      "es": "un elefante",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_73b286dc94",
+      "es": "elefantes",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_2c1c3f953a",
+      "es": "un oso",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_68ec5e0c39",
+      "es": "osos",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_4308940a4b",
+      "es": "una cebra",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_0495da9101",
+      "es": "cebras",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_10e65c7a7b",
+      "es": "una jirafa",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_d9d610fb96",
+      "es": "jirafas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_66534abafa",
+      "es": "una mochila",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_6cdae5e282",
+      "es": "mochilas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_91b0407119",
+      "es": "un paraguas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_e1534634f2",
+      "es": "paraguas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_c42768878e",
+      "es": "una bolsa",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_539cb1eecc",
+      "es": "bolsas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_17f5e6a09f",
+      "es": "una corbata",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_4357e87e79",
+      "es": "corbatas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_154d9fe747",
+      "es": "una maleta",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_6eb6456051",
+      "es": "maletas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_dafc4e9bd2",
+      "es": "un disco de juego",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_682c7ef87d",
+      "es": "discos de juego",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_4d6907f13c",
+      "es": "unos esquís",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_04e6536c7c",
+      "es": "pares de esquís",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_0f93d0aa15",
+      "es": "una tabla de nieve",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_e925885d22",
+      "es": "tablas de nieve",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_6cd76d34e7",
+      "es": "una pelota",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_c45cbb78d2",
+      "es": "pelotas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_7cac99b2bf",
+      "es": "un papalote",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_1c14a40869",
+      "es": "papalotes",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_2df459f45d",
+      "es": "un bate",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_62de93319e",
+      "es": "bates",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_3084eac1d0",
+      "es": "un guante de béisbol",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_512fc3cf31",
+      "es": "guantes de béisbol",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_5a9c6f4d32",
+      "es": "una patineta",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_7551c830fa",
+      "es": "patinetas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_11ba6ec71d",
+      "es": "una tabla de surf",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_e61cc07b64",
+      "es": "tablas de surf",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_89c4429c8b",
+      "es": "una raqueta",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_faf5edd29b",
+      "es": "raquetas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_0455bc4add",
+      "es": "una botella",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_919b75358d",
+      "es": "botellas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_f6300fd004",
+      "es": "una copa",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_33c541a8ab",
+      "es": "copas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_e25043120a",
+      "es": "una taza",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_9f6b40d258",
+      "es": "tazas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_2de07057b4",
+      "es": "un tenedor",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_ab4fc77cbe",
+      "es": "tenedores",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_25defd2456",
+      "es": "un cuchillo",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_3ae67bb979",
+      "es": "cuchillos",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_c7496d201d",
+      "es": "una cuchara",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_d4f97ea95a",
+      "es": "cucharas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_cba5120491",
+      "es": "un tazón",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_25516c1dd0",
+      "es": "tazones",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_035d3ceab1",
+      "es": "un plátano",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_9fa7d0a806",
+      "es": "plátanos",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_a5b08f39db",
+      "es": "una manzana",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_a0dcfa5cc3",
+      "es": "manzanas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_03a8067107",
+      "es": "un sándwich",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_339a390cfc",
+      "es": "sándwiches",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_9041d439ea",
+      "es": "una naranja",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_282b826c46",
+      "es": "naranjas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_b0e2b1669f",
+      "es": "un brócoli",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_ed91bf696f",
+      "es": "brócolis",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_0925ddf059",
+      "es": "una zanahoria",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_b1ea6042d6",
+      "es": "zanahorias",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_40759c4b80",
+      "es": "un hot dog",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_9d4ca2f900",
+      "es": "hot dogs",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_73104406d2",
+      "es": "una pizza",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_af5e48b47d",
+      "es": "pizzas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_1d8452b1e0",
+      "es": "una dona",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_5b3b8ef0d5",
+      "es": "donas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_aaa594b20c",
+      "es": "un pastel",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_31a419a0dc",
+      "es": "pasteles",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_4ad8b99a77",
+      "es": "una silla",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_95bde96ca4",
+      "es": "sillas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_57782df922",
+      "es": "un sillón",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_ed3cd05a04",
+      "es": "sillones",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_f69f827507",
+      "es": "una planta",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_ca605ad1c1",
+      "es": "plantas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_5976c98bc3",
+      "es": "una cama",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_857d0b93e3",
+      "es": "camas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_3cacfe4f3f",
+      "es": "una mesa",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_da21e3a6ab",
+      "es": "mesas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_8b74c18011",
+      "es": "un sanitario",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_fc79e83310",
+      "es": "sanitarios",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_76268c4b0f",
+      "es": "una televisión",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_391c287ed4",
+      "es": "televisiones",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_76274fdb4c",
+      "es": "una computadora portátil",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_3dc0633187",
+      "es": "computadoras portátiles",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_e9ccd3d105",
+      "es": "un ratón de computadora",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_b849016e62",
+      "es": "ratones de computadora",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_2c160fee0a",
+      "es": "un control remoto",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_b7dcefbc8c",
+      "es": "controles remotos",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_cdcc00c1ff",
+      "es": "un teclado",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_ac195dc913",
+      "es": "teclados",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_c49111d339",
+      "es": "un teléfono",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_83a9796084",
+      "es": "teléfonos",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_1f38ea6c50",
+      "es": "un microondas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_52cbf100d9",
+      "es": "microondas",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_02447f06ad",
+      "es": "un horno",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_09483c166f",
+      "es": "hornos",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_21cfc06cad",
+      "es": "un tostador",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_ce303ee793",
+      "es": "tostadores",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_4d1fba299a",
+      "es": "un lavabo",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_d251d0caf2",
+      "es": "lavabos",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_91a157d108",
+      "es": "un refrigerador",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_e61500ecf0",
+      "es": "refrigeradores",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_2f32b10665",
+      "es": "un libro",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_55d30acd51",
+      "es": "libros",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_8f218f289a",
+      "es": "un reloj",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_3bc30c7bb1",
+      "es": "relojes",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_60ba6df8c6",
+      "es": "un florero",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_7bd4ed0d41",
+      "es": "floreros",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_e5ff8da36a",
+      "es": "unas tijeras",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_5f8a30df42",
+      "es": "pares de tijeras",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_16a5abb54d",
+      "es": "un oso de peluche",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_ac305393dd",
+      "es": "osos de peluche",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_82cda0cf96",
+      "es": "una secadora de pelo",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_735bdb4904",
+      "es": "secadoras de pelo",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_040ab829f3",
+      "es": "un cepillo de dientes",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_ceec3a2c03",
+      "es": "cepillos de dientes",
+      "contextos": [
+        "demo/vision/observaciones.js:3 · etiquetas"
+      ]
+    },
+    {
+      "clave": "texto_c9a14c6519",
+      "es": "a la izquierda",
+      "contextos": [
+        "demo/vision/observaciones.js:26 · objetos"
+      ]
+    },
+    {
+      "clave": "texto_251fb720fd",
+      "es": "a la derecha",
+      "contextos": [
+        "demo/vision/observaciones.js:26 · objetos"
+      ]
+    },
+    {
+      "clave": "texto_d369c721f4",
+      "es": "varias",
+      "contextos": [
+        "demo/vision/transporte.js:134 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_866f9445a0",
+      "es": "Aparecen varios códigos. Necesito una lectura de un solo letrero.",
+      "contextos": [
+        "demo/vision/transporte.js:134 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_ade80d87d0",
+      "es": "Todavía no hay una lectura.",
+      "contextos": [
+        "demo/vision/transporte.js:138 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_16b04b889a",
+      "es": "La lectura es poco clara. Necesito otra lectura.",
+      "contextos": [
+        "demo/vision/transporte.js:142 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_3706afcaeb",
+      "es": "Todavía no distingo un código completo del catálogo.",
+      "contextos": [
+        "demo/vision/transporte.js:145 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_1f0c6062c4",
+      "es": "Parece decir {v1}.",
+      "contextos": [
+        "demo/vision/transporte.js:151 · inicio"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "linea"
+        }
+      }
+    },
+    {
+      "clave": "texto_0f5739041c",
+      "es": "Parece decir {v1}. Necesito lecturas con tiempo válido para comparar.",
+      "contextos": [
+        "demo/vision/transporte.js:154 · inicio"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "linea"
+        }
+      }
+    },
+    {
+      "clave": "texto_0d0cfaf93e",
+      "es": "Parece decir {v1}. Necesito otra lectura independiente.",
+      "contextos": [
+        "demo/vision/transporte.js:169 · inicio"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "linea"
+        }
+      }
+    },
+    {
+      "clave": "texto_baa7ef8af2",
+      "es": "Parece decir {v1}. El letrero parece indicar {v2}, otro sentido distinto al que buscas.",
+      "contextos": [
+        "demo/vision/transporte.js:177 · inicio"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "linea"
+        },
+        "v2": {
+          "expresion": "recientes[0].otroSentido"
+        }
+      }
+    },
+    {
+      "clave": "texto_4c86a3fe20",
+      "es": "Coincide con la ruta que buscas",
+      "contextos": [
+        "demo/vision/transporte.js:179 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_9204a4e78f",
+      "es": "No coincide con la ruta que buscas",
+      "contextos": [
+        "demo/vision/transporte.js:179 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_6546243c56",
+      "es": "Parece decir {v1}. {v2}. También coincide el letrero de destino.",
+      "contextos": [
+        "demo/vision/transporte.js:181 · inicio"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "linea"
+        },
+        "v2": {
+          "expresion": "comparacion"
+        }
+      }
+    },
+    {
+      "clave": "texto_aa86993b37",
+      "es": "Parece decir {v1}. {v2}; no pude confirmar el sentido.",
+      "contextos": [
+        "demo/vision/transporte.js:182 · inicio"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "linea"
+        },
+        "v2": {
+          "expresion": "comparacion"
+        }
+      }
+    },
+    {
+      "clave": "texto_2a1c32c01e",
+      "es": "Posibles escaleras",
+      "contextos": [
+        "demo/vision/desniveles.js:159 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_d6e3099d1f",
+      "es": "Posible escalón",
+      "contextos": [
+        "demo/vision/desniveles.js:159 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_9684596b77",
+      "es": "{v1} {v2} de la imagen.",
+      "contextos": [
+        "demo/vision/desniveles.js:160 · inicio"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "nombre",
+          "traducir": true
+        },
+        "v2": {
+          "expresion": "ubicacion",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_2fe4e82d64",
+      "es": "en el centro",
+      "contextos": [
+        "demo/vision/hoyos.js:191 · inicio"
+      ]
+    },
+    {
+      "clave": "texto_5f0d603548",
+      "es": "Posible hoyo {v1} de la imagen.",
+      "contextos": [
+        "demo/vision/hoyos.js:192 · inicio"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "ubicacion",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "camara_objetos_2",
+      "es": "{objeto} {lado}",
+      "selector": "#camaraResultado, #camaraAlerta",
+      "variables": {
+        "objeto": {
+          "traducir": true,
+          "opciones": [
+            "una persona",
+            "una bicicleta",
+            "un auto",
+            "una moto",
+            "un avión",
+            "un camión",
+            "un tren",
+            "un camión de carga",
+            "una embarcación",
+            "un semáforo",
+            "un hidrante",
+            "una señal de alto",
+            "un parquímetro",
+            "una banca",
+            "un ave",
+            "un gato",
+            "un perro",
+            "un caballo",
+            "una oveja",
+            "una vaca",
+            "un elefante",
+            "un oso",
+            "una cebra",
+            "una jirafa",
+            "una mochila",
+            "un paraguas",
+            "una bolsa",
+            "una corbata",
+            "una maleta",
+            "un disco de juego",
+            "una tabla de nieve",
+            "una pelota",
+            "un papalote",
+            "un bate",
+            "un guante de béisbol",
+            "una patineta",
+            "una tabla de surf",
+            "una raqueta",
+            "una botella",
+            "una copa",
+            "una taza",
+            "un tenedor",
+            "un cuchillo",
+            "una cuchara",
+            "un tazón",
+            "un plátano",
+            "una manzana",
+            "un sándwich",
+            "una naranja",
+            "un brócoli",
+            "una zanahoria",
+            "un hot dog",
+            "una pizza",
+            "una dona",
+            "un pastel",
+            "una silla",
+            "un sillón",
+            "una planta",
+            "una cama",
+            "una mesa",
+            "un sanitario",
+            "una televisión",
+            "una computadora portátil",
+            "un ratón de computadora",
+            "un control remoto",
+            "un teclado",
+            "un teléfono",
+            "un microondas",
+            "un horno",
+            "un tostador",
+            "un lavabo",
+            "un refrigerador",
+            "un libro",
+            "un reloj",
+            "un florero",
+            "un oso de peluche",
+            "una secadora de pelo",
+            "un cepillo de dientes"
+          ]
+        },
+        "lado": {
+          "traducir": true,
+          "opciones": [
+            "a la izquierda",
+            "al centro",
+            "a la derecha"
+          ]
+        }
+      },
+      "contextos": [
+        "demo/vision/observaciones.js · objetos"
+      ]
+    },
+    {
+      "clave": "camara_objetos_3",
+      "es": "{numero} {objeto} {lado}",
+      "selector": "#camaraResultado, #camaraAlerta",
+      "variables": {
+        "numero": {
+          "formato": "numero"
+        },
+        "objeto": {
+          "traducir": true,
+          "opciones": [
+            "personas",
+            "bicicletas",
+            "autos",
+            "motos",
+            "aviones",
+            "camiones",
+            "trenes",
+            "camiones de carga",
+            "embarcaciones",
+            "semáforos",
+            "hidrantes",
+            "señales de alto",
+            "parquímetros",
+            "bancas",
+            "aves",
+            "gatos",
+            "perros",
+            "caballos",
+            "ovejas",
+            "vacas",
+            "elefantes",
+            "osos",
+            "cebras",
+            "jirafas",
+            "mochilas",
+            "paraguas",
+            "bolsas",
+            "corbatas",
+            "maletas",
+            "discos de juego",
+            "unos esquís",
+            "pares de esquís",
+            "tablas de nieve",
+            "pelotas",
+            "papalotes",
+            "bates",
+            "guantes de béisbol",
+            "patinetas",
+            "tablas de surf",
+            "raquetas",
+            "botellas",
+            "copas",
+            "tazas",
+            "tenedores",
+            "cuchillos",
+            "cucharas",
+            "tazones",
+            "plátanos",
+            "manzanas",
+            "sándwiches",
+            "naranjas",
+            "brócolis",
+            "zanahorias",
+            "hot dogs",
+            "pizzas",
+            "donas",
+            "pasteles",
+            "sillas",
+            "sillones",
+            "plantas",
+            "camas",
+            "mesas",
+            "sanitarios",
+            "televisiones",
+            "computadoras portátiles",
+            "ratones de computadora",
+            "controles remotos",
+            "teclados",
+            "teléfonos",
+            "microondas",
+            "hornos",
+            "tostadores",
+            "lavabos",
+            "refrigeradores",
+            "libros",
+            "relojes",
+            "floreros",
+            "unas tijeras",
+            "pares de tijeras",
+            "osos de peluche",
+            "secadoras de pelo",
+            "cepillos de dientes"
+          ]
+        },
+        "lado": {
+          "traducir": true,
+          "opciones": [
+            "a la izquierda",
+            "al centro",
+            "a la derecha"
+          ]
+        }
+      },
+      "contextos": [
+        "demo/vision/observaciones.js · objetos"
+      ]
+    },
+    {
+      "clave": "texto_8f51899ea3",
+      "es": "Activar voz",
+      "contextos": [
+        "demo/index.html · pantallas · aria-label",
+        "demo/index.html · pantallas · #vozRapida",
+        "demo/app.js:134 · aplicarAcc",
+        "demo/app.js:135 · aplicarAcc",
+        "demo/app.js:136 · aplicarAcc"
+      ]
+    },
+    {
+      "clave": "texto_9fac87c692",
+      "es": "Actualizar ubicación",
+      "contextos": [
+        "demo/index.html · pantallas · #actualizarParadas"
+      ]
+    },
+    {
+      "clave": "texto_6ae0813ecb",
+      "es": "Silenciar Grieta",
+      "contextos": [
+        "demo/app.js:134 · aplicarAcc",
+        "demo/app.js:135 · aplicarAcc",
+        "demo/app.js:136 · aplicarAcc"
+      ]
+    },
+    {
+      "clave": "texto_ad0cd2f762",
+      "es": "Sugerida",
+      "contextos": [
+        "demo/app.js:1360 · pintarParadas"
+      ]
+    },
+    {
+      "clave": "texto_370c550de8",
+      "es": "Parada sugerida",
+      "contextos": [
+        "demo/app.js:1376 · ponerCaminata",
+        "demo/app.js:1516 · pintarCamiones"
+      ]
+    },
+    {
+      "clave": "texto_a8e55e146e",
+      "es": "Actualizando tu ubicación…",
+      "contextos": [
+        "demo/app.js:1395 · abrirCamiones"
+      ]
+    },
+    {
+      "clave": "texto_3d06967152",
+      "es": "Ubicación actualizada.{v1}",
+      "contextos": [
+        "demo/app.js:1404 · abrirCamiones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "punto.precision > 100 ? ' Es aproximada; la parada sugerida puede cambiar.' : ''",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_68d4f51e35",
+      "es": "Es aproximada; la parada sugerida puede cambiar.",
+      "contextos": [
+        "demo/app.js:1404 · abrirCamiones"
+      ]
+    },
+    {
+      "clave": "texto_06ed27f504",
+      "es": "Paradas desde el punto elegido: {v1}. No pude actualizar tu ubicación.",
+      "contextos": [
+        "demo/app.js:1405 · abrirCamiones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "punto.nombre"
+        }
+      }
+    },
+    {
+      "clave": "texto_298501385b",
+      "es": "No pude actualizar tu ubicación. Actívala o elige desde dónde sales.",
+      "contextos": [
+        "demo/app.js:1408 · abrirCamiones"
+      ]
+    },
+    {
+      "clave": "texto_a013c681e5",
+      "es": "No encontré paradas en el catálogo a menos de un kilómetro. Puede haber otras paradas que todavía no aparecen aquí.",
+      "contextos": [
+        "demo/app.js:1419 · cargarCamiones"
+      ]
+    },
+    {
+      "clave": "texto_8d94913734",
+      "es": "No hay próximos horarios guardados para esta parada.",
+      "contextos": [
+        "demo/app.js:1507 · filas"
+      ]
+    },
+    {
+      "clave": "texto_b8c4394eec",
+      "es": "Comparamos hasta ocho paradas del catálogo. Puede haber otras paradas que todavía no aparecen aquí.",
+      "contextos": [
+        "demo/app.js:1514 · pintarCamiones"
+      ]
+    },
+    {
+      "clave": "texto_61dc960794",
+      "es": "Una parada del catálogo es {v1}, {v2}.",
+      "contextos": [
+        "demo/app.js:1591 · dondeEstoy"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "cruce(parada.nombre)"
+        },
+        "v2": {
+          "expresion": "cuanto"
+        }
+      }
+    },
+    {
+      "clave": "texto_104fc8f018",
+      "es": "Espera el tono y di a dónde vas.",
+      "contextos": [
+        "demo/app.js:1648 · dictar"
+      ]
     }
   ]
 }

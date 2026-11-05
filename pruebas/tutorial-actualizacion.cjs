@@ -1,0 +1,16 @@
+const {chromium}=require('playwright');const fs=require('node:fs');const path=require('node:path');const http=require('node:http');const {execFileSync}=require('node:child_process');const assert=require('node:assert/strict');
+(async()=>{let anterior=true;const raiz=path.resolve(__dirname,'..');const repo=process.env.GRIETA_REPO_ANTERIOR??raiz;const revision=process.env.GRIETA_REVISION_ANTERIOR??'a1e2aab';const guardados=new Map();
+ const tipos={'.js':'text/javascript','.json':'application/json','.html':'text/html','.css':'text/css','.png':'image/png','.wasm':'application/wasm'};
+ const s=http.createServer((req,res)=>{let nombre=new URL(req.url,'http://localhost').pathname.slice(1)||'index.html';try{assert(!nombre.includes('..'));let datos;if(anterior){if(!guardados.has(nombre))guardados.set(nombre,execFileSync('git',['show',`${revision}:demo/${nombre}`],{cwd:repo,maxBuffer:32*1024*1024,stdio:['ignore','pipe','ignore']}));datos=guardados.get(nombre);}else datos=fs.readFileSync(path.join(raiz,'demo',nombre));res.writeHead(200,{'Content-Type':tipos[path.extname(nombre)]??'application/octet-stream','Cache-Control':'no-cache'});res.end(datos);}catch{res.writeHead(404);res.end();}});
+ await new Promise(r=>s.listen(0,'127.0.0.1',r));const b=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_EXECUTABLE});
+ try{const c=await b.newContext({viewport:{width:390,height:844}});await c.addInitScript(()=>{localStorage.setItem('grieta-bienvenida','true');if(!localStorage.getItem('grieta-acc'))localStorage.setItem('grieta-acc',JSON.stringify({voz:false,tema:'oscuro'}));});const p=await c.newPage();const errores=[];p.on('pageerror',e=>errores.push(e.message));const url=`http://127.0.0.1:${s.address().port}`;await p.goto(url);await p.waitForFunction(()=>navigator.serviceWorker.controller);
+ assert(await p.evaluate(()=>caches.has('grieta-75')));anterior=false;
+ await p.evaluate(async()=>{const r=await navigator.serviceWorker.getRegistration();await r.update();});
+ await p.waitForFunction(async()=>await caches.has('grieta-76')&&!await caches.has('grieta-75'));
+ await p.reload();await p.waitForFunction(()=>Interfaz.disponiblePara('oto'));
+ await c.setOffline(true);await p.reload({waitUntil:'domcontentloaded'});await p.locator('#pestanas [data-tab=ajustes]').click();await p.locator('#abrirTutorial').click();assert.equal(await p.locator('#tutorialProgreso').textContent(),'Paso 1 de 3');await p.locator('#tutorialOmitir').click();await p.locator('#resumenPerfil').click();await p.waitForFunction(()=>Interfaz.disponiblePara('oto'));
+ assert(await p.locator('#perfilLengua [data-v=nah]').isDisabled());assert(await p.locator('#nahuatlPendiente').isVisible());await p.locator('#perfilLengua [data-v=oto]').click();await p.waitForFunction(()=>document.documentElement.lang==='otq');
+ for(const n of ['tutorial.js','idiomas/nhe.json','vision/hoyos.js?v=76','vision/hoyos-worker.js?v=76'])assert(await p.evaluate(async n=>!!await(await caches.open('grieta-76')).match(n),n));
+ assert.deepEqual(errores,[]);console.log('Actualización real 75 → 76, caché anterior eliminada, tutorial/idiomas/worker nuevos disponibles sin red; náhuatl sigue pendiente y otomí funciona.');
+ }finally{await b.close();await new Promise(r=>s.close(r));}
+})().catch(e=>{console.error(e);process.exit(1);});

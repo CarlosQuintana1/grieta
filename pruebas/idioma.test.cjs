@@ -48,10 +48,11 @@ test('rechaza datos mal formados sin lanzar errores', () => {
 test('el catálogo real contiene los textos provisionales y conserva todas las variables', () => {
   const base = JSON.parse(fs.readFileSync(path.join(raiz, 'idiomas', 'es.json')));
   const c = JSON.parse(fs.readFileSync(path.join(raiz, 'idiomas', 'otq.json')));
-  assert.equal(base.mensajes.length, c.mensajes.length);
+  assert.ok(base.mensajes.length > c.mensajes.length);
   assert.ok(c.mensajes.length > 500);
   assert.equal(new Set(c.mensajes.map(x => x.clave)).size, c.mensajes.length);
-  assert.equal(c.completa, true);
+  assert.equal(c.completa, false);
+  assert.equal(c.parcial, true);
   assert.equal(c.provisional, true);
   assert.equal(c.revision, null);
   assert.ok(c.mensajes.every(x => typeof x.otq === 'string' && x.otq.trim()));
@@ -71,7 +72,7 @@ test('la traducción conserva los números y las marcas que aparecen en los text
   }
 });
 
-test('el worker conserva el código y los dos catálogos para leerlos sin red', async () => {
+test('el worker conserva el código y los catálogos activos y pendientes sin red', async () => {
   const manejadores = new Map(), guardadas = new Map();
   const origen = 'https://grieta.prueba/';
   const cache = {
@@ -102,10 +103,38 @@ test('el worker conserva el código y los dos catálogos para leerlos sin red', 
   let instalacion;
   manejadores.get('install')({ waitUntil: p => { instalacion = p; } });
   await instalacion;
-  for (const archivo of ['idioma.js', 'idiomas/es.json', 'idiomas/otq.json']) {
+  for (const archivo of ['idioma.js', 'idiomas/es.json', 'idiomas/otq.json', 'idiomas/nhe.json', 'tutorial.js']) {
     let pendiente;
     manejadores.get('fetch')({ request: { url: origen + archivo + '?revision=prueba', method: 'GET' }, respondWith: p => { pendiente = p; } });
     const respuesta = await pendiente;
     assert.equal(await respuesta.text(), fs.readFileSync(path.join(raiz, archivo), 'utf8'));
   }
+});
+
+test('náhuatl pendiente permanece desactivado y conserva todas las claves para traducir', () => {
+  const base = JSON.parse(fs.readFileSync(path.join(raiz, 'idiomas/es.json')));
+  const c = JSON.parse(fs.readFileSync(path.join(raiz, 'idiomas/nhe.json')));
+  assert.equal(c.completa, false); assert.equal(c.parcial, false);
+  assert.equal(revisar(c, base), false);
+  assert.deepEqual(c.mensajes.map(m => [m.clave,m.es]), base.mensajes.map(m => [m.clave,m.es]));
+  assert.ok(c.mensajes.every(m => m.nhe === null));
+});
+test('un catálogo parcial identificado conserva sus mensajes y rechaza integridad rota', () => {
+  const c = { ...valido(), completa: false, parcial: true, mensajes: valido().mensajes.slice(0,1) };
+  assert.equal(revisar(c, fuente),true);
+  assert.equal(revisar({...c, parcial: false},fuente),false);
+  assert.equal(revisar({...c, completa: true},fuente),false);
+  assert.equal(revisar({...c, mensajes:[]},fuente),false);
+});
+test('valida náhuatl completo sin reutilizar por error el campo de otomí', () => {
+  const c = { ...valido(), codigo:'nhe', mensajes:valido().mensajes.map(({otq,...m})=>({...m,nhe:otq})) };
+  assert.equal(revisar(c,fuente),true);
+  delete c.mensajes[0].nhe;
+  assert.equal(revisar(c,fuente),false);
+});
+test('rechaza alterar números o marcas incluso con las variables intactas', () => {
+  const base={mensajes:[{clave:'precio',es:'Grieta: 2 pesos a las {hora}'}]};
+  const c={codigo:'nhe',completa:true,revision:'Catálogo sintético de prueba',mensajes:[{...base.mensajes[0],nhe:'Grieta: prueba 2 {hora}'}]};
+  assert.equal(revisar(c,base),true);
+  c.mensajes[0].nhe='Prueba 3 {hora}';assert.equal(revisar(c,base),false);
 });

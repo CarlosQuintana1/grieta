@@ -1,54 +1,62 @@
-const GrietaEscalones = (() => {
+function crearCamaraSuelo(config) {
   const $ = id => document.getElementById(id);
-  const avisador = new GrietaDesniveles.Avisador();
+  const avisador = new config.politica.Avisador();
   const lienzo = document.createElement('canvas'), contexto = lienzo.getContext('2d', { willReadFrequently: true });
-  let opciones = {}, worker, video, calidad, sesion = 0, reloj, vigilancia, caduca, muestra, ultimaFrase = '', clave = '', ultimoAviso = -Infinity, ultimoFotograma = -Infinity, vista = 0;
-  const habilitado = () => $('camaraEscalones').checked;
+  const mini = document.createElement('canvas'); mini.width = 32; mini.height = 24;
+  const lectura = mini.getContext('2d', { willReadFrequently: true });
+  let opciones = {}, worker, video, calidad, cancelarInicio, sesion = 0, reloj, vigilancia, caduca, muestra, ultimaFrase = '', clave = '', ultimoAviso = -Infinity, ultimoFotograma = -Infinity, vista = 0;
+  const escribir = (id, texto) => { if ($(id)) $(id).textContent = texto; };
+  const habilitado = () => $(config.casilla)?.checked === true;
   function retirar() {
-    clearTimeout(caduca); $('camaraSueloAlerta').textContent = '';
-    if (ultimaFrase) opciones.alRetirar?.(ultimaFrase);
-    ultimaFrase = clave = '';
+    clearTimeout(caduca); escribir(config.alerta, '');
+    const frase = ultimaFrase; ultimaFrase = clave = '';
+    if (frase) opciones.alRetirar?.(frase);
   }
   function preferencia() {
-    if (!worker) $('camaraSueloEstado').textContent = habilitado() ? 'Escaleras y escalones: se preparan al iniciar.' : 'Escaleras y escalones: desactivado.';
+    if (!worker) escribir(config.estado, habilitado() ? config.textos.espera : config.textos.desactivado);
   }
   function cerrar() {
-    sesion++; clearTimeout(reloj); clearTimeout(vigilancia); retirar();
+    sesion++; cancelarInicio?.abort(); cancelarInicio = null;
+    clearTimeout(reloj); clearTimeout(vigilancia); retirar();
     worker?.terminate(); worker = video = muestra = null;
     lienzo.width = lienzo.height = 0; avisador.reiniciar(); ultimoAviso = ultimoFotograma = -Infinity; vista = 0;
     preferencia();
   }
   function fallo() {
-    cerrar();
-    const texto = 'Se detuvieron los avisos de escaleras y escalones. Los otros objetos siguen funcionando. Detén y vuelve a iniciar la cámara para reintentarlo.';
-    $('camaraSueloEstado').textContent = texto; ultimoAviso = Date.now();
-    $('camaraSueloAlerta').textContent = 'Escaleras y escalones: avisos detenidos.'; opciones.hablar?.(texto, true);
+    cerrar(); escribir(config.estado, config.textos.fallo); ultimoAviso = Date.now();
+    escribir(config.alerta, config.textos.detenido); opciones.hablar?.(config.textos.fallo, true);
   }
   async function preparar(signal, pedir) {
-    cerrar(); if (!habilitado()) return;
-    const turno = sesion;
-    $('camaraSueloEstado').textContent = 'Preparando los avisos experimentales de escaleras y escalones.';
-    worker = new Worker('vision/escalones-worker.js?v=74');
-    try { await pedir(worker, { tipo: 'iniciar' }, 'listo', signal); }
-    catch (e) { if (turno !== sesion) throw e; throw Error('modelo-escalones'); }
+    cerrar(); if (!habilitado() || signal.aborted) return;
+    const turno = sesion, actual = new Worker(config.worker), cancelacion = new AbortController();
+    worker = actual; cancelarInicio = cancelacion;
+    const cancelar = () => { if (turno === sesion) cerrar(); };
+    signal.addEventListener('abort', cancelar, { once: true });
+    escribir(config.estado, config.textos.preparando);
+    try { await pedir(actual, { tipo: 'iniciar' }, 'listo', cancelacion.signal); }
+    catch (e) { if (turno !== sesion) throw e; cerrar(); throw Error(config.error); }
+    finally { signal.removeEventListener('abort', cancelar); if (cancelarInicio === cancelacion) cancelarInicio = null; }
   }
   async function analizar(turno) {
     if (turno !== sesion || !worker || !video || muestra) return;
-    if (!video.videoWidth || video.readyState < 2) { reloj = setTimeout(() => analizar(turno), 100); return; }
-    const w = Math.min(768, video.videoWidth), h = Math.round(video.videoHeight / video.videoWidth * w);
+    if (!video.videoWidth || !video.videoHeight || video.readyState < 2) { reloj = setTimeout(() => analizar(turno), 100); return; }
+    const escala = Math.min(1, 768 / Math.max(video.videoWidth, video.videoHeight));
+    const w = Math.max(1, Math.round(video.videoWidth * escala)), h = Math.max(1, Math.round(video.videoHeight * escala));
     if (lienzo.width !== w || lienzo.height !== h) { lienzo.width = w; lienzo.height = h; }
-    contexto.drawImage(video, 0, 0, w, h);
-    muestra = { capturada: performance.now(), fotograma: video.currentTime, malaImagen: ['oscura', 'expuesta'].includes(calidad?.()) };
     const actual = worker;
     let imagen;
     try {
+      contexto.drawImage(video, 0, 0, w, h); lectura.drawImage(lienzo, 0, 0, 32, 24);
+      const problema = GrietaSeguimiento.calidad(lectura.getImageData(0, 0, 32, 24).data, 32, 24).problema;
+      muestra = { capturada: performance.now(), fotograma: video.currentTime, malaImagen: [problema, calidad?.()].some(p => ['oscura', 'expuesta'].includes(p)) };
       if (typeof createImageBitmap === 'function') { try { imagen = await createImageBitmap(lienzo); } catch {} }
       if (turno !== sesion || actual !== worker) { imagen?.close(); return; }
       vigilancia = setTimeout(() => { if (turno === sesion && actual === worker) fallo(); }, 10000);
-      if (imagen) worker.postMessage({ tipo: 'detectar', vista: vista++ % 2 ? 'suelo' : 'completa', imagen, ancho: w, alto: h }, [imagen]);
+      const mensaje = { tipo: 'detectar', vista: config.alternar && vista++ % 2 ? 'suelo' : 'completa', ancho: w, alto: h };
+      if (imagen) actual.postMessage({ ...mensaje, imagen }, [imagen]);
       else {
         const datos = contexto.getImageData(0, 0, w, h);
-        worker.postMessage({ tipo: 'detectar', vista: vista++ % 2 ? 'suelo' : 'completa', pixeles: datos.data.buffer, ancho: w, alto: h }, [datos.data.buffer]);
+        actual.postMessage({ ...mensaje, pixeles: datos.data.buffer }, [datos.data.buffer]);
       }
     } catch { imagen?.close(); if (turno === sesion && actual === worker) fallo(); }
   }
@@ -60,17 +68,17 @@ const GrietaEscalones = (() => {
     const ahora = performance.now();
     if (ahora - captura.capturada > 2000 || captura.malaImagen || captura.fotograma <= ultimoFotograma) {
       avisador.reiniciar(); retirar();
-      $('camaraSueloEstado').textContent = captura.malaImagen ? 'Escaleras y escalones: la imagen es poco legible y puede omitirlos.' : captura.fotograma <= ultimoFotograma ? 'Escaleras y escalones: espero una imagen nueva de la cámara.' : 'El análisis de escaleras y escalones está tardando. Los avisos pueden llegar tarde.';
+      escribir(config.estado, captura.malaImagen ? config.textos.ilegible : captura.fotograma <= ultimoFotograma ? config.textos.congelado : config.textos.tarde);
     } else {
-      $('camaraSueloEstado').textContent = 'Escaleras y escalones: reconocimiento experimental activo.';
+      escribir(config.estado, config.textos.activo);
       const aviso = avisador.actualizar(data.regiones, { ahora, ...captura });
       if (aviso) {
         retirar(); ultimaFrase = aviso.texto; clave = `${aviso.tipo}:${aviso.lado}`;
-        $('camaraSueloAlerta').textContent = aviso.texto; ultimoAviso = Date.now();
+        escribir(config.alerta, aviso.texto); ultimoAviso = Date.now();
         opciones.alAviso?.(aviso.texto); opciones.hablar?.(aviso.texto, true);
-        if (typeof navigator.vibrate === 'function' && !opciones.vibrar?.([180, 100, 180])) $('camaraVibracion').textContent = 'El teléfono no vibró. El aviso sigue por voz o lector.';
+        if (typeof navigator.vibrate === 'function' && !opciones.vibrar?.([180, 100, 180])) escribir('camaraVibracion', 'El teléfono no vibró. El aviso sigue por voz o lector.');
       }
-      if (clave && data.regiones.some(r => `${r?.tipo}:${r?.lado}` === clave)) {
+      if (clave && data.regiones.some(r => `${r?.tipo}:${r?.lado}` === clave && (!config.validar || config.validar(r)))) {
         clearTimeout(caduca); caduca = setTimeout(retirar, 1800);
       }
     }
@@ -83,9 +91,31 @@ const GrietaEscalones = (() => {
     const turno = sesion;
     worker.onmessage = ({ data }) => recibir(turno, data);
     worker.onerror = () => { if (turno === sesion) fallo(); };
-    $('camaraSueloEstado').textContent = 'Escaleras y escalones: reconocimiento experimental activo.';
-    analizar(turno);
+    escribir(config.estado, config.textos.activo); analizar(turno);
   }
-  function iniciarInterfaz(config) { opciones = config; preferencia(); }
-  return { preparar, encender, cerrar, iniciarInterfaz, preferencia, habilitado, get frase() { return ultimaFrase; }, get activo() { return Boolean(worker && video); }, get reciente() { return Date.now() - ultimoAviso < 6000; } };
-})();
+  function iniciarInterfaz(configuracion) { opciones = configuracion; preferencia(); }
+  return { preparar, encender, cerrar, iniciarInterfaz, preferencia, habilitado, get frase() { return ultimaFrase; }, get instante() { return ultimoAviso; }, get activo() { return Boolean(worker && video); }, get reciente() { return Date.now() - ultimoAviso < 6000; } };
+}
+const GrietaEscalones = crearCamaraSuelo({
+  politica: GrietaDesniveles, casilla: 'camaraEscalones', estado: 'camaraSueloEstado', alerta: 'camaraSueloAlerta',
+  worker: 'vision/escalones-worker.js?v=74', error: 'modelo-escalones', alternar: true,
+  textos: {
+    espera: 'Escaleras y escalones: se preparan al iniciar.', desactivado: 'Escaleras y escalones: desactivado.',
+    preparando: 'Preparando los avisos experimentales de escaleras y escalones.', activo: 'Escaleras y escalones: reconocimiento experimental activo.',
+    fallo: 'Se detuvieron los avisos de escaleras y escalones. Los otros objetos siguen funcionando. Detén y vuelve a iniciar la cámara para reintentarlo.',
+    detenido: 'Escaleras y escalones: avisos detenidos.', ilegible: 'Escaleras y escalones: la imagen es poco legible y puede omitirlos.',
+    congelado: 'Escaleras y escalones: espero una imagen nueva de la cámara.', tarde: 'El análisis de escaleras y escalones está tardando. Los avisos pueden llegar tarde.'
+  }
+});
+const GrietaHoyos = crearCamaraSuelo({
+  politica: typeof GrietaHoyosPolitica === 'undefined' ? { Avisador: class { reiniciar() {} } } : GrietaHoyosPolitica,
+  casilla: 'camaraHoyos', estado: 'camaraHoyosEstado', alerta: 'camaraHoyosAlerta',
+  worker: 'vision/hoyos-worker.js?v=76', error: 'modelo-hoyos', validar: r => Number.isFinite(r.confianza) && r.confianza >= .65,
+  textos: {
+    espera: 'Hoyos: se preparan al iniciar.', desactivado: 'Hoyos: desactivado.',
+    preparando: 'Preparando los avisos experimentales de hoyos.', activo: 'Hoyos: reconocimiento experimental activo.',
+    fallo: 'Se detuvieron los avisos de hoyos. Los otros objetos siguen funcionando. Detén y vuelve a iniciar la cámara para reintentarlo.',
+    detenido: 'Hoyos: avisos detenidos.', ilegible: 'Hoyos: la imagen es poco legible y puede omitirlos.',
+    congelado: 'Hoyos: espero una imagen nueva de la cámara.', tarde: 'El análisis de hoyos está tardando. Los avisos pueden llegar tarde.'
+  }
+});

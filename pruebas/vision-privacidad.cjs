@@ -5,7 +5,7 @@ const assert = require('node:assert/strict');
   const contexto = await navegador.newContext({ serviceWorkers: 'block' });
   await contexto.addInitScript(() => {
     localStorage.setItem('grieta-bienvenida', 'true');
-    localStorage.setItem('grieta-acc', JSON.stringify({ voz: true, lector: 'no' }));
+    localStorage.setItem('grieta-acc', JSON.stringify({ voz: true, vozElegida: true, lector: 'no' }));
     window.__voces = [{ name: 'remota', lang: 'es-MX', localService: false }, { name: 'local', lang: 'es-ES', localService: true }];
     window.__dichos = [];
     window.SpeechSynthesisUtterance = function (texto) { this.text = texto; };

@@ -88,12 +88,17 @@ const FRASES = {
   terminar: "Terminar viaje",
 };
 const NOMBRE_OTOMI = "Hñöñho (Otomí)";
+const NOMBRE_NAHUATL = "Náhuatl (Huasteca oriental)";
 const frase = (id, valores = {}) => ({ id, valores });
 const textoFrase = (mensaje) => Array.isArray(mensaje) ? mensaje.map(textoFrase).join("")
   : mensaje?.id ? FRASES[mensaje.id].replace(/\{(\w+)\}/g, (_, clave) => String(mensaje.valores[clave] ?? "")) : String(mensaje ?? "");
 let lenguasDisponibles = [];
 let audiosOto = new Set();
 let vozGrieta = null;
+let microfonoActivo = false;
+let dictadoActual = null;
+let inicioDictado;
+let esperaDictado, revisionDictado = 0;
 let audio;
 let ultimoMensaje = null;
 let grabacion = null;
@@ -102,8 +107,10 @@ let turnoVoz = 0;
 let colaVoz = Promise.resolve();
 
 // Ajustes guardados en este telefono.
-const acc = { toques: true, modoVoz: false, facil: false, grande: false, contraste: false, daltonico: false, voz: true, lenta: false, camino: false, unidos: false, tema: "auto", movilidad: "normal", oido: "bien", lector: "no", lengua: "es", ...leer("grieta-acc", {}) };
+const acc = { toques: true, modoVoz: false, facil: false, grande: false, contraste: false, daltonico: false, voz: false, vozElegida: false, lenta: false, camino: false, unidos: false, tema: "auto", movilidad: "normal", oido: "bien", lector: "no", lengua: "es", ...leer("grieta-acc", {}) };
 acc.idioma ??= acc.lengua === "oto" ? "oto" : "es";
+if (!["es", "oto", "nah"].includes(acc.idioma)) acc.idioma = "es";
+if (!acc.modoVoz && !acc.vozElegida) acc.voz = false;
 // Con "Como el telefono", los colores siguen el modo claro u oscuro del sistema.
 const sistemaClaro = matchMedia("(prefers-color-scheme: light)");
 const OPCIONES = { grande: "optGrande", contraste: "optContraste", daltonico: "optDaltonico", voz: "optVoz", lenta: "optLenta", camino: "optCamino", unidos: "optUnidos" };
@@ -124,6 +131,9 @@ function aplicarAcc() {
   $("inicioNormal").hidden = acc.modoVoz;
   for (const [k, id] of Object.entries(OPCIONES)) $(id).checked = acc[k];
   $("optUnidos2").checked = acc.unidos;
+  $("vozRapida").textContent = acc.voz ? "Silenciar Grieta" : "Activar voz";
+  $("vozEncabezado").setAttribute("aria-label", acc.voz ? "Silenciar Grieta" : "Activar voz");
+  $("vozEncabezado").title = acc.voz ? "Silenciar Grieta" : "Activar voz";
   recolorear();
   document.querySelector('meta[name="theme-color"]').content = tono("--fondo");
   pintarResumenPerfil();
@@ -146,6 +156,7 @@ marcarDensidad = radios("optDensidad", (v) => {
   acc.modoVoz = v === "voz";
   acc.facil = v === "facil";
   if (acc.modoVoz) Object.assign(acc, { voz: acc.lector !== "si", grande: true });
+  else acc.voz = false;
   guardarAcc();
   aplicarAcc();
 });
@@ -160,6 +171,7 @@ $('optToques').addEventListener('change', () => { acc.toques = $('optToques').ch
 for (const [k, id] of Object.entries(OPCIONES)) {
   $(id).addEventListener("change", (e) => {
     acc[k] = e.target.checked;
+    if (k === "voz") acc.vozElegida = true;
     if (k === "camino") acc.movilidad = acc.camino ? (acc.movilidad === "silla" ? "silla" : "poco") : "normal";
     guardarAcc();
     aplicarAcc();
@@ -177,6 +189,7 @@ aplicarAcc();
 // Pantallas: cada una dice si lleva mapa, encabezado y a que pestana pertenece.
 const PANTALLAS = {
   bienvenida: {},
+  tutorial: {},
   inicio: { tab: "inicio" },
   buscar: { tab: "inicio", encabezado: true },
   elegirMapa: { tab: "inicio", mapa: true, encabezado: true },
@@ -193,6 +206,7 @@ const PANTALLAS = {
 const titulos = { buscar: "Buscar", camiones: "Camiones cerca", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
 
 function mostrar(nombre) {
+  if (microfonoActivo) cancelarDictado();
   ToquesGrieta.reiniciar();
   const conf = PANTALLAS[nombre];
   if (nombre !== "camara") CamaraGrieta.cerrar();
@@ -224,6 +238,7 @@ function mostrar(nombre) {
   if (nombre === "ajustes") requestAnimationFrame(medirPantalla);
   if (nombre === "camara") CamaraGrieta.abrir();
   if (nombre === "practica") PracticaGrieta.entrar();
+  if (nombre === "tutorial") TutorialGrieta.entrar();
   $("hoja").scrollTop = 0;
   // El foco va al titulo para que el lector de pantalla anuncie el cambio.
   const titulo = conf.encabezado ? $("tituloPantalla") : [...$(nombre).querySelectorAll("h1")].find((h) => !h.closest("[hidden]"));
@@ -275,6 +290,10 @@ for (const [id, clave] of Object.entries({ tituloInicio: "a_donde_vas", empezar:
   boton.lastChild.textContent = textoFrase(frase(clave));
 }
 $("nombreOtomi").textContent = NOMBRE_OTOMI;
+for (const id of ["vozRapida", "vozEncabezado"]) $(id).addEventListener("click", () => {
+  acc.voz = !acc.voz; acc.vozElegida = true;
+  guardarAcc(); aplicarAcc();
+});
 
 // Voz y vibracion, con un tono por pulso para que en iPhone tambien haya senal.
 // Los nombres de las paradas son cruces escritos con abreviaturas: se leen como se dicen.
@@ -291,7 +310,7 @@ function detenerVoz() {
   if ("speechSynthesis" in window) speechSynthesis.cancel();
 }
 function vozEspanol(texto, alTerminar) {
-  if (!("speechSynthesis" in window)) return alTerminar?.();
+  if (microfonoActivo || !acc.voz || !("speechSynthesis" in window)) return alTerminar?.();
   const u = new SpeechSynthesisUtterance(DECIR.reduce((t, [a, b]) => t.replace(a, b), texto));
   vozGrieta ??= speechSynthesis.getVoices().find((v) => v.lang === "es-MX") ?? speechSynthesis.getVoices().find((v) => v.lang.startsWith("es"));
   if (vozGrieta) u.voice = vozGrieta;
@@ -344,11 +363,13 @@ async function leerGrabaciones(mensaje, turno) {
   if (turno === turnoVoz) await esperarVoz(pendiente);
 }
 function hablar(mensaje, enCola = false, enPantalla = false, soloEspanol = false) {
+  if (microfonoActivo) return;
   const texto = textoFrase(mensaje);
   ultimoMensaje = mensaje;
   if (!acc.voz && acc.modoVoz && !enPantalla) {
     $("anuncio").textContent = "";
-    setTimeout(() => { $("anuncio").textContent = texto; }, 60);
+    const turno = turnoVoz;
+    setTimeout(() => { if (!microfonoActivo && turno === turnoVoz) $("anuncio").textContent = texto; }, 60);
   }
   if (!acc.voz) return;
   if (!enCola) detenerVoz();
@@ -437,20 +458,23 @@ function poner(cual, lugar) {
   }
 }
 
-function ubicar(alTerminar) {
+let revisionUbicacion = 0;
+function ubicar(alTerminar, fresca = false) {
+  const revision = ++revisionUbicacion;
   if (!navigator.geolocation) return sinUbicacion("Tu navegador no comparte la ubicación.", alTerminar);
   navigator.geolocation.getCurrentPosition(
     ({ coords }) => {
+      if (revision !== revisionUbicacion) return;
       if (!dentroDeQueretaro(coords.latitude, coords.longitude)) return sinUbicacion("Estás fuera de Querétaro.", alTerminar);
-      estado.gps = { nombre: "Tu ubicación", lat: coords.latitude, lon: coords.longitude };
+      estado.gps = { nombre: "Tu ubicación", lat: coords.latitude, lon: coords.longitude, precision: coords.accuracy, instante: Date.now() };
       if (!estado.origen) {
         poner("origen", estado.gps);
         mapa.setView([coords.latitude, coords.longitude], 15);
       }
       alTerminar?.(true);
     },
-    () => sinUbicacion("No pude ver tu ubicación.", alTerminar),
-    { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 },
+    () => { if (revision === revisionUbicacion) sinUbicacion("No pude ver tu ubicación.", alTerminar); },
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: fresca ? 0 : 60000 },
   );
 }
 function sinUbicacion(texto, alTerminar) {
@@ -1333,20 +1357,23 @@ function pintarParadas(punto, lista, seleccionada = false) {
       if (i === 0) return void ($("hoja").scrollTop = 0);
       elegirParada(punto, lista, i);
     });
-    if (i === 0) m.bindTooltip(seleccionada ? "Parada seleccionada" : "Más cercana", { permanent: true, direction: "top", offset: [0, -20], className: "etiqueta-mapa" });
+    if (i === 0) m.bindTooltip(seleccionada ? "Parada seleccionada" : "Sugerida", { permanent: true, direction: "top", offset: [0, -20], className: "etiqueta-mapa" });
     return m;
   });
   const aPie = L.polyline([[punto.lat, punto.lon], [lista[0].lat, lista[0].lon]], { color: tono("--tinta"), weight: 3, dashArray: "1 7", lineCap: "round" });
   capas.paradas = L.featureGroup([aPie, ...marcas]).addTo(mapa);
   setTimeout(() => encuadrar(capas.paradas.getBounds()), 120);
-  seguirCalles(aPie).then((c) => ponerCaminata(lista[0], c?.metros, seleccionada));
+  const revision = revisionCamiones;
+  seguirCalles(aPie).then(c => {
+    if (revision === revisionCamiones && document.body.dataset.pantalla === 'camiones' && estado.listaCamiones?.[0] === lista[0]) ponerCaminata(lista[0], c?.metros, seleccionada);
+  });
 }
 // La distancia real a pie llega despues que la pantalla: se pone y se dice una sola vez
 function ponerCaminata(p, metros, seleccionada = false) {
   if (!$("distanciaParada")) return;
   if (!metros) return void ($("caminaParada").textContent = p.caminado ? Interfaz.original($("caminaParada")) : "No pude calcular el camino a pie.");
   p.caminado = metros;
-  $("distanciaParada").textContent = `${seleccionada ? "Parada elegida" : "Parada más cercana"} · a ${distanciaTexto(metros, true)} caminando`;
+  $("distanciaParada").textContent = `${seleccionada ? "Parada elegida" : "Parada sugerida"} · a ${distanciaTexto(metros, true)} caminando`;
   $("caminaParada").textContent = `Camina ${minutosCaminando(metros)} min`;
   actualizarComparacionParadas(estado.listaCamiones ?? []);
   if (!p.dicho) hablar(`Caminando son ${distanciaTexto(metros)}, unos ${minutosCaminando(metros)} minutos.`, true);
@@ -1361,32 +1388,36 @@ const enCuanto = (min) => { const f = Math.round(min - ahoraMin()); return f <= 
 let revisionCamiones = 0;
 $("pasanAqui").addEventListener("click", () => abrirCamiones());
 function abrirCamiones() {
-  revisionCamiones++;
+  const revision = ++revisionCamiones;
   estado.recomendacionAnunciada = null;
   ir("camiones");
   const caja = $("camionesContenido");
-  const punto = estado.gps ?? estado.origen;
-  if (!punto) {
-    caja.innerHTML = `<p class="texto">Buscando paradas cerca de ti…</p>`;
-    return ubicar((encontrada) => {
-      const ubicacion = estado.gps ?? estado.origen;
-      if (encontrada && ubicacion) return cargarCamiones(ubicacion);
-      caja.innerHTML = `<p class="texto">No pude ver tu ubicación. Actívala o elige desde dónde sales.</p>
-        <button id="elegirUbicacionCamiones" type="button" class="boton oscuro">Elegir desde dónde sales</button>`;
-      $("elegirUbicacionCamiones").addEventListener("click", () => abrirBuscar("desde"));
-      hablar("No pude ver tu ubicación. Puedes elegir desde dónde sales.");
-    });
-  }
-  cargarCamiones(punto);
+  caja.innerHTML = `<p class="texto">Actualizando tu ubicación…</p>`;
+  $("camionesUbicacion").textContent = "";
+  $("actualizarParadas").disabled = true;
+  ubicar(encontrada => {
+    if (revision !== revisionCamiones || document.body.dataset.pantalla !== 'camiones') return;
+    $("actualizarParadas").disabled = false;
+    const punto = encontrada ? estado.gps : estado.origen && !esGps(estado.origen) ? estado.origen : null;
+    if (punto) {
+      $("camionesUbicacion").textContent = encontrada
+        ? `Ubicación actualizada.${punto.precision > 100 ? ' Es aproximada; la parada sugerida puede cambiar.' : ''}`
+        : `Paradas desde el punto elegido: ${punto.nombre}. No pude actualizar tu ubicación.`;
+      return cargarCamiones(punto);
+    }
+    caja.innerHTML = `<p class="texto">No pude actualizar tu ubicación. Actívala o elige desde dónde sales.</p>
+      <button id="elegirUbicacionCamiones" type="button" class="boton oscuro">Elegir desde dónde sales</button>`;
+    $("elegirUbicacionCamiones").addEventListener("click", () => abrirBuscar("desde"));
+    hablar("No pude actualizar tu ubicación. Puedes elegir desde dónde sales.");
+  }, true);
 }
+$("actualizarParadas").addEventListener('click', abrirCamiones);
 function cargarCamiones(punto) {
   const caja = $("camionesContenido");
-  let lista = Grieta.pasanAqui(punto.lat, punto.lon, hoyDia(), ahoraMin());
-  // Sin paradas con servicio a 350 m, se busca la mas cercana hasta 1 km para no dejar a nadie sin respuesta.
-  if (!lista.length) lista = Grieta.pasanAqui(punto.lat, punto.lon, hoyDia(), ahoraMin(), 1000).slice(0, 1);
+  const lista = Grieta.paradasCercanas(punto.lat, punto.lon, 1000, 8).map(p => ({ ...p, lineas: Grieta.horariosParadaPorIndice(p.i, hoyDia(), ahoraMin()) }));
   if (!lista.length) {
-    caja.innerHTML = `<p class="texto">No hay paradas de Qrobus con servicio a menos de un kilómetro.</p>`;
-    return hablar("No hay paradas de Qrobus con servicio a menos de un kilómetro.");
+    caja.innerHTML = `<p class="texto">No encontré paradas en el catálogo a menos de un kilómetro. Puede haber otras paradas que todavía no aparecen aquí.</p>`;
+    return hablar("No encontré paradas en el catálogo a menos de un kilómetro. Puede haber otras paradas que todavía no aparecen aquí.");
   }
   pintarCamiones(punto, lista, true);
   ordenarPorCaminata(punto, lista);
@@ -1409,7 +1440,7 @@ function compararParadas(lista) {
     }
     const caminata = minutosCaminando(parada.caminado);
     const llegada = minuto + caminata;
-    const lineas = Grieta.horariosParada(parada.lat, parada.lon, hoyDia(), llegada);
+    const lineas = Number.isSafeInteger(parada.i) ? Grieta.horariosParadaPorIndice(parada.i, hoyDia(), llegada) : Grieta.horariosParada(parada.lat, parada.lon, hoyDia(), llegada);
     const salidas = lineas.flatMap((linea) => linea.horas).filter((hora) => Number.isFinite(hora));
     if (!salidas.length) {
       faltantes.push(`${cruce(parada.nombre)}: próximo horario`);
@@ -1467,13 +1498,13 @@ async function ordenarPorCaminata(punto, lista) {
   }
   orden[0].dicho = true;
   pintarCamiones(punto, orden, false);
-  hablar(`Caminando, la parada más cercana es ${orden[0].nombre}, a ${distanciaTexto(distancia(orden[0]))}.`);
+  hablar(`Entre las paradas consultadas, hay menos caminata a ${orden[0].nombre}, a ${distanciaTexto(distancia(orden[0]))}.`);
 }
 
 function pintarCamiones(punto, lista, primera, seleccionada = false) {
   const revision = revisionCamiones;
   const caja = $("camionesContenido");
-  const filas = (p) => `<ul class="filas">${p.lineas.slice(0, 6).map((l) => `<li data-linea="${escapar(l.linea)}"><div class="fila">
+  const filas = (p) => !p.lineas.length ? `<p class="nota">No hay próximos horarios guardados para esta parada.</p>` : `<ul class="filas">${p.lineas.slice(0, 6).map((l) => `<li data-linea="${escapar(l.linea)}"><div class="fila">
       <span class="linea-caja">${escapar(l.linea)}</span>
       <span class="fila-texto"><strong>Hacia ${escapar(l.hacia)}</strong>${l.horas[1] !== undefined ? `<small>También a las ${hora(l.horas[1])}</small>` : ""}</span>
       <span class="hora-camion"><strong>${hora(l.horas[0])}</strong><small>${enCuanto(l.horas[0])}</small></span>
@@ -1482,11 +1513,12 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
   pintarParadas(punto, lista, seleccionada);
   caja.innerHTML = `
     <div class="parada-cerca">
-      <p class="etiqueta" id="distanciaParada">${seleccionada ? "Parada elegida" : "Parada más cercana"} · ${p.caminado ? `a ${distanciaTexto(p.caminado, true)} caminando` : `a ${distanciaTexto(p.m, true)} en línea recta`}</p>
+      <p class="etiqueta" id="distanciaParada">${seleccionada ? "Parada elegida" : "Parada sugerida"} · ${p.caminado ? `a ${distanciaTexto(p.caminado, true)} caminando` : `a ${distanciaTexto(p.m, true)} en línea recta`}</p>
       <p class="parada-nombre" translate="no">${escapar(cruce(p.nombre))}</p>
       <p class="nota" id="caminaParada">${p.caminado ? `Camina ${minutosCaminando(p.caminado)} min` : "Calculando el camino a pie..."}</p>
     </div>
     <button id="irParada" type="button" class="boton oscuro">${ico("ruta")}Ver cómo llegar a la parada</button>
+    <p class="nota">Comparamos hasta ocho paradas del catálogo. Puede haber otras paradas que todavía no aparecen aquí.</p>
     <h2>Próximos camiones</h2>
     ${filas(p)}
     <h2>Avisos de la parada</h2>
@@ -1503,7 +1535,7 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
   estado.puntoCamiones = punto;
   estado.listaCamiones = lista;
   actualizarComparacionParadas(lista);
-  if (primera) hablar(`La parada más cercana es ${p.nombre}. ` +
+  if (primera) hablar(`La parada sugerida es ${p.nombre}. ` +
     p.lineas.slice(0, 4).map((l) => `Línea ${l.linea} hacia ${l.hacia}, a las ${hora(l.horas[0])} según el horario.`).join(" "));
   // Lo que avisó la gente en esta parada en la última media hora, junto a su línea
   avisosDeLaGente(p.lat, p.lon).then((avisos) => {
@@ -1556,7 +1588,7 @@ function dondeEstoy(destino) {
       ? `a ${distanciaTexto(parada.caminado)} caminando, unos ${minutosCaminando(parada.caminado)} minutos`
       : `a unos ${distanciaTexto(parada.m)} en línea recta`;
     const texto = `${lugar ? `Estás en ${lugar}.` : "No encontré el nombre de la calle."} ` +
-      (parada ? `La parada más cercana es ${cruce(parada.nombre)}, ${cuanto}.` : "No hay paradas de Qrobus a menos de 500 metros.");
+      (parada ? `Una parada del catálogo es ${cruce(parada.nombre)}, ${cuanto}.` : "No hay paradas de Qrobus a menos de 500 metros.");
     contar(texto);
     hablar(texto, false, true);
   }, () => { contar("No pude ver tu ubicación."); hablar(frase("sin_ubicacion"), false, true); }, { enableHighAccuracy: true, timeout: 10000 });
@@ -1565,21 +1597,16 @@ $("dondeEstoy").addEventListener("click", () => dondeEstoy("inicio"));
 $("dondeGuia").addEventListener("click", () => dondeEstoy("guia"));
 
 // Dictar: llena el buscador, busca y lee las primeras opciones.
-let dictadoActual = null;
 const Reconocer = window.SpeechRecognition || window.webkitSpeechRecognition;
-function dictar(boton) {
-  const rec = new Reconocer();
-  dictadoActual?.abort();
-  dictadoActual = rec;
-  rec.lang = "es-MX";
-  boton.classList.add("oyendo");
-  boton.setAttribute("aria-pressed", "true");
-  detenerVoz();
-  // El tono marca cuando empezar a hablar, sobre todo para quien no ve el boton.
-  vibrar([120]);
-  if (acc.modoVoz) $("respuestaVoz").textContent = "Te escucho. Di a dónde vas.";
-  rec.onresult = (e) => {
-    const texto = e.results[0][0].transcript;
+function cancelarDictado() {
+  revisionDictado++; clearInterval(esperaDictado);
+  clearTimeout(inicioDictado);
+  const anterior = dictadoActual; dictadoActual = null; microfonoActivo = false;
+  try { anterior?.abort(); } catch {}
+  document.querySelectorAll('.dictar.oyendo').forEach(b => { b.classList.remove('oyendo'); b.setAttribute('aria-pressed', 'false'); });
+  $("respuestaVoz").setAttribute('aria-live', 'polite');
+}
+function procesarDictado(texto, revision) {
     const dicho = sinAcentos(texto).replace(/^(a|al|a la|hacia|llevame a|ir a)\s+/, "");
     const guardado = guardados.find((g) => sinAcentos(g.nombre) === dicho);
     if (guardado) {
@@ -1593,7 +1620,8 @@ function dictar(boton) {
     estado.buscado = false;
     sugerir(texto);
     let intentos = 0;
-    const leerRes = setInterval(() => {
+    const leerRes = esperaDictado = setInterval(() => {
+      if (revision !== revisionDictado || document.body.dataset.pantalla !== "buscar" || $("campoBuscar").value !== texto) return clearInterval(leerRes);
       if (!estado.buscado && ++intentos < 12) return;
       clearInterval(leerRes);
       const res = estado.resultados ?? [];
@@ -1605,14 +1633,39 @@ function dictar(boton) {
         ? `Encontré ${res.length} lugares. ` + res.slice(0, 3).map((l, i) => `${i + 1}: ${l.nombre}${l.detalle ? ", " + l.detalle : ""}.`).join(" ") + " Elige uno de la lista."
         : `No encontré ${texto}. Intenta con otro nombre.`);
     }, 400);
+
+}
+function dictar(boton) {
+  cancelarDictado();
+  const rec = new Reconocer();
+  dictadoActual = rec; microfonoActivo = true;
+  const revision = revisionDictado;
+  let texto = '', error = false;
+  rec.lang = "es-MX";
+  boton.classList.add("oyendo"); boton.setAttribute("aria-pressed", "true");
+  $("respuestaVoz").setAttribute('aria-live', 'off');
+  detenerVoz();
+  if (acc.modoVoz) $("respuestaVoz").textContent = "Espera el tono y di a dónde vas.";
+  rec.onstart = () => { if (dictadoActual === rec) vibrar([120]); };
+  rec.onresult = e => {
+    if (dictadoActual !== rec) return;
+    texto = e.results[0][0].transcript;
+    try { rec.stop(); } catch {}
   };
-  rec.onerror = () => hablar(frase("no_escuche"));
+  rec.onerror = e => { if (dictadoActual === rec && e.error !== 'aborted') error = true; };
   rec.onend = () => {
-    boton.classList.remove("oyendo");
-    boton.setAttribute("aria-pressed", "false");
-    if (Interfaz.original($("respuestaVoz")).startsWith("Te escucho")) $("respuestaVoz").textContent = "";
+    if (dictadoActual !== rec) return;
+    dictadoActual = null; microfonoActivo = false;
+    boton.classList.remove("oyendo"); boton.setAttribute("aria-pressed", "false");
+    $("respuestaVoz").textContent = ''; $("respuestaVoz").setAttribute('aria-live', 'polite');
+    if (texto.trim()) procesarDictado(texto.trim(), revision);
+    else if (error) { avisar(textoFrase(frase("no_escuche"))); hablar(frase("no_escuche")); }
   };
-  rec.start();
+  inicioDictado = setTimeout(() => {
+    if (dictadoActual !== rec) return;
+    detenerVoz();
+    try { rec.start(); } catch { error = true; rec.onend(); }
+  }, 650);
 }
 if (Reconocer) {
   for (const b of document.querySelectorAll(".dictar")) {
@@ -2168,7 +2221,7 @@ CamaraGrieta.iniciarInterfaz({
   },
 });
 function abrirCamara() {
-  dictadoActual?.abort();
+  cancelarDictado();
   detenerVoz();
   ir("camara");
   hablar("Cámara que habla. Toca Iniciar cámara para comenzar. Las imágenes se analizan solo en tu teléfono.", false, false, true);
@@ -2182,6 +2235,7 @@ ToquesGrieta.iniciar({
   activo: () => (document.body.dataset.pantalla === 'practica' || (acc.modoVoz && acc.toques)) && acc.lector !== 'si' && !(document.body.dataset.pantalla === 'bienvenida' && pasoActual === 'lector'),
   original: (elemento, atributo) => Interfaz.original(elemento, atributo),
   cancelar: detenerVoz,
+  puedeAnunciar: () => !microfonoActivo,
   alDescribir: (elemento) => PracticaGrieta.descrito(elemento),
   decir: (texto) => { const anterior = ultimoMensaje; hablar(texto, false, true, true); ultimoMensaje = anterior; },
 });
@@ -2191,6 +2245,16 @@ PracticaGrieta.iniciar({
   lector: () => acc.lector === 'si',
   decir: (texto) => { if (acc.lector !== 'si') { const anterior = ultimoMensaje; hablar(texto, false, true, true); ultimoMensaje = anterior; } },
   guardar: () => escribir('grieta-practica-toques', true),
+});
+
+TutorialGrieta.iniciar({
+  ir,
+  modoVoz: () => acc.modoVoz,
+  lector: () => acc.lector === 'si',
+  decir: texto => { if (acc.modoVoz && acc.lector !== 'si') hablar(texto, false, true); },
+  guardar: valor => escribir('grieta-tutorial', valor),
+  practicar: desde => PracticaGrieta.abrir(desde),
+  reiniciar: () => ToquesGrieta.reiniciar(),
 });
 
 // Botones del modo para personas ciegas.
@@ -2296,10 +2360,10 @@ function radios(id, alElegir) {
   };
   grupo.addEventListener("click", (e) => {
     const b = e.target.closest("[role=radio]");
-    if (b) marcar(b);
+    if (b && !b.disabled) marcar(b);
   });
   grupo.addEventListener("keydown", (e) => {
-    const lista = [...grupo.querySelectorAll("[role=radio]")];
+    const lista = [...grupo.querySelectorAll("[role=radio]:not(:disabled)")];
     const i = lista.indexOf(document.activeElement);
     const paso = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
     if (i < 0 || !paso) return;
@@ -2509,17 +2573,21 @@ function abrirBienvenida() {
   ir("bienvenida", true);
   irPaso("vista");
 }
-function terminarBienvenida() {
+function terminarBienvenida(saltarTutorial = false) {
   escribir("grieta-bienvenida", true);
+  if (!saltarTutorial && !leer("grieta-tutorial", false)) return TutorialGrieta.abrir("inicio", true);
   ir("inicio", true);
   if (acc.modoVoz) hablar(ayudaVoz(), false, true);
 }
-$("saltarBienvenida").addEventListener("click", terminarBienvenida);
+$("saltarBienvenida").addEventListener("click", () => {
+  escribir("grieta-tutorial", { version: 1, completado: false });
+  terminarBienvenida(true);
+});
 document.querySelector('#bienvenida [data-paso="vista"]').addEventListener("click", (e) => {
   const b = e.target.closest("[data-v]");
   if (!b) return;
   const v = b.dataset.v;
-  Object.assign(acc, { modoVoz: v === "voz", grande: v !== "vista", contraste: v === "poco", voz: true });
+  Object.assign(acc, { modoVoz: v === "voz", grande: v !== "vista", contraste: v === "poco", voz: v === "voz" });
   guardarAcc();
   aplicarAcc();
   irPaso(v === "voz" ? "lector" : "forma");
@@ -2565,7 +2633,7 @@ $("bienvenida").addEventListener("click", (e) => {
     Object.assign(acc, { movilidad: b.dataset.movilidad, camino: b.dataset.movilidad !== "normal" });
   } else if (b.dataset.oido) {
     acc.oido = b.dataset.oido;
-    acc.voz = b.dataset.oido === "bien" && !(acc.modoVoz && acc.lector === "si");
+    acc.voz = b.dataset.oido === "bien" && acc.modoVoz && acc.lector !== "si";
   } else {
     acc.unidos = b.dataset.tarifa === "si";
     escribir("grieta-perfil", true);
@@ -2598,7 +2666,7 @@ function resumenCortoPerfil() {
   const densidad = { completa: "Completa", facil: "Fácil", voz: "Voz" }[densidadActual()];
   const oido = acc.oido === "poco" ? "Avisos con vibración" : "Avisos con voz";
   const tarifa = acc.unidos ? "Tarifa Unidos" : "Tarifa normal";
-  return [vista, movimiento, densidad, oido, tarifa, acc.modoVoz ? (acc.lector === "si" ? "Usas lector de pantalla" : "Grieta te habla") : "", acc.idioma === "oto" ? `Prefieres ${NOMBRE_OTOMI}` : ""].filter(Boolean).join(" · ");
+  return [vista, movimiento, densidad, oido, tarifa, acc.modoVoz ? (acc.lector === "si" ? "Usas lector de pantalla" : "Grieta te habla") : "", acc.idioma === "es" ? "" : `Prefieres ${acc.idioma === "nah" ? NOMBRE_NAHUATL : NOMBRE_OTOMI}`].filter(Boolean).join(" · ");
 }
 function pintarResumenPerfil() {
   if (!$("textoPerfil")) return;
@@ -2626,7 +2694,7 @@ const EFECTOS = {
   perfilOido: { bien: "Durante el viaje te aviso con voz.", poco: "Avisos en pantalla grande y con vibración, sin voz." },
   perfilTarifa: { si: "Calculo el camión a $2 y el transbordo gratis.", no: "Calculo el camión con la tarifa normal." },
   perfilForma: { completa: "Precios, horarios, comparar y esperar.", facil: "Solo lo esencial, con botones grandes." },
-  perfilLengua: { es: "La interfaz está en español. El audio sigue en español.", oto: "La traducción de la interfaz todavía no está disponible. El audio sigue en español." },
+  perfilLengua: { es: "La interfaz está en español. El audio sigue en español.", oto: "La traducción de la interfaz todavía no está disponible. El audio sigue en español.", nah: "La traducción de la interfaz todavía no está disponible. El audio sigue en español." },
 };
 const efecto = (grupo, v) => { $(`${grupo}Efecto`).textContent = EFECTOS[grupo][v] ?? ""; };
 const RESPUESTAS_PERFIL = {
@@ -2636,7 +2704,7 @@ const RESPUESTAS_PERFIL = {
   perfilMovilidad: { normal: "Camino sin problema", poco: "Me cuesta caminar", silla: "Uso silla de ruedas o andadera" },
   perfilOido: { bien: "Escucho bien los avisos", poco: "Me cuesta escuchar" },
   perfilTarifa: { si: "Pago Tarifa Unidos", no: "Pago tarifa normal" },
-  perfilLengua: { es: "Español", oto: NOMBRE_OTOMI },
+  perfilLengua: { es: "Español", oto: NOMBRE_OTOMI, nah: NOMBRE_NAHUATL },
 };
 function actualizarFilasPerfil() {
   const movilidad = acc.movilidad ?? (acc.camino ? "poco" : "normal");
@@ -2647,7 +2715,7 @@ function actualizarFilasPerfil() {
     perfilMovilidad: movilidad,
     perfilOido: acc.oido ?? "bien",
     perfilTarifa: acc.unidos ? "si" : "no",
-    perfilLengua: acc.idioma === "oto" ? "oto" : "es",
+    perfilLengua: acc.idioma,
   };
   for (const [grupo, valor] of Object.entries(valores)) {
     const fila = document.querySelector(`[data-grupo-perfil="${grupo}"]`);
@@ -2676,6 +2744,7 @@ const marcarVista = radios("perfilVista", (v) => cambiarPerfil(() => {
   efecto("perfilVista", v);
   Object.assign(acc, { modoVoz: v === "voz", grande: v !== "vista", contraste: v === "poco" });
   if (v === "voz") acc.voz = acc.lector !== "si";
+  else acc.voz = false;
   $("perfilLector").hidden = v !== "voz";
 }));
 const marcarLector = radios("perfilLectorOpciones", (v) => cambiarPerfil(() => {
@@ -2691,7 +2760,7 @@ const marcarMovilidad = radios("perfilMovilidad", (v) => cambiarPerfil(() => {
 const marcarOido = radios("perfilOido", (v) => cambiarPerfil(() => {
   efecto("perfilOido", v);
   acc.oido = v;
-  acc.voz = v === "bien" && !(acc.modoVoz && acc.lector === "si");
+  acc.voz = v === "bien" && acc.modoVoz && acc.lector !== "si";
 }));
 const marcarForma = radios("perfilForma", (v) => cambiarPerfil(() => {
   efecto("perfilForma", v);
@@ -2756,9 +2825,12 @@ addEventListener("resize", () => { if ($("medidas")) medirPantalla(); });
 
 // Sin conexion: la app y los horarios quedan guardados en el telefono.
 Interfaz.iniciar(acc.idioma, () => {
-  EFECTOS.perfilLengua.oto = Interfaz.disponible
-    ? Interfaz.provisional ? "Traducción automática provisional. El audio sigue en español." : "La interfaz cambia de idioma. El audio sigue en español."
+  for (const id of ["oto", "nah"]) EFECTOS.perfilLengua[id] = Interfaz.disponiblePara(id)
+    ? id === "oto" && Interfaz.parcialPara(id) ? "Traducción automática parcial. Algunos textos siguen en español. El audio sigue en español." : "Traducción automática provisional. El audio sigue en español."
     : "La traducción de la interfaz todavía no está disponible. El audio sigue en español.";
+  const disponible = Interfaz.disponiblePara("nah");
+  document.querySelector('#perfilLengua [data-v="nah"]').disabled = !disponible;
+  $("nahuatlPendiente").hidden = disponible;
   actualizarFilasPerfil();
 });
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});

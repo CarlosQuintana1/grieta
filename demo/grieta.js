@@ -320,36 +320,54 @@ const Grieta = (() => {
     return res;
   }
 
-  // Paradas cerca de un punto con las lineas que pasan y sus proximas horas segun el horario.
-  function pasanAqui(lat, lon, dia, minuto, radio = 350) {
-    const servicio = qrobus.servicio_por_dia[dia];
-    const ayer = qrobus.servicio_por_dia[(dia + 6) % 7];
-    const cerca = qrobus.paradas
+  const limiteParadas = (limite) => Number.isSafeInteger(limite) && limite >= 0 ? Math.min(12, limite) : 3;
+
+  function paradasEnRadio(lat, lon, radio) {
+    if (!Number.isFinite(lat) || !Number.isFinite(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180 || !Number.isFinite(radio) || radio < 0) return [];
+    return qrobus.paradas
       .map(([la, lo, nombre], i) => ({ i, nombre, lat: la, lon: lo, m: metros(lat, lon, la, lo) }))
       .filter((x) => x.m <= radio)
-      .sort((a, b) => a.m - b.m);
-    return cerca.map((parada) => {
-      const lineas = new Map();
-      for (const [pi, pos] of porParada[parada.i]) {
-        const p = qrobus.patrones[pi];
-        if (pos === p.paradas.length - 1) continue;
-        const desde = (serv, corrimiento) => (p.salidas[serv] ?? []).map((x) => x + p.minutos[pos] - corrimiento);
-        const horas = [...(minuto < MADRUGADA ? desde(ayer, 1440) : []), ...desde(servicio, 0)]
-          .filter((t) => t >= minuto).sort((a, b) => a - b).slice(0, 2);
-        if (!horas.length) continue;
-        const clave = `${p.linea}|${p.hacia}`;
-        const actual = lineas.get(clave);
-        if (!actual || horas[0] < actual.horas[0]) lineas.set(clave, { linea: p.linea, hacia: p.hacia, horas });
-      }
-      return { ...parada, lineas: [...lineas.values()].sort((a, b) => a.horas[0] - b.horas[0]) };
-    }).filter((x) => x.lineas.length).slice(0, 3);
+      .sort((a, b) => a.m - b.m || a.i - b.i);
+  }
+
+  // Candidatas físicas del catálogo; m es distancia en línea recta, sin filtrar horarios.
+  function paradasCercanas(lat, lon, radio = 350, limite = 3) {
+    return paradasEnRadio(lat, lon, radio).slice(0, limiteParadas(limite));
+  }
+
+  function horariosParadaPorIndice(indice, dia, minuto) {
+    if (!Number.isSafeInteger(indice) || indice < 0 || indice >= qrobus.paradas.length || !Number.isInteger(dia) || dia < 0 || dia > 6 || !Number.isFinite(minuto)) return [];
+    const dias = Math.floor(minuto / 1440);
+    const minutoDia = ((minuto % 1440) + 1440) % 1440;
+    const diaConsulta = ((dia + dias) % 7 + 7) % 7;
+    const servicio = qrobus.servicio_por_dia[diaConsulta];
+    const ayer = qrobus.servicio_por_dia[(diaConsulta + 6) % 7];
+    const lineas = new Map();
+    for (const [pi, pos] of porParada[indice]) {
+      const p = qrobus.patrones[pi];
+      if (pos === p.paradas.length - 1) continue;
+      const desde = (serv, corrimiento) => (p.salidas[serv] ?? []).map((x) => x + p.minutos[pos] - corrimiento);
+      const horas = [...(minutoDia < MADRUGADA ? desde(ayer, 1440) : []), ...desde(servicio, 0)]
+        .filter((t) => t >= minutoDia).sort((a, b) => a - b).slice(0, 2).map((t) => t + dias * 1440);
+      if (!horas.length) continue;
+      const clave = `${p.linea}|${p.hacia}`;
+      const actual = lineas.get(clave);
+      if (!actual || horas[0] < actual.horas[0]) lineas.set(clave, { linea: p.linea, hacia: p.hacia, horas });
+    }
+    return [...lineas.values()].sort((a, b) => a.horas[0] - b.horas[0]);
+  }
+
+  // Paradas con próximas salidas registradas; no garantiza cercanía caminando ni cobertura completa.
+  function pasanAqui(lat, lon, dia, minuto, radio = 350, limite = 3) {
+    return paradasEnRadio(lat, lon, radio)
+      .map((parada) => ({ ...parada, lineas: horariosParadaPorIndice(parada.i, dia, minuto) }))
+      .filter((x) => x.lineas.length).slice(0, limiteParadas(limite));
   }
 
   function horariosParada(lat, lon, dia, minuto) {
+    const parada = paradasCercanas(lat, lon, 1, 1)[0];
     const dias = Math.floor(minuto / 1440);
-    const minutoDia = ((minuto % 1440) + 1440) % 1440;
-    const paradas = pasanAqui(lat, lon, (dia + dias) % 7, minutoDia, 1);
-    return paradas[0]?.lineas ?? [];
+    return parada ? horariosParadaPorIndice(parada.i, dia, minuto).map((linea) => ({ ...linea, horas: linea.horas.map((t) => t - dias * 1440) })) : [];
   }
 
   // Precio del mismo viaje a otra hora; si pasa de medianoche cuenta como el dia siguiente.
@@ -366,5 +384,5 @@ const Grieta = (() => {
 
   const nombreApp = (a) => ({ uber: "Uber", didi: "DiDi", indrive: "inDrive" })[a];
 
-  return { cargar, cotizar, evaluar, decidir, pasanAqui, horariosParada, hhmm, metros, CORTES, nombreApp, get modelo() { return modelo; }, get qrobus() { return qrobus; } };
+  return { cargar, cotizar, evaluar, decidir, pasanAqui, paradasCercanas, horariosParada, horariosParadaPorIndice, hhmm, metros, CORTES, nombreApp, get modelo() { return modelo; }, get qrobus() { return qrobus; } };
 })();

@@ -10,7 +10,7 @@ const path = require('node:path');
   const contexto = await navegador.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true,serviceWorkers:'block'});
   await contexto.addInitScript(({imagenes}) => {
    localStorage.setItem('grieta-bienvenida','true');
-   localStorage.setItem('grieta-acc',JSON.stringify({voz:true,lector:'no',modoVoz:false,tema:'oscuro'}));
+   localStorage.setItem('grieta-acc',JSON.stringify({voz:true,vozElegida:true,lector:'no',modoVoz:false,tema:'oscuro'}));
    window.__dichos=[];window.__vibraciones=[];window.__terminados=[];
    window.SpeechSynthesisUtterance=function(text){this.text=text;};
    Object.defineProperty(window,'speechSynthesis',{value:{speaking:false,getVoices:()=>[{localService:true,lang:'es-MX'}],cancel:()=>{},speak:m=>{window.__dichos.push(m.text);m.onend?.();}}});

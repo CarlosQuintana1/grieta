@@ -11,7 +11,7 @@ const PracticaGrieta = (() => {
     $('practicaTerminar').hidden = true;
     opciones.decir(instrucciones());
   }
-  function abrir() { regreso = document.body.dataset.pantalla === 'ajustes' ? 'ajustes' : 'inicio'; opciones.ir('practica'); }
+  function abrir(desde) { regreso = desde === 'tutorial' ? 'tutorial' : document.body.dataset.pantalla === 'ajustes' ? 'ajustes' : 'inicio'; opciones.ir('practica'); }
   function descrito(elemento) {
     if (elemento.id === 'practicaBoton' && !terminada) $('practicaEstado').textContent = 'Paso 2 de 2. Ya escuchaste el botón. Actívalo con dos toques rápidos en el mismo lugar.';
   }
@@ -29,5 +29,5 @@ const PracticaGrieta = (() => {
     $('practicaRepetir').addEventListener('click', entrar);
     for (const id of ['practicaSalir', 'practicaTerminar']) $(id).addEventListener('click', () => opciones.ir(regreso));
   }
-  return { iniciar, entrar, descrito };
+  return { iniciar, entrar, abrir, descrito };
 })();

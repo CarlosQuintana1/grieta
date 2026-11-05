@@ -8,7 +8,7 @@ const path = require('node:path');
     const contexto = await navegador.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, serviceWorkers: 'block' });
     await contexto.addInitScript(() => {
       localStorage.setItem('grieta-bienvenida', 'true');
-      if (!localStorage.getItem('grieta-acc')) localStorage.setItem('grieta-acc', JSON.stringify({ modoVoz: false, voz: true, lector: 'no', tema: 'oscuro' }));
+      if (!localStorage.getItem('grieta-acc')) localStorage.setItem('grieta-acc', JSON.stringify({ modoVoz: false, voz: true, vozElegida: true, lector: 'no', tema: 'oscuro' }));
       window.__dichos = []; window.__recortes = []; window.__limpiados = []; window.__modo = 'bus';
       window.SpeechSynthesisUtterance = function (text) { this.text = text; };
       Object.defineProperty(window, 'speechSynthesis', { value: { speaking: false, getVoices: () => [{ lang: 'es-MX', localService: true }], cancel: () => {}, speak: (m) => { window.__dichos.push(m.text); m.onend?.(); } } });

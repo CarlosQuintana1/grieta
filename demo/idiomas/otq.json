@@ -2,7 +2,7 @@
   "codigo": "otq",
   "nombre": "Hñöñho (Otomí)",
   "revision": null,
-  "completa": true,
+  "completa": false,
   "provisional": true,
   "fuente": {
     "tipo": "automatica",
@@ -3694,5 +3694,6 @@
       "fuente": "https://www.bing.com/translator?from=es&to=otq",
       "criterio": "Partes de la aplicación."
     }
-  ]
+  ],
+  "parcial": true
 }

@@ -1,0 +1,51 @@
+{
+  "fecha": "2026-11-04",
+  "unitarias": {
+    "pasaron": 127,
+    "fallaron": 0
+  },
+  "navegador": {
+    "hoyos_estado": "OK; siete escenarios, incluidos init cancelado e independencia de escaleras",
+    "hoyos_camara_8816": "OK; modelo real en Mi viaje/Todo el entorno, Bitmap/RGBA vertical <=768, oscuridad, retiro, persistencia, solo GET, cero errores JS",
+    "hoyos_offline_fixture": "OK; SW con fragmentos, catálogo nch.json pendiente omitido únicamente en memoria",
+    "escalones_estado_8816": "OK; regresión existente",
+    "escalones_camara_8816": "OK; regresión existente con tres fotos públicas y modelo real"
+  },
+  "integridad_activos": "OK; todos los hashes coinciden",
+  "reproduccion": {
+    "sha256": "8c9532ec55e76dd3426e3808bc0cace45cd6ee54d11111fb35c5c9b21ad8123b",
+    "bytes": 17937184,
+    "identico": true
+  },
+  "tarifas75_sin_cambios": {
+    "demo/grieta.js": true,
+    "demo/datos/modelo.json": true,
+    "pruebas/precios.test.cjs": true
+  },
+  "pendientes": [
+    "Componente para alcantarillas abiertas: 0/3 detectadas; no resuelto",
+    "Validación de campo/móvil caminando",
+    "Catálogos náhuatl y tutorial pertenecen al trabajo concurrente del dueño, sin validación por esta tarea"
+  ],
+  "fotos_gt_fuentes_crudas": "Solo /private/tmp/grieta-hoyos y /private/tmp/grieta-escalones; ninguna foto de evaluación en repo/producto",
+  "escrituras_propias": [
+    "demo/camara.js",
+    "demo/vision/camara-suelo.js",
+    "demo/vision/hoyos.js",
+    "demo/vision/hoyos-worker.js",
+    "demo/vision/activos.json",
+    "demo/vision/modelos/hoyos-v1.tflite",
+    "demo/vision/modelos/LICENSE-hoyos",
+    "docs/hoyos*",
+    "scripts/*hoyos*",
+    "pruebas/hoyos*"
+  ],
+  "integracionFinal": {
+    "unitariasTotales": 154,
+    "tutorialIdiomas": "OK; 390/320, voz/lector, catálogo sintético solo prueba, pendiente real desactivado",
+    "actualizacion": "OK; 75→76 y sin red, todos los catálogos reales presentes",
+    "hoyosOfflineFinal": "OK; HTML/SW final en 8816 sin omitir catálogos",
+    "vozDictado": "OK con reconocimiento simulado",
+    "paradasUI": "OK con GPS/caminatas simuladas; cobertura real incompleta"
+  }
+}

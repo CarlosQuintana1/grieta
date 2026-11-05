@@ -88,5 +88,15 @@
     "ruta": "modelos/escalones-v1.tflite",
     "sha256": "46f38877585629fd6cd37e4765d60def43deb367920bfccfa94486ae8f983756",
     "grupo": "escalones"
+  },
+  {
+    "ruta": "modelos/LICENSE-hoyos",
+    "sha256": "c1e03aeac9881db2a140143ef98e0d005badb03d03d4c658f15e4c0260a99403",
+    "grupo": "hoyos"
+  },
+  {
+    "ruta": "modelos/hoyos-v1.tflite",
+    "sha256": "8c9532ec55e76dd3426e3808bc0cace45cd6ee54d11111fb35c5c9b21ad8123b",
+    "grupo": "hoyos"
   }
 ]

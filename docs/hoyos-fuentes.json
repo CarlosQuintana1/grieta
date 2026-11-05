@@ -1,0 +1,165 @@
+{
+  "modelo": {
+    "url": "https://huggingface.co/AMD-PAVS-AI/pothole-detection/resolve/cd5dd7a24988ac3cb8e58825a9ad477323787ed9/pothole_yolox_s.onnx",
+    "revision": "cd5dd7a24988ac3cb8e58825a9ad477323787ed9",
+    "licencia": "Apache-2.0 declarada por editor",
+    "bytes": 35774753,
+    "sha256": "9d55b8cc134f034b1885bd97aded14dcb17d887b8d5b7fbb3940e820d24c7660",
+    "fichaSha256": "e7d515266d4ccaf95457a154d609f77a7b9ef17d84898f2df9d87d158e8e9003",
+    "lfsBlobId": "5a120767d274ad96543a84dcae323045b850157a",
+    "verificacion": "Descarga nueva coincide exactamente con SHA-256 LFS de revisión fijada",
+    "metadatosLfsUrl": "https://huggingface.co/api/models/AMD-PAVS-AI/pothole-detection/revision/cd5dd7a24988ac3cb8e58825a9ad477323787ed9?blobs=true"
+  },
+  "dataset": {
+    "url": "https://github.com/jaygala24/pothole-detection/releases/download/v1.0.0/Pothole.Dataset.IVCNZ.zip",
+    "repoRevision": "463a4a522e0630984cadec813f15d8172899948b",
+    "licencia": "MIT en repositorio; fotos recopiladas de la web según autor; sin cadena individual de autoría acreditada",
+    "sha256": "4c9661d858459d3d181c3e86b8c47c3a8941bcf8dada40bc9f6bc68dbcc766eb",
+    "licenciaSha256": "2f6ede6d6a26aa591b9cd0ee9636b72b55185e0c3c2b6559523d93839da73251",
+    "fichaSha256": "13c27e6a7ab61d5e486da941878fa471d716f7a4082ee9dcb38a2d25c4545d36"
+  },
+  "derivado": {
+    "sha256": "8c9532ec55e76dd3426e3808bc0cace45cd6ee54d11111fb35c5c9b21ad8123b",
+    "bytes": 17937184,
+    "reentrenado": false
+  },
+  "commons": [
+    {
+      "grupo": "abierta",
+      "titulo": "Open manhole.jpg",
+      "archivo": "commons-00.jpg",
+      "fuente": "https://commons.wikimedia.org/wiki/File:Open_manhole.jpg",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/Open_manhole.jpg/1280px-Open_manhole.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "autor": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/lobsterstew/\">J. Samuel Burner</a>. Cropped by uploader.",
+      "licencia": "CC BY 2.0",
+      "sha256": "d6efa4ffac403992117f5f5b3ec438b6db4bd21927531d3a56000681e03964d2"
+    },
+    {
+      "grupo": "abierta",
+      "titulo": "Open manhole - 24 September 2026.jpg",
+      "archivo": "commons-01.jpg",
+      "fuente": "https://commons.wikimedia.org/wiki/File:Open_manhole_-_24_September_2026.jpg",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Open_manhole_-_24_September_2026.jpg/1280px-Open_manhole_-_24_September_2026.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "autor": "<a href=\"//commons.wikimedia.org/wiki/User:Aethonatic\" title=\"User:Aethonatic\">Aethonatic</a>",
+      "licencia": "CC0",
+      "sha256": "d926a2a4a4b358d08f71eee3e7eae785b2524f52d60b5ec98449962763a744a6"
+    },
+    {
+      "grupo": "abierta",
+      "titulo": "Open Manhole, New Orelans June 2021.jpg",
+      "archivo": "commons-02.jpg",
+      "fuente": "https://commons.wikimedia.org/wiki/File:Open_Manhole,_New_Orelans_June_2021.jpg",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/Open_Manhole%2C_New_Orelans_June_2021.jpg/1280px-Open_Manhole%2C_New_Orelans_June_2021.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "autor": "Bart Everson",
+      "licencia": "CC BY 2.0",
+      "sha256": "972a23517d9ca2f786c0dfc345d7c9a72504c84d85aa0ab2448ff9d4ecbe2704"
+    },
+    {
+      "grupo": "charco",
+      "titulo": "Asphalt and puddle.jpg",
+      "archivo": "commons-03.jpg",
+      "fuente": "https://commons.wikimedia.org/wiki/File:Asphalt_and_puddle.jpg",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Asphalt_and_puddle.jpg/1280px-Asphalt_and_puddle.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "autor": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:BogTar201213&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:BogTar201213 (page does not exist)\">BogTar201213</a>",
+      "licencia": "CC BY-SA 4.0",
+      "sha256": "bcf5364cbe7bbbd5d50db65f96df6024e0350799aa17214d57db9e2f91e67149"
+    },
+    {
+      "grupo": "charco",
+      "titulo": "Asphalt and Puddle No. 11.jpg",
+      "archivo": "commons-04.jpg",
+      "fuente": "https://commons.wikimedia.org/wiki/File:Asphalt_and_Puddle_No._11.jpg",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Asphalt_and_Puddle_No._11.jpg/1280px-Asphalt_and_Puddle_No._11.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "autor": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:BogTar201213&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:BogTar201213 (page does not exist)\">BogTar201213</a>",
+      "licencia": "CC BY-SA 4.0",
+      "sha256": "0be8b2f31527fe3b3477f6fe68efe7d2fe0a29b2679317577c1ca2befe1fb2fc"
+    },
+    {
+      "grupo": "tapa",
+      "titulo": "SanitarySewerManhole.JPG",
+      "archivo": "commons-05.jpg",
+      "fuente": "https://commons.wikimedia.org/wiki/File:SanitarySewerManhole.JPG",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/5/51/SanitarySewerManhole.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "autor": "<a href=\"//commons.wikimedia.org/wiki/User:Evangelidis\" title=\"User:Evangelidis\">Evangelidis</a>",
+      "licencia": "CC BY-SA 3.0",
+      "sha256": "c12bdaf17d9971917520a2d1f1ba8f3c016e6f61b7a09c05cf65f545b27426e2"
+    },
+    {
+      "grupo": "tapa",
+      "titulo": "Stormdrainandmanhole.JPG",
+      "archivo": "commons-06.jpg",
+      "fuente": "https://commons.wikimedia.org/wiki/File:Stormdrainandmanhole.JPG",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Stormdrainandmanhole.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "autor": "<a href=\"//commons.wikimedia.org/wiki/User:Evangelidis\" title=\"User:Evangelidis\">Evangelidis</a>",
+      "licencia": "CC BY-SA 3.0",
+      "sha256": "d12603cc233daa1ad33c574e40cfd64195ba1d41c5db1ca824de0c1814ff6d32"
+    },
+    {
+      "grupo": "tapa",
+      "titulo": "34 Inch Manhole Cover.jpg",
+      "archivo": "commons-07.jpg",
+      "fuente": "https://commons.wikimedia.org/wiki/File:34_Inch_Manhole_Cover.jpg",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/34_Inch_Manhole_Cover.jpg/1280px-34_Inch_Manhole_Cover.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "autor": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Googoo85&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Googoo85 (page does not exist)\">Googoo85</a>",
+      "licencia": "CC BY-SA 4.0",
+      "sha256": "4862814d7b91a393560031da76b02297fe0f493ebd5c51a078d0ba6ee79a0b10"
+    },
+    {
+      "grupo": "sombra",
+      "titulo": "A picture of shadows of trees on the pavement of the Prins Hendrikkade; high resolution image of FotoDutch in June 2013.jpg",
+      "archivo": "commons-08.jpg",
+      "fuente": "https://commons.wikimedia.org/wiki/File:A_picture_of_shadows_of_trees_on_the_pavement_of_the_Prins_Hendrikkade;_high_resolution_image_of_FotoDutch_in_June_2013.jpg",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/19/A_picture_of_shadows_of_trees_on_the_pavement_of_the_Prins_Hendrikkade%3B_high_resolution_image_of_FotoDutch_in_June_2013.jpg/1280px-A_picture_of_shadows_of_trees_on_the_pavement_of_the_Prins_Hendrikkade%3B_high_resolution_image_of_FotoDutch_in_June_2013.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "autor": "<a href=\"//commons.wikimedia.org/wiki/User:FotoDutch\" title=\"User:FotoDutch\">Fons Heijnsbroek</a>",
+      "licencia": "CC0",
+      "sha256": "16c8e5b64256003aa7bb7f6d2649b9d6ac13e74cb3756b3a4573f2fa12f5de40"
+    },
+    {
+      "grupo": "sombra",
+      "titulo": "Shadows on the Pavement - geograph.org.uk - 1215288.jpg",
+      "archivo": "commons-09.jpg",
+      "fuente": "https://commons.wikimedia.org/wiki/File:Shadows_on_the_Pavement_-_geograph.org.uk_-_1215288.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/f/f0/Shadows_on_the_Pavement_-_geograph.org.uk_-_1215288.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "autor": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.geograph.org.uk/profile/32427\">PAUL FARMER</a>",
+      "licencia": "CC BY-SA 2.0",
+      "sha256": "e1614aef4648ca1f89d93a2fc0d84e6720e00e37ede800ec3b94c359aca81626"
+    },
+    {
+      "grupo": "sombra",
+      "titulo": "Sun and shadows of the urban trees on the pavement, in Sarphatistraat; free photo Amsterdam city, Fons Heijnsbroek 10-2021.jpg",
+      "archivo": "commons-10.jpg",
+      "fuente": "https://commons.wikimedia.org/wiki/File:Sun_and_shadows_of_the_urban_trees_on_the_pavement,_in_Sarphatistraat;_free_photo_Amsterdam_city,_Fons_Heijnsbroek_10-2021.jpg",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/Sun_and_shadows_of_the_urban_trees_on_the_pavement%2C_in_Sarphatistraat%3B_free_photo_Amsterdam_city%2C_Fons_Heijnsbroek_10-2021.jpg/1280px-Sun_and_shadows_of_the_urban_trees_on_the_pavement%2C_in_Sarphatistraat%3B_free_photo_Amsterdam_city%2C_Fons_Heijnsbroek_10-2021.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "autor": "<a href=\"//commons.wikimedia.org/wiki/User:FotoDutch\" title=\"User:FotoDutch\">Fons Heijnsbroek</a>",
+      "licencia": "CC0",
+      "sha256": "252c66e5d92ba41e331927df445e7636c962cf5534ce6fae4bb795ce18a2f887"
+    }
+  ],
+  "onnxAnaliticoPreexistente": {
+    "sha256": "24cf24922748a695bb5cec567ce1a7d56034db6ddb633ff7e6975f2f06b57e03",
+    "bytes": 35798287,
+    "esDescargaOriginal": false,
+    "transformacionesObservadas": [
+      "323 registros value_info agregados",
+      "Orden de nodos e inicializadores distinto",
+      "Campos protobuf vacíos explícitos en tensores de constantes"
+    ],
+    "pesosIdenticosPorNombre": true,
+    "operacionesEntradasSalidasAtributosIdenticosPorNombre": true,
+    "inferenciaHfAnalitico": [
+      {
+        "imagen": "img-1.jpg",
+        "hf_analitico_max": 0.0
+      },
+      {
+        "imagen": "img-4.jpg",
+        "hf_analitico_max": 0.0
+      },
+      {
+        "imagen": "img-17.jpg",
+        "hf_analitico_max": 0.0
+      }
+    ],
+    "comandoQueGeneroLaCopia": "No conservado en la sesión previa; no se atribuye un comando específico sin evidencia"
+  }
+}

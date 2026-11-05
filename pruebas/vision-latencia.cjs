@@ -9,7 +9,7 @@ const fs = require('node:fs');
     for (const url of [process.env.GRIETA_ANTES_URL, process.env.GRIETA_URL].filter(Boolean)) {
       const contexto = await navegador.newContext({ viewport: { width: 390, height: 844 } });
       await contexto.addInitScript(({ imagen, amplio }) => {
-        localStorage.setItem('grieta-bienvenida', 'true'); localStorage.setItem('grieta-acc', JSON.stringify({ voz: true, tema: 'oscuro' }));
+        localStorage.setItem('grieta-bienvenida', 'true'); localStorage.setItem('grieta-acc', JSON.stringify({ voz: true, vozElegida: true, tema: 'oscuro' }));
         window.__medidas = { envios: [], recibidos: [], pendientes: 0, maximos: 0, visual: null, voz: null, comienzo: null };
         window.SpeechSynthesisUtterance = function (text) { this.text = text; };
         let fin;

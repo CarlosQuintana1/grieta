@@ -2,7 +2,7 @@ const {chromium}=require('playwright');const assert=require('node:assert/strict'
 (async()=>{const b=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_EXECUTABLE});try{
  const c=await b.newContext({viewport:{width:390,height:844},serviceWorkers:'block'});
  await c.addInitScript(()=>{
-  localStorage.setItem('grieta-bienvenida','true');localStorage.setItem('grieta-acc',JSON.stringify({voz:true,tema:'oscuro'}));
+  localStorage.setItem('grieta-bienvenida','true');localStorage.setItem('grieta-acc',JSON.stringify({voz:true,vozElegida:true,tema:'oscuro'}));
   window.__modoSuelo='tarde';window.__voz=[];window.__vibraciones=[];window.__permisos=0;
   window.SpeechSynthesisUtterance=function(text){this.text=text;};
   Object.defineProperty(window,'speechSynthesis',{value:{speaking:false,getVoices:()=>[{lang:'es-MX',localService:true}],cancel:()=>{},speak:m=>{window.__voz.push(m.text);m.onend?.();}}});

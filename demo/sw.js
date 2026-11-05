@@ -1,8 +1,8 @@
 // Guarda la app y los horarios para que funcione sin internet. Cambiar la version renueva todo.
-const VERSION = "grieta-75";
+const VERSION = "grieta-76";
 const BASE = [
-  "./", "index.html", "estilos.css", "app.js", "toques.js", "practica.js", "vision/transporte.js?v=73", "grieta.js", "idioma.js", "camara.js", "vision/desniveles.js?v=74", "vision/camara-suelo.js?v=74", "vision/escalones-worker.js?v=74", "vision/observaciones.js?v=3", "vision/seguimiento.js?v=3", "vision/movimiento.js?v=3", "vision/detector-worker.js?v=3", "vision/lector-worker.js?v=3", "vision/activos.json?v=4", "logo.png", "icono-192.png", "manifest.webmanifest",
-  "idiomas/es.json", "idiomas/otq.json",
+  "./", "index.html", "estilos.css", "app.js", "toques.js", "practica.js", "tutorial.js", "vision/transporte.js?v=73", "grieta.js", "idioma.js", "camara.js", "vision/desniveles.js?v=74", "vision/camara-suelo.js?v=76", "vision/hoyos.js?v=76", "vision/hoyos-worker.js?v=76", "vision/escalones-worker.js?v=74", "vision/observaciones.js?v=3", "vision/seguimiento.js?v=3", "vision/movimiento.js?v=3", "vision/detector-worker.js?v=3", "vision/lector-worker.js?v=3", "vision/activos.json?v=5", "logo.png", "icono-192.png", "manifest.webmanifest",
+  "idiomas/es.json", "idiomas/otq.json", "idiomas/nhe.json",
   "datos/modelo.json", "datos/qrobus.json", "datos/lugares.json", "datos/config.json",
   "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css",
   "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js",

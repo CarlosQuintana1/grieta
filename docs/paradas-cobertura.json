@@ -1,0 +1,95 @@
+{
+  "fechaRevision": "2026-11-04",
+  "ambito": "Auditoría local de catálogo público y motor; no usa posición ni historial de personas",
+  "catalogo": {
+    "archivo": "demo/datos/qrobus.json",
+    "sha256": "ff6a88683d129593b1df10e7d6484d15d32716ddc25df620d53eb2c2aed9e9b5",
+    "paradas": 2610,
+    "patrones": 216,
+    "lineas": 117,
+    "vigencia": "20261017",
+    "paradasSinPatron": 0,
+    "paradasSoloTerminales": 53,
+    "cobertura": "Solo paradas referenciadas en stop_times del GTFS local; no catálogo físico completo ni cobertura actual verificada"
+  },
+  "gtfs_local": {
+    "directorioRelativo": "modelo/datos/gtfs_qrobus",
+    "paradas": 2694,
+    "paradasConHorario": 2610,
+    "paradasSinHorario": 84,
+    "rutas": 217,
+    "rutasConViajes": 117,
+    "rutasSinViajes": 100,
+    "viajes": 32536,
+    "filasHorarios": 1326009,
+    "coincidenciaExportConStopsUsadas": true,
+    "feedInfo": {
+      "feed_publisher_name": "Agencia de Movilidad del Estado de Querétaro",
+      "feed_publisher_url": "https://www.ameq.gob.mx/",
+      "feed_lang": "es",
+      "feed_start_date": "20250324",
+      "feed_end_date": "20260324",
+      "feed_version": "1.0",
+      "feed_contact_url": "https://qrobus.gob.mx/Ayuda"
+    },
+    "calendar": [
+      {
+        "service_id": "1",
+        "monday": "1",
+        "tuesday": "1",
+        "wednesday": "1",
+        "thursday": "1",
+        "friday": "1",
+        "saturday": "0",
+        "sunday": "0",
+        "start_date": "20251017",
+        "end_date": "20261017"
+      },
+      {
+        "service_id": "2",
+        "monday": "0",
+        "tuesday": "0",
+        "wednesday": "0",
+        "thursday": "0",
+        "friday": "0",
+        "saturday": "1",
+        "sunday": "0",
+        "start_date": "20251017",
+        "end_date": "20261017"
+      },
+      {
+        "service_id": "3",
+        "monday": "0",
+        "tuesday": "0",
+        "wednesday": "0",
+        "thursday": "0",
+        "friday": "0",
+        "saturday": "0",
+        "sunday": "1",
+        "start_date": "20251017",
+        "end_date": "20261017"
+      }
+    ],
+    "sha256": {
+      "stops.txt": "f9a9ac05b70880f67e1c08fc46d176ee1135998fdf86f3af4060d57a46fbff95",
+      "routes.txt": "91f62b0815c4d5cc34baecabb793537ea43306fc34f3303bdebdd4f835621e91",
+      "trips.txt": "235e26c98e3ae11ed5a6092c1cd538310fd8dfbe3f6cda9580382eacac004470",
+      "stop_times.txt": "9a2f4094c16310d427b8209b20f0a40a631d2b72986366c8844b1212c0ca8339",
+      "calendar.txt": "ebbc226017cba68b8661a7c13f1b04e2e004a89b052c08849d869ce0bc4bd247",
+      "feed_info.txt": "511ef84b0b84823880d18421833bd56a745df06794d2e3b8df7ad42a7977e418"
+    },
+    "licencia": "No verificada por esta auditoría; no se redistribuye el GTFS"
+  },
+  "exportador": {
+    "archivoRelativo": "modelo/exportar_demo.py",
+    "sha256": "856cb6b6c6548182c32cdf58a18ecaf062e00afa48ea7b9ece8157220e5a5e69",
+    "seleccion": "usadas = sorted(set(h[\"stop_id\"])); patrones derivados de viajes con horarios"
+  },
+  "limites": [
+    "No se verificó vigencia/cobertura contra una fuente remota actual",
+    "El calendario local terminó en 20261017; feed_info termina en 20260324, fechas distintas y ambas anteriores a la revisión",
+    "Los horarios se consultan por día de semana, sin prueba de operación en vivo",
+    "No permite demostrar cuál parada real es la más cercana en calles",
+    "No se agregaron paradas ni se modificó el catálogo"
+  ]
+}

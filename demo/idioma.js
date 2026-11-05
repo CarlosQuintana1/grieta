@@ -3,6 +3,8 @@ const Interfaz = (() => {
   const omitir = "script, style, svg, [translate='no'], #mapa, #medidas, #chofer, #perfilLengua, #filaLengua .respuesta-perfil";
   const textos = new WeakMap();
   const propiedades = new WeakMap();
+  const lenguas = { oto: "otq", nah: "nhe" };
+  const catalogos = new Map();
   let catalogo = null;
   let fuente = null;
   let reglas = [];
@@ -14,15 +16,19 @@ const Interfaz = (() => {
   const huecos = (t) => [...String(t).matchAll(/\{(\w+)\}/g)].map((x) => x[1]).sort().join("|");
   const literal = (t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
+  const preservados = t => JSON.stringify([
+    ...String(t).replace(/\{\w+\}/g, "").matchAll(/\d+(?:[.,]\d+)?|Grieta|Qrobus|Uber|DiDi|inDrive|WhatsApp|VoiceOver|TalkBack|Tarifa Unidos/gi)
+  ].map(x => x[0].toLowerCase()).sort());
   function revisar(c, base = fuente) {
     const revisado = typeof c?.revision === "string" && Boolean(c.revision.trim());
     const provisional = c?.provisional === true && c.fuente?.tipo === "automatica" && typeof c.fuente?.nombre === "string" && Boolean(c.fuente.nombre.trim()) && /^https:\/\//.test(c.fuente?.url ?? "");
-    if (c?.codigo !== "otq" || c.completa !== true || (!revisado && !provisional) || !Array.isArray(c.mensajes) || !c.mensajes.length) return false;
-    if (!Array.isArray(base?.mensajes) || c.mensajes.length !== base.mensajes.length || !base.mensajes.every((m) => m && typeof m.clave === "string" && typeof m.es === "string")) return false;
+    if (c?.completa === true && c?.parcial === true) return false;
+    if (!Object.values(lenguas).includes(c?.codigo) || (c.completa !== true && c.parcial !== true) || (!revisado && !provisional) || !Array.isArray(c.mensajes) || !c.mensajes.length) return false;
+    if (!Array.isArray(base?.mensajes) || (c.completa === true ? c.mensajes.length !== base.mensajes.length : c.mensajes.length > base.mensajes.length) || !base.mensajes.every((m) => m && typeof m.clave === "string" && typeof m.es === "string")) return false;
     const originales = new Map(base.mensajes.map((m) => [m.clave, m.es]));
     const vistos = new Set();
     return c.mensajes.every((m) => {
-      if (!m || typeof m.es !== "string" || !m.es.trim() || originales.get(m.clave) !== m.es || typeof m.otq !== "string" || !m.otq.trim() || huecos(m.es) !== huecos(m.otq) || vistos.has(normalizar(m.es))) return false;
+      if (!m || typeof m.es !== "string" || !m.es.trim() || originales.get(m.clave) !== m.es || typeof m[c.codigo] !== "string" || !m[c.codigo].trim() || huecos(m.es) !== huecos(m[c.codigo]) || preservados(m.es) !== preservados(m[c.codigo]) || vistos.has(normalizar(m.es))) return false;
       vistos.add(normalizar(m.es));
       return true;
     });
@@ -44,7 +50,7 @@ const Interfaz = (() => {
 
   function traducir(texto, elemento, nivel = 0) {
     const original = normalizar(texto);
-    if (activo !== "otq" || !original || nivel > 5) return texto;
+    if (activo === "es" || !original || nivel > 5) return texto;
     const coma = texto.indexOf(",");
     if (elemento.closest("#horas button") && coma > 0) {
       return traducir(texto.slice(0, coma), elemento, nivel + 1) + traducir(texto.slice(coma), elemento, nivel + 1);
@@ -61,7 +67,7 @@ const Interfaz = (() => {
         valores.set(nombre, valor);
       });
       if (!coinciden) continue;
-      const resultado = r.otq.replace(/\{(\w+)\}/g, (_, nombre) => {
+      const resultado = r.traduccion.replace(/\{(\w+)\}/g, (_, nombre) => {
         const valor = valores.get(nombre) ?? "";
         const variable = r.variables?.[nombre];
         const permitido = !variable?.solo || variable.solo.includes(valor);
@@ -75,6 +81,9 @@ const Interfaz = (() => {
     if (elemento.closest("#guiaEtapa") && original.includes(" · ")) {
       const [etapa, ...linea] = original.split(" · ");
       return [traducir(etapa, elemento, nivel + 1), ...linea].join(" · ");
+    }
+    if (elemento.closest("#camaraResultado, #camaraAlerta") && texto.includes(", ")) {
+      return texto.split(/(, )/).map((p, i) => i % 2 ? p : traducir(p, elemento, nivel + 1)).join("");
     }
     const oraciones = texto.split(/(?<=[.!?])(\s+)(?=[A-ZÁÉÍÓÚÜÑ¿¡])/u);
     if (oraciones.length > 1) return oraciones.map((p, i) => i % 2 ? p : traducir(p, elemento, nivel + 1)).join("");
@@ -143,14 +152,16 @@ const Interfaz = (() => {
   }
   function aplicar() {
     observador?.disconnect();
-    activo = elegido === "oto" && catalogo ? "otq" : "es";
+    catalogo = catalogos.get(lenguas[elegido]) ?? null;
+    activo = catalogo?.codigo ?? "es";
+    reglas = catalogo?.reglas ?? [];
     document.documentElement.lang = activo;
     recorrer(document.body);
     if (observador) observar();
     avisar();
   }
   function cambiar(idioma) {
-    elegido = idioma === "oto" ? "oto" : "es";
+    elegido = Object.hasOwn(lenguas, idioma) ? idioma : "es";
     aplicar();
   }
   // La voz conserva el texto original aunque la pantalla ya este traducida.
@@ -166,7 +177,7 @@ const Interfaz = (() => {
     }).join("");
   }
   async function iniciar(idioma, alCambiar) {
-    elegido = idioma === "oto" ? "oto" : "es";
+    elegido = Object.hasOwn(lenguas, idioma) ? idioma : "es";
     avisar = alCambiar;
     observador = new MutationObserver((cambios) => {
       if (activo === "es") return;
@@ -180,18 +191,21 @@ const Interfaz = (() => {
     });
     observar();
     try {
-      const [base, c] = await Promise.all(["es", "otq"].map(async (id) => {
-        const r = await fetch(`idiomas/${id}.json`);
-        return r.ok ? r.json() : null;
+      const [base, ...lista] = await Promise.all(["es", ...Object.values(lenguas)].map(async (id) => {
+        try {
+          const r = await fetch(`idiomas/${id}.json`);
+          return r.ok ? await r.json() : null;
+        } catch { return null; }
       }));
       fuente = base;
-      if (revisar(c)) {
-        catalogo = c;
-        const traducciones = new Map(c.mensajes.map((m) => [m.clave, m.otq]));
-        reglas = base.mensajes.map((m) => compilar({ ...m, otq: traducciones.get(m.clave) })).sort((a, b) => b.peso - a.peso);
+      for (const c of lista) {
+        if (!revisar(c)) continue;
+        const traducciones = new Map(c.mensajes.map((m) => [m.clave, m[c.codigo]]));
+        c.reglas = base.mensajes.filter((m) => traducciones.has(m.clave)).map((m) => compilar({ ...m, traduccion: traducciones.get(m.clave) })).sort((a, b) => b.peso - a.peso);
+        catalogos.set(c.codigo, c);
       }
     } catch {}
     aplicar();
   }
-  return { iniciar, cambiar, original, revisar, get disponible() { return Boolean(catalogo); }, get provisional() { return Boolean(catalogo?.provisional); } };
+  return { iniciar, cambiar, original, revisar, disponiblePara: (id) => catalogos.has(lenguas[id]), parcialPara: (id) => catalogos.get(lenguas[id])?.parcial === true, get disponible() { return Boolean(catalogo); }, get provisional() { return Boolean(catalogo?.provisional); } };
 })();

@@ -824,3 +824,12 @@ html.modo-voz :is(button,a,input,select,textarea,label) { touch-action: manipula
 #practica .enlace { min-height: var(--toque); }
 #camaraRutaPanel > label { display: block; font-weight: 700; margin-bottom: 8px; }
 #camaraSentidoOpciones { width: 100%; }
+
+/* Tutorial: las mismas fichas y acciones de la bienvenida. */
+.tutorial { display: flex; flex-direction: column; gap: 1rem; min-height: 100%; }
+.tutorial-cabecera { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.tutorial .nota { margin-top: 0; }
+.tutorial .mini-ficha { align-self: flex-start; }
+.tutorial .boton { margin-top: 0; }
+.tutorial #tutorialContinuar { margin-top: auto; }
+.tutorial .enlace { min-height: var(--toque); }

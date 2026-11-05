@@ -1,4 +1,5 @@
 const ToquesGrieta = (() => {
+  let puedeAnunciar = () => true;
   const INSTRUCCION = 'Toca una vez para escuchar. Toca dos veces seguidas el mismo control para activarlo.';
   const AYUDAS = {
     practicaBoton: 'Este botón solo sirve para practicar. No hace acciones fuera de esta pantalla.', camaraBuscarCamion: 'Lee varias imágenes del letrero de un solo camión para comparar la ruta.',
@@ -46,6 +47,7 @@ const ToquesGrieta = (() => {
     anunciar(descripcion(e)); alDescribir(e);
   }
   function anunciar(texto) {
+    if (!puedeAnunciar()) return;
     proteccion = performance.now();
     const anuncio = document.getElementById('descripcionToque');
     if (anuncio) anuncio.textContent = texto;
@@ -90,7 +92,7 @@ const ToquesGrieta = (() => {
   addEventListener('dblclick', (e) => { if (activo() && control(e.target)) e.preventDefault(); }, true);
   addEventListener('keydown', (e) => { if (!['Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) reiniciar(); }, true);
   addEventListener('wheel', reiniciar, { capture: true, passive: true });
-  function iniciar(opciones) { habilitado = opciones.activo; decir = opciones.decir; cancelar = opciones.cancelar ?? (() => {}); alDescribir = opciones.alDescribir ?? (() => {}); original = opciones.original ?? original; reiniciar(); }
+  function iniciar(opciones) { puedeAnunciar = opciones.puedeAnunciar ?? (() => true); habilitado = opciones.activo; decir = opciones.decir; cancelar = opciones.cancelar ?? (() => {}); alDescribir = opciones.alDescribir ?? (() => {}); original = opciones.original ?? original; reiniciar(); }
   return { iniciar, reiniciar, activo, instrucciones: INSTRUCCION, get describiendo() {
     if (!proteccion) return false;
     if (performance.now() - proteccion < 400) return true;

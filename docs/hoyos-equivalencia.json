@@ -1,0 +1,83 @@
+{
+  "referencia": "Descarga HF fijada; no se atribuye el hash anal\u00edtico al original",
+  "archivos": {
+    "original_hf": {
+      "sha256": "9d55b8cc134f034b1885bd97aded14dcb17d887b8d5b7fbb3940e820d24c7660",
+      "bytes": 35774753
+    },
+    "fusionado": {
+      "sha256": "b3a4d5b48670f85990f4a48ca8cc4c48d8aaac1348324541290933080249076f",
+      "bytes": 35788186
+    },
+    "tflite": {
+      "sha256": "8c9532ec55e76dd3426e3808bc0cace45cd6ee54d11111fb35c5c9b21ad8123b",
+      "bytes": 17937184
+    },
+    "analitico_preexistente": {
+      "sha256": "24cf24922748a695bb5cec567ce1a7d56034db6ddb633ff7e6975f2f06b57e03",
+      "bytes": 35798287
+    }
+  },
+  "filas": [
+    {
+      "imagen": "img-1.jpg",
+      "hf_fusionado_max": 1.33514404296875e-05,
+      "tflite_max": 0.025333166122436523,
+      "tflite_media": 0.0008610793738625944,
+      "tflite_p99": 0.00664340600371364,
+      "campos_max": [
+        0.017301425337791443,
+        0.023974120616912842,
+        0.020182013511657715,
+        0.025333166122436523,
+        0.003464445471763611,
+        0.009148389101028442
+      ],
+      "finito": true,
+      "salida": [
+        50400
+      ],
+      "hf_analitico_max": 0.0
+    },
+    {
+      "imagen": "img-4.jpg",
+      "hf_fusionado_max": 7.271766662597656e-06,
+      "tflite_max": 0.04001569747924805,
+      "tflite_media": 0.0006898372084833682,
+      "tflite_p99": 0.0051316660642623906,
+      "campos_max": [
+        0.019223034381866455,
+        0.03177964687347412,
+        0.04001569747924805,
+        0.03461337089538574,
+        0.0008107423782348633,
+        0.006542712450027466
+      ],
+      "finito": true,
+      "salida": [
+        50400
+      ],
+      "hf_analitico_max": 0.0
+    },
+    {
+      "imagen": "img-17.jpg",
+      "hf_fusionado_max": 1.6689300537109375e-05,
+      "tflite_max": 0.03006899356842041,
+      "tflite_media": 0.0006988370441831648,
+      "tflite_p99": 0.0045442694425582904,
+      "campos_max": [
+        0.012211203575134277,
+        0.017207324504852295,
+        0.03006899356842041,
+        0.026637673377990723,
+        0.0013591349124908447,
+        0.004815220832824707
+      ],
+      "finito": true,
+      "salida": [
+        50400
+      ],
+      "hf_analitico_max": 0.0
+    }
+  ]
+}

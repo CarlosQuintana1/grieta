@@ -3650,8 +3650,8 @@
     },
     {
       "clave": "texto_0b86b18bef",
-      "es": "Avisa si un vehículo crece al centro de la imagen. Intenta compensar el movimiento del teléfono, pero puede fallar. No detecta cruces.",
-      "nhe": "Ki ijtoa tla se teposnenemi moskaltis hasta tlatlajko tlen nopa tlaixkopinkayotl. Kiyejyekoua kikuepas nopa mojmostla tlen nopa teléfono, pero uelis amo kuali. Ax kiita tlen panotok."
+      "es": "Puede fallar, no detecta cruces.",
+      "nhe": "Uelis amo kuali. Ax kiita tlen panotok."
     },
     {
       "clave": "texto_818f93f719",

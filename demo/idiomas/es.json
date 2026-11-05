@@ -6520,7 +6520,7 @@
     },
     {
       "clave": "texto_0b86b18bef",
-      "es": "Avisa si un vehículo crece al centro de la imagen. Intenta compensar el movimiento del teléfono, pero puede fallar. No detecta cruces.",
+      "es": "Puede fallar, no detecta cruces.",
       "contextos": [
         "demo/index.html · pantallas · #camara"
       ]

@@ -184,7 +184,6 @@
     </section>
 
     <section id="inicio" class="pantalla" aria-labelledby="tituloInicio">
-      <button id="vozRapida" type="button" class="enlace">Activar voz</button>
       <div id="inicioVoz" class="inicio-voz" hidden>
         <h1 class="titulo-grande" tabindex="-1">¿Qué necesitas?</h1>
         <p id="ayudaToques" class="nota" hidden>Toca una vez para escuchar. Toca dos veces seguidas el mismo control para activarlo.</p>
@@ -192,7 +191,7 @@
         <button id="vozDestino" type="button" class="boton-voz"><svg class="picto"><use href="#p-decir"/></svg>Decir a dónde voy</button>
         <button id="vozCamara" type="button" class="boton-voz oscuro"><svg class="icono" aria-hidden="true"><use href="#i-camara"/></svg>Describir con la cámara</button>
         <button id="vozRutina" type="button" class="boton-voz" hidden><svg class="icono"><use href="#i-reloj"/></svg><span></span></button>
-        <button id="vozCasa" type="button" class="boton-voz" hidden><svg class="picto"><use href="#p-casa"/></svg>Llévame a casa</button>
+        <button id="vozCasa" type="button" class="boton-voz" aria-keyshortcuts="Shift+F10" hidden><svg class="picto"><use href="#p-casa"/></svg>Llévame a casa</button>
         <div id="vozLugares" class="voz-lugares"></div>
         <button id="vozCamion" type="button" class="boton-voz"><svg class="picto"><use href="#p-camiones"/></svg>¿Qué camión pasa aquí?</button>
         <button id="vozDonde" type="button" class="boton-voz"><svg class="picto"><use href="#p-donde"/></svg>¿Dónde estoy?</button>
@@ -215,6 +214,7 @@
       </button>
       <h2 id="tituloLugares" class="seccion">Tus lugares</h2>
       <div id="guardados" class="lugares" role="group" aria-labelledby="tituloLugares"></div>
+      <div id="deshacerInicio" class="grupo deshacer-lugar" hidden></div>
       <div class="buscador">
         <svg class="icono tenue"><use href="#i-lupa"/></svg>
         <button id="abrirBuscar" type="button" class="buscador-campo">Busca un lugar</button>
@@ -729,6 +729,24 @@
     <button type="button" data-tab="camiones"><svg class="picto"><use href="#p-camiones"/></svg><span class="pestana-texto">Camiones cerca</span></button>
     <button type="button" data-tab="ajustes"><svg class="picto picto-lucide"><use href="#p-settings"/></svg><span class="pestana-texto">Ajustes</span></button>
   </nav>
+
+  <dialog id="dialogoLugar" class="dialogo-lugar" aria-labelledby="tituloAccionesLugar">
+    <h2 id="tituloAccionesLugar" tabindex="-1" translate="no"></h2>
+    <div id="accionesLugar">
+      <button id="editarNombreLugar" type="button" class="boton">Editar</button>
+      <button id="quitarLugarInicio" type="button" class="boton oscuro">Quitar</button>
+    </div>
+    <form id="formularioLugar" hidden>
+      <label class="campo"><span>Nombre</span><input id="nombreLugarGuardado" type="text" maxlength="30" autocomplete="off" enterkeyhint="done" required></label>
+      <p id="otroNombreLugar" class="nota" role="alert" hidden>Otro nombre</p>
+      <div class="fila lugar-ubicacion">
+        <span id="ubicacionLugarGuardado">Lugar o calle</span>
+        <button id="cambiarUbicacionLugar" type="button" class="enlace" aria-labelledby="cambiarUbicacionLugar ubicacionLugarGuardado">Cambiar</button>
+      </div>
+      <button type="submit" class="boton">Guardar</button>
+    </form>
+    <button id="cerrarDialogoLugar" type="button" class="enlace">Cerrar</button>
+  </dialog>
 
   <div id="chofer" class="chofer" role="dialog" aria-modal="true" aria-labelledby="choferDestino" hidden>
     <p id="choferLinea" class="chofer-linea"></p>

@@ -132,9 +132,9 @@ function aplicarAcc() {
   document.documentElement.classList.toggle("modo-voz", acc.modoVoz);
   $("inicioVoz").hidden = !acc.modoVoz;
   $("inicioNormal").hidden = acc.modoVoz;
+  $(acc.modoVoz ? "vozLugares" : "guardados").after($("deshacerInicio"));
   for (const [k, id] of Object.entries(OPCIONES)) $(id).checked = acc[k];
   $("optUnidos2").checked = acc.unidos;
-  $("vozRapida").textContent = acc.voz ? "Silenciar Grieta" : "Activar voz";
   actualizarVozEncabezado();
   recolorear();
   document.querySelector('meta[name="theme-color"]').content = tono("--fondo");
@@ -234,7 +234,9 @@ function mostrar(nombre) {
   if (nombre === "opciones") quitarTrazo();
   if (nombre !== "elegirMapa") capas.punto?.remove();
   if (nombre !== "camiones") { capas.paradas?.remove(); capas.paradas = null; }
-  if (nombre !== "ajustes" && quitado) { quitado = null; pintarGuardados(); }
+  if ($("dialogoLugar").open) $("dialogoLugar").close();
+  if (nombre !== "buscar" && nombre !== "elegirMapa") cambioUbicacionGuardada = null;
+  if (quitado && nombre !== quitado.pantalla) { quitado = null; pintarGuardados(); }
   for (const s of document.querySelectorAll(".pantalla")) s.hidden = s.id !== nombre;
   if (nombre === "camara" && document.body.dataset.pantalla !== "camara") camaraConVoz = true;
   document.body.dataset.pantalla = nombre;
@@ -303,8 +305,8 @@ for (const [id, clave] of Object.entries({ tituloInicio: "a_donde_vas", empezar:
   boton.lastChild.textContent = textoFrase(frase(clave));
 }
 $("nombreOtomi").textContent = NOMBRE_OTOMI;
-for (const id of ["vozRapida", "vozEncabezado"]) $(id).addEventListener("click", () => {
-  if (id === "vozEncabezado" && document.body.dataset.pantalla === "camara") {
+$("vozEncabezado").addEventListener("click", () => {
+  if (document.body.dataset.pantalla === "camara") {
     camaraConVoz = !camaraConVoz;
     actualizarVozEncabezado();
     if (camaraConVoz) CamaraGrieta.repetir();
@@ -450,7 +452,15 @@ const dentroDeQueretaro = (lat, lon) => Grieta.metros(lat, lon, QUERETARO[0], QU
 const esGps = (l) => l?.nombre === "Tu ubicación";
 
 function poner(cual, lugar, sinNavegar = false) {
-  if (cual === "destino") cancelarDictado();
+  if (cual === "destino") {
+    cancelarDictado();
+    if (cambioUbicacionGuardada) {
+      guardarEdicionLugar(cambioUbicacionGuardada, lugar);
+      cambioUbicacionGuardada = null;
+      history.go(document.body.dataset.pantalla === "elegirMapa" ? -2 : -1);
+      return;
+    }
+  }
   estado[cual] = lugar;
   if (cual === "destino" && estado.guardarComo) {
     const nombre = estado.guardarComo;
@@ -619,7 +629,7 @@ function elegirEnMapa() {
   $("usarPunto").hidden = true;
   $("elegirTexto").textContent = `Mueve el mapa y toca dónde está ${estado.eligiendo === "origen" ? "el lugar de donde sales" : "el lugar a donde vas"}.`;
   ir("elegirMapa");
-  const c = cerca() ?? estado.destino ?? { lat: QUERETARO[0], lon: QUERETARO[1] };
+  const c = cambioUbicacionGuardada?.lugar ?? cerca() ?? estado.destino ?? { lat: QUERETARO[0], lon: QUERETARO[1] };
   setTimeout(() => mapa.setView([c.lat, c.lon], 15), 80);
 }
 $("usarPunto").addEventListener("click", () => {
@@ -629,7 +639,7 @@ $("usarPunto").addEventListener("click", () => {
   capas.punto?.remove();
   const cual = estado.eligiendo;
   estado.eligiendo = null;
-  guardarReciente(lugar);
+  if (!cambioUbicacionGuardada) guardarReciente(lugar);
   poner(cual, lugar);
   // Si con este punto todavia falta el otro extremo del viaje, poner() ya llevo al buscador; si no, regresa al inicio.
   if (document.body.dataset.pantalla === "elegirMapa" && !(estado.origen && estado.destino)) ir("inicio", true);
@@ -638,7 +648,7 @@ $("usarPunto").addEventListener("click", () => {
 function elegir(lugar) {
   if (!lugar) return;
   cancelarDictado();
-  guardarReciente(lugar);
+  if (!cambioUbicacionGuardada) guardarReciente(lugar);
   poner(estado.editando === "desde" ? "origen" : "destino", lugar);
 }
 $("resultados").addEventListener("click", (e) => {
@@ -1667,6 +1677,7 @@ function procesarDictado(texto, revision) {
   const guardado = guardados.find(g => sinAcentos(g.nombre) === dicho);
   if (guardado) {
     estado.editando = "hacia";
+    if (cambioUbicacionGuardada) return poner("destino", guardado);
     poner("destino", guardado);
     return hablarAlCerrarDictado(frase("vamos_lugar", { lugar: guardado.nombre }));
   }
@@ -1679,7 +1690,7 @@ function procesarDictado(texto, revision) {
   }
   sugerir(texto, res => {
     if (revision !== revisionDictado || document.body.dataset.pantalla !== "buscar" || $("campoBuscar").value !== texto) return;
-    if (acc.modoVoz && res.length) {
+    if (acc.modoVoz && res.length && !cambioUbicacionGuardada) {
       const mensaje = [frase("vamos_lugar", { lugar: res[0].nombre }), " Si no es, regresa y vuelve a decirlo."];
       elegir(res[0]);
       return hablarAlCerrarDictado(mensaje);
@@ -2209,8 +2220,8 @@ $("listaViajes").addEventListener("click", (e) => {
 // Lugares guardados en este telefono: Casa, Escuela, Trabajo.
 let guardados = leer("grieta-lugares", []);
 let editando = false;
-// El ultimo lugar quitado, para poder deshacerlo mientras sigues en Ajustes.
 let quitado = null;
+let cambioUbicacionGuardada = null;
 function iconoLugar(nombre) {
   const n = sinAcentos(nombre);
   if (n === "casa") return "casa";
@@ -2227,26 +2238,32 @@ const tonoLugar = (nombre, i) => TONOS[iconoLugar(nombre)] ?? ["tono-anil", "ton
 function pintarGuardados() {
   // Casa siempre primero: es el viaje que mas se repite.
   guardados.sort((a, b) => (b.nombre === "Casa") - (a.nombre === "Casa"));
-  $("vozCasa").hidden = !guardados.some((g) => g.nombre === "Casa");
+  const casa = guardados.findIndex((g) => g.nombre === "Casa");
+  $("vozCasa").hidden = casa < 0;
+  $("vozCasa").dataset.i = casa;
   // En modo voz, los demas lugares tambien a un toque, hasta tres para no llenar la pantalla
   $("vozLugares").innerHTML = guardados.filter((g) => g.nombre !== "Casa").slice(0, 3).map((g) =>
-    `<button type="button" class="boton-voz" data-i="${guardados.indexOf(g)}">${picto(iconoLugar(g.nombre))}Ir a ${escapar(g.nombre)}</button>`).join("");
+    `<button type="button" class="boton-voz" data-i="${guardados.indexOf(g)}" aria-keyshortcuts="Shift+F10">${picto(iconoLugar(g.nombre))}Ir a ${escapar(g.nombre)}</button>`).join("");
   // Tus lugares como fichas grandes; si falta la casa, su ficha invita a agregarla.
   const ficha = (attrs, clase, icono, nombre, propio = false) => `<button type="button" class="lugar ${clase}" ${attrs}>
     <span class="lugar-icono">${picto(icono, icono === "plus" ? "picto-lucide" : "")}</span><span class="lugar-nombre"${propio ? ' translate="no"' : ""}>${escapar(nombre)}</span></button>`;
-  const fichas = guardados.map((g, i) => ficha(`data-i="${i}" aria-label="Ir a ${escapar(g.nombre)}"`, tonoLugar(g.nombre, i), iconoLugar(g.nombre), g.nombre, true));
+  const fichas = guardados.map((g, i) => ficha(`data-i="${i}" aria-keyshortcuts="Shift+F10" aria-label="Ir a ${escapar(g.nombre)}"`, tonoLugar(g.nombre, i), iconoLugar(g.nombre), g.nombre, true));
   if (!guardados.some((g) => g.nombre === "Casa")) fichas.push(ficha('data-nuevo="Casa"', "nuevo tono-casa", "casa", "Agregar casa"));
   if (guardados.length < 6) fichas.push(ficha('data-nuevo=""', "nuevo tono-ciruela", "plus", "Agregar"));
   $("guardados").innerHTML = fichas.join("");
   $("editarGuardados").hidden = !guardados.length;
   $("editarGuardados").textContent = editando ? "Listo" : "Editar";
   $("editarGuardados").setAttribute("aria-pressed", String(editando));
-  const deshacer = quitado ? `<li><div class="fila"><span class="fila-texto"><strong>Quitaste ${escapar(quitado.lugar.nombre)}</strong></span>
-      <button type="button" class="quitar" data-deshacer>Deshacer</button></div></li>` : "";
-  $("listaGuardados").innerHTML = deshacer + (guardados.length
+  const deshacer = quitado ? `<div class="fila"><span class="fila-texto"><strong>Quitaste ${escapar(quitado.lugar.nombre)}</strong></span>
+      <button type="button" class="quitar" data-deshacer>Deshacer</button></div>` : "";
+  const enInicio = quitado?.pantalla === "inicio";
+  $("deshacerInicio").innerHTML = enInicio ? deshacer : "";
+  $("deshacerInicio").hidden = !enInicio;
+  $("listaGuardados").innerHTML = (quitado?.pantalla === "ajustes" ? `<li>${deshacer}</li>` : "") + (guardados.length
     ? guardados.map((g, i) => editando
       ? `<li><div class="fila">${miniFicha(tonoLugar(g.nombre, i), picto(iconoLugar(g.nombre)))}<span class="fila-texto"><strong translate="no">${escapar(g.nombre)}</strong></span>
-          <button type="button" class="quitar" data-quitar="${i}" aria-label="Quitar ${escapar(g.nombre)}">Quitar</button></div></li>`
+          <div class="acciones-guardado"><button type="button" class="quitar" data-editar="${i}">Editar</button>
+          <button type="button" class="quitar" data-quitar="${i}" aria-label="Quitar ${escapar(g.nombre)}">Quitar</button></div></div></li>`
       : `<li><button type="button" data-i="${i}">${miniFicha(tonoLugar(g.nombre, i), picto(iconoLugar(g.nombre)))}
           <span class="fila-texto"><strong translate="no">${escapar(g.nombre)}</strong><small>Ir a ${escapar(g.nombre)}</small></span>${ico("chevron", "chevron")}</button></li>`).join("")
     : quitado ? "" : `<li class="vacio">Cuando elijas un destino, toca "Guardar este lugar".</li>`);
@@ -2365,25 +2382,171 @@ $("guardados").addEventListener("click", (e) => {
   $("tituloPantalla").textContent = b.dataset.nuevo === "Casa" ? "¿Dónde está tu casa?" : "Agregar un lugar";
 });
 $("listaGuardados").addEventListener("click", (e) => {
-  if (e.target.closest("[data-deshacer]") && quitado) {
-    guardados.splice(quitado.i, 0, quitado.lugar);
-    hablar(`${quitado.lugar.nombre} regresó a tus lugares.`, false, true);
-    quitado = null;
-    return guardarLugares();
-  }
+  if (e.target.closest("[data-deshacer]")) return deshacerLugar();
+  const editar = e.target.closest("[data-editar]");
+  if (editar) return abrirAccionesLugar(editar, guardados[editar.dataset.editar]);
   const q = e.target.closest("[data-quitar]");
-  if (q) {
-    const i = Number(q.dataset.quitar);
-    quitado = { lugar: guardados[i], i };
-    guardados.splice(i, 1);
-    if (!guardados.length) editando = false;
-    guardarLugares();
-    return $("listaGuardados").querySelector("[data-deshacer]")?.focus();
-  }
+  if (q) return quitarLugar(guardados[q.dataset.quitar]);
   const b = e.target.closest("button[data-i]");
   if (b) { ir("inicio"); irA(guardados[b.dataset.i]); }
 });
 $("editarGuardados").addEventListener("click", () => { editando = !editando; quitado = null; pintarGuardados(); });
+$("deshacerInicio").addEventListener("click", (e) => {
+  if (e.target.closest("[data-deshacer]")) deshacerLugar();
+});
+
+const dialogoLugar = $("dialogoLugar");
+const campoLugarGuardado = $("nombreLugarGuardado");
+const selectorLugares = "#guardados button[data-i], #vozLugares button[data-i], #vozCasa[data-i]";
+let lugarElegido = null, botonLugarElegido = null;
+let pulsacionLugar = null, omitirClicLugar = false;
+
+function enfocarLugarGuardado(lugar) {
+  const indice = guardados.indexOf(lugar);
+  if (document.body.dataset.pantalla === "ajustes") {
+    $("listaGuardados").querySelector(`[data-editar="${indice}"], [data-i="${indice}"]`)?.focus();
+  } else {
+    const botones = acc.modoVoz ? [$("vozCasa"), ...$("vozLugares").children] : [...$("guardados").children];
+    botones.find(boton => !boton.hidden && boton.dataset.i === String(indice))?.focus();
+  }
+}
+function quitarLugar(lugar) {
+  const indice = guardados.indexOf(lugar);
+  if (indice < 0) return;
+  const pantalla = document.body.dataset.pantalla;
+  quitado = { lugar, i: indice, pantalla };
+  guardados.splice(indice, 1);
+  if (!guardados.length) editando = false;
+  guardarLugares();
+  $(pantalla === "ajustes" ? "listaGuardados" : "deshacerInicio").querySelector("[data-deshacer]")?.focus();
+}
+function deshacerLugar() {
+  if (!quitado) return;
+  const { lugar, i } = quitado;
+  quitado = null;
+  guardados.splice(i, 0, lugar);
+  guardarLugares();
+  enfocarLugarGuardado(lugar);
+  hablar(`${lugar.nombre} regresó a tus lugares.`, false, true);
+}
+function abrirAccionesLugar(boton, lugar = guardados[boton.dataset.i]) {
+  if (!lugar || dialogoLugar.open) return;
+  lugarElegido = lugar;
+  botonLugarElegido = boton;
+  $("tituloAccionesLugar").textContent = lugar.nombre;
+  $("accionesLugar").hidden = false;
+  $("formularioLugar").hidden = true;
+  campoLugarGuardado.value = lugar.nombre;
+  $("otroNombreLugar").hidden = true;
+  ToquesGrieta.reiniciar();
+  dialogoLugar.showModal();
+  $("tituloAccionesLugar").focus();
+}
+$("cerrarDialogoLugar").addEventListener("click", () => dialogoLugar.close());
+dialogoLugar.addEventListener("close", () => {
+  if (dialogoLugar.open) return;
+  if (botonLugarElegido?.isConnected && !botonLugarElegido.closest("[hidden]")) botonLugarElegido.focus({ preventScroll: true });
+  lugarElegido = botonLugarElegido = null;
+});
+dialogoLugar.addEventListener("click", (e) => {
+  if (e.target !== dialogoLugar) return;
+  const { left, right, top, bottom } = dialogoLugar.getBoundingClientRect();
+  if (e.clientX < left || e.clientX > right || e.clientY < top || e.clientY > bottom) dialogoLugar.close();
+});
+$("editarNombreLugar").addEventListener("click", () => {
+  $("accionesLugar").hidden = true;
+  $("formularioLugar").hidden = false;
+  campoLugarGuardado.focus();
+  campoLugarGuardado.select();
+});
+campoLugarGuardado.addEventListener("input", () => { $("otroNombreLugar").hidden = true; });
+$("quitarLugarInicio").addEventListener("click", () => {
+  const lugar = lugarElegido;
+  dialogoLugar.close();
+  quitarLugar(lugar);
+});
+function nombreValidoLugar() {
+  const nombre = campoLugarGuardado.value.trim().replace(/\s+/g, " ");
+  const repetido = guardados.some(lugar => lugar !== lugarElegido && sinAcentos(lugar.nombre) === sinAcentos(nombre));
+  $("otroNombreLugar").hidden = Boolean(nombre) && !repetido;
+  if (!nombre || repetido) { campoLugarGuardado.focus(); return null; }
+  return nombre.charAt(0).toUpperCase() + nombre.slice(1);
+}
+function guardarEdicionLugar(edicion, ubicacion = edicion.lugar) {
+  const indice = guardados.indexOf(edicion.lugar);
+  if (indice < 0) return null;
+  const lugar = { ...edicion.lugar, nombre: edicion.nombre, lat: ubicacion.lat, lon: ubicacion.lon };
+  guardados[indice] = lugar;
+  quitado = null;
+  guardarLugares();
+  return lugar;
+}
+$("formularioLugar").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const nombre = nombreValidoLugar();
+  if (!nombre) return;
+  const edicion = { lugar: lugarElegido, nombre };
+  dialogoLugar.close();
+  const lugar = guardarEdicionLugar(edicion);
+  if (lugar) enfocarLugarGuardado(lugar);
+});
+$("cambiarUbicacionLugar").addEventListener("click", () => {
+  const nombre = nombreValidoLugar();
+  if (!nombre) return;
+  cambioUbicacionGuardada = { lugar: lugarElegido, nombre };
+  dialogoLugar.close();
+  abrirBuscar("hacia");
+});
+
+function cancelarPulsacionLugar() {
+  clearTimeout(pulsacionLugar?.reloj);
+  pulsacionLugar = null;
+}
+addEventListener("pointerdown", (e) => {
+  cancelarPulsacionLugar();
+  omitirClicLugar = false;
+  const boton = e.target.closest?.(selectorLugares);
+  if (!boton || e.button !== 0 || !e.isPrimary) return;
+  const { pointerId, clientX, clientY } = e;
+  const reloj = setTimeout(() => {
+    cancelarPulsacionLugar();
+    if (!boton.isConnected || boton.closest("[hidden]")) return;
+    omitirClicLugar = true;
+    abrirAccionesLugar(boton);
+  }, 500);
+  pulsacionLugar = { pointerId, clientX, clientY, reloj };
+}, { capture: true, passive: true });
+addEventListener("pointermove", (e) => {
+  if (pulsacionLugar?.pointerId !== e.pointerId) return;
+  if (Math.hypot(e.clientX - pulsacionLugar.clientX, e.clientY - pulsacionLugar.clientY) <= 12) return;
+  omitirClicLugar = true;
+  cancelarPulsacionLugar();
+}, { passive: true });
+for (const tipo of ["pointerup", "pointercancel", "blur"]) addEventListener(tipo, cancelarPulsacionLugar, true);
+addEventListener("scroll", () => {
+  if (!pulsacionLugar) return;
+  omitirClicLugar = true;
+  cancelarPulsacionLugar();
+}, { capture: true, passive: true });
+addEventListener("click", (e) => {
+  if (!omitirClicLugar || !e.detail) return;
+  omitirClicLugar = false;
+  e.preventDefault();
+  e.stopImmediatePropagation();
+}, true);
+$("inicio").addEventListener("contextmenu", (e) => {
+  const boton = e.target.closest(selectorLugares);
+  if (!boton) return;
+  e.preventDefault();
+  if (e.button === 2 && !pulsacionLugar) abrirAccionesLugar(boton);
+});
+$("inicio").addEventListener("keydown", (e) => {
+  if (e.key !== "ContextMenu" && !(e.shiftKey && e.key === "F10")) return;
+  const boton = e.target.closest(selectorLugares);
+  if (!boton) return;
+  e.preventDefault();
+  abrirAccionesLugar(boton);
+});
 $("guardarLugar").addEventListener("click", () => {
   const abierto = $("nombresLugar").hidden;
   $("nombresLugar").hidden = !abierto;

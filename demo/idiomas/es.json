@@ -9490,7 +9490,6 @@
       "es": "Activar voz",
       "contextos": [
         "demo/index.html · pantallas · aria-label",
-        "demo/index.html · pantallas · #vozRapida",
         "demo/app.js:134 · aplicarAcc",
         "demo/app.js:135 · aplicarAcc",
         "demo/app.js:136 · aplicarAcc"

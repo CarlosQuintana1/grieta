@@ -789,6 +789,34 @@ html.contraste #inicioNormal .lugar { border: 1px solid var(--linea); }
 #inicioNormal .lugar-icono { flex: none; width: 48px; max-width: 48px; }
 #inicioNormal .lugar-nombre { min-width: 0; font-size: .86rem; line-height: 1.3; overflow-wrap: break-word; }
 #inicioNormal .lugar.nuevo .lugar-nombre { color: var(--tinta); }
+#guardados button[data-i], #vozLugares button, #vozCasa {
+  -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;
+}
+.deshacer-lugar { margin-top: 10px; }
+.dialogo-lugar {
+  width: min(100%, 480px); max-width: 100%; max-height: calc(100dvh - var(--zona-arriba));
+  margin: auto auto 0; padding: 18px 16px max(12px, var(--zona-abajo));
+  border: 1px solid var(--linea); border-radius: var(--radio) var(--radio) 0 0;
+  background: var(--fondo); color: var(--tinta); overflow: auto;
+}
+.dialogo-lugar[open] { animation: mostrar-lugar 150ms ease-out; }
+.dialogo-lugar::backdrop { background: rgb(0 0 0 / 55%); }
+.dialogo-lugar h2 {
+  margin: 0 0 12px; color: var(--tinta); font-size: 1.2rem;
+  letter-spacing: normal; text-transform: none; overflow-wrap: anywhere;
+}
+.dialogo-lugar .boton { margin-top: 8px; }
+.dialogo-lugar > .enlace { display: block; margin: 6px auto 0; }
+.lugar-ubicacion, .deshacer-lugar > .fila {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.lugar-ubicacion { margin-top: 6px; }
+.deshacer-lugar > .fila { padding: 8px 12px; }
+.acciones-guardado { display: flex; flex-wrap: wrap; justify-content: flex-end; }
+@keyframes mostrar-lugar {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 #inicioNormal .buscador { margin-top: 22px; }
 #inicioNormal .buscador .mic { display: none; }
 html:not(.facil) #inicioNormal .dictar-grande:not([hidden]) { display: flex !important; }

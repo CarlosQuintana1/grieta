@@ -3436,6 +3436,61 @@
       "clave": "texto_8488f0f272",
       "es": "Último {v2}: {v3} según el horario",
       "otq": "Últimos {v2}: {v3} nä'ä mä ar horario"
+    },
+    {
+      "clave": "texto_4fbb6948c4",
+      "es": "Grieta me habla",
+      "otq": "Di ne Grieta ñö ko ngeki"
+    },
+    {
+      "clave": "texto_2adc63c5c9",
+      "es": "Uso lector",
+      "otq": "Utilizo 'nar lector pantalla"
+    },
+    {
+      "clave": "texto_06038689cd",
+      "es": "Grieta me lee",
+      "otq": "Di ne Grieta ñö ko ngeki"
+    },
+    {
+      "clave": "texto_b1e5f0cde2",
+      "es": "Lo esencial",
+      "otq": "Di ne ya xeni esenciales"
+    },
+    {
+      "clave": "texto_c0a0b157e3",
+      "es": "Todo completo",
+      "otq": "Nxo̲ge"
+    },
+    {
+      "clave": "texto_b39b09d73c",
+      "es": "Camino bien",
+      "otq": "Mpe̲ka̲ hinda hñäki"
+    },
+    {
+      "clave": "texto_d13b9902f1",
+      "es": "Camino poco",
+      "otq": "Dí 'ñehe ya hñäki mpe̲ka̲"
+    },
+    {
+      "clave": "texto_b2355112a8",
+      "es": "Silla o andadera",
+      "otq": "Silla rodas wa andante"
+    },
+    {
+      "clave": "texto_b112b1829f",
+      "es": "Escucho bien",
+      "otq": "Di o̲de ya alertas xi hño"
+    },
+    {
+      "clave": "texto_aaf40552b9",
+      "es": "Escucho poco",
+      "otq": "Dí 'ñehe ya hñäki 'mu̲ise̲"
+    },
+    {
+      "clave": "texto_0ef1300cc5",
+      "es": "A {v1} en línea recta",
+      "otq": "{v1}'nar 'ñu recta"
     }
   ],
   "adaptaciones": [
@@ -3693,6 +3748,61 @@
       "clave": "texto_0bbc7f1e92",
       "fuente": "https://www.bing.com/translator?from=es&to=otq",
       "criterio": "Partes de la aplicación."
+    },
+    {
+      "clave": "texto_4fbb6948c4",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Forma breve de «Quiero que Grieta me hable»; reusa su traducción automática."
+    },
+    {
+      "clave": "texto_2adc63c5c9",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Forma breve de «Uso lector de pantalla»; reusa su traducción automática."
+    },
+    {
+      "clave": "texto_06038689cd",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Forma breve de «Quiero que Grieta me hable»; reusa su traducción automática."
+    },
+    {
+      "clave": "texto_b1e5f0cde2",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Forma breve de «Quiero lo esencial»; reusa su traducción automática."
+    },
+    {
+      "clave": "texto_c0a0b157e3",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Forma breve de «Completa»; reusa su traducción automática."
+    },
+    {
+      "clave": "texto_b39b09d73c",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Forma breve de «Camino sin problema»; reusa su traducción automática."
+    },
+    {
+      "clave": "texto_d13b9902f1",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Forma breve de «Me cuesta caminar»; reusa su traducción automática."
+    },
+    {
+      "clave": "texto_b2355112a8",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Forma breve de «Silla de ruedas o andadera»; reusa su traducción automática."
+    },
+    {
+      "clave": "texto_b112b1829f",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Forma breve de «Escucho bien los avisos»; reusa su traducción automática."
+    },
+    {
+      "clave": "texto_aaf40552b9",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Forma breve de «Me cuesta escuchar»; reusa su traducción automática."
+    },
+    {
+      "clave": "texto_0ef1300cc5",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Forma breve de «a {v1} en línea recta»; reusa su traducción automática."
     }
   ],
   "parcial": true

@@ -1473,7 +1473,7 @@ function ponerCaminata(p, metros, seleccionada = false) {
   if (!$("distanciaParada")) return;
   if (!metros) {
     if (p.caminado) return;
-    $("caminaParada").textContent = "No pude calcular el camino a pie";
+    $("caminaParada").textContent = "No pude calcular el camino a pie.";
     $("caminaDetalle").textContent = `A ${distanciaTexto(p.m, true)} en línea recta`;
     return;
   }
@@ -1629,7 +1629,7 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
       <p class="etiqueta" id="distanciaParada">${seleccionada ? "Parada elegida" : "Parada más cercana"}</p>
       <p class="parada-nombre" translate="no">${escapar(cruce(p.nombre))}</p>
     </div>
-    <div class="a-pie" role="status">${ico("caminar")}<span class="fila-texto"><strong id="caminaParada">${p.caminado ? textoCaminata(p.caminado)[0] : "Calculando el camino a pie…"}</strong><small id="caminaDetalle">${p.caminado ? textoCaminata(p.caminado)[1] : `A ${distanciaTexto(p.m, true)} en línea recta`}</small></span></div>
+    <div class="a-pie" role="status">${ico("caminar")}<span class="fila-texto"><strong id="caminaParada">${p.caminado ? textoCaminata(p.caminado)[0] : "Calculando el camino a pie..."}</strong><small id="caminaDetalle">${p.caminado ? textoCaminata(p.caminado)[1] : `A ${distanciaTexto(p.m, true)} en línea recta`}</small></span></div>
     <button id="irParada" type="button" class="boton oscuro">${ico("ruta")}Ver cómo llegar a la parada</button>
     <h2>Próximos camiones</h2>
     ${filas(p)}
@@ -1717,7 +1717,7 @@ function ponerYo() {
 function abrirUbicacion() {
   if (acc.modoVoz) return dondeEstoy("voz");
   ir("ubicacion");
-  $("ubicacionCalle").textContent = "Buscando dónde estás…";
+  $("ubicacionCalle").textContent = "Buscando dónde estás...";
   ubicar((encontrada) => {
     if (document.body.dataset.pantalla !== "ubicacion") return;
     if (!encontrada) return void ($("ubicacionCalle").textContent = "No pude ver tu ubicación.");
@@ -2993,7 +2993,7 @@ function fichasPerfil() {
   const movilidad = acc.movilidad ?? (acc.camino ? "poco" : "normal");
   return [
     ["perfilVista", "anil", "ojo", { vista: "Veo bien", poco: "Veo poco", voz: "Grieta me habla" }[vistaActual()]],
-    ["perfilLengua", "hospital", "idioma", { es: "Español", oto: "Otomí", nah: "Náhuatl" }[acc.idioma] ?? "Español"],
+    ["perfilLengua", "hospital", "idioma", { es: "Español", oto: "Hñöñho", nah: "Náhuatl" }[acc.idioma] ?? "Español", true],
     acc.modoVoz && ["perfilLectorOpciones", "ciruela", "decir", acc.lector === "si" ? "Uso lector" : "Grieta me lee"],
     !acc.modoVoz && ["perfilForma", "obsidiana", "letra", acc.facil ? "Lo esencial" : "Todo completo"],
     ["perfilMovilidad", "maiz", movilidad === "silla" ? "silla" : "caminar", { normal: "Camino bien", poco: "Camino poco", silla: "Silla o andadera" }[movilidad]],
@@ -3016,9 +3016,9 @@ function pintarResumenPerfil() {
   const pictograma = `#p-${{ normal: "caminar", poco: "caminar", silla: "silla" }[movilidad]}`;
   $("textoPerfil").textContent = resumenCortoPerfil();
   $("ajustesAvatar").setAttribute("href", pictograma);
-  $("perfilFichas").innerHTML = fichasPerfil().map(([grupo, tono, picto, texto]) =>
-    `<button type="button" class="perfil-ficha" data-ir-perfil="${grupo}" aria-label="${escapar(texto)}. Cambiar">
-      <span class="mini-ficha tono-${tono}" aria-hidden="true"><svg class="picto"><use href="#p-${picto}"/></svg></span><span>${escapar(texto)}</span></button>`).join("");
+  $("perfilFichas").innerHTML = fichasPerfil().map(([grupo, tono, picto, texto, nombrePropio]) =>
+    `<button type="button" class="perfil-ficha" data-ir-perfil="${grupo}">
+      <span class="mini-ficha tono-${tono}" aria-hidden="true"><svg class="picto"><use href="#p-${picto}"/></svg></span><span${nombrePropio ? ' translate="no"' : ""}>${escapar(texto)}</span></button>`).join("");
 }
 $("perfilFichas").addEventListener("click", (e) => {
   const b = e.target.closest("[data-ir-perfil]");

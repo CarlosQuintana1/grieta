@@ -9614,6 +9614,90 @@
       "contextos": [
         "demo/app.js:1648 · dictar"
       ]
+    },
+    {
+      "clave": "texto_4fbb6948c4",
+      "es": "Grieta me habla",
+      "contextos": [
+        "demo/app.js · fichasPerfil"
+      ]
+    },
+    {
+      "clave": "texto_2adc63c5c9",
+      "es": "Uso lector",
+      "contextos": [
+        "demo/app.js · fichasPerfil"
+      ]
+    },
+    {
+      "clave": "texto_06038689cd",
+      "es": "Grieta me lee",
+      "contextos": [
+        "demo/app.js · fichasPerfil"
+      ]
+    },
+    {
+      "clave": "texto_b1e5f0cde2",
+      "es": "Lo esencial",
+      "contextos": [
+        "demo/app.js · fichasPerfil"
+      ]
+    },
+    {
+      "clave": "texto_c0a0b157e3",
+      "es": "Todo completo",
+      "contextos": [
+        "demo/app.js · fichasPerfil"
+      ]
+    },
+    {
+      "clave": "texto_b39b09d73c",
+      "es": "Camino bien",
+      "contextos": [
+        "demo/app.js · fichasPerfil"
+      ]
+    },
+    {
+      "clave": "texto_d13b9902f1",
+      "es": "Camino poco",
+      "contextos": [
+        "demo/app.js · fichasPerfil"
+      ]
+    },
+    {
+      "clave": "texto_b2355112a8",
+      "es": "Silla o andadera",
+      "contextos": [
+        "demo/app.js · fichasPerfil"
+      ]
+    },
+    {
+      "clave": "texto_b112b1829f",
+      "es": "Escucho bien",
+      "contextos": [
+        "demo/app.js · fichasPerfil"
+      ]
+    },
+    {
+      "clave": "texto_aaf40552b9",
+      "es": "Escucho poco",
+      "contextos": [
+        "demo/app.js · fichasPerfil"
+      ]
+    },
+    {
+      "clave": "texto_5edccb813c",
+      "es": "Elegida",
+      "contextos": [
+        "demo/app.js · camiones"
+      ]
+    },
+    {
+      "clave": "texto_0ef1300cc5",
+      "es": "A {v1} en línea recta",
+      "contextos": [
+        "demo/app.js · camiones"
+      ]
     }
   ]
 }

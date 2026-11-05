@@ -285,6 +285,7 @@ addEventListener("popstate", (e) => {
   const pantalla = e.state?.p ?? "inicio";
   mostrar(pantalla);
   if (pantalla === "camiones" && (estado.gps ?? estado.origen)) cargarCamiones(estado.gps ?? estado.origen);
+  if (pantalla === "ubicacion" && estado.gps) ponerYo();
 });
 $("atras").addEventListener("click", () => (history.state && history.length > 1 ? history.back() : ir("inicio", true)));
 // En la app instalada de iPhone no hay gesto para regresar: deslizar desde la orilla izquierda hace lo mismo que la flecha,
@@ -1412,12 +1413,23 @@ function pintarParadasEnVista() {
   capas.vista = L.layerGroup(visibles.slice(0, MAX_PARADAS_VISTA).map((x) => {
     const m = L.marker([x.lat, x.lon], { icon: iconoParada(false), keyboard: false });
     if (pantalla === "camiones" && estado.puntoCamiones) m.on("click", () => elegirParadaDelMapa(x));
-    else m.bindTooltip(cruce(x.nombre), { direction: "top", offset: [0, -16], className: "etiqueta-mapa" });
+    else if (estado.gps) m.on("click", () => abrirParadaDesdeAqui(x));
     return m;
   })).addTo(mapa);
 }
 let esperaVista;
 mapa.on("moveend", () => { clearTimeout(esperaVista); esperaVista = setTimeout(pintarParadasEnVista, 250); });
+// Desde Dónde estoy, tocar una parada abre sus camiones con el camino a pie ya trazado.
+function abrirParadaDesdeAqui(x) {
+  const punto = estado.gps;
+  revisionCamiones++;
+  estado.recomendacionAnunciada = null;
+  encuadreParadas = null;
+  ir("camiones");
+  $("camionesUbicacion").textContent = "";
+  const p = { ...x, m: Grieta.metros(punto.lat, punto.lon, x.lat, x.lon), lineas: Grieta.horariosParadaPorIndice(x.i, hoyDia(), ahoraMin()) };
+  pintarCamiones(punto, [p], false, true);
+}
 // Una parada tocada en el mapa pasa a ser la elegida, con su camino a pie y sus camiones.
 function elegirParadaDelMapa(x) {
   const punto = estado.puntoCamiones;
@@ -1440,7 +1452,7 @@ function pintarParadas(punto, lista, seleccionada = false) {
       if (i === 0) return void ($("hoja").scrollTop = 0);
       elegirParada(punto, lista, i);
     });
-    if (i === 0) m.bindTooltip(seleccionada ? "Parada seleccionada" : "Más cercana", { permanent: true, direction: "top", offset: [0, -20], className: "etiqueta-mapa" });
+    if (i === 0) m.bindTooltip(seleccionada ? "Elegida" : "Más cercana", { permanent: true, direction: "top", offset: [0, -20], className: "etiqueta-mapa" });
     return m;
   });
   const aPie = L.polyline([[punto.lat, punto.lon], [lista[0].lat, lista[0].lon]], { color: tono("--tinta"), weight: 3, dashArray: "1 7", lineCap: "round" });
@@ -1694,6 +1706,13 @@ function dondeEstoy(destino) {
     hablar(texto, false, true);
   }, () => { contar("No pude ver tu ubicación."); hablar(frase("sin_ubicacion"), false, true); }, { enableHighAccuracy: true, timeout: 10000 });
 }
+function ponerYo() {
+  const { lat, lon } = estado.gps;
+  capas.yo?.remove();
+  capas.yo = L.marker([lat, lon], { icon: icono("origen"), keyboard: false, zIndexOffset: 800 }).addTo(mapa);
+  mapa.setView([lat, lon], 17);
+  pintarParadasEnVista();
+}
 // Con el mapa visible, Dónde estoy abre el mapa en tu ubicación; en modo de voz se sigue diciendo en voz alta.
 function abrirUbicacion() {
   if (acc.modoVoz) return dondeEstoy("voz");
@@ -1703,10 +1722,7 @@ function abrirUbicacion() {
     if (document.body.dataset.pantalla !== "ubicacion") return;
     if (!encontrada) return void ($("ubicacionCalle").textContent = "No pude ver tu ubicación.");
     const { lat, lon } = estado.gps;
-    capas.yo?.remove();
-    capas.yo = L.marker([lat, lon], { icon: icono("origen"), keyboard: false, zIndexOffset: 800 }).addTo(mapa);
-    mapa.setView([lat, lon], 17);
-    pintarParadasEnVista();
+    ponerYo();
     $("ubicacionCalle").textContent = "";
     fetch(`https://photon.komoot.io/reverse?lat=${lat}&lon=${lon}&limit=1`).then((r) => r.json()).then((r) => {
       const p = r.features[0]?.properties ?? {};

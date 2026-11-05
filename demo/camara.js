@@ -506,7 +506,7 @@ const CamaraGrieta = (() => {
       $('camaraAlerta').textContent = '';
       guardarCamara();
     });
-    $('camaraVibracion').textContent = typeof navigator.vibrate === 'function' ? 'La vibración depende del teléfono y sus ajustes. Puedes probarla aquí.' : 'Este navegador no permite vibrar. Los avisos se muestran y usan tu voz local o lector de pantalla.';
+    $('camaraVibracion').textContent = '';
     $('camaraProbar').hidden = typeof navigator.vibrate !== 'function';
     $('camaraProbar').addEventListener('click', () => {
       const aceptado = vibrar([160, 100, 160]);

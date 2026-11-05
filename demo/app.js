@@ -2418,7 +2418,7 @@ function quitarLugar(lugar) {
   guardados.splice(indice, 1);
   if (!guardados.length) editando = false;
   guardarLugares();
-  $(pantalla === "ajustes" ? "listaGuardados" : "deshacerInicio").querySelector("[data-deshacer]")?.focus();
+  $(pantalla === "ajustes" ? "listaGuardados" : "deshacerInicio").querySelector("[data-deshacer]")?.focus({ focusVisible: false });
 }
 function deshacerLugar() {
   if (!quitado) return;
@@ -2434,6 +2434,9 @@ function abrirAccionesLugar(boton, lugar = guardados[boton.dataset.i]) {
   lugarElegido = lugar;
   botonLugarElegido = boton;
   $("tituloAccionesLugar").textContent = lugar.nombre;
+  const indice = guardados.indexOf(lugar);
+  $("fichaDialogoLugar").className = `mini-ficha ${tonoLugar(lugar.nombre, indice)}`;
+  $("fichaDialogoLugar").innerHTML = picto(iconoLugar(lugar.nombre));
   $("accionesLugar").hidden = false;
   $("formularioLugar").hidden = true;
   campoLugarGuardado.value = lugar.nombre;

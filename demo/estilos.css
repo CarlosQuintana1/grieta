@@ -795,28 +795,47 @@ html.contraste #inicioNormal .lugar { border: 1px solid var(--linea); }
 .deshacer-lugar { margin-top: 10px; }
 .dialogo-lugar {
   width: min(100%, 480px); max-width: 100%; max-height: calc(100dvh - var(--zona-arriba));
-  margin: auto auto 0; padding: 18px 16px max(12px, var(--zona-abajo));
-  border: 1px solid var(--linea); border-radius: var(--radio) var(--radio) 0 0;
-  background: var(--fondo); color: var(--tinta); overflow: auto;
+  margin: auto auto 0; padding: 8px 16px max(16px, var(--zona-abajo));
+  border: none; border-radius: 20px 20px 0 0;
+  background: var(--superficie); color: var(--tinta); overflow: auto;
 }
-.dialogo-lugar[open] { animation: mostrar-lugar 150ms ease-out; }
-.dialogo-lugar::backdrop { background: rgb(0 0 0 / 55%); }
-.dialogo-lugar h2 {
-  margin: 0 0 12px; color: var(--tinta); font-size: 1.2rem;
-  letter-spacing: normal; text-transform: none; overflow-wrap: anywhere;
+.dialogo-lugar[open] { animation: mostrar-lugar 180ms ease-out; }
+.dialogo-lugar::backdrop { background: rgb(0 0 0 / 60%); }
+.asa-lugar { display: block; width: 40px; height: 5px; margin: 0 auto 14px; border-radius: 3px; background: var(--linea); }
+.cabeza-lugar { display: flex; align-items: center; gap: 12px; padding: 0 4px 14px; }
+.cabeza-lugar .mini-ficha { width: 44px; height: 44px; }
+.cabeza-lugar h2 {
+  margin: 0; color: var(--tinta); font-size: 1.25rem; letter-spacing: normal; text-transform: none; overflow-wrap: anywhere;
 }
-.dialogo-lugar .boton { margin-top: 8px; }
-.dialogo-lugar > .enlace { display: block; margin: 6px auto 0; }
+.cabeza-lugar h2:focus { outline: none; }
+.acciones-lugar { border-radius: var(--radio); background: var(--fondo); overflow: hidden; }
+.acciones-lugar button {
+  display: flex; align-items: center; gap: 14px; width: 100%; min-height: 60px; padding: 10px 16px; text-align: left; color: var(--tinta);
+}
+.acciones-lugar button + button { border-top: 1px solid var(--linea); }
+.acciones-lugar button:focus-visible { outline-offset: -3px; }
+.acciones-lugar .icono { color: var(--ambar); }
+.acciones-lugar strong { display: block; font-weight: 600; }
+.acciones-lugar small { display: block; margin-top: 2px; color: var(--tenue); font-size: .82rem; }
+.acciones-lugar .peligro, .acciones-lugar .peligro .icono { color: var(--cuidado); }
+.formulario-lugar .boton { margin-top: 8px; }
+.cancelar-lugar {
+  display: block; width: 100%; min-height: 52px; margin-top: 10px; border-radius: var(--radio);
+  background: var(--fondo); color: var(--tinta); font-weight: 600; text-align: center;
+}
 .lugar-ubicacion, .deshacer-lugar > .fila {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
 }
 .lugar-ubicacion { margin-top: 6px; }
 .deshacer-lugar > .fila { padding: 8px 12px; }
+.deshacer-lugar .quitar { border-radius: 12px; }
+.deshacer-lugar .quitar:focus:not(:focus-visible) { outline: none; }
 .acciones-guardado { display: flex; flex-wrap: wrap; justify-content: flex-end; }
 @keyframes mostrar-lugar {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
 }
+
 #inicioNormal .buscador { margin-top: 22px; }
 #inicioNormal .buscador .mic { display: none; }
 html:not(.facil) #inicioNormal .dictar-grande:not([hidden]) { display: flex !important; }

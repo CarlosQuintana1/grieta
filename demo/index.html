@@ -21,6 +21,8 @@
   <svg width="0" height="0" class="oculto" aria-hidden="true" focusable="false">
     <defs>
       <symbol id="i-casa" viewBox="0 0 24 24"><path d="M3 11 12 4l9 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5h4v5"/></symbol>
+      <symbol id="i-lapiz" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497zM15 5l4 4"/></symbol>
+      <symbol id="i-basura" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2M10 11v6M14 11v6"/></symbol>
       <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
       <symbol id="i-camion" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="14" rx="3"/><path d="M4 11h16M8 17v3M16 17v3"/><circle cx="8" cy="14" r=".6"/><circle cx="16" cy="14" r=".6"/></symbol>
       <symbol id="i-auto" viewBox="0 0 24 24"><path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v3H3zM5 11h14"/><path d="M6 19v2M18 19v2"/></symbol>
@@ -606,8 +608,6 @@
 
         <p id="camaraVibracion" class="nota"></p>
         <button id="camaraProbar" type="button" class="enlace" hidden>Probar vibración</button>
-        <p class="nota">Con avisos activos, activa Leer número del camión o Leer letrero ahora para hacer una lectura.</p>
-        <p class="nota">Experimental: puede omitir obstáculos y desniveles. No mide altura ni indica cuándo cruzar. Usa tu bastón o acompañamiento.</p>
         <p class="nota">Las imágenes se analizan en tu teléfono. No se guardan ni se envían. La cámara se apaga al salir o al ocultar la app. El audio sigue tus ajustes de voz.</p>
       </div>
       <div class="camara-pie">
@@ -731,12 +731,16 @@
   </nav>
 
   <dialog id="dialogoLugar" class="dialogo-lugar" aria-labelledby="tituloAccionesLugar">
-    <h2 id="tituloAccionesLugar" tabindex="-1" translate="no"></h2>
-    <div id="accionesLugar">
-      <button id="editarNombreLugar" type="button" class="boton">Editar</button>
-      <button id="quitarLugarInicio" type="button" class="boton oscuro">Quitar</button>
+    <span class="asa-lugar" aria-hidden="true"></span>
+    <div class="cabeza-lugar">
+      <span id="fichaDialogoLugar" class="mini-ficha" aria-hidden="true"></span>
+      <h2 id="tituloAccionesLugar" tabindex="-1" translate="no"></h2>
     </div>
-    <form id="formularioLugar" hidden>
+    <div id="accionesLugar" class="acciones-lugar">
+      <button id="editarNombreLugar" type="button"><svg class="icono" aria-hidden="true"><use href="#i-lapiz"/></svg><span><strong>Editar</strong><small>Nombre o ubicación</small></span></button>
+      <button id="quitarLugarInicio" type="button" class="peligro"><svg class="icono" aria-hidden="true"><use href="#i-basura"/></svg><span><strong>Quitar de tus lugares</strong></span></button>
+    </div>
+    <form id="formularioLugar" class="formulario-lugar" hidden>
       <label class="campo"><span>Nombre</span><input id="nombreLugarGuardado" type="text" maxlength="30" autocomplete="off" enterkeyhint="done" required></label>
       <p id="otroNombreLugar" class="nota" role="alert" hidden>Otro nombre</p>
       <div class="fila lugar-ubicacion">
@@ -745,7 +749,7 @@
       </div>
       <button type="submit" class="boton">Guardar</button>
     </form>
-    <button id="cerrarDialogoLugar" type="button" class="enlace">Cerrar</button>
+    <button id="cerrarDialogoLugar" type="button" class="cancelar-lugar">Cancelar</button>
   </dialog>
 
   <div id="chofer" class="chofer" role="dialog" aria-modal="true" aria-labelledby="choferDestino" hidden>

@@ -1411,7 +1411,7 @@ function pintarParadasEnVista() {
   });
   visibles.sort((a, b) => a.m - b.m);
   capas.vista = L.layerGroup(visibles.slice(0, MAX_PARADAS_VISTA).map((x) => {
-    const m = L.marker([x.lat, x.lon], { icon: iconoParada(false), keyboard: false });
+    const m = L.marker([x.lat, x.lon], { icon: Grieta.tieneRecorridos(x.i) ? iconoParada(false) : iconoParadaSinHorario, keyboard: false });
     if (pantalla === "camiones" && estado.puntoCamiones) m.on("click", () => elegirParadaDelMapa(x));
     else if (estado.gps) m.on("click", () => abrirParadaDesdeAqui(x));
     return m;
@@ -1439,6 +1439,7 @@ function elegirParadaDelMapa(x) {
   $("hoja").scrollTop = 0;
 }
 
+const iconoParadaSinHorario = L.divIcon({ className: "", iconSize: [30, 30], html: `<span class="parada-mapa sin-horario">${ico("camion")}</span>` });
 // Camiones cerca
 const iconoParada = (cerca) => L.divIcon({ className: "", iconSize: cerca ? [38, 38] : [30, 30],
   html: `<span class="parada-mapa${cerca ? " cerca" : ""}">${ico("camion")}</span>` });
@@ -1527,7 +1528,8 @@ document.addEventListener("visibilitychange", () => {
 });
 function cargarCamiones(punto) {
   const caja = $("camionesContenido");
-  const lista = Grieta.paradasCercanas(punto.lat, punto.lon, 1000, 3).map(p => ({ ...p, lineas: Grieta.horariosParadaPorIndice(p.i, hoyDia(), ahoraMin()) }));
+  // Se sugieren solo paradas con camiones registrados; las oficiales sin horario se ven en el mapa.
+  const lista = Grieta.paradasCercanas(punto.lat, punto.lon, 1000, 12).filter((p) => Grieta.tieneRecorridos(p.i)).slice(0, 3).map(p => ({ ...p, lineas: Grieta.horariosParadaPorIndice(p.i, hoyDia(), ahoraMin()) }));
   if (!lista.length) {
     caja.innerHTML = `<p class="texto">No encontré paradas en el catálogo a menos de un kilómetro. Puede haber otras paradas que todavía no aparecen aquí.</p>`;
     return hablar("No encontré paradas en el catálogo a menos de un kilómetro. Puede haber otras paradas que todavía no aparecen aquí.");
@@ -1617,7 +1619,7 @@ async function ordenarPorCaminata(punto, lista) {
 function pintarCamiones(punto, lista, primera, seleccionada = false) {
   const revision = revisionCamiones;
   const caja = $("camionesContenido");
-  const filas = (p) => !p.lineas.length ? `<p class="nota">No hay próximos horarios guardados para esta parada.</p>` : `<ul class="filas">${p.lineas.slice(0, 6).map((l) => `<li data-linea="${escapar(l.linea)}"><div class="fila">
+  const filas = (p) => !p.lineas.length ? `<p class="nota">${Grieta.tieneRecorridos(p.i) ? "No hay próximos horarios guardados para esta parada." : "Parada oficial de Qrobus sin horarios publicados. No sabemos qué camiones pasan aquí."}</p>` : `<ul class="filas">${p.lineas.slice(0, 6).map((l) => `<li data-linea="${escapar(l.linea)}"><div class="fila">
       <span class="linea-caja">${escapar(l.linea)}</span>
       <span class="fila-texto"><strong>Hacia ${escapar(l.hacia)}</strong>${l.horas[1] !== undefined ? `<small>También a las ${hora(l.horas[1])}</small>` : ""}</span>
       <span class="hora-camion"><strong>${hora(l.horas[0])}</strong><small>${enCuanto(l.horas[0])}</small></span>

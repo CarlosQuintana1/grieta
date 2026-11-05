@@ -4,6 +4,7 @@
 """
 
 import json
+import math
 
 import h3
 
@@ -60,6 +61,17 @@ def qrobus() -> dict:
     h["pos"] = h.groupby("trip_id").cumcount()
 
     usadas = sorted(set(h["stop_id"]))
+    # Las paradas oficiales sin viajes van al final: se ven en el mapa sin horarios y no mueven los indices de las demas.
+    # Las que quedan a menos de 60 m de una con viajes son la misma parada con otro id y no se repiten.
+    con_viajes = paradas.loc[usadas, ["stop_lat", "stop_lon"]].to_numpy()
+
+    def lejos(s):
+        lat, lon = paradas.loc[s, "stop_lat"], paradas.loc[s, "stop_lon"]
+        dx = (con_viajes[:, 1] - lon) * 111320 * math.cos(math.radians(lat))
+        dy = (con_viajes[:, 0] - lat) * 110540
+        return (dx ** 2 + dy ** 2).min() >= 60 ** 2
+
+    sin_viajes = [s for s in sorted(set(paradas.index) - set(usadas)) if lejos(s)]
     indice = {s: i for i, s in enumerate(usadas)}
     patrones = []
     for i, (paso, trips) in enumerate(secuencia.groupby(secuencia).groups.items()):
@@ -85,7 +97,7 @@ def qrobus() -> dict:
         "vigencia": str(cal["end_date"].max()),
         "servicio_por_dia": [str(cal.loc[cal[d] == 1, "service_id"].iloc[0]) for d in dias],
         "paradas": [[round(float(paradas.loc[s, "stop_lat"]), 6), round(float(paradas.loc[s, "stop_lon"]), 6),
-                     str(paradas.loc[s, "stop_name"])] for s in usadas],
+                     str(paradas.loc[s, "stop_name"])] for s in usadas + sin_viajes],
         "patrones": patrones,
     }
 

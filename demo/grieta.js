@@ -335,6 +335,9 @@ const Grieta = (() => {
     return paradasEnRadio(lat, lon, radio).slice(0, limiteParadas(limite));
   }
 
+  // Paradas oficiales que ningún viaje del horario usa: existen en el catálogo pero no tienen camiones registrados.
+  const tieneRecorridos = (indice) => Boolean(porParada?.[indice]?.length);
+
   function horariosParadaPorIndice(indice, dia, minuto) {
     if (!Number.isSafeInteger(indice) || indice < 0 || indice >= qrobus.paradas.length || !Number.isInteger(dia) || dia < 0 || dia > 6 || !Number.isFinite(minuto)) return [];
     const dias = Math.floor(minuto / 1440);
@@ -384,5 +387,5 @@ const Grieta = (() => {
 
   const nombreApp = (a) => ({ uber: "Uber", didi: "DiDi", indrive: "inDrive" })[a];
 
-  return { cargar, cotizar, evaluar, decidir, pasanAqui, paradasCercanas, horariosParada, horariosParadaPorIndice, hhmm, metros, CORTES, nombreApp, get modelo() { return modelo; }, get qrobus() { return qrobus; } };
+  return { cargar, cotizar, evaluar, decidir, pasanAqui, paradasCercanas, tieneRecorridos, horariosParada, horariosParadaPorIndice, hhmm, metros, CORTES, nombreApp, get modelo() { return modelo; }, get qrobus() { return qrobus; } };
 })();

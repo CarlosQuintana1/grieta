@@ -107,3 +107,11 @@ La prueba de navegador usa Playwright/Chromium con `NODE_PATH` y
 `CHROMIUM_EXECUTABLE` configurados. Carga el motor real y un fixture genérico servido
 en memoria; no carga la UI ni pide geolocalización. Comprueba límites, consulta exacta,
 solicitudes GET locales y ausencia de errores JS. No verifica una caminata real.
+
+## Paradas oficiales sin viajes (2026-11-05)
+
+El GTFS v25 que publica la AMEQ en `qrobus.gob.mx/gtfs/latest` es idéntico al local. De sus 84 paradas
+sin viajes, 53 quedan a menos de 60 m de una parada con viajes (la misma parada con otro id) y no se
+exportan. Las otras 31 se agregan al final de `paradas`, sin mover los índices anteriores
+(2610 + 31 = 2641). `Grieta.tieneRecorridos(i)` es falso para ellas: no se sugieren en Camiones cerca,
+se ven en el mapa con borde punteado y, al tocarlas, la app dice que no tienen horarios publicados.

@@ -447,9 +447,22 @@
           <p id="perfilFrase" class="perfil-frase"></p>
         </div>
       </div>
-      <p id="perfilAyuda" class="perfil-nota"></p>
       <h2 class="perfil-subtitulo">Tu forma de viajar</h2>
       <div class="perfil-preguntas">
+        <div id="filaLengua" class="item-perfil" data-grupo-perfil="perfilLengua">
+          <div class="fila-perfil">
+            <span class="mini-ficha tono-ciruela" aria-hidden="true"><svg class="picto"><use href="#p-decir"/></svg></span>
+            <div class="fila-texto"><h3 id="tituloLengua">Idioma de la interfaz</h3><strong class="respuesta-perfil"></strong><small id="perfilLenguaEfecto" class="efecto fila-perfil-efecto"></small></div>
+          </div>
+          <div class="opciones-perfil">
+            <div id="perfilLengua" class="fichas" role="radiogroup" aria-labelledby="tituloLengua" aria-describedby="perfilLenguaEfecto">
+              <button type="button" role="radio" aria-checked="false" data-v="es" tabindex="-1" class="ficha"><span>Español</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+              <button type="button" role="radio" aria-checked="false" data-v="oto" tabindex="-1" class="ficha"><span id="nombreOtomi"></span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+              <button type="button" role="radio" aria-checked="false" data-v="nah" tabindex="-1" class="ficha" disabled aria-describedby="nahuatlPendiente"><span>Náhuatl (Huasteca oriental)</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+            </div>
+          </div>
+        </div>
+        <p id="nahuatlPendiente" class="nota" role="status">Náhuatl pendiente de traducción.</p>
         <div class="item-perfil" data-grupo-perfil="perfilVista">
           <div class="fila-perfil">
             <span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-ojo"/></svg></span>
@@ -512,20 +525,6 @@
             </div>
           </div>
         </div>
-        <div id="filaLengua" class="item-perfil" data-grupo-perfil="perfilLengua">
-          <div class="fila-perfil">
-            <span class="mini-ficha tono-ciruela" aria-hidden="true"><svg class="picto"><use href="#p-decir"/></svg></span>
-            <div class="fila-texto"><h3 id="tituloLengua">Idioma de la interfaz</h3><strong class="respuesta-perfil"></strong><small id="perfilLenguaEfecto" class="efecto fila-perfil-efecto"></small></div>
-          </div>
-          <div class="opciones-perfil">
-            <div id="perfilLengua" class="fichas" role="radiogroup" aria-labelledby="tituloLengua" aria-describedby="perfilLenguaEfecto">
-              <button type="button" role="radio" aria-checked="false" data-v="es" tabindex="-1" class="ficha"><span>Español</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
-              <button type="button" role="radio" aria-checked="false" data-v="oto" tabindex="-1" class="ficha"><span id="nombreOtomi"></span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
-              <button type="button" role="radio" aria-checked="false" data-v="nah" tabindex="-1" class="ficha" disabled aria-describedby="nahuatlPendiente"><span>Náhuatl (Huasteca oriental)</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
-            </div>
-          </div>
-        </div>
-        <p id="nahuatlPendiente" class="nota" role="status">Náhuatl pendiente de traducción.</p>
         <div id="preguntaTarifa" class="item-perfil" data-grupo-perfil="perfilTarifa">
           <div class="fila-perfil">
             <span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-qrobus"/></svg></span>

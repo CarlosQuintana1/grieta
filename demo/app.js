@@ -2999,10 +2999,6 @@ function pintarResumenPerfil() {
   $("textoPerfil").textContent = resumenCortoPerfil();
   $("ajustesAvatar").setAttribute("href", pictograma);
   $("perfilFrase").textContent = frase;
-  $("perfilAyuda").textContent = movilidad === "silla"
-    ? "Grieta busca paradas cercanas y te avisa si reportaron que no tienen rampa."
-    : movilidad === "poco" ? "Grieta busca paradas más cerca para que camines menos."
-      : "Grieta compara tus opciones y te avisa cuándo bajarte del camión.";
   $("perfilAvatar").setAttribute("href", pictograma);
   const avatar = document.querySelector(".perfil-hero .mini-ficha");
   avatar.classList.remove("salta");

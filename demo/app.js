@@ -1417,13 +1417,25 @@ function pintarParadas(punto, lista, seleccionada = false) {
 // La distancia real a pie llega despues que la pantalla: se pone y se dice una sola vez
 function ponerCaminata(p, metros, seleccionada = false) {
   if (!$("distanciaParada")) return;
-  if (!metros) return void ($("caminaParada").textContent = p.caminado ? Interfaz.original($("caminaParada")) : "No pude calcular el camino a pie.");
+  if (!metros) {
+    if (p.caminado) return;
+    $("caminaParada").textContent = "No pude calcular el camino a pie";
+    $("caminaDetalle").textContent = `A ${distanciaTexto(p.m, true)} en línea recta`;
+    return;
+  }
   p.caminado = metros;
-  $("distanciaParada").textContent = `${seleccionada ? "Parada elegida" : "Parada sugerida"} · a ${distanciaTexto(metros, true)} caminando`;
-  $("caminaParada").textContent = `Camina ${minutosCaminando(metros)} min`;
+  const [texto, detalle] = textoCaminata(metros);
+  $("caminaParada").textContent = texto;
+  $("caminaDetalle").textContent = detalle;
   actualizarComparacionParadas(estado.listaCamiones ?? []);
   if (!p.dicho) hablar(`Caminando son ${distanciaTexto(metros)}, unos ${minutosCaminando(metros)} minutos.`, true);
   p.dicho = true;
+}
+// A quien le cuesta caminar no se le promete un tiempo, igual que en las opciones de viaje
+function textoCaminata(metros) {
+  return (acc.movilidad ?? "normal") === "normal"
+    ? [`Caminando llegas en ${minutosCaminando(metros)} min`, `${distanciaTexto(metros, true)} por calles, sin costo`]
+    : [`Queda a ${distanciaTexto(metros)} por calles`, "Si te sientes bien para ir a pie, no cuesta nada"];
 }
 // 250 metros, 1.2 kilómetros: redondeado como lo diría una persona
 const distanciaTexto = (m, corta = false) => m < 1000
@@ -1441,15 +1453,12 @@ function abrirCamiones() {
   const caja = $("camionesContenido");
   caja.innerHTML = `<p class="texto">Actualizando tu ubicación…</p>`;
   $("camionesUbicacion").textContent = "";
-  $("actualizarParadas").disabled = true;
   ubicar(encontrada => {
     if (revision !== revisionCamiones || document.body.dataset.pantalla !== 'camiones') return;
-    $("actualizarParadas").disabled = false;
     const punto = encontrada ? estado.gps : estado.origen && !esGps(estado.origen) ? estado.origen : null;
     if (punto) {
-      $("camionesUbicacion").textContent = encontrada
-        ? `Ubicación actualizada.${punto.precision > 100 ? ' Es aproximada; la parada sugerida puede cambiar.' : ''}`
-        : `Paradas desde el punto elegido: ${punto.nombre}. No pude actualizar tu ubicación.`;
+      // Solo se avisa cuando no salió de tu ubicación; si salió bien no hace falta decirlo
+      $("camionesUbicacion").textContent = encontrada ? "" : `Paradas desde el punto elegido: ${punto.nombre}. No pude actualizar tu ubicación.`;
       return cargarCamiones(punto);
     }
     caja.innerHTML = `<p class="texto">No pude actualizar tu ubicación. Actívala o elige desde dónde sales.</p>
@@ -1458,7 +1467,10 @@ function abrirCamiones() {
     hablar("No pude actualizar tu ubicación. Puedes elegir desde dónde sales.");
   }, true);
 }
-$("actualizarParadas").addEventListener('click', abrirCamiones);
+// Al volver a la app con esta pestaña abierta, la ubicación se actualiza sola
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible" && document.body.dataset.pantalla === "camiones") abrirCamiones();
+});
 function cargarCamiones(punto) {
   const caja = $("camionesContenido");
   const lista = Grieta.paradasCercanas(punto.lat, punto.lon, 1000, 3).map(p => ({ ...p, lineas: Grieta.horariosParadaPorIndice(p.i, hoyDia(), ahoraMin()) }));
@@ -1560,10 +1572,10 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
   pintarParadas(punto, lista, seleccionada);
   caja.innerHTML = `
     <div class="parada-cerca">
-      <p class="etiqueta" id="distanciaParada">${seleccionada ? "Parada elegida" : "Parada sugerida"} · ${p.caminado ? `a ${distanciaTexto(p.caminado, true)} caminando` : `a ${distanciaTexto(p.m, true)} en línea recta`}</p>
+      <p class="etiqueta" id="distanciaParada">${seleccionada ? "Parada elegida" : "Parada sugerida"}</p>
       <p class="parada-nombre" translate="no">${escapar(cruce(p.nombre))}</p>
-      <p class="nota" id="caminaParada">${p.caminado ? `Camina ${minutosCaminando(p.caminado)} min` : "Calculando el camino a pie..."}</p>
     </div>
+    <div class="a-pie" role="status">${ico("caminar")}<span class="fila-texto"><strong id="caminaParada">${p.caminado ? textoCaminata(p.caminado)[0] : "Calculando el camino a pie…"}</strong><small id="caminaDetalle">${p.caminado ? textoCaminata(p.caminado)[1] : `A ${distanciaTexto(p.m, true)} en línea recta`}</small></span></div>
     <button id="irParada" type="button" class="boton oscuro">${ico("ruta")}Ver cómo llegar a la parada</button>
     <h2>Próximos camiones</h2>
     ${filas(p)}

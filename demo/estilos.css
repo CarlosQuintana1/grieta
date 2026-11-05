@@ -898,3 +898,6 @@ html.modo-voz :is(button,a,input,select,textarea,label) { touch-action: manipula
 .tutorial .boton { margin-top: 0; }
 .tutorial #tutorialContinuar { margin-top: auto; }
 .tutorial .enlace { min-height: var(--toque); }
+
+#camionesUbicacion:empty { display: none; }
+.parada-cerca + .a-pie { margin-top: 12px; }

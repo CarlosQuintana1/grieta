@@ -121,9 +121,11 @@ class Tarifa:
 
 def con_catalogo(df: pd.DataFrame) -> pd.DataFrame:
     rutas = {r["ruta_id"]: r for r in json.loads((MODELO / "datos" / "rutas_medidas.json").read_text())["rutas"]}
-    return df.assign(par=df["ruta_id"].map(lambda r: rutas[r]["par_id"]),
-                     origen=df["ruta_id"].map(lambda r: rutas[r]["origen"]),
-                     destino=df["ruta_id"].map(lambda r: rutas[r]["destino"]))
+    # Los viajes mandados desde la app (ruta negativa) son su propio par y sus propios lugares.
+    dato = lambda r, k: rutas[r][k] if r in rutas else f"app{r}"
+    return df.assign(par=df["ruta_id"].map(lambda r: dato(r, "par_id")),
+                     origen=df["ruta_id"].map(lambda r: dato(r, "origen")),
+                     destino=df["ruta_id"].map(lambda r: dato(r, "destino")))
 
 
 def medir(df: pd.DataFrame):

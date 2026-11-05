@@ -168,7 +168,7 @@ def main():
     encabezar(registros, REGISTROS)
     escribir(registros, REGISTROS, [
         [f.registro, f.fecha, f.hora, DIAS[f.dia_semana], str(f.franja), si_no(f.es_findesemana),
-         si_no(f.es_festivo), *nombres[f.ruta_id], f.ruta_id, f.distancia_km, f.duracion_libre_min,
+         si_no(f.es_festivo), *nombres.get(f.ruta_id, ("Precio mandado desde la app", "")), f.ruta_id, f.distancia_km, f.duracion_libre_min,
          f.h3_o, f.h3_d, vacio(f.temp_c), vacio(f.lluvia_mm), APPS[f.plataforma], f.tipo_vehiculo,
          f.precio_mxn, "Sí" if f.fuente == "piloto" else "No", f.conjunto]
         for f in df.itertuples()
@@ -178,7 +178,7 @@ def main():
     encabezar(predicho, PREDICHO)
     prueba = df[df["predicho"].notna()]
     escribir(predicho, PREDICHO, [
-        [f.registro, f.fecha, f.hora, *nombres[f.ruta_id], APPS[f.plataforma], f.precio_mxn, f.predicho,
+        [f.registro, f.fecha, f.hora, *nombres.get(f.ruta_id, ("Precio mandado desde la app", "")), APPS[f.plataforma], f.precio_mxn, f.predicho,
          f"=H{r}-G{r}", f"=ABS(I{r})", f'=IF(G{r}>0,J{r}/G{r},"")']
         for r, f in enumerate(prueba.itertuples(), start=2)
     ])

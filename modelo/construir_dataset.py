@@ -3,11 +3,13 @@
     python construir_dataset.py                     # baja de D1 con wrangler
     python construir_dataset.py --sin-clima         # sin llamar a Open-Meteo
     CODIGO_EQUIPO=... python construir_dataset.py   # por la API, sin cuenta de Cloudflare
+    CLAVE_ADMIN=... python construir_dataset.py     # suma los precios que la gente manda desde la app
 """
 
 import argparse
 import collections
 import json
+import math
 import os
 import pathlib
 import subprocess
@@ -20,11 +22,19 @@ from zoneinfo import ZoneInfo
 import h3
 import pandas as pd
 
+from rutas_osrm import medir as medir_osrm
+
 MODELO = pathlib.Path(__file__).resolve().parent
 CAPTURA = MODELO.parent / "captura"
 DATOS = MODELO / "datos"
 BASE_D1 = "tarifas-qro"
 API = os.environ.get("TARIFAS_API", "https://tarifas-qro.carlosquintanara.workers.dev")
+GRIETA_API = os.environ.get("GRIETA_API", "https://grieta-api-qro.azurewebsites.net/api")
+# Un precio de la app cuenta como ruta del catalogo si sale y llega a menos de esto de sus lugares.
+CERCA_LUGAR_M = 400
+# Los precios de la app que se mandan juntos (misma salida y llegada, pocos minutos) son un solo momento.
+MISMO_MOMENTO_S = 10 * 60
+MEDIDOS = DATOS / "reportados_medidos.json"
 # Zona fija: las franjas se calculan en hora de Queretaro aunque corra en otro servidor.
 ZONA = ZoneInfo("America/Mexico_City")
 H3_RES = 7
@@ -59,6 +69,58 @@ def bajar_de_api(codigo: str) -> list[dict]:
     with urllib.request.urlopen(pedido, timeout=60) as r:
         momentos = json.load(r)["momentos"]
     return sorted(momentos, key=lambda m: m["timestamp"])
+
+
+def bajar_reportados(clave: str) -> list[dict]:
+    pedido = urllib.request.Request(f"{GRIETA_API}/precios-reportados", headers={
+        "X-Clave-Admin": clave, "User-Agent": "construir-dataset"})
+    with urllib.request.urlopen(pedido, timeout=60) as r:
+        return sorted(json.load(r), key=lambda x: x["fecha_hora"])
+
+
+def metros(lat1, lon1, lat2, lon2) -> float:
+    x = math.radians(lon2 - lon1) * math.cos(math.radians((lat1 + lat2) / 2))
+    return 6371000 * math.hypot(x, math.radians(lat2 - lat1))
+
+
+def momentos_reportados(reportes: list[dict], lugares: dict, medidas: dict) -> list[dict]:
+    """Convierte los precios que manda la app en momentos con la misma forma que los capturados."""
+    por_par = {(r["origen"], r["destino"]): r for r in medidas.values()}
+    cercano = lambda lat, lon: min(lugares.values(), key=lambda l: metros(lat, lon, l["lat"], l["lon"]))
+    medidos = json.loads(MEDIDOS.read_text()) if MEDIDOS.exists() else {}
+    momentos, abierto = [], None
+    for r in reportes:
+        t = datetime.fromisoformat(r["fecha_hora"].replace("Z", "+00:00"))
+        o, d = (r["lat_origen"], r["lon_origen"]), (r["lat_destino"], r["lon_destino"])
+        mismo = abierto and (t - abierto["_t"]).total_seconds() < MISMO_MOMENTO_S \
+            and metros(*o, *abierto["_o"]) < 100 and metros(*d, *abierto["_d"]) < 100 \
+            and abierto[f"precio_{r['app']}"] is None
+        if not mismo:
+            lo, ld = cercano(*o), cercano(*d)
+            ruta = por_par.get((lo["id"], ld["id"])) if (metros(*o, lo["lat"], lo["lon"]) < CERCA_LUGAR_M
+                                                         and metros(*d, ld["lat"], ld["lon"]) < CERCA_LUGAR_M) else None
+            if ruta:
+                km, minutos, ruta_id = ruta["distancia_km"], ruta["duracion_libre_min"], ruta["ruta_id"]
+            else:
+                clave = str(r["id"])
+                if clave not in medidos:
+                    medidos[clave] = medir_osrm({"lat": o[0], "lon": o[1]}, {"lat": d[0], "lon": d[1]})
+                km, minutos = medidos[clave]
+                # Fuera del catalogo la ruta lleva un numero negativo: cada viaje reportado es su propia ruta.
+                ruta_id = -int(r["id"])
+            abierto = {"id": f"app-{r['id']}", "timestamp": r["fecha_hora"], "ruta_id": ruta_id,
+                       "_t": t, "_o": o, "_d": d, "km": km, "minutos": minutos,
+                       "sospechosa": False, "nota": "", "capturado_por": "app",
+                       **{f"precio_{p}": None for p in PLATAFORMAS}}
+            momentos.append(abierto)
+        precio = float(r["precio"])
+        abierto[f"precio_{r['app']}"] = precio
+        # Un precio por km imposible (mal escrito o de otro viaje) no se usa para entrenar.
+        if not (3 <= precio / max(abierto["km"], 0.1) <= 40) or abierto["km"] < 1:
+            abierto["sospechosa"] = True
+            abierto["nota"] = "precio por km fuera de lo normal"
+    MEDIDOS.write_text(json.dumps(medidos, indent=1))
+    return momentos
 
 
 def catalogo():
@@ -128,14 +190,28 @@ def main():
     momentos = unicos
 
     lugares, medidas = catalogo()
+    clave_admin = os.environ.get("CLAVE_ADMIN", "").strip()
+    if clave_admin:
+        reportados = momentos_reportados(bajar_reportados(clave_admin), lugares, medidas)
+        print(f"{len(reportados)} momentos con precios mandados desde la app"
+              f" ({sum(m['sospechosa'] for m in reportados)} sospechosos)")
+        momentos = momentos + reportados
+    else:
+        print("Sin CLAVE_ADMIN: no se suman los precios que manda la app.")
     filas = []
     for m in momentos:
-        ruta = medidas.get(m["ruta_id"])
+        if m["capturado_por"] == "app":
+            # Viaje de la app: la salida es su propio punto, para el clima y las celdas.
+            lugares[m["id"]] = {"lat": m["_o"][0], "lon": m["_o"][1]}
+            o, d = lugares[m["id"]], {"lat": m["_d"][0], "lon": m["_d"][1]}
+            ruta = {"distancia_km": m["km"], "duracion_libre_min": m["minutos"], "origen": m["id"]}
+        ruta = ruta if m["capturado_por"] == "app" else medidas.get(m["ruta_id"])
         if ruta is None:
             print(f"  momento {m['id'][:8]}: ruta {m['ruta_id']} no esta en el catalogo, se salta",
                   file=sys.stderr)
             continue
-        o, d = lugares[ruta["origen"]], lugares[ruta["destino"]]
+        if m["capturado_por"] != "app":
+            o, d = lugares[ruta["origen"]], lugares[ruta["destino"]]
         # El timestamp se guarda en UTC; las franjas horarias del proyecto son hora local.
         t = datetime.fromisoformat(m["timestamp"].replace("Z", "+00:00")).astimezone(ZONA)
 
@@ -155,7 +231,7 @@ def main():
             "es_festivo": t.strftime("%Y-%m-%d") in FESTIVOS_MX,
             "sospechosa": bool(m["sospechosa"]),
             "nota": m["nota"] or "",
-            "fuente": "piloto" if m["timestamp"] < INICIO_REFERENCIAS else "app",
+            "fuente": "reportado" if m["capturado_por"] == "app" else "piloto" if m["timestamp"] < INICIO_REFERENCIAS else "app",
             "capturado_por": m["capturado_por"],
             "_hora_clave": t.strftime("%Y-%m-%dT%H"),
             "_origen": ruta["origen"],
@@ -196,7 +272,8 @@ def main():
     df.to_csv(salida, index=False)
     print(f"{len(df)} filas -> {os.path.relpath(salida, MODELO)}")
     print(f"  celdas H3 distintas: {len(set(df['h3_o']) | set(df['h3_d']))}")
-    print(f"  rutas con datos: {df['ruta_id'].nunique()} de {len(medidas)}")
+    print(f"  rutas del catalogo con datos: {df.loc[df['ruta_id'] > 0, 'ruta_id'].nunique()} de {len(medidas)}")
+    print(f"  filas mandadas desde la app: {(df['fuente'] == 'reportado').sum()}")
     print(f"  filas de madrugada: {len(df[df['hora_decimal'] < 6])}")
     por_ruta = df.groupby(["ruta_id", "plataforma"]).size()
     print(f"  rutas-plataforma con 10+ capturas: {(por_ruta >= 10).sum()}  <- calibran la tarifa base")

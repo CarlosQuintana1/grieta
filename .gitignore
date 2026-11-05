@@ -19,6 +19,7 @@ __pycache__/
 # datos generados
 modelo/cache/
 modelo/datos/dataset.csv
+modelo/datos/reportados_medidos.json
 modelo/datos/*.xlsx
 modelo/datos/gtfs_qrobus*
 *.sqlite

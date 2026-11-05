@@ -26,6 +26,12 @@ Para bajar los registros hace falta el código del equipo (`CODIGO_EQUIPO=... .v
 construir_dataset.py`) o la cuenta de Cloudflare con wrangler. El catálogo de lugares y rutas
 vive en `../captura/data/`.
 
+Los precios que la gente manda desde la app (`POST /api/precios-reportados`) se suman al dataset si está
+`CLAVE_ADMIN`. Cada envío se junta con los de la misma salida y llegada en 10 minutos; si sale y llega a menos
+de 400 m de una ruta del catálogo usa esa ruta, y si no se mide con OSRM y queda con `ruta_id` negativo. Un
+precio por km fuera de 3 a 40 pesos sale como sospechoso. Las mediciones se guardan en
+`datos/reportados_medidos.json`, fuera de git porque tiene coordenadas de viajes reales.
+
 Los horarios de Qrobus son el GTFS oficial que publica la Agencia de Movilidad, en
 [hdtp.codeandomexico.org](https://hdtp.codeandomexico.org/datos/mex-qro-queretaro-qrobus). Se
 descomprimen en `datos/gtfs_qrobus/`.

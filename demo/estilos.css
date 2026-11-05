@@ -110,7 +110,7 @@ html.claro.contraste .leaflet-tile-pane { filter: grayscale(1) contrast(1.35); }
 }
 body.con-mapa .hoja { margin-top: -18px; padding-top: 22px; border-radius: 20px 20px 0 0; border-top: 1px solid var(--linea); }
 body:not(.con-mapa) .hoja { padding-top: max(20px, calc(env(safe-area-inset-top) + 10px)); }
-body:has(#encabezado:not([hidden])):not(.con-mapa) .hoja { padding-top: 18px; }
+body:has(#encabezado:not([hidden])):not(.con-mapa, .camara-en-uso) .hoja { padding-top: 18px; }
 .pantalla { max-width: 560px; margin: 0 auto; }
 .estado:empty { display: none; }
 .estado { margin: 0 auto 12px; max-width: 560px; padding: 10px 14px; border-radius: 12px; background: var(--superficie); border: 1px solid var(--linea); color: var(--tenue); font-size: 0.88rem; }
@@ -806,6 +806,24 @@ html.grande #inicioNormal .lugar { flex-direction: column; align-items: flex-sta
 .camara video { display: block; width: 100%; max-height: 240px; object-fit: contain; background: var(--superficie); border-radius: var(--radio); }
 .camara p { margin: 16px 0; }
 .camara .respuesta:empty { display: none; }
+body.camara-en-uso { display: flex; }
+body.camara-en-uso:not(.con-mapa) #hoja { padding: 0; overflow: hidden; border-right: 0; }
+.camara-en-uso :is(#pestanas, #estado, .camara-config) { display: none; }
+.camara-en-uso .camara {
+  display: grid; height: 100%; max-width: none;
+  grid-template-rows: minmax(0, 1fr) auto auto;
+}
+.camara-en-uso .camara:has(video[hidden]) { grid-template-rows: 0 minmax(0, 1fr) auto; }
+.camara-en-uso .camara video { grid-row: 1; height: 100%; max-height: none; min-height: 0; border-radius: 0; }
+.camara-en-uso .camara-panel { grid-row: 2; max-height: 22dvh; overflow: auto; overscroll-behavior: contain; padding: 0 16px; }
+.camara-en-uso .camara:has(video[hidden]) .camara-panel { max-height: none; }
+.camara-pie { display: none; }
+.camara-en-uso .camara-pie {
+  display: block; grid-row: 3; border-top: 1px solid var(--linea);
+  padding: 8px 16px max(8px, var(--zona-abajo));
+}
+body[data-pantalla="camara"] #vozEncabezado[aria-pressed="true"] { color: var(--ambar); }
+body[data-pantalla="camara"] #vozEncabezado[aria-pressed="false"] { color: var(--tenue); }
 
 .camara-modelo { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 16px 0; padding: 0; border: none; }
 .camara-modelo legend { font-weight: 700; margin-bottom: 8px; }

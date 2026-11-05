@@ -110,6 +110,7 @@ let colaVoz = Promise.resolve();
 
 // Ajustes guardados en este telefono.
 const acc = { toques: true, modoVoz: false, facil: false, grande: false, contraste: false, daltonico: false, voz: false, vozElegida: false, lenta: false, camino: false, unidos: false, tema: "auto", movilidad: "normal", oido: "bien", lector: "no", lengua: "es", ...leer("grieta-acc", {}) };
+let camaraConVoz = true;
 acc.idioma ??= acc.lengua === "oto" ? "oto" : "es";
 if (!["es", "oto", "nah"].includes(acc.idioma)) acc.idioma = "es";
 if (!acc.modoVoz && !acc.vozElegida) acc.voz = false;
@@ -134,8 +135,7 @@ function aplicarAcc() {
   for (const [k, id] of Object.entries(OPCIONES)) $(id).checked = acc[k];
   $("optUnidos2").checked = acc.unidos;
   $("vozRapida").textContent = acc.voz ? "Silenciar Grieta" : "Activar voz";
-  $("vozEncabezado").setAttribute("aria-label", acc.voz ? "Silenciar Grieta" : "Activar voz");
-  $("vozEncabezado").title = acc.voz ? "Silenciar Grieta" : "Activar voz";
+  actualizarVozEncabezado();
   recolorear();
   document.querySelector('meta[name="theme-color"]').content = tono("--fondo");
   pintarResumenPerfil();
@@ -207,6 +207,15 @@ const PANTALLAS = {
 };
 const titulos = { buscar: "Buscar", camiones: "Camiones cerca", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
 
+function actualizarVozEncabezado() {
+  const boton = $("vozEncabezado"), enCamara = document.body.dataset.pantalla === "camara";
+  const etiqueta = enCamara ? "Avisos con voz" : acc.voz ? "Silenciar Grieta" : "Activar voz";
+  boton.setAttribute("aria-label", etiqueta);
+  boton.title = etiqueta;
+  boton.disabled = enCamara && acc.lector === "si";
+  if (enCamara) boton.setAttribute("aria-pressed", String(camaraConVoz && !boton.disabled));
+  else boton.removeAttribute("aria-pressed");
+}
 function mostrar(nombre) {
   if (dictadoActual) cancelarDictado();
   ToquesGrieta.reiniciar();
@@ -227,7 +236,9 @@ function mostrar(nombre) {
   if (nombre !== "camiones") { capas.paradas?.remove(); capas.paradas = null; }
   if (nombre !== "ajustes" && quitado) { quitado = null; pintarGuardados(); }
   for (const s of document.querySelectorAll(".pantalla")) s.hidden = s.id !== nombre;
+  if (nombre === "camara" && document.body.dataset.pantalla !== "camara") camaraConVoz = true;
   document.body.dataset.pantalla = nombre;
+  actualizarVozEncabezado();
   document.body.classList.toggle("con-mapa", Boolean(conf.mapa));
   document.body.classList.remove("alerta");
   $("encabezado").hidden = !conf.encabezado;
@@ -293,6 +304,13 @@ for (const [id, clave] of Object.entries({ tituloInicio: "a_donde_vas", empezar:
 }
 $("nombreOtomi").textContent = NOMBRE_OTOMI;
 for (const id of ["vozRapida", "vozEncabezado"]) $(id).addEventListener("click", () => {
+  if (id === "vozEncabezado" && document.body.dataset.pantalla === "camara") {
+    camaraConVoz = !camaraConVoz;
+    actualizarVozEncabezado();
+    if (camaraConVoz) CamaraGrieta.repetir();
+    else detenerVoz();
+    return;
+  }
   acc.voz = !acc.voz; acc.vozElegida = true;
   guardarAcc(); aplicarAcc();
 });
@@ -2240,7 +2258,7 @@ function guardarLugares() {
 const irA = (lugar) => { estado.editando = "hacia"; poner("destino", lugar); };
 
 function hablarCamara(texto, urgente = false) {
-  if (!acc.voz || acc.lector === "si" || (guia.activa && window.speechSynthesis?.speaking && !urgente)) return;
+  if (document.body.dataset.pantalla !== "camara" || !camaraConVoz || microfonoActivo || acc.lector === "si" || (guia.activa && window.speechSynthesis?.speaking && !urgente)) return;
   const voces = window.speechSynthesis?.getVoices() ?? [];
   const voz = voces.find((v) => v.localService && v.lang === "es-MX") ?? voces.find((v) => v.localService && v.lang.startsWith("es"));
   $("camaraAudio").textContent = voz ? "" : "Para escuchar sin enviar texto, instala una voz en español en los ajustes de tu teléfono. También puedes usar tu lector de pantalla.";

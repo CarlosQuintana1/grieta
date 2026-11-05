@@ -107,6 +107,7 @@ const CamaraGrieta = (() => {
     if (voz) hablar(texto);
   }
   function botones() {
+    document.body.classList.toggle('camara-en-uso', activa);
     $('camaraIniciar').hidden = activa;
     $('camaraDetener').hidden = !activa;
     $('camaraLeer').disabled = !ocr || !flujo || leyendo;
@@ -210,6 +211,7 @@ const CamaraGrieta = (() => {
     abortar = new AbortController();
     const signal = abortar.signal;
     botones();
+    $('camara').querySelector('.camara-panel').scrollTop = 0;
     $('camaraDetener').focus();
     informar('Preparando el reconocimiento en tu teléfono. Puedes detenerlo cuando quieras.');
     vigilancia = setTimeout(() => fallo(turno, 'La preparación tardó demasiado. Revisa tu conexión y vuelve a intentar.'), 180000);
@@ -302,6 +304,7 @@ const CamaraGrieta = (() => {
     if (!vigente(turno)) return;
     cerrar();
     informar(texto);
+    $('camaraIniciar').focus();
   }
   function capturar(ancho, salida = lienzo, pincel = contexto, caja = null, fuente = $('camaraVideo')) {
     const video = $('camaraVideo');
@@ -469,6 +472,7 @@ const CamaraGrieta = (() => {
     } catch { fallo(turno, 'No pude leer el letrero del camión. Detuve la cámara. Puedes volver a intentar.'); }
     finally { if (vigente(turno)) { leyendo = false; botones(); informar('Cámara encendida.', false); } }
   }
+  function repetir() { if (activa && ultimaFrase) narrar(ultimaFrase, true); }
   function iniciarInterfaz(opciones) {
     ({ hablar, callar, paradas } = opciones);
     vozOcupada = opciones.vozOcupada ?? (() => false);
@@ -484,8 +488,8 @@ const CamaraGrieta = (() => {
     suelos.forEach(s => s.iniciarInterfaz({ hablar, vibrar, alAviso: texto => { ultimaFrase = texto; botones(); }, alRetirar: texto => { if (ultimaFrase === texto) ultimaFrase = fraseSuelo(); botones(); } }));
     $('camaraHoyos')?.addEventListener('change', () => { guardarCamara(); GrietaHoyos.preferencia(); });
     $('camaraEscalones').addEventListener('change', () => { guardarCamara(); GrietaEscalones.preferencia(); });
-    $('camaraEntorno').checked = guardado.enfoque === 'entorno';
-    $('camaraViaje').checked = guardado.enfoque !== 'entorno';
+    $('camaraViaje').checked = guardado.enfoque === 'viaje';
+    $('camaraEntorno').checked = !$('camaraViaje').checked;
     for (const id of ['camaraViaje', 'camaraEntorno']) $(id).addEventListener('change', () => {
       callar(); $('camaraResultado').textContent = ''; $('camaraLectura').textContent = ''; ultimaFrase = fraseSuelo(); actualizarRuta(); guardarCamara(); botones();
     });
@@ -507,10 +511,10 @@ const CamaraGrieta = (() => {
     $('camaraDetener').addEventListener('click', () => { cerrar(true); $('camaraIniciar').focus(); });
     $('camaraLeer').addEventListener('click', () => leerTexto());
     $('camaraBuscarCamion').addEventListener('click', () => leerCamion());
-    $('camaraRepetir').addEventListener('click', () => narrar(ultimaFrase, true));
+    $('camaraRepetir').addEventListener('click', repetir);
     document.addEventListener('visibilitychange', () => { if (document.hidden) cerrar(); });
     addEventListener('pagehide', () => cerrar());
     botones();
   }
-  return { iniciarInterfaz, cerrar, abrir };
+  return { iniciarInterfaz, cerrar, abrir, repetir };
 })();

@@ -4,6 +4,11 @@ Desde Inicio o Voz abro **Describir con la cámara**. Elijo **Más detalle** (pr
 ligero** antes de iniciar. El modo detallado descarga unos 40 MB en el primer uso. En una instalación
 que ya usó la versión 68, solo añade el modelo de 7.5 MB. Las preferencias quedan en el teléfono.
 
+Al iniciar, el video ocupa la vista y **Detener cámara** queda abajo aunque se desplace el panel
+de avisos. La cámara narra automáticamente con una voz española local, incluso si la voz general
+está apagada. El altavoz del encabezado solo silencia esa cámara. Si se configuró un lector de
+pantalla, la cámara usa sus anuncios sin duplicar el audio.
+
 ## Reconocimiento
 
 Más detalle usa EfficientDet-Lite2 int8 con entrada de 448 × 448; Más ligero conserva Lite0 int8 de

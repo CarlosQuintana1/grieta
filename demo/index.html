@@ -561,50 +561,58 @@
     </section>
 
     <section id="camara" class="pantalla camara" aria-labelledby="tituloPantalla" hidden>
-      <p id="camaraAyuda">Apunta al letrero de un camión o de una parada.</p>
-      <fieldset class="camara-modelo"><legend>¿Qué quieres escuchar?</legend>
-        <label><input id="camaraViaje" name="camaraEnfoque" type="radio" value="viaje" checked>Mi viaje</label>
-        <label><input id="camaraEntorno" name="camaraEnfoque" type="radio" value="entorno">Todo el entorno</label>
-      </fieldset>
-      <label class="interruptor"><span><strong>Escaleras y escalones (prueba)</strong><small>Puede omitirlos. Activa antes de iniciar; descarga unos 9 MB.</small></span><input id="camaraEscalones" type="checkbox" role="switch"></label>
-      <label class="interruptor"><span><strong>Hoyos (prueba)</strong><small>Busca baches visibles. Puede omitir hoyos y alcantarillas abiertas. Activa antes de iniciar; descarga unos 18 MB.</small></span><input id="camaraHoyos" type="checkbox" role="switch"></label>
-      <p id="camaraObjetivo" class="nota" role="status"></p>
-      <button id="camaraIniciar" type="button" class="boton">Iniciar cámara</button>
-      <button id="camaraDetener" type="button" class="boton" hidden>Detener cámara</button>
-      <p id="camaraSueloAlerta" class="camara-alerta" role="alert" aria-live="assertive" aria-atomic="true"></p>
-      <p id="camaraHoyosAlerta" class="camara-alerta" role="alert" aria-live="assertive" aria-atomic="true"></p>
-      <video id="camaraVideo" autoplay muted playsinline aria-label="Vista de la cámara trasera" hidden></video>
-      <p id="camaraEstado" class="nota" role="status">Cámara apagada. La primera vez se descargan los modelos (aprox. 68 MB con escaleras, hoyos y Más detalle).</p>
-      <p id="camaraSueloEstado" class="nota" role="status">Escaleras y escalones: desactivado.</p>
-      <p id="camaraHoyosEstado" class="nota" role="status">Hoyos: desactivado.</p>
-      <p id="camaraAudio" class="nota" role="status"></p>
-      <p id="camaraRendimiento" class="nota" role="status"></p>
-      <p id="camaraCalidad" class="nota" role="status"></p>
-      <p id="camaraAlerta" class="camara-alerta" role="alert" aria-live="assertive"></p>
-      <p id="camaraCamionResultado" class="respuesta" aria-live="off"></p>
-      <p id="camaraResultado" class="respuesta" aria-live="off"></p>
-      <p id="camaraLectura" lang="es-MX" translate="no" class="oculto" aria-live="polite" aria-atomic="true"></p>
-      <button id="camaraBuscarCamion" type="button" class="boton oscuro" disabled>Leer número del camión</button>
-      <button id="camaraLeer" type="button" class="boton oscuro" disabled>Leer letrero ahora</button>
-      <button id="camaraRepetir" type="button" class="boton oscuro" disabled>Repetir descripción</button>
-      <button id="camaraVolverGuia" type="button" class="boton oscuro" hidden>Volver a mi viaje</button>
-      <div id="camaraRutaPanel">
-        <label for="camaraRuta">Ruta que buscas</label>
-        <div class="campo"><input id="camaraRuta" type="text" inputmode="text" maxlength="12" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Por ejemplo, C55" aria-describedby="camaraRutaAyuda"></div>
-        <p id="camaraRutaAyuda" class="nota">Si dejas el campo vacío, uso la ruta del viaje que estás siguiendo.</p>
-        <fieldset id="camaraSentidos" class="camara-modelo" hidden><legend>Sentido (si lo sabes)</legend><div id="camaraSentidoOpciones"></div></fieldset>
+      <div class="camara-config">
+        <p id="camaraAyuda">Apunta al letrero de un camión o de una parada.</p>
+        <label class="interruptor"><span><strong>Escaleras y escalones (prueba)</strong><small>Puede omitirlos. Activa antes de iniciar; descarga unos 9 MB.</small></span><input id="camaraEscalones" type="checkbox" role="switch"></label>
+        <label class="interruptor"><span><strong>Hoyos (prueba)</strong><small>Busca baches visibles. Puede omitir hoyos y alcantarillas abiertas. Activa antes de iniciar; descarga unos 18 MB.</small></span><input id="camaraHoyos" type="checkbox" role="switch"></label>
+        <button id="camaraIniciar" type="button" class="boton">Iniciar cámara</button>
       </div>
-      <fieldset class="camara-modelo"><legend>Detalle de imagen</legend>
-        <label><input id="camaraDetalle" name="camaraModelo" type="radio" value="detalle" checked>Más detalle</label>
-        <label><input id="camaraLigero" name="camaraModelo" type="radio" value="ligero">Más ligero</label>
-      </fieldset>
+      <video id="camaraVideo" autoplay muted playsinline aria-label="Vista de la cámara trasera" hidden></video>
+      <div class="camara-panel">
+        <p id="camaraSueloAlerta" class="camara-alerta" role="alert" aria-live="assertive" aria-atomic="true"></p>
+        <p id="camaraHoyosAlerta" class="camara-alerta" role="alert" aria-live="assertive" aria-atomic="true"></p>
+        <p id="camaraAlerta" class="camara-alerta" role="alert" aria-live="assertive"></p>
+        <p id="camaraCamionResultado" class="respuesta" aria-live="off"></p>
+        <p id="camaraResultado" class="respuesta" aria-live="off"></p>
+        <p id="camaraEstado" class="nota" role="status">Cámara apagada. La primera vez se descargan los modelos (aprox. 68 MB con escaleras, hoyos y Más detalle).</p>
+        <p id="camaraSueloEstado" class="nota" role="status">Escaleras y escalones: desactivado.</p>
+        <p id="camaraHoyosEstado" class="nota" role="status">Hoyos: desactivado.</p>
+        <p id="camaraAudio" class="nota" role="status"></p>
+        <p id="camaraRendimiento" class="nota" role="status"></p>
+        <p id="camaraCalidad" class="nota" role="status"></p>
+        <p id="camaraLectura" lang="es-MX" translate="no" class="oculto" aria-live="polite" aria-atomic="true"></p>
+        <button id="camaraBuscarCamion" type="button" class="boton oscuro" disabled>Leer número del camión</button>
+        <button id="camaraLeer" type="button" class="boton oscuro" disabled>Leer letrero ahora</button>
+        <button id="camaraRepetir" type="button" class="boton oscuro" disabled>Repetir descripción</button>
+        <button id="camaraVolverGuia" type="button" class="boton oscuro" hidden>Volver a mi viaje</button>
+        <fieldset class="camara-modelo"><legend>¿Qué quieres escuchar?</legend>
+          <label><input id="camaraViaje" name="camaraEnfoque" type="radio" value="viaje">Mi viaje</label>
+          <label><input id="camaraEntorno" name="camaraEnfoque" type="radio" value="entorno" checked>Todo el entorno</label>
+        </fieldset>
+        <p id="camaraObjetivo" class="nota" role="status"></p>
+        <div id="camaraRutaPanel">
+          <label for="camaraRuta">Ruta que buscas</label>
+          <div class="campo"><input id="camaraRuta" type="text" inputmode="text" maxlength="12" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Por ejemplo, C55" aria-describedby="camaraRutaAyuda"></div>
+          <p id="camaraRutaAyuda" class="nota">Si dejas el campo vacío, uso la ruta del viaje que estás siguiendo.</p>
+          <fieldset id="camaraSentidos" class="camara-modelo" hidden><legend>Sentido (si lo sabes)</legend><div id="camaraSentidoOpciones"></div></fieldset>
+        </div>
+        <label class="interruptor"><span><strong>Avisos experimentales de vehículos</strong><small>Avisa si un vehículo crece al centro de la imagen. Intenta compensar el movimiento del teléfono, pero puede fallar. No detecta cruces.</small></span><input id="camaraAvisos" type="checkbox" role="switch"></label>
+      </div>
+      <div class="camara-config">
+        <fieldset class="camara-modelo"><legend>Detalle de imagen</legend>
+          <label><input id="camaraDetalle" name="camaraModelo" type="radio" value="detalle" checked>Más detalle</label>
+          <label><input id="camaraLigero" name="camaraModelo" type="radio" value="ligero">Más ligero</label>
+        </fieldset>
 
-      <label class="interruptor"><span><strong>Avisos experimentales de vehículos</strong><small>Avisa si un vehículo crece al centro de la imagen. Intenta compensar el movimiento del teléfono, pero puede fallar. No detecta cruces.</small></span><input id="camaraAvisos" type="checkbox" role="switch"></label>
-      <p id="camaraVibracion" class="nota"></p>
-      <button id="camaraProbar" type="button" class="enlace" hidden>Probar vibración</button>
-      <p class="nota">Con avisos activos, activa Leer número del camión o Leer letrero ahora para hacer una lectura.</p>
-      <p class="nota">Experimental: puede omitir obstáculos y desniveles. No mide altura ni indica cuándo cruzar. Usa tu bastón o acompañamiento.</p>
-      <p class="nota">Las imágenes se analizan en tu teléfono. No se guardan ni se envían. La cámara se apaga al salir o al ocultar la app. El audio sigue tus ajustes de voz.</p>
+        <p id="camaraVibracion" class="nota"></p>
+        <button id="camaraProbar" type="button" class="enlace" hidden>Probar vibración</button>
+        <p class="nota">Con avisos activos, activa Leer número del camión o Leer letrero ahora para hacer una lectura.</p>
+        <p class="nota">Experimental: puede omitir obstáculos y desniveles. No mide altura ni indica cuándo cruzar. Usa tu bastón o acompañamiento.</p>
+        <p class="nota">Las imágenes se analizan en tu teléfono. No se guardan ni se envían. La cámara se apaga al salir o al ocultar la app. El audio sigue tus ajustes de voz.</p>
+      </div>
+      <div class="camara-pie">
+        <button id="camaraDetener" type="button" class="boton" hidden>Detener cámara</button>
+      </div>
     </section>
 
     <section id="ajustes" class="pantalla" aria-labelledby="tituloAjustes" hidden>

@@ -1,46 +1,41 @@
 # Idiomas de la interfaz
 
 La interfaz usa catálogos estáticos del teléfono. No manda ubicaciones, reportes, precios,
-fotos ni texto de cámara a un traductor. La voz de Grieta continúa en español y recupera
-los textos originales con `Interfaz.original`.
+fotos ni texto de cámara a un traductor. La voz continúa en español y recupera los textos
+originales con `Interfaz.original`.
 
-- `demo/idiomas/es.json`: textos fuente, contexto, variables y selectores.
-- `demo/idiomas/otq.json`: 685 traducciones automáticas anteriores, sin revisión lingüística.
-  Es parcial frente al catálogo actualizado; los mensajes faltantes siguen en español.
-- `demo/idiomas/nhe.json`: borrador vacío de náhuatl de la Huasteca oriental, desactivado.
-  El dueño pidió dejar pendiente el catálogo. No contiene traducciones fingidas.
+- `demo/idiomas/es.json`: 1,101 textos fuente, contexto, variables y selectores.
+- `demo/idiomas/otq.json`: 685 traducciones automáticas anteriores de otomí, sin revisión
+  lingüística. Es parcial; los mensajes faltantes siguen en español.
+- `demo/idiomas/nhe.json`: 1,101 textos de náhuatl de la Huasteca oriental, obtenidos en
+  Google Traductor el 4 de noviembre de 2026. Traducción automática provisional,
+  sin revisión de hablantes. Algunas palabras conservan la salida española del proveedor.
 
-El perfil muestra Español, Hñöñho (Otomí) y Náhuatl. Náhuatl permanece desactivado con
-“Náhuatl pendiente de traducción”. No cambia la pantalla a español simulando una traducción.
-El motor puede cargar su catálogo cuando esté completo y tenga revisión o procedencia
-automática explícita. Los botones de lengua conservan sus nombres para poder regresar.
+El perfil permite cambiar entre Español, Hñöñho (Otomí) y Náhuatl. La elección persiste y
+los botones de lengua conservan sus nombres para poder regresar. El aviso provisional
+permanece visible; seleccionar náhuatl no activa voz en esa lengua.
 
-## Completar náhuatl
+## Procedencia y actualización
 
-1. Traducir cada campo `nhe`, conservando la clave y el texto `es` correspondiente.
-2. Conservar exactamente `{variables}`, nombres de marcas, cantidades, claves de ruta y horas.
-   Los nombres de calles y lo escrito por la persona son variables que no se traducen.
-3. Documentar la variante y el proveedor real en `fuente`; para automático: `tipo: automatica`,
-   `nombre` y una `url` HTTPS comprobable. `provisional: true`, `revision: null`.
-   Una revisión de hablante se registra en `revision` solo cuando exista.
-4. Marcar `completa: true`, `parcial: false`, ejecutar `node scripts/revisar-idiomas.cjs --exigir nhe`
-   y las pruebas de idioma y navegador. Conservar el aviso provisional.
-5. Subir la versión del service worker y verificar actualización y caché sin red antes de publicar.
+Se usó la interfaz web de https://translate.google.com/?sl=es&tl=nhe&op=translate,
+en diez bloques de textos públicos de la app. Se protegieron variables, números y marcas
+antes de traducir y se restauraron exactamente después. No se usaron datos de personas.
+Los nombres de calles, rutas, horas y campos escritos siguen siendo variables protegidas.
 
-La disponibilidad de náhuatl en Google Translate está documentada en
-https://support.google.com/translate/answer/15139004.
-No se comprobó acceso a una API de Google Cloud para esa lengua. La consulta gratuita fue
-rechazada. Se descartó NiuTrans: la muestra produjo campos vacíos y contenido ajeno al original;
-no se incluyeron esas respuestas en la app. Esto no bloquea preparar el catálogo con otra fuente
-que funcione o una traducción proporcionada por hablantes.
+Google documenta la variante en https://support.google.com/translate/answer/15139004.
+No se comprobó acceso de Google Cloud Translation para esta lengua. Las pruebas anteriores
+con la consulta gratuita y NiuTrans no forman parte del catálogo publicado.
+
+Al añadir textos, actualizar la fuente y el catálogo de cada lengua. Para automático:
+`fuente.tipo: automatica`, nombre y URL reales, `provisional: true`, `revision: null`.
+Registrar revisión de hablantes solo cuando exista. No declarar completo un catálogo parcial.
+Subir la versión del service worker para renovar la copia guardada en los teléfonos.
 
 ## Verificación
 
-`node scripts/revisar-idiomas.cjs` informa cobertura y rechaza catálogos declarados activos
-que no pasan la integridad. `--exigir nhe` falla mientras siga pendiente.
-`node --test pruebas/idioma.test.cjs` comprueba procedencia, variables, números, marcas,
-rechazo de textos vacíos y almacenamiento sin red. La suite de navegador comprueba selección,
-persistencia, regreso a español, un catálogo sintético identificado como prueba y los nuevos
-flujos de cámara/tutorial. Ese catálogo no es una traducción ni se publica.
+`node scripts/revisar-idiomas.cjs --exigir nhe` exige cobertura completa y valida variables,
+números, marcas y procedencia. `node --test pruebas/idioma.test.cjs` también comprueba
+rechazo de textos vacíos y almacenamiento de los catálogos sin red.
+La revisión de navegador cubre cambio/regreso, persistencia, cámara, tutorial y 390/320 px.
 
-No verificado: corrección lingüística, iPhone, VoiceOver/TalkBack reales y voz en náhuatl.
+No verificado: corrección lingüística, iPhone, VoiceOver/TalkBack físicos y voz en náhuatl.

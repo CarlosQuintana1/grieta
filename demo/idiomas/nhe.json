@@ -1,5517 +1,5522 @@
 {
   "codigo": "nhe",
   "nombre": "Náhuatl (Huasteca oriental)",
-  "completa": false,
+  "completa": true,
   "parcial": false,
   "revision": null,
-  "provisional": false,
-  "fuente": null,
-  "estado": "PENDIENTE: traducir catálogo; no activar con textos vacíos ni copiados del español.",
+  "provisional": true,
+  "fuente": {
+    "tipo": "automatica",
+    "nombre": "Google Traductor",
+    "url": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+    "fecha": "2026-11-04"
+  },
+  "estado": "Traducción automática provisional, sin revisión lingüística.",
   "mensajes": [
     {
       "clave": "texto_6bd4648ba2",
       "es": "(si quieres)",
-      "nhe": null
+      "nhe": "(tla tijneki)"
     },
     {
       "clave": "texto_e36be0214d",
       "es": ", elegir día y hora",
-      "nhe": null
+      "nhe": ", xijtlapejpeni tonali uan hora"
     },
     {
       "clave": "texto_184b191dc0",
       "es": ", la app más económica",
-      "nhe": null
+      "nhe": ", nopa aplicación tlen más tlaxtlauili"
     },
     {
       "clave": "texto_1eeac90574",
       "es": ", precio aproximado {v1} pesos",
-      "nhe": null
+      "nhe": ", tlaxtlauili tlen nechka {v1} pesos"
     },
     {
       "clave": "texto_8f627991ab",
       "es": "a unos {v1} en línea recta",
-      "nhe": null
+      "nhe": "tlen {v1} ipan se linea recta"
     },
     {
       "clave": "texto_1e412ea368",
       "es": "A {v1}",
-      "nhe": null
+      "nhe": "A {v1}"
     },
     {
       "clave": "texto_923f61c51e",
       "es": "a {v1} caminando",
-      "nhe": null
+      "nhe": "hasta {v1} nejnemi"
     },
     {
       "clave": "texto_3edadc1c2a",
       "es": "a {v1} caminando, unos {v2} minutos",
-      "nhe": null
+      "nhe": "ipan {v1} nejnemi, kanaj {v2} minutos"
     },
     {
       "clave": "texto_3b8c9e34a7",
       "es": "a {v1} en línea recta",
-      "nhe": null
+      "nhe": "hasta {v1} ipan se tlajko tlajko"
     },
     {
       "clave": "texto_cce656bfce",
       "es": "A {v1} km",
-      "nhe": null
+      "nhe": "Ipan {v1} km"
     },
     {
       "clave": "texto_357f97e471",
       "es": "A {v1} m",
-      "nhe": null
+      "nhe": "Ipan {v1} m"
     },
     {
       "clave": "texto_4f4d3bc569",
       "es": "a {v2}{v3}",
-      "nhe": null
+      "nhe": "hasta {v2}{v3}"
     },
     {
       "clave": "texto_f2a4712205",
       "es": "Abajo, ahora no.",
-      "nhe": null
+      "nhe": "Tlatsintla, ax amantsi."
     },
     {
       "clave": "texto_5da9b91dcf",
       "es": "Abajo, no.",
-      "nhe": null
+      "nhe": "Tlatsintla, amo."
     },
     {
       "clave": "texto_a127e10f03",
       "es": "Abajo, uso silla de ruedas o andadera.",
-      "nhe": null
+      "nhe": "Tlatsintla, nijtekiuia se silla de ruedas o se caminador."
     },
     {
       "clave": "texto_78dba6d45c",
       "es": "abr",
-      "nhe": null
+      "nhe": "apr"
     },
     {
       "clave": "texto_de7008e5d2",
       "es": "Abrir una app",
-      "nhe": null
+      "nhe": "Xijtlapo se aplicación"
     },
     {
       "clave": "texto_51f7bcd157",
       "es": "Abrir {v3}, precio estimado {v4}{v5}",
-      "nhe": null
+      "nhe": "Xijtlapo {v3}, ipati {v4}{v5}"
     },
     {
       "clave": "texto_3ebd7a93a6",
       "es": "Abrir {v7}",
-      "nhe": null
+      "nhe": "Xijtlapo {v7}"
     },
     {
       "clave": "texto_9bd1f4e4a0",
       "es": "Accesibilidad",
-      "nhe": null
+      "nhe": "Tlapaleuilistli"
     },
     {
       "clave": "texto_10a6546d21",
       "es": "Activa la ubicación o elige desde dónde sales en Inicio.",
-      "nhe": null
+      "nhe": "Xijtlapoli kanke tias o xijtlapejpeni kanke tikisas ipan Home."
     },
     {
       "clave": "texto_1a540d3703",
       "es": "Activa la ubicación para recibir los avisos.",
-      "nhe": null
+      "nhe": "Xij tlali nopa tlali para tijselis tlajtoli."
     },
     {
       "clave": "texto_53afafa4f6",
       "es": "Activa la ubicación para reportar",
-      "nhe": null
+      "nhe": "Xijtlali nopa tlali kampa titeyolmelauas"
     },
     {
       "clave": "texto_2d3f889dd0",
       "es": "Activa la ubicación.",
-      "nhe": null
+      "nhe": "Xij tlali nopa tlali."
     },
     {
       "clave": "texto_1d8e08fd63",
       "es": "ago",
-      "nhe": null
+      "nhe": "achtoui"
     },
     {
       "clave": "texto_17b105fd3c",
       "es": "Agrega a alguien de confianza",
-      "nhe": null
+      "nhe": "Xijtlali se tlen tijneltoka"
     },
     {
       "clave": "texto_bc5581f6f2",
       "es": "Agregar",
-      "nhe": null
+      "nhe": "Xijtlali"
     },
     {
       "clave": "texto_8f28d48980",
       "es": "Agregar casa",
-      "nhe": null
+      "nhe": "Xijtlali kali"
     },
     {
       "clave": "texto_8f5d7ed95e",
       "es": "Agregar foto (si quieres)",
-      "nhe": null
+      "nhe": "Xijtlali tlaixkopinkayotl (tla tijneki)"
     },
     {
       "clave": "texto_2335ae8e2a",
       "es": "Agregar un lugar",
-      "nhe": null
+      "nhe": "Xijtlali se tlali"
     },
     {
       "clave": "texto_00cd944998",
       "es": "Ahora",
-      "nhe": null
+      "nhe": "Axkan"
     },
     {
       "clave": "texto_6c64e27848",
       "es": "Ahora no",
-      "nhe": null
+      "nhe": "Ax amantsi"
     },
     {
       "clave": "texto_1f6b2bd9c3",
       "es": "Ahorita es la hora más barata de hoy.",
-      "nhe": null
+      "nhe": "Amantzi eli nopa tonali tlen más amo patiyo ipan ni tonali."
     },
     {
       "clave": "texto_87924d4e97",
       "es": "Ahorras aprox. {v1}{v2}",
-      "nhe": null
+      "nhe": "Ti tlaatijtok kanaj. {v1}{v2}"
     },
     {
       "clave": "texto_e81fb09656",
       "es": "Ahí tomas la línea {v1} hacia {v2}, a las {v3} según el horario.",
-      "nhe": null
+      "nhe": "Nopaya tijkuis nopa linea {v1} kampa {v2}, ipan {v3} kej kiijtoua nopa horario."
     },
     {
       "clave": "texto_4f2debbbf4",
       "es": "Ajustes",
-      "nhe": null
+      "nhe": "Tlasenkaualistli"
     },
     {
       "clave": "texto_b92fd934c7",
       "es": "Al empezar un viaje y al llegar, Grieta te deja avisarle por WhatsApp con un toque.",
-      "nhe": null
+      "nhe": "Kemaj tijpeualtia se ojtli uan tiajsi, Grieta mitskauilia xijyolmelaua ika WhatsApp ika se tlamachilistli."
     },
     {
       "clave": "texto_2fc26f0b33",
       "es": "Al empezar un viaje y al llegar, Grieta te deja avisarle por WhatsApp con un toque. Se guarda solo en este teléfono.",
-      "nhe": null
+      "nhe": "Kemaj tijpeualtia se paxalojketl uan tiajsi, Grieta mitskauilia xijyolmelaua ika WhatsApp ika se tlamachilistli. San eltok ipan ni teléfono."
     },
     {
       "clave": "texto_f0ab18819e",
       "es": "Al final puedes saltar estas preguntas.",
-      "nhe": null
+      "nhe": "Ipan itlamian uelis tijtlauelkauas ni tlajtlanili."
     },
     {
       "clave": "texto_144b6fbeee",
       "es": "Alguien avisó que la {v1} viene llena",
-      "nhe": null
+      "nhe": "Se akajya kiijtok {v1} temitok"
     },
     {
       "clave": "texto_926d318f5d",
       "es": "Alguien avisó que la {v1} ya pasó",
-      "nhe": null
+      "nhe": "Se akajya kiijtok {v1} ya panotok"
     },
     {
       "clave": "texto_0a82f0a785",
       "es": "Alto contraste",
-      "nhe": null
+      "nhe": "Tlauel tlachiani"
     },
     {
       "clave": "texto_ab6db59923",
       "es": "am",
-      "nhe": null
+      "nhe": "am"
     },
     {
       "clave": "texto_7e7a150157",
       "es": "Aprox.",
-      "nhe": null
+      "nhe": "Kej nopa."
     },
     {
       "clave": "texto_e9dac13b56",
       "es": "aprox.",
-      "nhe": null
+      "nhe": "aprox."
     },
     {
       "clave": "texto_7af7fd2c2d",
       "es": "aprox. {v1}",
-      "nhe": null
+      "nhe": "aprox. {v1}"
     },
     {
       "clave": "texto_88919cc289",
       "es": "Apréndelo en 3 pasos",
-      "nhe": null
+      "nhe": "Ximomachti ika 3 tlamachtili"
     },
     {
       "clave": "texto_500ac20bcd",
       "es": "Apágala si tu teléfono ya te lee la pantalla (VoiceOver o TalkBack)",
-      "nhe": null
+      "nhe": "Xijtlapoli tla mo teléfono ya kipoua mo pantalla (VoiceOver o TalkBack)"
     },
     {
       "clave": "texto_195b820a59",
       "es": "Aquí cerca",
-      "nhe": null
+      "nhe": "Nechka"
     },
     {
       "clave": "texto_9e87c441a6",
       "es": "Arriba, camino sin problema.",
-      "nhe": null
+      "nhe": "Ipan tlakpak, ninejnemi ika ax tleno."
     },
     {
       "clave": "texto_19ed29594d",
       "es": "Arriba, sí.",
-      "nhe": null
+      "nhe": "Ipan tlakpak, kema."
     },
     {
       "clave": "texto_8c3219ed43",
       "es": "Así sé desde dónde sales y cuándo avisarte que te bajes.",
-      "nhe": null
+      "nhe": "Kej ni nijmatis kanke ti kisas uan kemaj nimits ilhuis xitemo."
     },
     {
       "clave": "texto_d6b7401747",
       "es": "Así te mueves",
-      "nhe": null
+      "nhe": "Kej ni timonejnemiltia"
     },
     {
       "clave": "texto_931265f842",
       "es": "Atención telefónica",
-      "nhe": null
+      "nhe": "Teléfono atención"
     },
     {
       "clave": "texto_63f0c41334",
       "es": "Avisa a los demás:",
-      "nhe": null
+      "nhe": "Xikin ilhui sekinok:"
     },
     {
       "clave": "texto_d9c82c3f92",
       "es": "Avisar a alguien",
-      "nhe": null
+      "nhe": "Xikiljui se akajya"
     },
     {
       "clave": "texto_fbd6b6387d",
       "es": "Avisar a {v1} que {v2}",
-      "nhe": null
+      "nhe": "Xikiljui {v1} tlen {v2}"
     },
     {
       "clave": "texto_658c46a637",
       "es": "Avisar al chofer",
-      "nhe": null
+      "nhe": "Xikiljui nopa tlauikaketl"
     },
     {
       "clave": "texto_3e1da47705",
       "es": "Aviso",
-      "nhe": null
+      "nhe": "Xikita"
     },
     {
       "clave": "texto_0e5b198dd6",
       "es": "Avisos con vibración",
-      "nhe": null
+      "nhe": "Tlayolmelahuali tlen tlatsotsonali"
     },
     {
       "clave": "texto_321d518ecc",
       "es": "Avisos con voz",
-      "nhe": null
+      "nhe": "Tlajtoli tlen techtlajtlania"
     },
     {
       "clave": "texto_0df64b0643",
       "es": "Avisos de la parada",
-      "nhe": null
+      "nhe": "Tlajtoli tlen tlatsakuili"
     },
     {
       "clave": "texto_cca5188d34",
       "es": "Avisos en pantalla grande y con vibración, sin voz.",
-      "nhe": null
+      "nhe": "Tlayolmelahuali ipan se ueyi pantalla uan ika vibración, ax kipia tlajtoli."
     },
     {
       "clave": "texto_8b2cf04879",
       "es": "Avisos grandes y con vibración",
-      "nhe": null
+      "nhe": "Ueyi uan tlen tlatsiui"
     },
     {
       "clave": "texto_a6e9d0813c",
       "es": "Avísame cuando esté llegando",
-      "nhe": null
+      "nhe": "Xinechilhui kema ajsis"
     },
     {
       "clave": "texto_32b40035b0",
       "es": "Ayuda",
-      "nhe": null
+      "nhe": "Tlapaleuilistli"
     },
     {
       "clave": "texto_8df78a1cd7",
       "es": "Azul y naranja en vez de ámbar y rojo",
-      "nhe": null
+      "nhe": "Azul uan naranja uan ax ámbar uan chichiltik"
     },
     {
       "clave": "texto_6591b18b98",
       "es": "Bajas aquí",
-      "nhe": null
+      "nhe": "Xitemo nikan"
     },
     {
       "clave": "texto_8c9c3754fb",
       "es": "Bajas en",
-      "nhe": null
+      "nhe": "Motemoua ipan"
     },
     {
       "clave": "texto_12f7db610f",
       "es": "Bajas en dos paradas",
-      "nhe": null
+      "nhe": "Ximoketsa ipan ome tlajko"
     },
     {
       "clave": "texto_25738757b2",
       "es": "Bajas en {v1}.",
-      "nhe": null
+      "nhe": "Ti tlali ipan {v1}."
     },
     {
       "clave": "texto_6219e91312",
       "es": "Bajas en {v1}. Prepárate y toca el timbre.",
-      "nhe": null
+      "nhe": "Ti tlali ipan {v1}. Ximocualchijchihuaca huan xijpitzaca nopa campana."
     },
     {
       "clave": "texto_e5230a01ad",
       "es": "Banqueta rota",
-      "nhe": null
+      "nhe": "Banco tlapojtok"
     },
     {
       "clave": "texto_56fb53e681",
       "es": "Bienvenida a Grieta.",
-      "nhe": null
+      "nhe": "Xiuala ipan Grieta."
     },
     {
       "clave": "texto_b16f3167bf",
       "es": "Busca un lugar",
-      "nhe": null
+      "nhe": "Xijtemo se tlali"
     },
     {
       "clave": "texto_634c3cd219",
       "es": "Buscando avisos...",
-      "nhe": null
+      "nhe": "Nijtemoua tlajtoli..."
     },
     {
       "clave": "texto_71a0432668",
       "es": "Buscando dónde estás.",
-      "nhe": null
+      "nhe": "Nijtemoua kanke ti itstok."
     },
     {
       "clave": "texto_b4877c4c6d",
       "es": "Buscando dónde estás...",
-      "nhe": null
+      "nhe": "Nijtemoua kanke ti itstok..."
     },
     {
       "clave": "texto_cfbd525cf1",
       "es": "Buscando la calle...",
-      "nhe": null
+      "nhe": "Nijtemoua nopa ojtli..."
     },
     {
       "clave": "texto_82d8556878",
       "es": "Buscando tu ubicación...",
-      "nhe": null
+      "nhe": "Nijtemoua kanke ti itstok..."
     },
     {
       "clave": "texto_5f55edf900",
       "es": "Buscar",
-      "nhe": null
+      "nhe": "Xijtemo"
     },
     {
       "clave": "texto_56845dbeda",
       "es": "Bájate aquí",
-      "nhe": null
+      "nhe": "Xitemo nikan"
     },
     {
       "clave": "texto_2dd8468893",
       "es": "Bájate aquí y cambia de camión",
-      "nhe": null
+      "nhe": "Xitemo nika uan xikpatla nopa camiones"
     },
     {
       "clave": "texto_b6e75a73f1",
       "es": "Bájate en la siguiente parada",
-      "nhe": null
+      "nhe": "Xitemo ipan nopa seyok parada"
     },
     {
       "clave": "texto_89884f2838",
       "es": "Bájate en {v2}, {v3} paradas después, a las {v4}.",
-      "nhe": null
+      "nhe": "Xitemo ipan {v2}, {v3} moketsa teipa, ipan {v4}."
     },
     {
       "clave": "texto_a78e69b314",
       "es": "Búsquedas recientes",
-      "nhe": null
+      "nhe": "Tlatemolistli tlen kemach"
     },
     {
       "clave": "texto_8ca9c0ac06",
       "es": "Calculando el camino a pie...",
-      "nhe": null
+      "nhe": "Kiixtoma nopa ojtli ika iikxi..."
     },
     {
       "clave": "texto_3381938fed",
       "es": "Calculando...",
-      "nhe": null
+      "nhe": "Kiixtoma..."
     },
     {
       "clave": "texto_1fc8c7f8b1",
       "es": "Calculo el camión a $2 y el transbordo gratis.",
-      "nhe": null
+      "nhe": "Nijpoua nopa camión ika $2 uan nopa tlanemakalistli san tlapic."
     },
     {
       "clave": "texto_cf008f9b6e",
       "es": "Calculo el camión con la tarifa normal.",
-      "nhe": null
+      "nhe": "Nijpoua nopa camión ika nopa tlaxtlauili tlen normal."
     },
     {
       "clave": "texto_b322167924",
       "es": "Cambiar",
-      "nhe": null
+      "nhe": "Xijpatla"
     },
     {
       "clave": "texto_16f419c589",
       "es": "Camina a {parada}",
-      "nhe": null
+      "nhe": "Xinejnemi hasta {parada}"
     },
     {
       "clave": "texto_e0666032b7",
       "es": "Camina a {v1} y toma la línea {v2} hacia {v3}, a las {v4} según el horario.",
-      "nhe": null
+      "nhe": "Xinejnemi hasta {v1} uan xijkuiti nopa linea {v2} kampa {v3}, ipan {v4} kej kiijtoua nopa horario."
     },
     {
       "clave": "texto_3e29978ac5",
       "es": "Camina {v1} min",
-      "nhe": null
+      "nhe": "Xinejnemi {v1} min"
     },
     {
       "clave": "texto_ff0625723b",
       "es": "Camina {v1} min a la parada",
-      "nhe": null
+      "nhe": "Xinejnemi {v1} min hasta kampa timoketsas"
     },
     {
       "clave": "texto_585761820b",
       "es": "Camina {v1} min a tu destino",
-      "nhe": null
+      "nhe": "Xinejnemi {v1} min hasta kampa tias"
     },
     {
       "clave": "texto_1282eca92d",
       "es": "Camina {v1} min y cambia de camión",
-      "nhe": null
+      "nhe": "Xinejnemi {v1} min uan xijpatla nopa camiones"
     },
     {
       "clave": "texto_9d0f83880e",
       "es": "Caminando llegas en {v1} min",
-      "nhe": null
+      "nhe": "Ti nejnemi ti ajsi ipan {v1} min"
     },
     {
       "clave": "texto_612f28c927",
       "es": "Caminar poco",
-      "nhe": null
+      "nhe": "Xinejnemi se kentsi"
     },
     {
       "clave": "texto_c705ebd88a",
       "es": "Caminas bien",
-      "nhe": null
+      "nhe": "Kuali tinejnemi"
     },
     {
       "clave": "texto_5901231fb6",
       "es": "Caminas poco",
-      "nhe": null
+      "nhe": "San tinejnemi"
     },
     {
       "clave": "texto_3bdcae9523",
       "es": "caminas sin problema",
-      "nhe": null
+      "nhe": "tinejnemi ika ax tleno"
     },
     {
       "clave": "texto_faf1957920",
       "es": "caminas {v1} min",
-      "nhe": null
+      "nhe": "tinejnemi {v1} min"
     },
     {
       "clave": "texto_ca77442887",
       "es": "Camino sin problema",
-      "nhe": null
+      "nhe": "Ninejnemi ika ax tleno"
     },
     {
       "clave": "texto_8a7ba16259",
       "es": "Camiones aquí",
-      "nhe": null
+      "nhe": "Camiones nikan"
     },
     {
       "clave": "texto_17e5c0f853",
       "es": "Camiones cerca",
-      "nhe": null
+      "nhe": "Camiones tlen eltok nechka"
     },
     {
       "clave": "texto_9a33432b00",
       "es": "Casa",
-      "nhe": null
+      "nhe": "Kali"
     },
     {
       "clave": "texto_aeccae342e",
       "es": "Cerrar",
-      "nhe": null
+      "nhe": "Xitlatsakuili"
     },
     {
       "clave": "texto_2f3e8dcc24",
       "es": "Claro",
-      "nhe": null
+      "nhe": "Kema"
     },
     {
       "clave": "texto_809f137c39",
       "es": "Colores de la pantalla",
-      "nhe": null
+      "nhe": "Tlaixkopinkayomej tlen pantalla"
     },
     {
       "clave": "texto_bca2ba20da",
       "es": "Colores para daltonismo",
-      "nhe": null
+      "nhe": "Tlaixkopinalmej tlen amo tlachiaj"
     },
     {
       "clave": "texto_ae72c0eee0",
       "es": "Como el teléfono",
-      "nhe": null
+      "nhe": "Kej nopa teléfono"
     },
     {
       "clave": "texto_6968be4e35",
       "es": "Como otros días a esta hora.",
-      "nhe": null
+      "nhe": "Kej sekinok tonali ipan ni tonali."
     },
     {
       "clave": "texto_9c87920242",
       "es": "Como otros días a esta hora. Toca para ver cómo llegar",
-      "nhe": null
+      "nhe": "Kej sekinok tonali ipan ni tonali. Xijtsonpechili para tikitas kenijkatsa tias nopaya"
     },
     {
       "clave": "texto_3d30719c39",
       "es": "Compara y elige",
-      "nhe": null
+      "nhe": "Xijtlachili uan xijtlapejpeni"
     },
     {
       "clave": "texto_4bc2f1f5dc",
       "es": "Compartir mi viaje",
-      "nhe": null
+      "nhe": "Xikijto no viaje"
     },
     {
       "clave": "texto_e13942698a",
       "es": "Completa",
-      "nhe": null
+      "nhe": "Tlami"
     },
     {
       "clave": "texto_097b177914",
       "es": "Completar mi perfil",
-      "nhe": null
+      "nhe": "Xij tlami no perfil"
     },
     {
       "clave": "texto_01d052fe92",
       "es": "Compáralo",
-      "nhe": null
+      "nhe": "Xijtlachili"
     },
     {
       "clave": "texto_88d92e7674",
       "es": "Confírmalo al abrir la app.",
-      "nhe": null
+      "nhe": "Xijnexti kema tijtlapos nopa app."
     },
     {
       "clave": "texto_c6095368cd",
       "es": "Copié \"{v1}\".",
-      "nhe": null
+      "nhe": "Ni kiixkopinki \"{v1}\"."
     },
     {
       "clave": "texto_df8d5fe0ae",
       "es": "Cuando elijas un destino, toca \"Guardar este lugar\".",
-      "nhe": null
+      "nhe": "Kema tijtlapejpenis kanke tias, xijtsonpechili \"Xijtlaati ni tlali.\""
     },
     {
       "clave": "texto_e8afa1c71c",
       "es": "Cuidado con la accesibilidad",
-      "nhe": null
+      "nhe": "Ximomalui ika tlen ika tikalakis"
     },
     {
       "clave": "texto_a37768e6d4",
       "es": "Cuidado con la accesibilidad. {problemas}.",
-      "nhe": null
+      "nhe": "Ximomalui ika tlen ika timo ajsis. {problemas}."
     },
     {
       "clave": "texto_6556337e0e",
       "es": "Cuidado: {avisos}.",
-      "nhe": null
+      "nhe": "Ximomalui: {avisos}."
     },
     {
       "clave": "texto_f906d695cd",
       "es": "Cuéntanos más",
-      "nhe": null
+      "nhe": "Xitech ilui sekinok"
     },
     {
       "clave": "texto_e59f7d6c86",
       "es": "Cómo usar Grieta",
-      "nhe": null
+      "nhe": "Kenijkatsa tijtekiuis Grieta"
     },
     {
       "clave": "texto_588f252ada",
       "es": "Da igual: en la próxima hora lo normal casi no cambia",
-      "nhe": null
+      "nhe": "Ax tleno ipati: ipan nopa seyok hora nopa tlen nochipa mopatla"
     },
     {
       "clave": "texto_98757bedb9",
       "es": "Decir a dónde voy",
-      "nhe": null
+      "nhe": "Xikijto kanke nias"
     },
     {
       "clave": "texto_cd8b4d6139",
       "es": "Decirlo en voz alta",
-      "nhe": null
+      "nhe": "Xikijto ika chikaualistli"
     },
     {
       "clave": "texto_14237cbdbb",
       "es": "Deja la pantalla encendida: así Grieta sigue tu ubicación.",
-      "nhe": null
+      "nhe": "Xikaua nopa pantalla ma tlaui: kiampa Grieta kiitas kanke ti itstok."
     },
     {
       "clave": "texto_9b8a40b4b7",
       "es": "Deja la pantalla encendida: así Grieta sigue tu ubicación. Las horas del camión salen del horario oficial, no de su ubicación.",
-      "nhe": null
+      "nhe": "Xikaua nopa pantalla ma tlaui: kiampa Grieta kiitas kanke ti itstok. Nopa horas tlen nopa camión uala tlen nopa horario oficial, ax tlen kampa eltok."
     },
     {
       "clave": "texto_0d7d7140dd",
       "es": "Densidad",
-      "nhe": null
+      "nhe": "Densidad"
     },
     {
       "clave": "texto_209cad1464",
       "es": "Desde dónde sales",
-      "nhe": null
+      "nhe": "¿Kanke ti kisa?"
     },
     {
       "clave": "texto_f7636347a7",
       "es": "Desde {v1}",
-      "nhe": null
+      "nhe": "Kemaj {v1}"
     },
     {
       "clave": "texto_29fa864fd7",
       "es": "Deshacer",
-      "nhe": null
+      "nhe": "Ximokuepa"
     },
     {
       "clave": "texto_63607cf8ae",
       "es": "Después cambias de camión; te aviso.",
-      "nhe": null
+      "nhe": "Teipa tijpatlas camiones; Nimitzilhuis."
     },
     {
       "clave": "texto_22bbb31970",
       "es": "Después camina unos {v1} minutos a tu destino.",
-      "nhe": null
+      "nhe": "Teipa xinejnemi se {v1} minutos hasta kampa tias."
     },
     {
       "clave": "texto_b645306abd",
       "es": "Después pide {v1} a tu destino.",
-      "nhe": null
+      "nhe": "Teipa xijtlajtlani kanke tias para {v1}."
     },
     {
       "clave": "texto_8f049ccaff",
       "es": "Di a dónde vas.",
-      "nhe": null
+      "nhe": "Xikijto kanke ti yas."
     },
     {
       "clave": "texto_fee05da5fd",
       "es": "Di o escribe a dónde vas",
-      "nhe": null
+      "nhe": "Xikijto o xikijkuilo kanke tias"
     },
     {
       "clave": "texto_f6f8057c7a",
       "es": "dic",
-      "nhe": null
+      "nhe": "dec"
     },
     {
       "clave": "texto_3b11ce3e65",
       "es": "Dictar",
-      "nhe": null
+      "nhe": "Xikijto"
     },
     {
       "clave": "texto_0da39fd812",
       "es": "Dictar a dónde vas",
-      "nhe": null
+      "nhe": "Xikijto kanke tias"
     },
     {
       "clave": "texto_587f39f013",
       "es": "Dictar el lugar",
-      "nhe": null
+      "nhe": "Xikijto kanke eltok"
     },
     {
       "clave": "texto_af38104112",
       "es": "DiDi",
-      "nhe": null
+      "nhe": "DiDi"
     },
     {
       "clave": "texto_424e93aa51",
       "es": "Domingo",
-      "nhe": null
+      "nhe": "Domingo"
     },
     {
       "clave": "texto_7800630f3d",
       "es": "domingo",
-      "nhe": null
+      "nhe": "domingo"
     },
     {
       "clave": "texto_fa6699df66",
       "es": "Donde estás ahora",
-      "nhe": null
+      "nhe": "Kanke ti itstok amantsi"
     },
     {
       "clave": "texto_80e7437d9d",
       "es": "Durante el viaje te aviso con voz.",
-      "nhe": null
+      "nhe": "Ipan nopa ojtli nimits tlajtolmakas ika se tlajtoli."
     },
     {
       "clave": "texto_ffd6f24b18",
       "es": "Día",
-      "nhe": null
+      "nhe": "tonali"
     },
     {
       "clave": "texto_bab3d182cf",
       "es": "Dónde estoy",
-      "nhe": null
+      "nhe": "Kanke ni itstok"
     },
     {
       "clave": "texto_2eba946b2e",
       "es": "Editar",
-      "nhe": null
+      "nhe": "Xijpatla"
     },
     {
       "clave": "texto_0cb2b03cf8",
       "es": "Ejemplo: Hospital",
-      "nhe": null
+      "nhe": "Ejemplo: Tepajtiloyan"
     },
     {
       "clave": "texto_94f43e9497",
       "es": "Ejemplo: la parada está frente al OXXO, junto al poste amarillo",
-      "nhe": null
+      "nhe": "Ejemplo: nopa parada eltok ixpan nopa OXXO, inakastla nopa poste chichiltik"
     },
     {
       "clave": "texto_8052735f0d",
       "es": "Ejemplo: Mamá",
-      "nhe": null
+      "nhe": "Ejemplo: Nana"
     },
     {
       "clave": "texto_b83abafbc1",
       "es": "El audio sigue en español.",
-      "nhe": null
+      "nhe": "Nopa tlajtoli nojua eltok ika español."
     },
     {
       "clave": "texto_558f573763",
       "es": "El camión tarda {v1} min más, pero te ahorras la diferencia.",
-      "nhe": null
+      "nhe": "Nopa camión kiuika {v1} min más uejka, pero ta tijtlaati nopa tlaiyocatlalili."
     },
     {
       "clave": "texto_6a3e15d067",
       "es": "El camión te cuesta $2 y el transbordo es gratis",
-      "nhe": null
+      "nhe": "Nopa camión ipati $2 uan nopa tlanemakalistli amo tlaxtlaua"
     },
     {
       "clave": "texto_7851ed31aa",
       "es": "El horario guardado venció el {v1} {v2} {v3}: las horas pueden variar.",
-      "nhe": null
+      "nhe": "Nopa horario tlen tlaatitok tlami ipan {v1} {v2} {v3}: tonali uelis mopatlas."
     },
     {
       "clave": "texto_f9339eab84",
       "es": "El precio no está tan arriba o el camión tarda demasiado.",
-      "nhe": null
+      "nhe": "Nopa tlaxtlauili ax tlauel patiyo o nopa camión tlauel uejkaua."
     },
     {
       "clave": "texto_7060c3a22c",
       "es": "El precio puede variar.",
-      "nhe": null
+      "nhe": "Uelis mopatlas nopa tlaxtlauili."
     },
     {
       "clave": "texto_88d4c8d956",
       "es": "El precio puede variar. Confírmalo al abrir la app.",
-      "nhe": null
+      "nhe": "Uelis mopatlas nopa tlaxtlauili. Xijnexti kema tijtlapos nopa aplicación."
     },
     {
       "clave": "texto_bb6a3d8138",
       "es": "El teléfono debe tener 10 dígitos.",
-      "nhe": null
+      "nhe": "Nopa teléfono moneki kipias 10 números."
     },
     {
       "clave": "texto_a2551ca530",
       "es": "el {v1}",
-      "nhe": null
+      "nhe": "nopa {v1}"
     },
     {
       "clave": "texto_f213c04150",
       "es": "Elegir",
-      "nhe": null
+      "nhe": "Xijtlapejpeni"
     },
     {
       "clave": "texto_742a056f80",
       "es": "Elegir en el mapa",
-      "nhe": null
+      "nhe": "Xijtlapejpeni ipan nopa mapa"
     },
     {
       "clave": "texto_a636245163",
       "es": "Elige a qué hora tienes que llegar.",
-      "nhe": null
+      "nhe": "Xijtlapejpeni tlen hora moneki tiajsiti."
     },
     {
       "clave": "texto_5a49912663",
       "es": "Elige en el mapa",
-      "nhe": null
+      "nhe": "Xijtlapejpeni ipan mapa"
     },
     {
       "clave": "texto_1288575efc",
       "es": "Elige la app y escribe el precio para darte una recomendación.",
-      "nhe": null
+      "nhe": "Xijtlapejpeni nopa aplicación uan xikijkuilo nopa tlaxtlauili pampa mitsmakas se tlajtolpaleuilistli."
     },
     {
       "clave": "texto_b9483c4f8c",
       "es": "Elige qué problema encontraste.",
-      "nhe": null
+      "nhe": "Xijtlapejpeni tlen kuesoli tijpantik."
     },
     {
       "clave": "texto_5d3ab56ae0",
       "es": "Elige un lugar guardado o elígelo en el mapa.",
-      "nhe": null
+      "nhe": "Xijtlapejpeni se tlali tlen tijpixtok o xijtlapejpeni ipan mapa."
     },
     {
       "clave": "texto_2d21259ea7",
       "es": "Elige una más tarde.",
-      "nhe": null
+      "nhe": "Xijtlapejpeni se teipa."
     },
     {
       "clave": "texto_042fcafd6a",
       "es": "Elígelo en el mapa",
-      "nhe": null
+      "nhe": "Xijtlapejpeni ipan nopa mapa"
     },
     {
       "clave": "texto_3b39ef005c",
       "es": "Empezar viaje con avisos",
-      "nhe": null
+      "nhe": "Xipeua ika tlajtolpanextili"
     },
     {
       "clave": "texto_9550f392eb",
       "es": "Empieza el viaje con avisos",
-      "nhe": null
+      "nhe": "Nopa ojtli peua ika tlajtolpanextili"
     },
     {
       "clave": "texto_40d348234c",
       "es": "En 1 h",
-      "nhe": null
+      "nhe": "Ipan 1 h"
     },
     {
       "clave": "texto_b3b03abed1",
       "es": "En app",
-      "nhe": null
+      "nhe": "Ipan app"
     },
     {
       "clave": "texto_c7ff837b82",
       "es": "En app · precios estimados",
-      "nhe": null
+      "nhe": "Ipan app · tlaxtlauili tlen mosentlalijtok"
     },
     {
       "clave": "texto_e699931fdd",
       "es": "En camino",
-      "nhe": null
+      "nhe": "Ipan ojtli"
     },
     {
       "clave": "texto_fa9d67f12c",
       "es": "En el camión",
-      "nhe": null
+      "nhe": "Ipan nopa camión"
     },
     {
       "clave": "texto_7f6489aa71",
       "es": "En Inicio, en \"Busca un lugar\" o con \"Dictar\".",
-      "nhe": null
+      "nhe": "Ipan kali, ipan \"Xijtemo se tlali\" o ika \"Xikijto\"."
     },
     {
       "clave": "texto_bf9c802f85",
       "es": "en la línea {v1} hacia {v2}",
-      "nhe": null
+      "nhe": "ipan linea {v1} ika {v2}"
     },
     {
       "clave": "texto_8ca0ef121e",
       "es": "En la parada",
-      "nhe": null
+      "nhe": "Ipan nopa parada"
     },
     {
       "clave": "texto_433a5bb86f",
       "es": "En la parada {v1}",
-      "nhe": null
+      "nhe": "Ipan nopa tlatsakuili {v1}"
     },
     {
       "clave": "texto_4c1aa18888",
       "es": "En la parada {v4}, hacia {v5}.",
-      "nhe": null
+      "nhe": "Ipan nopa tlatsakuili {v4}, kampa {v5}."
     },
     {
       "clave": "texto_d5bb5159c7",
       "es": "En la parada {v4}, hacia {v5}. Si lo pierdes, {v6} se estima en {v7}.{v8}",
-      "nhe": null
+      "nhe": "Ipan nopa tlatsakuili {v4}, kampa {v5}. Tlaj tijpolos, {v6} moijtoa eli {v7}.{v8}"
     },
     {
       "clave": "texto_447227506f",
       "es": "En la próxima hora no pasa ningún Qrobus cerca.",
-      "nhe": null
+      "nhe": "Ipan nopa seyok hora ax panos Qrobus nechka."
     },
     {
       "clave": "texto_4450c1ec40",
       "es": "en la {v1}",
-      "nhe": null
+      "nhe": "ipan {v1}"
     },
     {
       "clave": "texto_028931ae25",
       "es": "en línea recta",
-      "nhe": null
+      "nhe": "ipan se tlajko tlajko"
     },
     {
       "clave": "texto_a10382ebc7",
       "es": "En medio, me cuesta caminar.",
-      "nhe": null
+      "nhe": "Ipan tlajko, tlauel ouij para na ninejnemis."
     },
     {
       "clave": "texto_1ea154933d",
       "es": "En Qrobus",
-      "nhe": null
+      "nhe": "Ipan Qrobus"
     },
     {
       "clave": "texto_9a447a5935",
       "es": "En tu ubicación actual",
-      "nhe": null
+      "nhe": "Ipan kanke ti itstok"
     },
     {
       "clave": "texto_5920c47597",
       "es": "En tus viajes aparecerá \"Avisar a {v1}\".",
-      "nhe": null
+      "nhe": "\"Xikijto {v1}\" monextis ipan mo viajes."
     },
     {
       "clave": "texto_52d5989f10",
       "es": "En {v1}",
-      "nhe": null
+      "nhe": "Ipan {v1}"
     },
     {
       "clave": "texto_907487bdb3",
       "es": "en {v1} h {v2} min",
-      "nhe": null
+      "nhe": "ipan {v1} h {v2} min"
     },
     {
       "clave": "texto_4c031ea927",
       "es": "En {v1} min",
-      "nhe": null
+      "nhe": "Ipan {v1} min"
     },
     {
       "clave": "texto_8c1ddac830",
       "es": "en {v1} min",
-      "nhe": null
+      "nhe": "ipan {v1} min"
     },
     {
       "clave": "texto_bfa2700b77",
       "es": "ene",
-      "nhe": null
+      "nhe": "enero"
     },
     {
       "clave": "texto_dc8659db6d",
       "es": "Enter",
-      "nhe": null
+      "nhe": "Xikalaki"
     },
     {
       "clave": "texto_88412066ba",
       "es": "entre {v1} y {v2} pesos",
-      "nhe": null
+      "nhe": "tlatlajko {v1} uan {v2} pesos"
     },
     {
       "clave": "texto_59ee4b1e62",
       "es": "Enviar este precio a Grieta",
-      "nhe": null
+      "nhe": "Xijtitlani ni tlaxtlauili ipan Grieta"
     },
     {
       "clave": "texto_9739d880d5",
       "es": "Enviar reporte",
-      "nhe": null
+      "nhe": "Xititlani tlajtoli"
     },
     {
       "clave": "texto_c0bc1e08f9",
       "es": "es",
-      "nhe": null
+      "nhe": "eli"
     },
     {
       "clave": "texto_735ac1ef26",
       "es": "Esa hora ya pasó o no da tiempo de llegar.",
-      "nhe": null
+      "nhe": "Nopa tonali ya panotok o ayokmo onka tonali para ajsis."
     },
     {
       "clave": "texto_545f80e084",
       "es": "Esa hora ya pasó o no da tiempo de llegar. Elige una más tarde.",
-      "nhe": null
+      "nhe": "Nopa tonali ya panotok o ayokmo onka tonali para ajsis. Xijtlapejpeni se teipa."
     },
     {
       "clave": "texto_037c968467",
       "es": "Escape",
-      "nhe": null
+      "nhe": "Escape"
     },
     {
       "clave": "texto_bf001556de",
       "es": "Escribe el nombre.",
-      "nhe": null
+      "nhe": "Xikijkuilo itoka."
     },
     {
       "clave": "texto_231a971d9c",
       "es": "Escribe el precio",
-      "nhe": null
+      "nhe": "Xikijkuilo nopa tlaxtlauili"
     },
     {
       "clave": "texto_66419f33e0",
       "es": "Escribe la calle y la colonia, o toca \"Elígelo en el mapa\".",
-      "nhe": null
+      "nhe": "Xikijkuilo nopa ojtli uan nopa barrio, o xijtsonpechili \"Xijtlapejpeni ipan mapa.\""
     },
     {
       "clave": "texto_84d6f3db6e",
       "es": "Escribes desde dónde sales",
-      "nhe": null
+      "nhe": "Ti ijkuilos kanke ti kisas"
     },
     {
       "clave": "texto_60e4a53f8b",
       "es": "Escuchar los pasos",
-      "nhe": null
+      "nhe": "Xijtlakaki nopa tlajtoli"
     },
     {
       "clave": "texto_2406e0053c",
       "es": "escuchas bien",
-      "nhe": null
+      "nhe": "kuali tijkaki"
     },
     {
       "clave": "texto_cc53ec093e",
       "es": "Escucho bien los avisos",
-      "nhe": null
+      "nhe": "Kuali nijtlakakilia nopa tlajtolpanextili"
     },
     {
       "clave": "texto_428e470b74",
       "es": "Escuela",
-      "nhe": null
+      "nhe": "Escuela"
     },
     {
       "clave": "texto_04afb84ba1",
       "es": "Espera la línea {linea} hacia {hacia}",
-      "nhe": null
+      "nhe": "Ximochixto nopa tlajtoli {linea} hasta {hacia}"
     },
     {
       "clave": "texto_0b9a62e7f6",
       "es": "Espera un poco",
-      "nhe": null
+      "nhe": "Ximochiya se kentsi"
     },
     {
       "clave": "texto_45c721109b",
       "es": "este mes frente al precio esperado en app.",
-      "nhe": null
+      "nhe": "ni metstli kiixnextia nopa tlaxtlauili tlen kichiayaya ipan nopa app."
     },
     {
       "clave": "texto_7891e778dc",
       "es": "Estudiante, mayor de 60 o persona con discapacidad",
-      "nhe": null
+      "nhe": "Momachtijketl, tlen pano 60 o se maseuali tlen kipia se kokolistli"
     },
     {
       "clave": "texto_cda77e9e04",
       "es": "Estudiantes, mayores de 60 y personas con discapacidad; el transbordo es gratis",
-      "nhe": null
+      "nhe": "Momachtianij, maseualmej tlen panotok 60 uan maseualmej tlen amo uelij nejnemij; tlatitlanili amo tlaxtlaua"
     },
     {
       "clave": "texto_8ccb77adc9",
       "es": "Está arriba de lo normal y te sobra tiempo: vuelve a revisar en unos minutos{v1}.",
-      "nhe": null
+      "nhe": "Ya nopa tlauel kuali uan tijpia miak tonali: ximokuepa ipan se keski minutos{v1}."
     },
     {
       "clave": "texto_24c3071505",
       "es": "Estás a 300 metros",
-      "nhe": null
+      "nhe": "Ti itstok 300 metros uejka"
     },
     {
       "clave": "texto_5a0fe8946c",
       "es": "Estás en {v1}.",
-      "nhe": null
+      "nhe": "Ti itstok ipan {v1}."
     },
     {
       "clave": "texto_d06bc3e09f",
       "es": "Estás en {v1}.{v2} Toca Terminar viaje cuando quieras.",
-      "nhe": null
+      "nhe": "Ti itstok ipan {v1}.{v2} Xijtsonpechili End Trip kemaj tijneki."
     },
     {
       "clave": "texto_10fe0b5df9",
       "es": "Estás fuera de Querétaro.",
-      "nhe": null
+      "nhe": "Ti itstok kalteno Querétaro."
     },
     {
       "clave": "texto_833334561a",
       "es": "Falta señalización",
-      "nhe": null
+      "nhe": "Amo onka señas"
     },
     {
       "clave": "texto_a2052dc507",
       "es": "Falta un kilómetro",
-      "nhe": null
+      "nhe": "Se kilómetro poliui"
     },
     {
       "clave": "texto_18e6600bae",
       "es": "Faltan",
-      "nhe": null
+      "nhe": "Amo onka"
     },
     {
       "clave": "texto_eebff8c118",
       "es": "Faltan {n} paradas",
-      "nhe": null
+      "nhe": "Amo onka {n} tlami"
     },
     {
       "clave": "texto_b899f84e75",
       "es": "Faltan {v1} km.",
-      "nhe": null
+      "nhe": "{v1} km ika iopochma."
     },
     {
       "clave": "texto_70c748e63d",
       "es": "feb",
-      "nhe": null
+      "nhe": "Feb"
     },
     {
       "clave": "texto_56cf25ec89",
       "es": "Foto lista.",
-      "nhe": null
+      "nhe": "Tlaixkopinkayotl ya eltok."
     },
     {
       "clave": "texto_646d5dfa89",
       "es": "Foto lista. Toca para cambiarla",
-      "nhe": null
+      "nhe": "Tlaixkopinkayotl ya eltok. Xijtsonpechili para tijpatlas"
     },
     {
       "clave": "texto_7a6eabd661",
       "es": "Fácil",
-      "nhe": null
+      "nhe": "Amo ouij"
     },
     {
       "clave": "texto_333e0a1e27",
       "es": "G",
-      "nhe": null
+      "nhe": "G"
     },
     {
       "clave": "texto_b600eea309",
       "es": "Gracias.",
-      "nhe": null
+      "nhe": "Tlaskamati."
     },
     {
       "clave": "texto_41a2eba09f",
       "es": "Gracias. Se lo diré a quien espere aquí.",
-      "nhe": null
+      "nhe": "Tlaskamati. Niquilhuis ajqueya quichiya nica."
     },
     {
       "clave": "texto_3d4e626cc2",
       "es": "Gracias. Tu reporte ayuda a quien pase por aquí.",
-      "nhe": null
+      "nhe": "Tlaskamati. Mocamanal quipalehuía catli pano nica."
     },
     {
       "clave": "texto_f813848dda",
       "es": "Gracias. {v1}",
-      "nhe": null
+      "nhe": "Tlaskamati. {v1}"
     },
     {
       "clave": "texto_d5c9be6d17",
       "es": "Gracias: con tu precio Grieta calcula mejor.",
-      "nhe": null
+      "nhe": "Tlaskamati: ika mo tlaxtlauili Grieta kuali kiixtoma."
     },
     {
       "clave": "texto_95d72fde2e",
       "es": "Grieta busca paradas cercanas y te avisa si reportaron que no tienen rampa.",
-      "nhe": null
+      "nhe": "Grieta kitemoua kanke eltok nechka uan mitsyolmelaua tla mitsiljuiaj amo kipiaj se rampa."
     },
     {
       "clave": "texto_3d92b8dd37",
       "es": "Grieta busca paradas más cerca para que camines menos.",
-      "nhe": null
+      "nhe": "Grieta Xijtemo kanke timoketsas tlen nechka para amo tlauel tinejnemis."
     },
     {
       "clave": "texto_157e3b8bda",
       "es": "Grieta compara tus opciones y te avisa cuándo bajarte del camión.",
-      "nhe": null
+      "nhe": "Grieta kiixnextia tlen tijtlapejpenis uan mitsiljuia kemaj titemos tlen nopa camión."
     },
     {
       "clave": "texto_473d757904",
       "es": "Grieta no habla encima de tu lector.",
-      "nhe": null
+      "nhe": "Grieta ax tlajtoa tlen moamatlajkuilol."
     },
     {
       "clave": "texto_9fc90539af",
       "es": "Grieta se acomoda a ti.",
-      "nhe": null
+      "nhe": "Grieta mits paleuia."
     },
     {
       "clave": "texto_9003ff37e8",
       "es": "Grieta se acomoda a ti. Lo puedes cambiar después.",
-      "nhe": null
+      "nhe": "Grieta mits paleuia. Uelis tijpatlas teipa."
     },
     {
       "clave": "texto_b59c6dd135",
       "es": "Grieta te avisa cuándo pasa tu camión y cuándo bajarte.",
-      "nhe": null
+      "nhe": "Grieta mitsiljuia kemaj panos mo camión uan kemaj titemosej."
     },
     {
       "clave": "texto_b4bb6328d9",
       "es": "Grieta te dice todo en voz alta, con pocos botones y muy grandes",
-      "nhe": null
+      "nhe": "Grieta mitsiljuia nochi ika chikaualistli, ika se keski uan tlauel uejueyi tlapepecholi"
     },
     {
       "clave": "texto_ab585a65b3",
       "es": "Grieta te habla",
-      "nhe": null
+      "nhe": "Grieta mitsnojnotsa"
     },
     {
       "clave": "texto_ae6563aa98",
       "es": "Grieta te lee todo en voz alta.",
-      "nhe": null
+      "nhe": "Grieta mitspouilia nochi ika chikaualistli."
     },
     {
       "clave": "texto_584f30d170",
       "es": "Grieta te lo dice en voz alta",
-      "nhe": null
+      "nhe": "Grieta mitsiljuia ika chikaualistli"
     },
     {
       "clave": "texto_0bd7ebab09",
       "es": "Guardado como {v1}",
-      "nhe": null
+      "nhe": "Ki tlaatitok kej {v1}"
     },
     {
       "clave": "texto_7a37f9b594",
       "es": "Guardado.",
-      "nhe": null
+      "nhe": "Momakixtijtok."
     },
     {
       "clave": "texto_b6e43363d2",
       "es": "Guardado. En tus viajes aparecerá \"Avisar a {v1}\".",
-      "nhe": null
+      "nhe": "Momakixtijtok. \"Xikijto {v1}\" monextis ipan mo viajes."
     },
     {
       "clave": "texto_13e51a210f",
       "es": "Guardar",
-      "nhe": null
+      "nhe": "Xi tlaati"
     },
     {
       "clave": "texto_f2d4b82910",
       "es": "Guardar como",
-      "nhe": null
+      "nhe": "Xij tlaati kej"
     },
     {
       "clave": "texto_69b9160bb6",
       "es": "Guardar este lugar",
-      "nhe": null
+      "nhe": "Xij tlaati ni tlali"
     },
     {
       "clave": "texto_0aa2cb515e",
       "es": "Hace {v1} minuto{v2}.",
-      "nhe": null
+      "nhe": "{v1} minuto achtoui{v2}."
     },
     {
       "clave": "texto_854cf9b64e",
       "es": "hacia",
-      "nhe": null
+      "nhe": "ika"
     },
     {
       "clave": "texto_426b3dddb4",
       "es": "Hacia la parada",
-      "nhe": null
+      "nhe": "Ika kampa moketsa"
     },
     {
       "clave": "texto_bc3f4bca11",
       "es": "Hacia {v1}.",
-      "nhe": null
+      "nhe": "Nechka {v1}."
     },
     {
       "clave": "texto_0b5b404e9a",
       "es": "Hacia {v1}. Bájate en {v2}, {v3} paradas después, a las {v4}. Te aviso antes.",
-      "nhe": null
+      "nhe": "Nechka {v1}. Xitemo ipan {v2}, {v3} moketsa teipa, ipan {v4}. Nimitzilhuis achtohui."
     },
     {
       "clave": "texto_a246e9dcb7",
       "es": "Hacia {v3}",
-      "nhe": null
+      "nhe": "Ika {v3}"
     },
     {
       "clave": "texto_503f312cde",
       "es": "Hora",
-      "nhe": null
+      "nhe": "tonali"
     },
     {
       "clave": "texto_ae41373cea",
       "es": "Idioma de la interfaz",
-      "nhe": null
+      "nhe": "Tlajtoli tlen tlajtoli"
     },
     {
       "clave": "texto_3478318400",
       "es": "inDrive",
-      "nhe": null
+      "nhe": "inDrive"
     },
     {
       "clave": "texto_58fcc9468f",
       "es": "Inicio",
-      "nhe": null
+      "nhe": "Ichaj"
     },
     {
       "clave": "texto_932aaca5f2",
       "es": "Ir a {v1}",
-      "nhe": null
+      "nhe": "Xiya ipan {v1}"
     },
     {
       "clave": "texto_89bc0a4642",
       "es": "Ir a {v4}",
-      "nhe": null
+      "nhe": "Xiya ipan {v4}"
     },
     {
       "clave": "texto_451163ff57",
       "es": "Ir otra vez a {v2}",
-      "nhe": null
+      "nhe": "Ximokuepa ipan {v2}"
     },
     {
       "clave": "texto_ca7b8cbccb",
       "es": "Jueves",
-      "nhe": null
+      "nhe": "Jueves"
     },
     {
       "clave": "texto_15b84102a7",
       "es": "jueves",
-      "nhe": null
+      "nhe": "Jueves"
     },
     {
       "clave": "texto_5c022ffb48",
       "es": "jul",
-      "nhe": null
+      "nhe": "jul"
     },
     {
       "clave": "texto_eb687afb0f",
       "es": "jun",
-      "nhe": null
+      "nhe": "jun"
     },
     {
       "clave": "texto_6d0d2adb57",
       "es": "kilómetros",
-      "nhe": null
+      "nhe": "kilómetros"
     },
     {
       "clave": "texto_1f34503f65",
       "es": "km",
-      "nhe": null
+      "nhe": "km"
     },
     {
       "clave": "texto_d33a310712",
       "es": "La interfaz cambia de idioma.",
-      "nhe": null
+      "nhe": "Nopa tlajtoli kipatla tlajtoli."
     },
     {
       "clave": "texto_e92e18fc63",
       "es": "La interfaz cambia de idioma. El audio sigue en español.",
-      "nhe": null
+      "nhe": "Nopa tlajtoli kipatla tlajtoli. Nopa tlajtoli nojua eltok ika español."
     },
     {
       "clave": "texto_1c8fc9ce03",
       "es": "La interfaz está en español.",
-      "nhe": null
+      "nhe": "Nopa tlajtoli eltok ika español."
     },
     {
       "clave": "texto_1a8e27e7b0",
       "es": "La interfaz está en español. El audio sigue en español.",
-      "nhe": null
+      "nhe": "Nopa tlajtoli eltok ika español. Nopa tlajtoli nojua eltok ika español."
     },
     {
       "clave": "texto_714d69230c",
       "es": "La parada está a unos {v1} caminando.",
-      "nhe": null
+      "nhe": "Nopa tlatsakuili eltok kanaj {v1} nejnemilistli."
     },
     {
       "clave": "texto_a2dd7920bc",
       "es": "La parada está a {v1} en línea recta.",
-      "nhe": null
+      "nhe": "Nopa tlatsakuili eli {v1} kej nopa cuervo patlantinemi."
     },
     {
       "clave": "texto_dc43b20594",
       "es": "La parada más cercana es {v1}, {v2}.",
-      "nhe": null
+      "nhe": "Nopa tlali tlen más nechka eltok {v1}, {v2}."
     },
     {
       "clave": "texto_f929d93aa6",
       "es": "La traducción de la interfaz todavía no está disponible.",
-      "nhe": null
+      "nhe": "Ayokmo onka tlajtolkuepalistli tlen interfaz."
     },
     {
       "clave": "texto_d15476857f",
       "es": "La traducción de la interfaz todavía no está disponible. El audio sigue en español.",
-      "nhe": null
+      "nhe": "Ayokmo onka tlajtolkuepalistli tlen interfaz. Nopa tlajtoli nojua eltok ika español."
     },
     {
       "clave": "texto_3d5dd99ecf",
       "es": "La {v1} debe estar por pasar",
-      "nhe": null
+      "nhe": "{v1} moneki nechka panos"
     },
     {
       "clave": "texto_c90bde72e4",
       "es": "La {v1} pasa en 5 minutos",
-      "nhe": null
+      "nhe": "{v1} pano ipan 5 minutos"
     },
     {
       "clave": "texto_be351f58a0",
       "es": "La {v1} pasa en unos {v2} minutos",
-      "nhe": null
+      "nhe": "{v1} pano ipan se {v2} minutos"
     },
     {
       "clave": "texto_7d6947c952",
       "es": "Las horas del camión salen del horario oficial, no de su ubicación.",
-      "nhe": null
+      "nhe": "Nopa horas tlen nopa camión uala tlen nopa horario oficial, ax tlen kampa eltok."
     },
     {
       "clave": "texto_05002fbf15",
       "es": "Las horas salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse.{v7}",
-      "nhe": null
+      "nhe": "Nopa horas eltok kalteno tlen nopa horario tlen Qrobus; nopa camión uelis elis tlayakapan o tlakuitlapan.{v7}"
     },
     {
       "clave": "texto_2a4c215b77",
       "es": "Letra grande",
-      "nhe": null
+      "nhe": "Ueyi tlajkuiloli"
     },
     {
       "clave": "texto_60a6bf050f",
       "es": "Letra grande y más contraste",
-      "nhe": null
+      "nhe": "Ueyi tlajkuiloli uan miak tlaixkopinkayomej"
     },
     {
       "clave": "texto_5de449dcbc",
       "es": "Letra grande y más contraste.",
-      "nhe": null
+      "nhe": "Ueyi tlajkuiloli uan más tlaixnextilis."
     },
     {
       "clave": "texto_b5fa51d564",
       "es": "Listo",
-      "nhe": null
+      "nhe": "Ya eltok"
     },
     {
       "clave": "texto_3540304906",
       "es": "Listo, Grieta te va a hablar.",
-      "nhe": null
+      "nhe": "Ya eltok, Grieta yas mitsnojnotsas."
     },
     {
       "clave": "texto_467bafc484",
       "es": "Listo, Grieta te va a hablar. ¿Tu teléfono ya te lee la pantalla, como VoiceOver o TalkBack? Arriba, sí. Abajo, no.",
-      "nhe": null
+      "nhe": "Ya eltok, Grieta yas mitsnojnotsas. ¿Mocelular ya kipoua mo pantalla, kej VoiceOver o TalkBack? Ipan tlakpak, kema. Tlatsintla, axtle."
     },
     {
       "clave": "texto_601dcb2198",
       "es": "Listo, ya no hay a quién avisar.",
-      "nhe": null
+      "nhe": "Ya eltok, ayokmo aka tlen mitsyolmelauas."
     },
     {
       "clave": "texto_e56aab3981",
       "es": "Llamar a Qrobus",
-      "nhe": null
+      "nhe": "Xijnotza Qrobus"
     },
     {
       "clave": "texto_7925cb7917",
       "es": "Llamar a Qrobus al 442 210 0407",
-      "nhe": null
+      "nhe": "Xijnotza Qrobus ipan 442 210 0407"
     },
     {
       "clave": "texto_0e440835bc",
       "es": "Llegas",
-      "nhe": null
+      "nhe": "Tiajsito"
     },
     {
       "clave": "texto_168417d812",
       "es": "Llegas a las {v1}",
-      "nhe": null
+      "nhe": "Ti ajsi ipan {v1}"
     },
     {
       "clave": "texto_d29143c66b",
       "es": "Llegas a las {v2}.",
-      "nhe": null
+      "nhe": "Tiajsi ipan {v2}."
     },
     {
       "clave": "texto_fa4b6e842b",
       "es": "Llegas a las {v3}.",
-      "nhe": null
+      "nhe": "Ti ajsi ipan {v3}."
     },
     {
       "clave": "texto_f9887b8b62",
       "es": "Llegas a {v1}",
-      "nhe": null
+      "nhe": "Ti ajsi {v1}"
     },
     {
       "clave": "texto_7048b5db17",
       "es": "Llegas {hora} · {minutos} min",
-      "nhe": null
+      "nhe": "Ti ajsi {hora} · {minutos} min"
     },
     {
       "clave": "texto_b3e3717003",
       "es": "Llegas {hora} · {minutos} min · caminas {caminar} min",
-      "nhe": null
+      "nhe": "Tiajsi {hora} · {minutos} min · tinejnemi {caminar} min"
     },
     {
       "clave": "texto_b680e1a89c",
       "es": "Llegas {hora}. {minutos} min. caminas {caminar} min. {precio}. {ahorro}",
-      "nhe": null
+      "nhe": "Ti ajsi {hora}. {minutos} min. tinejnemi {caminar} min. {precio}. {ahorro}"
     },
     {
       "clave": "texto_89c7fd4cdc",
       "es": "Llegas {hora}. {minutos} min. {precio}. {ahorro}",
-      "nhe": null
+      "nhe": "Ti ajsi {hora}. {minutos} min. {precio}. {ahorro}"
     },
     {
       "clave": "texto_05c85f357a",
       "es": "Llegas {v1}",
-      "nhe": null
+      "nhe": "Ti ajsi {v1}"
     },
     {
       "clave": "texto_6024524550",
       "es": "Llegaste",
-      "nhe": null
+      "nhe": "Tiajsito"
     },
     {
       "clave": "texto_cc4d4b8108",
       "es": "Llegaste a la parada",
-      "nhe": null
+      "nhe": "Tiajsito kampa timoketsa"
     },
     {
       "clave": "texto_5b1463aade",
       "es": "llegué",
-      "nhe": null
+      "nhe": "niajsito"
     },
     {
       "clave": "texto_5b8e6b53ba",
       "es": "Llévame a casa",
-      "nhe": null
+      "nhe": "Xinechuika mochaj"
     },
     {
       "clave": "texto_8085356bed",
       "es": "Lo más barato hoy es de {v1} a {v2}: unos {v3}.",
-      "nhe": null
+      "nhe": "Tlen más patiyo ipan ni tonali eltok tlen {v1} hasta {v2}: kanaj {v3}."
     },
     {
       "clave": "texto_d50ef34b69",
       "es": "Lo puedes cambiar después en tu perfil.",
-      "nhe": null
+      "nhe": "Uelis tijpatlas teipa ipan mo perfil."
     },
     {
       "clave": "texto_dd2f229731",
       "es": "Lo puedes cambiar después.",
-      "nhe": null
+      "nhe": "Uelis tijpatlas teipa."
     },
     {
       "clave": "texto_c978d996b6",
       "es": "Los reportes todavía no están conectados al servidor.",
-      "nhe": null
+      "nhe": "Nopa tlapoualistli ayokmo mosentlalijtok ipan nopa tlatekipanojketl."
     },
     {
       "clave": "texto_6c62b52a50",
       "es": "Lugar o calle",
-      "nhe": null
+      "nhe": "Tlali o calle"
     },
     {
       "clave": "texto_b2cf98e9c0",
       "es": "Lugares conocidos",
-      "nhe": null
+      "nhe": "Tlali tlen moixmatij"
     },
     {
       "clave": "texto_ac14f1c69b",
       "es": "Lugares guardados",
-      "nhe": null
+      "nhe": "Tlali tlen tlaatitok"
     },
     {
       "clave": "texto_d0e8086218",
       "es": "Lunes",
-      "nhe": null
+      "nhe": "lunes"
     },
     {
       "clave": "texto_6020ac9750",
       "es": "lunes",
-      "nhe": null
+      "nhe": "Lunes"
     },
     {
       "clave": "texto_2738e1f7f1",
       "es": "mapa",
-      "nhe": null
+      "nhe": "mapa"
     },
     {
       "clave": "texto_f37d4063c9",
       "es": "Mapa y letra normal",
-      "nhe": null
+      "nhe": "Mapa uan letra tlen normal"
     },
     {
       "clave": "texto_b6d50fb730",
       "es": "Mapa y letra normal.",
-      "nhe": null
+      "nhe": "Mapa uan letra tlen normal."
     },
     {
       "clave": "texto_51609286fb",
       "es": "mar",
-      "nhe": null
+      "nhe": "ueyi atl"
     },
     {
       "clave": "texto_fff8867b82",
       "es": "Martes",
-      "nhe": null
+      "nhe": "Martes"
     },
     {
       "clave": "texto_bd539dd597",
       "es": "martes",
-      "nhe": null
+      "nhe": "Martes"
     },
     {
       "clave": "texto_ee4d988c65",
       "es": "may",
-      "nhe": null
+      "nhe": "uelis"
     },
     {
       "clave": "texto_4356f82bed",
       "es": "Me cuesta caminar",
-      "nhe": null
+      "nhe": "Nelia ouij para na ninejnemis"
     },
     {
       "clave": "texto_9ea9e24900",
       "es": "Me cuesta escuchar",
-      "nhe": null
+      "nhe": "Nelia ouij para na nijtlakakilis"
     },
     {
       "clave": "texto_64d7a5a9da",
       "es": "Menor precio",
-      "nhe": null
+      "nhe": "Tlen amo patiyo"
     },
     {
       "clave": "texto_02c2274c2e",
       "es": "Menor precio en app",
-      "nhe": null
+      "nhe": "Tlen amo patiyo ipan app"
     },
     {
       "clave": "texto_78a512ce79",
       "es": "Menor precio en Qrobus",
-      "nhe": null
+      "nhe": "Tlen amo patiyo ipan Qrobus"
     },
     {
       "clave": "texto_dd3f84061a",
       "es": "Mi ubicación ahorita:",
-      "nhe": null
+      "nhe": "Kanke ni itstok amantsi:"
     },
     {
       "clave": "texto_dad5376668",
       "es": "Mi viaje",
-      "nhe": null
+      "nhe": "No viaje"
     },
     {
       "clave": "texto_0635bc16dd",
       "es": "Miércoles",
-      "nhe": null
+      "nhe": "Miércoles"
     },
     {
       "clave": "texto_ba08108cd6",
       "es": "miércoles",
-      "nhe": null
+      "nhe": "Miércoles"
     },
     {
       "clave": "texto_9d1ef6d5b9",
       "es": "Mueve el mapa y toca dónde está el lugar.",
-      "nhe": null
+      "nhe": "Xijpatla nopa mapa uan xijtsonpechili kanke eltok nopa tlali."
     },
     {
       "clave": "texto_85c1088888",
       "es": "Mueve el mapa y toca dónde está {v1}.",
-      "nhe": null
+      "nhe": "Xijpatla nopa mapa uan xijtsonpechili kanke eltok {v1}."
     },
     {
       "clave": "texto_9c5d6c22b1",
       "es": "Más cercana",
-      "nhe": null
+      "nhe": "Más nechka"
     },
     {
       "clave": "texto_3ac9140c1e",
       "es": "Más económica",
-      "nhe": null
+      "nhe": "Más tlaxtlauili"
     },
     {
       "clave": "texto_c4931b426e",
       "es": "Más económica y Más rápida",
-      "nhe": null
+      "nhe": "Más barato uan más nimantsi"
     },
     {
       "clave": "texto_3be99fa974",
       "es": "Más rápida",
-      "nhe": null
+      "nhe": "Más nimantsi"
     },
     {
       "clave": "texto_8bcbe8b0d5",
       "es": "Nadie ha dejado avisos de esta parada.",
-      "nhe": null
+      "nhe": "Axaka kikauak tlajtoli tlen ni tlatsakuili."
     },
     {
       "clave": "texto_8088da219c",
       "es": "NFD",
-      "nhe": null
+      "nhe": "NFD"
     },
     {
       "clave": "texto_e2b1474e3a",
       "es": "Ningún Qrobus te lleva directo en la próxima hora.",
-      "nhe": null
+      "nhe": "Axtleno Qrobus mits uikas xitlauak ipan nopa seyok hora."
     },
     {
       "clave": "texto_88207fd1f2",
       "es": "No encontré \"{v1}\".",
-      "nhe": null
+      "nhe": "Ax nijpantik \"{v1}\"."
     },
     {
       "clave": "texto_2728e9c86d",
       "es": "No encontré \"{v1}\". Prueba con la calle y la colonia, o elígelo en el mapa.",
-      "nhe": null
+      "nhe": "Ax nijpantik \"{v1}\". Xijyejyeko nopa ojtli uan nopa barrio, o xijtlapejpeni ipan nopa mapa."
     },
     {
       "clave": "texto_3b8c326378",
       "es": "No encontré cómo llegar a esa hora desde ahora.",
-      "nhe": null
+      "nhe": "Ax nijpantik kenijkatsa niajsiti ipan nopa tonali tlen axkan."
     },
     {
       "clave": "texto_b3ec4b85ed",
       "es": "No encontré cómo llegar a esa hora desde ahora. Prueba una hora más tarde.",
-      "nhe": null
+      "nhe": "Ax nijpantik kenijkatsa niajsiti ipan nopa tonali tlen axkan. Xijyejyeko se hora teipa."
     },
     {
       "clave": "texto_3980978932",
       "es": "No encontré el nombre de la calle.",
-      "nhe": null
+      "nhe": "Ax nijpantik itoka nopa calle."
     },
     {
       "clave": "texto_11f7435605",
       "es": "No encontré otra {v1} hoy en el horario.",
-      "nhe": null
+      "nhe": "Ax nijpantik seyok {v1} ipan nopa horario tlen ni tonali."
     },
     {
       "clave": "texto_b8ec4effc7",
       "es": "No encuentro un lugar",
-      "nhe": null
+      "nhe": "Ax niueli nijpantia se tlali"
     },
     {
       "clave": "texto_3acc8aa01b",
       "es": "No hay conexión con el buscador.",
-      "nhe": null
+      "nhe": "Ax onka se tlasaloualistli ika nopa tlatemolistli."
     },
     {
       "clave": "texto_120d35599c",
       "es": "No hay conexión con el buscador. Elige un lugar guardado o elígelo en el mapa.",
-      "nhe": null
+      "nhe": "Ax onka se tlasaloualistli ika nopa tlatemoli. Xijtlapejpeni se tlali tlen tijpixtok o xijtlapejpeni ipan mapa."
     },
     {
       "clave": "texto_e7848d84bf",
       "es": "No hay paradas de Qrobus a menos de 500 metros.",
-      "nhe": null
+      "nhe": "Ax onka Qrobus tlatsakuili ipan 500 metros."
     },
     {
       "clave": "texto_62bc4d767d",
       "es": "No hay paradas de Qrobus con servicio a menos de un kilómetro.",
-      "nhe": null
+      "nhe": "Ax onka Qrobus tlatsakuili ika tekitl ipan se kilómetro."
     },
     {
       "clave": "texto_108885387b",
       "es": "No hay rampa",
-      "nhe": null
+      "nhe": "Ax onka rampa"
     },
     {
       "clave": "texto_57d7c659b5",
       "es": "No pude calcular el camino a pie.",
-      "nhe": null
+      "nhe": "Ax ueliyaya nijpoua nopa ojtli ika noikxi."
     },
     {
       "clave": "texto_a7c774343a",
       "es": "No pude ver tu ubicación.",
-      "nhe": null
+      "nhe": "Ax niueliyaya nikita kanke ti itstok."
     },
     {
       "clave": "texto_f992899f8c",
       "es": "No se pudo enviar: no hay conexión con Grieta.",
-      "nhe": null
+      "nhe": "Ax ueli tijtitlani: ax onka tlajtoli ika Grieta."
     },
     {
       "clave": "texto_ba155392c8",
       "es": "No se pudo enviar: no hay conexión con Grieta. Revisa tu internet e intenta otra vez.",
-      "nhe": null
+      "nhe": "Ax ueli tijtitlani: ax onka tlajtoli ika Grieta. Xikita ipan mo internet uan xijyejyeko sempa."
     },
     {
       "clave": "texto_75e472d510",
       "es": "No se pudo enviar: {v1}.",
-      "nhe": null
+      "nhe": "Ax uelki tijtitlanki: {v1}."
     },
     {
       "clave": "texto_2bcc5a0cf2",
       "es": "No te escuché.",
-      "nhe": null
+      "nhe": "Ax nimits kakik."
     },
     {
       "clave": "texto_069c47bd54",
       "es": "No te escuché. Toca el botón otra vez y habla después del tono.",
-      "nhe": null
+      "nhe": "Ax nimits kakik. Xijtsonpechili nopa botón uan xitlajto teipa tlen nopa tono."
     },
     {
       "clave": "texto_018e8ba367",
       "es": "No veo",
-      "nhe": null
+      "nhe": "Ax nikita"
     },
     {
       "clave": "texto_e1c687385f",
       "es": "No ves",
-      "nhe": null
+      "nhe": "Ax tikita"
     },
     {
       "clave": "texto_e156353c0b",
       "es": "No, ayúdame",
-      "nhe": null
+      "nhe": "Axtle, xinechpaleui"
     },
     {
       "clave": "texto_322c9babcf",
       "es": "No, pago la tarifa normal",
-      "nhe": null
+      "nhe": "Axtle, nijtlaxtlaua nopa tlaxtlauili tlen kinamiki"
     },
     {
       "clave": "texto_fd0da4d32e",
       "es": "No, que Grieta me hable",
-      "nhe": null
+      "nhe": "Amo, ma Grieta nechnojnotsa"
     },
     {
       "clave": "texto_59be721b79",
       "es": "No: desde las {v1} lo normal sube {v2}",
-      "nhe": null
+      "nhe": "Amo: tlen {v1} nopa normal momiakilia {v2}"
     },
     {
       "clave": "texto_562bb15757",
       "es": "Nombre",
-      "nhe": null
+      "nhe": "Notoka"
     },
     {
       "clave": "texto_a7248eeb45",
       "es": "Normal",
-      "nhe": null
+      "nhe": "Normal"
     },
     {
       "clave": "texto_317b32c143",
       "es": "normal",
-      "nhe": null
+      "nhe": "normal"
     },
     {
       "clave": "texto_15467b2056",
       "es": "nov",
-      "nhe": null
+      "nhe": "nov"
     },
     {
       "clave": "texto_863b4041b9",
       "es": "Nuestro rango estimado es {v5}.{v6}{v7} {v8}",
-      "nhe": null
+      "nhe": "To tlatamachiualistli elij {v5}.{v6}{v7} {v8}"
     },
     {
       "clave": "texto_4a31da43b9",
       "es": "Obstáculo",
-      "nhe": null
+      "nhe": "Tlatsakuili"
     },
     {
       "clave": "texto_61e29d02ae",
       "es": "Obstáculo en el camino",
-      "nhe": null
+      "nhe": "Tlauejkayotl ipan ojtli"
     },
     {
       "clave": "texto_65e10716f3",
       "es": "oct",
-      "nhe": null
+      "nhe": "oct"
     },
     {
       "clave": "texto_1b1c27c397",
       "es": "Oscuro",
-      "nhe": null
+      "nhe": "Tlayoua"
     },
     {
       "clave": "texto_fc6bb9bef6",
       "es": "Otra cosa",
-      "nhe": null
+      "nhe": "Seyok tlamantli"
     },
     {
       "clave": "texto_5ec64b369b",
       "es": "Otra hora",
-      "nhe": null
+      "nhe": "Seyok hora"
     },
     {
       "clave": "texto_8801b9b9b8",
       "es": "Otra opción",
-      "nhe": null
+      "nhe": "Seyok tlamantli"
     },
     {
       "clave": "texto_f31da68425",
       "es": "Otras paradas cerca",
-      "nhe": null
+      "nhe": "Sekinok tlatsakuili tlen eltok nechka"
     },
     {
       "clave": "texto_b63fd25449",
       "es": "Otro nombre",
-      "nhe": null
+      "nhe": "Seyok itoka"
     },
     {
       "clave": "texto_28225c0815",
       "es": "Pagas tarifa normal",
-      "nhe": null
+      "nhe": "Ti tlaxtlaua ika tlen kinamiki"
     },
     {
       "clave": "texto_0266ae56a6",
       "es": "Pagas Tarifa Unidos",
-      "nhe": null
+      "nhe": "Ti tlaxtlaua Tarifa Unidos"
     },
     {
       "clave": "texto_e911c1d0b4",
       "es": "Pago tarifa normal",
-      "nhe": null
+      "nhe": "Tlaxtlauili tlen normal"
     },
     {
       "clave": "texto_ab1b6a1c76",
       "es": "Pago Tarifa Unidos",
-      "nhe": null
+      "nhe": "Tlaxtlauili Tarifa Unidos"
     },
     {
       "clave": "texto_42878feb08",
       "es": "Pago Tarifa Unidos ($2)",
-      "nhe": null
+      "nhe": "Tlaxtlauili Tarifa Unidos ($2)"
     },
     {
       "clave": "texto_b1afb1e9ff",
       "es": "Para avisarte durante el viaje.",
-      "nhe": null
+      "nhe": "Para mits ilhuisej ipan nopa ojtli."
     },
     {
       "clave": "texto_98add9d174",
       "es": "Para avisarte durante el viaje. Puedes apagar la voz aquí abajo, en \"Voz de Grieta\".",
-      "nhe": null
+      "nhe": "Para mits ilhuisej ipan nopa ojtli. Uelis tijtlamis nopa tlajtoli tlen eltok tlatsintla ipan \"Itlajtol Grieta\"."
     },
     {
       "clave": "texto_8276d44171",
       "es": "Para saber desde dónde sales",
-      "nhe": null
+      "nhe": "Para tijmatis kanke ti kisas"
     },
     {
       "clave": "texto_e431788e40",
       "es": "Parada más cercana · a {v1} caminando",
-      "nhe": null
+      "nhe": "Nopa tlatsakuili tlen más nechka · tlen {v1} nejnemi"
     },
     {
       "clave": "texto_27552fd99d",
       "es": "Parada más cercana · {v1}",
-      "nhe": null
+      "nhe": "Nearest stop · {v1}"
     },
     {
       "clave": "texto_4bf085056a",
       "es": "Parada sin techo",
-      "nhe": null
+      "nhe": "Ximoketsa tla amo onka tepamitl"
     },
     {
       "clave": "texto_8be4cea8c5",
       "es": "Parada {v1}",
-      "nhe": null
+      "nhe": "Ximoketsa {v1}"
     },
     {
       "clave": "texto_f30142a498",
       "es": "Paradas cerca, y te aviso si reportaron que no tienen rampa.",
-      "nhe": null
+      "nhe": "Moketsa nechka, uan nimits ilhuis tla mits ilhuisej ax kipiaj se rampa."
     },
     {
       "clave": "texto_42fe5f9d82",
       "es": "Paradas del recorrido",
-      "nhe": null
+      "nhe": "Tour moketsa"
     },
     {
       "clave": "texto_2cbe285a6f",
       "es": "Paradas más cerca",
-      "nhe": null
+      "nhe": "Más nechka moketsa"
     },
     {
       "clave": "texto_d3c2dca1df",
       "es": "Paso 1 de 6",
-      "nhe": null
+      "nhe": "Paso 1 tlen 6"
     },
     {
       "clave": "texto_cca3c37853",
       "es": "PASO 1 DE 6",
-      "nhe": null
+      "nhe": "STEP 1 FROM 6"
     },
     {
       "clave": "texto_3c55715ba3",
       "es": "PASO 2 DE 6",
-      "nhe": null
+      "nhe": "STEP 2 FROM 6"
     },
     {
       "clave": "texto_5b0b52c855",
       "es": "PASO 3 DE 6",
-      "nhe": null
+      "nhe": "STEP 3 FROM 6"
     },
     {
       "clave": "texto_ec39bb152a",
       "es": "PASO 4 DE 6",
-      "nhe": null
+      "nhe": "STEP 4 FROM 6"
     },
     {
       "clave": "texto_3e6141e513",
       "es": "PASO 5 DE 6",
-      "nhe": null
+      "nhe": "STEP 5 FROM 6"
     },
     {
       "clave": "texto_64aef7fbd6",
       "es": "PASO 6 DE 6",
-      "nhe": null
+      "nhe": "STEP 6 FROM 6"
     },
     {
       "clave": "texto_2ca6132ac8",
       "es": "Paso {v1} de {v2}",
-      "nhe": null
+      "nhe": "Paso {v1} tlen {v2}"
     },
     {
       "clave": "texto_487d9a2685",
       "es": "PASO {v1} DE {v2}",
-      "nhe": null
+      "nhe": "STEP {v1} FROM {v2}"
     },
     {
       "clave": "texto_c3a2faa146",
       "es": "Pedir en app",
-      "nhe": null
+      "nhe": "Xijtlajtlani ipan app"
     },
     {
       "clave": "texto_25017383ee",
       "es": "Pide {v1}",
-      "nhe": null
+      "nhe": "Tlajtlanili {v1}"
     },
     {
       "clave": "texto_7b33215b01",
       "es": "Pide {v1} a tu destino",
-      "nhe": null
+      "nhe": "Xijtlajtlani {v1} kampa tias"
     },
     {
       "clave": "texto_ed488439c4",
       "es": "Pide {v1} a {v2}",
-      "nhe": null
+      "nhe": "Xijtlajtlani {v1} tlen {v2}"
     },
     {
       "clave": "texto_5126c0b2de",
       "es": "Pide {v1} hasta la parada",
-      "nhe": null
+      "nhe": "Xijtlajtlani {v1} hasta kema tlamis"
     },
     {
       "clave": "texto_f99fe8e4b1",
       "es": "Pide {v1}, unos {v2}.",
-      "nhe": null
+      "nhe": "Xijtlajtlani {v1}, se keski {v2}."
     },
     {
       "clave": "texto_2ceda0e863",
       "es": "Pide {v1}, unos {v2}. Llegas a las {v3}.",
-      "nhe": null
+      "nhe": "Xijtlajtlani {v1}, se keski {v2}. Tiajsi ipan {v3}."
     },
     {
       "clave": "texto_96f2f0811d",
       "es": "pm",
-      "nhe": null
+      "nhe": "pm"
     },
     {
       "clave": "texto_15fb280585",
       "es": "Pocos botones, muy grandes, y Grieta te dice todo en voz alta.",
-      "nhe": null
+      "nhe": "Se keski botones, tlauel ueyi, uan Grieta mitsiljuia nochi ika chikaualistli."
     },
     {
       "clave": "texto_5918a62303",
       "es": "Porque {v1}.",
-      "nhe": null
+      "nhe": "Pampa {v1}."
     },
     {
       "clave": "texto_30e41d3ee2",
       "es": "precio",
-      "nhe": null
+      "nhe": "tlaxtlauili"
     },
     {
       "clave": "texto_70eea8da01",
       "es": "Precio en app según la hora de salida",
-      "nhe": null
+      "nhe": "Tlaxtlauili ipan aplicación kej nopa hora tlen kisa"
     },
     {
       "clave": "texto_6b7c883403",
       "es": "Precio estimado",
-      "nhe": null
+      "nhe": "Tlaxtlauili tlen moiljuia"
     },
     {
       "clave": "texto_640c6aabdc",
       "es": "Precio estimado a las {v1}",
-      "nhe": null
+      "nhe": "Tlaxtlauili tlen {v1}"
     },
     {
       "clave": "texto_420f7b2536",
       "es": "Precio estimado ahora",
-      "nhe": null
+      "nhe": "Tlaxtlauili tlen amantsi"
     },
     {
       "clave": "texto_fdfe32a937",
       "es": "precio estimado {v1}",
-      "nhe": null
+      "nhe": "tlaxtlauili tlen mosentlalijtok {v1}"
     },
     {
       "clave": "texto_ede486db3c",
       "es": "Precio estimado {v1}.",
-      "nhe": null
+      "nhe": "Tlaxtlauili tlen mosentlalijtok {v1}."
     },
     {
       "clave": "texto_49dbefe893",
       "es": "Precio estimado {v1}. Llegas a las {v2}.",
-      "nhe": null
+      "nhe": "Tlaxtlauili tlen mosentlalijtok {v1}. Tiajsi ipan {v2}."
     },
     {
       "clave": "texto_4da4f33fc6",
       "es": "Precio estimado {v2}.",
-      "nhe": null
+      "nhe": "Tlaxtlauili tlen mosentlalijtok {v2}."
     },
     {
       "clave": "texto_59901b0ab2",
       "es": "Precio que te marca",
-      "nhe": null
+      "nhe": "Tlaxtlauili tlen mitsixnextia"
     },
     {
       "clave": "texto_d744242c64",
       "es": "Precios, horarios, comparar y esperar",
-      "nhe": null
+      "nhe": "Tlaxtlauili, horarios, xijtlachili uan ximochiya"
     },
     {
       "clave": "texto_ed4ea5218c",
       "es": "Precios, horarios, comparar y esperar.",
-      "nhe": null
+      "nhe": "Tlaxtlauili, horarios, xijtlachili uan ximochiya."
     },
     {
       "clave": "texto_57de6e5255",
       "es": "Preferencias de viaje",
-      "nhe": null
+      "nhe": "Tlen tijneki tijchiuas"
     },
     {
       "clave": "texto_bfe1c0294a",
       "es": "Prefieres {v1}",
-      "nhe": null
+      "nhe": "¿Tijnekiskia {v1}"
     },
     {
       "clave": "texto_a3f351ce05",
       "es": "Preguntas frecuentes",
-      "nhe": null
+      "nhe": "Tlajtlanili tlen nochipa motlajtlania"
     },
     {
       "clave": "texto_d07d5e5beb",
       "es": "Pregúntale al chofer si es la {v2} hacia {v3}.",
-      "nhe": null
+      "nhe": "Xijtlajtlani nopa tlauika tla eli {v2} ika {v3}."
     },
     {
       "clave": "texto_5d04865d84",
       "es": "Prepárate para bajar.",
-      "nhe": null
+      "nhe": "Ximoyektlali para titemos."
     },
     {
       "clave": "texto_acaff3c367",
       "es": "Prepárate y toca el timbre.",
-      "nhe": null
+      "nhe": "Ximoyektlali uan xijtsontekontlali nopa campana."
     },
     {
       "clave": "texto_f9cd26139d",
       "es": "Prepárate.",
-      "nhe": null
+      "nhe": "Ximoyektlali."
     },
     {
       "clave": "texto_19b16b7e18",
       "es": "Prepárate. Tu parada es {v1}.",
-      "nhe": null
+      "nhe": "Ximoyektlali. Mo tlatsakuilis eli {v1}."
     },
     {
       "clave": "texto_45e390c16c",
       "es": "Primero necesito saber dónde estás.",
-      "nhe": null
+      "nhe": "Achtoui moneki nijmatis kanke ti itstok."
     },
     {
       "clave": "texto_a1954fdd3d",
       "es": "Primero necesito saber dónde estás. Activa la ubicación o elige desde dónde sales en Inicio.",
-      "nhe": null
+      "nhe": "Achtoui moneki nijmatis kanke ti itstok. Xijtlapoli kanke tias o xijtlapejpeni kanke tikisas ipan kali."
     },
     {
       "clave": "texto_50e815f11e",
       "es": "Progreso de bienvenida",
-      "nhe": null
+      "nhe": "Ximo kuali tlayekapan"
     },
     {
       "clave": "texto_20602e1fa5",
       "es": "Prueba con la calle y la colonia, o elígelo en el mapa.",
-      "nhe": null
+      "nhe": "Xijyejyeko nopa ojtli uan nopa barrio, o xijtlapejpeni ipan nopa mapa."
     },
     {
       "clave": "texto_48e8386721",
       "es": "Prueba una hora más tarde.",
-      "nhe": null
+      "nhe": "Xijyejyeko se hora teipa."
     },
     {
       "clave": "texto_ddbd8d6444",
       "es": "Próxima parada",
-      "nhe": null
+      "nhe": "Seyok tlatsakuili"
     },
     {
       "clave": "texto_4cd5c0ef15",
       "es": "Próximos camiones",
-      "nhe": null
+      "nhe": "Camiones tlen ualas"
     },
     {
       "clave": "texto_4444ec4125",
       "es": "Puedes apagar la voz aquí abajo, en \"Voz de Grieta\".",
-      "nhe": null
+      "nhe": "Uelis tijtlamis nopa tlajtoli nikan, ipan \"Tlajtoli tlen Grieta\"."
     },
     {
       "clave": "texto_14a927367d",
       "es": "Puedes avisarle a {v1} que llegaste.",
-      "nhe": null
+      "nhe": "Uelis tijmatis {v1} ya tiajsito."
     },
     {
       "clave": "texto_7cf31587c8",
       "es": "Punto en el mapa",
-      "nhe": null
+      "nhe": "Xikita ipan nopa mapa"
     },
     {
       "clave": "texto_6cd3b641cc",
       "es": "PushManager",
-      "nhe": null
+      "nhe": "PushManager"
     },
     {
       "clave": "texto_2f93ddbc26",
       "es": "Pídelo ya",
-      "nhe": null
+      "nhe": "Xijtlajtlani amantsi"
     },
     {
       "clave": "texto_649f6d2295",
       "es": "Queda a {v1} por calles",
-      "nhe": null
+      "nhe": "Elij {v1} ika calles"
     },
     {
       "clave": "texto_a2a9ca8795",
       "es": "Quiero lo esencial",
-      "nhe": null
+      "nhe": "Nijneki tlen tlauel ipati"
     },
     {
       "clave": "texto_2f322ed874",
       "es": "Quiero que Grieta me hable",
-      "nhe": null
+      "nhe": "Nijneki Grieta ma nechnojnotsa"
     },
     {
       "clave": "texto_841576de67",
       "es": "Quiero todas las opciones",
-      "nhe": null
+      "nhe": "Nijneki nochi nopa tlapejpenalmej"
     },
     {
       "clave": "texto_f039f4a8c9",
       "es": "Quitar",
-      "nhe": null
+      "nhe": "Xikixti"
     },
     {
       "clave": "texto_6e6c878559",
       "es": "Quitar {v4}",
-      "nhe": null
+      "nhe": "Xikixti {v4}"
     },
     {
       "clave": "texto_df2375a7f3",
       "es": "Quitaste {v1}",
-      "nhe": null
+      "nhe": "Tikixtijtok {v1}"
     },
     {
       "clave": "texto_0f15d9ca89",
       "es": "Recomendación",
-      "nhe": null
+      "nhe": "Tlajtlanili"
     },
     {
       "clave": "texto_5fa7218b75",
       "es": "Recomendado",
-      "nhe": null
+      "nhe": "Tlajtlanili"
     },
     {
       "clave": "texto_10ddff5fcc",
       "es": "Referencia",
-      "nhe": null
+      "nhe": "Reference"
     },
     {
       "clave": "texto_ec5e5afc6d",
       "es": "Referencia para encontrar la parada",
-      "nhe": null
+      "nhe": "Referencia para tijpantis nopa parada"
     },
     {
       "clave": "texto_b3e8a22f84",
       "es": "Referencia: {referencia}.",
-      "nhe": null
+      "nhe": "Reference: {referencia}."
     },
     {
       "clave": "texto_393dce59ad",
       "es": "Regresar",
-      "nhe": null
+      "nhe": "Ximokuepa"
     },
     {
       "clave": "texto_91a7a94f21",
       "es": "Repetir",
-      "nhe": null
+      "nhe": "Xijchiua"
     },
     {
       "clave": "texto_6e9e5f0a00",
       "es": "Reportar",
-      "nhe": null
+      "nhe": "Tlayolmelahuali"
     },
     {
       "clave": "texto_9b3c1a25ae",
       "es": "Reportar algo aquí",
-      "nhe": null
+      "nhe": "Xikijto se tlamantli nikan"
     },
     {
       "clave": "texto_d809ed9677",
       "es": "Respuestas sobre Grieta",
-      "nhe": null
+      "nhe": "Tlanankili tlen Grieta"
     },
     {
       "clave": "texto_31056106ce",
       "es": "Resultados",
-      "nhe": null
+      "nhe": "Tlateochiualistli"
     },
     {
       "clave": "texto_8ed7e61f70",
       "es": "Resultados cerca de ti",
-      "nhe": null
+      "nhe": "Tlatemolistli tlen eltok nechka ta"
     },
     {
       "clave": "texto_5122b13e84",
       "es": "Revisa otra app antes de pedir.",
-      "nhe": null
+      "nhe": "Xikita seyok aplicación achtoui kemaj tijtlaneuis."
     },
     {
       "clave": "texto_1dda1673c8",
       "es": "Revisa tu internet e intenta otra vez.",
-      "nhe": null
+      "nhe": "Xikita ipan mo internet uan xijyejyeko sempa."
     },
     {
       "clave": "texto_8d416a5611",
       "es": "Rumbo a {v1}",
-      "nhe": null
+      "nhe": "Yaui ipan {v1}"
     },
     {
       "clave": "texto_11f7e34808",
       "es": "Ruta recomendada",
-      "nhe": null
+      "nhe": "Ojtli tlen kuali"
     },
     {
       "clave": "texto_1f6fdbad02",
       "es": "Ruta {v1}",
-      "nhe": null
+      "nhe": "Ojtli {v1}"
     },
     {
       "clave": "texto_d871e68675",
       "es": "Sal a las {v2}",
-      "nhe": null
+      "nhe": "Xikisa ipan {v2}"
     },
     {
       "clave": "texto_0b20663d3c",
       "es": "Salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse unos minutos.",
-      "nhe": null
+      "nhe": "Kikauaj nopa horario tlen tlanauatili tlen Qrobus; Nopa camión uelis elis tlayakapan o tlakuitlapan se keski minutos."
     },
     {
       "clave": "texto_7ee6079686",
       "es": "Saliendo {v1}",
-      "nhe": null
+      "nhe": "Kisas {v1}"
     },
     {
       "clave": "texto_ecebe9dfe1",
       "es": "Saltar",
-      "nhe": null
+      "nhe": "Ximotlalo"
     },
     {
       "clave": "texto_cc95f9dbfd",
       "es": "Saltar estas preguntas",
-      "nhe": null
+      "nhe": "Xikixpolo ni tlajtlanili"
     },
     {
       "clave": "texto_f59753eb80",
       "es": "SCRIPT",
-      "nhe": null
+      "nhe": "SCRIPT"
     },
     {
       "clave": "texto_4652aad627",
       "es": "Se guarda solo en este teléfono.",
-      "nhe": null
+      "nhe": "San tlaatitok ipan ni teléfono."
     },
     {
       "clave": "texto_a4d12fc291",
       "es": "Se guardó tu reporte, pero no se pudo subir la foto.",
-      "nhe": null
+      "nhe": "Mo amatl tlaatitok, pero nopa tlaixkopinkayotl ax uelki kitlalijkej."
     },
     {
       "clave": "texto_5d602a258c",
       "es": "Se lo diré a quien espere aquí.",
-      "nhe": null
+      "nhe": "Ni ki iljuis katli kichias nika."
     },
     {
       "clave": "texto_0bbc7f1e92",
       "es": "Secciones",
-      "nhe": null
+      "nhe": "Tlaxelojli"
     },
     {
       "clave": "texto_ff6a1b5a82",
       "es": "según el horario pasa a las {hora}",
-      "nhe": null
+      "nhe": "kej kiijtoua nopa horario tlen panos ipan {hora}"
     },
     {
       "clave": "texto_5d3929bdad",
       "es": "Según el horario pasa a las {v1}.",
-      "nhe": null
+      "nhe": "Kej kiijtoua nopa horario panos ipan {v1}."
     },
     {
       "clave": "texto_3b59e04c07",
       "es": "Según el horario pasa a las {v1}. Pregúntale al chofer si es la {v2} hacia {v3}.",
-      "nhe": null
+      "nhe": "Kej kiijtoua nopa horario panos ipan {v1}. Xijtlajtlani nopa tlauika tla eli {v2} ika {v3}."
     },
     {
       "clave": "texto_7ebf71d89b",
       "es": "Según el horario, a las {v1}.",
-      "nhe": null
+      "nhe": "Kej kiijtoua nopa tonali, ipan {v1}."
     },
     {
       "clave": "texto_bce78e65c6",
       "es": "Según el horario, a las {v1}. Ve a la parada.",
-      "nhe": null
+      "nhe": "Kej kiijtoua nopa tonali, ipan {v1}. Xiya kampa moketsa."
     },
     {
       "clave": "texto_0c859810ab",
       "es": "Según el horario, la siguiente pasa a las {hora}.",
-      "nhe": null
+      "nhe": "Kej kiijtoua nopa horario, nopa seyok panos ipan {hora}."
     },
     {
       "clave": "texto_e0ac58bcc3",
       "es": "Según el horario, la siguiente {v1} pasa a las {v2}.",
-      "nhe": null
+      "nhe": "Kej kiijtoua nopa horario, nopa seyok {v1} panos ipan {v2}."
     },
     {
       "clave": "texto_c19588ee9c",
       "es": "sep",
-      "nhe": null
+      "nhe": "sep"
     },
     {
       "clave": "texto_f18e2d8a06",
       "es": "Si la app te marca otro, compáralo en \"¿La app ya te dio precio?\".",
-      "nhe": null
+      "nhe": "Tlaj nopa app mitsmakas seyok tlaxtlauili, xikixnexti ipan \"¿Ya mitsmakatok se tlaxtlauili nopa app?\""
     },
     {
       "clave": "texto_b63bf503d7",
       "es": "Si lo pierdes, {v6} se estima en {v7}.{v8}",
-      "nhe": null
+      "nhe": "Tlaj tijpolos, {v6} moiljuia elis {v7}.{v8}"
     },
     {
       "clave": "texto_fc451774c1",
       "es": "Si puedes, espera la siguiente.",
-      "nhe": null
+      "nhe": "Tlaj ti ueli, xijchiya nopa seyok."
     },
     {
       "clave": "texto_4cd92a6e7c",
       "es": "Si te sientes bien para ir a pie, no cuesta nada",
-      "nhe": null
+      "nhe": "Tlaj kuali timomachilia para tinejnemis, ax tleno mitstlaxtlauis"
     },
     {
       "clave": "texto_5e38b2ed89",
       "es": "Silla de ruedas o andadera",
-      "nhe": null
+      "nhe": "Silla de ruedas o tlen nejnemi"
     },
     {
       "clave": "texto_569af249b2",
       "es": "sin api",
-      "nhe": null
+      "nhe": "ax kipia api"
     },
     {
       "clave": "texto_c59af363a3",
       "es": "sin conexion",
-      "nhe": null
+      "nhe": "amo onka ipan internet"
     },
     {
       "clave": "texto_a8d71d210b",
       "es": "Sin internet: puedes ver qué camión pasa y tus lugares guardados; para buscar calles hace falta conexión.",
-      "nhe": null
+      "nhe": "Tla amo onka internet: uelis tikitas tlen camión pano uan kanke timomanauis; Para tijtemos calles moneki se conexión."
     },
     {
       "clave": "texto_c4dc040a07",
       "es": "Sin nombre",
-      "nhe": null
+      "nhe": "Ax itoka"
     },
     {
       "clave": "texto_4cac929693",
       "es": "Sin pantalla",
-      "nhe": null
+      "nhe": "Ax onka pantalla"
     },
     {
       "clave": "texto_8d5c6d561e",
       "es": "Sin prisa",
-      "nhe": null
+      "nhe": "Amo ximotlalo"
     },
     {
       "clave": "texto_b900515afb",
       "es": "Sin ubicación",
-      "nhe": null
+      "nhe": "Ax onka kanke"
     },
     {
       "clave": "texto_1e07105ac8",
       "es": "Sin ubicación: elige desde dónde sales",
-      "nhe": null
+      "nhe": "Ax onka kanke: xijtlapejpeni kanke ti kisas"
     },
     {
       "clave": "texto_b098b66891",
       "es": "Sirve para calcular cuánto te cuesta el camión.",
-      "nhe": null
+      "nhe": "Kitekiuiaj para kiixtomasej keski ipati nopa camión."
     },
     {
       "clave": "texto_3db2135cc9",
       "es": "Sirve para elegir cómo avisarte durante el viaje.",
-      "nhe": null
+      "nhe": "Motekiuia para tijtlapejpenis kenijkatsa mitsyolmelauas ipan nopa ojtli."
     },
     {
       "clave": "texto_bc59cd4c49",
       "es": "Sirve para encontrar paradas a tu medida.",
-      "nhe": null
+      "nhe": "Motekiuia para tijpantis tlatsakuili tlen mitspaktia."
     },
     {
       "clave": "texto_484c0b841d",
       "es": "Sirve para encontrar paradas y guiarte.",
-      "nhe": null
+      "nhe": "Motekiuia para tijpantis kampa timoketsas uan mitsyakanas."
     },
     {
       "clave": "texto_a35e660764",
       "es": "Solo aparece si elegiste “No veo”.",
-      "nhe": null
+      "nhe": "San nesi tla tijtlapejpenia “ax nikita”."
     },
     {
       "clave": "texto_a6e2e3f901",
       "es": "Solo app (",
-      "nhe": null
+      "nhe": "San App ("
     },
     {
       "clave": "texto_4a141ad686",
       "es": "Solo lo esencial, con botones grandes",
-      "nhe": null
+      "nhe": "San tlen moneki, ika uejueyi botones"
     },
     {
       "clave": "texto_9a125fc03c",
       "es": "Solo lo esencial, con botones grandes.",
-      "nhe": null
+      "nhe": "San tlen moneki, ika uejueyi botones."
     },
     {
       "clave": "texto_12b2152a34",
       "es": "Solo paradas a menos de 300 metros",
-      "nhe": null
+      "nhe": "San moketsa ipan 300 metros"
     },
     {
       "clave": "texto_05c1eb634f",
       "es": "Son los precios normales a esa hora.",
-      "nhe": null
+      "nhe": "Ni tlaxtlauili tlen normal ipan nopa tonali."
     },
     {
       "clave": "texto_92bd867fbc",
       "es": "Son los precios normales a esa hora. Si la app te marca otro, compáralo en \"¿La app ya te dio precio?\".",
-      "nhe": null
+      "nhe": "Ni tlaxtlauili tlen normal ipan nopa tonali. Tlaj nopa app mitsmakas seyok tlaxtlauili, xikixnexti ika \"¿Ya mitsmakatok se tlaxtlauili nopa app?\""
     },
     {
       "clave": "texto_6f6fd8bd74",
       "es": "Son precios normales según nuestros registros, no lo que marca la app en este momento.",
-      "nhe": null
+      "nhe": "Ni tlaxtlauili tlen normal tlen toamatlajkuilol, ax tlen nopa app kinextia ipan ni tonali."
     },
     {
       "clave": "texto_b227f7ff9c",
       "es": "Son {v1} caminando, unos {v2} minutos.",
-      "nhe": null
+      "nhe": "Ya nopa {v1} nejnemi, kanaj {v2} minutos."
     },
     {
       "clave": "texto_681edf43cd",
       "es": "Subes a la {v1}",
-      "nhe": null
+      "nhe": "Xi tlejko ipan {v1}"
     },
     {
       "clave": "texto_f7a8575b1a",
       "es": "Sábado",
-      "nhe": null
+      "nhe": "sábado"
     },
     {
       "clave": "texto_04bc66d1db",
       "es": "sábado",
-      "nhe": null
+      "nhe": "sábado"
     },
     {
       "clave": "texto_7392158895",
       "es": "Sí",
-      "nhe": null
+      "nhe": "Kema"
     },
     {
       "clave": "texto_c1aefb541e",
       "es": "Sí, escucho bien",
-      "nhe": null
+      "nhe": "Kema, kuali nijkaki"
     },
     {
       "clave": "texto_8e0b77b894",
       "es": "Sí, pago $2",
-      "nhe": null
+      "nhe": "Kema, tlaxtlauili $2"
     },
     {
       "clave": "texto_e4d0f7ec71",
       "es": "Sí, usar mi ubicación",
-      "nhe": null
+      "nhe": "Kema, xijtekiui kampa niitstok"
     },
     {
       "clave": "texto_2704ebb380",
       "es": "Sí, uso VoiceOver o TalkBack",
-      "nhe": null
+      "nhe": "Kema, nijtekiuia VoiceOver o TalkBack"
     },
     {
       "clave": "texto_61be17666f",
       "es": "Sí, ya uso uno",
-      "nhe": null
+      "nhe": "Kema, ya nijtekiuia se"
     },
     {
       "clave": "texto_7bdf2a03eb",
       "es": "Sí: desde las {v1} lo normal baja {v2}",
-      "nhe": null
+      "nhe": "Kema: tlen {v1} nopa normal temo {v2}"
     },
     {
       "clave": "texto_4a6cc7bc09",
       "es": "También a las {v1}",
-      "nhe": null
+      "nhe": "Nojkia ipan {v1}"
     },
     {
       "clave": "texto_82c2d641d0",
       "es": "tarifa",
-      "nhe": null
+      "nhe": "tlaxtlauili"
     },
     {
       "clave": "texto_8713a0e05f",
       "es": "Tarifa normal",
-      "nhe": null
+      "nhe": "Normal tlaxtlauili"
     },
     {
       "clave": "texto_892c4d0438",
       "es": "Tarifa Unidos",
-      "nhe": null
+      "nhe": "Tarifa Unidos"
     },
     {
       "clave": "texto_58efbac1cf",
       "es": "Te aviso a un kilómetro, a 300 metros y al llegar.",
-      "nhe": null
+      "nhe": "Nimits ilhuis se kilómetro uejka, 300 metros uejka uan kemaj tiajsiti."
     },
     {
       "clave": "texto_18307ac493",
       "es": "Te aviso antes de bajar.",
-      "nhe": null
+      "nhe": "Nimits ilhuis achtoui kemaj nitemos."
     },
     {
       "clave": "texto_9d4166c128",
       "es": "Te aviso antes.",
-      "nhe": null
+      "nhe": "Nimits ilhuis achtoui."
     },
     {
       "clave": "texto_0e4839a595",
       "es": "Te aviso cuando esté por pasar.",
-      "nhe": null
+      "nhe": "Nimits ilhuis kemaj nechka panos."
     },
     {
       "clave": "texto_f48ccce1c8",
       "es": "Te aviso cuando llegue.",
-      "nhe": null
+      "nhe": "Nimits ilhuis kemaj ajsis."
     },
     {
       "clave": "texto_9a5bd3f8e7",
       "es": "Te aviso dos paradas antes de bajar.",
-      "nhe": null
+      "nhe": "Nimits ilhuis ome tlatsakuili achtoui kemaj titemos."
     },
     {
       "clave": "texto_54da007a8c",
       "es": "Te aviso si una parada no tiene rampa",
-      "nhe": null
+      "nhe": "Nimech ilhuis tla se tlatsakuili ax kipia se rampa"
     },
     {
       "clave": "texto_f273ac3e43",
       "es": "Te busco la parada que más te convenga.",
-      "nhe": null
+      "nhe": "Nijpantis nopa tlatsakuili tlen más mitspaktis."
     },
     {
       "clave": "texto_c5aae5312c",
       "es": "Te busco paradas más cerca.",
-      "nhe": null
+      "nhe": "Nijtemos kanke timoketsas tlen más nechka."
     },
     {
       "clave": "texto_ceda8aa442",
       "es": "te cuesta caminar",
-      "nhe": null
+      "nhe": "tlauel ouij para ta tinejnemi"
     },
     {
       "clave": "texto_fd5f26a892",
       "es": "te cuesta escuchar",
-      "nhe": null
+      "nhe": "tlauel ouij para ta tijtlakakilis"
     },
     {
       "clave": "texto_090f3f7017",
       "es": "Te escucho",
-      "nhe": null
+      "nhe": "nimitskaki"
     },
     {
       "clave": "texto_9d8ee4599d",
       "es": "Te escucho.",
-      "nhe": null
+      "nhe": "Nimitskaki."
     },
     {
       "clave": "texto_59989d219f",
       "es": "Te escucho. Di a dónde vas.",
-      "nhe": null
+      "nhe": "Nimitskaki. Xiquijto canque tiyas."
     },
     {
       "clave": "texto_ea7f8b9276",
       "es": "Te llevo a {v1}: en la tienda toca Abrir y",
-      "nhe": null
+      "nhe": "Nimits uikas ipan {v1}: ipan nopa tiankis xijtsonpechili Xijtlapo uan"
     },
     {
       "clave": "texto_37b945da29",
       "es": "Teléfono a 10 dígitos",
-      "nhe": null
+      "nhe": "Teléfono para 10 dígitos"
     },
     {
       "clave": "texto_bd40d271ec",
       "es": "Tengo prisa",
-      "nhe": null
+      "nhe": "Nimoisiuij"
     },
     {
       "clave": "texto_56d2f9b357",
       "es": "Tengo que llegar a las",
-      "nhe": null
+      "nhe": "moneki niajsiti"
     },
     {
       "clave": "texto_0eba8ec06b",
       "es": "Terminar viaje",
-      "nhe": null
+      "nhe": "Tlami viaje"
     },
     {
       "clave": "texto_46cfefb7bb",
       "es": "Toca el botón otra vez y habla después del tono.",
-      "nhe": null
+      "nhe": "Xijtsonpechili nopa botón sempa uan xitlajto teipa tlen nopa tono."
     },
     {
       "clave": "texto_d6b99be895",
       "es": "Toca el timbre ahora.",
-      "nhe": null
+      "nhe": "Xijtsontekontlali nopa campana amantsi."
     },
     {
       "clave": "texto_2e46094e30",
       "es": "Toca el timbre ahora. Bajas en {v1}.",
-      "nhe": null
+      "nhe": "Xijtsontekontlali nopa campana amantsi. Ti temo ipan {v1}."
     },
     {
       "clave": "texto_14745c354f",
       "es": "Toca otra vez para confirmar.",
-      "nhe": null
+      "nhe": "Xijtsonpechili sempa para tijmatis."
     },
     {
       "clave": "texto_5721b4cc13",
       "es": "Toca otra vez para terminar",
-      "nhe": null
+      "nhe": "Xijtsonpechili sempa para tlamis"
     },
     {
       "clave": "texto_3deb8760d6",
       "es": "Toca para cambiarla",
-      "nhe": null
+      "nhe": "Xijtsonpechili para tijpatlas"
     },
     {
       "clave": "texto_b0d14a60aa",
       "es": "Toca para ver cómo llegar",
-      "nhe": null
+      "nhe": "Xijtsonpechili para tikitas kenijkatsa tias nopaya"
     },
     {
       "clave": "texto_791e40e84a",
       "es": "Tocas el punto y yo busco la calle",
-      "nhe": null
+      "nhe": "Ta tijmatoka nopa punto uan na nijtemoua nopa ojtli"
     },
     {
       "clave": "texto_f3df7e52cc",
       "es": "Todavía no sé dónde estás.",
-      "nhe": null
+      "nhe": "Ax nijmati kanke ti itstok."
     },
     {
       "clave": "texto_e55207b784",
       "es": "Todavía no sé dónde estás. Activa la ubicación.",
-      "nhe": null
+      "nhe": "Ax nijmati kanke ti itstok. Xij tlali kampa ti itstok."
     },
     {
       "clave": "texto_e5f0112bf4",
       "es": "Toma la línea {v1} a las {v2}",
-      "nhe": null
+      "nhe": "Xikita nopa tlajtoli {v1} ipan {v2}"
     },
     {
       "clave": "texto_e1ddc0cbc9",
       "es": "Trabajo",
-      "nhe": null
+      "nhe": "Tlatekipanoli"
     },
     {
       "clave": "aviso_traduccion_provisional",
       "es": "Traducción automática provisional. El audio sigue en español.",
-      "nhe": null
+      "nhe": "Traducción automática provisional. Nopa tlajtoli nojua eltok ika español."
     },
     {
       "clave": "texto_18fffd3399",
       "es": "Transbordo",
-      "nhe": null
+      "nhe": "Transbordo"
     },
     {
       "clave": "texto_35fcb4be5e",
       "es": "Tu forma de viajar",
-      "nhe": null
+      "nhe": "Keman tinejnemi"
     },
     {
       "clave": "texto_6e4584b30b",
       "es": "Tu navegador no comparte la ubicación.",
-      "nhe": null
+      "nhe": "Mo tlatemoli ax ki pixtok kanke ti itstok."
     },
     {
       "clave": "texto_aa5b29a5cb",
       "es": "Tu parada",
-      "nhe": null
+      "nhe": "Moketsa"
     },
     {
       "clave": "texto_3490d28967",
       "es": "Tu parada es {v1}.",
-      "nhe": null
+      "nhe": "Mo tlatsakuili eli {v1}."
     },
     {
       "clave": "texto_655bb0878d",
       "es": "Tu perfil de viaje",
-      "nhe": null
+      "nhe": "Mo paxalojketl"
     },
     {
       "clave": "texto_3a9a3dfa74",
       "es": "Tu perfil, 1 de 3.",
-      "nhe": null
+      "nhe": "Mo perfil, 1 tlen 3."
     },
     {
       "clave": "texto_5217a58076",
       "es": "Tu perfil, 1 de 3. ¿Cómo te mueves? Arriba, camino sin problema. En medio, me cuesta caminar. Abajo, uso silla de ruedas o andadera. Al final puedes saltar estas preguntas.",
-      "nhe": null
+      "nhe": "Mo perfil, 1 tlen 3. ¿Kenijkatsa timonejnemiltia? Ipan tlakpak, ninejnemi ika ax tleno. Tajco, ohui para ninejnemis. Tlatsintla, nijtekiuia se silla de ruedas o se caminador. Ipan itlamian uelis tijtlauelkauas ni tlajtlanili."
     },
     {
       "clave": "texto_2979208c8c",
       "es": "Tu reporte ayuda a quien pase por aquí.",
-      "nhe": null
+      "nhe": "Mo tlapoualistli ki paleuia tlen panos nikan."
     },
     {
       "clave": "texto_ffb94f626e",
       "es": "Tu ubicación",
-      "nhe": null
+      "nhe": "Kanke ti itstok"
     },
     {
       "clave": "texto_c4a48e25fe",
       "es": "tu ubicación",
-      "nhe": null
+      "nhe": "kanke ti itstok"
     },
     {
       "clave": "texto_a4f173d79d",
       "es": "Tus lugares",
-      "nhe": null
+      "nhe": "Mo tlali"
     },
     {
       "clave": "texto_92cafffcf9",
       "es": "Tus viajes recientes",
-      "nhe": null
+      "nhe": "Mo viajes tlen kemach"
     },
     {
       "clave": "texto_dbf6df3a31",
       "es": "UAQ",
-      "nhe": null
+      "nhe": "UAQ"
     },
     {
       "clave": "texto_3cfbdbc3ba",
       "es": "Uber",
-      "nhe": null
+      "nhe": "Uber"
     },
     {
       "clave": "texto_cebbec153a",
       "es": "Unos {v1} minutos, contando la espera.",
-      "nhe": null
+      "nhe": "Kej {v1} minutos, kipoua nopa tlachialistli."
     },
     {
       "clave": "texto_e52711dfe4",
       "es": "Usar este punto: {v1}",
-      "nhe": null
+      "nhe": "Xi kitekiui ni punto: {v1}"
     },
     {
       "clave": "texto_1276ef1ab0",
       "es": "Usas lector de pantalla",
-      "nhe": null
+      "nhe": "Ti kitekiuia se tlajtolkuepaketl"
     },
     {
       "clave": "texto_a5d39f8aee",
       "es": "Usas silla de ruedas",
-      "nhe": null
+      "nhe": "Ti kitekiuia se silla de ruedas"
     },
     {
       "clave": "texto_ac2b76ac0e",
       "es": "usas silla de ruedas o andadera",
-      "nhe": null
+      "nhe": "tijtekiuia se silla de ruedas o se caminador"
     },
     {
       "clave": "texto_06207b7223",
       "es": "Uso lector de pantalla",
-      "nhe": null
+      "nhe": "Xi kitekiui nopa tlajtolkuepaketl"
     },
     {
       "clave": "texto_4311b0ea62",
       "es": "Uso silla de ruedas o andadera",
-      "nhe": null
+      "nhe": "Ni kitekiuia se silla de ruedas o se caminador"
     },
     {
       "clave": "texto_6fb8d4c85a",
       "es": "Vamos a casa.",
-      "nhe": null
+      "nhe": "Ma ti yakaj tochan."
     },
     {
       "clave": "texto_6b46fe5d5c",
       "es": "Vamos a {lugar}.",
-      "nhe": null
+      "nhe": "Ma ti yakaj ipan {lugar}."
     },
     {
       "clave": "texto_ab1b5a3712",
       "es": "Vas a {v1}.",
-      "nhe": null
+      "nhe": "Ti yas ipan {v1}."
     },
     {
       "clave": "texto_d0e677a6ed",
       "es": "Vas a {v1}. ¿Desde dónde sales?",
-      "nhe": null
+      "nhe": "Ti yas ipan {v1}. Kanke ti kisa?"
     },
     {
       "clave": "texto_3aaa71abc5",
       "es": "Vas en la {v1}.",
-      "nhe": null
+      "nhe": "Ti itstok ipan {v1}."
     },
     {
       "clave": "texto_1fb55c80f7",
       "es": "Vas en la {v1}. Te aviso dos paradas antes de bajar.",
-      "nhe": null
+      "nhe": "Ti itstok ipan {v1}. Nimits ilhuis ome tlajko tonali achtoui ti temos."
     },
     {
       "clave": "texto_5d3dcaaf8b",
       "es": "Vas por {v1}.",
-      "nhe": null
+      "nhe": "Ti yas ika {v1}."
     },
     {
       "clave": "texto_027e7e3d87",
       "es": "Ve a la parada.",
-      "nhe": null
+      "nhe": "Xi ya kampa moketsa."
     },
     {
       "clave": "texto_035d663bdb",
       "es": "Veo bien",
-      "nhe": null
+      "nhe": "kuali nikita"
     },
     {
       "clave": "texto_2c7a10948f",
       "es": "Veo poco",
-      "nhe": null
+      "nhe": "Nikita se kentsi"
     },
     {
       "clave": "texto_36567722e9",
       "es": "Ver esta ruta",
-      "nhe": null
+      "nhe": "Xikita ni ojtli"
     },
     {
       "clave": "texto_a0acf351ad",
       "es": "Ves bien",
-      "nhe": null
+      "nhe": "Kuali tikita"
     },
     {
       "clave": "texto_8bf6e9882e",
       "es": "Ves cuánto cuesta en Uber, DiDi e inDrive y cómo llegar en Qrobus.",
-      "nhe": null
+      "nhe": "Tikita keski ipati ipan Uber, DiDi uan inDrive uan kenijkatsa tias nopaya ipan Qrobus."
     },
     {
       "clave": "texto_21f61da7bb",
       "es": "Ves poco",
-      "nhe": null
+      "nhe": "Tikita se kentsi"
     },
     {
       "clave": "texto_1517e28584",
       "es": "Vete en camión",
-      "nhe": null
+      "nhe": "Xi ya ika camión"
     },
     {
       "clave": "texto_12bba03fb9",
       "es": "Viene lleno",
-      "nhe": null
+      "nhe": "Uala temitok"
     },
     {
       "clave": "texto_7e9a9f126f",
       "es": "Viernes",
-      "nhe": null
+      "nhe": "Viernes"
     },
     {
       "clave": "texto_5b456b3ff1",
       "es": "viernes",
-      "nhe": null
+      "nhe": "Viernes"
     },
     {
       "clave": "texto_85174b79d1",
       "es": "VoiceOver o TalkBack",
-      "nhe": null
+      "nhe": "VoiceOver o TalkBack"
     },
     {
       "clave": "texto_3ca6c6397d",
       "es": "Voy a {v1}.",
-      "nhe": null
+      "nhe": "Ni yas ipan {v1}."
     },
     {
       "clave": "texto_e5563a3682",
       "es": "Voy a {v1}{v2}.",
-      "nhe": null
+      "nhe": "Ni yas ipan {v1}{v2}."
     },
     {
       "clave": "texto_fb8153345e",
       "es": "Voy a {v1}{v2}. Mi ubicación ahorita:",
-      "nhe": null
+      "nhe": "Ni yas ipan {v1}{v2}. Kanke ni itstok amantsi:"
     },
     {
       "clave": "texto_c9566ca43b",
       "es": "Voz",
-      "nhe": null
+      "nhe": "Tlajtoli"
     },
     {
       "clave": "texto_85753516e8",
       "es": "Voz de Grieta",
-      "nhe": null
+      "nhe": "Itlajtol Grieta"
     },
     {
       "clave": "texto_1dc149d56e",
       "es": "Voz más lenta",
-      "nhe": null
+      "nhe": "Tlajtoli tlen achi uejkapantik"
     },
     {
       "clave": "texto_a1fce43638",
       "es": "y",
-      "nhe": null
+      "nhe": "uan"
     },
     {
       "clave": "texto_0524be6c8f",
       "es": "y prefieres lo esencial",
-      "nhe": null
+      "nhe": "uan ta tijneki tlen tlauel ipati"
     },
     {
       "clave": "texto_48a9b8111f",
       "es": "y prefieres todas las opciones",
-      "nhe": null
+      "nhe": "uan ta tijneki nochi nopa tlamantli"
     },
     {
       "clave": "texto_c9a93de68b",
       "es": "y quieres que Grieta te hable",
-      "nhe": null
+      "nhe": "uan tijneki Grieta ma mitsnojnotsa"
     },
     {
       "clave": "texto_b2c89d7fe3",
       "es": "y usas lector de pantalla",
-      "nhe": null
+      "nhe": "uan tijtekiuia se tlajtolkuepaketl"
     },
     {
       "clave": "texto_f04de2e262",
       "es": "Ya casi",
-      "nhe": null
+      "nhe": "Nechka nopaya"
     },
     {
       "clave": "texto_c5b0be76e1",
       "es": "Ya casi llegas",
-      "nhe": null
+      "nhe": "Ya ti ajsitok"
     },
     {
       "clave": "texto_e35e4f6a37",
       "es": "Ya llegué a {v1}.",
-      "nhe": null
+      "nhe": "Ya niajsito {v1}."
     },
     {
       "clave": "texto_ea6f94e5c8",
       "es": "Ya me subí",
-      "nhe": null
+      "nhe": "Ya ni tlejkok"
     },
     {
       "clave": "texto_571d4d1cb1",
       "es": "Ya me subí a la {linea}",
-      "nhe": null
+      "nhe": "Ya nijpixtok nopa {linea}"
     },
     {
       "clave": "texto_8784b982b6",
       "es": "Ya no te voy a avisar cuándo bajarte.",
-      "nhe": null
+      "nhe": "Ayokmo nimits ilhuis kemaj titemos."
     },
     {
       "clave": "texto_8b8e37fcbe",
       "es": "Ya pasó",
-      "nhe": null
+      "nhe": "Ya tlami"
     },
     {
       "clave": "texto_db0bc41a0a",
       "es": "ya salí",
-      "nhe": null
+      "nhe": "Ni kisa"
     },
     {
       "clave": "texto_c28b91e4fc",
       "es": "Ya voy en camino a {v1}{v2}{v3}.",
-      "nhe": null
+      "nhe": "Ya ninejnemi ipan noojhui para {v1}{v2}{v3}."
     },
     {
       "clave": "texto_678eb7251d",
       "es": "Ya voy en camino a {v1}{v2}{v3}. Te aviso cuando llegue.",
-      "nhe": null
+      "nhe": "Ya ni yas ipan noojhui para {v1}{v2}{v3}. Nimitzilhuis quema ajsis."
     },
     {
       "clave": "texto_1d917cf0ae",
       "es": "{etiquetas}. {ruta}. Llegas {hora}. {minutos} min. caminas {caminar} min. {precio}. {ahorro}",
-      "nhe": null
+      "nhe": "{etiquetas}. {ruta}. Tiajsi {hora}. {minutos} min. tinejnemi {caminar} min. {precio}. {ahorro}"
     },
     {
       "clave": "texto_68799098ea",
       "es": "{etiquetas}. {ruta}. Llegas {hora}. {minutos} min. {precio}. {ahorro}",
-      "nhe": null
+      "nhe": "{etiquetas}. {ruta}. Tiajsi {hora}. {minutos} min. {precio}. {ahorro}"
     },
     {
       "clave": "texto_09c5889de6",
       "es": "{numero} pesos",
-      "nhe": null
+      "nhe": "{numero} pesos"
     },
     {
       "clave": "texto_6502ecd398",
       "es": "{v1} a las {v2}",
-      "nhe": null
+      "nhe": "{v1} ipan {v2}"
     },
     {
       "clave": "texto_a60ec8fcd4",
       "es": "{v1} de ahorro estimado",
-      "nhe": null
+      "nhe": "{v1} tlen kiixtlalijtokej"
     },
     {
       "clave": "texto_eacf3ce6fa",
       "es": "{v1} de {v2} paradas recorridas en la línea {v3}",
-      "nhe": null
+      "nhe": "{v1} tlen {v2} moketsa ipan linea {v3}"
     },
     {
       "clave": "texto_a89438cef8",
       "es": "{v1} min",
-      "nhe": null
+      "nhe": "{v1} min"
     },
     {
       "clave": "texto_0187d7c07a",
       "es": "{v1} min · {v2}",
-      "nhe": null
+      "nhe": "{v1} min · {v2}"
     },
     {
       "clave": "texto_34a61209aa",
       "es": "{v1} por calles, sin costo",
-      "nhe": null
+      "nhe": "{v1} ika calles, amo tlaxtlaua"
     },
     {
       "clave": "texto_0772349511",
       "es": "{v1}, avisó alguien hace {v2} min",
-      "nhe": null
+      "nhe": "{v1}, se akajya kiijtok {v2} se kentsi achtoui"
     },
     {
       "clave": "texto_80d6285142",
       "es": "{v1}. Precio estimado {v2}.",
-      "nhe": null
+      "nhe": "{v1}. Tlaxtlauili tlen moiljuia {v2}."
     },
     {
       "clave": "texto_52c51dfa5f",
       "es": "{v1}Efecto",
-      "nhe": null
+      "nhe": "{v1}Effect"
     },
     {
       "clave": "texto_5271135605",
       "es": "{v1}Llegas {v2} · {v3} min estimados",
-      "nhe": null
+      "nhe": "{v1}You arrive {v2} · {v3} estimated min"
     },
     {
       "clave": "texto_7a6e4e3a8c",
       "es": "{v2}Ir a {v3}",
-      "nhe": null
+      "nhe": "{v2}Xiya ipan {v3}"
     },
     {
       "clave": "texto_13412ff71d",
       "es": "{v2}Ver cómo ir en {v3}",
-      "nhe": null
+      "nhe": "{v2}Xikita kenijkatsa tias ipan {v3}"
     },
     {
       "clave": "texto_a89eb78a25",
       "es": "{v3} te marca {v4}.",
-      "nhe": null
+      "nhe": "{v3} mits ixnextia {v4}."
     },
     {
       "clave": "texto_3b4fcbcd01",
       "es": "{v3} te marca {v4}. Nuestro rango estimado es {v5}.{v6}{v7} {v8}",
-      "nhe": null
+      "nhe": "{v3} mits ixnextia {v4}. To tlayejyekoli eli {v5}.{v6}{v7} {v8}"
     },
     {
       "clave": "texto_26de2e9224",
       "es": "{v4}Ver cómo llegar a la parada",
-      "nhe": null
+      "nhe": "{v4}Xikita kenijkatsa tias kampa timoketsas"
     },
     {
       "clave": "perfil_frase",
       "es": "{vista}, {movilidad}, {oido}{forma}{lector}. {tarifa}.",
-      "nhe": null
+      "nhe": "{vista}, {movilidad}, {oido}{forma}{lector}. {tarifa}."
     },
     {
       "clave": "texto_afa40d4a94",
       "es": "· {v1} min más que en app",
-      "nhe": null
+      "nhe": "· {v1} min más ke ipan app"
     },
     {
       "clave": "texto_f9235dcd36",
       "es": "¿A dónde vas?",
-      "nhe": null
+      "nhe": "Kanke ti yas?"
     },
     {
       "clave": "texto_4fd4e9b226",
       "es": "¿A qué hora salgo?",
-      "nhe": null
+      "nhe": "¿Kechpa nikisas?"
     },
     {
       "clave": "texto_a6fb94a4b6",
       "es": "¿Conviene esperar?",
-      "nhe": null
+      "nhe": "¿Más cuali timochiyase?"
     },
     {
       "clave": "texto_0e6c1ca193",
       "es": "¿Cuánto te marca la app?",
-      "nhe": null
+      "nhe": "¿Kech ipati nopa app?"
     },
     {
       "clave": "texto_ed018227d1",
       "es": "¿Cómo le quieres poner?",
-      "nhe": null
+      "nhe": "¿Kenijkatsa tijneki tijtlalis?"
     },
     {
       "clave": "texto_a4bbff99a1",
       "es": "¿Cómo quieres ver Grieta?",
-      "nhe": null
+      "nhe": "¿Kenijkatsa tijneki tikitas Grieta?"
     },
     {
       "clave": "texto_916d8faf39",
       "es": "¿Cómo te mueves?",
-      "nhe": null
+      "nhe": "¿Kenijkatsa timonejnemiltia?"
     },
     {
       "clave": "texto_a3adaf2609",
       "es": "¿Cómo ves la pantalla?",
-      "nhe": null
+      "nhe": "¿Kenijkatsa tikita nopa pantalla?"
     },
     {
       "clave": "texto_6fd6df5daf",
       "es": "¿Desde dónde sales?",
-      "nhe": null
+      "nhe": "¿Kanke ti kisa?"
     },
     {
       "clave": "texto_f7d8736aa8",
       "es": "¿Dónde estoy?",
-      "nhe": null
+      "nhe": "Kanke ni itstok?"
     },
     {
       "clave": "texto_f1afb73178",
       "es": "¿Dónde está tu casa?",
-      "nhe": null
+      "nhe": "Kanke eltok mochaj?"
     },
     {
       "clave": "texto_e6abc39ca6",
       "es": "¿Escuchas bien los avisos?",
-      "nhe": null
+      "nhe": "¿Kuali tijkaki nopa tlajtolpanextili?"
     },
     {
       "clave": "texto_9a7e392cd7",
       "es": "¿La app ya te dio precio?",
-      "nhe": null
+      "nhe": "¿Nopa app ya mitsmakatok se tlaxtlauili?"
     },
     {
       "clave": "texto_3f58767c8c",
       "es": "¿La app ya te dio precio? Compáralo",
-      "nhe": null
+      "nhe": "¿Nopa app ya mitsmakatok se tlaxtlauili? Xijtlachili"
     },
     {
       "clave": "texto_04bff1d32a",
       "es": "¿Las horas del camión son seguras?",
-      "nhe": null
+      "nhe": "¿Kuali eltok nopa horas tlen camiones?"
     },
     {
       "clave": "texto_0a7342b9e3",
       "es": "¿Los precios son exactos?",
-      "nhe": null
+      "nhe": "¿Melauak nopa tlaxtlauili?"
     },
     {
       "clave": "texto_23957ff63f",
       "es": "¿Me avisa cuando lleguemos, por favor?",
-      "nhe": null
+      "nhe": "¿Uelis tech ilhuis kemaj tiajsitij, por favor?"
     },
     {
       "clave": "texto_512e0a5088",
       "es": "¿No aparece?",
-      "nhe": null
+      "nhe": "¿Ax nesi?"
     },
     {
       "clave": "texto_e9006c4b02",
       "es": "¿No aparece? Elígelo en el mapa",
-      "nhe": null
+      "nhe": "¿Ax nesi? Xijtlapejpeni ipan nopa mapa"
     },
     {
       "clave": "texto_5df139469e",
       "es": "¿Pagas Tarifa Unidos?",
-      "nhe": null
+      "nhe": "¿Ti tlaxtlaua Tarifa Unidos?"
     },
     {
       "clave": "texto_beb1b20659",
       "es": "¿Por qué me habla Grieta?",
-      "nhe": null
+      "nhe": "¿Kenke tinechnojnotsa Grieta?"
     },
     {
       "clave": "texto_d522dc4d2f",
       "es": "¿Qué camión pasa aquí?",
-      "nhe": null
+      "nhe": "¿Tlake camión panotok nikan?"
     },
     {
       "clave": "texto_6ff24d0780",
       "es": "¿Qué necesitas?",
-      "nhe": null
+      "nhe": "¿Tlake tijneki?"
     },
     {
       "clave": "texto_58e4c963e5",
       "es": "¿Qué problema encontraste?",
-      "nhe": null
+      "nhe": "¿Tlake kuesoli tijpixki?"
     },
     {
       "clave": "texto_0d4cf0a9cd",
       "es": "¿Qué tanta prisa tienes?",
-      "nhe": null
+      "nhe": "¿Kenijkatsa timomachilia?"
     },
     {
       "clave": "texto_b6b63d7e85",
       "es": "¿Qué ves en la parada?",
-      "nhe": null
+      "nhe": "¿Tlake tikita ipan nopa parada?"
     },
     {
       "clave": "texto_95df5a3773",
       "es": "¿Qué ves en la parada? Avisa a los demás:",
-      "nhe": null
+      "nhe": "¿Tlake tikita ipan nopa parada? Xikin ilhui sekinok:"
     },
     {
       "clave": "texto_bf2667693b",
       "es": "¿Te cuesta caminar o pagas Tarifa Unidos?",
-      "nhe": null
+      "nhe": "¿Tlauel ouij para tinejnemis o tijtlaxtlauas Tarifa Unidos?"
     },
     {
       "clave": "texto_fd00e8c43b",
       "es": "¿Terminar el viaje?",
-      "nhe": null
+      "nhe": "¿Ti tlamis nopa paxalojketl?"
     },
     {
       "clave": "texto_9aa0cb109e",
       "es": "¿Terminar el viaje? Ya no te voy a avisar cuándo bajarte. Toca otra vez para confirmar.",
-      "nhe": null
+      "nhe": "¿Ti tlamis nopa paxalojketl? Ayacmo nimitzilhuis quema monequi titemos. Xijtsonpechili sempa para tijmatis."
     },
     {
       "clave": "texto_dbaf263ecb",
       "es": "¿Tienes que llegar a una hora?",
-      "nhe": null
+      "nhe": "¿Moneki tiajsiti ipan se tonali?"
     },
     {
       "clave": "texto_467962b271",
       "es": "¿Tu teléfono ya te lee la pantalla, como VoiceOver o TalkBack?",
-      "nhe": null
+      "nhe": "¿Mocelular ya kipoua mo pantalla, kej VoiceOver o TalkBack?"
     },
     {
       "clave": "texto_23719f65f3",
       "es": "¿Tu teléfono ya te lee la pantalla?",
-      "nhe": null
+      "nhe": "¿Mocelular ya kipoua mo pantalla?"
     },
     {
       "clave": "texto_4a1341955b",
       "es": "¿Usamos tu ubicación?",
-      "nhe": null
+      "nhe": "¿Ti kitekiuiaj kanke ti itstok?"
     },
     {
       "clave": "texto_f3ea96ed56",
       "es": "¿Usamos tu ubicación? Así sé desde dónde sales y cuándo avisarte que te bajes. Arriba, sí. Abajo, ahora no.",
-      "nhe": null
+      "nhe": "¿Ti kitekiuiaj kanke ti itstok? Quej ni nijmatis canque anquisase huan quema nimechilhuis para xitemoca. Ipan tlakpak, kema. Tlatsintla, ax amantsi."
     },
     {
       "clave": "texto_e19b5e254d",
       "es": "¿Vas a {v1}?",
-      "nhe": null
+      "nhe": "¿Ti yas ipan {v1}?"
     },
     {
       "clave": "texto_8488f0f272",
       "es": "Último {v2}: {v3} según el horario",
-      "nhe": null
+      "nhe": "Tlami {v2}: {v3} kej kiijtoua nopa tonali"
     },
     {
       "clave": "texto_2573edffaf",
       "es": "Toca una vez para escuchar. Toca dos veces seguidas el mismo control para activarlo.",
-      "nhe": null
+      "nhe": "Xijtsonpechili se uelta para tijkakis. Xijtsonpechili sanse tlanauatili ome uelta ipan se fila para tijchiuas ma tekiti."
     },
     {
       "clave": "texto_9e0cf6546d",
       "es": "Practicar los toques",
-      "nhe": null
+      "nhe": "Ximomachti tlatsotsonali"
     },
     {
       "clave": "texto_af63f4cd19",
       "es": "Describir con la cámara",
-      "nhe": null
+      "nhe": "Xikijto ika nopa cámara"
     },
     {
       "clave": "texto_52c6982142",
       "es": "Escucha objetos y texto frente a ti",
-      "nhe": null
+      "nhe": "Xijkaki tlamantli uan tlajkuiloli tlen eltok moixpa"
     },
     {
       "clave": "texto_14f7062481",
       "es": "¿Es el camión que busco?",
-      "nhe": null
+      "nhe": "¿Ya ni nopa camión tlen nijtemoua?"
     },
     {
       "clave": "texto_2f22e87c16",
       "es": "Náhuatl pendiente de traducción.",
-      "nhe": null
+      "nhe": "Nahuatl tlen kichixtokej tlajtolkuepalistli."
     },
     {
       "clave": "texto_e345ef4821",
       "es": "Paso 1 de 3",
-      "nhe": null
+      "nhe": "Paso 1 tlen 3"
     },
     {
       "clave": "texto_fae409c2dd",
       "es": "Saltar tutorial",
-      "nhe": null
+      "nhe": "Xijpano nopa tlamachtili"
     },
     {
       "clave": "texto_30d3fdec0a",
       "es": "Busca a dónde vas",
-      "nhe": null
+      "nhe": "Xikita kanke ti yas"
     },
     {
       "clave": "texto_63e2bbaf1c",
       "es": "Continuar",
-      "nhe": null
+      "nhe": "Xijsenkaua"
     },
     {
       "clave": "texto_2afaf363af",
       "es": "Paso anterior",
-      "nhe": null
+      "nhe": "Tlen achtoui"
     },
     {
       "clave": "texto_2526e513ab",
       "es": "Repetir explicación",
-      "nhe": null
+      "nhe": "Xikijto sempa"
     },
     {
       "clave": "texto_33dae599c2",
       "es": "Botón de práctica",
-      "nhe": null
+      "nhe": "Botón de práctica"
     },
     {
       "clave": "texto_7c53767147",
       "es": "Puedes practicar las veces que quieras. Este botón no abre la cámara, no pide permisos y no envía nada.",
-      "nhe": null
+      "nhe": "Uelis timomachtis miak uelta tlen tijneki. Ni botón ax kitlapos nopa cámara, ax kitlajtlanis tlanauatili uan ax tleno kititlanis."
     },
     {
       "clave": "texto_fe38981415",
       "es": "Terminar práctica",
-      "nhe": null
+      "nhe": "Tlami tlamachtili"
     },
     {
       "clave": "texto_acf4c2715d",
       "es": "Volver a practicar",
-      "nhe": null
+      "nhe": "Ximomachti sempa"
     },
     {
       "clave": "texto_b23c2453fd",
       "es": "Salir de la práctica",
-      "nhe": null
+      "nhe": "Xikisa tlen tlamachtili"
     },
     {
       "clave": "texto_b3268cc6c6",
       "es": "Apunta al letrero de un camión o de una parada.",
-      "nhe": null
+      "nhe": "Xikita se camión o se señal de parada."
     },
     {
       "clave": "texto_90fad3c019",
       "es": "¿Qué quieres escuchar?",
-      "nhe": null
+      "nhe": "¿Tlake tijneki tijkakis?"
     },
     {
       "clave": "texto_efa2d57f3c",
       "es": "Todo el entorno",
-      "nhe": null
+      "nhe": "Nochi nopa tlali"
     },
     {
       "clave": "texto_9b80ed02a1",
       "es": "Escaleras y escalones (prueba)",
-      "nhe": null
+      "nhe": "Escaleras uan escalones (prueba)"
     },
     {
       "clave": "texto_84be7db4e3",
       "es": "Puede omitirlos. Activa antes de iniciar; descarga unos 9 MB.",
-      "nhe": null
+      "nhe": "Uelis ti kin tlauelkauas. Xijchiua ma mochiua achtoui kemaj tijpeualtis; kikixtia kanaj 9 MB."
     },
     {
       "clave": "texto_7760444613",
       "es": "Hoyos (prueba)",
-      "nhe": null
+      "nhe": "Ostotl (prueba)"
     },
     {
       "clave": "texto_6e37c0c7a4",
       "es": "Busca baches visibles. Puede omitir hoyos y alcantarillas abiertas. Activa antes de iniciar; descarga unos 18 MB.",
-      "nhe": null
+      "nhe": "Xijtemo nopa ostotl tlen nesi. Uelis tijpanoltis ostotl uan tijtlapos alcantarillado. Xijchiua ma mochiua achtoui kemaj tijpeualtis; kikixtia kanaj 18 MB."
     },
     {
       "clave": "texto_932d1387ea",
       "es": "Iniciar cámara",
-      "nhe": null
+      "nhe": "Xipeua ika cámara"
     },
     {
       "clave": "texto_3b151c79ca",
       "es": "Detener cámara",
-      "nhe": null
+      "nhe": "Xijketsa nopa cámara"
     },
     {
       "clave": "texto_539487886e",
       "es": "Vista de la cámara trasera",
-      "nhe": null
+      "nhe": "Tlachialistli tlen tlakuitlapan"
     },
     {
       "clave": "texto_99852df6ba",
       "es": "Cámara apagada. La primera vez se descargan los modelos (aprox. 68 MB con escaleras, hoyos y Más detalle).",
-      "nhe": null
+      "nhe": "Camera tlapojtok. Nopa achtoui uelta kemaj nopa modelos kikixtiaj (kej 68 MB ika escaleras, ostotl uan sekinok tlamantli)."
     },
     {
       "clave": "texto_0ffa32d7dc",
       "es": "Escaleras y escalones: desactivado.",
-      "nhe": null
+      "nhe": "Escaleras uan escalones: amo ueli."
     },
     {
       "clave": "texto_f5d1afeb89",
       "es": "Hoyos: desactivado.",
-      "nhe": null
+      "nhe": "Holes: amo kuali."
     },
     {
       "clave": "texto_6bc09e5d85",
       "es": "Leer número del camión",
-      "nhe": null
+      "nhe": "Xijpoua nopa número tlen camión"
     },
     {
       "clave": "texto_2b84617be1",
       "es": "Leer letrero ahora",
-      "nhe": null
+      "nhe": "Xijpoua nopa tlajtoli amantsi"
     },
     {
       "clave": "texto_31f91a51ab",
       "es": "Repetir descripción",
-      "nhe": null
+      "nhe": "Xikijto sempa"
     },
     {
       "clave": "texto_3d080a382b",
       "es": "Volver a mi viaje",
-      "nhe": null
+      "nhe": "Ximokuepa ipan no ojtli"
     },
     {
       "clave": "texto_68f0ef4c59",
       "es": "Ruta que buscas",
-      "nhe": null
+      "nhe": "Ojtli tlen tijtemoua"
     },
     {
       "clave": "texto_2001f11ce0",
       "es": "Por ejemplo, C55",
-      "nhe": null
+      "nhe": "Kej ni, C55"
     },
     {
       "clave": "texto_b68bbfb6ba",
       "es": "Si dejas el campo vacío, uso la ruta del viaje que estás siguiendo.",
-      "nhe": null
+      "nhe": "Tlaj tijkauas nopa tlali tlapojtok, nijtekiuis nopa ojtli tlen tijtoquilis."
     },
     {
       "clave": "texto_3b2662ce79",
       "es": "Sentido (si lo sabes)",
-      "nhe": null
+      "nhe": "Tlen kiijtosneki (tla tijmati)"
     },
     {
       "clave": "texto_8b60aafdb9",
       "es": "Detalle de imagen",
-      "nhe": null
+      "nhe": "Iixkopinkayo"
     },
     {
       "clave": "texto_d3c56d44d0",
       "es": "Más detalle",
-      "nhe": null
+      "nhe": "Más tlajtoli"
     },
     {
       "clave": "texto_027d6d1276",
       "es": "Más ligero",
-      "nhe": null
+      "nhe": "Más tlauili"
     },
     {
       "clave": "texto_4c737efe14",
       "es": "Avisos experimentales de vehículos",
-      "nhe": null
+      "nhe": "Tlayolmelahuali tlen tlamamali"
     },
     {
       "clave": "texto_0b86b18bef",
       "es": "Avisa si un vehículo crece al centro de la imagen. Intenta compensar el movimiento del teléfono, pero puede fallar. No detecta cruces.",
-      "nhe": null
+      "nhe": "Ki ijtoa tla se teposnenemi moskaltis hasta tlatlajko tlen nopa tlaixkopinkayotl. Kiyejyekoua kikuepas nopa mojmostla tlen nopa teléfono, pero uelis amo kuali. Ax kiita tlen panotok."
     },
     {
       "clave": "texto_818f93f719",
       "es": "Probar vibración",
-      "nhe": null
+      "nhe": "Xijyejyeko vibración"
     },
     {
       "clave": "texto_b03bc632d0",
       "es": "Con avisos activos, activa Leer número del camión o Leer letrero ahora para hacer una lectura.",
-      "nhe": null
+      "nhe": "Ika nopa tlajtolpanextili tlen eltok, xijchiua xijpoua nopa número tlen camión o xijpoua nopa señal tlen nama para tijpouas."
     },
     {
       "clave": "texto_f86434b3a2",
       "es": "Experimental: puede omitir obstáculos y desniveles. No mide altura ni indica cuándo cruzar. Usa tu bastón o acompañamiento.",
-      "nhe": null
+      "nhe": "Experimental: ueli kiixnamiki tlauejkayotl uan tlauili. Ax kiyejyekoua iuejkaka yon ax kinextia kema monekis panos. Xi kitekiui mo kuauitl o mo acompañamiento."
     },
     {
       "clave": "texto_6fdde16c4d",
       "es": "Las imágenes se analizan en tu teléfono. No se guardan ni se envían. La cámara se apaga al salir o al ocultar la app. El audio sigue tus ajustes de voz.",
-      "nhe": null
+      "nhe": "Tlaixkopinkayomej tlen moixtoma ipan mocelular. Ax kinmakixtiaj yon ax kintitlanij. Nopa cámara tlami kemaj tijkaua o tijtlaati nopa aplicación. Nopa tlajtoli ki toquilia tlen tij tlalijtok."
     },
     {
       "clave": "texto_fdd37ed0a4",
       "es": "Ver tutorial",
-      "nhe": null
+      "nhe": "Xikita tlamachtili"
     },
     {
       "clave": "texto_bc75379702",
       "es": "Tocar para escuchar",
-      "nhe": null
+      "nhe": "Xijtsonpechili para tijkakis"
     },
     {
       "clave": "texto_df3b69d81f",
       "es": "En modo Voz: un toque describe; dos toques rápidos activan. Con VoiceOver o TalkBack se usan los gestos del teléfono.",
-      "nhe": null
+      "nhe": "Ipan tlajtoli tlajtoli: se tlajtoli kiixtoma; ome tlatsotsonali tlen nimantsi mochiua. Ika VoiceOver o TalkBack tijtekiuia señas tlen teléfono."
     },
     {
       "clave": "texto_8f26cb859b",
       "es": "Cámara que habla",
-      "nhe": null
+      "nhe": "Camara tlen tlajtoa"
     },
     {
       "clave": "texto_d86c32a26c",
       "es": "el lugar de donde sales",
-      "nhe": null
+      "nhe": "nopa tlali kampa tiuala"
     },
     {
       "clave": "texto_1d402a2692",
       "es": "el lugar a donde vas",
-      "nhe": null
+      "nhe": "nopa tlali kampa ti yas"
     },
     {
       "clave": "texto_85e1360ced",
       "es": "Qrobus {v1}",
-      "nhe": null
+      "nhe": "Qrobus {v1}"
     },
     {
       "clave": "texto_6a29e09e30",
       "es": "En app · rango habitual",
-      "nhe": null
+      "nhe": "Ipan app · usual range"
     },
     {
       "clave": "texto_2cfc5c71ae",
       "es": "El precio puede salir de este rango. Confírmalo al abrir la app.",
-      "nhe": null
+      "nhe": "Nopa tlaxtlauili uelis kisas tlen ni tlajko. Xijnexti kema tijtlapos nopa aplicación."
     },
     {
       "clave": "texto_42add9c027",
       "es": "En la parada {v4}, hacia {v5}. Si lo pierdes, {v6} se estima en {v7}.",
-      "nhe": null
+      "nhe": "Ipan nopa tlatsakuili {v4}, kampa {v5}. Tlaj tijpolos, {v6} moiljuia elis {v7}."
     },
     {
       "clave": "texto_2fef1efeb7",
       "es": "Rango habitual",
-      "nhe": null
+      "nhe": "Usual rango"
     },
     {
       "clave": "texto_7d0a58b37b",
       "es": "Parada seleccionada",
-      "nhe": null
+      "nhe": "Ximoketsa tlen tijtlapejpenijtok"
     },
     {
       "clave": "texto_1a8377d2db",
       "es": "{v1} · a {v2} caminando",
-      "nhe": null
+      "nhe": "{v1} · para {v2} nejnemi"
     },
     {
       "clave": "texto_91897adc4a",
       "es": "Parada elegida",
-      "nhe": null
+      "nhe": "Tlapepecholi"
     },
     {
       "clave": "texto_fa08d91d38",
       "es": "Parada más cercana",
-      "nhe": null
+      "nhe": "Nopa tlatsakuili tlen más nechka"
     },
     {
       "clave": "texto_0b5dcb1af4",
       "es": "Buscando paradas cerca de ti…",
-      "nhe": null
+      "nhe": "Nijtemoua kanke timoketsas inechkauak..."
     },
     {
       "clave": "texto_7e12766a23",
       "es": "No pude ver tu ubicación. Actívala o elige desde dónde sales.",
-      "nhe": null
+      "nhe": "Ax niueliyaya nikita kanke ti itstok. Xijchiua ma tekiti o xijtlapejpeni kanke tikisas."
     },
     {
       "clave": "texto_c53e4a4248",
       "es": "Elegir desde dónde sales",
-      "nhe": null
+      "nhe": "Xijtlapejpeni kanke ti kisas"
     },
     {
       "clave": "texto_40c71a2507",
       "es": "{v1}: próximo horario",
-      "nhe": null
+      "nhe": "{v1}: seyok tonali"
     },
     {
       "clave": "texto_d320868d8c",
       "es": "Todavía no puedo comparar estas paradas:",
-      "nhe": null
+      "nhe": "Nojua ax ueli nikixnextia ni tlatsakuili:"
     },
     {
       "clave": "texto_2ff544d64c",
       "es": "Estimación con el horario oficial; no conocemos la ubicación en tiempo real de los camiones.",
-      "nhe": null
+      "nhe": "Estimación ika nopa horario oficial; Ax tijmatij kanke eltok nopa camiones."
     },
     {
       "clave": "texto_f6242f6155",
       "es": "Empate en tiempo estimado; se muestra primero la de menos caminata.",
-      "nhe": null
+      "nhe": "Tie in estimated time; Achtoui nesi nopa tlen ax tlauel nejnemi."
     },
     {
       "clave": "texto_c446923f76",
       "es": "Conviene más {v1}: menos tiempo estimado hasta abordar.",
-      "nhe": null
+      "nhe": "Más kuali {v1}: amo miak tonali tlen moiljuijtokej hasta kemaj tlejkosej."
     },
     {
       "clave": "texto_779e5686e0",
       "es": "Caminar {v10} min · esperar {v11} min",
-      "nhe": null
+      "nhe": "Xinejnemi {v10} min · ximochiya {v11} min"
     },
     {
       "clave": "texto_28f23d4cec",
       "es": "{v12} min para abordar",
-      "nhe": null
+      "nhe": "{v12} min to board"
     },
     {
       "clave": "texto_5bff59cf9f",
       "es": "Menor tiempo estimado.",
-      "nhe": null
+      "nhe": "Amo uejkaua tonali tlen moijtoa."
     },
     {
       "clave": "texto_3fddd13ea2",
       "es": "· Conviene más",
-      "nhe": null
+      "nhe": "· Más kuali"
     },
     {
       "clave": "texto_94a68c2ce3",
       "es": "Sin comparar: {v1}.",
-      "nhe": null
+      "nhe": "Ax tleno: {v1}."
     },
     {
       "clave": "texto_157bed6b51",
       "es": "A {v1}{v2}",
-      "nhe": null
+      "nhe": "Para {v1}{v2}"
     },
     {
       "clave": "texto_bf94a1491d",
       "es": "{v5}Ver cómo llegar a la parada",
-      "nhe": null
+      "nhe": "{v5}Xikita kenijkatsa tias kampa timoketsas"
     },
     {
       "clave": "texto_0d16203894",
       "es": "Los reportes son de la comunidad y pueden haber cambiado.",
-      "nhe": null
+      "nhe": "Nopa tlapoualistli uala tlen nopa altepetl uan uelis mopatlatok."
     },
     {
       "clave": "texto_5933e6904c",
       "es": "Reportar algo en esta parada",
-      "nhe": null
+      "nhe": "Xikijto se tlamantli ipan ni parada"
     },
     {
       "clave": "texto_eebb2fb1fd",
       "es": "¿Qué parada me conviene?",
-      "nhe": null
+      "nhe": "¿Tlake tlatsakuili más kuali para na?"
     },
     {
       "clave": "texto_6c3afb4101",
       "es": "Calculando caminos a pie y horarios...",
-      "nhe": null
+      "nhe": "Kiixtoma nopa ojtli uan horarios tlen ika nejnemisej..."
     },
     {
       "clave": "texto_57bfa9bb94",
       "es": "Las horas salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse.",
-      "nhe": null
+      "nhe": "Nopa horas eltok kaltempa tlen nopa horario tlen Qrobus; Nopa camión uelis elis tlayakapan o tlakuitlapan."
     },
     {
       "clave": "texto_bab35c56e9",
       "es": "Ver camiones y reportar en {v2}",
-      "nhe": null
+      "nhe": "Xikita camiones uan xikijto ipan {v2}"
     },
     {
       "clave": "texto_e0b0fe73aa",
       "es": "A {v4}{v5}",
-      "nhe": null
+      "nhe": "Para {v4}{v5}"
     },
     {
       "clave": "texto_3fd6d5039e",
       "es": "Todavía no hay avisos de esta parada.",
-      "nhe": null
+      "nhe": "Nojua ax onka tlajtolpanextili tlen ni tlatsakuili."
     },
     {
       "clave": "texto_161f0e5ed4",
       "es": "una",
-      "nhe": null
+      "nhe": "se"
     },
     {
       "clave": "texto_c1299854f2",
       "es": "dos",
-      "nhe": null
+      "nhe": "ome"
     },
     {
       "clave": "texto_ffe6b6e88b",
       "es": "Para escuchar sin enviar texto, instala una voz en español en los ajustes de tu teléfono. También puedes usar tu lector de pantalla.",
-      "nhe": null
+      "nhe": "Para tijkakis uan amo tijtitlanis tlajtoli, xijtlali se tlajtoli ika español ipan mocelular. Nojkia uelis tijtekiuis mo lector de pantalla."
     },
     {
       "clave": "texto_82d095343b",
       "es": "2 de 3. ¿Escuchas bien los avisos? Arriba, sí. Abajo, me cuesta escuchar.",
-      "nhe": null
+      "nhe": "2 tlen 3. ¿Kuali tijtlakakilia tlen mitstlalnamiktiaj? Ipan tlakpak, kema. Tlatsintla, tlauel ouij nijtlakakilis."
     },
     {
       "clave": "texto_21dc270de1",
       "es": "3 de 3. ¿Pagas Tarifa Unidos, el pasaje de 2 pesos para estudiantes, mayores de 60 y personas con discapacidad? Arriba, sí. Abajo, no.",
-      "nhe": null
+      "nhe": "3 tlen 3. ¿Ti tlaxtlaua Tarifa Unidos, nopa tlaxtlauili tlen 2 pesos para tlamachtianij, tlen panotok 60 uan tlen amo uelij nejnemij? Ipan tlakpak, kema. Tlatsintla, axtle."
     },
     {
       "clave": "texto_618d3ed8b7",
       "es": "Traducción automática parcial. Algunos textos siguen en español. El audio sigue en español.",
-      "nhe": null
+      "nhe": "Traducción automática parcial. Sekij tlajkuiloli nojua eltok ika español. Nopa tlajtoli nojua eltok ika español."
     },
     {
       "clave": "texto_ae72ea3de6",
       "es": "En Inicio, toca Busca un lugar o Dictar y elige tu destino.",
-      "nhe": null
+      "nhe": "Ipan mochaj, xijtsonpechili Xijtemo se lugar o Xikijto uan xijtlapejpeni kanke tias."
     },
     {
       "clave": "texto_b818adf672",
       "es": "Compara Qrobus, Uber, DiDi e inDrive. Si eliges camión, toca Empezar viaje con avisos para recibir la guía.",
-      "nhe": null
+      "nhe": "Xikin tlachili Qrobus, Uber, DiDi uan inDrive. Tlaj tijtlapejpenia se camión, xijtsonpechili Pehua ika tlajtoli uan xijseli nopa tlamachtili."
     },
     {
       "clave": "texto_9f9255834b",
       "es": "Encuentra camiones cerca",
-      "nhe": null
+      "nhe": "Xijtemo camiones tlen eltok nechka"
     },
     {
       "clave": "texto_f74f2fcb6b",
       "es": "El botón del centro, Camiones cerca, busca paradas desde tu ubicación.",
-      "nhe": null
+      "nhe": "Nopa botón tlen eltok tlatlajko, Trucks Nearby, kitemoua kanke timoketsas kampa ti itstok."
     },
     {
       "clave": "texto_2faed2d87b",
       "es": "Elige una parada para consultar rutas y horarios o Reportar algo en esta parada. Los horarios son estimados; no vemos los camiones en tiempo real.",
-      "nhe": null
+      "nhe": "Xijtlapejpeni se parada para tikitas ojtli uan horarios o Xikijto se tlamantli ipan ni parada. Nopa horarios elij estimaciones; Ax tikitaj nopa camiones ipan tonali tlen melauak."
     },
     {
       "clave": "texto_35414a7c78",
       "es": "Usa la cámara y la voz",
-      "nhe": null
+      "nhe": "Xi kitekiui nopa cámara uan tlajtoli"
     },
     {
       "clave": "texto_0abb2a75e2",
       "es": "En Inicio o Ajustes, abre Describir con la cámara. En Ajustes puedes elegir el modo Voz.",
-      "nhe": null
+      "nhe": "Ipan kali o ipan tlasenkaualistli, xijtlapo Describir con cámara. Ipan Configuración uelis tijtlapejpenis modo Voz."
     },
     {
       "clave": "texto_43437b0a67",
       "es": "La cámara puede describir algunos objetos y leer letreros. Analiza las imágenes en tu teléfono y puede omitir obstáculos; usa tu bastón o acompañamiento.",
-      "nhe": null
+      "nhe": "Nopa cámara ueli kiixtoma se keski tlamantli uan kipoua señas. Kiixtoma nopa tlaixkopinkayomej tlen eltok ipan mocelular uan ueli kiixpoloua tlen mitstsakuilia; xijtekiui mo kuauitl o mo acompañamiento."
     },
     {
       "clave": "texto_9775842c33",
       "es": "Paso {v1} de {v2}. {v3}. {v4} {v5}",
-      "nhe": null
+      "nhe": "Paso {v1} tlen {v2}. {v3}. {v4} {v5}"
     },
     {
       "clave": "texto_e7aed23a3c",
       "es": "Empezar a usar Grieta",
-      "nhe": null
+      "nhe": "Xipeua xijtekiui Grieta"
     },
     {
       "clave": "texto_3ec6273b30",
       "es": "Apunta el teléfono frente a ti. Describo algunos objetos y leo letreros en español.",
-      "nhe": null
+      "nhe": "Xijnexti nopa teléfono moixpa. Nikijtoua se keski tlamantli uan nijpoua señas ika español."
     },
     {
       "clave": "texto_3f9b54e11a",
       "es": "Buscas {v1}{v2}.{v3}",
-      "nhe": null
+      "nhe": "Titemoua {v1}{v2}.{v3}"
     },
     {
       "clave": "texto_2227a73270",
       "es": "hacia {v1}",
-      "nhe": null
+      "nhe": "ika {v1}"
     },
     {
       "clave": "texto_bc33ae2d07",
       "es": ". Todavía no elegiste el sentido",
-      "nhe": null
+      "nhe": ". Axka ax tijtlapejpenijtok tlen kiijtosneki"
     },
     {
       "clave": "texto_ad8f8142a7",
       "es": "Ruta escrita por ti.",
-      "nhe": null
+      "nhe": "Ojtli tlen ta tij ijkuilok."
     },
     {
       "clave": "texto_803045a0f0",
       "es": "Ruta de tu viaje.",
-      "nhe": null
+      "nhe": "Ojtli tlen ika tias."
     },
     {
       "clave": "texto_4ba4f81ae9",
       "es": "No encuentro esa ruta en los datos guardados. Revisa el número antes de compararlo.",
-      "nhe": null
+      "nhe": "Ax niueli nijpantia nopa ojtli ipan nopa datos tlen tlaatitok. Xikita nopa número achtoui kemaj tijtamachiuas."
     },
     {
       "clave": "texto_3c4cf3b69b",
       "es": "Puedo leer el número. Para compararlo, sigue un viaje o escribe la ruta que buscas.",
-      "nhe": null
+      "nhe": "Ni ueli nijpoua nopa número. Para tijtamachiuas, xijtokili se ojtli o xikijkuilo nopa ojtli tlen tijtemoua."
     },
     {
       "clave": "texto_975be820b3",
       "es": "No sé el sentido",
-      "nhe": null
+      "nhe": "Ax nijmati tleno kiijtosneki"
     },
     {
       "clave": "texto_542336d21a",
       "es": "Veo varios camiones. Apunta a uno solo para leer su letrero.",
-      "nhe": null
+      "nhe": "Nikita miak camiones. Xijnexti san se para tijpohuas iixkopinkayo."
     },
     {
       "clave": "texto_ea6001b223",
       "es": "Cámara apagada.",
-      "nhe": null
+      "nhe": "Camera tlapojtok."
     },
     {
       "clave": "texto_f407384e2f",
       "es": "Cancelado",
-      "nhe": null
+      "nhe": "Kiixpolojkej"
     },
     {
       "clave": "texto_664c6187b3",
       "es": "Preparando cámara: {v1} %.",
-      "nhe": null
+      "nhe": "Kiyektlalia nopa cámara: {v1} %."
     },
     {
       "clave": "texto_8c8c340a43",
       "es": "Este navegador no admite la cámara con reconocimiento local. Prueba Safari o Chrome actualizados.",
-      "nhe": null
+      "nhe": "Ni tlachixketl ax kipaleuia nopa cámara tlen kimati tlen nopa altepetl. Xijyejyeko Safari o Chrome tlen yankuik."
     },
     {
       "clave": "texto_6831d4a2da",
       "es": "Preparando el reconocimiento en tu teléfono. Puedes detenerlo cuando quieras.",
-      "nhe": null
+      "nhe": "Ti kiyektlalia tlaixmatilistli ipan mo teléfono. Uelis tijketsas kema tijnekis."
     },
     {
       "clave": "texto_55ea0bce07",
       "es": "La preparación tardó demasiado. Revisa tu conexión y vuelve a intentar.",
-      "nhe": null
+      "nhe": "Nopa tlayektlalilistli tlauel uejkajki. Xikita mo conexión uan xijyejyeko sempa."
     },
     {
       "clave": "texto_e894ec52f1",
       "es": "Permite usar la cámara para describir lo que apunta el teléfono.",
-      "nhe": null
+      "nhe": "Mitskauilia xijtekiui nopa cámara para tikijtos tlen nopa teléfono kiixnextia."
     },
     {
       "clave": "texto_17b7ae1356",
       "es": "La cámara se desconectó. Puedes volver a iniciarla.",
-      "nhe": null
+      "nhe": "Nopa cámara kikixtijkej. Uelis tijpeualtis sempa."
     },
     {
       "clave": "texto_487db32675",
       "es": "No pude analizar la imagen. Detuve la cámara. Vuelve a intentar.",
-      "nhe": null
+      "nhe": "Ax ueliyaya nijtlachili nopa tlaixkopinkayotl. Ni kiketski nopa cámara. Xijyejyeko sempa."
     },
     {
       "clave": "texto_0a5ebdb297",
       "es": "Actualizando la descripción con una imagen reciente.",
-      "nhe": null
+      "nhe": "Kiyankuilia nopa tlajtoli ika se tlaixkopinkayotl tlen yankuik."
     },
     {
       "clave": "texto_736c5e35c3",
       "es": "Análisis lento: los avisos de vehículos pueden omitirse. Detén la cámara y elige Más ligero.",
-      "nhe": null
+      "nhe": "Slow Scan: Uelis tijtlauelkauasej nopa tlajtolpanextili tlen nopa teposnenemi. Xiketsa nopa cámara uan xijtlapejpeni Lighter."
     },
     {
       "clave": "texto_63035af067",
       "es": "Falló el reconocimiento local. Detuve la cámara. Vuelve a intentar.",
-      "nhe": null
+      "nhe": "Nopa tlaixmatilistli tlen nopa altepetl amo uelki. Ni kiketski nopa cámara. Xijyejyeko sempa."
     },
     {
       "clave": "texto_434848b8f5",
       "es": "Cámara encendida. {v1}{v2}",
-      "nhe": null
+      "nhe": "Camera on. {v1}{v2}"
     },
     {
       "clave": "texto_b8f9ce2935",
       "es": "Escaleras y escalones: avisos experimentales activos.",
-      "nhe": null
+      "nhe": "Escaleras uan escalones: advertencias experimentales activas."
     },
     {
       "clave": "texto_8faa6fa159",
       "es": "Los avisos de escaleras y escalones están desactivados.",
-      "nhe": null
+      "nhe": "Nopa tlajtolpanextili tlen escaleras uan escalones amo tekitij."
     },
     {
       "clave": "texto_f28be04a7d",
       "es": "Hoyos: avisos experimentales activos.",
-      "nhe": null
+      "nhe": "Ostotl: tlajtolpanextili tlen tlauel ipati."
     },
     {
       "clave": "texto_cb9ab1e694",
       "es": "No pude preparar los avisos de hoyos. Revisa la conexión o desactívalos antes de iniciar para usar los otros objetos.",
-      "nhe": null
+      "nhe": "Ax ueliyaya nijyektlalia nopa tlajtolpanextili tlen nopa ostotl. Xikita nopa tlasaloualistli o xikin tsakuili achtoui kemaj tijpeualtis tijtekiuis nopa sekinok tlamantli."
     },
     {
       "clave": "texto_47b4bbb943",
       "es": "No pude preparar los avisos de escaleras y escalones. Revisa la conexión o desactívalos antes de iniciar para usar los otros objetos.",
-      "nhe": null
+      "nhe": "Ax ueliyaya nijyektlalia nopa tlajtoli tlen escaleras uan escalones. Xikita nopa tlasaloualistli o xikin tsakuili achtoui kemaj tijpeualtis tijtekiuis nopa sekinok tlamantli."
     },
     {
       "clave": "texto_4d3a913406",
       "es": "No diste permiso para la cámara. Puedes habilitarlo en los permisos del navegador y volver a intentar.",
-      "nhe": null
+      "nhe": "Ax tijmakak tlanauatili nopa cámara. Uelis tijchiuas ma tekiti ipan nopa permisos tlen tijtemoua uan tijyejyekos sempa."
     },
     {
       "clave": "texto_c54e4b489b",
       "es": "No encontré una cámara en este dispositivo.",
-      "nhe": null
+      "nhe": "Ax nijpantik se cámara ipan ni tepostli."
     },
     {
       "clave": "texto_c6ceb4e8a2",
       "es": "No hay espacio para guardar los modelos en este navegador. Libera espacio y vuelve a intentar.",
-      "nhe": null
+      "nhe": "Ax onka kanke uelis tijtlatis modelos ipan ni tlatemoli. Xikixti tlali uan xijyejyeko sempa."
     },
     {
       "clave": "texto_845f85e112",
       "es": "No pude preparar la cámara. Revisa la conexión y vuelve a intentar; las imágenes se analizan en tu teléfono.",
-      "nhe": null
+      "nhe": "Ax ueliyaya nijyektlalia nopa cámara. Xikita nopa tlasaloualistli uan xijyejyeko sempa; Nopa tlaixkopinkayomej mo tlatemoliaj ipan mo teléfono."
     },
     {
       "clave": "texto_2c73d6e663",
       "es": "Mantén esta pantalla abierta; el teléfono puede apagarla.",
-      "nhe": null
+      "nhe": "Xijpixto ni pantalla tlapojtok; nopa teléfono ueli ki tlatsakuiltia."
     },
     {
       "clave": "texto_b74b89446a",
       "es": "La imagen está muy oscura. Busca mejor luz si puedes hacerlo con seguridad.",
-      "nhe": null
+      "nhe": "Nopa tlaixkopinkayotl tlauel tlayouatok. Xijtemo se tlauili tlen más kuali tla uelis tijchiuas ika tlaseuilistli."
     },
     {
       "clave": "texto_8aba346480",
       "es": "La imagen está demasiado iluminada. Evita apuntar directamente a la luz.",
-      "nhe": null
+      "nhe": "Nopa tlaixkopinkayotl tlauel tlaui. Amo xijnexti xitlauak ipan nopa tlauili."
     },
     {
       "clave": "texto_282045328e",
       "es": "No hay suficiente detalle en la imagen. Revisa que la lente esté descubierta y limpia.",
-      "nhe": null
+      "nhe": "Ax onka miak tlamantli ipan nopa tlaixkopinkayotl. Xikita tlaj nopa lente amo tlatsaktok uan tlapajpaktik."
     },
     {
       "clave": "texto_a347833e23",
       "es": "Atención: {v1} ocupa más espacio al centro de la imagen. Puede haber movimiento; verifica tu entorno.",
-      "nhe": null
+      "nhe": "Xikita: {v1} kikuika miak tlali tlatlajko tlen nopa tlaixkopinkayotl. Uelis onkas mojmolinilistli; xikita kampa ti itstok."
     },
     {
       "clave": "texto_36291abf8f",
       "es": "La vibración no está disponible ahora. El aviso sigue por voz o lector de pantalla.",
-      "nhe": null
+      "nhe": "Vibración ax onka amantsi. Nopa tlajtolpanextili nojua mochiua ika tlajtoli o ika pantalla."
     },
     {
       "clave": "texto_ac0b7e459b",
       "es": "El teléfono tardó demasiado en reconocer la imagen. Detuve la cámara.",
-      "nhe": null
+      "nhe": "Nopa teléfono tlauel uejkajki para kiixmatis nopa tlaixkopinkayotl. Ni kiketski nopa cámara."
     },
     {
       "clave": "texto_8066c31d82",
       "es": "No pude analizar la imagen. Puedes volver a iniciar la cámara.",
-      "nhe": null
+      "nhe": "Ax ueliyaya nijtlachili nopa tlaixkopinkayotl. Uelis tijpeualtis nopa cámara sempa."
     },
     {
       "clave": "texto_077148e6aa",
       "es": "Parece haber {v1} en la imagen.",
-      "nhe": null
+      "nhe": "Monextia onka {v1} ipan nopa tlaixkopinkayotl."
     },
     {
       "clave": "texto_adeffad065",
       "es": "Busco camiones y letreros para tu viaje.",
-      "nhe": null
+      "nhe": "Nijtemoua camiones uan letrero para mo viaje."
     },
     {
       "clave": "texto_38262b918c",
       "es": "No reconozco objetos con suficiente certeza. Eso no significa que el paso esté libre.",
-      "nhe": null
+      "nhe": "Ax nijmati tlamantli ika miak tlateochiualistli. Nopa ax kiijtosneki nopa tlamachtili amo tlaxtlaua."
     },
     {
       "clave": "texto_79418c02b7",
       "es": "Parece haber {v1}.",
-      "nhe": null
+      "nhe": "Monextia onka {v1}."
     },
     {
       "clave": "texto_2217e0c38a",
       "es": "Buscando una imagen legible del letrero.",
-      "nhe": null
+      "nhe": "Kitemojtinemi se tlaixkopinkayotl tlen uelis mopouas tlen nopa letrero."
     },
     {
       "clave": "texto_a124add019",
       "es": "No pude leer la imagen. Sigue apuntando al letrero para intentar otra lectura.",
-      "nhe": null
+      "nhe": "Ax ueliyaya nijpoua nopa tlaixkopinkayotl. Xijsenkaua nopa letrero para tijyejyekos seyok tlajtolpoualistli."
     },
     {
       "clave": "texto_637b7a1596",
       "es": "El letrero parece coincidir con la parada {v1} del catálogo.",
-      "nhe": null
+      "nhe": "Nopa tlanextili nesi kej nopa tlajko {v1} ipan nopa amatl."
     },
     {
       "clave": "texto_1f0fd108c1",
       "es": "El texto parece decir: {v1}.{v2}",
-      "nhe": null
+      "nhe": "Nopa tlajkuiloli nesi kiijtoua: {v1}.{v2}"
     },
     {
       "clave": "texto_7b12940288",
       "es": "Coincide con el nombre {v1} del catálogo; confirma la parada antes de abordar.",
-      "nhe": null
+      "nhe": "Kiixnextia itoka nopa catálogo {v1}; xikijto kanke timoketsas achtoui kemaj titlejkos."
     },
     {
       "clave": "texto_07a36e524b",
       "es": "No pude leer texto con suficiente claridad. Acércate al letrero si puedes hacerlo con seguridad y vuelve a intentar.",
-      "nhe": null
+      "nhe": "Ax ueliyaya nijpoua tlajtoli tlen kuali. Ximonechkauili nopa letrero tla uelis tijchiuas ika kuali uan xijyejyeko sempa."
     },
     {
       "clave": "texto_9b2cfd0172",
       "es": "Cámara encendida. Puedes leer otro letrero o detenerla.",
-      "nhe": null
+      "nhe": "Camera on. Uelis tijpouas seyok letrero o tijtsakuilis."
     },
     {
       "clave": "texto_d17ce68558",
       "es": "No pude leer la imagen. Detuve la cámara. Puedes volver a intentar.",
-      "nhe": null
+      "nhe": "Ax ueliyaya nijpoua nopa tlaixkopinkayotl. Ni kiketski nopa cámara. Uelis tijyejyekos sempa."
     },
     {
       "clave": "texto_7cb360ebe0",
       "es": "Todavía no identifico un solo camión para leer su número. Apunta a su letrero; también puedes usar Leer letrero ahora.",
-      "nhe": null
+      "nhe": "Nojua ax nijmati yon se camión para nijpohuas inúmero. Xikinnextili inin tlanextilis; Nojkia uelis tijtekiuis Read Sign Now."
     },
     {
       "clave": "texto_1b357f8e92",
       "es": "Leyendo el letrero en varias imágenes.",
-      "nhe": null
+      "nhe": "Kipoua nopa letrero ipan miak tlaixkopinkayomej."
     },
     {
       "clave": "texto_6df16cfaf4",
       "es": "Espero una imagen nueva para volver a comparar el camión.",
-      "nhe": null
+      "nhe": "Nijchiya se yankuik tlaixkopinkayotl para sampa nijtlachilis nopa camión."
     },
     {
       "clave": "texto_8fe33abaaa",
       "es": "La lectura tardó demasiado. Vuelve a apuntar al letrero.",
-      "nhe": null
+      "nhe": "Nopa tlajtolpoualistli tlauel uejkajki. Xikita nopa tlanextili sempa."
     },
     {
       "clave": "texto_4a978e3b37",
       "es": "La lectura del camión ya no es reciente. Vuelve a apuntar a su letrero.",
-      "nhe": null
+      "nhe": "Nopa tlapoualistli tlen nopa camión ayokmo yankuik. Kiixnextia sampa ipan i letrero."
     },
     {
       "clave": "texto_a152d1c1bb",
       "es": "No pude leer el letrero del camión. Detuve la cámara. Puedes volver a intentar.",
-      "nhe": null
+      "nhe": "Ax ueliyaya nijpoua nopa letrero tlen eltoya ipan nopa camión. Ni kiketski nopa cámara. Uelis tijyejyekos sempa."
     },
     {
       "clave": "texto_7af3d135db",
       "es": "Cámara encendida.",
-      "nhe": null
+      "nhe": "Camera on."
     },
     {
       "clave": "texto_c4f1296141",
       "es": "La vibración depende del teléfono y sus ajustes. Puedes probarla aquí.",
-      "nhe": null
+      "nhe": "Vibración mosentlalijtok ipan nopa teléfono uan tlen kitlalijtok. Uelis tijyejyekos nika."
     },
     {
       "clave": "texto_f883997173",
       "es": "Este navegador no permite vibrar. Los avisos se muestran y usan tu voz local o lector de pantalla.",
-      "nhe": null
+      "nhe": "Ni tlatemoli ax kikaua ma tlatsiui. Nopa tlajtlanili monextia uan xijtekiui motlajtol o mo pantalla."
     },
     {
       "clave": "texto_5f17202ffa",
       "es": "Se pidió una vibración de prueba. Confirma si la sentiste antes de usar los avisos.",
-      "nhe": null
+      "nhe": "Se tlayejyekoli tlen vibración motlajtlanik. Xikijto tlaj tijyolmatiyaya kema ayamo tijtekiuiyaya nopa tlajtolpanextili."
     },
     {
       "clave": "texto_c020ec2e6f",
       "es": "El teléfono rechazó la vibración. Los avisos siguen por voz o lector de pantalla.",
-      "nhe": null
+      "nhe": "Nopa teléfono amo kiseli nopa vibración. Nopa tlajtolpanextili ki toquilia ika tlajtoli o ika pantalla."
     },
     {
       "clave": "texto_5e7ce1a20d",
       "es": "Usa tu lector de pantalla para explorar el botón de práctica y después activarlo con su gesto habitual. Grieta no añade otro doble toque.",
-      "nhe": null
+      "nhe": "Xi kitekiui mo lector de pantalla para tijtemos nopa botón de práctica uan teipa xij chiua ika mo gesto tlen nochipa tijchiua. Grieta ax kitlalia seyok ome tlatsotsonali."
     },
     {
       "clave": "texto_33395e561b",
       "es": "Toca una vez el botón de práctica para escuchar qué hace. Después da dos toques rápidos sobre el mismo botón para activarlo. Puedes escuchar primero y luego dar los dos toques.",
-      "nhe": null
+      "nhe": "Xijtsonpechili nopa botón tlen ika timomachtis se uelta para tijkakis tlen kichiua. Teipa xijchiua ome tlatsotsonali ipan sanse botón para tijchiuas ma tekiti. Uelis achtoui tijtlakakilis uan teipa tijmakas nopa ome tlapitsali."
     },
     {
       "clave": "texto_fd95a087cb",
       "es": "Paso 1 de 2. Explora el botón de práctica.",
-      "nhe": null
+      "nhe": "Paso 1 tlen 2. Xikita nopa botón tlen ika timomachtis."
     },
     {
       "clave": "texto_45810b8270",
       "es": "Paso 2 de 2. Ya escuchaste el botón. Actívalo con dos toques rápidos en el mismo lugar.",
-      "nhe": null
+      "nhe": "Paso 2 tlen 2. Tijkaktok nopa botón. Xijchiua ika ome tlatsotsonali ipan sanse tlali."
     },
     {
       "clave": "texto_11f055b8b3",
       "es": "Práctica completada. Activaste el botón sin hacer ninguna acción fuera de esta práctica.",
-      "nhe": null
+      "nhe": "Tlamachtili tlami. Tijchijki ma tlaui nopa botón uan amo tleno tijchijki tlen amo eltok ipan ni tlamachtili."
     },
     {
       "clave": "texto_d5e515ad11",
       "es": "Este botón solo sirve para practicar. No hace acciones fuera de esta pantalla.",
-      "nhe": null
+      "nhe": "Ni botón san para timomachtis. Ax ki chiua tleno tlen ax eltok ipan ni pantalla."
     },
     {
       "clave": "texto_d6a65c278c",
       "es": "Lee varias imágenes del letrero de un solo camión para comparar la ruta.",
-      "nhe": null
+      "nhe": "Xijpoua miak tlaixkopinkayomej tlen se tlanextili tlen se camión para tijtlachilis nopa ojtli."
     },
     {
       "clave": "texto_f4f23d4a0e",
       "es": "Escucha tu destino para buscar cómo llegar.",
-      "nhe": null
+      "nhe": "Xijtlakaki kanke ti yas para tijmatis kenijkatsa tias nopaya."
     },
     {
       "clave": "texto_4487741a63",
       "es": "Abre la cámara para describir objetos y leer letreros.",
-      "nhe": null
+      "nhe": "Xijtlapo nopa cámara para tikijtos tlamantli uan tijpouas señas."
     },
     {
       "clave": "texto_589ad60e8b",
       "es": "Busca paradas y rutas cercanas.",
-      "nhe": null
+      "nhe": "Xijtemo kanke timoketsas uan ojtli tlen eltok nechka."
     },
     {
       "clave": "texto_721680a238",
       "es": "Dice la ubicación detectada.",
-      "nhe": null
+      "nhe": "Kiijtoua nopa tlali tlen kiixmatkej."
     },
     {
       "clave": "texto_55b87edc74",
       "es": "Vuelve a leer el último aviso.",
-      "nhe": null
+      "nhe": "Xijpoua nopa tlami tlajtoli sempa."
     },
     {
       "clave": "texto_67f1a019f7",
       "es": "Pide permiso y enciende la cámara.",
-      "nhe": null
+      "nhe": "Xijtlajtlani caquihuili uan xijtlatili nopa cámara."
     },
     {
       "clave": "texto_201cb54b79",
       "es": "Apaga la cámara y el reconocimiento.",
-      "nhe": null
+      "nhe": "Xijtlamiltika nopa cámara uan nopa tlaixmatilistli."
     },
     {
       "clave": "texto_cbb7fb827c",
       "es": "Busca texto en la imagen y lo lee.",
-      "nhe": null
+      "nhe": "Kitemoua tlajtoli ipan nopa tlaixkopinkayotl uan kipoua."
     },
     {
       "clave": "texto_27ee06dd03",
       "es": "Envía el reporte que preparaste.",
-      "nhe": null
+      "nhe": "Xijtitlani nopa tlapoualistli tlen tijchijchijki."
     },
     {
       "clave": "texto_735efcf9f0",
       "es": "Inicia la guía del viaje.",
-      "nhe": null
+      "nhe": "Xipeua nopa tlajtoli tlen ika tias."
     },
     {
       "clave": "texto_32d7e82082",
       "es": "Control",
-      "nhe": null
+      "nhe": "Tlanauatili"
     },
     {
       "clave": "texto_719b20338e",
       "es": "Seleccionado.",
-      "nhe": null
+      "nhe": "Tlapejpenalmej."
     },
     {
       "clave": "texto_60d00c61ce",
       "es": "No seleccionado.",
-      "nhe": null
+      "nhe": "Ax tlapejpenalmej."
     },
     {
       "clave": "texto_418827137c",
       "es": "Activado.",
-      "nhe": null
+      "nhe": "Mochijtok."
     },
     {
       "clave": "texto_74fc8d58d5",
       "es": "Desactivado.",
-      "nhe": null
+      "nhe": "Amo ueli."
     },
     {
       "clave": "texto_591761c3c4",
       "es": "Selector.",
-      "nhe": null
+      "nhe": "Tlapejpenani."
     },
     {
       "clave": "texto_53e7012283",
       "es": "Adjuntar archivo.",
-      "nhe": null
+      "nhe": "Xijtlali se amatl."
     },
     {
       "clave": "texto_6f8ad4693d",
       "es": "Campo de texto.",
-      "nhe": null
+      "nhe": "Tlajkuiloli."
     },
     {
       "clave": "texto_c51416b3d1",
       "es": "Enlace.",
-      "nhe": null
+      "nhe": "Link."
     },
     {
       "clave": "texto_b407e3fa91",
       "es": "Botón.",
-      "nhe": null
+      "nhe": "Botón."
     },
     {
       "clave": "texto_72ecf9be1d",
       "es": "Opción.",
-      "nhe": null
+      "nhe": "Opción."
     },
     {
       "clave": "texto_154ca088c8",
       "es": "Por ahora no está disponible.",
-      "nhe": null
+      "nhe": "Amantzi ax onka."
     },
     {
       "clave": "texto_1a8f09ee97",
       "es": "Dos toques rápidos para activar.",
-      "nhe": null
+      "nhe": "Ome tlatsotsonali tlen nimantsi para tijchiuas."
     },
     {
       "clave": "texto_88e12ae748",
       "es": "Solo camión",
-      "nhe": null
+      "nhe": "San camión"
     },
     {
       "clave": "texto_bbcdbc3cd7",
       "es": "App hasta la parada + camión",
-      "nhe": null
+      "nhe": "App para nopa parada + camión"
     },
     {
       "clave": "texto_41732ff49f",
       "es": "Camión + app al final",
-      "nhe": null
+      "nhe": "Camión + app ipan itlamian"
     },
     {
       "clave": "texto_c54adab005",
       "es": "App + camión + app",
-      "nhe": null
+      "nhe": "App + camión + app"
     },
     {
       "clave": "texto_dada8cf163",
       "es": "línea {v1}: {v2} ({v3}) a {v4}",
-      "nhe": null
+      "nhe": "linea {v1}: {v2} ({v3}) hasta {v4}"
     },
     {
       "clave": "texto_492f4abb39",
       "es": "Solo app ({v1})",
-      "nhe": null
+      "nhe": "San App ({v1})"
     },
     {
       "clave": "texto_32a7edda34",
       "es": "con transbordo",
-      "nhe": null
+      "nhe": "ika tlamamali"
     },
     {
       "clave": "texto_09c2c6f229",
       "es": "Solo app",
-      "nhe": null
+      "nhe": "San App"
     },
     {
       "clave": "texto_dd6c13f4d0",
       "es": "El teléfono no vibró. El aviso sigue por voz o lector.",
-      "nhe": null
+      "nhe": "Nopa teléfono ax tlatsotsonki. Nopa tlajtoli ki toquilia ika tlajtoli o ika tlajtolpoualistli."
     },
     {
       "clave": "texto_f078e63beb",
       "es": "Escaleras y escalones: se preparan al iniciar.",
-      "nhe": null
+      "nhe": "Escaleras uan escalones: mosentlalijtokej ipan ipejya."
     },
     {
       "clave": "texto_717bcfdb24",
       "es": "Preparando los avisos experimentales de escaleras y escalones.",
-      "nhe": null
+      "nhe": "Kiyektlaliaj tlajtoli tlen ika kiyejyekosej nopa escaleras uan escalones."
     },
     {
       "clave": "texto_3063c5f00c",
       "es": "Escaleras y escalones: reconocimiento experimental activo.",
-      "nhe": null
+      "nhe": "Escaleras uan escalones: tlaixmatilistli tlen tlauel ipati."
     },
     {
       "clave": "texto_3b79e09cef",
       "es": "Se detuvieron los avisos de escaleras y escalones. Los otros objetos siguen funcionando. Detén y vuelve a iniciar la cámara para reintentarlo.",
-      "nhe": null
+      "nhe": "Nopa tlajtolpanextili tlen escalera uan escalón moketsa. Nopa sekinok tlamantli nojua tekitij. Ximoketsa uan xijpeualti nopa cámara para tijyejyekos sempa."
     },
     {
       "clave": "texto_c308c81904",
       "es": "Escaleras y escalones: avisos detenidos.",
-      "nhe": null
+      "nhe": "Escaleras uan escalones: tlajtoli tlen moketsa."
     },
     {
       "clave": "texto_711505cdc1",
       "es": "Escaleras y escalones: la imagen es poco legible y puede omitirlos.",
-      "nhe": null
+      "nhe": "Escaleras uan escalones: nopa tlaixkopinkayotl amo kuali nesi uan uelis tijkauas."
     },
     {
       "clave": "texto_34cc6eb934",
       "es": "Escaleras y escalones: espero una imagen nueva de la cámara.",
-      "nhe": null
+      "nhe": "Escaleras uan escalones: Nijchiya se yankuik tlaixkopinkayotl tlen nopa cámara."
     },
     {
       "clave": "texto_190f9c11ee",
       "es": "El análisis de escaleras y escalones está tardando. Los avisos pueden llegar tarde.",
-      "nhe": null
+      "nhe": "Análisis tlen escaleras uan escalones kikuika tonali. Nopa tlajtoli uelis ajsis tlayoua."
     },
     {
       "clave": "texto_17dfe46d37",
       "es": "Hoyos: se preparan al iniciar.",
-      "nhe": null
+      "nhe": "Ostotl: mosentlalijtokej ipan ipejya."
     },
     {
       "clave": "texto_865750ba32",
       "es": "Preparando los avisos experimentales de hoyos.",
-      "nhe": null
+      "nhe": "Kiyektlaliaj tlajtoli tlen tlapojpoljuilistli."
     },
     {
       "clave": "texto_5c1a05a395",
       "es": "Hoyos: reconocimiento experimental activo.",
-      "nhe": null
+      "nhe": "Holes: tlatemolistli tlen tlauel ipati."
     },
     {
       "clave": "texto_f872afe8f8",
       "es": "Se detuvieron los avisos de hoyos. Los otros objetos siguen funcionando. Detén y vuelve a iniciar la cámara para reintentarlo.",
-      "nhe": null
+      "nhe": "Tlayolmelahuali tlen tlaltejpoctli moquetzqui. Nopa sekinok tlamantli nojua tekitij. Ximoketsa uan xijpeualti nopa cámara para tijyejyekos sempa."
     },
     {
       "clave": "texto_1b69b6a8a3",
       "es": "Hoyos: avisos detenidos.",
-      "nhe": null
+      "nhe": "Holes: tlatsakuili tlen tlajtoli."
     },
     {
       "clave": "texto_e08d1610f1",
       "es": "Hoyos: la imagen es poco legible y puede omitirlos.",
-      "nhe": null
+      "nhe": "Ostotl: nopa tlaixkopinkayotl amo kuali ueli tijpoua uan uelis tijkixtis."
     },
     {
       "clave": "texto_a95c558c1f",
       "es": "Hoyos: espero una imagen nueva de la cámara.",
-      "nhe": null
+      "nhe": "Holes: Nijchiya se yankuik tlaixkopinkayotl tlen nopa cámara."
     },
     {
       "clave": "texto_8212eb8b23",
       "es": "El análisis de hoyos está tardando. Los avisos pueden llegar tarde.",
-      "nhe": null
+      "nhe": "Nopa tlatemolistli tlen tlaltejpochtli kikuika tonali. Nopa tlajtoli uelis ajsis tlayoua."
     },
     {
       "clave": "texto_a19bfdb412",
       "es": "una persona",
-      "nhe": null
+      "nhe": "se maseuali"
     },
     {
       "clave": "texto_52b3ff555c",
       "es": "personas",
-      "nhe": null
+      "nhe": "maseualmej"
     },
     {
       "clave": "texto_14b96e1442",
       "es": "una bicicleta",
-      "nhe": null
+      "nhe": "se bicicleta"
     },
     {
       "clave": "texto_d97439b9f2",
       "es": "bicicletas",
-      "nhe": null
+      "nhe": "bicicletas"
     },
     {
       "clave": "texto_f87c97a1bb",
       "es": "un auto",
-      "nhe": null
+      "nhe": "se tepos carro"
     },
     {
       "clave": "texto_dd18a0f5cc",
       "es": "autos",
-      "nhe": null
+      "nhe": "carros"
     },
     {
       "clave": "texto_5b08e2ae0e",
       "es": "una moto",
-      "nhe": null
+      "nhe": "se motocicleta"
     },
     {
       "clave": "texto_045c3b0ad7",
       "es": "motos",
-      "nhe": null
+      "nhe": "motos"
     },
     {
       "clave": "texto_d582a19e77",
       "es": "un avión",
-      "nhe": null
+      "nhe": "se avión"
     },
     {
       "clave": "texto_59e55457b7",
       "es": "aviones",
-      "nhe": null
+      "nhe": "aviones"
     },
     {
       "clave": "texto_3307d48628",
       "es": "un camión",
-      "nhe": null
+      "nhe": "se camión"
     },
     {
       "clave": "texto_e1b0d4bcb0",
       "es": "camiones",
-      "nhe": null
+      "nhe": "camiones"
     },
     {
       "clave": "texto_bbb12090f5",
       "es": "un tren",
-      "nhe": null
+      "nhe": "se tren"
     },
     {
       "clave": "texto_ece45dcc46",
       "es": "trenes",
-      "nhe": null
+      "nhe": "trenes"
     },
     {
       "clave": "texto_612d8ab18f",
       "es": "un camión de carga",
-      "nhe": null
+      "nhe": "se camión tlen kiuika tlamantli"
     },
     {
       "clave": "texto_5768895918",
       "es": "camiones de carga",
-      "nhe": null
+      "nhe": "camiones tlen tlamamali"
     },
     {
       "clave": "texto_de38a24d58",
       "es": "una embarcación",
-      "nhe": null
+      "nhe": "se barco"
     },
     {
       "clave": "texto_1ccc0816b6",
       "es": "embarcaciones",
-      "nhe": null
+      "nhe": "barcos"
     },
     {
       "clave": "texto_e17cfc9d16",
       "es": "un semáforo",
-      "nhe": null
+      "nhe": "se tlauili"
     },
     {
       "clave": "texto_714abde789",
       "es": "semáforos",
-      "nhe": null
+      "nhe": "tlauili tlen tlauili"
     },
     {
       "clave": "texto_91d364cc3b",
       "es": "un hidrante",
-      "nhe": null
+      "nhe": "se hidrante"
     },
     {
       "clave": "texto_3389f34443",
       "es": "hidrantes",
-      "nhe": null
+      "nhe": "hidrantes"
     },
     {
       "clave": "texto_fc770e563b",
       "es": "una señal de alto",
-      "nhe": null
+      "nhe": "se tlanextili tlen tlami"
     },
     {
       "clave": "texto_55a9770ff1",
       "es": "señales de alto",
-      "nhe": null
+      "nhe": "tlanextili tlen tlami"
     },
     {
       "clave": "texto_2f6831c616",
       "es": "un parquímetro",
-      "nhe": null
+      "nhe": "se tlatamachiualistli tlen ika timoketsas"
     },
     {
       "clave": "texto_24689d2103",
       "es": "parquímetros",
-      "nhe": null
+      "nhe": "metros de estacionamiento"
     },
     {
       "clave": "texto_85ac3e81cc",
       "es": "una banca",
-      "nhe": null
+      "nhe": "se banco"
     },
     {
       "clave": "texto_ef166becc2",
       "es": "bancas",
-      "nhe": null
+      "nhe": "bancos"
     },
     {
       "clave": "texto_e5ea503352",
       "es": "un ave",
-      "nhe": null
+      "nhe": "se tototl"
     },
     {
       "clave": "texto_f63a5fe50a",
       "es": "aves",
-      "nhe": null
+      "nhe": "totomej"
     },
     {
       "clave": "texto_5fcac0e5d8",
       "es": "un gato",
-      "nhe": null
+      "nhe": "se chichi"
     },
     {
       "clave": "texto_7051fd3b01",
       "es": "gatos",
-      "nhe": null
+      "nhe": "chichimej"
     },
     {
       "clave": "texto_c1bd11f3bb",
       "es": "un perro",
-      "nhe": null
+      "nhe": "se chichi"
     },
     {
       "clave": "texto_2cc8248a5f",
       "es": "perros",
-      "nhe": null
+      "nhe": "pitsomej"
     },
     {
       "clave": "texto_0c056ad649",
       "es": "un caballo",
-      "nhe": null
+      "nhe": "se cahuayo"
     },
     {
       "clave": "texto_44f7d0ef03",
       "es": "caballos",
-      "nhe": null
+      "nhe": "cahuayos"
     },
     {
       "clave": "texto_a1931356af",
       "es": "una oveja",
-      "nhe": null
+      "nhe": "se borrego"
     },
     {
       "clave": "texto_61de60d7e2",
       "es": "ovejas",
-      "nhe": null
+      "nhe": "borrego"
     },
     {
       "clave": "texto_cd65749df9",
       "es": "una vaca",
-      "nhe": null
+      "nhe": "se huacax"
     },
     {
       "clave": "texto_5661c84b77",
       "es": "vacas",
-      "nhe": null
+      "nhe": "huacaxme"
     },
     {
       "clave": "texto_41d0d4967a",
       "es": "un elefante",
-      "nhe": null
+      "nhe": "se elefante"
     },
     {
       "clave": "texto_73b286dc94",
       "es": "elefantes",
-      "nhe": null
+      "nhe": "elefantes"
     },
     {
       "clave": "texto_2c1c3f953a",
       "es": "un oso",
-      "nhe": null
+      "nhe": "se oso"
     },
     {
       "clave": "texto_68ec5e0c39",
       "es": "osos",
-      "nhe": null
+      "nhe": "osos"
     },
     {
       "clave": "texto_4308940a4b",
       "es": "una cebra",
-      "nhe": null
+      "nhe": "se cebra"
     },
     {
       "clave": "texto_0495da9101",
       "es": "cebras",
-      "nhe": null
+      "nhe": "cebras"
     },
     {
       "clave": "texto_10e65c7a7b",
       "es": "una jirafa",
-      "nhe": null
+      "nhe": "se jirafa"
     },
     {
       "clave": "texto_d9d610fb96",
       "es": "jirafas",
-      "nhe": null
+      "nhe": "jirafas"
     },
     {
       "clave": "texto_66534abafa",
       "es": "una mochila",
-      "nhe": null
+      "nhe": "se mochila"
     },
     {
       "clave": "texto_6cdae5e282",
       "es": "mochilas",
-      "nhe": null
+      "nhe": "mochila"
     },
     {
       "clave": "texto_91b0407119",
       "es": "un paraguas",
-      "nhe": null
+      "nhe": "se paraguas"
     },
     {
       "clave": "texto_e1534634f2",
       "es": "paraguas",
-      "nhe": null
+      "nhe": "paraguas"
     },
     {
       "clave": "texto_c42768878e",
       "es": "una bolsa",
-      "nhe": null
+      "nhe": "se bolsa"
     },
     {
       "clave": "texto_539cb1eecc",
       "es": "bolsas",
-      "nhe": null
+      "nhe": "bolsas"
     },
     {
       "clave": "texto_17f5e6a09f",
       "es": "una corbata",
-      "nhe": null
+      "nhe": "se corbata"
     },
     {
       "clave": "texto_4357e87e79",
       "es": "corbatas",
-      "nhe": null
+      "nhe": "lazos"
     },
     {
       "clave": "texto_154d9fe747",
       "es": "una maleta",
-      "nhe": null
+      "nhe": "se maleta"
     },
     {
       "clave": "texto_6eb6456051",
       "es": "maletas",
-      "nhe": null
+      "nhe": "maletas"
     },
     {
       "clave": "texto_dafc4e9bd2",
       "es": "un disco de juego",
-      "nhe": null
+      "nhe": "se disco tlen tlauisokilistli"
     },
     {
       "clave": "texto_682c7ef87d",
       "es": "discos de juego",
-      "nhe": null
+      "nhe": "discos de juegos"
     },
     {
       "clave": "texto_4d6907f13c",
       "es": "unos esquís",
-      "nhe": null
+      "nhe": "se keski esquís"
     },
     {
       "clave": "texto_04e6536c7c",
       "es": "pares de esquís",
-      "nhe": null
+      "nhe": "ome esquís"
     },
     {
       "clave": "texto_0f93d0aa15",
       "es": "una tabla de nieve",
-      "nhe": null
+      "nhe": "se tabla tlen nieve"
     },
     {
       "clave": "texto_e925885d22",
       "es": "tablas de nieve",
-      "nhe": null
+      "nhe": "tablas de nieve"
     },
     {
       "clave": "texto_6cd76d34e7",
       "es": "una pelota",
-      "nhe": null
+      "nhe": "se pelota"
     },
     {
       "clave": "texto_c45cbb78d2",
       "es": "pelotas",
-      "nhe": null
+      "nhe": "bolas"
     },
     {
       "clave": "texto_7cac99b2bf",
       "es": "un papalote",
-      "nhe": null
+      "nhe": "se cometa"
     },
     {
       "clave": "texto_1c14a40869",
       "es": "papalotes",
-      "nhe": null
+      "nhe": "cometas"
     },
     {
       "clave": "texto_2df459f45d",
       "es": "un bate",
-      "nhe": null
+      "nhe": "se murciélago"
     },
     {
       "clave": "texto_62de93319e",
       "es": "bates",
-      "nhe": null
+      "nhe": "murciélagos"
     },
     {
       "clave": "texto_3084eac1d0",
       "es": "un guante de béisbol",
-      "nhe": null
+      "nhe": "se guante de béisbol"
     },
     {
       "clave": "texto_512fc3cf31",
       "es": "guantes de béisbol",
-      "nhe": null
+      "nhe": "guantes de béisbol"
     },
     {
       "clave": "texto_5a9c6f4d32",
       "es": "una patineta",
-      "nhe": null
+      "nhe": "se patinete"
     },
     {
       "clave": "texto_7551c830fa",
       "es": "patinetas",
-      "nhe": null
+      "nhe": "patines"
     },
     {
       "clave": "texto_11ba6ec71d",
       "es": "una tabla de surf",
-      "nhe": null
+      "nhe": "se tabla de surf"
     },
     {
       "clave": "texto_e61cc07b64",
       "es": "tablas de surf",
-      "nhe": null
+      "nhe": "tablas de surf"
     },
     {
       "clave": "texto_89c4429c8b",
       "es": "una raqueta",
-      "nhe": null
+      "nhe": "se raqueta"
     },
     {
       "clave": "texto_faf5edd29b",
       "es": "raquetas",
-      "nhe": null
+      "nhe": "raquetas"
     },
     {
       "clave": "texto_0455bc4add",
       "es": "una botella",
-      "nhe": null
+      "nhe": "se botella"
     },
     {
       "clave": "texto_919b75358d",
       "es": "botellas",
-      "nhe": null
+      "nhe": "botellas"
     },
     {
       "clave": "texto_f6300fd004",
       "es": "una copa",
-      "nhe": null
+      "nhe": "se tlaili"
     },
     {
       "clave": "texto_33c541a8ab",
       "es": "copas",
-      "nhe": null
+      "nhe": "tazas"
     },
     {
       "clave": "texto_e25043120a",
       "es": "una taza",
-      "nhe": null
+      "nhe": "se taza"
     },
     {
       "clave": "texto_9f6b40d258",
       "es": "tazas",
-      "nhe": null
+      "nhe": "tazas"
     },
     {
       "clave": "texto_2de07057b4",
       "es": "un tenedor",
-      "nhe": null
+      "nhe": "se tenedor"
     },
     {
       "clave": "texto_ab4fc77cbe",
       "es": "tenedores",
-      "nhe": null
+      "nhe": "tenedores"
     },
     {
       "clave": "texto_25defd2456",
       "es": "un cuchillo",
-      "nhe": null
+      "nhe": "se cuchillo"
     },
     {
       "clave": "texto_3ae67bb979",
       "es": "cuchillos",
-      "nhe": null
+      "nhe": "cuchillos"
     },
     {
       "clave": "texto_c7496d201d",
       "es": "una cuchara",
-      "nhe": null
+      "nhe": "se cuchara"
     },
     {
       "clave": "texto_d4f97ea95a",
       "es": "cucharas",
-      "nhe": null
+      "nhe": "cucharas"
     },
     {
       "clave": "texto_cba5120491",
       "es": "un tazón",
-      "nhe": null
+      "nhe": "se taza"
     },
     {
       "clave": "texto_25516c1dd0",
       "es": "tazones",
-      "nhe": null
+      "nhe": "tazas"
     },
     {
       "clave": "texto_035d3ceab1",
       "es": "un plátano",
-      "nhe": null
+      "nhe": "se platano"
     },
     {
       "clave": "texto_9fa7d0a806",
       "es": "plátanos",
-      "nhe": null
+      "nhe": "platanos"
     },
     {
       "clave": "texto_a5b08f39db",
       "es": "una manzana",
-      "nhe": null
+      "nhe": "se manzana"
     },
     {
       "clave": "texto_a0dcfa5cc3",
       "es": "manzanas",
-      "nhe": null
+      "nhe": "manzanas"
     },
     {
       "clave": "texto_03a8067107",
       "es": "un sándwich",
-      "nhe": null
+      "nhe": "se sandwich"
     },
     {
       "clave": "texto_339a390cfc",
       "es": "sándwiches",
-      "nhe": null
+      "nhe": "sándwiches"
     },
     {
       "clave": "texto_9041d439ea",
       "es": "una naranja",
-      "nhe": null
+      "nhe": "se naranja"
     },
     {
       "clave": "texto_282b826c46",
       "es": "naranjas",
-      "nhe": null
+      "nhe": "naranjas"
     },
     {
       "clave": "texto_b0e2b1669f",
       "es": "un brócoli",
-      "nhe": null
+      "nhe": "se brócoli"
     },
     {
       "clave": "texto_ed91bf696f",
       "es": "brócolis",
-      "nhe": null
+      "nhe": "brócoli"
     },
     {
       "clave": "texto_0925ddf059",
       "es": "una zanahoria",
-      "nhe": null
+      "nhe": "se zanahoria"
     },
     {
       "clave": "texto_b1ea6042d6",
       "es": "zanahorias",
-      "nhe": null
+      "nhe": "zanahorias"
     },
     {
       "clave": "texto_40759c4b80",
       "es": "un hot dog",
-      "nhe": null
+      "nhe": "se chichi tlen totonik"
     },
     {
       "clave": "texto_9d4ca2f900",
       "es": "hot dogs",
-      "nhe": null
+      "nhe": "hot dogs"
     },
     {
       "clave": "texto_73104406d2",
       "es": "una pizza",
-      "nhe": null
+      "nhe": "se pizza"
     },
     {
       "clave": "texto_af5e48b47d",
       "es": "pizzas",
-      "nhe": null
+      "nhe": "pizzas"
     },
     {
       "clave": "texto_1d8452b1e0",
       "es": "una dona",
-      "nhe": null
+      "nhe": "se donut"
     },
     {
       "clave": "texto_5b3b8ef0d5",
       "es": "donas",
-      "nhe": null
+      "nhe": "donuts"
     },
     {
       "clave": "texto_aaa594b20c",
       "es": "un pastel",
-      "nhe": null
+      "nhe": "se pastel"
     },
     {
       "clave": "texto_31a419a0dc",
       "es": "pasteles",
-      "nhe": null
+      "nhe": "pantzi"
     },
     {
       "clave": "texto_4ad8b99a77",
       "es": "una silla",
-      "nhe": null
+      "nhe": "se siya"
     },
     {
       "clave": "texto_95bde96ca4",
       "es": "sillas",
-      "nhe": null
+      "nhe": "sillas"
     },
     {
       "clave": "texto_57782df922",
       "es": "un sillón",
-      "nhe": null
+      "nhe": "se silla"
     },
     {
       "clave": "texto_ed3cd05a04",
       "es": "sillones",
-      "nhe": null
+      "nhe": "sillas"
     },
     {
       "clave": "texto_f69f827507",
       "es": "una planta",
-      "nhe": null
+      "nhe": "se xiuitl"
     },
     {
       "clave": "texto_ca605ad1c1",
       "es": "plantas",
-      "nhe": null
+      "nhe": "xiuitl"
     },
     {
       "clave": "texto_5976c98bc3",
       "es": "una cama",
-      "nhe": null
+      "nhe": "se tlapechtli"
     },
     {
       "clave": "texto_857d0b93e3",
       "es": "camas",
-      "nhe": null
+      "nhe": "tlapechtli"
     },
     {
       "clave": "texto_3cacfe4f3f",
       "es": "una mesa",
-      "nhe": null
+      "nhe": "se mesa"
     },
     {
       "clave": "texto_da21e3a6ab",
       "es": "mesas",
-      "nhe": null
+      "nhe": "mesas"
     },
     {
       "clave": "texto_8b74c18011",
       "es": "un sanitario",
-      "nhe": null
+      "nhe": "se tlapechtli"
     },
     {
       "clave": "texto_fc79e83310",
       "es": "sanitarios",
-      "nhe": null
+      "nhe": "baños"
     },
     {
       "clave": "texto_76268c4b0f",
       "es": "una televisión",
-      "nhe": null
+      "nhe": "se televisión"
     },
     {
       "clave": "texto_391c287ed4",
       "es": "televisiones",
-      "nhe": null
+      "nhe": "televisiones"
     },
     {
       "clave": "texto_76274fdb4c",
       "es": "una computadora portátil",
-      "nhe": null
+      "nhe": "se laptop"
     },
     {
       "clave": "texto_3dc0633187",
       "es": "computadoras portátiles",
-      "nhe": null
+      "nhe": "laptops"
     },
     {
       "clave": "texto_e9ccd3d105",
       "es": "un ratón de computadora",
-      "nhe": null
+      "nhe": "se chichi tlen se computadora"
     },
     {
       "clave": "texto_b849016e62",
       "es": "ratones de computadora",
-      "nhe": null
+      "nhe": "chichimej tlen computadoras"
     },
     {
       "clave": "texto_2c160fee0a",
       "es": "un control remoto",
-      "nhe": null
+      "nhe": "se tlanauatili tlen uejka"
     },
     {
       "clave": "texto_b7dcefbc8c",
       "es": "controles remotos",
-      "nhe": null
+      "nhe": "tlanauatili tlen uejka"
     },
     {
       "clave": "texto_cdcc00c1ff",
       "es": "un teclado",
-      "nhe": null
+      "nhe": "se teclado"
     },
     {
       "clave": "texto_ac195dc913",
       "es": "teclados",
-      "nhe": null
+      "nhe": "teclados"
     },
     {
       "clave": "texto_c49111d339",
       "es": "un teléfono",
-      "nhe": null
+      "nhe": "se teléfono"
     },
     {
       "clave": "texto_83a9796084",
       "es": "teléfonos",
-      "nhe": null
+      "nhe": "teléfonos"
     },
     {
       "clave": "texto_1f38ea6c50",
       "es": "un microondas",
-      "nhe": null
+      "nhe": "se microondas"
     },
     {
       "clave": "texto_52cbf100d9",
       "es": "microondas",
-      "nhe": null
+      "nhe": "microondas"
     },
     {
       "clave": "texto_02447f06ad",
       "es": "un horno",
-      "nhe": null
+      "nhe": "se horno"
     },
     {
       "clave": "texto_09483c166f",
       "es": "hornos",
-      "nhe": null
+      "nhe": "hornos"
     },
     {
       "clave": "texto_21cfc06cad",
       "es": "un tostador",
-      "nhe": null
+      "nhe": "se tostadora"
     },
     {
       "clave": "texto_ce303ee793",
       "es": "tostadores",
-      "nhe": null
+      "nhe": "tostadores"
     },
     {
       "clave": "texto_4d1fba299a",
       "es": "un lavabo",
-      "nhe": null
+      "nhe": "se tlajko tlajko"
     },
     {
       "clave": "texto_d251d0caf2",
       "es": "lavabos",
-      "nhe": null
+      "nhe": "motlaloua"
     },
     {
       "clave": "texto_91a157d108",
       "es": "un refrigerador",
-      "nhe": null
+      "nhe": "se tlatsotsonali"
     },
     {
       "clave": "texto_e61500ecf0",
       "es": "refrigeradores",
-      "nhe": null
+      "nhe": "tlatsotsonali"
     },
     {
       "clave": "texto_2f32b10665",
       "es": "un libro",
-      "nhe": null
+      "nhe": "se amochtli"
     },
     {
       "clave": "texto_55d30acd51",
       "es": "libros",
-      "nhe": null
+      "nhe": "amochtli"
     },
     {
       "clave": "texto_8f218f289a",
       "es": "un reloj",
-      "nhe": null
+      "nhe": "se reloj"
     },
     {
       "clave": "texto_3bc30c7bb1",
       "es": "relojes",
-      "nhe": null
+      "nhe": "relojes"
     },
     {
       "clave": "texto_60ba6df8c6",
       "es": "un florero",
-      "nhe": null
+      "nhe": "se vaso"
     },
     {
       "clave": "texto_7bd4ed0d41",
       "es": "floreros",
-      "nhe": null
+      "nhe": "vasos"
     },
     {
       "clave": "texto_e5ff8da36a",
       "es": "unas tijeras",
-      "nhe": null
+      "nhe": "se keski tijeras"
     },
     {
       "clave": "texto_5f8a30df42",
       "es": "pares de tijeras",
-      "nhe": null
+      "nhe": "ome tijeras"
     },
     {
       "clave": "texto_16a5abb54d",
       "es": "un oso de peluche",
-      "nhe": null
+      "nhe": "se oso de peluche"
     },
     {
       "clave": "texto_ac305393dd",
       "es": "osos de peluche",
-      "nhe": null
+      "nhe": "osos de peluche"
     },
     {
       "clave": "texto_82cda0cf96",
       "es": "una secadora de pelo",
-      "nhe": null
+      "nhe": "se secador de pelo"
     },
     {
       "clave": "texto_735bdb4904",
       "es": "secadoras de pelo",
-      "nhe": null
+      "nhe": "secadores de pelo"
     },
     {
       "clave": "texto_040ab829f3",
       "es": "un cepillo de dientes",
-      "nhe": null
+      "nhe": "se cepillo de dientes"
     },
     {
       "clave": "texto_ceec3a2c03",
       "es": "cepillos de dientes",
-      "nhe": null
+      "nhe": "cepillos de dientes"
     },
     {
       "clave": "texto_c9a14c6519",
       "es": "a la izquierda",
-      "nhe": null
+      "nhe": "ipan inejmatl"
     },
     {
       "clave": "texto_251fb720fd",
       "es": "a la derecha",
-      "nhe": null
+      "nhe": "ika inejmatl"
     },
     {
       "clave": "texto_d369c721f4",
       "es": "varias",
-      "nhe": null
+      "nhe": "tlatlamantli"
     },
     {
       "clave": "texto_866f9445a0",
       "es": "Aparecen varios códigos. Necesito una lectura de un solo letrero.",
-      "nhe": null
+      "nhe": "Monextia miak tlamantli códigos. Nijneki se tlapoualistli tlen se tlanextili."
     },
     {
       "clave": "texto_ade80d87d0",
       "es": "Todavía no hay una lectura.",
-      "nhe": null
+      "nhe": "Ayokmo onka tlajtolpoualistli."
     },
     {
       "clave": "texto_16b04b889a",
       "es": "La lectura es poco clara. Necesito otra lectura.",
-      "nhe": null
+      "nhe": "Nopa tlajtolpoualistli ax nelia. Nijneki seyok tlajtolkuepalistli."
     },
     {
       "clave": "texto_3706afcaeb",
       "es": "Todavía no distingo un código completo del catálogo.",
-      "nhe": null
+      "nhe": "Nojua ax ueli nijxeloa se código tlen tlami tlen nopa catálogo."
     },
     {
       "clave": "texto_1f0c6062c4",
       "es": "Parece decir {v1}.",
-      "nhe": null
+      "nhe": "Kej nopa kiijtoua {v1}."
     },
     {
       "clave": "texto_0f5739041c",
       "es": "Parece decir {v1}. Necesito lecturas con tiempo válido para comparar.",
-      "nhe": null
+      "nhe": "Kej nopa kiijtoua {v1}. Nijneki tlajtolkuepalistli ika tonali tlen kuali para nijtlachilis."
     },
     {
       "clave": "texto_0d0cfaf93e",
       "es": "Parece decir {v1}. Necesito otra lectura independiente.",
-      "nhe": null
+      "nhe": "Kej nopa kiijtoua {v1}. Nijneki seyok tlajtolkuepalistli tlen iselti."
     },
     {
       "clave": "texto_baa7ef8af2",
       "es": "Parece decir {v1}. El letrero parece indicar {v2}, otro sentido distinto al que buscas.",
-      "nhe": null
+      "nhe": "Kej nopa kiijtoua {v1}. Nopa tlanextilili nesi kej kinextia {v2}, seyok tlajtoli tlen amo tlen tijtemoua."
     },
     {
       "clave": "texto_4c86a3fe20",
       "es": "Coincide con la ruta que buscas",
-      "nhe": null
+      "nhe": "Kiixnextia nopa ojtli tlen tijtemoua"
     },
     {
       "clave": "texto_9204a4e78f",
       "es": "No coincide con la ruta que buscas",
-      "nhe": null
+      "nhe": "Ax kiixnextia nopa ojtli tlen tijtemoua"
     },
     {
       "clave": "texto_6546243c56",
       "es": "Parece decir {v1}. {v2}. También coincide el letrero de destino.",
-      "nhe": null
+      "nhe": "Kej nopa kiijtoua {v1}. {v2}. Nopa tlanextili tlen kampa tias nojkia sanse."
     },
     {
       "clave": "texto_aa86993b37",
       "es": "Parece decir {v1}. {v2}; no pude confirmar el sentido.",
-      "nhe": null
+      "nhe": "Kej nopa kiijtoua {v1}. {v2}; Ax ueliyaya nikijtoua tlake kiijtosneki."
     },
     {
       "clave": "texto_2a1c32c01e",
       "es": "Posibles escaleras",
-      "nhe": null
+      "nhe": "Uelis escaleras"
     },
     {
       "clave": "texto_d6e3099d1f",
       "es": "Posible escalón",
-      "nhe": null
+      "nhe": "Uelis panos"
     },
     {
       "clave": "texto_9684596b77",
       "es": "{v1} {v2} de la imagen.",
-      "nhe": null
+      "nhe": "{v1} {v2} tlen nopa tlaixkopinkayotl."
     },
     {
       "clave": "texto_2fe4e82d64",
       "es": "en el centro",
-      "nhe": null
+      "nhe": "ipan tlajko"
     },
     {
       "clave": "texto_5f0d603548",
       "es": "Posible hoyo {v1} de la imagen.",
-      "nhe": null
+      "nhe": "Uelis tlapojtok {v1} ipan nopa tlaixkopinkayotl."
     },
     {
       "clave": "camara_objetos_2",
       "es": "{objeto} {lado}",
-      "nhe": null
+      "nhe": "{objeto} {lado}"
     },
     {
       "clave": "camara_objetos_3",
       "es": "{numero} {objeto} {lado}",
-      "nhe": null
+      "nhe": "{numero} {objeto} {lado}"
     },
     {
       "clave": "texto_8f51899ea3",
       "es": "Activar voz",
-      "nhe": null
+      "nhe": "Xijchiua tlajtoli"
     },
     {
       "clave": "texto_9fac87c692",
       "es": "Actualizar ubicación",
-      "nhe": null
+      "nhe": "Xijyankuili kanke eltok"
     },
     {
       "clave": "texto_6ae0813ecb",
       "es": "Silenciar Grieta",
-      "nhe": null
+      "nhe": "Tlatsakuili Grieta"
     },
     {
       "clave": "texto_ad0cd2f762",
       "es": "Sugerida",
-      "nhe": null
+      "nhe": "Ki ijto"
     },
     {
       "clave": "texto_370c550de8",
       "es": "Parada sugerida",
-      "nhe": null
+      "nhe": "Ki ijtoa ma moketsa"
     },
     {
       "clave": "texto_a8e55e146e",
       "es": "Actualizando tu ubicación…",
-      "nhe": null
+      "nhe": "Tijyankuilijtok kanke ti itstok..."
     },
     {
       "clave": "texto_3d06967152",
       "es": "Ubicación actualizada.{v1}",
-      "nhe": null
+      "nhe": "Nopa tlali tlen mopatlatok.{v1}"
     },
     {
       "clave": "texto_68d4f51e35",
       "es": "Es aproximada; la parada sugerida puede cambiar.",
-      "nhe": null
+      "nhe": "Elij nechka; Nopa tlatsakuili tlen kiijtoua uelis mopatlas."
     },
     {
       "clave": "texto_06ed27f504",
       "es": "Paradas desde el punto elegido: {v1}. No pude actualizar tu ubicación.",
-      "nhe": null
+      "nhe": "Moketsa tlen nopa punto tlen tijtlapejpenijtok: {v1}. Ax ueliyaya nijyektlalis kanke ti itstok."
     },
     {
       "clave": "texto_298501385b",
       "es": "No pude actualizar tu ubicación. Actívala o elige desde dónde sales.",
-      "nhe": null
+      "nhe": "Ax ueliyaya nijyektlalis kanke ti itstok. Xijchiua ma tekiti o xijtlapejpeni kanke tikisas."
     },
     {
       "clave": "texto_a013c681e5",
       "es": "No encontré paradas en el catálogo a menos de un kilómetro. Puede haber otras paradas que todavía no aparecen aquí.",
-      "nhe": null
+      "nhe": "Ax nijpantik tlatsakuili ipan nopa catálogo ipan se kilómetro. Uelis onka sekinok tlatsakuili tlen axka ijkuilitok nikan."
     },
     {
       "clave": "texto_8d94913734",
       "es": "No hay próximos horarios guardados para esta parada.",
-      "nhe": null
+      "nhe": "Ax onka tonali tlen ualas tlen tlaatitok para ni tlatsakuili."
     },
     {
       "clave": "texto_b8c4394eec",
       "es": "Comparamos hasta ocho paradas del catálogo. Puede haber otras paradas que todavía no aparecen aquí.",
-      "nhe": null
+      "nhe": "Ti kiixnextiaj hasta chikueyi paradas ipan nopa catálogo. Uelis onka sekinok tlatsakuili tlen axka ijkuilitok nikan."
     },
     {
       "clave": "texto_61dc960794",
       "es": "Una parada del catálogo es {v1}, {v2}.",
-      "nhe": null
+      "nhe": "Se tlatsakuili tlen catálogo eli {v1}, {v2}."
     },
     {
       "clave": "texto_104fc8f018",
       "es": "Espera el tono y di a dónde vas.",
-      "nhe": null
+      "nhe": "Xijchiya nopa tono uan xikijto kanke tias."
     }
   ]
 }

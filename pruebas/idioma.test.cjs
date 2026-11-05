@@ -111,13 +111,17 @@ test('el worker conserva el código y los catálogos activos y pendientes sin re
   }
 });
 
-test('náhuatl pendiente permanece desactivado y conserva todas las claves para traducir', () => {
+test('náhuatl completo tiene traducción provisional, procedencia y todas las claves', () => {
   const base = JSON.parse(fs.readFileSync(path.join(raiz, 'idiomas/es.json')));
   const c = JSON.parse(fs.readFileSync(path.join(raiz, 'idiomas/nhe.json')));
-  assert.equal(c.completa, false); assert.equal(c.parcial, false);
-  assert.equal(revisar(c, base), false);
+  assert.equal(c.completa, true); assert.equal(c.parcial, false);
+  assert.equal(c.provisional, true); assert.equal(c.revision, null);
+  assert.equal(c.fuente.tipo, 'automatica');
+  assert.equal(new URL(c.fuente.url).hostname, 'translate.google.com');
+  assert.equal(revisar(c, base), true);
   assert.deepEqual(c.mensajes.map(m => [m.clave,m.es]), base.mensajes.map(m => [m.clave,m.es]));
-  assert.ok(c.mensajes.every(m => m.nhe === null));
+  assert.ok(c.mensajes.every(m => typeof m.nhe === 'string' && m.nhe.trim()));
+  assert.notEqual(c.mensajes.find(m => m.es === 'Inicio').nhe, 'Inicio');
 });
 test('un catálogo parcial identificado conserva sus mensajes y rechaza integridad rota', () => {
   const c = { ...valido(), completa: false, parcial: true, mensajes: valido().mensajes.slice(0,1) };

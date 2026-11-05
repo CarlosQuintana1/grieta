@@ -194,7 +194,6 @@ html.contraste .lugar-icono { box-shadow: inset 0 0 0 3px #fff; }
 .fila-texto { flex: 1; min-width: 0; overflow-wrap: anywhere; }
 .fila-texto strong { display: block; font-weight: 600; }
 .fila-texto small { display: block; color: var(--tenue); font-size: 0.82rem; margin-top: 2px; }
-.tarjeta .co2 { color: var(--tenue); }
 .co2-barras { margin-top: 16px; padding: 14px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); }
 .co2-barras .etiqueta { margin: 0 0 10px; }
 .co2-fila { display: grid; grid-template-columns: 5.5em 1fr auto; align-items: center; gap: 10px; min-height: 36px; }
@@ -233,6 +232,28 @@ body:not(.alerta) #terminar[data-confirmar] { border-color: var(--cuidado); colo
 .tarjeta .fila-texto strong { font-size: 1.05rem; }
 .tarjeta .etiqueta { overflow-wrap: normal; word-break: normal; }
 .tarjeta .ahorro { display: block; margin-top: 4px; color: var(--ambar); font-size: 0.85rem; font-weight: 700; }
+/* Opción de camión: cabeza con línea y precio, tres datos grandes y abajo la duración y el CO₂ */
+.tarjeta-camion { flex-direction: column; align-items: stretch; gap: 12px; text-align: left; }
+.tarjeta-cabeza { display: flex; align-items: center; gap: 12px; }
+.tarjeta-cabeza .fila-texto strong { font-size: 1.2rem; }
+.datos-viaje { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: 8px; }
+.dato { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border-radius: 12px; background: var(--fondo); }
+.dato small { color: var(--tenue); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.dato b { font-size: 1.25rem; font-weight: 700; white-space: nowrap; }
+.dato-ahorro b { color: var(--ambar); }
+.duracion { color: var(--tenue); font-size: 0.9rem; }
+.tarjeta .co2 { display: flex; align-items: center; gap: 8px; padding-top: 10px; border-top: 1px solid var(--linea); color: var(--tenue); font-size: 0.9rem; }
+.tarjeta .co2 .icono { flex: none; width: 20px; height: 20px; color: var(--tenue); }
+html.grande .datos-viaje { grid-template-columns: 1fr; }
+html.grande .dato { flex-direction: row; justify-content: space-between; align-items: baseline; }
+/* Comparar el precio de la app: tarjeta grande, no un enlace escondido */
+.comparar-precio { display: flex; align-items: center; gap: 12px; width: 100%; margin-top: 12px; padding: 14px; min-height: 72px; text-align: left;
+  border-radius: var(--radio); background: color-mix(in srgb, var(--ambar) 12%, var(--superficie)); border: 1px solid color-mix(in srgb, var(--ambar) 45%, transparent); }
+.comparar-precio .mini-ficha { width: 44px; height: 44px; flex: none; }
+.comparar-precio .mini-ficha .picto { width: 24px; height: 24px; }
+.comparar-precio strong { font-size: 1.05rem; }
+.comparar-precio small { color: var(--tenue); }
+.comparar-precio .chevron { flex: none; color: var(--ambar); }
 #tituloCamion { margin-top: 26px; }
 /* Con letra grande, el texto de cada opcion se queda con todo el ancho y el mapa cede espacio. */
 html.grande .tarjeta .mini-ficha { display: none; }

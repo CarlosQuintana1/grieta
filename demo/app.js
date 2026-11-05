@@ -994,15 +994,19 @@ function pintarOpciones(r) {
     const ahorro = appBarata.precio - o.costo;
     const mas = enApp ? Math.round(o.minutos - enApp.minutos) : 0;
     const ahorroTexto = ahorro >= 5 ? `Ahorras aprox. ${pesos(ahorro)}${mas > 0 ? ` · ${mas} min más que en app` : ""}` : "";
-    const contra = ahorroTexto ? `<span class="ahorro">${ahorroTexto}</span>` : "";
     const co2 = sinAuto(o) ? `En auto emitiría al menos ${kgTexto(co2Auto(r.directo.km))} de CO₂` : "";
+    // Tres datos grandes con su nombre arriba: se leen de un vistazo sin armar una oración.
+    const datos = [["Llegas", hora(llegada(o)), ""], ahorro >= 5 && ["Ahorras", pesos(ahorro), " dato-ahorro"], caminata(o) && ["Caminas", `${caminata(o)} min`, ""]].filter(Boolean);
+    const duracion = [`${Math.round(o.minutos)} min de viaje`, mas > 0 && `${mas} min más que en app`].filter(Boolean).join(" · ");
     const rango = rangoOpcion(o);
-    return `<button type="button" class="tarjeta${etiquetas.includes("Recomendado") ? " principal" : ""}" data-i="${i}"
+    return `<button type="button" class="tarjeta tarjeta-camion${etiquetas.includes("Recomendado") ? " principal" : ""}" data-i="${i}"
       aria-label="${escapar(`${etiquetas.join(" y ")}. ${tituloOpcion(o)}. ${pie.join(". ")}. ${precioOpcionVoz(o)}. ${ahorroTexto}${co2 ? `. ${co2}` : ""}`)}">
-      ${fichaOpcion(o)}
-      <span class="fila-texto"><span class="etiqueta">${etiquetas.join(" · ")}</span>
-        <strong>${escapar(tituloOpcion(o))}</strong><small>${pie.join(" · ")}</small>${contra}${co2 ? `<small class="co2">${co2}</small>` : ""}</span>
-      <span class="precio${rango ? " precio-rango" : ""}">${rango ? `<small class="precio-nota">Aprox.</small>${partesRango(rango)}` : pesos(o.costo)}</span>${ico("chevron", "chevron")}
+      <span class="tarjeta-cabeza">${fichaOpcion(o)}
+        <span class="fila-texto">${etiquetas.length ? `<span class="etiqueta">${etiquetas.join(" · ")}</span>` : ""}<strong>${escapar(tituloOpcion(o))}</strong></span>
+        <span class="precio${rango ? " precio-rango" : ""}">${rango ? `<small class="precio-nota">Aprox.</small>${partesRango(rango)}` : pesos(o.costo)}</span>${ico("chevron", "chevron")}</span>
+      <span class="datos-viaje" aria-hidden="true">${datos.map(([nombre, valor, clase]) => `<span class="dato${clase}"><small>${nombre}</small><b>${valor}</b></span>`).join("")}</span>
+      <span class="duracion" aria-hidden="true">${duracion}</span>
+      ${co2 ? `<span class="co2" aria-hidden="true">${ico("auto")}<span>${co2}</span></span>` : ""}
     </button>`;
   }).join("");
   const hayCamion = r.opciones.some((o) => o.tipo !== "app");
@@ -1290,7 +1294,7 @@ $("precio").addEventListener("keydown", (e) => { if (e.key === "Enter") e.target
 
 function pintarVeredicto(r) {
   const d = r.decision;
-  $("enviarPrecio").hidden = !d || !API;
+  $("enviarPrecio").hidden = $("notaCompartir").hidden = !d || !API;
   $("gracias").textContent = "";
   if (!d) {
     $("veredicto").innerHTML = estado.app || Number($("precio").value) > 0 ? `<p class="nota">Elige la app y escribe el precio para darte una recomendación.</p>` : "";
@@ -2890,7 +2894,7 @@ $("enviarPrecio").addEventListener("click", async () => {
       }),
     });
     $("gracias").textContent = "Gracias: con tu precio Grieta calcula mejor.";
-    $("enviarPrecio").hidden = true;
+    $("enviarPrecio").hidden = $("notaCompartir").hidden = true;
   } catch (err) {
     $("gracias").textContent = ["sin api", "sin conexion"].includes(err.message)
       ? "No se pudo enviar: no hay conexión con Grieta. Revisa tu internet e intenta otra vez."

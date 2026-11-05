@@ -3501,6 +3501,16 @@
       "clave": "texto_f8840116c9",
       "es": "este mes.",
       "otq": "Nuna ar zänä."
+    },
+    {
+      "clave": "texto_6de77bc94e",
+      "es": "Caminas",
+      "otq": "Mpe̲ka̲"
+    },
+    {
+      "clave": "texto_496d439577",
+      "es": "Compartir mi precio con Grieta",
+      "otq": "Pe̲hni nuna ar precio Grieta"
     }
   ],
   "adaptaciones": [
@@ -3823,6 +3833,16 @@
       "clave": "texto_f8840116c9",
       "fuente": "https://www.bing.com/translator?from=es&to=otq",
       "criterio": "Fragmento «este mes» de la traducción automática de «este mes frente al precio esperado en app.»."
+    },
+    {
+      "clave": "texto_6de77bc94e",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Fragmento «caminas» de la traducción automática de «caminas {v1} min»."
+    },
+    {
+      "clave": "texto_496d439577",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Reusa la traducción automática de «Enviar este precio a Grieta»."
     }
   ],
   "parcial": true

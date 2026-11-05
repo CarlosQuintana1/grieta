@@ -9719,6 +9719,20 @@
       "contextos": [
         "demo/app.js · pintarAhorro"
       ]
+    },
+    {
+      "clave": "texto_6de77bc94e",
+      "es": "Caminas",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_496d439577",
+      "es": "Compartir mi precio con Grieta",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ]
     }
   ]
 }

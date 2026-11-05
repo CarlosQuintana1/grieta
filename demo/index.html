@@ -279,7 +279,11 @@
         <p id="llegadaApp" class="llegada-app"></p>
         <div id="appsRapido" class="apps-rapido" role="group" aria-labelledby="tituloEnApp"></div>
         <p id="avisoRapido" class="nota" role="status"></p>
-        <button id="compararPrecio" type="button" class="enlace">¿La app ya te dio precio? Compáralo</button>
+        <button id="compararPrecio" type="button" class="comparar-precio">
+          <span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-app"/></svg></span>
+          <span class="fila-texto"><strong>¿La app ya te dio precio?</strong><small>Escríbelo y te digo si conviene. Con tu precio, Grieta aprende.</small></span>
+          <svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg>
+        </button>
       </div>
       <h2 id="tituloCamion">En Qrobus</h2>
       <div id="ultimoCamion" class="aviso cuidado" role="status" hidden></div>
@@ -380,7 +384,8 @@
           <button type="button" data-v="45" aria-pressed="false">Sin prisa</button>
         </div>
         <div id="veredicto" aria-live="polite"></div>
-        <button id="enviarPrecio" type="button" class="boton oscuro" hidden>Enviar este precio a Grieta</button>
+        <button id="enviarPrecio" type="button" class="boton" hidden aria-describedby="notaCompartir">Compartir mi precio con Grieta</button>
+        <p id="notaCompartir" class="nota" hidden>Solo se guardan la app, el precio y de dónde a dónde vas. Sirve para que Grieta calcule mejor.</p>
         <p id="gracias" class="nota" role="status"></p>
       </div>
     </section>

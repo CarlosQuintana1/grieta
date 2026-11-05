@@ -5592,6 +5592,16 @@
       "clave": "texto_f8840116c9",
       "es": "este mes.",
       "nhe": "ni metstli."
+    },
+    {
+      "clave": "texto_6de77bc94e",
+      "es": "Caminas",
+      "nhe": "Tinejnemi"
+    },
+    {
+      "clave": "texto_496d439577",
+      "es": "Compartir mi precio con Grieta",
+      "nhe": "Xijtitlani ni tlaxtlauili ipan Grieta"
     }
   ],
   "adaptaciones": [
@@ -5669,6 +5679,16 @@
       "clave": "texto_f8840116c9",
       "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
       "criterio": "Fragmento «este mes» de la traducción automática de «este mes frente al precio esperado en app.»."
+    },
+    {
+      "clave": "texto_6de77bc94e",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Fragmento «caminas» de la traducción automática de «caminas {v1} min»."
+    },
+    {
+      "clave": "texto_496d439577",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Reusa la traducción automática de «Enviar este precio a Grieta»."
     }
   ]
 }

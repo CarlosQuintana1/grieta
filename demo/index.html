@@ -449,6 +449,19 @@
       </div>
       <h2 class="perfil-subtitulo">Tu forma de viajar</h2>
       <div class="perfil-preguntas">
+        <div class="item-perfil" data-grupo-perfil="perfilVista">
+          <div class="fila-perfil">
+            <span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-ojo"/></svg></span>
+            <div class="fila-texto"><h3 id="pVista">¿Cómo ves la pantalla?</h3><strong class="respuesta-perfil"></strong><small id="perfilVistaEfecto" class="efecto fila-perfil-efecto"></small></div>
+          </div>
+          <div id="panelPerfilVista" class="opciones-perfil">
+            <div id="perfilVista" class="fichas" role="radiogroup" aria-labelledby="pVista" aria-describedby="perfilVistaEfecto">
+              <button type="button" role="radio" aria-checked="false" data-v="vista" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-ojo"/></svg><span>Veo bien</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+              <button type="button" role="radio" aria-checked="false" data-v="poco" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-letra"/></svg><span>Veo poco</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+              <button type="button" role="radio" aria-checked="false" data-v="voz" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-altavoz"/></svg><span>Quiero que Grieta me hable</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+            </div>
+          </div>
+        </div>
         <div id="filaLengua" class="item-perfil" data-grupo-perfil="perfilLengua">
           <div class="fila-perfil">
             <span class="mini-ficha tono-ciruela" aria-hidden="true"><svg class="picto"><use href="#p-decir"/></svg></span>
@@ -463,19 +476,6 @@
           </div>
         </div>
         <p id="nahuatlPendiente" class="nota" role="status">Náhuatl pendiente de traducción.</p>
-        <div class="item-perfil" data-grupo-perfil="perfilVista">
-          <div class="fila-perfil">
-            <span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-ojo"/></svg></span>
-            <div class="fila-texto"><h3 id="pVista">¿Cómo ves la pantalla?</h3><strong class="respuesta-perfil"></strong><small id="perfilVistaEfecto" class="efecto fila-perfil-efecto"></small></div>
-          </div>
-          <div id="panelPerfilVista" class="opciones-perfil">
-            <div id="perfilVista" class="fichas" role="radiogroup" aria-labelledby="pVista" aria-describedby="perfilVistaEfecto">
-              <button type="button" role="radio" aria-checked="false" data-v="vista" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-ojo"/></svg><span>Veo bien</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
-              <button type="button" role="radio" aria-checked="false" data-v="poco" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-letra"/></svg><span>Veo poco</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
-              <button type="button" role="radio" aria-checked="false" data-v="voz" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-altavoz"/></svg><span>Quiero que Grieta me hable</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
-            </div>
-          </div>
-        </div>
         <div id="perfilLector" class="item-perfil" data-grupo-perfil="perfilLectorOpciones" hidden>
           <div class="fila-perfil">
             <span class="mini-ficha tono-ciruela" aria-hidden="true"><svg class="picto"><use href="#p-decir"/></svg></span>

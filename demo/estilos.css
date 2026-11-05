@@ -551,9 +551,6 @@ html.modo-voz #compararPrecio, html.modo-voz #filaUnidos { display: none; }
 .opciones-perfil .ficha .icono { width: 28px; height: 28px; }
 .opciones-perfil .ficha .marca { top: 50%; right: 12px; transform: translateY(-50%); }
 .opciones-perfil .ficha[aria-checked="true"] .marca { opacity: 1; }
-#perfilLengua .ficha { border: none; animation: none; }
-#perfilLengua .ficha[aria-checked="true"] { background: var(--superficie); color: var(--tinta); }
-#perfilLengua .ficha .marca { color: var(--ambar); }
 .fichas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .fichas.dos { grid-template-columns: repeat(2, 1fr); }
 .ficha { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;

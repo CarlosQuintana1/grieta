@@ -666,16 +666,12 @@ button:active, .boton:active, .chip:active, .tarjeta:active, .app-fila:active, .
 .sugerencia { display: flex; align-items: center; gap: 12px; width: 100%; margin-top: 12px; padding: 12px 14px; border-radius: var(--radio);
   background: var(--superficie); border: 2px solid var(--ambar); text-align: left; }
 .sugerencia .icono { color: var(--ambar); }
-.logros { margin-top: 20px; padding: 6px 14px 12px; border-radius: var(--radio); background: var(--superficie); }
-.logro { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
-.logro-icono { flex: none; display: grid; place-items: center; color: var(--tono-logro); }
-.logro-icono .icono { width: 24px; height: 24px; }
-.logro strong { display: inline; font-size: 1.15rem; font-weight: 700; color: var(--tono-logro); }
-.logro .fila-texto { display: block; }
-.logro small { display: inline; margin-left: 6px; color: var(--tenue); font-size: 1rem; }
-.logro-ahorro { --tono-logro: var(--ambar); }
-.logro-co2 { --tono-logro: var(--verde); }
-.logros-lema { margin: 4px 0 0 36px; color: var(--tenue); }
+.impacto-todos { display: flex; gap: 12px; align-items: center; margin-top: 20px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
+.impacto-todos > .icono { flex: none; width: 24px; height: 24px; color: var(--verde); }
+.impacto-todos strong { display: block; font-size: 1.15rem; color: var(--verde); }
+.impacto-todos .fila-texto > span { color: var(--tenue); }
+.ahorro-mes { margin-top: 20px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
+.ahorro-mes strong { color: var(--ambar); font-weight: 700; }
 #precio::placeholder { color: var(--tenue); font-size: 1rem; font-weight: 500; opacity: 1; }
 
 /* Pantallas angostas y letra grande: que nada se parta a la mitad */

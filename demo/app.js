@@ -2318,11 +2318,6 @@ $("rutina").addEventListener("click", () => irA({ ...estado.rutina }));
 $("vozRutina").addEventListener("click", () => { hablar(frase("vamos_lugar", { lugar: estado.rutina.nombre })); irA({ ...estado.rutina }); });
 
 // Lo ahorrado este mes por ir en camion en vez de la app mas barata.
-// Ahorro propio y CO₂ de todos, juntos como logro.
-function mostrarLogros() {
-  const visibles = ["logroAhorro", "logroCo2"].filter((id) => !$(id).hidden).length;
-  $("logros").hidden = !visibles;
-}
 function pintarAhorro() {
   // Mes en hora local: en UTC el ultimo dia del mes en la noche ya cuenta como el siguiente.
   const hoy = new Date();
@@ -2333,9 +2328,8 @@ function pintarAhorro() {
   const meta = [100, 50, 25, 10, 5, 1].find((kg) => acumulado >= kg * 1000);
   const nuevaMeta = meta && meta > leer("grieta-meta-co2", 0) ? meta : null;
   if (nuevaMeta) { escribir("grieta-meta-co2", nuevaMeta); hablar(`Llevas ${nuevaMeta} kilos de CO₂ que no emitió un auto.`); }
-  $("logroAhorro").hidden = total < 1;
-  $("logroAhorroCifra").textContent = pesos(total);
-  mostrarLogros();
+  $("ahorroMes").hidden = total < 1;
+  $("ahorroMes").innerHTML = `<strong>${pesos(total)} de ahorro estimado</strong> este mes.`;
 }
 // Lo de todos: cada viaje en camion empezado con la guia manda solo sus km; la API los suma.
 const contarViaje = (km) => llamar("/viajes", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ km: Math.round(km * 10) / 10 }) })
@@ -2346,9 +2340,8 @@ async function pintarImpacto() {
   try {
     const { co2_kg } = await llamar("/impacto");
     if (!co2_kg) return;
-    $("logroCo2Cifra").textContent = kgTexto(co2_kg * 1000);
-    $("logroCo2").hidden = false;
-    mostrarLogros();
+    $("impactoTodos").innerHTML = `${ico("planta")}<span class="fila-texto"><strong>${kgTexto(co2_kg * 1000)} de CO₂ evitados</strong><span>Moverte diferente sí cuenta.</span></span>`;
+    $("impactoTodos").hidden = false;
   } catch { estado.impactoLeido = 0; }
 }
 function fechaViaje(iso) {

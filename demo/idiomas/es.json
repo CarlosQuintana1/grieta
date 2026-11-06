@@ -10049,27 +10049,6 @@
       "contextos": [
         "demo/app.js · pintarImpacto"
       ]
-    },
-    {
-      "clave": "texto_03c52e4a95",
-      "es": "Tu impacto",
-      "contextos": [
-        "demo/index.html · texto de interfaz"
-      ]
-    },
-    {
-      "clave": "texto_69bb1e5b70",
-      "es": "ahorraste este mes",
-      "contextos": [
-        "demo/index.html · texto de interfaz"
-      ]
-    },
-    {
-      "clave": "texto_75573f1a19",
-      "es": "de CO₂ evitados entre todos",
-      "contextos": [
-        "demo/index.html · texto de interfaz"
-      ]
     }
   ]
 }

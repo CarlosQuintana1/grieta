@@ -5777,21 +5777,6 @@
       "clave": "texto_0b8be139a8",
       "es": "Moverte diferente sí cuenta.",
       "nhe": "Mopatla ika seyok tlamantli tlauel ipati."
-    },
-    {
-      "clave": "texto_03c52e4a95",
-      "es": "Tu impacto",
-      "nhe": "Mo impacto"
-    },
-    {
-      "clave": "texto_69bb1e5b70",
-      "es": "ahorraste este mes",
-      "nhe": "tij tlaatijtok ni metstli"
-    },
-    {
-      "clave": "texto_75573f1a19",
-      "es": "de CO₂ evitados entre todos",
-      "nhe": "tlen CO₂ tlen nochi kiixnamikij"
     }
   ],
   "adaptaciones": [
@@ -5944,11 +5929,6 @@
       "clave": "texto_fd5a1b5ac2",
       "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
       "criterio": "Salida automática de «Se evitaron {v1} de CO₂.» sin el punto; la frase corta salió incompleta. Se escribe CO₂."
-    },
-    {
-      "clave": "texto_75573f1a19",
-      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
-      "criterio": "Se escribe CO₂ como en el texto fuente."
     }
   ]
 }

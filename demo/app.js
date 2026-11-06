@@ -2591,7 +2591,7 @@ async function pintarImpacto() {
     const { co2_kg, viajes: n, km } = await llamar("/impacto");
     if (!co2_kg) return;
     estado.impacto = { g: co2_kg * 1000, viajes: n, km };
-    $("impactoTodos").innerHTML = `${ico("planta")}<span class="fila-texto"><strong>${kgTexto(co2_kg * 1000)} de CO₂ evitados</strong><span>Moverte diferente sí cuenta.</span></span>${ico("chevron", "chevron")}`;
+    $("impactoTodos").innerHTML = `${ico("planta")}<span class="fila-texto"><strong>${kgTexto(co2_kg * 1000)} de CO₂ evitados</strong><span>Mira cómo va tu tlacuache.</span></span>${ico("chevron", "chevron")}`;
     $("impactoTodos").hidden = false;
   } catch { estado.impactoLeido = 0; }
 }
@@ -2658,17 +2658,91 @@ function pintarSemanas(propio, viajesPropios) {
   }).join("");
   $("co2Semanas").setAttribute("aria-label", `Kilos de CO₂ evitados por semana: ${semanas.map((x) => `${fecha(x.d)}, ${(x.g / 1000).toFixed(1)}`).join("; ")}`);
 }
-let alcanceCo2 = "todos";
+// El tlacuache de cada quien: su ciudad sana con los kilos de CO₂ que evitan sus propios viajes en camion.
+function tlacuache(e) {
+  const triste = e < 2, feliz = e >= 4, come = e >= 5, crias = e >= 6;
+  const cabeza = triste ? 'transform="rotate(14 18 -28)"' : "";
+  const ojo = triste ? '<circle cx="32" cy="-30" r="2.6" class="tl-negro"/><path d="M27.5 -35l8 -2.6" class="tl-trazo"/><path d="M32 -25.5q-2.2 4 0 5.2q2.2-1.2 0-5.2Z" class="lagrima"/>'
+    : feliz ? '<path d="M28.5 -30q3.5 -3.8 7 0" class="tl-trazo grueso"/>' : '<circle cx="32" cy="-31" r="3" class="tl-negro"/><circle cx="33" cy="-32" r="1" class="tl-brillo"/>';
+  const boca = triste ? '<path d="M43 -18.5q3.5 -2.4 7 0" class="tl-trazo fino"/>' : '<path d="M43 -20q3.5 3 7 0" class="tl-trazo fino"/>';
+  const cria = (x, y, s) => `<g transform="translate(${x} ${y}) scale(${s})"><path d="M-14 -2c-8 0-12 6-8 10" class="tl-cola-trazo"/><ellipse cx="-2" cy="-4" rx="13" ry="8" class="tl-cria"/><path d="M8 -11c6 0 11 3 15 7 1 1 0 2-1 2-5 1-10 2-14 1Z" class="tl-blanco"/><circle cx="23" cy="-3.5" r="1.6" class="tl-nariz"/><circle cx="7" cy="-11" r="3" class="tl-negro"/><circle cx="14" cy="-7" r="1.2" class="tl-negro"/></g>`;
+  return `<g class="tlacuache">
+    <path d="M-38 -20C-62 -16-68 6-53 8c8 1 9-8 2-9" class="tl-cola-trazo"/>
+    <rect x="-31" y="-14" width="7" height="14" rx="3" class="tl-negro"/><rect x="-19" y="-12" width="7" height="12" rx="3" class="tl-oscuro"/>
+    <rect x="6" y="-14" width="7" height="14" rx="3" class="tl-negro"/><rect x="16" y="-12" width="7" height="12" rx="3" class="tl-oscuro"/>
+    <ellipse cx="-8" cy="-26" rx="31" ry="20" class="tl-gris"/><ellipse cx="-6" cy="-14" rx="22" ry="7" class="tl-panza"/>
+    <path d="M-36 -30c10-12 40-14 52-4" class="tl-lomo"/>
+    ${crias ? cria(-30, -45, 1.05) + cria(-8, -47, 0.95) : ""}
+    <g ${cabeza}>
+      <ellipse cx="19" cy="-43" rx="7.5" ry="8.5" class="tl-negro"/><ellipse cx="19.5" cy="-42" rx="4" ry="5" class="tl-oreja"/>
+      <path d="M11 -41c16-7 33 1 45 14 2 2 1 5-2 5-14 3-29 5-41 2-8-2-10-17-2-21Z" class="tl-blanco"/>
+      <circle cx="55" cy="-24.5" r="3.4" class="tl-nariz"/>
+      ${ojo}${boca}
+      <path d="M48 -24l11 -4M48 -22l12 0" class="tl-bigote"/>
+      ${come ? '<ellipse cx="53" cy="-15" rx="5" ry="4" class="tuna"/><circle cx="51.5" cy="-16.5" r=".8" class="tl-brillo"/>' : ""}
+    </g>
+  </g>`;
+}
+function escenaTlacuache(e) {
+  const basura = e < 1, humo = e < 1 ? 0.5 : e < 3 ? 0.25 : 0, limpia = e >= 3;
+  const edificio = (x, w, h) => `<rect x="${x}" y="${150 - h}" width="${w}" height="${h + 30}" class="edificio"/>` +
+    Array.from({ length: Math.floor((h - 10) / 14) }, (_, f) => Array.from({ length: Math.floor((w - 6) / 10) }, (_, c) => `<rect x="${x + 6 + c * 10}" y="${150 - h + 8 + f * 14}" width="4" height="6" class="ventana${(f + c + x) % 3 ? "" : " luz"}"/>`).join("")).join("");
+  const arbol = (x, y, t) => `<rect x="${x - 2.5}" y="${y - t * 0.5}" width="5" height="${t * 0.5}" rx="2" class="tronco"/><circle cx="${x}" cy="${y - t * 0.75}" r="${t * 0.32}" class="copa"/><circle cx="${x - t * 0.22}" cy="${y - t * 0.55}" r="${t * 0.24}" class="copa"/><circle cx="${x + t * 0.22}" cy="${y - t * 0.55}" r="${t * 0.24}" class="copa"/>`;
+  const bolsa = (x, y) => `<path d="M${x - 8} ${y}c-2-9 3-14 8-14s10 5 8 14Z" class="bolsa"/><path d="M${x - 2} ${y - 14}l2-4 2 4" class="bolsa-nudo"/>`;
+  const pajaro = (x, y) => `<path d="M${x} ${y}q4-4 8 0q4-4 8 0" class="pajaro"/>`;
+  return `<defs><linearGradient id="cieloTl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="cielo-arriba"/><stop offset="1" class="cielo-abajo"/></linearGradient></defs>
+  <rect width="360" height="220" fill="url(#cieloTl)"/>
+  <circle cx="300" cy="44" r="18" class="sol${e >= 3 ? "" : " tenue"}"/>
+  <path d="M0 128C50 80 110 70 170 92s120-28 190 6V220H0Z" class="cerro${e >= 4 ? " verde" : e >= 2 ? " medio" : ""}"/>
+  ${e >= 4 ? arbol(150, 96, 22) + arbol(186, 100, 18) + arbol(214, 92, 20) : ""}
+  ${edificio(4, 38, 70)}${edificio(44, 28, 50)}${edificio(270, 34, 60)}${edificio(306, 50, 84)}
+  ${humo ? `<rect width="360" height="220" class="humo" opacity="${humo}"/>` : ""}
+  <rect y="168" width="360" height="52" class="suelo${e >= 2 ? " pasto" : ""}"/>
+  <rect y="164" width="360" height="6" class="banqueta"/>
+  ${e >= 2 ? arbol(40, 172, 54) : '<path d="M40 172v-30m0 12l-9-9m9 2l8-10" class="seco"/>'}
+  ${e >= 4 ? arbol(352, 172, 46) + pajaro(30, 40) + pajaro(64, 28) + pajaro(318, 110) : ""}
+  <g transform="translate(318 190)"><ellipse cx="0" cy="8" rx="28" ry="6" class="fuente-borde"/><ellipse cx="0" cy="5" rx="23" ry="4.2" class="${limpia ? "agua" : "agua sucia"}"/>${limpia ? '<path d="M0 3V-18M0-18q-8 2-12 10M0-18q8 2 12 10" class="chorro"/>' : ""}</g>
+  ${basura ? bolsa(78, 202) + bolsa(94, 206) + bolsa(262, 204) + '<rect x="280" y="196" width="9" height="15" rx="2" transform="rotate(70 284 204)" class="lata"/><path d="M60 210l14-6" class="botella"/>' : ""}
+  ${e >= 1 ? '<g transform="translate(256 176)"><rect x="0" y="0" width="18" height="24" rx="3" class="bote"/><rect x="-2" y="-4" width="22" height="6" rx="2" class="bote-tapa"/><path d="M6 8v10M12 8v10" class="bote-raya"/></g>' : ""}
+  ${e >= 5 ? '<g transform="translate(84 198)"><ellipse cx="0" cy="-14" rx="9" ry="14" class="nopal"/><ellipse cx="-12" cy="-30" rx="7" ry="11" transform="rotate(-25 -12 -30)" class="nopal"/><ellipse cx="11" cy="-31" rx="7" ry="10" transform="rotate(25 11 -31)" class="nopal"/><circle cx="-16" cy="-41" r="3.5" class="tuna"/><circle cx="-8" cy="-41" r="3.5" class="tuna"/><circle cx="14" cy="-41" r="3.5" class="tuna"/></g>' : ""}
+  ${e >= 4 ? '<circle cx="80" cy="196" r="2.5" class="flor"/><circle cx="300" cy="206" r="2.5" class="flor"/><circle cx="196" cy="210" r="2.5" class="flor amarilla"/><circle cx="20" cy="204" r="2.5" class="flor amarilla"/>' : ""}
+  <g transform="translate(172 204) scale(1.4)">${tlacuache(e)}</g>`;
+}
+const ETAPAS_TL = [
+  [0, "Tu tlacuache vive entre basura y humo.", "recoger la basura"],
+  [1000, "Ya no hay basura en el suelo.", "que crezca un árbol"],
+  [3000, "Creció un árbol y volvió el pasto.", "limpiar la fuente y el aire"],
+  [6000, "El agua está limpia y se fue el humo.", "que lleguen los pájaros"],
+  [10000, "Llegaron los pájaros y hay más árboles.", "que el nopal dé tunas"],
+  [15000, "Tu tlacuache ya come tunas.", "que tenga crías"],
+  [25000, "Tu tlacuache tuvo crías. Su ciudad está sana.", null],
+];
+function pintarTlacuache(g, viajesPropios) {
+  const e = ETAPAS_TL.findLastIndex(([desde]) => g >= desde), [desde, texto, sigue] = ETAPAS_TL[e];
+  $("mundoTl").setAttribute("class", `escena e${e}`);
+  $("mundoTl").innerHTML = escenaTlacuache(e);
+  $("mundoTl").setAttribute("aria-label", `Ilustración: ${texto}`);
+  const siguiente = ETAPAS_TL[e + 1]?.[0];
+  $("co2Avance").hidden = !siguiente;
+  if (!siguiente) { $("co2Unidad").textContent = texto; return; }
+  const falta = siguiente - g, porViaje = viajesPropios ? g / viajesPropios : 700;
+  $("co2Unidad").textContent = `${texto} Faltan ${kgTexto(falta)}, unos ${plural(Math.max(1, Math.ceil(falta / porViaje)), "viaje", "viajes")} en camión, para ${sigue}.`;
+  $("co2Avance").firstElementChild.style.width = `${Math.round(((g - desde) / (siguiente - desde)) * 100)}%`;
+}
+let alcanceCo2 = "tu";
 const marcarAlcance = radios("co2Alcance", (v) => { alcanceCo2 = v; pintarCo2(); });
 function pintarCo2() {
   const propio = historial.reduce((s, h) => s + (h.co2 || 0), 0), viajesPropios = historial.filter((h) => h.co2).length;
-  const todos = estado.impacto?.g ? estado.impacto : null, deTodos = todos && (alcanceCo2 === "todos" || !propio);
-  $("co2Alcance").hidden = !(todos && propio);
+  const todos = estado.impacto?.g ? estado.impacto : null, deTodos = !!todos && alcanceCo2 === "todos";
+  $("co2Alcance").hidden = !todos;
   marcarAlcance(deTodos ? "todos" : "tu");
   const g = deTodos ? todos.g : propio;
   $("co2Quien").textContent = deTodos ? `${plural(todos.viajes, "viaje", "viajes")} en camión · ${Math.round(todos.km)} km` : propio ? `Tus ${plural(viajesPropios, "viaje", "viajes")} en camión` : "Aún sin viajes en camión";
-  $("co2Total").textContent = kgTexto(g);
-  pintarBosque(g);
+  $("co2Total").textContent = g ? kgTexto(g) : "0 kg";
+  $("tituloEquivale").hidden = $("co2Equivale").hidden = g < 50;
+  $("bosque").toggleAttribute("hidden", !deTodos);
+  $("mundoTlCaja").hidden = deTodos;
+  if (deTodos) { pintarBosque(g); $("co2Avance").hidden = true; } else pintarTlacuache(propio, viajesPropios);
   $("co2Equivale").innerHTML = equivalencias(g).map(([p, cifra, texto]) => `<li>${miniFicha("tono-hospital", picto(p))}<strong>${cifra}</strong><span>${texto}</span></li>`).join("");
   pintarSemanas(propio, viajesPropios);
 }

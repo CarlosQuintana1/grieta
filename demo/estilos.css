@@ -1062,8 +1062,16 @@ button.impacto-todos { width: 100%; text-align: left; }
 .bosque .tronco { fill: #8a5a3c; }
 .bosque .brote { fill: none; stroke: color-mix(in srgb, var(--verde) 60%, transparent); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .bosque .sobra { fill: var(--verde); font-weight: 800; font-size: 20px; }
-.co2-unidad { margin: 0; padding: 10px 20px 14px; color: var(--tenue); font-size: .82rem; background: color-mix(in srgb, var(--verde) 32%, var(--superficie)); }
-html.claro .co2-unidad { color: var(--tinta); }
+.co2-pie { padding: 12px 20px 16px; background: color-mix(in srgb, var(--verde) 32%, var(--superficie)); }
+#bosque:not([hidden]) + .co2-pie { margin-top: -1px; }
+.mundo-tl + svg + .co2-pie, .mundo-tl:not([hidden]) ~ .co2-pie { background: none; padding-top: 12px; }
+.co2-unidad { margin: 0; color: var(--tinta); font-size: .9rem; line-height: 1.4; }
+.co2-avance { height: 8px; margin-top: 10px; border-radius: 999px; background: color-mix(in srgb, var(--verde) 18%, var(--linea)); overflow: hidden; }
+.co2-avance[hidden] { display: none; }
+.co2-avance i { display: block; height: 100%; min-width: 8px; border-radius: inherit; background: var(--verde); transition: width .6s ease-out; }
+.mundo-tl { margin: 14px 12px 0; border-radius: 16px; overflow: hidden; }
+.mundo-tl[hidden] { display: none; }
+.escena { display: block; width: 100%; height: auto; }
 .co2-equivale { list-style: none; margin: 10px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .co2-equivale li { display: flex; flex-direction: column; gap: 2px; padding: 12px; border-radius: var(--radio); background: var(--superficie); min-width: 0; }
 .co2-equivale .mini-ficha { width: 34px; height: 34px; margin-bottom: 8px; }
@@ -1087,3 +1095,30 @@ html.claro .co2-unidad { color: var(--tinta); }
 .co2-fuentes summary::-webkit-details-marker { display: none; }
 .co2-fuentes p { margin: 4px 0 0; color: var(--tenue); font-size: .8rem; text-align: left; }
 @media (max-width: 360px) { .co2-equivale { grid-template-columns: 1fr; } .co2-cifra strong { font-size: 2.6rem; } }
+
+/* Tlacuache: colores fijos de la ilustracion, iguales en tema claro y oscuro */
+.escena .cielo-arriba { stop-color: #8fc3dc; } .escena .cielo-abajo { stop-color: #d9ecef; }
+.escena.e0 .cielo-arriba, .escena.e1 .cielo-arriba, .escena.e2 .cielo-arriba { stop-color: #9a9789; }
+.escena.e0 .cielo-abajo, .escena.e1 .cielo-abajo, .escena.e2 .cielo-abajo { stop-color: #c9c1ac; }
+.escena .sol { fill: #f2b64a; } .escena .sol.tenue { fill: #d9c79a; opacity: .6; }
+.escena .cerro { fill: #a58c69; } .escena .cerro.medio { fill: #8e9a66; } .escena .cerro.verde { fill: #6f9e62; }
+.escena .edificio { fill: #6d6a72; } .escena .ventana { fill: #8a8790; } .escena .ventana.luz { fill: #f2d48a; }
+.escena .humo { fill: #8a7f6c; }
+.escena .suelo { fill: #8f7a5c; } .escena .suelo.pasto { fill: #79a35f; } .escena .banqueta { fill: #b9b2a6; }
+.escena .tronco { fill: #7a5236; } .escena .copa { fill: #4f9a5c; } .escena .seco { fill: none; stroke: #6b5440; stroke-width: 4; stroke-linecap: round; }
+.escena .pajaro { fill: none; stroke: #3d3a40; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.escena .fuente-borde { fill: #b4ada2; } .escena .agua { fill: #5fb7d9; } .escena .agua.sucia { fill: #7a6a45; }
+.escena .chorro { fill: none; stroke: #8fd3ee; stroke-width: 3; stroke-linecap: round; }
+.escena .bolsa { fill: #2f2d31; } .escena .bolsa-nudo { fill: none; stroke: #2f2d31; stroke-width: 2; stroke-linejoin: round; }
+.escena .lata { fill: #c0433b; } .escena .botella { stroke: #9cc7b4; stroke-width: 4; stroke-linecap: round; }
+.escena .bote { fill: #2e7d4f; } .escena .bote-tapa { fill: #245f3c; } .escena .bote-raya { stroke: #4fa070; stroke-width: 2; stroke-linecap: round; }
+.escena .nopal { fill: #5c9a4a; } .escena .tuna { fill: #c2346b; }
+.escena .flor { fill: #e86f9a; } .escena .flor.amarilla { fill: #f2c94c; }
+.escena .tl-gris { fill: #a7a4a8; } .escena .tl-lomo { fill: none; stroke: #8b878d; stroke-width: 6; stroke-linecap: round; opacity: .6; }
+.escena .tl-blanco { fill: #f4f1ea; } .escena .tl-negro { fill: #26232a; } .escena .tl-oscuro { fill: #3d3940; } .escena .tl-oreja { fill: #e9b9b4; }
+.escena .tl-nariz { fill: #e58a9a; } .escena .tl-brillo { fill: #fff; }
+.escena .tl-cola-trazo { fill: none; stroke: #e7bdb3; stroke-width: 4.5; stroke-linecap: round; }
+.escena .tl-trazo { fill: none; stroke: #26232a; stroke-width: 2; stroke-linecap: round; } .escena .tl-trazo.fino { stroke-width: 1.4; }
+.escena .tl-bigote { stroke: #8b878d; stroke-width: .8; stroke-linecap: round; }
+.escena .lagrima { fill: #7cc3e8; } .escena .tl-panza { fill: #c9c6c8; } .escena .tl-trazo.grueso { stroke-width: 2.4; }
+.escena .tl-cria { fill: #c4c1c5; stroke: #8b878d; stroke-width: 1; }

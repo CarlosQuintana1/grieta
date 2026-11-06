@@ -257,6 +257,8 @@ html.grande .dato { flex-direction: row; justify-content: space-between; align-i
 .comparar-precio small { color: var(--tenue); }
 .comparar-precio .chevron { flex: none; color: var(--ambar); }
 #tituloCamion { margin-top: 26px; }
+.camion-primero #tituloCamion { margin-top: 0; }
+.camion-primero .en-app { margin-top: 26px; }
 /* Con letra grande, el texto de cada opcion se queda con todo el ancho y el mapa cede espacio. */
 html.grande .tarjeta .mini-ficha { display: none; }
 html.grande body.con-mapa #mapa { min-height: 20%; }
@@ -756,6 +758,8 @@ html.claro body::before { background: #0b0a09; }
 .ficha-combinada > span + span { border-left: 2px solid rgb(0 0 0 / .25); }
 .ficha-combinada .picto { width: 24px; height: 24px; }
 #appAviso:empty { display: none; }
+.fila-perfil .ficha-combinada > span { width: 24px; }
+.fila-perfil .ficha-combinada .picto { width: 18px; height: 18px; }
 .pasos .fila-texto { padding-top: 2px; }
 .pasos .hora { padding-top: 4px; }
 .app-rapida .mini-ficha { width: 34px; height: 34px; margin-bottom: 6px; }

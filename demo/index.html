@@ -546,6 +546,19 @@
             </div>
           </div>
         </div>
+        <div id="preguntaPrefiere" class="item-perfil" data-grupo-perfil="perfilPrefiere">
+          <div class="fila-perfil">
+            <span class="mini-ficha ficha-combinada" aria-hidden="true"><span class="tono-anil"><svg class="picto"><use href="#p-qrobus"/></svg></span><span class="tono-hospital"><svg class="picto"><use href="#p-app"/></svg></span></span>
+            <div class="fila-texto"><h3 id="pPrefiere">¿Qué te muestro primero?</h3><strong class="respuesta-perfil"></strong><small id="perfilPrefiereEfecto" class="efecto fila-perfil-efecto"></small></div>
+          </div>
+          <div id="panelPerfilPrefiere" class="opciones-perfil">
+            <div id="perfilPrefiere" class="fichas" role="radiogroup" aria-labelledby="pPrefiere" aria-describedby="perfilPrefiereEfecto">
+              <button type="button" role="radio" aria-checked="false" data-v="qrobus" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-camion"/></svg><span>Qrobus</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+              <button type="button" role="radio" aria-checked="false" data-v="apps" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-auto"/></svg><span>Apps</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+              <button type="button" role="radio" aria-checked="false" data-v="conviene" tabindex="-1" class="ficha"><svg class="icono"><use href="#i-ruta"/></svg><span>Lo que convenga</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="acciones-fijas"><button id="perfilListo" type="button" class="boton">Listo</button></div>
     </section>

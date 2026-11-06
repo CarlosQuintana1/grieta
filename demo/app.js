@@ -109,7 +109,7 @@ let turnoVoz = 0;
 let colaVoz = Promise.resolve();
 
 // Ajustes guardados en este telefono.
-const acc = { toques: true, modoVoz: false, facil: false, grande: false, contraste: false, daltonico: false, voz: false, vozElegida: false, lenta: false, camino: false, unidos: false, tema: "auto", movilidad: "normal", oido: "bien", lector: "no", lengua: "es", ...leer("grieta-acc", {}) };
+const acc = { toques: true, modoVoz: false, facil: false, grande: false, contraste: false, daltonico: false, voz: false, vozElegida: false, lenta: false, camino: false, unidos: false, tema: "auto", movilidad: "normal", prefiere: "qrobus", oido: "bien", lector: "no", lengua: "es", ...leer("grieta-acc", {}) };
 let camaraConVoz = true;
 acc.idioma ??= acc.lengua === "oto" ? "oto" : "es";
 if (!["es", "oto", "nah"].includes(acc.idioma)) acc.idioma = "es";
@@ -841,6 +841,7 @@ function mostrarAPie() {
   const clave = `${o.lat},${o.lon};${d.lat},${d.lon}`;
   if (estado.aPie === clave) return;
   estado.aPie = clave;
+  estado.minAPie = null;
   $("aPie").hidden = true;
   if (Grieta.metros(o.lat, o.lon, d.lat, d.lon) > 2000) return;
   caminoAPie([o.lat, o.lon], [d.lat, d.lon]).then((c) => {
@@ -850,6 +851,11 @@ function mostrarAPie() {
     $("aPieTexto").textContent = camina ? `Caminando llegas en ${minutosCaminando(c.metros)} min` : `Queda a ${distanciaTexto(c.metros)} por calles`;
     $("aPieDetalle").textContent = camina ? `${distanciaTexto(c.metros, true)} por calles, sin costo` : "Si te sientes bien para ir a pie, no cuesta nada";
     $("aPie").hidden = false;
+    // Con el tiempo a pie ya medido, se quitan los camiones que no llegan antes que caminando.
+    if (camina) {
+      estado.minAPie = minutosCaminando(c.metros);
+      if (estado.r && estado.tarjetas?.some(({ o }) => o.minutos >= estado.minAPie)) pintarOpciones(estado.r);
+    }
   });
 }
 
@@ -900,7 +906,8 @@ const fichaOpcion = (o) => {
 const valorOpcion = (o) => o.costo + 1.5 * o.minutos;
 const menor = (ops, f) => ops.reduce((a, b) => (f(b) < f(a) ? b : a));
 function elegirTarjetas(r) {
-  const ops = r.opciones.filter((o) => o.tipo !== "app");
+  // Un camion que no llega antes que caminando no se ofrece: caminar es gratis.
+  const ops = r.opciones.filter((o) => o.tipo !== "app" && !(estado.minAPie && o.minutos >= estado.minAPie));
   if (!ops.length) return [];
   const lista = [];
   const agregar = (o, etiqueta) => {
@@ -1031,6 +1038,14 @@ function pintarOpciones(r) {
     $("ultimoCamion").innerHTML = `${ico("alerta")}<span class="fila-texto"><strong>Último ${escapar(c.linea)}: ${hora(c.ultima)} según el horario</strong>
       <small>En la parada ${escapar(cruce(c.recorrido[0].nombre))}, hacia ${escapar(c.hacia)}. Si lo pierdes, ${Grieta.nombreApp(app.app)} se estima en ${rangoTexto(limitesPrecio(app))}.</small></span>`;
   }
+  if (hayCamion && !estado.tarjetas.length) $("tarjetas").innerHTML = `<p class="nota">Caminando llegas antes que en cualquier Qrobus.</p>`;
+  // Primero lo que eligio en su perfil; con "lo que convenga", lo que gana en precio y tiempo en este viaje.
+  const prefiere = acc.prefiere ?? "qrobus";
+  const camionPrimero = estado.tarjetas.length > 0 && (prefiere === "qrobus" || (prefiere === "conviene" && menor(r.opciones, valorOpcion).tipo !== "app"));
+  const bloqueCamion = ["tituloCamion", "ultimoCamion", "tarjetas"].map($);
+  if (camionPrimero) $("enApp").before(...bloqueCamion);
+  else $("enApp").after(...bloqueCamion);
+  $("opciones").classList.toggle("camion-primero", camionPrimero);
   if (!hayCamion) {
     $("tarjetas").innerHTML += `<p class="nota">${r.pasaCerca ? "Ningún Qrobus te lleva directo en la próxima hora." : "En la próxima hora no pasa ningún Qrobus cerca."}</p>`;
   }
@@ -3015,6 +3030,7 @@ function fichasPerfil() {
     ["perfilMovilidad", "maiz", movilidad === "silla" ? "silla" : "caminar", { normal: "Camino bien", poco: "Camino poco", silla: "Silla o andadera" }[movilidad]],
     ["perfilOido", "ciruela", "decir", acc.oido === "poco" ? "Escucho poco" : "Escucho bien"],
     ["perfilTarifa", "anil", "qrobus", acc.unidos ? "Tarifa Unidos" : "Tarifa normal"],
+    ["perfilPrefiere", "trabajo", acc.prefiere === "apps" ? "app" : "qrobus", { qrobus: "Primero Qrobus", apps: "Primero apps", conviene: "Lo que convenga" }[acc.prefiere ?? "qrobus"]],
   ].filter(Boolean);
 }
 function resumenCortoPerfil() {
@@ -3050,6 +3066,7 @@ const EFECTOS = {
   perfilMovilidad: { normal: "Te busco la parada que más te convenga.", poco: "Te busco paradas más cerca.", silla: "Paradas cerca, y te aviso si reportaron que no tienen rampa." },
   perfilOido: { bien: "Durante el viaje te aviso con voz.", poco: "Avisos en pantalla grande y con vibración, sin voz." },
   perfilTarifa: { si: "Calculo el camión a $2 y el transbordo gratis.", no: "Calculo el camión con la tarifa normal." },
+  perfilPrefiere: { qrobus: "En cada viaje va primero el camión.", apps: "En cada viaje van primero Uber, DiDi e inDrive.", conviene: "Arriba va lo que te convenga más en precio y tiempo." },
   perfilForma: { completa: "Precios, horarios, comparar y esperar.", facil: "Solo lo esencial, con botones grandes." },
   perfilLengua: { es: "La interfaz está en español. El audio sigue en español.", oto: "La traducción de la interfaz todavía no está disponible. El audio sigue en español.", nah: "La traducción de la interfaz todavía no está disponible. El audio sigue en español." },
 };
@@ -3061,6 +3078,7 @@ const RESPUESTAS_PERFIL = {
   perfilMovilidad: { normal: "Camino sin problema", poco: "Me cuesta caminar", silla: "Uso silla de ruedas o andadera" },
   perfilOido: { bien: "Escucho bien los avisos", poco: "Me cuesta escuchar" },
   perfilTarifa: { si: "Pago Tarifa Unidos", no: "Pago tarifa normal" },
+  perfilPrefiere: { qrobus: "Primero Qrobus", apps: "Primero las apps", conviene: "Lo que convenga" },
   perfilLengua: { es: "Español", oto: NOMBRE_OTOMI, nah: NOMBRE_NAHUATL },
 };
 function actualizarFilasPerfil() {
@@ -3072,6 +3090,7 @@ function actualizarFilasPerfil() {
     perfilMovilidad: movilidad,
     perfilOido: acc.oido ?? "bien",
     perfilTarifa: acc.unidos ? "si" : "no",
+    perfilPrefiere: acc.prefiere ?? "qrobus",
     perfilLengua: acc.idioma,
   };
   for (const [grupo, valor] of Object.entries(valores)) {
@@ -3086,6 +3105,7 @@ function actualizarFilasPerfil() {
   marcarMovilidad(valores.perfilMovilidad);
   marcarOido(valores.perfilOido);
   marcarTarifa(valores.perfilTarifa);
+  marcarPrefiere(valores.perfilPrefiere);
   marcarLengua(valores.perfilLengua);
   $("perfilLector").hidden = !acc.modoVoz;
   $("preguntaForma").hidden = acc.modoVoz;
@@ -3127,6 +3147,10 @@ const marcarTarifa = radios("perfilTarifa", (v) => cambiarPerfil(() => {
   efecto("perfilTarifa", v);
   acc.unidos = v === "si";
 }));
+const marcarPrefiere = radios("perfilPrefiere", (v) => cambiarPerfil(() => {
+  efecto("perfilPrefiere", v);
+  acc.prefiere = v;
+}));
 const marcarLengua = radios("perfilLengua", (v) => cambiarPerfil(() => {
   acc.idioma = v;
   Interfaz.cambiar(v);
@@ -3137,6 +3161,7 @@ function abrirPerfil() {
   marcarMovilidad(acc.movilidad ?? (acc.camino ? "poco" : "normal"));
   marcarOido(acc.oido ?? "bien");
   marcarTarifa(acc.unidos ? "si" : "no");
+  marcarPrefiere(acc.prefiere ?? "qrobus");
   $("perfilLector").hidden = !acc.modoVoz;
   marcarForma(acc.facil ? "facil" : "completa");
   actualizarFilasPerfil();

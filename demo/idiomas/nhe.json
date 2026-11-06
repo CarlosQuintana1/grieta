@@ -6237,6 +6237,156 @@
       "clave": "texto_365e016b49",
       "es": "Llega cerca de las {v1}, cuando pasa el camión, y lleva agua.",
       "nhe": "Yajaya ajsi nechka {v1}, kema nopa camión pano, uan ​​kiuika atl."
+    },
+    {
+      "clave": "texto_f81f2c197a",
+      "es": "¿Es mi parada?",
+      "nhe": "¿Elij no parada?"
+    },
+    {
+      "clave": "texto_4a46f6df76",
+      "es": "Confirmar con la brújula",
+      "nhe": "Xij tlachili ika brújula"
+    },
+    {
+      "clave": "texto_47d0679de6",
+      "es": "Revisando dónde estás…",
+      "nhe": "Ni tlachilijtok kanke ti itstok..."
+    },
+    {
+      "clave": "texto_f3d856648a",
+      "es": "Parece la parada de enfrente",
+      "nhe": "Nesi keja nopa tlaketsali tlen eltok ixpan"
+    },
+    {
+      "clave": "texto_532c2742bd",
+      "es": "Sí, es tu parada: {v1}.",
+      "nhe": "Kema, eli mo tlatsakuili: {v1}."
+    },
+    {
+      "clave": "texto_3678d52a1b",
+      "es": "Aquí pasa la {v1} hacia {v2}.",
+      "nhe": "Nika nopa {v1} pano ipan {v2}."
+    },
+    {
+      "clave": "texto_e7f3d6e9a6",
+      "es": "La de enfrente va hacia {v1}.",
+      "nhe": "Nopa tlen eltok ixpan yaui kampa {v1}."
+    },
+    {
+      "clave": "texto_2acf596a4e",
+      "es": "Parece que estás en la parada de enfrente.",
+      "nhe": "Eltoc queja tiitztoc campa moquetza moixpa."
+    },
+    {
+      "clave": "texto_b7b799e625",
+      "es": "Ahí la {v1} va hacia {v2}.",
+      "nhe": "Nopaya nopa {v1} yaui {v2}."
+    },
+    {
+      "clave": "texto_50bcb90e24",
+      "es": "Tu parada está cruzando la calle, a unos {v1} metros.",
+      "nhe": "Moketsa eltok ipan seyok ojtli, kanaj {v1} metros uejka."
+    },
+    {
+      "clave": "texto_ca04f1cde0",
+      "es": "Todavía no llegas.",
+      "nhe": "Ayemo tiitztoc nepa."
+    },
+    {
+      "clave": "texto_ab78715375",
+      "es": "Tu parada está a unos {v1} metros.",
+      "nhe": "Moketsa eltok kanaj {v1} metros uejka."
+    },
+    {
+      "clave": "texto_7dffb4a31f",
+      "es": "No estoy seguro de qué lado de la calle estás.",
+      "nhe": "Ax nijmati ipan tlen lado nopa ojtli tiitztoc."
+    },
+    {
+      "clave": "texto_8d96101412",
+      "es": "El GPS tiene un error de {v1} metros y la parada de enfrente está a {v2} metros.",
+      "nhe": "Nopa GPS kipia se tlajtlakoli tlen {v1} metros uan nopa tlaketsali tlen eltok ixpan eltok {v2} metros uejka."
+    },
+    {
+      "clave": "texto_d9484bb4bb",
+      "es": "Las dos tienen el mismo nombre en el letrero.",
+      "nhe": "Nochi ome quipiyaj san se inintoca ipan nopa amatlapohuali."
+    },
+    {
+      "clave": "texto_49e33e9047",
+      "es": "Puedes leer el letrero con la cámara.",
+      "nhe": "Uelis tijpouas nopa letrero ika nopa cámara."
+    },
+    {
+      "clave": "texto_c5979df7d4",
+      "es": "No pude saber dónde estás.",
+      "nhe": "Ax niueliyaya nijmatis kanke ti itstok."
+    },
+    {
+      "clave": "texto_75749d0a71",
+      "es": "Sin permiso para la brújula.",
+      "nhe": "Ax onka tlanauatili para nopa brújula."
+    },
+    {
+      "clave": "texto_139dbd442a",
+      "es": "Actívalo en la configuración del navegador.",
+      "nhe": "Xij tlali ipan nopa tlasenkaualistli tlen nopa navegador."
+    },
+    {
+      "clave": "texto_eca5bc6a59",
+      "es": "Párate de frente a la calle, con la banqueta a tu espalda, y sostén el teléfono plano frente a ti.",
+      "nhe": "Ximoketsa ika ojtli, ika nopa calle mokuitlapan, uan ​​xijpixto nopa teléfono moixpa."
+    },
+    {
+      "clave": "texto_1f22f9e776",
+      "es": "Tu teléfono no dio la brújula.",
+      "nhe": "Mo teléfono ax mitsmakak nopa brújula."
+    },
+    {
+      "clave": "texto_f27d1b68e7",
+      "es": "Lee el letrero con la cámara o pregunta en la parada.",
+      "nhe": "Xijpoua nopa letrero ika nopa cámara o xijtlajtlani kampa timoketsa."
+    },
+    {
+      "clave": "texto_a4579a680f",
+      "es": "Según la brújula, estás del lado correcto: de este lado los camiones van hacia {v1}.",
+      "nhe": "Kej kiijtoua nopa brújula, ti itstok ipan nopa lado tlen kinamiki: ipan ni lado nopa camiones yauij kampa {v1}."
+    },
+    {
+      "clave": "texto_b75262f62b",
+      "es": "Según la brújula, estás del lado contrario: de este lado van hacia {v1}.",
+      "nhe": "Kej kiijtoua nopa brújula, ti itstok ipan seyok lado: ipan ni lado inijuantij yauij kampa {v1}."
+    },
+    {
+      "clave": "texto_4109d41921",
+      "es": "Tu parada está cruzando la calle.",
+      "nhe": "Moketsa eltok ipan seyok ojtli."
+    },
+    {
+      "clave": "texto_683b7a19b1",
+      "es": "La brújula no fue clara.",
+      "nhe": "Nopa brújula ax tlachiayaya."
+    },
+    {
+      "clave": "texto_3d11c5a005",
+      "es": "Gira hasta quedar de frente a la calle e intenta otra vez.",
+      "nhe": "Ximokuepa hasta timoixnamikis ipan ojtli uan xijyejyeko sempa."
+    },
+    {
+      "clave": "texto_06f7e52e6b",
+      "es": "El letrero dice {v1}, igual que la parada de enfrente: no distingue el lado. Usa ¿Es mi parada? con la brújula.",
+      "nhe": "Nopa letrero kiijtoua {v1}, sanse kej nopa tlajko tlen eltok ixpan: ax kiixnextia tlen lado. Xijtequihui ¿Elij no parada? ika nopa brújula."
+    },
+    {
+      "clave": "texto_56972566ec",
+      "es": "El letrero dice {v1}: es tu parada para la {v2}.",
+      "nhe": "Nopa tlanextilili kiijtoua {v1}: ni mo paras para {v2}."
+    },
+    {
+      "clave": "texto_fd5f3cb02c",
+      "es": "El letrero dice {v1}: es la parada de enfrente, donde la {v2} va hacia {v3}. Tu parada está cruzando la calle.",
+      "nhe": "Nopa tlanextilili kiijtoua {v1}: eli nopa tlajko tlen mokaua, kampa nopa {v2} yaui {v3}. Moketsa eltok ipan seyok ojtli."
     }
   ],
   "adaptaciones": [
@@ -6484,6 +6634,11 @@
       "clave": "texto_315749ce04",
       "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
       "criterio": "Nombre propio; la traducción automática lo cambió a «Rift Observatory»."
+    },
+    {
+      "clave": "texto_06f7e52e6b",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Se usa la misma traducción del botón «¿Es mi parada?»."
     }
   ]
 }

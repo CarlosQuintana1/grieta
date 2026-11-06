@@ -1030,3 +1030,7 @@ h2.titulo-medio .mini-ficha .picto { width: 20px; height: 20px; }
 .bono-opciones li { display: flex; justify-content: space-between; gap: 12px; padding: 12px 14px; border-radius: 14px; background: var(--superficie); }
 .bono-opciones li.mejor { outline: 2px solid var(--verde); }
 .bono-opciones li.mejor strong { color: var(--verde); }
+.revision-parada { margin: 10px 0; font-weight: 600; }
+.revision-parada.si { border-color: var(--verde); color: var(--verde); }
+.revision-parada.enfrente { border-color: var(--cuidado); color: var(--cuidado); }
+.revision-parada.dudosa, .revision-parada.lejos { border-color: var(--ambar); }

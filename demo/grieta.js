@@ -352,6 +352,67 @@ const Grieta = (() => {
     return paradasEnRadio(lat, lon, radio).slice(0, limiteParadas(limite));
   }
 
+  // vistaCalle: hacia donde mira quien esta en su parada de frente a la calle. Si la brujula marca eso, esta del lado
+  // correcto; si marca lo contrario, esta enfrente.
+  function ladoPorBrujula(vista, vistaCalle) {
+    if (!Number.isFinite(vista) || !Number.isFinite(vistaCalle)) return null;
+    const dif = (a, b) => Math.abs(((a - b + 540) % 360) - 180);
+    if (dif(vista, vistaCalle) <= 60) return "si";
+    if (dif(vista, vistaCalle + 180) <= 60) return "enfrente";
+    return "dudosa";
+  }
+  const rumboEntre = (la1, lo1, la2, lo2) => {
+    const r = Math.PI / 180, y = Math.sin((lo2 - lo1) * r) * Math.cos(la2 * r);
+    const x = Math.cos(la1 * r) * Math.sin(la2 * r) - Math.sin(la1 * r) * Math.cos(la2 * r) * Math.cos((lo2 - lo1) * r);
+    return (Math.atan2(y, x) / r + 360) % 360;
+  };
+  // ¿Es mi parada? Compara la parada donde se sube con la de enfrente: la parada cercana donde la misma línea va en
+  // otro sentido. El GPS del teléfono falla 10 m o más, así que solo afirma cuando la diferencia lo permite.
+  function sentidosDeParada(indice) {
+    const vistos = new Map();
+    for (const [pi, pos] of porParada?.[indice] ?? []) {
+      const p = qrobus.patrones[pi];
+      if (pos < p.paradas.length - 1) vistos.set(`${p.linea}|${p.hacia}`, { linea: p.linea, hacia: p.hacia });
+    }
+    return [...vistos.values()];
+  }
+  // Rumbo en grados (0 = norte) hacia donde avanza la linea al salir de la parada; sirve para la brujula.
+  function rumboDeSalida(indice, linea, hacia) {
+    for (const [pi, pos] of porParada?.[indice] ?? []) {
+      const p = qrobus.patrones[pi];
+      if (p.linea !== linea || p.hacia !== hacia || pos >= p.paradas.length - 1) continue;
+      const [la1, lo1] = qrobus.paradas[indice], [la2, lo2] = qrobus.paradas[p.paradas[pos + 1]];
+      return rumboEntre(la1, lo1, la2, lo2);
+    }
+    return null;
+  }
+  function revisarParada({ lat, lon, precision = 15, objetivo }) {
+    if (![lat, lon, objetivo?.lat, objetivo?.lon].every(Number.isFinite)) return { estado: "sin_datos" };
+    const propia = paradasEnRadio(objetivo.lat, objetivo.lon, 5)[0];
+    const enfrente = paradasEnRadio(objetivo.lat, objetivo.lon, 120)
+      .filter((x) => x.i !== propia?.i && x.m > 5 && sentidosDeParada(x.i).some((s) => s.linea === objetivo.linea && s.hacia !== objetivo.hacia))[0] ?? null;
+    const aMia = metros(lat, lon, objetivo.lat, objetivo.lon);
+    const aEnfrente = enfrente ? metros(lat, lon, enfrente.lat, enfrente.lon) : Infinity;
+    const opuesta = enfrente ? { nombre: enfrente.nombre, lat: enfrente.lat, lon: enfrente.lon, hacia: sentidosDeParada(enfrente.i).find((s) => s.linea === objetivo.linea)?.hacia ?? null, separacion: Math.round(enfrente.m) } : null;
+    // Para decidir, la diferencia de distancias debe superar el error del GPS y una parte de la separacion.
+    const margen = enfrente ? Math.max(8, Math.min(precision, enfrente.m * 0.6)) : 0;
+    const rumbo = propia ? rumboDeSalida(propia.i, objetivo.linea, objetivo.hacia) : null;
+    // La calle queda del lado donde esta la parada de enfrente respecto al sentido del camion. Si no se distingue
+    // (paradas alineadas), se usa la circulacion por la derecha: la calle queda a la izquierda del camion.
+    let vistaCalle = null;
+    if (rumbo !== null) {
+      const rel = enfrente ? ((rumboEntre(objetivo.lat, objetivo.lon, enfrente.lat, enfrente.lon) - rumbo) % 360 + 360) % 360 : 270;
+      vistaCalle = (rumbo + (rel > 10 && rel < 170 ? 90 : 270)) % 360;
+    }
+    const base = { metros: Math.round(aMia), precision: Math.round(precision), opuesta, rumbo, vistaCalle, mismoNombre: Boolean(opuesta && opuesta.nombre === objetivo.nombre) };
+    if (aMia > 60 && aEnfrente > 60) return { ...base, estado: "lejos" };
+    if (enfrente && precision > enfrente.m) return { ...base, estado: "dudosa" };
+    if (!enfrente) return { ...base, estado: aMia <= 35 ? "si" : "lejos" };
+    if (aMia <= 40 && aEnfrente - aMia >= margen) return { ...base, estado: "si" };
+    if (aEnfrente <= 40 && aMia - aEnfrente >= margen) return { ...base, estado: "enfrente" };
+    return { ...base, estado: "dudosa" };
+  }
+
   // Paradas oficiales que ningún viaje del horario usa: existen en el catálogo pero no tienen camiones registrados.
   const tieneRecorridos = (indice) => Boolean(porParada?.[indice]?.length);
 
@@ -404,5 +465,5 @@ const Grieta = (() => {
 
   const nombreApp = (a) => ({ uber: "Uber", didi: "DiDi", indrive: "inDrive" })[a];
 
-  return { cargar, cotizar, evaluar, decidir, pasanAqui, paradasCercanas, tieneRecorridos, horariosParada, horariosParadaPorIndice, hhmm, metros, CORTES, nombreApp, get modelo() { return modelo; }, get qrobus() { return qrobus; } };
+  return { cargar, cotizar, evaluar, decidir, pasanAqui, revisarParada, sentidosDeParada, ladoPorBrujula, paradasCercanas, tieneRecorridos, horariosParada, horariosParadaPorIndice, hhmm, metros, CORTES, nombreApp, get modelo() { return modelo; }, get qrobus() { return qrobus; } };
 })();

@@ -9,7 +9,7 @@ const CamaraGrieta = (() => {
   let bloqueo, previa, calidadActual, problemaAnterior = '', repeticiones = 0, ultimoRiesgo = -Infinity, lento = 0;
   const seguimiento = new GrietaSeguimiento.Seguimiento();
   const modeloActual = () => $('camaraDetalle').checked ? 'detalle' : 'ligero';
-  let hablar, callar, prepararVoz, paradas, vozOcupada = () => false, explorando = () => false, anterior = [], ultimaFrase = '', ultimoAviso = 0, ultimoTexto = '', ultimoNarrado = '', leyendo = false, ultimaLectura = 0, vacios = 0;
+  let hablar, callar, prepararVoz, paradas, letreroParada, vozOcupada = () => false, explorando = () => false, anterior = [], ultimaFrase = '', ultimoAviso = 0, ultimoTexto = '', ultimoNarrado = '', leyendo = false, ultimaLectura = 0, vacios = 0;
   const lienzo = document.createElement('canvas');
   const contexto = lienzo.getContext('2d', { willReadFrequently: true });
   const lienzoTexto = document.createElement('canvas');
@@ -408,7 +408,8 @@ const CamaraGrieta = (() => {
       let frase = '';
       if (texto && (manual || texto !== ultimoTexto)) {
         const parada = GrietaVision.paradaPosible(texto, paradas());
-        frase = !manual && enViaje() ? (parada ? `El letrero parece coincidir con la parada ${parada} del catálogo.` : '') : `El texto parece decir: ${texto}.${parada ? ` Coincide con el nombre ${parada} del catálogo; confirma la parada antes de abordar.` : ''}`;
+        const lado = parada && enViaje() ? letreroParada?.(parada) : null;
+        frase = lado || (!manual && enViaje() ? (parada ? `El letrero parece coincidir con la parada ${parada} del catálogo.` : '') : `El texto parece decir: ${texto}.${parada ? ` Coincide con el nombre ${parada} del catálogo; confirma la parada antes de abordar.` : ''}`);
         ultimoTexto = texto;
       } else if (manual) frase = 'No pude leer texto con suficiente claridad. Acércate al letrero si puedes hacerlo con seguridad y vuelve a intentar.';
       if (frase && Date.now() - ultimoRiesgo > 6000) {
@@ -479,7 +480,7 @@ const CamaraGrieta = (() => {
   }
   function repetir() { if (activa && ultimaFrase) narrar(ultimaFrase, true); }
   function iniciarInterfaz(opciones) {
-    ({ hablar, callar, prepararVoz, paradas } = opciones);
+    ({ hablar, callar, prepararVoz, paradas, letreroParada } = opciones);
     vozOcupada = opciones.vozOcupada ?? (() => false);
     explorando = opciones.explorando ?? (() => false);
     viaje = opciones.viaje ?? (() => null); rutas = opciones.rutas ?? (() => []);

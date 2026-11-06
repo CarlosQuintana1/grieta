@@ -10898,6 +10898,298 @@
           "formato": "hora"
         }
       }
+    },
+    {
+      "clave": "texto_f81f2c197a",
+      "es": "¿Es mi parada?",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_4a46f6df76",
+      "es": "Confirmar con la brújula",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_47d0679de6",
+      "es": "Revisando dónde estás…",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_f3d856648a",
+      "es": "Parece la parada de enfrente",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_532c2742bd",
+      "es": "Sí, es tu parada: {v1}.",
+      "contextos": [
+        "demo/app.js · textoRevision"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "cruce(c.recorrido[0].nombre)"
+        }
+      }
+    },
+    {
+      "clave": "texto_3678d52a1b",
+      "es": "Aquí pasa la {v1} hacia {v2}.",
+      "contextos": [
+        "demo/app.js · textoRevision"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "c.linea"
+        },
+        "v2": {
+          "expresion": "c.hacia"
+        }
+      }
+    },
+    {
+      "clave": "texto_e7f3d6e9a6",
+      "es": "La de enfrente va hacia {v1}.",
+      "contextos": [
+        "demo/app.js · textoRevision"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "r.opuesta.hacia"
+        }
+      }
+    },
+    {
+      "clave": "texto_2acf596a4e",
+      "es": "Parece que estás en la parada de enfrente.",
+      "contextos": [
+        "demo/app.js · textoRevision"
+      ]
+    },
+    {
+      "clave": "texto_b7b799e625",
+      "es": "Ahí la {v1} va hacia {v2}.",
+      "contextos": [
+        "demo/app.js · textoRevision"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "c.linea"
+        },
+        "v2": {
+          "expresion": "r.opuesta.hacia"
+        }
+      }
+    },
+    {
+      "clave": "texto_50bcb90e24",
+      "es": "Tu parada está cruzando la calle, a unos {v1} metros.",
+      "contextos": [
+        "demo/app.js · textoRevision"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "r.metros",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_ca04f1cde0",
+      "es": "Todavía no llegas.",
+      "contextos": [
+        "demo/app.js · textoRevision"
+      ]
+    },
+    {
+      "clave": "texto_ab78715375",
+      "es": "Tu parada está a unos {v1} metros.",
+      "contextos": [
+        "demo/app.js · textoRevision"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "r.metros",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_7dffb4a31f",
+      "es": "No estoy seguro de qué lado de la calle estás.",
+      "contextos": [
+        "demo/app.js · textoRevision"
+      ]
+    },
+    {
+      "clave": "texto_8d96101412",
+      "es": "El GPS tiene un error de {v1} metros y la parada de enfrente está a {v2} metros.",
+      "contextos": [
+        "demo/app.js · textoRevision"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "r.precision",
+          "formato": "numero"
+        },
+        "v2": {
+          "expresion": "r.opuesta.separacion",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_d9484bb4bb",
+      "es": "Las dos tienen el mismo nombre en el letrero.",
+      "contextos": [
+        "demo/app.js · textoRevision"
+      ]
+    },
+    {
+      "clave": "texto_49e33e9047",
+      "es": "Puedes leer el letrero con la cámara.",
+      "contextos": [
+        "demo/app.js · textoRevision"
+      ]
+    },
+    {
+      "clave": "texto_c5979df7d4",
+      "es": "No pude saber dónde estás.",
+      "contextos": [
+        "demo/app.js · textoRevision"
+      ]
+    },
+    {
+      "clave": "texto_75749d0a71",
+      "es": "Sin permiso para la brújula.",
+      "contextos": [
+        "demo/app.js · brujulaParada"
+      ]
+    },
+    {
+      "clave": "texto_139dbd442a",
+      "es": "Actívalo en la configuración del navegador.",
+      "contextos": [
+        "demo/app.js · brujulaParada"
+      ]
+    },
+    {
+      "clave": "texto_eca5bc6a59",
+      "es": "Párate de frente a la calle, con la banqueta a tu espalda, y sostén el teléfono plano frente a ti.",
+      "contextos": [
+        "demo/app.js · brujulaParada"
+      ]
+    },
+    {
+      "clave": "texto_1f22f9e776",
+      "es": "Tu teléfono no dio la brújula.",
+      "contextos": [
+        "demo/app.js · brujulaParada"
+      ]
+    },
+    {
+      "clave": "texto_f27d1b68e7",
+      "es": "Lee el letrero con la cámara o pregunta en la parada.",
+      "contextos": [
+        "demo/app.js · brujulaParada"
+      ]
+    },
+    {
+      "clave": "texto_a4579a680f",
+      "es": "Según la brújula, estás del lado correcto: de este lado los camiones van hacia {v1}.",
+      "contextos": [
+        "demo/app.js · textoRevision"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "c.hacia"
+        }
+      }
+    },
+    {
+      "clave": "texto_b75262f62b",
+      "es": "Según la brújula, estás del lado contrario: de este lado van hacia {v1}.",
+      "contextos": [
+        "demo/app.js · textoRevision"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "r.opuesta.hacia"
+        }
+      }
+    },
+    {
+      "clave": "texto_4109d41921",
+      "es": "Tu parada está cruzando la calle.",
+      "contextos": [
+        "demo/app.js · brujulaParada"
+      ]
+    },
+    {
+      "clave": "texto_683b7a19b1",
+      "es": "La brújula no fue clara.",
+      "contextos": [
+        "demo/app.js · brujulaParada"
+      ]
+    },
+    {
+      "clave": "texto_3d11c5a005",
+      "es": "Gira hasta quedar de frente a la calle e intenta otra vez.",
+      "contextos": [
+        "demo/app.js · brujulaParada"
+      ]
+    },
+    {
+      "clave": "texto_06f7e52e6b",
+      "es": "El letrero dice {v1}, igual que la parada de enfrente: no distingue el lado. Usa ¿Es mi parada? con la brújula.",
+      "contextos": [
+        "demo/app.js · letreroParada"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "cruce(leido)"
+        }
+      }
+    },
+    {
+      "clave": "texto_56972566ec",
+      "es": "El letrero dice {v1}: es tu parada para la {v2}.",
+      "contextos": [
+        "demo/app.js · letreroParada"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "cruce(leido)"
+        },
+        "v2": {
+          "expresion": "c.linea"
+        }
+      }
+    },
+    {
+      "clave": "texto_fd5f3cb02c",
+      "es": "El letrero dice {v1}: es la parada de enfrente, donde la {v2} va hacia {v3}. Tu parada está cruzando la calle.",
+      "contextos": [
+        "demo/app.js · letreroParada"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "cruce(leido)"
+        },
+        "v2": {
+          "expresion": "c.linea"
+        },
+        "v3": {
+          "expresion": "opuesta.hacia"
+        }
+      }
     }
   ]
 }

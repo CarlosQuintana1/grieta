@@ -2138,6 +2138,7 @@ function seguir(alMoverse) {
       if (v === null && guia.previo && ahora - guia.previo.t >= 3000) {
         v = Grieta.metros(guia.previo.lat, guia.previo.lon, coords.latitude, coords.longitude) / ((ahora - guia.previo.t) / 1000);
       }
+      guia.precision = coords.accuracy;
       if (!guia.previo || ahora - guia.previo.t >= 3000) guia.previo = { lat: coords.latitude, lon: coords.longitude, t: ahora };
       if (v !== null) guia.velocidad = v;
       alMoverse(coords.latitude, coords.longitude, guia.velocidad ?? 0);
@@ -2370,6 +2371,12 @@ function avanzarCamion(lat, lon, velocidad = 0) {
   if (guia.fase === "parada" || guia.fase === "esperando") {
     if (guia.fase === "parada") avanzarPie(lat, lon);
     if (guia.fase === "parada" && d[0] < 40) {
+      // La parada de enfrente suele estar a 20-40 m: antes de decir que llegaste se revisa el lado de la calle.
+      const lado = Grieta.revisarParada({ lat, lon, precision: guia.precision ?? 15, objetivo: { ...r[0], linea: c.linea, hacia: c.hacia } });
+      if (lado.estado === "enfrente") {
+        unaVez(`enfrente-${guia.k}`, () => { vibrar([200, 100, 200, 100, 200]); decir("Parece la parada de enfrente", textoRevision(lado, c).flatMap((t, n) => (n ? [" ", t] : [t])), "Hacia la parada", true); });
+        return;
+      }
       $("pasosPie").hidden = true;
       guia.fase = "esperando";
       vibrar([300, 120, 300]);
@@ -2705,6 +2712,17 @@ CamaraGrieta.iniciarInterfaz({
   callar: detenerVoz,
   viaje: () => guia.activa && guia.camion ? { linea: guia.camion.linea, hacia: guia.camion.hacia } : null,
   rutas: () => Grieta.qrobus?.patrones ?? [],
+  // En un viaje, el letrero leido dice si es la parada propia o la de enfrente, salvo que se llamen igual.
+  letreroParada: (leido) => {
+    const c = guia.activa ? guia.camion : null;
+    if (!c || !["parada", "esperando"].includes(guia.fase)) return null;
+    const mia = c.recorrido[0];
+    const { opuesta } = Grieta.revisarParada({ lat: mia.lat, lon: mia.lon, precision: 5, objetivo: { ...mia, linea: c.linea, hacia: c.hacia } });
+    if (opuesta && opuesta.nombre === mia.nombre && leido === mia.nombre) return `El letrero dice ${cruce(leido)}, igual que la parada de enfrente: no distingue el lado. Usa ¿Es mi parada? con la brújula.`;
+    if (leido === mia.nombre) return `El letrero dice ${cruce(leido)}: es tu parada para la ${c.linea}.`;
+    if (opuesta && leido === opuesta.nombre) return `El letrero dice ${cruce(leido)}: es la parada de enfrente, donde la ${c.linea} va hacia ${opuesta.hacia}. Tu parada está cruzando la calle.`;
+    return null;
+  },
   paradas: () => {
     const punto = guia.activa && guia.previo ? guia.previo : estado.gps;
     return (Grieta.qrobus?.paradas ?? []).filter((p) => punto && Grieta.metros(p[0], p[1], punto.lat, punto.lon) < 600).map((p) => p[2]);
@@ -3050,6 +3068,71 @@ async function leerReferencias(parada) {
   }
   if (mensajes.length) hablar(mensajes, true);
 }
+
+// ¿Es mi parada? GPS contra la parada de enfrente, y si no alcanza, la brujula: mirando a la calle, el carril
+// pegado a la banqueta circula hacia la derecha. Nada de esto sale del telefono.
+function textoRevision(r, c) {
+  const enfrente = r.opuesta?.hacia ? `La de enfrente va hacia ${r.opuesta.hacia}.` : null;
+  if (r.estado === "si") return [`Sí, es tu parada: ${cruce(c.recorrido[0].nombre)}.`, `Aquí pasa la ${c.linea} hacia ${c.hacia}.`, enfrente].filter(Boolean);
+  if (r.estado === "enfrente") return ["Parece que estás en la parada de enfrente.", r.opuesta?.hacia ? `Ahí la ${c.linea} va hacia ${r.opuesta.hacia}.` : null, `Tu parada está cruzando la calle, a unos ${r.metros} metros.`].filter(Boolean);
+  if (r.estado === "lejos") return ["Todavía no llegas.", `Tu parada está a unos ${r.metros} metros.`];
+  if (r.estado === "dudosa") return ["No estoy seguro de qué lado de la calle estás.", `El GPS tiene un error de ${r.precision} metros y la parada de enfrente está a ${r.opuesta?.separacion ?? 0} metros.`, r.mismoNombre ? "Las dos tienen el mismo nombre en el letrero." : "Puedes leer el letrero con la cámara."];
+  return ["No pude saber dónde estás.", "Activa la ubicación."];
+}
+// Cada oracion en su span: los nombres de parada traen "Av." y romperian el corte por oraciones al traducir.
+function mostrarRevision(oraciones, estado) {
+  const lista = [].concat(oraciones);
+  $("paradaRevision").innerHTML = lista.map((t) => `<span>${escapar(t)}</span>`).join(" ");
+  $("paradaRevision").className = `aviso revision-parada ${estado}`;
+  $("paradaRevision").hidden = false;
+  hablar(lista.join(" "), false, true);
+}
+$("esMiParada").addEventListener("click", () => {
+  const c = guia.camion;
+  if (!c) return;
+  $("esMiParada").disabled = true;
+  mostrarRevision("Revisando dónde estás…", "");
+  navigator.geolocation?.getCurrentPosition(({ coords }) => {
+    $("esMiParada").disabled = false;
+    const r = Grieta.revisarParada({ lat: coords.latitude, lon: coords.longitude, precision: coords.accuracy, objetivo: { ...c.recorrido[0], linea: c.linea, hacia: c.hacia } });
+    guia.revision = r;
+    mostrarRevision(textoRevision(r, c), r.estado);
+    $("brujulaParada").hidden = r.vistaCalle === null || r.estado === "lejos" || !r.opuesta;
+    if (r.estado === "si") leerReferencias(c.recorrido[0]);
+  }, () => { $("esMiParada").disabled = false; mostrarRevision(textoRevision({ estado: "sin_datos" }, c), "dudosa"); }, { enableHighAccuracy: true, maximumAge: 0, timeout: 12000 });
+});
+// Rumbo de la brujula: iPhone da webkitCompassHeading; Android, alpha absoluto que crece en sentido contrario.
+function leerBrujula(ms = 2000) {
+  return new Promise((listo) => {
+    const lecturas = [];
+    const tomar = (e) => {
+      const h = Number.isFinite(e.webkitCompassHeading) ? e.webkitCompassHeading : e.absolute && Number.isFinite(e.alpha) ? (360 - e.alpha) % 360 : null;
+      if (h !== null) lecturas.push(h * Math.PI / 180);
+    };
+    const eventos = ["deviceorientationabsolute", "deviceorientation"];
+    eventos.forEach((e) => window.addEventListener(e, tomar));
+    setTimeout(() => {
+      eventos.forEach((e) => window.removeEventListener(e, tomar));
+      if (lecturas.length < 3) return listo(null);
+      const x = lecturas.reduce((s, a) => s + Math.cos(a), 0), y = lecturas.reduce((s, a) => s + Math.sin(a), 0);
+      listo((Math.atan2(y, x) * 180 / Math.PI + 360) % 360);
+    }, ms);
+  });
+}
+$("brujulaParada").addEventListener("click", async () => {
+  const c = guia.camion, r = guia.revision;
+  if (!c || r?.vistaCalle == null) return;
+  try { const permiso = window.DeviceOrientationEvent?.requestPermission; if (typeof permiso === "function" && await permiso.call(window.DeviceOrientationEvent) !== "granted") throw Error(); }
+  catch { return mostrarRevision(["Sin permiso para la brújula.", "Actívalo en la configuración del navegador."], "dudosa"); }
+  mostrarRevision("Párate de frente a la calle, con la banqueta a tu espalda, y sostén el teléfono plano frente a ti.", "");
+  await new Promise((listo) => setTimeout(listo, 3500));
+  const vista = await leerBrujula();
+  if (vista === null) return mostrarRevision(["Tu teléfono no dio la brújula.", "Lee el letrero con la cámara o pregunta en la parada."], "dudosa");
+  const lado = Grieta.ladoPorBrujula(vista, r.vistaCalle);
+  mostrarRevision(lado === "si" ? [`Según la brújula, estás del lado correcto: de este lado los camiones van hacia ${c.hacia}.`]
+    : lado === "enfrente" ? [`Según la brújula, estás del lado contrario: de este lado van hacia ${r.opuesta?.hacia ?? c.hacia}.`, "Tu parada está cruzando la calle."]
+      : ["La brújula no fue clara.", "Gira hasta quedar de frente a la calle e intenta otra vez."], lado);
+});
 
 // Reportar un problema donde estas parado.
 const reporte = { tipo: null, lat: null, lon: null, parada: null, ruta: null };

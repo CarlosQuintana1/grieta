@@ -134,7 +134,6 @@ function aplicarAcc() {
   $("inicioNormal").hidden = acc.modoVoz;
   $(acc.modoVoz ? "vozLugares" : "guardados").after($("deshacerInicio"));
   for (const [k, id] of Object.entries(OPCIONES)) $(id).checked = acc[k];
-  $("optUnidos2").checked = acc.unidos;
   actualizarVozEncabezado();
   recolorear();
   document.querySelector('meta[name="theme-color"]').content = tono("--fondo");
@@ -180,12 +179,6 @@ for (const [k, id] of Object.entries(OPCIONES)) {
     if (k === "camino" || k === "unidos") calcular();
   });
 }
-$("optUnidos2").addEventListener("change", (e) => {
-  acc.unidos = e.target.checked;
-  guardarAcc();
-  aplicarAcc();
-  calcular();
-});
 aplicarAcc();
 
 // Pantallas: cada una dice si lleva mapa, encabezado y a que pestana pertenece.
@@ -1143,7 +1136,6 @@ function pintarOpciones(r) {
     </button>`;
   }).join("");
   const hayCamion = r.opciones.some((o) => o.tipo !== "app");
-  $("filaUnidos").hidden = !hayCamion;
   $("tituloCamion").hidden = !hayCamion && !r.pasaCerca;
   // Si el camion de la mejor opcion es de los ultimos del dia, se avisa a que hora pasa el ultimo.
   const conCamion = estado.tarjetas.map(({ o }) => o).find((o) => o.tipo !== "app");

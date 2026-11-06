@@ -309,13 +309,6 @@
       ]
     },
     {
-      "clave": "texto_1f6b2bd9c3",
-      "es": "Ahorita es la hora más barata de hoy.",
-      "contextos": [
-        "demo/app.js:989 · pintarEspera"
-      ]
-    },
-    {
       "clave": "texto_87924d4e97",
       "es": "Ahorras aprox. {v1}{v2}",
       "contextos": [
@@ -4603,13 +4596,6 @@
       "es": "Son los precios normales a esa hora. Si la app te marca otro, compáralo en \"¿La app ya te dio precio?\".",
       "contextos": [
         "demo/index.html · pantallas · #ajustes"
-      ]
-    },
-    {
-      "clave": "texto_6f6fd8bd74",
-      "es": "Son precios normales según nuestros registros, no lo que marca la app en este momento.",
-      "contextos": [
-        "demo/app.js:991 · pintarEspera"
       ]
     },
     {
@@ -10021,43 +10007,6 @@
       }
     },
     {
-      "clave": "texto_45b7ae69bc",
-      "es": "Gasolina regular a $23.99 el litro en Querétaro, según la CRE.",
-      "contextos": [
-        "demo/app.js · pintarCarro"
-      ]
-    },
-    {
-      "clave": "texto_273381ac60",
-      "es": "Con el tráfico de ahorita, {v1} min en auto.",
-      "contextos": [
-        "demo/app.js · pintarCarro"
-      ],
-      "variables": {
-        "v1": {
-          "expresion": "minutos",
-          "formato": "numero"
-        }
-      }
-    },
-    {
-      "clave": "texto_cedf42fed6",
-      "es": "Con el tráfico de ahorita, {v1} min en auto ({v2} por tráfico).",
-      "contextos": [
-        "demo/app.js · pintarCarro"
-      ],
-      "variables": {
-        "v1": {
-          "expresion": "minutos",
-          "formato": "numero"
-        },
-        "v2": {
-          "expresion": "retraso",
-          "formato": "numero"
-        }
-      }
-    },
-    {
       "clave": "texto_bdff89c1b5",
       "es": "De noche, sin caminar al final",
       "contextos": [
@@ -10158,6 +10107,51 @@
       "contextos": [
         "demo/app.js · estacionaYSigue"
       ]
+    },
+    {
+      "clave": "texto_5652847ce2",
+      "es": "{v1} min en auto con el tráfico de ahorita.",
+      "contextos": [
+        "demo/app.js · pintarCarro"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "minutos",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_1f8683ed28",
+      "es": "{v1} min en auto con el tráfico de ahorita ({v2} por tráfico).",
+      "contextos": [
+        "demo/app.js · pintarCarro"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "minutos",
+          "formato": "numero"
+        },
+        "v2": {
+          "expresion": "retraso",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_79294b65b1",
+      "es": "Guardé {v1} como {v2}.",
+      "contextos": [
+        "demo/app.js · guardarComo"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "estado.destino.nombre"
+        },
+        "v2": {
+          "expresion": "nombre"
+        }
+      }
     }
   ]
 }

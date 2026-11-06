@@ -332,7 +332,8 @@
       <label class="interruptor" id="filaUnidos"><span><strong>Pago Tarifa Unidos</strong><small>El camión te cuesta $2 y el transbordo es gratis</small></span><input type="checkbox" role="switch" id="optUnidos2"></label>
 
       <div class="guardar">
-        <button id="guardarLugar" type="button" class="enlace" aria-expanded="false" aria-controls="nombresLugar">Guardar este lugar</button>
+        <button id="guardarLugar" type="button" class="enlace" aria-expanded="false" aria-controls="nombresLugar" hidden>Guardar este lugar</button>
+        <p id="lugarGuardado" class="nota" role="status" hidden></p>
         <div id="nombresLugar" class="chips" role="group" aria-label="Guardar como" hidden>
           <button type="button" class="chip" data-v="Casa">Casa</button>
           <button type="button" class="chip" data-v="Escuela">Escuela</button>

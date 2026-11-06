@@ -997,13 +997,14 @@ function pintarCarro(r) {
   $("enCarro").hidden = !(km > 0);
   $("enCarro").innerHTML = `${miniFicha("tono-obsidiana", picto("app"))}<span class="fila-texto">
     <strong>En tu carro: al menos ${pesos((km / AUTO_KM_LITRO) * GASOLINA_LITRO)} de gasolina${centro ? " más estacionamiento" : ""}</strong>
-    <small id="carroDetalle">Gasolina regular a $23.99 el litro en Querétaro, según la CRE.</small></span>`;
+    <small id="carroDetalle" hidden></small></span>`;
   // Saliendo ahorita, cuanto tarda en auto con el trafico real (Azure Maps, desde la API)
   if (estado.momento !== 0) return;
   const { origen: o, destino: d } = estado;
   llamar(`/auto?olat=${o.lat}&olon=${o.lon}&dlat=${d.lat}&dlon=${d.lon}`).then(({ minutos, retraso }) => {
     if (estado.r !== r || !$("carroDetalle")) return;
-    $("carroDetalle").textContent = `Con el tráfico de ahorita, ${minutos} min en auto${retraso >= 2 ? ` (${retraso} por tráfico)` : ""}. Gasolina regular a $23.99 el litro en Querétaro, según la CRE.`;
+    $("carroDetalle").textContent = `${minutos} min en auto con el tráfico de ahorita${retraso >= 2 ? ` (${retraso} por tráfico)` : ""}.`;
+    $("carroDetalle").hidden = false;
   }).catch(() => {});
 }
 // Pronostico por hora de Open-Meteo para el lugar de salida; si va a llover durante el viaje se avisa, y tambien si
@@ -1074,10 +1075,11 @@ function pintarOpciones(r) {
   const ya = guardados.find((g) => Grieta.metros(g.lat, g.lon, estado.destino.lat, estado.destino.lon) < 30);
   $("guardarLugar").textContent = ya ? `Guardado como ${ya.nombre}` : "Guardar este lugar";
   $("guardarLugar").disabled = Boolean(ya);
+  $("lugarGuardado").hidden = true;
   // Venía de "Agregar lugar": se abren los nombres para que elija cómo guardarlo
   if (estado.pedirNombre && !ya) {
     estado.pedirNombre = false;
-    setTimeout(() => { $("guardarLugar").click(); $("nombresLugar").scrollIntoView({ block: "center", behavior: "smooth" }); }, 400);
+    setTimeout(() => { $("nombresLugar").hidden = false; $("nombresLugar").scrollIntoView({ block: "center", behavior: "smooth" }); $("nombresLugar").querySelector("button").focus(); }, 400);
   }
   // Solo cuando se eligio otra hora de salida: ahi importa saber que los precios no son de ahorita.
   const cuando = estado.momento === 0 ? "" : estado.momento < ESPERAS.length ? momentos()[estado.momento].etiqueta.toLowerCase() : `${r.ctx.dia === hoyDia() ? "hoy" : `el ${DIAS[r.ctx.dia]}`} a las ${hora(r.ctx.minuto)}`;
@@ -1220,10 +1222,9 @@ function pintarEspera(lista, precios, base) {
     tramos.push({ a, b, p: Grieta.cotizar({ ...base, dia: hoy.dia, minuto: Math.max(a, hoy.minuto) }).mejor.precio });
   }
   const barata = tramos.reduce((x, y) => (y.p < x.p ? y : x), tramos[0]);
-  $("mejorHora").textContent = (!barata ? "" : barata.a <= hoy.minuto
-    ? "Ahorita es la hora más barata de hoy. "
-    : `Lo más barato hoy es de ${hora(barata.a)} a ${hora(barata.b)}: unos ${pesos(barata.p)}. `) +
-    "Son precios normales según nuestros registros, no lo que marca la app en este momento.";
+  // Solo si mas tarde sale mas barato; si ya es la hora mas barata, el titulo lo dice.
+  $("mejorHora").textContent = barata && barata.a > hoy.minuto ? `Lo más barato hoy es de ${hora(barata.a)} a ${hora(barata.b)}: unos ${pesos(barata.p)}.` : "";
+  $("mejorHora").hidden = !$("mejorHora").textContent;
 }
 // "A que hora salgo": se prueba salir cada 5 minutos desde ahora (hasta 4 horas antes) y se queda la salida
 // mas tarde que todavia llega a tiempo, en camion y en app.
@@ -2825,6 +2826,8 @@ function guardarComo(nombre) {
   $("guardarLugar").setAttribute("aria-expanded", "false");
   $("guardarLugar").textContent = `Guardado como ${nombre}`;
   $("guardarLugar").disabled = true;
+  $("lugarGuardado").textContent = `Guardé ${estado.destino.nombre} como ${nombre}.`;
+  $("lugarGuardado").hidden = false;
   hablar(`Guardé ${estado.destino.nombre} como ${nombre}.`);
 }
 $("nombresLugar").addEventListener("click", (e) => {

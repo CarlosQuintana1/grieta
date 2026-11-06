@@ -274,6 +274,7 @@ html.grande body.con-mapa .hoja { max-height: 80%; }
 .horas button span { display: block; font-size: 0.78rem; color: var(--tenue); }
 .horas button strong { display: block; font-size: 1.1rem; font-weight: 700; }
 .horas button.barata strong { color: var(--ambar); }
+.horas button .precio-nota { color: var(--ambar); font-weight: 600; }
 .horas button[aria-pressed="true"] { border: 2px solid var(--ambar); }
 /* La quinta, otra hora, va en su propio renglon en vez de quedar sola abajo */
 .horas button:nth-child(5) { grid-column: 1 / -1; min-height: 48px; display: flex; align-items: baseline; justify-content: center; gap: 10px; }

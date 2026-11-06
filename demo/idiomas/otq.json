@@ -173,11 +173,6 @@
       "otq": "Hingi nu'bya"
     },
     {
-      "clave": "texto_1f6b2bd9c3",
-      "es": "Ahorita es la hora más barata de hoy.",
-      "otq": "Gem'bya, ge ar ora mäs barato nu'bya."
-    },
-    {
       "clave": "texto_87924d4e97",
       "es": "Ahorras aprox. {v1}{v2}",
       "otq": "Gi jut'i aprox. {v1} menya {v2}"
@@ -2603,11 +2598,6 @@
       "otq": "Nuya gehya ya precios normales jar Nunu̲ t'olo ora. Nu'bu̲ ár nt'ot'e gi 'ñudi xka, comparar jar hmä \"¿Ar nt'ot'e bí xi t'uni 'nar precio Tobe?\"."
     },
     {
-      "clave": "texto_6f6fd8bd74",
-      "es": "Son precios normales según nuestros registros, no lo que marca la app en este momento.",
-      "otq": "Nuya gehya precios normales nä'ä mä HMUNTS'UJE registros, hingi nä'ä gi 'ñudi ár nt'ot'e gem'bya."
-    },
-    {
       "clave": "texto_b227f7ff9c",
       "es": "Son {v1} caminando, unos {v2} minutos.",
       "otq": "Ya {v1} 'yowa, {v2} t'olo ora."
@@ -3653,21 +3643,6 @@
       "otq": "Ja yá coche: tso̲kwa menu {v1} ar gasolina"
     },
     {
-      "clave": "texto_45b7ae69bc",
-      "es": "Gasolina regular a $23.99 el litro en Querétaro, según la CRE.",
-      "otq": "Gasolina regular jar $23.99 ya litro jar Querétaro, nä'ä mä ar CRE."
-    },
-    {
-      "clave": "texto_273381ac60",
-      "es": "Con el tráfico de ahorita, {v1} min en auto.",
-      "otq": "Ko ar tráfico gem'bya, {v1} min ya coche."
-    },
-    {
-      "clave": "texto_cedf42fed6",
-      "es": "Con el tráfico de ahorita, {v1} min en auto ({v2} por tráfico).",
-      "otq": "Ko ar tráfico nu'bya, {v1} min jar coche ({v2} nu'bya tráfico)."
-    },
-    {
       "clave": "texto_bdff89c1b5",
       "es": "De noche, sin caminar al final",
       "otq": "'Bu̲ ya nxui, hinda 'yo ya ngäts'i"
@@ -3696,6 +3671,16 @@
       "clave": "texto_1fc23e55a3",
       "es": "Estacionamiento según OpenStreetMap: confirma su horario y costo.",
       "otq": "Estacionamiento nä'ä mä OpenStreetMap: comprobar yá ora ne costo."
+    },
+    {
+      "clave": "texto_5652847ce2",
+      "es": "{v1} min en auto con el tráfico de ahorita.",
+      "otq": "{v1} min ya coche ko ar tráfico gem'bya."
+    },
+    {
+      "clave": "texto_1f8683ed28",
+      "es": "{v1} min en auto con el tráfico de ahorita ({v2} por tráfico).",
+      "otq": "{v1} min ya coche ko ar tráfico nu'bya ({v2} nu'bya tráfico)."
     }
   ],
   "adaptaciones": [

@@ -174,11 +174,6 @@
       "nhe": "Ax amantsi"
     },
     {
-      "clave": "texto_1f6b2bd9c3",
-      "es": "Ahorita es la hora más barata de hoy.",
-      "nhe": "Amantzi eli nopa tonali tlen más amo patiyo ipan ni tonali."
-    },
-    {
       "clave": "texto_87924d4e97",
       "es": "Ahorras aprox. {v1}{v2}",
       "nhe": "Ti tlaatijtok kanaj. {v1}{v2}"
@@ -2602,11 +2597,6 @@
       "clave": "texto_92bd867fbc",
       "es": "Son los precios normales a esa hora. Si la app te marca otro, compáralo en \"¿La app ya te dio precio?\".",
       "nhe": "Ni tlaxtlauili tlen normal ipan nopa tonali. Tlaj nopa app mitsmakas seyok tlaxtlauili, xikixnexti ika \"¿Ya mitsmakatok se tlaxtlauili nopa app?\""
-    },
-    {
-      "clave": "texto_6f6fd8bd74",
-      "es": "Son precios normales según nuestros registros, no lo que marca la app en este momento.",
-      "nhe": "Ni tlaxtlauili tlen normal tlen toamatlajkuilol, ax tlen nopa app kinextia ipan ni tonali."
     },
     {
       "clave": "texto_b227f7ff9c",
@@ -5749,21 +5739,6 @@
       "nhe": "Ipan mocarro: kanaj {v1} tlen gasolina"
     },
     {
-      "clave": "texto_45b7ae69bc",
-      "es": "Gasolina regular a $23.99 el litro en Querétaro, según la CRE.",
-      "nhe": "Nopa gasolina tlen nochipa eltok ika $23.99 por litro ipan Querétaro, ijkon kiijtoua nopa CRE."
-    },
-    {
-      "clave": "texto_273381ac60",
-      "es": "Con el tráfico de ahorita, {v1} min en auto.",
-      "nhe": "Ika nopa tlauilankayotl amantsi, {v1} min ika carro."
-    },
-    {
-      "clave": "texto_cedf42fed6",
-      "es": "Con el tráfico de ahorita, {v1} min en auto ({v2} por tráfico).",
-      "nhe": "Ika nopa tlauilankayotl tlen amantsi, {v1} min ika carro ({v2} pampa tlauilankayotl)."
-    },
-    {
       "clave": "texto_bdff89c1b5",
       "es": "De noche, sin caminar al final",
       "nhe": "Ika tlayoua, ax nejnemi ipan itlamian"
@@ -5807,6 +5782,21 @@
       "clave": "texto_1fc23e55a3",
       "es": "Estacionamiento según OpenStreetMap: confirma su horario y costo.",
       "nhe": "Ximoketsa kej kiijtoua OpenStreetMap: xikijto tlen tijchiuas uan tlen tijtlaxtlauas."
+    },
+    {
+      "clave": "texto_5652847ce2",
+      "es": "{v1} min en auto con el tráfico de ahorita.",
+      "nhe": "{v1} min ika carro ika tlauilankayotl tlen amantsi."
+    },
+    {
+      "clave": "texto_1f8683ed28",
+      "es": "{v1} min en auto con el tráfico de ahorita ({v2} por tráfico).",
+      "nhe": "{v1} min ika carro ika tlauilankayotl tlen amantsi ({v2} pampa tlauilankayotl)."
+    },
+    {
+      "clave": "texto_79294b65b1",
+      "es": "Guardé {v1} como {v2}.",
+      "nhe": "Ni tlaatitok {v1} keja {v2}."
     }
   ],
   "adaptaciones": [
@@ -5964,6 +5954,11 @@
       "clave": "texto_097af2b994",
       "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
       "criterio": "La salida automática traducía «normal» como «uejkapantik»; se usa «tlen normal», como en la traducción automática de «Pago tarifa normal»."
+    },
+    {
+      "clave": "texto_5652847ce2",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Reusa «ika tlauilankayotl tlen amantsi» de la traducción automática de la misma frase con el retraso; sola salió sin la palabra tráfico."
     }
   ]
 }

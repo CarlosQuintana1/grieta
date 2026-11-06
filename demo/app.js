@@ -1155,7 +1155,7 @@ function pintarOpciones(r) {
   else $("enApp").after(...bloqueCamion);
   $("opciones").classList.toggle("camion-primero", camionPrimero);
   if (!hayCamion) {
-    $("tarjetas").innerHTML += `<p class="nota">${r.pasaCerca ? "Ningún Qrobus te lleva directo en la próxima hora." : "En la próxima hora no pasa ningún Qrobus cerca."}</p>`;
+    $("tarjetas").innerHTML += `<div class="aviso cuidado sin-camion">${ico("alerta")}<strong>${r.pasaCerca ? "Ningún Qrobus te lleva directo en la próxima hora." : "En la próxima hora no pasa ningún Qrobus cerca."}</strong></div>`;
   }
 }
 $("tarjetas").addEventListener("click", (e) => {
@@ -2511,16 +2511,7 @@ function rutinaSugerida() {
   const yo = estado.gps ?? estado.origen;
   const lejos = (x) => !yo || Grieta.metros(yo.lat, yo.lon, x.lat, x.lon) > 500;
   const deHistorial = [...veces.values()].filter((x) => x.n >= 2 && lejos(x)).sort((a, b) => b.n - a.n)[0];
-  if (deHistorial) return deHistorial;
-  // Sin historial, por la hora: de noche a casa; entre semana temprano, a la escuela o al trabajo guardados.
-  const m = minutoDe(ahora);
-  const casa = guardados.find((g) => g.nombre === "Casa");
-  if ((m >= 18 * 60 || m < 2 * 60) && casa && lejos(casa)) return { ...casa, porHora: true };
-  if (!finde(ahora) && m >= 330 && m <= 630) {
-    const destino = guardados.find((g) => ["escuela", "trabajo"].includes(iconoLugar(g.nombre)) && lejos(g));
-    if (destino) return { ...destino, porHora: true };
-  }
-  return null;
+  return deHistorial ?? null;
 }
 function pintarRutina() {
   const r = rutinaSugerida();
@@ -2528,8 +2519,8 @@ function pintarRutina() {
   $("vozRutina").hidden = !r;
   if (!r) return;
   $("rutinaFicha").innerHTML = miniFicha(tonoLugar(r.nombre, 0), picto(iconoLugar(r.nombre)));
-  $("rutinaTexto").textContent = r.nombre === "Casa" ? "¿Ya vas a casa?" : `¿Vas a ${r.nombre}?`;
-  $("rutinaDetalle").textContent = r.porHora ? "Toca y te digo cómo llegar desde aquí." : "Como otros días a esta hora. Toca para ver cómo llegar";
+  $("rutinaTexto").textContent = `¿Vas a ${r.nombre}?`;
+  $("rutinaDetalle").textContent = "Como otros días a esta hora. Toca para ver cómo llegar";
   $("vozRutina").querySelector("span").textContent = `Ir a ${r.nombre}`;
   estado.rutina = { nombre: r.nombre, lat: r.lat, lon: r.lon };
 }

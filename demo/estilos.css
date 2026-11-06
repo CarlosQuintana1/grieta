@@ -1006,3 +1006,5 @@ html.modo-voz :is(button,a,input,select,textarea,label) { touch-action: manipula
 .verificar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
 .verificar .boton-chico { min-height: 40px; }
 .guia-senas { display: block; width: min(60%, 220px); margin: 10px 0; border-radius: var(--radio); background: var(--superficie); }
+.sin-camion { align-items: center; }
+.sin-camion strong { color: var(--cuidado); }

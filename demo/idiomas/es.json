@@ -10215,20 +10215,6 @@
       ]
     },
     {
-      "clave": "texto_ff720ed2a4",
-      "es": "¿Ya vas a casa?",
-      "contextos": [
-        "demo/app.js · inicio, guia y paradas"
-      ]
-    },
-    {
-      "clave": "texto_96372e4657",
-      "es": "Toca y te digo cómo llegar desde aquí.",
-      "contextos": [
-        "demo/app.js · inicio, guia y paradas"
-      ]
-    },
-    {
       "clave": "texto_5ef4089951",
       "es": "Precio justo",
       "contextos": [

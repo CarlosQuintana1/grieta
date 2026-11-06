@@ -1109,8 +1109,9 @@ function pintarOpciones(r) {
   titulos.opciones = `A ${estado.destino.nombre}`;
   if (document.body.dataset.pantalla === "opciones") $("tituloPantalla").textContent = titulos.opciones;
   const ya = guardados.find((g) => Grieta.metros(g.lat, g.lon, estado.destino.lat, estado.destino.lon) < 30);
-  $("guardarLugar").textContent = ya ? `Guardado como ${ya.nombre}` : "Guardar este lugar";
-  $("guardarLugar").disabled = Boolean(ya);
+  const lleno = !ya && guardados.length >= MAX_LUGARES;
+  $("guardarLugar").textContent = ya ? `Guardado como ${ya.nombre}` : lleno ? "Ya tienes 4 lugares guardados" : "Guardar este lugar";
+  $("guardarLugar").disabled = Boolean(ya) || lleno;
   $("lugarGuardado").hidden = true;
   // Venía de "Agregar lugar": se abren los nombres para que elija cómo guardarlo
   if (estado.pedirNombre && !ya) {
@@ -2765,6 +2766,8 @@ $("listaViajes").addEventListener("click", (e) => {
 
 // Lugares guardados en este telefono: Casa, Escuela, Trabajo.
 let guardados = leer("grieta-lugares", []);
+// Cuatro lugares como maximo: caben en una fila del inicio.
+const MAX_LUGARES = 4;
 let editando = false;
 let quitado = null;
 let cambioUbicacionGuardada = null;
@@ -2807,8 +2810,9 @@ function pintarGuardados() {
   const ficha = (attrs, clase, icono, nombre, propio = false) => `<button type="button" class="lugar ${clase}" ${attrs}>
     <span class="lugar-icono">${picto(icono, icono === "plus" ? "picto-lucide" : "")}</span><span class="lugar-nombre"${propio ? ' translate="no"' : ""}>${escapar(nombre)}</span></button>`;
   const fichas = guardados.map((g, i) => ficha(`data-i="${i}" aria-keyshortcuts="Shift+F10" aria-label="Ir a ${escapar(g.nombre)}"`, tonoLugar(g.nombre, i), iconoLugar(g.nombre), g.nombre, true));
-  if (!guardados.some((g) => g.nombre === "Casa")) fichas.push(ficha('data-nuevo="Casa"', "nuevo tono-casa", "casa", "Agregar casa"));
-  if (guardados.length < 6) fichas.push(ficha('data-nuevo=""', "nuevo tono-ciruela", "plus", "Agregar"));
+  const faltaCasa = !guardados.some((g) => g.nombre === "Casa") && guardados.length < MAX_LUGARES;
+  if (faltaCasa) fichas.push(ficha('data-nuevo="Casa"', "nuevo tono-casa", "casa", "Agregar casa"));
+  if (guardados.length + faltaCasa < MAX_LUGARES) fichas.push(ficha('data-nuevo=""', "nuevo tono-ciruela", "plus", "Agregar"));
   $("guardados").innerHTML = fichas.join("");
   $("editarGuardados").hidden = !guardados.length;
   $("editarGuardados").textContent = editando ? "Listo" : "Editar";
@@ -3128,7 +3132,9 @@ $("guardarLugar").addEventListener("click", () => {
 });
 function guardarComo(nombre) {
   const { lat, lon } = estado.destino;
-  guardados = guardados.filter((g) => sinAcentos(g.nombre) !== sinAcentos(nombre)).concat({ nombre, lat, lon });
+  const otros = guardados.filter((g) => sinAcentos(g.nombre) !== sinAcentos(nombre));
+  if (otros.length >= MAX_LUGARES) return hablar("Ya tienes 4 lugares guardados. Borra uno para guardar otro.", false, true);
+  guardados = otros.concat({ nombre, lat, lon });
   guardarLugares();
   $("nombresLugar").hidden = true;
   $("otroNombre").hidden = true;

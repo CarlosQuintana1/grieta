@@ -10693,6 +10693,211 @@
       "contextos": [
         "demo/app.js · compartirViaje"
       ]
+    },
+    {
+      "clave": "texto_3e914c6058",
+      "es": "¿Qué bono?",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_e398f98efb",
+      "es": "¿Qué bono de Qrobus me conviene?",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_8fe91d299a",
+      "es": "¿Qué bono te conviene?",
+      "contextos": [
+        "demo/app.js · titulos"
+      ]
+    },
+    {
+      "clave": "texto_232971468c",
+      "es": "¿Cuántos viajes en camión haces a la semana?",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_4fe1236419",
+      "es": "Un viaje menos",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_78f7b753f3",
+      "es": "Un viaje más",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_cfeb017f71",
+      "es": "Tu tarifa",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_b947a68998",
+      "es": "Bonos ilimitados en las rutas de Qrobus. Precios publicados en 2026: viaje $11, semanal $111, quincenal $231, mensual $451; con Tarifa Unidos, viaje $2 y mensual $86. Confírmalos en la app Qrobus antes de recargar. No cuenta transbordos.",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_e1a2f396e5",
+      "es": "Pagar cada viaje",
+      "contextos": [
+        "demo/app.js · pintarBonos"
+      ]
+    },
+    {
+      "clave": "texto_2af0361ef2",
+      "es": "Bono semanal",
+      "contextos": [
+        "demo/app.js · pintarBonos"
+      ]
+    },
+    {
+      "clave": "texto_0dfb9a13d7",
+      "es": "Bono quincenal",
+      "contextos": [
+        "demo/app.js · pintarBonos"
+      ]
+    },
+    {
+      "clave": "texto_d378f3a5b9",
+      "es": "Bono mensual",
+      "contextos": [
+        "demo/app.js · pintarBonos"
+      ]
+    },
+    {
+      "clave": "texto_a11b84a81a",
+      "es": "{v1} al mes",
+      "contextos": [
+        "demo/app.js · pintarBonos"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "pesos(c)",
+          "formato": "importe"
+        }
+      }
+    },
+    {
+      "clave": "texto_216cbd0fb3",
+      "es": "Te conviene pagar cada viaje",
+      "contextos": [
+        "demo/app.js · pintarBonos"
+      ]
+    },
+    {
+      "clave": "texto_992cb712d7",
+      "es": "El bono mensual conviene desde {v1} viajes al mes.",
+      "contextos": [
+        "demo/app.js · pintarBonos"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "umbral",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_e570b6f6f6",
+      "es": "Te conviene el bono semanal",
+      "contextos": [
+        "demo/app.js · VEREDICTO_BONO"
+      ]
+    },
+    {
+      "clave": "texto_cab36c4d16",
+      "es": "Te conviene el bono quincenal",
+      "contextos": [
+        "demo/app.js · VEREDICTO_BONO"
+      ]
+    },
+    {
+      "clave": "texto_c28c0de9c6",
+      "es": "Te conviene el bono mensual",
+      "contextos": [
+        "demo/app.js · VEREDICTO_BONO"
+      ]
+    },
+    {
+      "clave": "texto_cdefd6be61",
+      "es": "Ahorras {v1} al mes contra pagar cada viaje.",
+      "contextos": [
+        "demo/app.js · pintarBonos"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "pesos(porViaje - mejor[1])",
+          "formato": "importe"
+        }
+      }
+    },
+    {
+      "clave": "texto_0b4edf54d6",
+      "es": "Según tus viajes con Grieta de las últimas 4 semanas. Ajústalo si viajas sin la app.",
+      "contextos": [
+        "demo/app.js · abrirBonos"
+      ]
+    },
+    {
+      "clave": "texto_07cdd3039a",
+      "es": "Puse 10: ida y vuelta 5 días. Ajústalo a lo que viajas.",
+      "contextos": [
+        "demo/app.js · abrirBonos"
+      ]
+    },
+    {
+      "clave": "texto_315749ce04",
+      "es": "Observatorio Grieta",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_3ce65a1a71",
+      "es": "Datos abiertos de cómo se mueve Querétaro",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_0d18ccd31a",
+      "es": "Se sentirán {v1} °C en la parada.",
+      "contextos": [
+        "demo/app.js · avisarLluvia"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "Math.round(sensacion)",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_365e016b49",
+      "es": "Llega cerca de las {v1}, cuando pasa el camión, y lleva agua.",
+      "contextos": [
+        "demo/app.js · avisarLluvia"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "hora(c.sale)",
+          "formato": "hora"
+        }
+      }
     }
   ]
 }

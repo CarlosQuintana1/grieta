@@ -196,10 +196,11 @@ const PANTALLAS = {
   practica: { tab: "inicio", encabezado: true },
   guia: {},
   reporte: { tab: "reporte" },
+  bonos: { tab: "inicio", encabezado: true },
   ajustes: { tab: "ajustes" },
   perfil: { tab: "ajustes", encabezado: true },
 };
-const titulos = { buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
+const titulos = { bonos: "¿Qué bono te conviene?", buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
 
 function actualizarVozEncabezado() {
   const boton = $("vozEncabezado"), enCamara = document.body.dataset.pantalla === "camara";
@@ -1014,8 +1015,8 @@ function pintarCarro(r) {
     $("carroDetalle").hidden = false;
   }).catch(() => {});
 }
-// Pronostico por hora de Open-Meteo para el lugar de salida; si va a llover durante el viaje se avisa, y tambien si
-// alguien reporto que la parada donde se sube no tiene techo.
+// Pronostico por hora de Open-Meteo para el lugar de salida: lluvia o calor durante el viaje, y si alguien reporto
+// que la parada donde se sube no tiene techo. Calor = sensacion termica de 30 °C o mas.
 const pronosticos = new Map();
 async function avisarLluvia(r) {
   const aviso = $("avisoLluvia");
@@ -1026,21 +1027,32 @@ async function avisarLluvia(r) {
   const { lat, lon } = estado.origen;
   const clave = `${lat.toFixed(2)},${lon.toFixed(2)},${new Date().toDateString()}`;
   if (!pronosticos.has(clave)) {
-    pronosticos.set(clave, fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat.toFixed(3)}&longitude=${lon.toFixed(3)}&hourly=precipitation_probability&timezone=America%2FMexico_City&forecast_days=1`)
-      .then((x) => x.json()).then((x) => x.hourly.precipitation_probability).catch(() => { pronosticos.delete(clave); return null; }));
+    pronosticos.set(clave, fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat.toFixed(3)}&longitude=${lon.toFixed(3)}&hourly=precipitation_probability,apparent_temperature&timezone=America%2FMexico_City&forecast_days=1`)
+      .then((x) => x.json()).then((x) => ({ lluvia: x.hourly.precipitation_probability, sensacion: x.hourly.apparent_temperature })).catch(() => { pronosticos.delete(clave); return null; }));
   }
-  const probabilidad = await pronosticos.get(clave);
-  if (!probabilidad || estado.r !== r) return;
+  const clima = await pronosticos.get(clave);
+  if (!clima?.lluvia || estado.r !== r) return;
   const desde = Math.floor(r.ctx.minuto / 60), hasta = Math.min(23, Math.floor((r.ctx.minuto + o.minutos) / 60));
-  const horas = probabilidad.slice(desde, hasta + 1);
+  const horas = clima.lluvia.slice(desde, hasta + 1);
   const maxima = Math.max(...horas);
-  if (!(maxima >= 50)) return;
-  const cuando = desde + horas.indexOf(maxima);
+  // Para el calor cuenta la hora en que se espera en la parada.
+  const horaParada = Math.min(23, Math.floor(c.sale / 60));
+  const sensacion = clima.sensacion?.[horaParada];
+  const llueve = maxima >= 50, calor = !llueve && sensacion >= 30;
+  if (!llueve && !calor) return;
   const reportes = await reportesCerca(c.recorrido[0].lat, c.recorrido[0].lon, 40);
   if (estado.r !== r) return;
   const sinTecho = reportes.some((x) => x.tipo === "sin_techo");
-  aviso.innerHTML = `${ico("lluvia")}<span class="fila-texto"><strong>Puede llover a las ${hora(cuando * 60)} (${maxima} %).</strong>
-    <small>${sinTecho ? `<span>Reportaron que la parada ${escapar(cruce(c.recorrido[0].nombre))} no tiene techo.</span> ` : ""}<span>Lleva paraguas.</span></small></span>`;
+  const techo = sinTecho ? `<span>Reportaron que la parada ${escapar(cruce(c.recorrido[0].nombre))} no tiene techo.</span> ` : "";
+  if (llueve) {
+    const cuando = desde + horas.indexOf(maxima);
+    aviso.innerHTML = `${ico("lluvia")}<span class="fila-texto"><strong>Puede llover a las ${hora(cuando * 60)} (${maxima} %).</strong>
+    <small>${techo}<span>Lleva paraguas.</span></small></span>`;
+  } else {
+    aviso.innerHTML = `${ico("sol")}<span class="fila-texto"><strong>Se sentirán ${Math.round(sensacion)} °C en la parada.</strong>
+    <small>${techo}<span>Llega cerca de las ${hora(c.sale)}, cuando pasa el camión, y lleva agua.</span></small></span>`;
+  }
+  aviso.classList.toggle("calor", calor);
   aviso.hidden = false;
 }
 // Estaciona y sigue en Qrobus: para ir al Centro, dejar el carro en un estacionamiento junto a una parada y entrar en
@@ -2475,7 +2487,6 @@ function compartirViaje() {
   }
 }
 $("compartir").addEventListener("click", compartirViaje);
-$("compartirInicio").addEventListener("click", compartirViaje);
 $("reportarInicio").addEventListener("click", () => abrirReporte());
 
 function terminarGuia() {
@@ -2508,7 +2519,8 @@ function registrarViaje(o) {
   const app = Math.min(...estado.r.directo.porApp.map((x) => x.precio));
   const ahorro = o.tipo === "app" ? 0 : Math.max(0, Math.round(app - o.costo));
   const co2 = sinAuto(o) ? Math.round(co2Auto(estado.r.directo.km)) : 0;
-  historial = [{ nombre: d.nombre, lat: d.lat, lon: d.lon, fecha: new Date().toISOString(), ahorro, co2 }].concat(historial).slice(0, 80);
+  const camiones = Number.isInteger(o.transbordos) ? o.transbordos + 1 : 0;
+  historial = [{ nombre: d.nombre, lat: d.lat, lon: d.lon, fecha: new Date().toISOString(), ahorro, co2, camiones }].concat(historial).slice(0, 80);
   escribir("grieta-historial", historial);
 }
 let historial = leer("grieta-historial", []);
@@ -3169,6 +3181,43 @@ $("enviarReporte").addEventListener("click", async () => {
     $("enviarReporte").disabled = false;
   }
 });
+
+// Que bono de Qrobus sale mas barato al mes segun cuantos viajes hace la persona. Precios de prensa (ADN40, Posta 2026).
+const BONOS = {
+  normal: { viaje: 11, opciones: [["Semanal", 111, 7], ["Quincenal", 231, 15], ["Mensual", 451, 30]] },
+  unidos: { viaje: 2, opciones: [["Mensual", 86, 30]] },
+};
+const VEREDICTO_BONO = { "Bono semanal": "Te conviene el bono semanal", "Bono quincenal": "Te conviene el bono quincenal", "Bono mensual": "Te conviene el bono mensual" };
+const bono = { semana: 10, tarifa: "normal" };
+function viajesDeHistorial() {
+  const desde = Date.now() - 28 * 864e5;
+  const recientes = historial.filter((h) => new Date(h.fecha) >= desde && h.camiones > 0);
+  return recientes.length ? Math.round(recientes.length / 4) : 0;
+}
+function pintarBonos() {
+  const t = BONOS[bono.tarifa], alMes = bono.semana * 30 / 7;
+  const filas = [["Pagar cada viaje", alMes * t.viaje], ...t.opciones.map(([n, precio, dias]) => [`Bono ${n.toLowerCase()}`, precio * 30 / dias])];
+  const mejor = filas.reduce((a, b) => (b[1] < a[1] ? b : a));
+  const porViaje = filas[0][1];
+  $("viajesSemana").textContent = bono.semana;
+  $("bonoOpciones").innerHTML = filas.map(([n, c]) => `<li class="${n === mejor[0] ? "mejor" : ""}"><span>${n}</span><strong>${pesos(c)} al mes</strong></li>`).join("");
+  const umbral = Math.ceil(t.opciones.at(-1)[1] / t.viaje);
+  $("bonoVeredicto").innerHTML = mejor === filas[0]
+    ? `<strong>Te conviene pagar cada viaje</strong><span>El bono mensual conviene desde ${umbral} viajes al mes.</span>`
+    : `<strong>${VEREDICTO_BONO[mejor[0]]}</strong><span>Ahorras ${pesos(porViaje - mejor[1])} al mes contra pagar cada viaje.</span>`;
+}
+const marcarTarifaBonos = radios("tarifaBonos", (v) => { bono.tarifa = v; pintarBonos(); });
+function abrirBonos() {
+  const deGrieta = viajesDeHistorial();
+  bono.semana = deGrieta || 10;
+  $("viajesOrigen").textContent = deGrieta ? "Según tus viajes con Grieta de las últimas 4 semanas. Ajústalo si viajas sin la app." : "Puse 10: ida y vuelta 5 días. Ajústalo a lo que viajas.";
+  marcarTarifaBonos(acc.unidos ? "unidos" : "normal");
+  pintarBonos();
+  ir("bonos");
+}
+$("bonosInicio").addEventListener("click", abrirBonos);
+$("menosViajes").addEventListener("click", () => { bono.semana = Math.max(0, bono.semana - 1); pintarBonos(); });
+$("masViajes").addEventListener("click", () => { bono.semana = Math.min(60, bono.semana + 1); pintarBonos(); });
 
 // La queja se publica solo como conteo; el canal oficial queda a un toque con el texto ya escrito.
 async function enviarQueja(decirR) {

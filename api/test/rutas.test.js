@@ -446,3 +446,14 @@ describe("Quejas del servicio", () => {
     await publico().get("/api/quejas/resumen").expect(400);
   });
 });
+
+describe("Observatorio", () => {
+  test("GET /api/observatorio es público y solo trae conteos", async () => {
+    await publico().post("/api/quejas").send({ tipo: "manejo", ruta: "C24", lat: 20.59, lon: -100.39, descripcion: "Texto privado de prueba" }).expect(201);
+    const r = await publico().get("/api/observatorio").expect(200);
+    for (const k of ["impacto", "quejas", "accesibilidad", "lleno", "precios"]) assert.ok(r.body[k], k);
+    assert.equal(r.body.lleno.porHora.length, 24);
+    assert.equal(JSON.stringify(r.body).includes("Texto privado"), false);
+    assert.ok(r.body.quejas.porRuta.some((x) => x.clave === "C24"));
+  });
+});

@@ -60,6 +60,10 @@ lugares, hora, usuario ni IP. `GET /api/impacto` devuelve la suma (viajes, km y 
 Con la clave del equipo, `POST /api/viajes/demo` mete un viaje marcado como demostración (para que el
 contador no arranque vacío en una presentación) y `DELETE /api/viajes/demo` los borra todos.
 
+`GET /api/observatorio` (público, caché de 5 min) junta datos abiertos para la ciudad: CO₂ y viajes contados, quejas de 30
+días por tipo y ruta, reportes de accesibilidad vigentes, avisos de "viene lleno" por línea y hora, y cuántos precios se han
+compartido. Solo conteos; la página `demo/observatorio.html` los muestra.
+
 `POST /api/quejas` guarda una queja del servicio (`tipo`: no_paro, sucio, manejo, cobro, acoso u otro_servicio;
 `ruta`, `unidad` opcional, `lat`, `lon`, `descripcion`). Es pública para enviar, pero la lista con el texto es solo del
 equipo: `GET /api/quejas/resumen?ruta=` o `?lat=&lon=` devuelve únicamente conteos por tipo de los últimos 30 días.

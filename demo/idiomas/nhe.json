@@ -6112,6 +6112,131 @@
       "clave": "texto_f61f40b6c6",
       "es": "Voy saliendo. Mi ubicación ahorita:",
       "nhe": "Niquisas. Kanke ni itstok amantsi:"
+    },
+    {
+      "clave": "texto_3e914c6058",
+      "es": "¿Qué bono?",
+      "nhe": "¿Tlake tlaxtlauili?"
+    },
+    {
+      "clave": "texto_e398f98efb",
+      "es": "¿Qué bono de Qrobus me conviene?",
+      "nhe": "¿Tlake tlaxtlauili tlen Qrobus más kuali para na?"
+    },
+    {
+      "clave": "texto_8fe91d299a",
+      "es": "¿Qué bono te conviene?",
+      "nhe": "¿Tlake tlaxtlauili más kuali para ta?"
+    },
+    {
+      "clave": "texto_232971468c",
+      "es": "¿Cuántos viajes en camión haces a la semana?",
+      "nhe": "¿Kechpa viajes ika camiones tijchiua ipan se semana?"
+    },
+    {
+      "clave": "texto_4fe1236419",
+      "es": "Un viaje menos",
+      "nhe": "Se paxalojketl"
+    },
+    {
+      "clave": "texto_78f7b753f3",
+      "es": "Un viaje más",
+      "nhe": "Seyok paxalojketl"
+    },
+    {
+      "clave": "texto_cfeb017f71",
+      "es": "Tu tarifa",
+      "nhe": "Mo tlaxtlauili"
+    },
+    {
+      "clave": "texto_b947a68998",
+      "es": "Bonos ilimitados en las rutas de Qrobus. Precios publicados en 2026: viaje $11, semanal $111, quincenal $231, mensual $451; con Tarifa Unidos, viaje $2 y mensual $86. Confírmalos en la app Qrobus antes de recargar. No cuenta transbordos.",
+      "nhe": "Tlaxtlauili tlen ax kipia itlamian ipan ojtli tlen Qrobus. Tlaxtlauili tlen kikixtijkej ipan 2026: paxalojketl $11, se semana $111, ome semanas $231, se metstli $451; ika Tarifa Unidos, viaje $2 uan se metstli $86. Xikin tlachili ipan nopa Qrobus app achtoui kemaj tij tlaxtlauas. Ax kipoua nopa tlanemakalistli."
+    },
+    {
+      "clave": "texto_e1a2f396e5",
+      "es": "Pagar cada viaje",
+      "nhe": "Xitlaxtlaua ika sejse paxalojketl"
+    },
+    {
+      "clave": "texto_2af0361ef2",
+      "es": "Bono semanal",
+      "nhe": "se semana tlen tlaxtlauili"
+    },
+    {
+      "clave": "texto_0dfb9a13d7",
+      "es": "Bono quincenal",
+      "nhe": "Tlaxtlauili tlen ome semanas"
+    },
+    {
+      "clave": "texto_d378f3a5b9",
+      "es": "Bono mensual",
+      "nhe": "tlaxtlauili tlen se metstli"
+    },
+    {
+      "clave": "texto_a11b84a81a",
+      "es": "{v1} al mes",
+      "nhe": "{v1} se metstli"
+    },
+    {
+      "clave": "texto_216cbd0fb3",
+      "es": "Te conviene pagar cada viaje",
+      "nhe": "Moneki tijtlaxtlauis sejse paxalojketl"
+    },
+    {
+      "clave": "texto_992cb712d7",
+      "es": "El bono mensual conviene desde {v1} viajes al mes.",
+      "nhe": "Nopa tlaxtlauili tlen se metstli eltok tlen {v1} viajes se metstli."
+    },
+    {
+      "clave": "texto_e570b6f6f6",
+      "es": "Te conviene el bono semanal",
+      "nhe": "Nopa tlaxtlauili tlen sejse semana mitspaktia"
+    },
+    {
+      "clave": "texto_cab36c4d16",
+      "es": "Te conviene el bono quincenal",
+      "nhe": "Nopa tlaxtlauili tlen ome semanas mitspaktia"
+    },
+    {
+      "clave": "texto_c28c0de9c6",
+      "es": "Te conviene el bono mensual",
+      "nhe": "Nopa tlaxtlauili tlen sejse metstli mitspaktia"
+    },
+    {
+      "clave": "texto_cdefd6be61",
+      "es": "Ahorras {v1} al mes contra pagar cada viaje.",
+      "nhe": "Ti tlaatitok {v1} sejse metstli uan ax tijtlaxtlauas sejse paxalojketl."
+    },
+    {
+      "clave": "texto_0b4edf54d6",
+      "es": "Según tus viajes con Grieta de las últimas 4 semanas. Ajústalo si viajas sin la app.",
+      "nhe": "Ika tlen tinejnenki iuaya Grieta ipan nopa 4 semanas tlen panotok. Xijyektlali tla ta nojkia tias uan amo tijtekiuis nopa aplicación."
+    },
+    {
+      "clave": "texto_07cdd3039a",
+      "es": "Puse 10: ida y vuelta 5 días. Ajústalo a lo que viajas.",
+      "nhe": "Nijtlalia 10: paxalojketl 5 tonali. Xijyektlali ika tlen tijpaxaloua."
+    },
+    {
+      "clave": "texto_315749ce04",
+      "es": "Observatorio Grieta",
+      "nhe": "Observatorio Grieta"
+    },
+    {
+      "clave": "texto_3ce65a1a71",
+      "es": "Datos abiertos de cómo se mueve Querétaro",
+      "nhe": "Xijtlapo tlajtoli tlen kenijkatsa nejnemi Querétaro"
+    },
+    {
+      "clave": "texto_0d18ccd31a",
+      "es": "Se sentirán {v1} °C en la parada.",
+      "nhe": "{v1} °C tijmachilis kema timoketsas."
+    },
+    {
+      "clave": "texto_365e016b49",
+      "es": "Llega cerca de las {v1}, cuando pasa el camión, y lleva agua.",
+      "nhe": "Yajaya ajsi nechka {v1}, kema nopa camión pano, uan ​​kiuika atl."
     }
   ],
   "adaptaciones": [
@@ -6339,6 +6464,26 @@
       "clave": "texto_dd4348c4f7",
       "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
       "criterio": "La traducción automática omitió {v1}; se restituye el número de días."
+    },
+    {
+      "clave": "texto_b947a68998",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Se restituye el nombre del programa Tarifa Unidos."
+    },
+    {
+      "clave": "texto_cdefd6be61",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Se usa «Ti tlaatitok» (Ahorras) como en el catálogo; la traducción automática decía «Ti tlaxtlaua» (pagas)."
+    },
+    {
+      "clave": "texto_0b4edf54d6",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "La segunda oración decía «con la app»; se tomó la traducción automática de «Ajústalo si también viajas sin usar la app.»"
+    },
+    {
+      "clave": "texto_315749ce04",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Nombre propio; la traducción automática lo cambió a «Rift Observatory»."
     }
   ]
 }

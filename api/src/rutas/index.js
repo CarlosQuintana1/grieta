@@ -3,6 +3,7 @@ import { camiones, notificaciones } from "../controladores/avisos.js";
 import { auto } from "../controladores/auto.js";
 import { buscar } from "../controladores/buscar.js";
 import { impacto } from "../controladores/impacto.js";
+import { observatorio } from "../controladores/observatorio.js";
 import { consultasRouter } from "./consultas.js";
 import { cotizacionesRouter } from "./cotizaciones.js";
 import { lugaresRouter } from "./lugares.js";
@@ -38,4 +39,6 @@ export const api = Router()
   .post("/viajes", impacto.registrar)
   .post("/viajes/demo", impacto.demo)
   .delete("/viajes/demo", impacto.quitarDemo)
-  .get("/impacto", impacto.total);
+  .get("/impacto", impacto.total)
+  // Datos abiertos agregados para la ciudad
+  .get("/observatorio", observatorio);

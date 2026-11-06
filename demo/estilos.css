@@ -670,8 +670,9 @@ button:active, .boton:active, .chip:active, .tarjeta:active, .app-fila:active, .
 .logro { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
 .logro-icono { flex: none; display: grid; place-items: center; color: var(--tono-logro); }
 .logro-icono .icono { width: 24px; height: 24px; }
-.logro strong { display: block; font-size: 1.15rem; font-weight: 700; color: var(--tono-logro); }
-.logro small { color: var(--tenue); font-size: 1rem; }
+.logro strong { display: inline; font-size: 1.15rem; font-weight: 700; color: var(--tono-logro); }
+.logro .fila-texto { display: block; }
+.logro small { display: inline; margin-left: 6px; color: var(--tenue); font-size: 1rem; }
 .logro-ahorro { --tono-logro: var(--ambar); }
 .logro-co2 { --tono-logro: var(--verde); }
 .logros-lema { margin: 4px 0 0 36px; color: var(--tenue); }

@@ -226,7 +226,10 @@ function mostrar(nombre) {
     pintarImpacto();
     $("invitaPerfil").hidden = acc.modoVoz || leer("grieta-perfil", false) || leer("grieta-invita-cerrada", false);
   }
-  if (nombre === "opciones") quitarTrazo();
+  if (nombre === "opciones") {
+    quitarTrazo();
+    estado.lineaAPie?.addTo(mapa);
+  } else estado.lineaAPie?.remove();
   if (nombre !== "elegirMapa") capas.punto?.remove();
   if (nombre !== "camiones") { capas.paradas?.remove(); capas.paradas = null; }
   if (nombre !== "ubicacion") { capas.yo?.remove(); capas.yo = null; }
@@ -761,6 +764,9 @@ function resumenOpciones() {
 }
 
 function limpiarRuta(soloMapa) {
+  estado.lineaAPie?.remove();
+  estado.lineaAPie = null;
+  estado.aPie = null;
   capas.linea?.remove();
   capas.linea = null;
   quitarTrazo();
@@ -838,6 +844,8 @@ function mostrarAPie() {
   if (estado.aPie === clave) return;
   estado.aPie = clave;
   estado.minAPie = null;
+  estado.lineaAPie?.remove();
+  estado.lineaAPie = null;
   $("aPie").hidden = true;
   if (Grieta.metros(o.lat, o.lon, d.lat, d.lon) > 2000) return;
   caminoAPie([o.lat, o.lon], [d.lat, d.lon]).then((c) => {
@@ -847,6 +855,12 @@ function mostrarAPie() {
     $("aPieTexto").textContent = camina ? `Caminando llegas en ${minutosCaminando(c.metros)} min` : `Queda a ${distanciaTexto(c.metros)} por calles`;
     $("aPieDetalle").textContent = camina ? `${distanciaTexto(c.metros, true)} por calles, sin costo` : "Si te sientes bien para ir a pie, no cuesta nada";
     $("aPie").hidden = false;
+    // La ruta a pie de verdad, punteada como los demas tramos a pie; la amarilla es la del auto.
+    estado.lineaAPie = L.polyline(c.puntos, { color: tono("--tinta"), weight: 4, dashArray: "1 8", lineCap: "round" });
+    if (document.body.dataset.pantalla === "opciones") {
+      estado.lineaAPie.addTo(mapa);
+      encuadrar(capas.linea ? capas.linea.getBounds().extend(estado.lineaAPie.getBounds()) : estado.lineaAPie.getBounds());
+    }
     // Con el tiempo a pie ya medido, se quitan los camiones que no llegan antes que caminando.
     if (camina) {
       estado.minAPie = minutosCaminando(c.metros);

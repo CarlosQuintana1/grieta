@@ -3526,6 +3526,146 @@
       "clave": "texto_f65793b756",
       "es": "Comparar precio",
       "otq": "Gi hye̲ki"
+    },
+    {
+      "clave": "texto_2810d60622",
+      "es": "Ahorras",
+      "otq": "Nu'i gí ahorra"
+    },
+    {
+      "clave": "texto_7d9cdc1cc1",
+      "es": "{v1} min más que en app",
+      "otq": "{v1} min mäs ke jar app"
+    },
+    {
+      "clave": "texto_5c9fa548f5",
+      "es": "En auto emitiría {v1} de CO₂",
+      "otq": "Ya coche emitiría {v1} ar CO₂"
+    },
+    {
+      "clave": "texto_42583d1729",
+      "es": "Escríbelo y te digo si conviene. Con tu precio, Grieta aprende.",
+      "otq": "Gi 'yot'i ne ga xi'i nu'bu̲ vale dá ntsa. Ko ir hmä, Grieta gi meya."
+    },
+    {
+      "clave": "texto_12db535974",
+      "es": "CO₂ de este viaje",
+      "otq": "CO₂ nuna ar viaje"
+    },
+    {
+      "clave": "texto_a14f56af54",
+      "es": "Ya pasa por ahí",
+      "otq": "Ya thogi nu'bu̲"
+    },
+    {
+      "clave": "texto_6c810516f5",
+      "es": "El camión hace este recorrido aunque no te subas.",
+      "otq": "Ar bo̲jä xí nuna ar ruta 'nehe nu'bu̲ hingi subir."
+    },
+    {
+      "clave": "texto_fd354da3f4",
+      "es": "Auto calculado con 135.7 g de CO₂ por km, la meta para autos nuevos de la NOM-163-SEMARNAT; los que circulan emiten más.",
+      "otq": "Autocalculado ko 135.7 g CO₂ ya km, objetivo pa ya 'ra'yo coches NOM-163-SEMARNAT; mi gi 'bu̲hu̲ circulando emiten mäs."
+    },
+    {
+      "clave": "texto_3970219ad3",
+      "es": "¿Qué app abriste?",
+      "otq": "¿Temu̲ ar nt'ot'e abriste?"
+    },
+    {
+      "clave": "texto_4351fb4145",
+      "es": "{v1} se estima en {v2}.",
+      "otq": "{v1} ar estima jar {v2}."
+    },
+    {
+      "clave": "texto_f4fdc15510",
+      "es": "¿Nos compartes este precio?",
+      "otq": "¿Tsa̲ da t'uni nuna ar precio ko ngekihe?"
+    },
+    {
+      "clave": "texto_defb30c1f1",
+      "es": "Solo se guardan la app, el precio y de dónde a dónde vas. Así Grieta calcula mejor para todos.",
+      "otq": "Ho̲ntho bí guardan ár nt'ot'e, ar precio ne ndezu̲ Hogem'bu̲ asta ho gi ma. Nuna bí Grieta calcula hño pa nga̲tho."
+    },
+    {
+      "clave": "texto_e1a7af4273",
+      "es": "Caminando llegas antes que en cualquier Qrobus.",
+      "otq": "Gi 'ño'ño tso̲ho̲ 'na Qrobus."
+    },
+    {
+      "clave": "texto_898ef8d06c",
+      "es": "Parada oficial de Qrobus sin horarios publicados.",
+      "otq": "Qrobus oficial parada hinda horarios publicados."
+    },
+    {
+      "clave": "texto_5b6f2c6fb6",
+      "es": "No sabemos qué camiones pasan aquí.",
+      "otq": "Hindi pähu̲ temu̲ 'nar dätä bo̲jä thogi nuwa."
+    },
+    {
+      "clave": "texto_d8c9aa2414",
+      "es": "{v1} de CO₂",
+      "otq": "{v1} ar CO₂"
+    },
+    {
+      "clave": "texto_ee13253947",
+      "es": "Llevas {v1} kg de CO₂ que no emitió un auto.",
+      "otq": "Nu'i gí lleva {v1} kg CO₂ da 'nar coche hingi emitió."
+    },
+    {
+      "clave": "texto_4b346af74f",
+      "es": "¿Qué te muestro primero?",
+      "otq": "¿Temu̲ ga 'ñu'i 'me̲t'o?"
+    },
+    {
+      "clave": "texto_89dd748442",
+      "es": "Apps",
+      "otq": "Aplicaciones"
+    },
+    {
+      "clave": "texto_cc3eff3751",
+      "es": "Lo que convenga",
+      "otq": "Nä'ä da mahyoni"
+    },
+    {
+      "clave": "texto_35e0c1546e",
+      "es": "Primero Qrobus",
+      "otq": "'Me̲t'o Qrobus"
+    },
+    {
+      "clave": "texto_9baa4cc85b",
+      "es": "Primero apps",
+      "otq": "Aplicaciones 'me̲t'o"
+    },
+    {
+      "clave": "texto_1f84064c3a",
+      "es": "Primero las apps",
+      "otq": "Aplicaciones 'me̲t'o"
+    },
+    {
+      "clave": "texto_267f390fd2",
+      "es": "En cada viaje va primero el camión.",
+      "otq": "Kadu̲ 'nar viaje 'bu̲i ar dätä bo̲jä 'me̲t'o."
+    },
+    {
+      "clave": "texto_5b3cb85136",
+      "es": "En cada viaje van primero Uber, DiDi e inDrive.",
+      "otq": "Nu'bu̲ viaje, jar Uber, DiDi ne ar inDrive jar ndu̲i lugar."
+    },
+    {
+      "clave": "texto_fb358dcec2",
+      "es": "Arriba va lo que te convenga más en precio y tiempo.",
+      "otq": "Mañä gi nä'ä gi mäs conveniente precio ne ar pa."
+    },
+    {
+      "clave": "texto_3c2a3db1d7",
+      "es": "El costo es aproximado, confírmalo en la app.",
+      "otq": "Ar costo ar aproximado, confirmar nä'ä jar nt'ot'e."
+    },
+    {
+      "clave": "texto_8a26319c47",
+      "es": "En auto emitiría {v1} de CO₂.",
+      "otq": "Ya coche emitiría {v1} ar CO₂."
     }
   ],
   "adaptaciones": [
@@ -3873,6 +4013,21 @@
       "clave": "texto_f65793b756",
       "fuente": "https://www.bing.com/translator?from=es&to=otq",
       "criterio": "Reusa la traducción automática de «Compáralo»."
+    },
+    {
+      "clave": "texto_fd354da3f4",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Se conserva la cifra 135.7 y el nombre de la norma como en el texto fuente."
+    },
+    {
+      "clave": "texto_9baa4cc85b",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Reusa la traducción automática de «Primero las apps»."
+    },
+    {
+      "clave": "texto_8a26319c47",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Misma traducción que la frase sin punto final."
     }
   ],
   "parcial": true

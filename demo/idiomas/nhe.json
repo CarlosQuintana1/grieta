@@ -5617,6 +5617,151 @@
       "clave": "texto_f65793b756",
       "es": "Comparar precio",
       "nhe": "Xijtlachili"
+    },
+    {
+      "clave": "texto_2810d60622",
+      "es": "Ahorras",
+      "nhe": "Ti tlaatitok"
+    },
+    {
+      "clave": "texto_7d9cdc1cc1",
+      "es": "{v1} min más que en app",
+      "nhe": "{v1} min más tlen ipan app"
+    },
+    {
+      "clave": "texto_5c9fa548f5",
+      "es": "En auto emitiría {v1} de CO₂",
+      "nhe": "Ika carro kikixtiskia {v1} tlen CO₂"
+    },
+    {
+      "clave": "texto_42583d1729",
+      "es": "Escríbelo y te digo si conviene. Con tu precio, Grieta aprende.",
+      "nhe": "Xiquijcuilo huan nimitzilhuis sinta quinamiqui. Ika mo tlaxtlauili, Grieta momachtia."
+    },
+    {
+      "clave": "texto_12db535974",
+      "es": "CO₂ de este viaje",
+      "nhe": "CO₂ tlen ni paxalojketl"
+    },
+    {
+      "clave": "texto_a14f56af54",
+      "es": "Ya pasa por ahí",
+      "nhe": "Ya panotok nopaya"
+    },
+    {
+      "clave": "texto_6c810516f5",
+      "es": "El camión hace este recorrido aunque no te subas.",
+      "nhe": "Nopa camión ki chiua ni ojtli maske ax ti tlejkos."
+    },
+    {
+      "clave": "texto_fd354da3f4",
+      "es": "Auto calculado con 135.7 g de CO₂ por km, la meta para autos nuevos de la NOM-163-SEMARNAT; los que circulan emiten más.",
+      "nhe": "Nopa carro tlen kiixtlalijkej ika 135.7 g tlen CO₂ por km, nopa meta para yankuik carros tlen NOM-163-SEMARNAT; tlen motlalouaj kikixtiaj más."
+    },
+    {
+      "clave": "texto_3970219ad3",
+      "es": "¿Qué app abriste?",
+      "nhe": "¿Tlake app tijtlapo?"
+    },
+    {
+      "clave": "texto_0127bae13d",
+      "es": "Grieta estima {v1} en {v2}.",
+      "nhe": "Grieta kiyejyekoua {v1} ipan {v2}."
+    },
+    {
+      "clave": "texto_4351fb4145",
+      "es": "{v1} se estima en {v2}.",
+      "nhe": "{v1} moijtoua eli {v2}."
+    },
+    {
+      "clave": "texto_f4fdc15510",
+      "es": "¿Nos compartes este precio?",
+      "nhe": "¿Uelis techxelos ni tlaxtlauili?"
+    },
+    {
+      "clave": "texto_defb30c1f1",
+      "es": "Solo se guardan la app, el precio y de dónde a dónde vas. Así Grieta calcula mejor para todos.",
+      "nhe": "San nopa aplicación, nopa tlaxtlauili uan kanke tias mokaua. Kej nopa Grieta kuali kiixtoma para nochi."
+    },
+    {
+      "clave": "texto_e1a7af4273",
+      "es": "Caminando llegas antes que en cualquier Qrobus.",
+      "nhe": "Ika tinejnemi tiajsiti más nimantsi uan amo ipan seyok Qrobus."
+    },
+    {
+      "clave": "texto_898ef8d06c",
+      "es": "Parada oficial de Qrobus sin horarios publicados.",
+      "nhe": "Nopa Qrobus tlen tlanauatia ax kipia horarios tlen ijkuilijtok."
+    },
+    {
+      "clave": "texto_5b6f2c6fb6",
+      "es": "No sabemos qué camiones pasan aquí.",
+      "nhe": "Ax tijmatij tlen camiones pano nikan."
+    },
+    {
+      "clave": "texto_d8c9aa2414",
+      "es": "{v1} de CO₂",
+      "nhe": "{v1} tlen CO₂"
+    },
+    {
+      "clave": "texto_8baec457e5",
+      "es": "que no emitió un auto.",
+      "nhe": "tlen ax kikixtik se teposnenemi."
+    },
+    {
+      "clave": "texto_ee13253947",
+      "es": "Llevas {v1} kg de CO₂ que no emitió un auto.",
+      "nhe": "Tijkuika {v1} kg tlen CO₂ tlen ax kikixtik se teposnenemi."
+    },
+    {
+      "clave": "texto_4b346af74f",
+      "es": "¿Qué te muestro primero?",
+      "nhe": "¿Tlaque nimechnextilis achtohui?"
+    },
+    {
+      "clave": "texto_89dd748442",
+      "es": "Apps",
+      "nhe": "Aplicaciones"
+    },
+    {
+      "clave": "texto_cc3eff3751",
+      "es": "Lo que convenga",
+      "nhe": "Tlen kinamiki"
+    },
+    {
+      "clave": "texto_35e0c1546e",
+      "es": "Primero Qrobus",
+      "nhe": "Achtoui Qrobus"
+    },
+    {
+      "clave": "texto_9baa4cc85b",
+      "es": "Primero apps",
+      "nhe": "Achtoui aplicaciones"
+    },
+    {
+      "clave": "texto_1f84064c3a",
+      "es": "Primero las apps",
+      "nhe": "Achtoui nopa aplicaciones"
+    },
+    {
+      "clave": "texto_267f390fd2",
+      "es": "En cada viaje va primero el camión.",
+      "nhe": "Ipan sejse viaje nopa camión yaui achtoui."
+    },
+    {
+      "clave": "texto_5b3cb85136",
+      "es": "En cada viaje van primero Uber, DiDi e inDrive.",
+      "nhe": "Ipan sejse viaje Uber, DiDi uan inDrive yauij achtoui."
+    },
+    {
+      "clave": "texto_fb358dcec2",
+      "es": "Arriba va lo que te convenga más en precio y tiempo.",
+      "nhe": "Ipan tlakpak eltok tlen más mitspaktia ika ipati uan ika tonali."
+    },
+    {
+      "clave": "texto_8a26319c47",
+      "es": "En auto emitiría {v1} de CO₂.",
+      "nhe": "Ika carro kikixtiskia {v1} tlen CO₂."
     }
   ],
   "adaptaciones": [
@@ -5719,6 +5864,46 @@
       "clave": "texto_f65793b756",
       "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
       "criterio": "Reusa la traducción automática de «Compáralo»."
+    },
+    {
+      "clave": "texto_5c9fa548f5",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Se escribe CO₂ como en el texto fuente."
+    },
+    {
+      "clave": "texto_12db535974",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Se escribe CO₂ como en el texto fuente."
+    },
+    {
+      "clave": "texto_fd354da3f4",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Se escribe CO₂ como en el texto fuente."
+    },
+    {
+      "clave": "texto_0127bae13d",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "La traducción automática cambió «Grieta» por «Crack»; se restituye el nombre."
+    },
+    {
+      "clave": "texto_d8c9aa2414",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Se escribe CO₂ como en el texto fuente."
+    },
+    {
+      "clave": "texto_8baec457e5",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Fragmento de la traducción automática de «Llevas {v1} kg de CO₂ que no emitió un auto.»; la frase sola salió con otro sentido."
+    },
+    {
+      "clave": "texto_ee13253947",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Se escribe CO₂ como en el texto fuente."
+    },
+    {
+      "clave": "texto_8a26319c47",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Misma traducción que la frase sin punto final."
     }
   ]
 }

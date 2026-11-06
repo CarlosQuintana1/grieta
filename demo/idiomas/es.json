@@ -9754,6 +9754,267 @@
       "contextos": [
         "demo/index.html · pantallas · #bloqueApp"
       ]
+    },
+    {
+      "clave": "texto_2810d60622",
+      "es": "Ahorras",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_7d9cdc1cc1",
+      "es": "{v1} min más que en app",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "mas",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_5c9fa548f5",
+      "es": "En auto emitiría {v1} de CO₂",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "kgTexto(co2Auto(r.directo.km))",
+          "formato": "kg"
+        }
+      }
+    },
+    {
+      "clave": "texto_42583d1729",
+      "es": "Escríbelo y te digo si conviene. Con tu precio, Grieta aprende.",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_12db535974",
+      "es": "CO₂ de este viaje",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_a14f56af54",
+      "es": "Ya pasa por ahí",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_6c810516f5",
+      "es": "El camión hace este recorrido aunque no te subas.",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_fd354da3f4",
+      "es": "Auto calculado con 135.7 g de CO₂ por km, la meta para autos nuevos de la NOM-163-SEMARNAT; los que circulan emiten más.",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_3970219ad3",
+      "es": "¿Qué app abriste?",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_0127bae13d",
+      "es": "Grieta estima {v1} en {v2}.",
+      "contextos": [
+        "demo/app.js · pintarEstimado"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "Grieta.nombreApp(x.app)",
+          "opciones": [
+            "Uber",
+            "DiDi",
+            "inDrive"
+          ]
+        },
+        "v2": {
+          "expresion": "rangoTexto(limitesPrecio(x))",
+          "formato": "rango"
+        }
+      }
+    },
+    {
+      "clave": "texto_4351fb4145",
+      "es": "{v1} se estima en {v2}.",
+      "contextos": [
+        "demo/app.js · pintarVeredicto"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "Grieta.nombreApp(otra.app)",
+          "opciones": [
+            "Uber",
+            "DiDi",
+            "inDrive"
+          ]
+        },
+        "v2": {
+          "expresion": "rangoTexto(limitesPrecio(otra))",
+          "formato": "rango"
+        }
+      }
+    },
+    {
+      "clave": "texto_f4fdc15510",
+      "es": "¿Nos compartes este precio?",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_defb30c1f1",
+      "es": "Solo se guardan la app, el precio y de dónde a dónde vas. Así Grieta calcula mejor para todos.",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_e1a7af4273",
+      "es": "Caminando llegas antes que en cualquier Qrobus.",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_898ef8d06c",
+      "es": "Parada oficial de Qrobus sin horarios publicados.",
+      "contextos": [
+        "demo/app.js · pintarCamiones"
+      ]
+    },
+    {
+      "clave": "texto_5b6f2c6fb6",
+      "es": "No sabemos qué camiones pasan aquí.",
+      "contextos": [
+        "demo/app.js · pintarCamiones"
+      ]
+    },
+    {
+      "clave": "texto_d8c9aa2414",
+      "es": "{v1} de CO₂",
+      "contextos": [
+        "demo/app.js · pintarAhorro"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "kgTexto(co2)",
+          "formato": "kg"
+        }
+      }
+    },
+    {
+      "clave": "texto_8baec457e5",
+      "es": "que no emitió un auto.",
+      "contextos": [
+        "demo/app.js · pintarAhorro"
+      ]
+    },
+    {
+      "clave": "texto_ee13253947",
+      "es": "Llevas {v1} kg de CO₂ que no emitió un auto.",
+      "contextos": [
+        "demo/app.js · pintarAhorro"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "nuevaMeta",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_4b346af74f",
+      "es": "¿Qué te muestro primero?",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_89dd748442",
+      "es": "Apps",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_cc3eff3751",
+      "es": "Lo que convenga",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_35e0c1546e",
+      "es": "Primero Qrobus",
+      "contextos": [
+        "demo/app.js · fichasPerfil"
+      ]
+    },
+    {
+      "clave": "texto_9baa4cc85b",
+      "es": "Primero apps",
+      "contextos": [
+        "demo/app.js · fichasPerfil"
+      ]
+    },
+    {
+      "clave": "texto_1f84064c3a",
+      "es": "Primero las apps",
+      "contextos": [
+        "demo/app.js · RESPUESTAS_PERFIL"
+      ]
+    },
+    {
+      "clave": "texto_267f390fd2",
+      "es": "En cada viaje va primero el camión.",
+      "contextos": [
+        "demo/app.js · EFECTOS"
+      ]
+    },
+    {
+      "clave": "texto_5b3cb85136",
+      "es": "En cada viaje van primero Uber, DiDi e inDrive.",
+      "contextos": [
+        "demo/app.js · EFECTOS"
+      ]
+    },
+    {
+      "clave": "texto_fb358dcec2",
+      "es": "Arriba va lo que te convenga más en precio y tiempo.",
+      "contextos": [
+        "demo/app.js · EFECTOS"
+      ]
+    },
+    {
+      "clave": "texto_8a26319c47",
+      "es": "En auto emitiría {v1} de CO₂.",
+      "contextos": [
+        "demo/app.js · pintarOpciones (nombre para lector)"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "kgTexto(co2Auto(r.directo.km))",
+          "formato": "kg"
+        }
+      }
     }
   ]
 }

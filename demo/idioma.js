@@ -42,7 +42,7 @@ const Interfaz = (() => {
       const nombre = p.slice(1, -1);
       nombres.push(nombre);
       const opciones = m.variables?.[nombre]?.opciones;
-      const formato = { importe: "\\$-?[\\d.,]+", rango: "\\$[\\d.,]+–[\\d.,]+", numero: "-?\\d+", hora: "\\d{1,2}:\\d{2} (?:am|pm)", rango_voz: "entre \\d+ y \\d+ pesos", precio_voz: "(?:precio estimado entre \\d+ y \\d+|\\d+) pesos" }[m.variables?.[nombre]?.formato];
+      const formato = { kg: "\\d+(?:\\.\\d)? kg", importe: "\\$-?[\\d.,]+", rango: "\\$[\\d.,]+–[\\d.,]+", numero: "-?\\d+", hora: "\\d{1,2}:\\d{2} (?:am|pm)", rango_voz: "entre \\d+ y \\d+ pesos", precio_voz: "(?:precio estimado entre \\d+ y \\d+|\\d+) pesos" }[m.variables?.[nombre]?.formato];
       return Array.isArray(opciones) ? `(${opciones.map(literal).join("|")})` : `(${formato ?? ".*?"})`;
     }).join("");
     return { ...m, nombres, patron: new RegExp(`^${patron}$`, "u"), peso: normalizar(m.es).replace(/\{\w+\}/g, "").length };
@@ -75,7 +75,7 @@ const Interfaz = (() => {
       });
       return texto.slice(0, texto.indexOf(texto.trim())) + resultado + (texto.match(/\s*$/)?.[0] ?? "");
     }
-    if (elemento.closest("#textoPerfil, #llegadaApp, #detalleEtiqueta, .tarjeta .etiqueta") && original.includes("·")) {
+    if (elemento.closest("#textoPerfil, #llegadaApp, #detalleEtiqueta, .tarjeta .etiqueta, .tarjeta .duracion") && original.includes("·")) {
       return texto.split(/(\s*·\s*)/).map((p, i) => i % 2 ? p : traducir(p, elemento, nivel + 1)).join("");
     }
     if (elemento.closest("#guiaEtapa") && original.includes(" · ")) {

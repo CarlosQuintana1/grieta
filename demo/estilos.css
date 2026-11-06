@@ -1122,3 +1122,4 @@ button.impacto-todos { width: 100%; text-align: left; }
 .escena .tl-bigote { stroke: #8b878d; stroke-width: .8; stroke-linecap: round; }
 .escena .lagrima { fill: #7cc3e8; } .escena .tl-panza { fill: #c9c6c8; } .escena .tl-trazo.grueso { stroke-width: 2.4; }
 .escena .tl-cria { fill: #c4c1c5; stroke: #8b878d; stroke-width: 1; }
+.bono-titulo { margin-top: 28px; }

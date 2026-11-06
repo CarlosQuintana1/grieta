@@ -196,12 +196,12 @@ const PANTALLAS = {
   practica: { tab: "inicio", encabezado: true },
   guia: {},
   reporte: { tab: "reporte" },
-  bonos: { tab: "inicio", encabezado: true },
+  ahorro: { tab: "inicio", encabezado: true },
   co2: { tab: "inicio", encabezado: true },
   ajustes: { tab: "ajustes" },
   perfil: { tab: "ajustes", encabezado: true },
 };
-const titulos = { co2: "Lo que evitamos", bonos: "¿Qué bono te conviene?", buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
+const titulos = { co2: "Lo que evitamos", ahorro: "Tu ahorro", buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
 
 function actualizarVozEncabezado() {
   const boton = $("vozEncabezado"), enCamara = document.body.dataset.pantalla === "camara";
@@ -2578,8 +2578,8 @@ function pintarAhorro() {
   const meta = [100, 50, 25, 10, 5, 1].find((kg) => acumulado >= kg * 1000);
   const nuevaMeta = meta && meta > leer("grieta-meta-co2", 0) ? meta : null;
   if (nuevaMeta) { escribir("grieta-meta-co2", nuevaMeta); hablar(`Llevas ${nuevaMeta} kilos de CO₂ que no emitió un auto.`); }
-  $("ahorroMes").hidden = total < 1;
-  $("ahorroMes").innerHTML = `${ico("moneda")}<span class="fila-texto"><strong>${pesos(total)} de ahorro estimado</strong><span>Tu bolsillo lo nota.</span></span>`;
+  $("ahorroMes").hidden = false;
+  $("ahorroMes").innerHTML = `${ico("moneda")}<span class="fila-texto"><strong>${total >= 1 ? `${pesos(total)} de ahorro estimado` : "Tu ahorro"}</strong><span>${total >= 1 ? "Tu bolsillo lo nota." : "Y qué bono de Qrobus te conviene."}</span></span>${ico("chevron", "chevron")}`;
 }
 // Lo de todos: cada viaje en camion empezado con la guia manda solo sus km; la API los suma.
 const contarViaje = (km) => llamar("/viajes", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ km: Math.round(km * 10) / 10 }) })
@@ -2591,7 +2591,7 @@ async function pintarImpacto() {
     const { co2_kg, viajes: n, km } = await llamar("/impacto");
     if (!co2_kg) return;
     estado.impacto = { g: co2_kg * 1000, viajes: n, km };
-    $("impactoTodos").innerHTML = `${ico("planta")}<span class="fila-texto"><strong>${kgTexto(co2_kg * 1000)} de CO₂ evitados</strong><span>Mira cómo va tu tlacuache.</span></span>${ico("chevron", "chevron")}`;
+    $("impactoTodos").innerHTML = `${ico("planta")}<span class="fila-texto"><strong>${kgTexto(co2_kg * 1000)} de CO₂ evitados</strong><span>Moverte diferente sí cuenta.</span></span>${ico("chevron", "chevron")}`;
     $("impactoTodos").hidden = false;
   } catch { estado.impactoLeido = 0; }
 }
@@ -3449,15 +3449,45 @@ function pintarBonos() {
     : `<strong>${VEREDICTO_BONO[mejor[0]]}</strong><span>Ahorras ${pesos(porViaje - mejor[1])} al mes contra pagar cada viaje.</span>`;
 }
 const marcarTarifaBonos = radios("tarifaBonos", (v) => { bono.tarifa = v; pintarBonos(); });
-function abrirBonos() {
+// Seis meses de ahorro propio contra la app mas barata, en pesos.
+function pintarMeses() {
+  const hoy = new Date(), meses = Array.from({ length: 6 }, (_, i) => ({ d: new Date(hoy.getFullYear(), hoy.getMonth() - 5 + i, 1), p: 0 }));
+  for (const h of historial) {
+    const f = new Date(h.fecha), i = (f.getFullYear() - meses[0].d.getFullYear()) * 12 + f.getMonth() - meses[0].d.getMonth();
+    if (i >= 0 && i < 6) meses[i].p += h.ahorro || 0;
+  }
+  const max = Math.max(...meses.map((x) => x.p));
+  $("ahorroMeses").toggleAttribute("hidden", max < 1);
+  $("ahorroVacio").hidden = max >= 1;
+  if (max < 1) return;
+  $("ahorroMeses").innerHTML = meses.map((x, i) => {
+    const alto = x.p >= 1 ? Math.max(6, (x.p / max) * 72) : 3, cx = 27 + i * 53, ultimo = i === 5;
+    return `<rect class="barra${x.p >= 1 ? "" : " vacia"}${ultimo ? " actual" : ""}" x="${cx - 16}" y="${96 - alto}" width="32" height="${alto}" rx="${Math.min(6, alto / 2)}"/>
+      ${x.p >= 1 ? `<text class="valor" x="${cx}" y="${89 - alto}" text-anchor="middle">${pesos(x.p)}</text>` : ""}
+      <text class="dia${ultimo ? " actual" : ""}" x="${cx}" y="114" text-anchor="middle">${MESES[x.d.getMonth()]}</text>`;
+  }).join("");
+  $("ahorroMeses").setAttribute("aria-label", `Ahorro por mes: ${meses.map((x) => `${MESES[x.d.getMonth()]}, ${pesos(x.p)}`).join("; ")}`);
+}
+function abrirAhorro() {
+  const hoy = new Date(), delMes = historial.filter((h) => { const f = new Date(h.fecha); return f.getFullYear() === hoy.getFullYear() && f.getMonth() === hoy.getMonth() && h.ahorro > 0; });
+  const mes = delMes.reduce((s, h) => s + h.ahorro, 0), total = historial.reduce((s, h) => s + (h.ahorro || 0), 0);
+  $("ahorroTotal").textContent = pesos(mes);
+  $("ahorroQuien").textContent = delMes.length ? `${plural(delMes.length, "viaje", "viajes")} en camión este mes` : "Aún sin viajes en camión este mes";
+  const viajes = Math.floor(mes / BONOS.normal.viaje);
+  $("ahorroPie").textContent = mes >= BONOS.normal.viaje ? `Con eso pagas ${plural(viajes, "viaje", "viajes")} más en Qrobus.` : "Cada viaje en camión en vez de app se suma aquí.";
+  $("ahorroHistorico").textContent = total >= 1 ? `${pesos(total)} en total` : "";
+  pintarMeses();
+  prepararBonos();
+  ir("ahorro");
+}
+function prepararBonos() {
   const deGrieta = viajesDeHistorial();
   bono.semana = deGrieta || 10;
   $("viajesOrigen").textContent = deGrieta ? "Según tus viajes con Grieta de las últimas 4 semanas. Ajústalo si viajas sin la app." : "Puse 10: ida y vuelta 5 días. Ajústalo a lo que viajas.";
   marcarTarifaBonos(acc.unidos ? "unidos" : "normal");
   pintarBonos();
-  ir("bonos");
 }
-$("bonosInicio").addEventListener("click", abrirBonos);
+$("ahorroMes").addEventListener("click", abrirAhorro);
 $("menosViajes").addEventListener("click", () => { bono.semana = Math.max(0, bono.semana - 1); pintarBonos(); });
 $("masViajes").addEventListener("click", () => { bono.semana = Math.min(60, bono.semana + 1); pintarBonos(); });
 

@@ -536,6 +536,7 @@ html.modo-voz #compararPrecio, html.modo-voz #filaUnidos { display: none; }
   background: var(--ambar); color: var(--sobre-ambar); font-size: 1.3rem; font-weight: 700; text-align: left; border: 2px solid var(--ambar); }
 .boton-voz .icono { width: 30px; height: 30px; flex: none; }
 .boton-voz.oscuro { background: var(--superficie); color: var(--tinta); border-color: var(--linea); }
+.boton-voz.borde { justify-content: center; min-height: 64px; margin-top: 18px; background: transparent; color: var(--tinta); border-color: var(--tenue); font-size: 1rem; }
 
 /* Ayuda: pasos y respuestas a la vista */
 .pasos-ayuda { display: grid; gap: 10px; }

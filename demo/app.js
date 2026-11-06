@@ -162,12 +162,12 @@ marcarDensidad = radios("optDensidad", (v) => {
   guardarAcc();
   aplicarAcc();
 });
-$("activarVoz").addEventListener("click", () => {
-  Object.assign(acc, { modoVoz: true, facil: false, grande: true, voz: acc.lector !== "si" });
+// Salida a la vista con mapa y letra normal, por si el modo voz se eligio sin querer.
+$("salirVoz").addEventListener("click", () => {
+  Object.assign(acc, { modoVoz: false, grande: false, contraste: false, voz: false });
   guardarAcc();
   aplicarAcc();
-  $("vozDestino").focus();
-  hablar(ayudaVoz());
+  $("tituloInicio").focus();
 });
 $('optToques').addEventListener('change', () => { acc.toques = $('optToques').checked; guardarAcc(); aplicarAcc(); });
 for (const [k, id] of Object.entries(OPCIONES)) {

@@ -10049,6 +10049,13 @@
       "contextos": [
         "demo/app.js · pintarImpacto"
       ]
+    },
+    {
+      "clave": "texto_097af2b994",
+      "es": "Usar la pantalla normal",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
     }
   ]
 }

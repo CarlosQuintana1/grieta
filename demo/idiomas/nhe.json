@@ -5777,6 +5777,11 @@
       "clave": "texto_0b8be139a8",
       "es": "Moverte diferente sí cuenta.",
       "nhe": "Mopatla ika seyok tlamantli tlauel ipati."
+    },
+    {
+      "clave": "texto_097af2b994",
+      "es": "Usar la pantalla normal",
+      "nhe": "Xi kitekiui nopa pantalla tlen normal"
     }
   ],
   "adaptaciones": [
@@ -5929,6 +5934,11 @@
       "clave": "texto_fd5a1b5ac2",
       "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
       "criterio": "Salida automática de «Se evitaron {v1} de CO₂.» sin el punto; la frase corta salió incompleta. Se escribe CO₂."
+    },
+    {
+      "clave": "texto_097af2b994",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "La salida automática traducía «normal» como «uejkapantik»; se usa «tlen normal», como en la traducción automática de «Pago tarifa normal»."
     }
   ]
 }

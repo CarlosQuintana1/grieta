@@ -38,7 +38,7 @@ const base=process.env.GRIETA_URL ?? 'http://127.0.0.1:8791';
  const p=await ctx.newPage();const errores=[];const red=[];
  p.on('pageerror',e=>errores.push(e.message));p.on('request',r=>red.push({url:r.url(),method:r.method(),body:!!r.postData()}));
  await p.goto(base);await p.evaluate(()=>navigator.serviceWorker.ready);
- await p.locator('#activarVoz').click(); assert(await p.locator('#inicioVoz').isVisible());
+ await p.evaluate(()=>{Object.assign(acc,{modoVoz:true,grande:true,voz:false});guardarAcc();aplicarAcc();}); assert(await p.locator('#inicioVoz').isVisible());
  await p.locator('[data-tab="ajustes"]').click();await p.locator('[data-tab="inicio"]').click();assert(await p.locator('#inicioVoz').isVisible());
  console.log('Voz visible al activar y regresar de Ajustes');
  await p.evaluate(()=>{acc.voz=false;aplicarAcc();});

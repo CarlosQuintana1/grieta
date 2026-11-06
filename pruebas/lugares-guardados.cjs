@@ -50,7 +50,7 @@ const assert = require('node:assert/strict');
     }
 
     assert.equal(await p.locator('#vozRapida').count(), 0);
-    assert(await p.locator('#activarVoz').isVisible());
+    assert.equal(await p.locator('#activarVoz').count(), 0);
     const punto = await centro(ficha('Trabajo'));
     await tocar('touchStart', punto);
     await tocar('touchMove', { ...punto, y: punto.y - 75 });
@@ -129,7 +129,7 @@ const assert = require('node:assert/strict');
     assert.equal(await p.evaluate(() => estado.destino.nombre), 'Oficina');
     await p.locator('#atras').tap();
 
-    await p.locator('#activarVoz').tap();
+    await p.evaluate(() => { Object.assign(acc, { modoVoz: true, grande: true, voz: false }); guardarAcc(); aplicarAcc(); });
     await sostener(p.locator('#vozCasa'));
     await p.locator('#quitarLugarInicio').tap();
     await p.locator('#deshacerInicio [data-deshacer]').tap();

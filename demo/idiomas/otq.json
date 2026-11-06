@@ -3613,51 +3613,6 @@
       "otq": "Nu'i gí lleva {v1} kg CO₂ da 'nar coche hingi emitió."
     },
     {
-      "clave": "texto_4b346af74f",
-      "es": "¿Qué te muestro primero?",
-      "otq": "¿Temu̲ ga 'ñu'i 'me̲t'o?"
-    },
-    {
-      "clave": "texto_89dd748442",
-      "es": "Apps",
-      "otq": "Aplicaciones"
-    },
-    {
-      "clave": "texto_cc3eff3751",
-      "es": "Lo que convenga",
-      "otq": "Nä'ä da mahyoni"
-    },
-    {
-      "clave": "texto_35e0c1546e",
-      "es": "Primero Qrobus",
-      "otq": "'Me̲t'o Qrobus"
-    },
-    {
-      "clave": "texto_9baa4cc85b",
-      "es": "Primero apps",
-      "otq": "Aplicaciones 'me̲t'o"
-    },
-    {
-      "clave": "texto_1f84064c3a",
-      "es": "Primero las apps",
-      "otq": "Aplicaciones 'me̲t'o"
-    },
-    {
-      "clave": "texto_267f390fd2",
-      "es": "En cada viaje va primero el camión.",
-      "otq": "Kadu̲ 'nar viaje 'bu̲i ar dätä bo̲jä 'me̲t'o."
-    },
-    {
-      "clave": "texto_5b3cb85136",
-      "es": "En cada viaje van primero Uber, DiDi e inDrive.",
-      "otq": "Nu'bu̲ viaje, jar Uber, DiDi ne ar inDrive jar ndu̲i lugar."
-    },
-    {
-      "clave": "texto_fb358dcec2",
-      "es": "Arriba va lo que te convenga más en precio y tiempo.",
-      "otq": "Mañä gi nä'ä gi mäs conveniente precio ne ar pa."
-    },
-    {
       "clave": "texto_3c2a3db1d7",
       "es": "El costo es aproximado, confírmalo en la app.",
       "otq": "Ar costo ar aproximado, confirmar nä'ä jar nt'ot'e."
@@ -4038,11 +3993,6 @@
       "clave": "texto_fd354da3f4",
       "fuente": "https://www.bing.com/translator?from=es&to=otq",
       "criterio": "Se conserva la cifra 135.7 y el nombre de la norma como en el texto fuente."
-    },
-    {
-      "clave": "texto_9baa4cc85b",
-      "fuente": "https://www.bing.com/translator?from=es&to=otq",
-      "criterio": "Reusa la traducción automática de «Primero las apps»."
     },
     {
       "clave": "texto_8a26319c47",

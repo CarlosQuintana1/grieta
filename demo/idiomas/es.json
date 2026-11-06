@@ -9942,69 +9942,6 @@
       }
     },
     {
-      "clave": "texto_4b346af74f",
-      "es": "¿Qué te muestro primero?",
-      "contextos": [
-        "demo/index.html · texto de interfaz"
-      ]
-    },
-    {
-      "clave": "texto_89dd748442",
-      "es": "Apps",
-      "contextos": [
-        "demo/index.html · texto de interfaz"
-      ]
-    },
-    {
-      "clave": "texto_cc3eff3751",
-      "es": "Lo que convenga",
-      "contextos": [
-        "demo/index.html · texto de interfaz"
-      ]
-    },
-    {
-      "clave": "texto_35e0c1546e",
-      "es": "Primero Qrobus",
-      "contextos": [
-        "demo/app.js · fichasPerfil"
-      ]
-    },
-    {
-      "clave": "texto_9baa4cc85b",
-      "es": "Primero apps",
-      "contextos": [
-        "demo/app.js · fichasPerfil"
-      ]
-    },
-    {
-      "clave": "texto_1f84064c3a",
-      "es": "Primero las apps",
-      "contextos": [
-        "demo/app.js · RESPUESTAS_PERFIL"
-      ]
-    },
-    {
-      "clave": "texto_267f390fd2",
-      "es": "En cada viaje va primero el camión.",
-      "contextos": [
-        "demo/app.js · EFECTOS"
-      ]
-    },
-    {
-      "clave": "texto_5b3cb85136",
-      "es": "En cada viaje van primero Uber, DiDi e inDrive.",
-      "contextos": [
-        "demo/app.js · EFECTOS"
-      ]
-    },
-    {
-      "clave": "texto_fb358dcec2",
-      "es": "Arriba va lo que te convenga más en precio y tiempo.",
-      "contextos": [
-        "demo/app.js · EFECTOS"
-      ]
-    },
-    {
       "clave": "texto_8a26319c47",
       "es": "En auto emitiría {v1} de CO₂.",
       "contextos": [

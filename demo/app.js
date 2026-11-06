@@ -109,7 +109,7 @@ let turnoVoz = 0;
 let colaVoz = Promise.resolve();
 
 // Ajustes guardados en este telefono.
-const acc = { toques: true, modoVoz: false, facil: false, grande: false, contraste: false, daltonico: false, voz: false, vozElegida: false, lenta: false, camino: false, unidos: false, tema: "auto", movilidad: "normal", prefiere: "qrobus", oido: "bien", lector: "no", lengua: "es", ...leer("grieta-acc", {}) };
+const acc = { toques: true, modoVoz: false, facil: false, grande: false, contraste: false, daltonico: false, voz: false, vozElegida: false, lenta: false, camino: false, unidos: false, tema: "auto", movilidad: "normal", oido: "bien", lector: "no", lengua: "es", ...leer("grieta-acc", {}) };
 let camaraConVoz = true;
 acc.idioma ??= acc.lengua === "oto" ? "oto" : "es";
 if (!["es", "oto", "nah"].includes(acc.idioma)) acc.idioma = "es";
@@ -531,7 +531,7 @@ $("cambiarDesde").addEventListener("click", () => abrirBuscar("desde"));
 let recientes = leer("grieta-recientes", []);
 function guardarReciente(l) {
   if (esGps(l)) return;
-  recientes = [{ nombre: l.nombre, detalle: l.detalle ?? "", lat: l.lat, lon: l.lon }]
+  recientes = [{ nombre: l.nombre, detalle: l.detalle ?? "", lat: l.lat, lon: l.lon, tipo: l.tipo }]
     .concat(recientes.filter((r) => r.nombre !== l.nombre || Grieta.metros(r.lat, r.lon, l.lat, l.lon) > 30)).slice(0, 5);
   escribir("grieta-recientes", recientes);
 }
@@ -555,7 +555,7 @@ function abrirBuscar(modo) {
 $("abrirBuscar").addEventListener("click", () => abrirBuscar("hacia"));
 
 const fichaLugar = (l, i, icon) => icon === "reloj" ? miniFicha("tono-obsidiana", ico("reloj"))
-  : icon === "localizar" ? miniFicha("tono-maiz", picto("donde")) : miniFicha(tonoLugar(l.nombre, i), picto(iconoLugar(l.nombre)));
+  : icon === "localizar" ? miniFicha("tono-maiz", picto("donde")) : miniFicha(tonoLugar(l.nombre, i, l.tipo), picto(iconoLugar(l.nombre, l.tipo)));
 const filaLugar = (l, i, icon = "pin") => `<li><button type="button" data-i="${i}">
   ${fichaLugar(l, i, icon)}
   <span class="fila-texto"><strong translate="no">${escapar(l.nombre)}</strong>${l.detalle ? `<small translate="no">${escapar(l.detalle)}</small>` : ""}</span>
@@ -607,7 +607,7 @@ function sugerir(texto, alCompletar = null) {
       fetch(url).then((r) => r.json()).then(({ features }) => features.map(({ properties: p, geometry: g }) => ({
         nombre: p.name ?? p.street ?? "Sin nombre",
         detalle: [p.street && p.name ? p.street : null, p.district ?? p.city].filter(Boolean).join(", "),
-        lat: g.coordinates[1], lon: g.coordinates[0],
+        lat: g.coordinates[1], lon: g.coordinates[0], tipo: p.osm_value,
       }))),
       texto.trim().length >= 4 ? llamar(`/buscar?q=${encodeURIComponent(texto.trim())}&lat=${c.lat}&lon=${c.lon}`) : Promise.resolve([]),
     ]);
@@ -1042,9 +1042,8 @@ function pintarOpciones(r) {
       <small>En la parada ${escapar(cruce(c.recorrido[0].nombre))}, hacia ${escapar(c.hacia)}. Si lo pierdes, ${Grieta.nombreApp(app.app)} se estima en ${rangoTexto(limitesPrecio(app))}.</small></span>`;
   }
   if (hayCamion && !estado.tarjetas.length) $("tarjetas").innerHTML = `<p class="nota">Caminando llegas antes que en cualquier Qrobus.</p>`;
-  // Primero lo que eligio en su perfil; con "lo que convenga", lo que gana en precio y tiempo en este viaje.
-  const prefiere = acc.prefiere ?? "qrobus";
-  const camionPrimero = estado.tarjetas.length > 0 && (prefiere === "qrobus" || (prefiere === "conviene" && menor(r.opciones, valorOpcion).tipo !== "app"));
+  // El camion va primero: Grieta busca que se use menos el auto.
+  const camionPrimero = estado.tarjetas.length > 0;
   const bloqueCamion = ["tituloCamion", "ultimoCamion", "tarjetas"].map($);
   if (camionPrimero) $("enApp").before(...bloqueCamion);
   else $("enApp").after(...bloqueCamion);
@@ -2275,7 +2274,7 @@ function terminarGuia() {
 let viajes = leer("grieta-viajes", []);
 function registrarViaje(o) {
   const { destino: d } = estado;
-  viajes = [{ destino: { nombre: d.nombre, lat: d.lat, lon: d.lon }, camino: tituloOpcion(o), fecha: new Date().toISOString() }]
+  viajes = [{ destino: { nombre: d.nombre, lat: d.lat, lon: d.lon, tipo: d.tipo }, camino: tituloOpcion(o), fecha: new Date().toISOString() }]
     .concat(viajes.filter((v) => v.destino.nombre !== d.nombre)).slice(0, 20);
   escribir("grieta-viajes", viajes);
   // Historial sin juntar repetidos: de aqui salen la rutina y lo ahorrado. Solo en el telefono.
@@ -2353,7 +2352,7 @@ function fechaViaje(iso) {
 function pintarViajes() {
   $("bloqueViajes").hidden = !viajes.length;
   $("listaViajes").innerHTML = viajes.slice(0, 3).map((v, i) => `<li><button type="button" data-i="${i}" aria-label="Ir otra vez a ${escapar(v.destino.nombre)}">
-      ${miniFicha(tonoLugar(v.destino.nombre, i), picto(iconoLugar(v.destino.nombre)))}
+      ${miniFicha(tonoLugar(v.destino.nombre, i, v.destino.tipo), picto(iconoLugar(v.destino.nombre, v.destino.tipo)))}
       <span class="fila-texto"><strong translate="no">${escapar(v.destino.nombre)}</strong><small>${escapar(v.camino)} · ${fechaViaje(v.fecha)}</small></span>
       ${ico("chevron", "chevron")}</button></li>`).join("");
 }
@@ -2367,19 +2366,32 @@ let guardados = leer("grieta-lugares", []);
 let editando = false;
 let quitado = null;
 let cambioUbicacionGuardada = null;
-function iconoLugar(nombre) {
+// El tipo sale del nombre; si no, del tipo de OpenStreetMap que trae el buscador.
+const TIPOS_OSM = { hospital: "hospital", clinic: "hospital", doctors: "hospital", pharmacy: "hospital", park: "parque", garden: "parque",
+  supermarket: "super", convenience: "super", mall: "plaza", department_store: "plaza", marketplace: "mercado", cafe: "cafe", restaurant: "cafe",
+  fast_food: "cafe", place_of_worship: "iglesia", university: "escuela", school: "escuela", college: "escuela", kindergarten: "escuela",
+  aerodrome: "avion", bus_station: "qrobus", office: "trabajo" };
+function iconoLugar(nombre, tipo) {
   const n = sinAcentos(nombre);
   if (n === "casa") return "casa";
-  if (/escuela|uni|facultad|prepa|colegio|tec\b/.test(n)) return "escuela";
-  if (/trabajo|oficina/.test(n)) return "trabajo";
-  if (/hospital|clinica|imss|issste|doctor|medic/.test(n)) return "hospital";
-  if (/mercado|tianguis|super|tienda/.test(n)) return "mercado";
-  if (/abuel|mama|papa|hij|tia|tio|herman|familia|novi/.test(n)) return "familia";
-  return "lugar";
+  if (/trabajo|oficina|corporativo|parque (industrial|tecnologico)/.test(n)) return "trabajo";
+  if (/hospital|clinica|imss|issste|cruz roja|doctor|medic|farmacia|consultorio|sanatorio|laboratorio/.test(n)) return "hospital";
+  if (/aeropuerto/.test(n)) return "avion";
+  if (/terminal|central de autobuses/.test(n)) return "qrobus";
+  if (/escuela|universidad|facultad|prepa|colegio|instituto|tecnologico|\buaq\b|\btec\b|kinder|primaria|secundaria|campus/.test(n)) return "escuela";
+  if (/parque|jardin|alameda|bosque|plaza de armas/.test(n)) return "parque";
+  if (/bodega aurrera|walmart|soriana|chedraui|la comer|fresko|city market|costco|sams|\bheb\b|\boxxo\b|super|tienda|abarrotes/.test(n)) return "super";
+  if (/mercado|tianguis/.test(n)) return "mercado";
+  if (/plaza|centro comercial|mall|lifestyle|uptown|outlet|galerias|antea/.test(n)) return "plaza";
+  if (/cafe|restaurante|taqueria|tacos|cocina|fonda|pizza|comida|starbucks/.test(n)) return "cafe";
+  if (/iglesia|templo|parroquia|catedral|capilla|basilica/.test(n)) return "iglesia";
+  if (/\b(abuel\w*|mama|papa|hij[oa]s?|tia|tio|herman[oa]s?|familia|novi[oa])\b/.test(n)) return "familia";
+  return TIPOS_OSM[tipo] ?? "lugar";
 }
 // Cada tipo de lugar con su color, como en un sistema de transporte; los demas toman uno del resto
-const TONOS = { casa: "tono-casa", escuela: "tono-escuela", trabajo: "tono-trabajo", hospital: "tono-hospital", mercado: "tono-maiz", familia: "tono-ciruela" };
-const tonoLugar = (nombre, i) => TONOS[iconoLugar(nombre)] ?? ["tono-anil", "tono-ciruela", "tono-maiz"][i % 3];
+const TONOS = { casa: "tono-casa", escuela: "tono-escuela", trabajo: "tono-trabajo", hospital: "tono-salud", parque: "tono-hospital", super: "tono-maiz",
+  mercado: "tono-maiz", plaza: "tono-ciruela", cafe: "tono-obsidiana", iglesia: "tono-anil", avion: "tono-trabajo", qrobus: "tono-anil", familia: "tono-ciruela" };
+const tonoLugar = (nombre, i, tipo) => TONOS[iconoLugar(nombre, tipo)] ?? ["tono-anil", "tono-ciruela", "tono-maiz"][i % 3];
 function pintarGuardados() {
   // Casa siempre primero: es el viaje que mas se repite.
   guardados.sort((a, b) => (b.nombre === "Casa") - (a.nombre === "Casa"));
@@ -3046,7 +3058,6 @@ function fichasPerfil() {
     ["perfilMovilidad", "maiz", movilidad === "silla" ? "silla" : "caminar", { normal: "Camino bien", poco: "Camino poco", silla: "Silla o andadera" }[movilidad]],
     ["perfilOido", "ciruela", "decir", acc.oido === "poco" ? "Escucho poco" : "Escucho bien"],
     ["perfilTarifa", "anil", "qrobus", acc.unidos ? "Tarifa Unidos" : "Tarifa normal"],
-    ["perfilPrefiere", "trabajo", acc.prefiere === "apps" ? "app" : "qrobus", { qrobus: "Primero Qrobus", apps: "Primero apps", conviene: "Lo que convenga" }[acc.prefiere ?? "qrobus"]],
   ].filter(Boolean);
 }
 function resumenCortoPerfil() {
@@ -3082,7 +3093,6 @@ const EFECTOS = {
   perfilMovilidad: { normal: "Te busco la parada que más te convenga.", poco: "Te busco paradas más cerca.", silla: "Paradas cerca, y te aviso si reportaron que no tienen rampa." },
   perfilOido: { bien: "Durante el viaje te aviso con voz.", poco: "Avisos en pantalla grande y con vibración, sin voz." },
   perfilTarifa: { si: "Calculo el camión a $2 y el transbordo gratis.", no: "Calculo el camión con la tarifa normal." },
-  perfilPrefiere: { qrobus: "En cada viaje va primero el camión.", apps: "En cada viaje van primero Uber, DiDi e inDrive.", conviene: "Arriba va lo que te convenga más en precio y tiempo." },
   perfilForma: { completa: "Precios, horarios, comparar y esperar.", facil: "Solo lo esencial, con botones grandes." },
   perfilLengua: { es: "La interfaz está en español. El audio sigue en español.", oto: "La traducción de la interfaz todavía no está disponible. El audio sigue en español.", nah: "La traducción de la interfaz todavía no está disponible. El audio sigue en español." },
 };
@@ -3094,7 +3104,6 @@ const RESPUESTAS_PERFIL = {
   perfilMovilidad: { normal: "Camino sin problema", poco: "Me cuesta caminar", silla: "Uso silla de ruedas o andadera" },
   perfilOido: { bien: "Escucho bien los avisos", poco: "Me cuesta escuchar" },
   perfilTarifa: { si: "Pago Tarifa Unidos", no: "Pago tarifa normal" },
-  perfilPrefiere: { qrobus: "Primero Qrobus", apps: "Primero las apps", conviene: "Lo que convenga" },
   perfilLengua: { es: "Español", oto: NOMBRE_OTOMI, nah: NOMBRE_NAHUATL },
 };
 function actualizarFilasPerfil() {
@@ -3106,7 +3115,6 @@ function actualizarFilasPerfil() {
     perfilMovilidad: movilidad,
     perfilOido: acc.oido ?? "bien",
     perfilTarifa: acc.unidos ? "si" : "no",
-    perfilPrefiere: acc.prefiere ?? "qrobus",
     perfilLengua: acc.idioma,
   };
   for (const [grupo, valor] of Object.entries(valores)) {
@@ -3121,7 +3129,6 @@ function actualizarFilasPerfil() {
   marcarMovilidad(valores.perfilMovilidad);
   marcarOido(valores.perfilOido);
   marcarTarifa(valores.perfilTarifa);
-  marcarPrefiere(valores.perfilPrefiere);
   marcarLengua(valores.perfilLengua);
   $("perfilLector").hidden = !acc.modoVoz;
   $("preguntaForma").hidden = acc.modoVoz;
@@ -3163,10 +3170,6 @@ const marcarTarifa = radios("perfilTarifa", (v) => cambiarPerfil(() => {
   efecto("perfilTarifa", v);
   acc.unidos = v === "si";
 }));
-const marcarPrefiere = radios("perfilPrefiere", (v) => cambiarPerfil(() => {
-  efecto("perfilPrefiere", v);
-  acc.prefiere = v;
-}));
 const marcarLengua = radios("perfilLengua", (v) => cambiarPerfil(() => {
   acc.idioma = v;
   Interfaz.cambiar(v);
@@ -3177,7 +3180,6 @@ function abrirPerfil() {
   marcarMovilidad(acc.movilidad ?? (acc.camino ? "poco" : "normal"));
   marcarOido(acc.oido ?? "bien");
   marcarTarifa(acc.unidos ? "si" : "no");
-  marcarPrefiere(acc.prefiere ?? "qrobus");
   $("perfilLector").hidden = !acc.modoVoz;
   marcarForma(acc.facil ? "facil" : "completa");
   actualizarFilasPerfil();

@@ -166,15 +166,15 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 .lugar:active .lugar-icono { transform: scale(0.94); }
 .lugar.nuevo .lugar-nombre { color: var(--tenue); }
 /* Ocho colores con nombre, todos con contraste de 4.5:1 o mas contra el pictograma blanco.
-   Casa, escuela, trabajo y hospital siempre llevan el suyo; hay variante para modo claro y para daltonismo. */
+   Cada tipo de lugar lleva el suyo (hospital en rojo, parque en verde); hay variante para modo claro y para daltonismo. */
 .tono-casa { --tono: #7a3e2b; } .tono-escuela { --tono: #822a59; } .tono-trabajo { --tono: #145b7d; } .tono-hospital { --tono: #276247; }
-.tono-maiz { --tono: #725100; } .tono-anil { --tono: #424d88; } .tono-ciruela { --tono: #67375f; } .tono-obsidiana { --tono: #3c4647; }
+.tono-salud { --tono: #a3312f; } .tono-maiz { --tono: #725100; } .tono-anil { --tono: #424d88; } .tono-ciruela { --tono: #67375f; } .tono-obsidiana { --tono: #3c4647; }
 html.claro .tono-casa { --tono: #713623; } html.claro .tono-escuela { --tono: #751c4c; } html.claro .tono-trabajo { --tono: #084f72; }
 html.claro .tono-hospital { --tono: #19583d; } html.claro .tono-maiz { --tono: #674700; } html.claro .tono-anil { --tono: #35447c; }
-html.claro .tono-ciruela { --tono: #592a52; } html.claro .tono-obsidiana { --tono: #303b3c; }
+html.claro .tono-ciruela { --tono: #592a52; } html.claro .tono-salud { --tono: #8e2a28; } html.claro .tono-obsidiana { --tono: #303b3c; }
 html.daltonico .tono-casa { --tono: #9a3e00; } html.daltonico .tono-escuela { --tono: #174e8a; } html.daltonico .tono-trabajo { --tono: #005a67; }
 html.daltonico .tono-hospital { --tono: #5a408c; } html.daltonico .tono-maiz { --tono: #715000; } html.daltonico .tono-anil { --tono: #273d76; }
-html.daltonico .tono-ciruela { --tono: #66402b; } html.daltonico .tono-obsidiana { --tono: #364244; }
+html.daltonico .tono-ciruela { --tono: #66402b; } html.daltonico .tono-salud { --tono: #8a2c5a; } html.daltonico .tono-obsidiana { --tono: #364244; }
 html.contraste .lugar-icono { box-shadow: inset 0 0 0 3px #fff; }
 .seccion { margin-top: 26px; }
 .respuesta:not(:empty) { margin-top: 16px; padding: 14px 16px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); }
@@ -762,8 +762,6 @@ html.claro body::before { background: #0b0a09; }
 .ficha-combinada > span + span { border-left: 2px solid rgb(0 0 0 / .25); }
 .ficha-combinada .picto { width: 24px; height: 24px; }
 #appAviso:empty { display: none; }
-.fila-perfil .ficha-combinada > span { width: 24px; }
-.fila-perfil .ficha-combinada .picto { width: 18px; height: 18px; }
 .pasos .fila-texto { padding-top: 2px; }
 .pasos .hora { padding-top: 4px; }
 .app-rapida .mini-ficha { width: 34px; height: 34px; margin-bottom: 6px; }

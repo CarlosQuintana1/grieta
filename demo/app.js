@@ -2318,11 +2318,10 @@ $("rutina").addEventListener("click", () => irA({ ...estado.rutina }));
 $("vozRutina").addEventListener("click", () => { hablar(frase("vamos_lugar", { lugar: estado.rutina.nombre })); irA({ ...estado.rutina }); });
 
 // Lo ahorrado este mes por ir en camion en vez de la app mas barata.
-// Ahorro propio y CO₂ de todos, juntos como logro; con uno solo, ocupa todo el ancho.
+// Ahorro propio y CO₂ de todos, juntos como logro.
 function mostrarLogros() {
   const visibles = ["logroAhorro", "logroCo2"].filter((id) => !$(id).hidden).length;
   $("logros").hidden = !visibles;
-  $("logros").classList.toggle("uno", visibles === 1);
 }
 function pintarAhorro() {
   // Mes en hora local: en UTC el ultimo dia del mes en la noche ya cuenta como el siguiente.

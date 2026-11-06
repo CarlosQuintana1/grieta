@@ -58,6 +58,7 @@
       <symbol id="i-baston" viewBox="0 0 24 24"><circle cx="11" cy="4.5" r="2"/><path d="M7 21l3-7 2.5 2.5V21"/><path d="M10 14l1-5.5-3 2L6.5 13"/><path d="M11 8.5l2.5 3H16"/><path d="M17 11.5V21"/></symbol>
       <symbol id="i-silla" viewBox="0 0 24 24"><circle cx="11" cy="4" r="2"/><path d="M11 7.5V14h5.5l2 5"/><path d="M11 10.5h4.5"/><path d="M8 10.5a5.5 5.5 0 1 0 7.8 6.2"/></symbol>
       <symbol id="i-vibrar" viewBox="0 0 24 24"><rect x="8" y="3.5" width="8" height="17" rx="2"/><path d="M11 17.5h2"/><path d="M4.5 8.5v7M19.5 8.5v7M2 10.5v3M22 10.5v3"/></symbol>
+      <symbol id="i-moneda" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></symbol>
       <symbol id="i-boleto" viewBox="0 0 24 24"><path d="M3 7h18v3.2a1.8 1.8 0 0 0 0 3.6V17H3v-3.2a1.8 1.8 0 0 0 0-3.6z"/><path d="M15 7.5v1.5M15 11.25v1.5M15 15v1.5"/></symbol>
       <!-- Pictogramas macizos de la familia de Grieta: lugares, orientacion, viaje y avisos -->
       <symbol id="p-casa" viewBox="0 0 48 48"><path d="M6 22 24 7l18 15v20H28V30h-8v12H6V22Zm25 1a5 5 0 0 0 5 5v-9a5 5 0 0 0-5 4Z" fill-rule="evenodd"/></symbol>
@@ -209,7 +210,7 @@
           <span class="avatar chico" aria-hidden="true"><svg class="icono"><use id="inicioAvatar" href="#p-caminar"/></svg></span>
         </button>
       </div>
-      <p class="desde"><svg class="icono ambar"><use href="#i-localizar"/></svg><span id="desdeTexto">Buscando tu ubicación...</span><button id="cambiarDesde" type="button" class="boton-chico">Cambiar</button></p>
+      <p class="desde"><svg class="icono ambar"><use href="#i-localizar"/></svg><span id="desdeTexto">Buscando tu ubicación...</span><button id="cambiarDesde" type="button" class="cambiar-desde">Cambiar</button></p>
       <button id="activarVoz" type="button" class="acceso-voz"><svg class="icono"><use href="#i-altavoz"/></svg><span class="fila-texto"><strong>Quiero que Grieta me hable</strong><small>Pocos botones, muy grandes, y Grieta te dice todo en voz alta.</small></span><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></button>
       <button id="abrirCamara" type="button" class="acceso-voz"><svg class="icono" aria-hidden="true"><use href="#i-camara"/></svg><span class="fila-texto"><strong>Describir con la cámara</strong><small>Escucha objetos y texto frente a ti</small></span><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></button>
       <button id="rutina" type="button" class="sugerencia" hidden>
@@ -241,12 +242,9 @@
           <button id="cerrarInvita" type="button" class="enlace">Ahora no</button>
         </div>
       </div>
-      <section id="logros" class="logros" aria-labelledby="tituloLogros" hidden>
-        <h2 id="tituloLogros" class="seccion">Tu impacto</h2>
-        <div class="logros-fichas">
-          <div id="logroAhorro" class="logro logro-ahorro" hidden><svg class="icono" aria-hidden="true"><use href="#i-boleto"/></svg><strong id="logroAhorroCifra"></strong><span>ahorraste este mes</span></div>
-          <div id="logroCo2" class="logro logro-co2" hidden><svg class="icono" aria-hidden="true"><use href="#i-planta"/></svg><strong id="logroCo2Cifra"></strong><span>de CO₂ evitados entre todos</span></div>
-        </div>
+      <section id="logros" class="logros" aria-label="Tu impacto" hidden>
+        <div id="logroAhorro" class="logro logro-ahorro" hidden><span class="logro-icono"><svg class="icono" aria-hidden="true"><use href="#i-moneda"/></svg></span><span class="fila-texto"><strong id="logroAhorroCifra"></strong><small>ahorraste este mes</small></span></div>
+        <div id="logroCo2" class="logro logro-co2" hidden><span class="logro-icono"><svg class="icono" aria-hidden="true"><use href="#i-planta"/></svg></span><span class="fila-texto"><strong id="logroCo2Cifra"></strong><small>de CO₂ evitados entre todos</small></span></div>
         <p class="logros-lema">Moverte diferente sí cuenta.</p>
       </section>
       <div id="bloqueViajes" hidden>

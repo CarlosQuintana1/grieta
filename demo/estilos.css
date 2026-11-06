@@ -535,6 +535,7 @@ html.claro .interruptor input::after, html.claro .interruptor input:checked::aft
 .app-rapida strong { font-size: 1.3rem; font-weight: 700; }
 .app-rapida small { font-size: 0.72rem; font-weight: 700; color: var(--ambar); text-transform: uppercase; letter-spacing: 0.06em; }
 .app-rapida.barata { border: 2px solid var(--ambar); }
+.app-rapida.barata strong, .app-rapida.barata small { color: var(--verde); }
 .en-app .enlace { margin-top: 4px; }
 
 /* Modo voz: sin mapa, botones grandes uno debajo de otro. */
@@ -694,7 +695,7 @@ button:active, .boton:active, .chip:active, .tarjeta:active, .app-fila:active, .
 .impacto-todos strong { display: block; color: var(--verde); }
 .impacto-todos .fila-texto > span { color: var(--tenue); font-size: .9rem; }
 .ahorro-mes { margin-top: 10px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
-.ahorro-mes strong { color: var(--ambar); font-weight: 700; }
+.ahorro-mes strong { color: var(--verde); font-weight: 700; }
 #precio::placeholder { color: var(--tenue); font-size: 1rem; font-weight: 500; opacity: 1; }
 
 /* Pantallas angostas y letra grande: que nada se parta a la mitad */
@@ -1007,5 +1008,5 @@ html.modo-voz :is(button,a,input,select,textarea,label) { touch-action: manipula
 .verificar .boton-chico { min-height: 40px; }
 .guia-senas { display: block; width: min(60%, 220px); margin: 10px 0; border-radius: var(--radio); background: var(--superficie); }
 .sin-camion { align-items: center; }
-.sin-camion strong { color: var(--cuidado); }
-#avisoRapido { color: var(--verde); font-weight: 600; }
+.sin-camion { padding: 10px 12px; }
+.sin-camion strong { color: var(--cuidado); font-size: 0.92rem; font-weight: 600; }

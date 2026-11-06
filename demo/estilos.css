@@ -1162,3 +1162,16 @@ html.claro .metas-ahorro li.hecha { color: #fff; }
 .camino-paso.ahora { color: var(--tinta); }
 .camino-paso.ahora i { box-sizing: border-box; background: var(--superficie); border: 3px solid var(--verde); }
 .co2-unidad b { color: var(--verde); white-space: nowrap; }
+
+/* Guardar un lugar: nombre en una sola pantalla */
+.nombrar-lugar { display: flex; gap: 12px; align-items: center; padding: 14px; border-radius: var(--radio); background: var(--superficie); }
+.nombrar-lugar strong, .nombrar-lugar small { display: block; }
+.nombrar-lugar small { color: var(--tenue); }
+.nombrar-pregunta { margin: 24px 0 10px; font-size: 1.05rem; font-weight: 800; color: var(--tinta); text-transform: none; letter-spacing: 0; }
+.nombres-nuevo { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.nombres-nuevo:has([aria-checked="true"]) .lugar:not([aria-checked="true"]) { opacity: .5; }
+.nombres-nuevo .lugar[aria-checked="true"] .lugar-nombre { color: var(--ambar); }
+.nombres-nuevo .lugar-icono { max-width: 72px; }
+.nombres-nuevo .lugar-icono .picto { width: 48%; height: 48%; }
+#otroNuevo input { min-height: 52px; }
+.lugar.recien .lugar-nombre { color: var(--ambar); }

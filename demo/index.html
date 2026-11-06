@@ -294,6 +294,23 @@
       </div>
     </section>
 
+    <section id="nombrar" class="pantalla" aria-labelledby="tituloPantalla" hidden>
+      <div id="nombrarLugar" class="nombrar-lugar"></div>
+      <h2 id="tituloNombrar" class="nombrar-pregunta">¿Cómo lo guardo?</h2>
+      <div id="nombresNuevo" class="nombres-nuevo" role="radiogroup" aria-labelledby="tituloNombrar">
+          <button type="button" role="radio" aria-checked="false" data-v="Casa" class="lugar tono-casa"><span class="lugar-icono"><svg class="picto"><use href="#p-casa"/></svg></span><span class="lugar-nombre">Casa</span></button>
+          <button type="button" role="radio" aria-checked="false" tabindex="-1" data-v="Escuela" class="lugar tono-escuela"><span class="lugar-icono"><svg class="picto"><use href="#p-escuela"/></svg></span><span class="lugar-nombre">Escuela</span></button>
+          <button type="button" role="radio" aria-checked="false" tabindex="-1" data-v="Trabajo" class="lugar tono-trabajo"><span class="lugar-icono"><svg class="picto"><use href="#p-trabajo"/></svg></span><span class="lugar-nombre">Trabajo</span></button>
+          <button type="button" role="radio" aria-checked="false" tabindex="-1" data-v="Otro" class="lugar tono-ciruela"><span class="lugar-icono"><svg class="picto"><use href="#p-lugar"/></svg></span><span class="lugar-nombre">Otro</span></button>
+      </div>
+      <div id="otroNuevo" class="otro-nombre" hidden>
+        <label for="campoNuevo" class="etiqueta-campo">¿Cómo le quieres poner?</label>
+        <div class="campo-y-boton"><input id="campoNuevo" type="text" maxlength="30" autocomplete="off" placeholder="Ejemplo: Gimnasio" enterkeyhint="done"></div>
+      </div>
+      <button id="guardarNuevo" type="button" class="boton" disabled>Elige un nombre</button>
+      <p class="nota">Después lo tocas en Tus lugares y te digo cómo llegar.</p>
+    </section>
+
     <section id="elegirMapa" class="pantalla" aria-labelledby="tituloPantalla" hidden>
       <p id="elegirTexto" class="texto">Mueve el mapa y toca dónde está el lugar.</p>
       <button id="usarPunto" type="button" class="boton" hidden></button>

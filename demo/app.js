@@ -187,6 +187,7 @@ const PANTALLAS = {
   tutorial: {},
   inicio: { tab: "inicio" },
   buscar: { tab: "inicio", encabezado: true },
+  nombrar: { tab: "inicio", encabezado: true },
   elegirMapa: { tab: "inicio", mapa: true, encabezado: true },
   opciones: { tab: "inicio", mapa: true, encabezado: true },
   detalle: { tab: "inicio", mapa: true, encabezado: true },
@@ -201,7 +202,7 @@ const PANTALLAS = {
   ajustes: { tab: "ajustes" },
   perfil: { tab: "ajustes", encabezado: true },
 };
-const titulos = { co2: "Lo que evitamos", ahorro: "Tu ahorro", buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
+const titulos = { nombrar: "Guardar un lugar", co2: "Lo que evitamos", ahorro: "Tu ahorro", buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
 
 function actualizarVozEncabezado() {
   const boton = $("vozEncabezado"), enCamara = document.body.dataset.pantalla === "camara";
@@ -219,8 +220,10 @@ function mostrar(nombre) {
   if (nombre !== "camara") CamaraGrieta.cerrar();
   if (!$("chofer").hidden) tarjetaChofer(false);
   if (guia.activa && !["guia", "camara"].includes(nombre)) terminarGuia(true);
+  // El aviso de "Guardaste..." vive solo mientras sigues en el inicio.
+  if (nombre !== "inicio" && nuevoGuardado && document.body.dataset.pantalla === "inicio") { nuevoGuardado = null; pintarGuardados(); }
   if (nombre === "inicio") {
-    estado.guardarComo = null;
+    estado.guardando = null;
     limpiarRuta();
     pintarViajes();
     pintarRutina();
@@ -469,13 +472,13 @@ function poner(cual, lugar, sinNavegar = false) {
       return;
     }
   }
-  estado[cual] = lugar;
-  if (cual === "destino" && estado.guardarComo) {
-    const nombre = estado.guardarComo;
-    estado.guardarComo = null;
-    if (nombre === true) estado.pedirNombre = true;
-    else guardarComo(nombre);
+  // Venía de "Agregar": se guarda sin calcular ningún viaje.
+  if (cual === "destino" && estado.guardando) {
+    const { nombre } = estado.guardando, atras = document.body.dataset.pantalla === "elegirMapa" ? 2 : 1;
+    estado.guardando = null;
+    return nombre ? guardarNuevo(lugar, nombre, atras) : abrirNombrar(lugar, atras);
   }
+  estado[cual] = lugar;
   capas[cual]?.remove();
   capas[cual] = L.marker([lugar.lat, lugar.lon], { icon: icono(cual), keyboard: false }).addTo(mapa);
   if (cual === "origen") {
@@ -1113,11 +1116,6 @@ function pintarOpciones(r) {
   $("guardarLugar").textContent = ya ? `Guardado como ${ya.nombre}` : lleno ? "Ya tienes 4 lugares guardados" : "Guardar este lugar";
   $("guardarLugar").disabled = Boolean(ya) || lleno;
   $("lugarGuardado").hidden = true;
-  // Venía de "Agregar lugar": se abren los nombres para que elija cómo guardarlo
-  if (estado.pedirNombre && !ya) {
-    estado.pedirNombre = false;
-    setTimeout(() => { $("nombresLugar").hidden = false; $("nombresLugar").scrollIntoView({ block: "center", behavior: "smooth" }); $("nombresLugar").querySelector("button").focus(); }, 400);
-  }
   // Solo cuando se eligio otra hora de salida: ahi importa saber que los precios no son de ahorita.
   const cuando = estado.momento === 0 ? "" : estado.momento < ESPERAS.length ? momentos()[estado.momento].etiqueta.toLowerCase() : `${r.ctx.dia === hoyDia() ? "hoy" : `el ${DIAS[r.ctx.dia]}`} a las ${hora(r.ctx.minuto)}`;
   $("resumenRuta").textContent = cuando ? `Saliendo ${cuando}` : "";
@@ -2776,6 +2774,8 @@ let guardados = leer("grieta-lugares", []);
 const MAX_LUGARES = 4;
 let editando = false;
 let quitado = null;
+// El lugar que se acaba de agregar desde el inicio, para el aviso con deshacer.
+let nuevoGuardado = null, porGuardar = null;
 let cambioUbicacionGuardada = null;
 // El tipo sale del nombre; si no, del tipo de OpenStreetMap que trae el buscador.
 const TIPOS_OSM = { hospital: "hospital", clinic: "hospital", doctors: "hospital", pharmacy: "hospital", park: "parque", garden: "parque",
@@ -2815,7 +2815,7 @@ function pintarGuardados() {
   // Tus lugares como fichas grandes; si falta la casa, su ficha invita a agregarla.
   const ficha = (attrs, clase, icono, nombre, propio = false) => `<button type="button" class="lugar ${clase}" ${attrs}>
     <span class="lugar-icono">${picto(icono, icono === "plus" ? "picto-lucide" : "")}</span><span class="lugar-nombre"${propio ? ' translate="no"' : ""}>${escapar(nombre)}</span></button>`;
-  const fichas = guardados.map((g, i) => ficha(`data-i="${i}" aria-keyshortcuts="Shift+F10" aria-label="Ir a ${escapar(g.nombre)}"`, tonoLugar(g.nombre, i), iconoLugar(g.nombre), g.nombre, true));
+  const fichas = guardados.map((g, i) => ficha(`data-i="${i}" aria-keyshortcuts="Shift+F10" aria-label="Ir a ${escapar(g.nombre)}"`, `${tonoLugar(g.nombre, i)}${nuevoGuardado?.nombre === g.nombre ? " recien" : ""}`, iconoLugar(g.nombre), g.nombre, true));
   const faltaCasa = !guardados.some((g) => g.nombre === "Casa") && guardados.length < MAX_LUGARES;
   if (faltaCasa) fichas.push(ficha('data-nuevo="Casa"', "nuevo tono-casa", "casa", "Agregar casa"));
   if (guardados.length + faltaCasa < MAX_LUGARES) fichas.push(ficha('data-nuevo=""', "nuevo tono-ciruela", "plus", "Agregar"));
@@ -2826,8 +2826,10 @@ function pintarGuardados() {
   const deshacer = quitado ? `<div class="fila"><span class="fila-texto"><strong>Quitaste ${escapar(quitado.lugar.nombre)}</strong></span>
       <button type="button" class="quitar" data-deshacer>Deshacer</button></div>` : "";
   const enInicio = quitado?.pantalla === "inicio";
-  $("deshacerInicio").innerHTML = enInicio ? deshacer : "";
-  $("deshacerInicio").hidden = !enInicio;
+  const avisoNuevo = nuevoGuardado && !enInicio ? `<div class="fila"><span class="fila-texto"><strong>Guardaste ${escapar(nuevoGuardado.lugar)} como ${escapar(nuevoGuardado.nombre)}</strong></span>
+      <button type="button" class="quitar" data-deshacer-nuevo>Deshacer</button></div>` : "";
+  $("deshacerInicio").innerHTML = enInicio ? deshacer : avisoNuevo;
+  $("deshacerInicio").hidden = !enInicio && !avisoNuevo;
   $("listaGuardados").innerHTML = (quitado?.pantalla === "ajustes" ? `<li>${deshacer}</li>` : "") + (guardados.length
     ? guardados.map((g, i) => editando
       ? `<li><div class="fila">${miniFicha(tonoLugar(g.nombre, i), picto(iconoLugar(g.nombre)))}<span class="fila-texto"><strong translate="no">${escapar(g.nombre)}</strong></span>
@@ -2956,10 +2958,13 @@ $("guardados").addEventListener("click", (e) => {
   const b = e.target.closest("button");
   if (!b) return;
   if (!b.hasAttribute("data-nuevo")) return irA(guardados[b.dataset.i]);
-  // Agregar: se busca el lugar y al elegirlo se guarda con ese nombre, o se pregunta cuál ponerle
-  estado.guardarComo = b.dataset.nuevo || true;
+  // Agregar: solo se busca el lugar; sin "Desde" porque aquí no hay viaje.
+  const casa = b.dataset.nuevo === "Casa";
+  estado.guardando = { nombre: b.dataset.nuevo || "" };
   abrirBuscar("hacia");
-  $("tituloPantalla").textContent = b.dataset.nuevo === "Casa" ? "¿Dónde está tu casa?" : "Agregar un lugar";
+  $("filaDesde").hidden = true;
+  $("campoBuscar").placeholder = casa ? "La calle o colonia de tu casa" : "Busca el lugar que quieres guardar";
+  titulos.buscar = $("tituloPantalla").textContent = casa ? "¿Dónde está tu casa?" : "Guardar un lugar";
 });
 $("listaGuardados").addEventListener("click", (e) => {
   if (e.target.closest("[data-deshacer]")) return deshacerLugar();
@@ -2972,6 +2977,7 @@ $("listaGuardados").addEventListener("click", (e) => {
 });
 $("editarGuardados").addEventListener("click", () => { editando = !editando; quitado = null; pintarGuardados(); });
 $("deshacerInicio").addEventListener("click", (e) => {
+  if (e.target.closest("[data-deshacer-nuevo]")) return deshacerNuevo();
   if (e.target.closest("[data-deshacer]")) deshacerLugar();
 });
 
@@ -3136,6 +3142,47 @@ $("guardarLugar").addEventListener("click", () => {
   $("guardarLugar").setAttribute("aria-expanded", String(abierto));
   if (abierto) $("nombresLugar").querySelector("button").focus();
 });
+function guardarNuevo(lugar, nombre, atras) {
+  const anterior = guardados.find((g) => sinAcentos(g.nombre) === sinAcentos(nombre)) ?? null;
+  const otros = guardados.filter((g) => g !== anterior);
+  if (otros.length >= MAX_LUGARES) return hablar("Ya tienes 4 lugares guardados. Borra uno para guardar otro.", false, true);
+  guardados = otros.concat({ nombre, lat: lugar.lat, lon: lugar.lon });
+  nuevoGuardado = { nombre, lugar: lugar.nombre, anterior };
+  guardarLugares();
+  hablar(`Guardé ${lugar.nombre} como ${nombre}.`);
+  history.go(-atras);
+}
+function deshacerNuevo() {
+  if (!nuevoGuardado) return;
+  const { nombre, anterior } = nuevoGuardado;
+  nuevoGuardado = null;
+  guardados = guardados.filter((g) => g.nombre !== nombre).concat(anterior ? [anterior] : []);
+  guardarLugares();
+  hablar(anterior ? `${nombre} regresó a como estaba.` : `Quité ${nombre} de tus lugares.`, false, true);
+}
+const marcarNombreNuevo = radios("nombresNuevo", (v) => { porGuardar.nombre = v; pintarGuardarNuevo(); if (v === "Otro") { $("otroNuevo").hidden = false; $("campoNuevo").focus(); } else $("otroNuevo").hidden = true; });
+function nombreNuevo() {
+  if (porGuardar?.nombre !== "Otro") return porGuardar?.nombre ?? "";
+  const escrito = $("campoNuevo").value.trim().replace(/\s+/g, " ");
+  return escrito && escrito.charAt(0).toUpperCase() + escrito.slice(1);
+}
+function pintarGuardarNuevo() {
+  const nombre = nombreNuevo();
+  $("guardarNuevo").disabled = !nombre;
+  $("guardarNuevo").textContent = nombre ? `Guardar como ${nombre}` : porGuardar?.nombre === "Otro" ? "Escribe el nombre" : "Elige un nombre";
+}
+function abrirNombrar(lugar, atras) {
+  porGuardar = { lugar, atras, nombre: null };
+  $("nombrarLugar").innerHTML = `${miniFicha("tono-anil", picto("lugar"))}<span class="fila-texto"><strong translate="no">${escapar(lugar.nombre)}</strong>${lugar.detalle ? `<small translate="no">${escapar(lugar.detalle)}</small>` : ""}</span>`;
+  marcarNombreNuevo(null);
+  $("otroNuevo").hidden = true;
+  $("campoNuevo").value = "";
+  pintarGuardarNuevo();
+  ir("nombrar", true);
+}
+$("campoNuevo").addEventListener("input", pintarGuardarNuevo);
+$("campoNuevo").addEventListener("keydown", (e) => { if (e.key === "Enter" && !$("guardarNuevo").disabled) $("guardarNuevo").click(); });
+$("guardarNuevo").addEventListener("click", () => { const nombre = nombreNuevo(); if (nombre) guardarNuevo(porGuardar.lugar, nombre, porGuardar.atras); });
 function guardarComo(nombre) {
   const { lat, lon } = estado.destino;
   const otros = guardados.filter((g) => sinAcentos(g.nombre) !== sinAcentos(nombre));

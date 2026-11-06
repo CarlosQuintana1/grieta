@@ -3472,21 +3472,16 @@ function pintarAlcancia(mes) {
   const monedas = Math.floor(mes / 10);
   $("alcancia").innerHTML = puerquito(mes);
   $("alcancia").setAttribute("aria-label", `Alcancía con ${plural(Math.min(41, monedas), "moneda", "monedas")}`);
-  $("ahorroPie").textContent = monedas > 41 ? `Tu puerquito ya se llenó: ${plural(monedas, "moneda", "monedas")} este mes. Cada una son $10 que ahorraste.`
-    : monedas ? `${plural(monedas, "moneda", "monedas")}: cada una son $10 que ahorraste.` : "Cada $10 que ahorres en camión es una moneda.";
+  $("ahorroPie").textContent = "Cada moneda son $10.";
 }
-// Lo ahorrado contado en cosas que usa un estudiante. Precios con fuente en la linea de abajo de la pantalla.
-const COSAS_AHORRO = [
-  ["camion", "tono-hospital", 11, ["viaje", "viajes"], "en Qrobus", "de un viaje en Qrobus"],
-  ["tele", "tono-salud", 139, ["mes", "meses"], "de suscripción de Netflix", "de un mes de Netflix"],
-  ["celular", "tono-trabajo", 2772, ["celular", "celulares"], "Galaxy A16", "de un Galaxy A16"],
-];
-function cosasAhorro(pesos) {
-  return COSAS_AHORRO.map(([icono, tono, precio, [uno, varios], que, parcial]) => {
-    const n = Math.floor(pesos / precio);
-    const [cifra, texto] = n >= 1 ? [plural(n, uno, varios), que] : [`${Math.round((pesos / precio) * 100)}%`, parcial];
-    return `<li>${miniFicha(tono, ico(icono))}<strong>${cifra}</strong><span>${texto}</span></li>`;
-  }).join("");
+// Lo ahorrado contado en cosas de todos los dias, y la gasolina que tu carro habria quemado en esos mismos viajes.
+function cosasAhorro(monto, co2Mes) {
+  const gasolina = (co2Mes / CO2_AUTO_G_KM / AUTO_KM_LITRO) * GASOLINA_LITRO, viajes = Math.floor(monto / BONOS.normal.viaje), meses = Math.floor(monto / 139);
+  return [
+    ["qrobus", "tono-hospital", plural(viajes, "viaje", "viajes"), "en Qrobus"],
+    ["pantalla", "tono-salud", meses >= 1 ? plural(meses, "mes", "meses") : `${Math.round((monto / 139) * 100)}%`, meses >= 1 ? "de suscripción de Netflix" : "de un mes de Netflix"],
+    ["gasolina", "tono-maiz", pesos(gasolina), "de gasolina si ibas en tu carro"],
+  ].map(([p, tono, cifra, texto]) => `<li>${miniFicha(tono, picto(p))}<strong>${cifra}</strong><span>${texto}</span></li>`).join("");
 }
 // Ahorro por mes desde el primero con ahorro, hasta seis; con uno solo no hay grafica.
 function pintarMeses() {
@@ -3513,8 +3508,8 @@ function abrirAhorro() {
   $("ahorroTotal").textContent = pesos(mes);
   $("ahorroQuien").textContent = delMes.length ? `${plural(delMes.length, "viaje", "viajes")} en camión este mes` : "Aún sin viajes en camión este mes";
   pintarAlcancia(mes);
-  $("tituloEquivaleAhorro").hidden = $("ahorroEquivale").hidden = $("ahorroFuente").hidden = mes < 1;
-  $("ahorroEquivale").innerHTML = cosasAhorro(mes);
+  $("tituloEquivaleAhorro").hidden = $("ahorroEquivale").hidden = mes < 1;
+  $("ahorroEquivale").innerHTML = cosasAhorro(mes, delMes.reduce((s, h) => s + (h.co2 || 0), 0));
   $("ahorroHistorico").textContent = `${pesos(total)} en total`;
   pintarMeses();
   prepararBonos();

@@ -597,8 +597,8 @@
     <section id="camara" class="pantalla camara" aria-labelledby="tituloPantalla" hidden>
       <div class="camara-config">
         <p id="camaraAyuda">Apunta al letrero de un camión o de una parada.</p>
-        <label class="interruptor"><span><strong>Escaleras y escalones (prueba)</strong><small>Puede omitirlos. Activa antes de iniciar; descarga unos 9 MB.</small></span><input id="camaraEscalones" type="checkbox" role="switch"></label>
-        <label class="interruptor"><span><strong>Hoyos (prueba)</strong><small>Busca baches visibles. Puede omitir hoyos y alcantarillas abiertas. Activa antes de iniciar; descarga unos 18 MB.</small></span><input id="camaraHoyos" type="checkbox" role="switch"></label>
+        <input id="camaraEscalones" type="checkbox" hidden checked>
+        <input id="camaraHoyos" type="checkbox" hidden checked>
         <button id="camaraIniciar" type="button" class="boton">Iniciar cámara</button>
       </div>
       <video id="camaraVideo" autoplay muted playsinline aria-label="Vista de la cámara trasera" hidden></video>
@@ -608,7 +608,7 @@
         <p id="camaraAlerta" class="camara-alerta" role="alert" aria-live="assertive"></p>
         <p id="camaraCamionResultado" class="respuesta" aria-live="off"></p>
         <p id="camaraResultado" class="respuesta" aria-live="off"></p>
-        <p id="camaraEstado" class="nota" role="status">Cámara apagada. La primera vez se descargan los modelos (aprox. 68 MB con escaleras, hoyos y Más detalle).</p>
+        <p id="camaraEstado" class="nota" role="status">Cámara apagada. La primera vez se descargan los modelos (68 MB aprox.).</p>
         <p id="camaraSueloEstado" class="nota" role="status" hidden>Escaleras y escalones: desactivado.</p>
         <p id="camaraHoyosEstado" class="nota" role="status" hidden>Hoyos: desactivado.</p>
         <p id="camaraAudio" class="nota" role="status"></p>

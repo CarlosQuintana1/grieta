@@ -488,8 +488,8 @@ const CamaraGrieta = (() => {
     $('camaraDetalle').checked = guardado.modelo !== 'ligero';
     $('camaraLigero').checked = guardado.modelo === 'ligero';
     $('camaraAvisos').checked = guardado.avisos === true;
-    $('camaraEscalones').checked = guardado.escalones === true;
-    if ($('camaraHoyos')) $('camaraHoyos').checked = guardado.hoyos === true;
+    $('camaraEscalones').checked = true;
+    if ($('camaraHoyos')) $('camaraHoyos').checked = true;
     suelos.forEach(s => s.iniciarInterfaz({ hablar, vibrar, alAviso: texto => { ultimaFrase = texto; botones(); }, alRetirar: texto => { if (ultimaFrase === texto) ultimaFrase = fraseSuelo(); botones(); } }));
     $('camaraHoyos')?.addEventListener('change', () => { guardarCamara(); GrietaHoyos.preferencia(); });
     $('camaraEscalones').addEventListener('change', () => { guardarCamara(); GrietaEscalones.preferencia(); });

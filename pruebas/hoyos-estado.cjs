@@ -27,7 +27,7 @@ const {chromium}=require('playwright');const assert=require('node:assert/strict'
   };
  });
  await c.route('**/vision/activos.json*',r=>r.fulfill({json:[]}));const p=await c.newPage(),errores=[];p.on('pageerror',e=>errores.push(e.message));
- await p.goto(http.url);await p.locator('#abrirCamara').click();await p.locator('#camaraHoyos').check();await p.locator('#camaraIniciar').click();
+ await p.goto(http.url);await p.locator('#abrirCamara').click();await p.locator('#camaraIniciar').click();
  await p.waitForFunction(()=>document.querySelector('#camaraHoyosEstado').textContent.includes('está tardando'),null,{timeout:7000});
  assert.equal(await p.locator('#camaraHoyosAlerta').textContent(),'');assert(!await p.evaluate(()=>window.__voz.some(t=>t.startsWith('Posible hoyo'))));
  await p.locator('#camaraDetener').click();await p.evaluate(()=>{window.__modoSuelo='normal';});await p.locator('#camaraIniciar').click();
@@ -63,7 +63,7 @@ const {chromium}=require('playwright');const assert=require('node:assert/strict'
  await p.evaluate(()=>window.__iniciando.onmessage?.({data:{tipo:'listo'}}));await p.waitForTimeout(50);
  assert.equal(await p.evaluate(()=>GrietaHoyos.activo),false);assert.deepEqual(errores,[]);
  console.log('Detener durante preparación cancela el worker y no pide cámara con una respuesta tardía');
- await p.evaluate(()=>{window.__modoSuelo='normal';});await p.locator('#camaraEscalones').check();await p.locator('#camaraIniciar').click();
+ await p.evaluate(()=>{window.__modoSuelo='normal';});await p.locator('#camaraIniciar').click();
  await p.waitForFunction(()=>document.querySelector('#camaraHoyosAlerta').textContent.includes('Posible hoyo')&&document.querySelector('#camaraSueloAlerta').textContent.includes('Posibles escaleras'));
  assert(await p.evaluate(()=>GrietaHoyos.activo&&GrietaEscalones.activo));
  await p.evaluate(()=>{window.__modoSuelo='error';});await p.waitForFunction(()=>!GrietaHoyos.activo);

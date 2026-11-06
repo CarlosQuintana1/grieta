@@ -35,10 +35,10 @@ const { servidor } = require('./hoyos-servidor.cjs');
     const p=await c.newPage(),errores=[],red=[];p.on('pageerror',e=>errores.push(e.message));p.on('request',r=>red.push({url:r.url(),metodo:r.method()}));
     await p.goto(http.url);if(!sinSW)try { await p.waitForFunction(()=>navigator.serviceWorker.controller); } catch(e) { console.log('Recursos no disponibles',http.pedidos.filter(r=>r.estado!==200)); console.log(await p.evaluate(async()=>({registros:(await navigator.serviceWorker.getRegistrations()).map(r=>({activo:r.active?.state,instalando:r.installing?.state,espera:r.waiting?.state}))})));throw e; }
     if(http.excluidos.length)console.log('Solo fixture: excluidos catálogos aún no generados:',http.excluidos);
-    await p.locator('#abrirCamara').tap();assert.equal(await p.locator('#camaraHoyos').isChecked(),false);
+    await p.locator('#abrirCamara').tap();assert(await p.locator('#camaraHoyos').isChecked());
     await p.locator('#camaraIniciar').tap();await p.waitForFunction(()=>document.getElementById('camaraEstado').textContent.startsWith('Cámara encendida'),null,{timeout:120000});
     assert(!red.some(r=>r.url.includes('hoyos-v1.tflite')||r.url.includes('LICENSE-hoyos')));
-    await p.locator('#camaraDetener').tap();await p.locator('#camaraHoyos').check();await p.locator('#camaraIniciar').tap();
+    await p.locator('#camaraDetener').tap();await p.locator('#camaraIniciar').tap();
     await p.waitForFunction(()=>document.getElementById('camaraHoyosAlerta').textContent.startsWith('Posible hoyo'),null,{timeout:120000});
     assert(await p.locator('#camaraViaje').isChecked());assert(await p.locator('#camaraHoyos').isDisabled());
     assert.equal(await p.evaluate(()=>window.__permiso.audio),false);
@@ -67,7 +67,6 @@ const { servidor } = require('./hoyos-servidor.cjs');
     await p.waitForFunction(()=>document.getElementById('camaraHoyosAlerta').textContent.startsWith('Posible hoyo'),null,{timeout:120000});
     console.log('SW con fragmentos y manifiesto v5: modelo opcional funciona sin red después de primera descarga');}
     await p.locator('[data-tab="inicio"]').tap();assert.deepEqual(await p.evaluate(()=>window.__pistas.map(t=>t.readyState)),['ended']);
-    await p.locator('#abrirCamara').tap();await p.locator('#camaraHoyos').uncheck();await p.reload({waitUntil:'domcontentloaded'});await p.locator('#abrirCamara').tap();assert.equal(await p.locator('#camaraHoyos').isChecked(),false);
     await p.setViewportSize({width:320,height:844});await p.evaluate(()=>{acc.grande=true;acc.tema='claro';aplicarAcc();});assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
     assert.deepEqual(errores,[]);assert(red.every(r=>r.metodo==='GET'));assert(http.pedidos.every(r=>r.metodo==='GET'));
     assert(!await p.evaluate(()=>window.__voz.some(t=>/puedes avanzar|puedes cruzar|puedes bajar|paso libre/i.test(t))));

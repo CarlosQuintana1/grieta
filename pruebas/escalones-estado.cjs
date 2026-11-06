@@ -26,7 +26,7 @@ const {chromium}=require('playwright');const assert=require('node:assert/strict'
   };
  });
  await c.route('**/vision/activos.json*',r=>r.fulfill({json:[]}));const p=await c.newPage(),errores=[];p.on('pageerror',e=>errores.push(e.message));
- await p.goto(process.env.GRIETA_URL??'http://127.0.0.1:8812');await p.locator('#abrirCamara').click();await p.locator('#camaraEscalones').check();await p.locator('#camaraIniciar').click();
+ await p.goto(process.env.GRIETA_URL??'http://127.0.0.1:8812');await p.locator('#abrirCamara').click();await p.locator('#camaraIniciar').click();
  await p.waitForFunction(()=>document.querySelector('#camaraSueloEstado').textContent.includes('está tardando'),null,{timeout:7000});
  assert.equal(await p.locator('#camaraSueloAlerta').textContent(),'');assert(!await p.evaluate(()=>window.__voz.some(t=>t.startsWith('Posibles escaleras'))));
  await p.locator('#camaraDetener').click();await p.evaluate(()=>{window.__modoSuelo='normal';});await p.locator('#camaraIniciar').click();

@@ -178,10 +178,10 @@ const CamaraGrieta = (() => {
     });
   }
   async function preparar(turno, signal) {
-    const r = await fetch(url('activos.json') + '?v=5', { signal });
+    const r = await fetch(url('activos.json') + '?v=6', { signal });
     if (!r.ok) throw Error('descarga');
     const lista = await r.json();
-    const elegido = modeloActual() === 'detalle' ? 'efficientdet_lite2' : 'efficientdet_lite0';
+    const elegido = modeloActual() === 'detalle' ? 'objetos-v1' : 'efficientdet_lite0';
     const activos = lista.filter((a) => a.grupo === 'hoyos' ? GrietaHoyos.habilitado() : a.grupo === 'escalones' ? GrietaEscalones.habilitado() : !a.ruta.endsWith('.tflite') || a.ruta.endsWith(`${elegido}.tflite`));
     const cache = await caches.open(CACHE);
     let completos = 0;
@@ -221,7 +221,7 @@ const CamaraGrieta = (() => {
     try {
       await preparar(turno, signal);
       if (!vigente(turno)) return;
-      detector = new Worker('vision/detector-worker.js?v=3');
+      detector = new Worker('vision/detector-worker.js?v=4');
       ocr = new Worker('vision/lector-worker.js?v=3');
       await Promise.all([pedir(detector, { tipo: 'iniciar', modelo: modeloActual() }, 'listo', signal), pedir(ocr, { tipo: 'iniciar' }, 'listo', signal), ...suelos.map(s => s.preparar(signal, pedir))]);
       if (!vigente(turno)) return;

@@ -1,0 +1,428 @@
+[
+  {
+    "modelo": "ligero",
+    "aciertos": 65,
+    "predicciones": 67,
+    "anotaciones": 344,
+    "mediana_ms": 52,
+    "casos": [
+      {
+        "imagen": 87038,
+        "aciertos": 2,
+        "predicciones": 2,
+        "anotaciones": 15
+      },
+      {
+        "imagen": 174482,
+        "aciertos": 4,
+        "predicciones": 4,
+        "anotaciones": 12
+      },
+      {
+        "imagen": 480985,
+        "aciertos": 0,
+        "predicciones": 0,
+        "anotaciones": 13
+      },
+      {
+        "imagen": 296649,
+        "aciertos": 4,
+        "predicciones": 4,
+        "anotaciones": 21
+      },
+      {
+        "imagen": 17627,
+        "aciertos": 5,
+        "predicciones": 5,
+        "anotaciones": 16
+      },
+      {
+        "imagen": 303818,
+        "aciertos": 4,
+        "predicciones": 4,
+        "anotaciones": 15
+      },
+      {
+        "imagen": 463730,
+        "aciertos": 3,
+        "predicciones": 3,
+        "anotaciones": 20
+      },
+      {
+        "imagen": 460347,
+        "aciertos": 4,
+        "predicciones": 4,
+        "anotaciones": 7
+      },
+      {
+        "imagen": 322864,
+        "aciertos": 1,
+        "predicciones": 2,
+        "anotaciones": 6
+      },
+      {
+        "imagen": 565778,
+        "aciertos": 0,
+        "predicciones": 0,
+        "anotaciones": 6
+      },
+      {
+        "imagen": 329323,
+        "aciertos": 1,
+        "predicciones": 1,
+        "anotaciones": 13
+      },
+      {
+        "imagen": 239274,
+        "aciertos": 0,
+        "predicciones": 0,
+        "anotaciones": 13
+      },
+      {
+        "imagen": 233771,
+        "aciertos": 4,
+        "predicciones": 4,
+        "anotaciones": 12
+      },
+      {
+        "imagen": 312421,
+        "aciertos": 0,
+        "predicciones": 0,
+        "anotaciones": 7
+      },
+      {
+        "imagen": 16228,
+        "aciertos": 0,
+        "predicciones": 0,
+        "anotaciones": 13
+      },
+      {
+        "imagen": 349860,
+        "aciertos": 1,
+        "predicciones": 1,
+        "anotaciones": 5
+      },
+      {
+        "imagen": 356387,
+        "aciertos": 2,
+        "predicciones": 2,
+        "anotaciones": 19
+      },
+      {
+        "imagen": 107226,
+        "aciertos": 1,
+        "predicciones": 1,
+        "anotaciones": 11
+      },
+      {
+        "imagen": 57597,
+        "aciertos": 3,
+        "predicciones": 3,
+        "anotaciones": 20
+      },
+      {
+        "imagen": 168330,
+        "aciertos": 0,
+        "predicciones": 0,
+        "anotaciones": 5
+      },
+      {
+        "imagen": 38829,
+        "aciertos": 4,
+        "predicciones": 4,
+        "anotaciones": 11
+      },
+      {
+        "imagen": 534827,
+        "aciertos": 5,
+        "predicciones": 5,
+        "anotaciones": 9
+      },
+      {
+        "imagen": 143931,
+        "aciertos": 1,
+        "predicciones": 1,
+        "anotaciones": 2
+      },
+      {
+        "imagen": 367680,
+        "aciertos": 3,
+        "predicciones": 3,
+        "anotaciones": 13
+      },
+      {
+        "imagen": 336587,
+        "aciertos": 1,
+        "predicciones": 1,
+        "anotaciones": 2
+      },
+      {
+        "imagen": 166391,
+        "aciertos": 0,
+        "predicciones": 1,
+        "anotaciones": 27
+      },
+      {
+        "imagen": 252219,
+        "aciertos": 3,
+        "predicciones": 3,
+        "anotaciones": 4
+      },
+      {
+        "imagen": 555050,
+        "aciertos": 1,
+        "predicciones": 1,
+        "anotaciones": 7
+      },
+      {
+        "imagen": 87875,
+        "aciertos": 1,
+        "predicciones": 1,
+        "anotaciones": 1
+      },
+      {
+        "imagen": 338560,
+        "aciertos": 4,
+        "predicciones": 4,
+        "anotaciones": 12
+      },
+      {
+        "imagen": 297343,
+        "aciertos": 1,
+        "predicciones": 1,
+        "anotaciones": 1
+      },
+      {
+        "imagen": 122745,
+        "aciertos": 1,
+        "predicciones": 1,
+        "anotaciones": 1
+      },
+      {
+        "imagen": 53994,
+        "aciertos": 1,
+        "predicciones": 1,
+        "anotaciones": 4
+      },
+      {
+        "imagen": 51961,
+        "aciertos": 0,
+        "predicciones": 0,
+        "anotaciones": 1
+      }
+    ]
+  },
+  {
+    "modelo": "detalle",
+    "aciertos": 164,
+    "predicciones": 186,
+    "anotaciones": 344,
+    "mediana_ms": 311,
+    "casos": [
+      {
+        "imagen": 87038,
+        "aciertos": 3,
+        "predicciones": 4,
+        "anotaciones": 15
+      },
+      {
+        "imagen": 174482,
+        "aciertos": 4,
+        "predicciones": 5,
+        "anotaciones": 12
+      },
+      {
+        "imagen": 480985,
+        "aciertos": 5,
+        "predicciones": 6,
+        "anotaciones": 13
+      },
+      {
+        "imagen": 296649,
+        "aciertos": 9,
+        "predicciones": 11,
+        "anotaciones": 21
+      },
+      {
+        "imagen": 17627,
+        "aciertos": 8,
+        "predicciones": 8,
+        "anotaciones": 16
+      },
+      {
+        "imagen": 303818,
+        "aciertos": 8,
+        "predicciones": 8,
+        "anotaciones": 15
+      },
+      {
+        "imagen": 463730,
+        "aciertos": 9,
+        "predicciones": 10,
+        "anotaciones": 20
+      },
+      {
+        "imagen": 460347,
+        "aciertos": 6,
+        "predicciones": 7,
+        "anotaciones": 7
+      },
+      {
+        "imagen": 322864,
+        "aciertos": 5,
+        "predicciones": 7,
+        "anotaciones": 6
+      },
+      {
+        "imagen": 565778,
+        "aciertos": 0,
+        "predicciones": 3,
+        "anotaciones": 6
+      },
+      {
+        "imagen": 329323,
+        "aciertos": 9,
+        "predicciones": 11,
+        "anotaciones": 13
+      },
+      {
+        "imagen": 239274,
+        "aciertos": 5,
+        "predicciones": 5,
+        "anotaciones": 13
+      },
+      {
+        "imagen": 233771,
+        "aciertos": 7,
+        "predicciones": 8,
+        "anotaciones": 12
+      },
+      {
+        "imagen": 312421,
+        "aciertos": 3,
+        "predicciones": 3,
+        "anotaciones": 7
+      },
+      {
+        "imagen": 16228,
+        "aciertos": 5,
+        "predicciones": 6,
+        "anotaciones": 13
+      },
+      {
+        "imagen": 349860,
+        "aciertos": 2,
+        "predicciones": 2,
+        "anotaciones": 5
+      },
+      {
+        "imagen": 356387,
+        "aciertos": 4,
+        "predicciones": 4,
+        "anotaciones": 19
+      },
+      {
+        "imagen": 107226,
+        "aciertos": 5,
+        "predicciones": 7,
+        "anotaciones": 11
+      },
+      {
+        "imagen": 57597,
+        "aciertos": 5,
+        "predicciones": 5,
+        "anotaciones": 20
+      },
+      {
+        "imagen": 168330,
+        "aciertos": 5,
+        "predicciones": 5,
+        "anotaciones": 5
+      },
+      {
+        "imagen": 38829,
+        "aciertos": 9,
+        "predicciones": 9,
+        "anotaciones": 11
+      },
+      {
+        "imagen": 534827,
+        "aciertos": 6,
+        "predicciones": 6,
+        "anotaciones": 9
+      },
+      {
+        "imagen": 143931,
+        "aciertos": 1,
+        "predicciones": 1,
+        "anotaciones": 2
+      },
+      {
+        "imagen": 367680,
+        "aciertos": 7,
+        "predicciones": 8,
+        "anotaciones": 13
+      },
+      {
+        "imagen": 336587,
+        "aciertos": 1,
+        "predicciones": 1,
+        "anotaciones": 2
+      },
+      {
+        "imagen": 166391,
+        "aciertos": 14,
+        "predicciones": 16,
+        "anotaciones": 27
+      },
+      {
+        "imagen": 252219,
+        "aciertos": 3,
+        "predicciones": 3,
+        "anotaciones": 4
+      },
+      {
+        "imagen": 555050,
+        "aciertos": 6,
+        "predicciones": 7,
+        "anotaciones": 7
+      },
+      {
+        "imagen": 87875,
+        "aciertos": 1,
+        "predicciones": 1,
+        "anotaciones": 1
+      },
+      {
+        "imagen": 338560,
+        "aciertos": 5,
+        "predicciones": 5,
+        "anotaciones": 12
+      },
+      {
+        "imagen": 297343,
+        "aciertos": 1,
+        "predicciones": 1,
+        "anotaciones": 1
+      },
+      {
+        "imagen": 122745,
+        "aciertos": 1,
+        "predicciones": 1,
+        "anotaciones": 1
+      },
+      {
+        "imagen": 53994,
+        "aciertos": 1,
+        "predicciones": 1,
+        "anotaciones": 4
+      },
+      {
+        "imagen": 51961,
+        "aciertos": 1,
+        "predicciones": 1,
+        "anotaciones": 1
+      }
+    ]
+  }
+]

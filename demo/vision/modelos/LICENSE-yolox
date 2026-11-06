@@ -1,0 +1,11 @@
+YOLOX-s COCO object detector, converted for Grieta (no retraining).
+Upstream weights: Megvii-BaseDetection/YOLOX release 0.1.1rc0, yolox_s.onnx
+https://github.com/Megvii-BaseDetection/YOLOX/releases/tag/0.1.1rc0
+SHA-256 of the original ONNX: c5c2d13e59ae883e6af3b45daea64af4833a4951c92d116ec270d9ddbe998063
+License: Apache License 2.0. Copyright (c) 2021-2022 Megvii Inc. All rights reserved.
+https://github.com/Megvii-BaseDetection/YOLOX/blob/main/LICENSE
+Training data: COCO 2017.
+
+Grieta changes: analytical Focus/Conv fusion, ONNX simplification, fixed 512x512 input,
+RGB-to-BGR inside the graph, flattened raw output, float16 weight storage, TFLite metadata.
+No client libraries added. Camera images are not sent to these publishers.

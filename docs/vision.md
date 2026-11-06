@@ -11,9 +11,13 @@ pantalla, la cámara usa sus anuncios sin duplicar el audio.
 
 ## Reconocimiento
 
-Más detalle usa EfficientDet-Lite2 int8 con entrada de 448 × 448; Más ligero conserva Lite0 int8 de
-320 × 320. Ambos son modelos preentrenados de Google/TensorFlow sobre COCO, con MediaPipe 0.10.21.
-No entrené desde cero ni añadí clases que estos modelos no tengan.
+Desde la versión 138, Más detalle usa YOLOX-s (Megvii, Apache 2.0) con los pesos COCO oficiales de la
+release 0.1.1rc0, convertido a TFLite float16 con entrada de 512 × 512 (`objetos-v1.tflite`, 18 MB) y
+ejecutado con `ImageEmbedder` de MediaPipe 0.10.21, igual que el modelo de hoyos. El worker decodifica la
+salida cruda (objeto × clase ≥ 0.4, supresión por clase con IoU 0.45, máximo 30) y la entrega con la
+forma de MediaPipe, así que el resto de la app no cambió. Más ligero conserva EfficientDet-Lite0 int8 de
+320 × 320. No reentrené pesos ni añadí clases. Se descartaron YOLOv8/YOLO11 por su licencia AGPL.
+Conversión: `scripts/convertir-yolox.py --entrada 512` (mismo entorno que hoyos).
 
 Se aprovechan las 80 etiquetas, con prioridad para vehículos, personas y señales. Se agrupan objetos
 distintos y se eliminan cajas duplicadas. Se requiere puntuación mínima 0.55 y confirmación de clase en una ventana de tres imágenes, aunque
@@ -77,7 +81,14 @@ clases, incluidas pequeñas, con confianza 0.55 y coincidencia única de clase e
 | Modelo | Coincidencias / anotaciones | Predicciones evaluadas | Mediana de inferencia |
 |---|---:|---:|---:|
 | Lite0 | 65 / 344 | 67 | 52 ms |
-| Lite2 | 90 / 344 | 92 | 161 ms |
+| Lite2 (antes) | 90 / 344 | 92 | 161 ms |
+| YOLOX-s 416 | 133 / 344 | 153 | 205 ms |
+| YOLOX-s 512 (actual) | 164 / 344 | 186 | 311 ms |
+| YOLOX-s 640 | 180 / 344 | 206 | 480 ms |
+
+Las filas YOLOX se midieron el 2026-11-06 con la misma muestra y `vision-comparar.cjs`; Lite2 viene de la
+medición anterior. 512 se eligió por equilibrio: casi el doble de objetos que Lite2 con una latencia
+manejable. Detalle por imagen: `vision-comparacion-yolox.json`. Velocidad en teléfono: no verificada.
 
 Resultado de Chromium en CPU de macOS; no representa tiempo en teléfonos. Los dos modelos dejaron
 muchos objetos sin detectar. Estos conteos no son mAP ni un porcentaje de precisión para Querétaro y

@@ -4,6 +4,10 @@
     "sha256": "8707eef0533987efc5b155d64761eeb6e20793f50b9bd1a68dad1cf4719d0ed8"
   },
   {
+    "ruta": "modelos/LICENSE-yolox",
+    "sha256": "9a37cca1e01c1448203f8b402ebb801dad9e9b96304435067d0caefac76231d9"
+  },
+  {
     "ruta": "modelos/LICENSE-tesseract",
     "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
   },
@@ -12,8 +16,8 @@
     "sha256": "0720bf247bd76e6594ea28fa9c6f7c5242be774818997dbbeffc4da460c723bb"
   },
   {
-    "ruta": "modelos/efficientdet_lite2.tflite",
-    "sha256": "b3f50554cb0ea559e90328845f7d9ba4d13c8bff372914d24e06bc8bb72fa896"
+    "ruta": "modelos/objetos-v1.tflite",
+    "sha256": "9bea9e1a8e8b8ddae5c4334e5dacf27cae26c9ff14a60af998097cdcf4cab5bc"
   },
   {
     "ruta": "modelos/spa.traineddata.gz",

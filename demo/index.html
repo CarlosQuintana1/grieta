@@ -468,15 +468,13 @@
           <p id="ahorroQuien" class="co2-quien"></p>
           <p class="co2-cifra"><strong id="ahorroTotal"></strong><span>ahorrados este mes contra la app más barata</span></p>
         </div>
-        <svg id="alcancia" class="alcancia" viewBox="0 0 360 210" role="img"></svg>
+        <svg id="alcancia" class="alcancia" viewBox="0 0 24 24" role="img"></svg>
         <div class="co2-pie">
           <p id="ahorroPie" class="co2-unidad"></p>
-          <div id="ahorroAvance" class="co2-avance"><i></i></div>
-          <ul id="metasAhorro" class="metas-ahorro"></ul>
+          <p class="ahorro-nota">Cada moneda es un viaje de $11 en Qrobus.</p>
         </div>
       </div>
-      <h2 id="tituloEquivaleAhorro" class="seccion">Eso equivale a</h2>
-      <ul id="ahorroEquivale" class="co2-equivale"></ul>
+      <dl id="ahorroDatos" class="filas-dato"></dl>
       <div id="ahorroMesesCaja" class="co2-semanas-caja">
         <div class="co2-semanas-cabeza"><h2>Tus meses</h2><span id="ahorroHistorico"></span></div>
         <svg id="ahorroMeses" class="co2-semanas" viewBox="0 0 320 120" role="img"></svg>
@@ -523,10 +521,7 @@
         <p id="co2Vacio" class="co2-vacio" hidden>Cuando sigas un viaje en camión con la guía, aquí aparece cada semana.</p>
       </div>
       <button id="co2Planear" type="button" class="boton">Buscar a dónde voy en camión</button>
-      <details class="co2-fuentes">
-        <summary>¿De dónde salen las cifras?</summary>
-        <p>Árbol joven de ciudad: 60 kg de CO₂ al año (EPA). Gasolina: 2.35 kg por litro (EPA). Hielo ártico: 3 m² por tonelada (Notz y Stroeve, Science, 2016). Auto: 135.7 g por km (NOM-163).</p>
-      </details>
+      <p class="co2-fuente">Fuentes: EPA, Notz y Stroeve (Science, 2016) y NOM-163.</p>
     </section>
 
     <section id="ubicacion" class="pantalla" aria-labelledby="tituloPantalla" hidden>

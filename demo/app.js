@@ -3450,56 +3450,30 @@ function pintarBonos() {
     : `<strong>${VEREDICTO_BONO[mejor[0]]}</strong><span>Ahorras ${pesos(porViaje - mejor[1])} al mes contra pagar cada viaje.</span>`;
 }
 const marcarTarifaBonos = radios("tarifaBonos", (v) => { bono.tarifa = v; pintarBonos(); });
-// Puerquito de cristal: se llena de monedas hasta el bono mensual; las rayas marcan los bonos semanal y quincenal.
+// Puerquito de Lucide (ISC), el mismo de la tarjeta del inicio. Cada moneda es un viaje de $11; con 41 se llena, justo el bono mensual.
 const METAS_AHORRO = [[111, "semanal"], [231, "quincenal"], [451, "mensual"]];
-const CUERPO_PQ = "M112 70C140 50 200 46 232 58C254 68 268 84 272 100C274 124 262 148 236 162C206 178 150 180 118 168C88 156 72 130 76 106C80 88 94 76 112 70Z";
+const PUERQUITO = ["M11 17h3v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-3a3.16 3.16 0 0 0 2-2h1a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1h-1a5 5 0 0 0-2-4V3a4 4 0 0 0-3.2 1.6l-.3.4H11a6 6 0 0 0-6 6v1a5 5 0 0 0 2 4v3a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1z", "M16 10h.01", "M2 8v1a2 2 0 0 0 2 2h1"];
+// Huecos para 41 monedas dentro de la silueta, de abajo hacia arriba (calculados una vez con isPointInFill).
+const HUECOS = [[9.26, 18.56], [16.52, 18.56], [15.62, 16.99], [9.26, 15.42], [11.08, 15.42], [12.89, 15.42], [14.71, 15.42], [16.52, 15.42], [8.35, 13.84], [10.17, 13.84], [11.99, 13.84], [13.8, 13.84], [15.62, 13.84], [17.43, 13.84], [7.45, 12.27], [9.26, 12.27], [11.08, 12.27], [12.89, 12.27], [14.71, 12.27], [16.52, 12.27], [18.34, 12.27], [20.16, 12.27], [6.54, 10.7], [8.35, 10.7], [10.17, 10.7], [11.99, 10.7], [13.8, 10.7], [17.43, 10.7], [7.45, 9.13], [9.26, 9.13], [11.08, 9.13], [12.89, 9.13], [14.71, 9.13], [18.34, 9.13], [8.35, 7.55], [10.17, 7.55], [11.99, 7.55], [13.8, 7.55], [15.62, 7.55], [17.43, 7.55], [16.52, 5.98]];
+function moneda([x, y], i) {
+  // Unas caen de frente y otras de canto, cada una con su giro: se ve como un monton, no como una cuadricula.
+  const giro = ((i * 47) % 70) - 35, cx = x + (((i * 13) % 5) - 2) * 0.06;
+  if (i % 4 === 2) return `<g transform="rotate(${giro} ${cx} ${y})"><rect x="${cx - 1}" y="${y - 0.45}" width="2" height="0.9" rx="0.45" class="canto"/><ellipse cx="${cx}" cy="${y - 0.2}" rx="1" ry="0.42" class="cara"/></g>`;
+  return `<circle cx="${cx}" cy="${y}" r="1" class="cara"/><circle cx="${cx}" cy="${y}" r="0.6" class="aro"/>`;
+}
+// Se llenan de abajo hacia arriba y hacia el centro primero, como un monton que crece.
+const ORDEN = HUECOS.map((h, i) => [h, h[1] - 0.45 * Math.abs(h[0] - 12.6), i]).sort((a, b) => b[1] - a[1]).map(([h, , i]) => [h, i]);
 function puerquito(pesosMes) {
-  const fondo = 176, alto = 124, nivel = fondo - alto * Math.min(1, pesosMes / 451);
-  let monedas = "";
-  for (let y = fondo - 2, f = 0; pesosMes > 0 && y > nivel - 6; y -= 7, f++) {
-    for (let x = 70 + (f % 2) * 11; x < 285; x += 22) {
-      const cy = y + Math.sin(x * 0.37 + f * 1.7) * 2;
-      if (cy < nivel - 3) continue;
-      monedas += `<ellipse cx="${x}" cy="${(cy + 2.2).toFixed(1)}" rx="11" ry="4.6" class="canto"/><ellipse cx="${x}" cy="${cy.toFixed(1)}" rx="11" ry="4.6" class="moneda"/>`;
-    }
-  }
-  const rayas = METAS_AHORRO.slice(0, 2).map(([p]) => {
-    const y = (fondo - alto * (p / 451)).toFixed(1);
-    return `<path d="M84 ${y}H268" class="meta${pesosMes >= p ? " hecha" : ""}"/>`;
-  }).join("");
-  const cae = pesosMes > 0 && pesosMes < 451
-    ? '<g class="cae"><ellipse cx="0" cy="0" rx="12" ry="12" class="moneda"/><ellipse cx="0" cy="0" rx="8.5" ry="8.5" class="moneda-borde"/><text x="0" y="4.5" text-anchor="middle" class="signo">$</text></g>' : "";
-  return `<defs>
-      <clipPath id="cuerpoPq"><path d="${CUERPO_PQ}"/></clipPath>
-      <linearGradient id="vidrioPq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe3ec" stop-opacity=".22"/><stop offset="1" stop-color="#ffc2d3" stop-opacity=".06"/></linearGradient>
-    </defs>
-    <ellipse cx="176" cy="194" rx="112" ry="9" class="sombra"/>
-    <rect x="232" y="150" width="20" height="36" rx="10" class="pata atras"/><rect x="100" y="152" width="20" height="34" rx="10" class="pata atras"/>
-    <path d="M78 112c-14-6-24 4-18 12 5 6 14 2 10-5" class="cola"/>
-    <path d="${CUERPO_PQ}" fill="url(#vidrioPq)"/>
-    <g clip-path="url(#cuerpoPq)">${monedas}${rayas}</g>
-    <path d="${CUERPO_PQ}" class="contorno"/>
-    <rect x="208" y="160" width="24" height="28" rx="11" class="pata"/><rect x="122" y="164" width="24" height="25" rx="11" class="pata"/>
-    <path d="M214 60C212 40 222 26 238 24C244 38 242 54 232 64Z" class="oreja"/>
-    <rect x="262" y="90" width="30" height="40" rx="13" class="hocico"/><ellipse cx="277" cy="102" rx="3" ry="4.6" class="nariz"/><ellipse cx="277" cy="118" rx="3" ry="4.6" class="nariz"/>
-    <path d="M236 92q6-6 12 0" class="ojo"/><ellipse cx="250" cy="110" rx="9" ry="5.5" class="chapeo"/>
-    <rect x="140" y="47" width="46" height="8" rx="4" transform="rotate(-4 163 51)" class="ranura"/>
-    <path d="M102 92C112 72 138 62 164 60" class="brillo"/><path d="M96 112c0-6 1-10 3-14" class="brillo fino"/>
-    <circle cx="246" cy="76" r="3" class="destello"/><circle cx="254" cy="70" r="1.6" class="destello"/>
-    ${cae}`;
+  const n = Math.min(HUECOS.length, Math.floor(pesosMes / 11));
+  return `${ORDEN.slice(0, n).sort((a, b) => a[0][1] - b[0][1]).map(([h, i]) => moneda(h, i)).join("")}${PUERQUITO.map((d, i) => `<path d="${d}" class="linea${i === 1 ? " ojo" : ""}"/>`).join("")}`;
 }
 function pintarAlcancia(mes) {
+  const monedas = Math.min(41, Math.floor(mes / 11));
   $("alcancia").innerHTML = puerquito(mes);
+  $("alcancia").setAttribute("aria-label", `Alcancía con ${plural(monedas, "moneda", "monedas")} de 41`);
   const sig = METAS_AHORRO.findIndex(([p]) => mes < p), previa = sig > 0 ? METAS_AHORRO[sig - 1] : null;
-  $("alcancia").setAttribute("aria-label", `Alcancía con ${pesos(mes)} de ${pesos(451)}`);
-  $("ahorroAvance").hidden = sig < 0;
-  if (sig < 0) $("ahorroPie").textContent = "Tu ahorro de este mes ya paga un bono mensual de Qrobus.";
-  else {
-    const [meta, nombre] = METAS_AHORRO[sig], desde = previa?.[0] ?? 0;
-    $("ahorroPie").textContent = `${previa ? `Ya juntaste un bono ${previa[1]}. ` : ""}Faltan ${pesos(meta - mes)} para juntar un bono ${nombre}.`;
-    $("ahorroAvance").firstElementChild.style.width = `${Math.round(((mes - desde) / (meta - desde)) * 100)}%`;
-  }
-  $("metasAhorro").innerHTML = METAS_AHORRO.map(([p, n]) => `<li class="${mes >= p ? "hecha" : ""}">${mes >= p ? ico("palomita") : ""}${n[0].toUpperCase() + n.slice(1)} ${pesos(p)}</li>`).join("");
+  $("ahorroPie").textContent = sig < 0 ? "Tu ahorro de este mes ya paga un bono mensual de Qrobus."
+    : `${previa ? `Ya juntaste el bono ${previa[1]}. ` : ""}Faltan ${pesos(METAS_AHORRO[sig][0] - mes)} para el ${METAS_AHORRO[sig][1]}.`;
 }
 // Ahorro por mes desde el primero con ahorro, hasta seis; con uno solo no hay grafica.
 function pintarMeses() {
@@ -3526,12 +3500,9 @@ function abrirAhorro() {
   $("ahorroTotal").textContent = pesos(mes);
   $("ahorroQuien").textContent = delMes.length ? `${plural(delMes.length, "viaje", "viajes")} en camión este mes` : "Aún sin viajes en camión este mes";
   pintarAlcancia(mes);
-  $("tituloEquivaleAhorro").hidden = $("ahorroEquivale").hidden = total < 1;
-  $("ahorroEquivale").innerHTML = [
-    ["qrobus", plural(Math.floor(mes / BONOS.normal.viaje), "viaje", "viajes"), "en Qrobus que pagas con lo de este mes"],
-    ["datos", pesos(total), "desde que usas Grieta"],
-    ["camiones", pesos(conAhorro.length ? total / conAhorro.length : 0), "de ahorro por viaje en promedio"],
-  ].map(([p, cifra, texto]) => `<li>${miniFicha("tono-hospital", picto(p))}<strong>${cifra}</strong><span>${texto}</span></li>`).join("");
+  $("ahorroDatos").hidden = total < 1;
+  $("ahorroDatos").innerHTML = [["Desde que usas Grieta", pesos(total)], ["Ahorro promedio por viaje", pesos(conAhorro.length ? total / conAhorro.length : 0)]]
+    .map(([t, v]) => `<div><dt>${t}</dt><dd>${v}</dd></div>`).join("");
   $("ahorroHistorico").textContent = `${pesos(total)} en total`;
   pintarMeses();
   prepararBonos();

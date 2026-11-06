@@ -1039,28 +1039,51 @@ h2.titulo-medio .mini-ficha .picto { width: 20px; height: 20px; }
 button.impacto-todos { width: 100%; text-align: left; }
 .impacto-todos .fila-texto { flex: 1; min-width: 0; }
 .impacto-todos > .chevron { flex: none; width: 20px; height: 20px; color: var(--tenue); }
-.co2-escena { margin: -8px -16px 12px; padding: 8px 0 18px; background: linear-gradient(180deg, color-mix(in srgb, var(--verde) 10%, var(--fondo)), var(--fondo)); text-align: center; }
-.bosque { display: block; width: 100%; height: auto; }
-.co2-escena > p { padding: 0 16px; }
-.bosque .sol { fill: color-mix(in srgb, var(--ambar) 75%, transparent); }
-.bosque .cerro { fill: color-mix(in srgb, var(--verde) 26%, var(--superficie)); }
-.bosque .cerro.atras { fill: color-mix(in srgb, var(--verde) 12%, var(--superficie)); }
-.bosque .arbol { fill: var(--verde); }
-.bosque .hueco { fill: color-mix(in srgb, var(--verde) 35%, transparent); }
-.bosque .sobra { fill: var(--verde); font-weight: 800; font-size: 22px; }
-.co2-cifra { margin: 6px 0 0; }
-.co2-cifra strong { display: block; font-size: 2.6rem; font-weight: 800; line-height: 1.1; color: var(--verde); }
-.co2-cifra span { color: var(--tinta); font-weight: 600; }
-.co2-escena .nota { margin-top: 6px; }
-.co2-unidad { margin: 4px 0 0; color: var(--tenue); font-size: .85rem; }
-.co2-equivale { list-style: none; margin: 0 0 20px; padding: 0; display: grid; gap: 10px; }
-.co2-equivale li { display: flex; gap: 12px; align-items: center; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
-.co2-equivale strong { display: block; font-size: 1.15rem; color: var(--tinta); }
-.co2-equivale .fila-texto > span { color: var(--tenue); font-size: .9rem; }
-.co2-tuyo { margin: 0 0 8px; color: var(--tenue); }
-.co2-tuyo strong { color: var(--tinta); font-size: 1.15rem; }
-.co2-semanas { display: block; width: 100%; height: auto; margin-top: 4px; }
-.co2-semanas .barra { fill: var(--verde); }
-.co2-semanas .base { stroke: var(--linea); stroke-width: 1; }
+.segmento { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; margin-bottom: 14px; border-radius: 999px; background: var(--superficie); border: 1px solid var(--linea); }
+.segmento[hidden] { display: none; }
+.segmento button { min-height: 40px; border-radius: 999px; font-weight: 700; color: var(--tenue); text-align: center; }
+.segmento button[aria-checked="true"] { background: var(--verde); color: var(--fondo); }
+.co2-hero { overflow: hidden; border-radius: 24px; border: 1px solid color-mix(in srgb, var(--verde) 28%, transparent);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--verde) 16%, var(--superficie)) 0%, var(--superficie) 70%); }
+.co2-hero-texto { padding: 20px 20px 0; }
+.co2-quien { margin: 0; color: var(--tenue); font-size: .85rem; font-weight: 600; }
+.co2-cifra { margin: 2px 0 0; }
+.co2-cifra strong { display: block; font-size: 3.2rem; font-weight: 800; line-height: 1; letter-spacing: -0.02em; color: var(--verde); }
+.co2-cifra span { display: block; margin-top: 6px; color: var(--tinta); font-weight: 600; }
+.bosque { display: block; width: 100%; height: auto; margin-top: 4px; }
+.bosque .halo { fill: rgb(233 168 63 / 18%); }
+.bosque .sol { fill: #e9a83f; }
+.bosque .ave { fill: none; stroke: var(--tenue); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.bosque .sierra { fill: color-mix(in srgb, var(--verde) 9%, var(--superficie)); }
+.bosque .cerro.atras { fill: color-mix(in srgb, var(--verde) 20%, var(--superficie)); }
+.bosque .cerro { fill: color-mix(in srgb, var(--verde) 32%, var(--superficie)); }
+.bosque .copa { fill: var(--verde); }
+.bosque .copa.oscura { fill: color-mix(in srgb, var(--verde) 72%, var(--fondo)); }
+.bosque .tronco { fill: #8a5a3c; }
+.bosque .brote { fill: none; stroke: color-mix(in srgb, var(--verde) 60%, transparent); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.bosque .sobra { fill: var(--verde); font-weight: 800; font-size: 20px; }
+.co2-unidad { margin: 0; padding: 10px 20px 14px; color: var(--tenue); font-size: .82rem; background: color-mix(in srgb, var(--verde) 32%, var(--superficie)); }
+html.claro .co2-unidad { color: var(--tinta); }
+.co2-equivale { list-style: none; margin: 10px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.co2-equivale li { display: flex; flex-direction: column; gap: 2px; padding: 12px; border-radius: var(--radio); background: var(--superficie); min-width: 0; }
+.co2-equivale .mini-ficha { width: 34px; height: 34px; margin-bottom: 8px; }
+.co2-equivale .mini-ficha .picto { width: 20px; height: 20px; }
+.co2-equivale strong { font-size: 1.2rem; font-weight: 800; color: var(--tinta); line-height: 1.15; }
+.co2-equivale span:last-child { color: var(--tenue); font-size: .78rem; line-height: 1.3; }
+.co2-semanas-caja { margin-top: 22px; padding: 16px 16px 10px; border-radius: var(--radio); background: var(--superficie); }
+.co2-semanas-cabeza { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.co2-semanas-cabeza h2 { margin: 0; font-size: 1.05rem; font-weight: 800; color: var(--tinta); text-transform: none; letter-spacing: 0; }
+.co2-semanas-cabeza span { color: var(--tenue); font-size: .85rem; font-weight: 600; }
+.co2-semanas { display: block; width: 100%; height: auto; margin-top: 10px; }
+.co2-semanas .barra { fill: color-mix(in srgb, var(--verde) 55%, var(--superficie)); }
+.co2-semanas .barra.actual { fill: var(--verde); }
+.co2-semanas .barra.vacia { fill: var(--linea); }
 .co2-semanas .valor { fill: var(--tinta); font-size: 11px; font-weight: 700; }
 .co2-semanas .dia { fill: var(--tenue); font-size: 10.5px; }
+.co2-semanas .dia.actual { fill: var(--verde); font-weight: 700; }
+.co2-vacio { margin: 10px 0 6px; color: var(--tenue); font-size: .9rem; }
+.co2-fuentes { margin: 14px 0 8px; text-align: center; }
+.co2-fuentes summary { display: inline-block; padding: 8px; color: var(--tenue); font-size: .82rem; text-decoration: underline; cursor: pointer; }
+.co2-fuentes summary::-webkit-details-marker { display: none; }
+.co2-fuentes p { margin: 4px 0 0; color: var(--tenue); font-size: .8rem; text-align: left; }
+@media (max-width: 360px) { .co2-equivale { grid-template-columns: 1fr; } .co2-cifra strong { font-size: 2.6rem; } }

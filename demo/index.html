@@ -484,19 +484,30 @@
     </section>
 
     <section id="co2" class="pantalla" aria-labelledby="tituloPantalla" hidden>
-      <div class="co2-escena">
-        <svg id="bosque" class="bosque" viewBox="0 0 360 170" role="img"></svg>
-        <p class="co2-cifra"><strong id="co2Total"></strong><span>de CO₂ que no salió de un auto</span></p>
-        <p id="co2Quien" class="nota"></p>
+      <div id="co2Alcance" class="segmento" role="radiogroup" aria-label="De quién son los viajes" hidden>
+        <button type="button" role="radio" aria-checked="true" data-v="todos">Entre todos</button>
+        <button type="button" role="radio" aria-checked="false" tabindex="-1" data-v="tu">Tú</button>
+      </div>
+      <div class="co2-hero">
+        <div class="co2-hero-texto">
+          <p id="co2Quien" class="co2-quien"></p>
+          <p class="co2-cifra"><strong id="co2Total"></strong><span>de CO₂ que no salió de un auto</span></p>
+        </div>
+        <svg id="bosque" class="bosque" viewBox="0 0 360 150" role="img"></svg>
         <p id="co2Unidad" class="co2-unidad"></p>
       </div>
-      <h2 class="titulo-medio tono-hospital"><span class="mini-ficha" aria-hidden="true"><svg class="picto"><use href="#p-parque"/></svg></span>Eso equivale a</h2>
+      <h2 class="seccion">Eso equivale a</h2>
       <ul id="co2Equivale" class="co2-equivale"></ul>
-      <h2 class="titulo-medio tono-anil"><span class="mini-ficha" aria-hidden="true"><svg class="picto"><use href="#p-caminar"/></svg></span>Tus viajes</h2>
-      <p id="co2Tuyo" class="co2-tuyo"></p>
-      <svg id="co2Semanas" class="co2-semanas" viewBox="0 0 320 132" role="img" hidden></svg>
+      <div class="co2-semanas-caja">
+        <div class="co2-semanas-cabeza"><h2>Tus semanas</h2><span id="co2Tuyo"></span></div>
+        <svg id="co2Semanas" class="co2-semanas" viewBox="0 0 320 120" role="img"></svg>
+        <p id="co2Vacio" class="co2-vacio" hidden>Cuando sigas un viaje en camión con la guía, aquí aparece cada semana.</p>
+      </div>
       <button id="co2Planear" type="button" class="boton">Buscar a dónde voy en camión</button>
-      <p class="nota">Árbol joven de ciudad: 60 kg de CO₂ al año, promedio de sus primeros 10 años (EPA). Gasolina: 2.35 kg de CO₂ por litro (EPA). Hielo: 3 m² del Ártico en septiembre por cada tonelada de CO₂ (Notz y Stroeve, Science, 2016). Auto: 135.7 g por km, meta de la NOM-163 para autos nuevos.</p>
+      <details class="co2-fuentes">
+        <summary>¿De dónde salen las cifras?</summary>
+        <p>Árbol joven de ciudad: 60 kg de CO₂ al año (EPA). Gasolina: 2.35 kg por litro (EPA). Hielo ártico: 3 m² por tonelada (Notz y Stroeve, Science, 2016). Auto: 135.7 g por km (NOM-163).</p>
+      </details>
     </section>
 
     <section id="ubicacion" class="pantalla" aria-labelledby="tituloPantalla" hidden>

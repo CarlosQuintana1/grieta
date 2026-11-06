@@ -2607,28 +2607,37 @@ function tiempoArbol(g) {
 function equivalencias(g) {
   const litros = g / GASOLINA_G_LITRO, cm2 = g * HIELO_CM2_G;
   return [
-    ["parque", tiempoArbol(g), "de lo que absorbe un árbol joven de ciudad"],
-    ["gasolina", `${litros < 10 ? litros.toFixed(1) : Math.round(litros)} litros`, "de gasolina que no se quemaron"],
-    ["hielo", cm2 < 10000 ? `${Math.round(cm2)} cm²` : `${(cm2 / 10000).toFixed(1)} m²`, "de hielo del Ártico que no se derrite en verano. Ahí cazan los osos polares."],
+    ["parque", tiempoArbol(g), "de lo que absorbe un árbol joven"],
+    ["gasolina", `${litros < 10 ? litros.toFixed(1) : Math.round(litros)} L`, "de gasolina sin quemar"],
+    ["hielo", cm2 < 1000 ? `${Math.round(cm2)} cm²` : `${+(cm2 / 10000).toFixed(cm2 < 100000 ? 2 : 1)} m²`, "de hielo ártico, casa del oso polar"],
   ];
 }
-// Doce arboles en los cerros: cada uno es un mes de trabajo de un arbol joven, o un ano si ya pasamos de doce meses.
-const LUGARES_BOSQUE = [[40, 118], [92, 104], [146, 112], [200, 100], [256, 108], [312, 116], [66, 142], [120, 136], [174, 144], [228, 134], [282, 140], [336, 146]];
+// Doce lugares en los cerros: cada arbol es un mes de trabajo de un arbol joven, o un ano si ya pasamos de doce meses.
+const LUGARES_BOSQUE = [[34, 101, 0], [88, 96, 1], [142, 97, 0], [196, 102, 1], [250, 104, 0], [306, 98, 1], [60, 126, 1], [114, 121, 0], [168, 123, 1], [222, 129, 0], [278, 131, 1], [334, 124, 0]];
+function arbol(x, y, t, pino) {
+  const tronco = `<rect class="tronco" x="${x - t * 0.06}" y="${y - t * 0.42}" width="${t * 0.12}" height="${t * 0.42}" rx="${t * 0.04}"/>`;
+  if (pino) return `${tronco}<path class="copa oscura" d="M${x} ${y - t * 1.1}L${x + t * 0.34} ${y - t * 0.32}H${x - t * 0.34}Z"/>`;
+  return `${tronco}<circle class="copa" cx="${x}" cy="${y - t * 0.7}" r="${t * 0.3}"/><circle class="copa" cx="${x - t * 0.2}" cy="${y - t * 0.5}" r="${t * 0.22}"/><circle class="copa" cx="${x + t * 0.2}" cy="${y - t * 0.5}" r="${t * 0.22}"/>`;
+}
+const brote = (x, y) => `<path class="brote" d="M${x} ${y}v-7m0 3c-1-3-4-4-6-3 1 3 3 4 6 3m0-2c1-3 4-4 6-3-1 3-3 4-6 3"/>`;
 function pintarBosque(g) {
   const dias = g / ARBOL_G_DIA, porAnio = dias > 360, llenos = dias / (porAnio ? 365 : 30.4);
-  const arboles = LUGARES_BOSQUE.map(([x, y], i) => {
+  const plantas = LUGARES_BOSQUE.map(([x, y, pino], i) => {
     const avance = Math.min(1, Math.max(0, llenos - i));
-    if (!avance) return `<circle class="hueco" cx="${x}" cy="${y - 3}" r="3"/>`;
-    const t = 26 + 30 * avance;
-    return `<use href="#p-parque" class="arbol" x="${x - t / 2}" y="${y - t}" width="${t}" height="${t}"/>`;
+    return avance ? arbol(x, y, 20 + 22 * avance, pino) : brote(x, y);
   }).join("");
-  const sobra = llenos >= LUGARES_BOSQUE.length + 1 ? `<text class="sobra" x="14" y="34">+${Math.floor(llenos) - LUGARES_BOSQUE.length}</text>` : "";
-  $("bosque").innerHTML = `<circle class="sol" cx="300" cy="40" r="22"/><path class="cerro atras" d="M0 112C60 82 120 88 180 100s110 0 180-18V170H0Z"/><path class="cerro" d="M0 136c70-26 130-24 190-12s110 6 170-8V170H0Z"/>${arboles}${sobra}`;
-  $("bosque").setAttribute("aria-label", `${Math.min(LUGARES_BOSQUE.length, Math.ceil(llenos))} árboles en un cerro`);
-  $("co2Unidad").textContent = porAnio ? "Cada árbol es lo que uno joven absorbe en un año." : "Cada árbol es lo que uno joven absorbe en un mes.";
+  const sobra = llenos >= LUGARES_BOSQUE.length + 1 ? `<text class="sobra" x="16" y="30">+${Math.floor(llenos) - LUGARES_BOSQUE.length}</text>` : "";
+  $("bosque").innerHTML = `<circle class="halo" cx="304" cy="34" r="30"/><circle class="sol" cx="304" cy="34" r="17"/>
+    <path class="ave" d="M226 30q4-4 8 0q4-4 8 0M250 18q3-3 6 0q3-3 6 0"/>
+    <path class="sierra" d="M0 92L42 70l36 14 44-26 48 26 44-20 48 24 44-22 54 18V150H0Z"/>
+    <path class="cerro atras" d="M0 100C70 80 130 84 190 94s110 4 170-16V150H0Z"/>
+    <path class="cerro" d="M0 124c60-16 130-18 200-8s100 4 160-8V150H0Z"/>${plantas}${sobra}`;
+  const hechos = Math.min(LUGARES_BOSQUE.length, Math.floor(llenos));
+  $("bosque").setAttribute("aria-label", `${plural(hechos, "árbol", "árboles")} y ${LUGARES_BOSQUE.length - hechos} brotes en un cerro`);
+  $("co2Unidad").textContent = porAnio ? "1 árbol = 1 año de lo que absorbe uno joven" : "1 árbol = 1 mes de lo que absorbe uno joven";
 }
-// Ocho semanas de los viajes propios en camion, de lunes a domingo.
-function pintarSemanas() {
+// Ocho semanas de los viajes propios en camion, de lunes a domingo; las vacias quedan como raya tenue.
+function pintarSemanas(propio, viajesPropios) {
   const lunes = new Date(); lunes.setHours(0, 0, 0, 0); lunes.setDate(lunes.getDate() - ((lunes.getDay() + 6) % 7));
   const semanas = Array.from({ length: 8 }, (_, i) => { const d = new Date(lunes); d.setDate(d.getDate() - 7 * (7 - i)); return { d, g: 0 }; });
   for (const h of historial) {
@@ -2636,27 +2645,35 @@ function pintarSemanas() {
     if (i >= 0 && i < 8) semanas[i].g += h.co2 || 0;
   }
   const max = Math.max(...semanas.map((x) => x.g));
+  $("co2Tuyo").textContent = propio ? `${kgTexto(propio)} en ${plural(viajesPropios, "viaje", "viajes")}` : "";
   $("co2Semanas").toggleAttribute("hidden", !max);
+  $("co2Vacio").hidden = !!max;
   if (!max) return;
-  $("co2Semanas").innerHTML = `<text class="dia" x="0" y="10">kg por semana</text><line class="base" x1="0" x2="320" y1="104" y2="104"/>` + semanas.map((x, i) => {
-    const alto = x.g ? Math.max(3, (x.g / max) * 78) : 0, cx = 20 + i * 40;
-    return `${alto ? `<rect class="barra" x="${cx - 12}" y="${104 - alto}" width="24" height="${alto}" rx="4"/>` : ""}
-      ${x.g ? `<text class="valor" x="${cx}" y="${98 - alto}" text-anchor="middle">${(x.g / 1000).toFixed(1)}</text>` : ""}
-      <text class="dia" x="${cx}" y="124" text-anchor="middle">${x.d.getDate()} ${MESES[x.d.getMonth()]}</text>`;
+  const fecha = (d) => `${d.getDate()} ${MESES[d.getMonth()]}`;
+  $("co2Semanas").innerHTML = semanas.map((x, i) => {
+    const alto = x.g ? Math.max(6, (x.g / max) * 72) : 3, cx = 20 + i * 40, ultima = i === 7;
+    return `<rect class="barra${x.g ? "" : " vacia"}${ultima ? " actual" : ""}" x="${cx - 13}" y="${96 - alto}" width="26" height="${alto}" rx="${Math.min(6, alto / 2)}"/>
+      ${x.g ? `<text class="valor" x="${cx}" y="${89 - alto}" text-anchor="middle">${(x.g / 1000).toFixed(1)}</text>` : ""}
+      <text class="dia${ultima ? " actual" : ""}" x="${cx}" y="114" text-anchor="middle">${ultima ? "Esta" : i % 2 ? fecha(x.d) : ""}</text>`;
   }).join("");
-  $("co2Semanas").setAttribute("aria-label", `Kilos de CO₂ evitados por semana: ${semanas.map((x) => `${x.d.getDate()} ${MESES[x.d.getMonth()]}, ${(x.g / 1000).toFixed(1)}`).join("; ")}`);
+  $("co2Semanas").setAttribute("aria-label", `Kilos de CO₂ evitados por semana: ${semanas.map((x) => `${fecha(x.d)}, ${(x.g / 1000).toFixed(1)}`).join("; ")}`);
+}
+let alcanceCo2 = "todos";
+const marcarAlcance = radios("co2Alcance", (v) => { alcanceCo2 = v; pintarCo2(); });
+function pintarCo2() {
+  const propio = historial.reduce((s, h) => s + (h.co2 || 0), 0), viajesPropios = historial.filter((h) => h.co2).length;
+  const todos = estado.impacto?.g ? estado.impacto : null, deTodos = todos && (alcanceCo2 === "todos" || !propio);
+  $("co2Alcance").hidden = !(todos && propio);
+  marcarAlcance(deTodos ? "todos" : "tu");
+  const g = deTodos ? todos.g : propio;
+  $("co2Quien").textContent = deTodos ? `${plural(todos.viajes, "viaje", "viajes")} en camión · ${Math.round(todos.km)} km` : propio ? `Tus ${plural(viajesPropios, "viaje", "viajes")} en camión` : "Aún sin viajes en camión";
+  $("co2Total").textContent = kgTexto(g);
+  pintarBosque(g);
+  $("co2Equivale").innerHTML = equivalencias(g).map(([p, cifra, texto]) => `<li>${miniFicha("tono-hospital", picto(p))}<strong>${cifra}</strong><span>${texto}</span></li>`).join("");
+  pintarSemanas(propio, viajesPropios);
 }
 function abrirCo2() {
-  const propio = historial.reduce((s, h) => s + (h.co2 || 0), 0), enCamion = historial.filter((h) => h.co2).length;
-  const todos = estado.impacto?.g ? estado.impacto : null, g = todos?.g ?? propio;
-  $("co2Total").textContent = kgTexto(g);
-  $("co2Quien").textContent = todos ? `Entre todos: ${plural(todos.viajes, "viaje", "viajes")} en camión, ${Math.round(todos.km)} km.` : "Tus viajes en camión con Grieta.";
-  pintarBosque(g);
-  $("co2Equivale").innerHTML = equivalencias(g).map(([p, cifra, texto]) => `<li>${miniFicha("tono-hospital", picto(p))}<span class="fila-texto"><strong>${cifra}</strong><span>${texto}</span></span></li>`).join("");
-  $("co2Tuyo").innerHTML = propio
-    ? `<strong>${kgTexto(propio)}</strong> <span>en ${plural(enCamion, "viaje", "viajes")}: ${tiempoArbol(propio)} de un árbol.</span>`
-    : "<span>Cuando sigas un viaje en camión con la guía, aquí se suma lo tuyo.</span>";
-  pintarSemanas();
+  pintarCo2();
   ir("co2");
 }
 $("impactoTodos").addEventListener("click", abrirCo2);

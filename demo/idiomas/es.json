@@ -10185,6 +10185,307 @@
       "contextos": [
         "demo/index.html · texto de interfaz"
       ]
+    },
+    {
+      "clave": "texto_93c341a61e",
+      "es": "Instala Grieta en tu teléfono",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ]
+    },
+    {
+      "clave": "texto_063298e453",
+      "es": "Ábrela como cualquier app, sin buscarla en el navegador.",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ]
+    },
+    {
+      "clave": "texto_955f24d62c",
+      "es": "En Safari toca Compartir y luego Agregar a inicio.",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ]
+    },
+    {
+      "clave": "texto_8e8a1dd486",
+      "es": "Instalar",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ]
+    },
+    {
+      "clave": "texto_ff720ed2a4",
+      "es": "¿Ya vas a casa?",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ]
+    },
+    {
+      "clave": "texto_96372e4657",
+      "es": "Toca y te digo cómo llegar desde aquí.",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ]
+    },
+    {
+      "clave": "texto_5ef4089951",
+      "es": "Precio justo",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ]
+    },
+    {
+      "clave": "texto_81fe500600",
+      "es": "Un poco caro: {v1} más de lo normal",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "pesos(sobre)",
+          "formato": "importe"
+        }
+      }
+    },
+    {
+      "clave": "texto_a4929b6152",
+      "es": "Muy caro: {v1} más de lo normal",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "pesos(sobre)",
+          "formato": "importe"
+        }
+      }
+    },
+    {
+      "clave": "texto_d49e349a31",
+      "es": "Camina",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ]
+    },
+    {
+      "clave": "texto_998ce0e374",
+      "es": "Camina por {v1}",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "s.name"
+        }
+      }
+    },
+    {
+      "clave": "texto_a75498f6be",
+      "es": "Sigue derecho",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ]
+    },
+    {
+      "clave": "texto_d566d9d293",
+      "es": "Sigue derecho por {v1}",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "s.name"
+        }
+      }
+    },
+    {
+      "clave": "texto_13e5e7e018",
+      "es": "Da vuelta a la izquierda",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ]
+    },
+    {
+      "clave": "texto_bc44a553ed",
+      "es": "Da vuelta a la izquierda por {v1}",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "s.name"
+        }
+      }
+    },
+    {
+      "clave": "texto_92903a97fe",
+      "es": "Da vuelta a la derecha",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ]
+    },
+    {
+      "clave": "texto_dad859cf1f",
+      "es": "Da vuelta a la derecha por {v1}",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "s.name"
+        }
+      }
+    },
+    {
+      "clave": "texto_c7a8877fd7",
+      "es": "Da vuelta un poco a la izquierda",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ]
+    },
+    {
+      "clave": "texto_73a1bd7556",
+      "es": "Da vuelta un poco a la izquierda por {v1}",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "s.name"
+        }
+      }
+    },
+    {
+      "clave": "texto_34a3f61174",
+      "es": "Da vuelta un poco a la derecha",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ]
+    },
+    {
+      "clave": "texto_8c8786c24b",
+      "es": "Da vuelta un poco a la derecha por {v1}",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "s.name"
+        }
+      }
+    },
+    {
+      "clave": "texto_bdead54ece",
+      "es": "Da vuelta de regreso",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ]
+    },
+    {
+      "clave": "texto_0e405a3257",
+      "es": "Da vuelta de regreso por {v1}",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "s.name"
+        }
+      }
+    },
+    {
+      "clave": "texto_d8dd276243",
+      "es": "Llegas a la parada {v1}",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "cruce(parada)"
+        }
+      }
+    },
+    {
+      "clave": "texto_3c89758b56",
+      "es": "{v1} metros",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "Math.round(m / 10) * 10",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_1ae880bd80",
+      "es": "{v1} kilómetros",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "(m / 1000).toFixed(1)",
+          "formato": "decimal"
+        }
+      }
+    },
+    {
+      "clave": "texto_12a3b883b2",
+      "es": "Lo confirmó 1 persona",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ]
+    },
+    {
+      "clave": "texto_0dff8f3e6e",
+      "es": "Lo confirmaron {v1} personas",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "a.sigue",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_771e9575ab",
+      "es": "Sigue así",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ]
+    },
+    {
+      "clave": "texto_08ae117c84",
+      "es": "Ya lo arreglaron",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ]
+    },
+    {
+      "clave": "texto_00b7da2c00",
+      "es": "Gracias, así otros saben cómo está.",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ]
+    },
+    {
+      "clave": "texto_faa6ef435c",
+      "es": "Cómo llegar a la parada",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ]
+    },
+    {
+      "clave": "texto_29cb999b0c",
+      "es": "La misma indicación en Lengua de Señas Mexicana",
+      "contextos": [
+        "demo/app.js · inicio, guia y paradas"
+      ]
     }
   ]
 }

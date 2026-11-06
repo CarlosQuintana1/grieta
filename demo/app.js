@@ -1069,6 +1069,22 @@ async function estacionaYSigue(r) {
     <span>Estacionamiento según OpenStreetMap: confirma su horario y costo.</span></small></span>`;
   caja.hidden = false;
 }
+// Cierres y desvios de fuente oficial (datos/avisos-ciudad.json, ver docs/avisos-ciudad.md): solo si estan vigentes y
+// el viaje pasa cerca, por el origen, el destino o el recorrido del primer camion.
+let avisosCiudad;
+async function avisarCiudad() {
+  const caja = $("avisoCiudad");
+  caja.hidden = true;
+  avisosCiudad ??= fetch("datos/avisos-ciudad.json").then((x) => x.json()).catch(() => []);
+  const lista = await avisosCiudad;
+  const hoy = new Date().toISOString().slice(0, 10);
+  const c = estado.tarjetas?.[0]?.o?.pasos?.find((p) => p.tipo === "camion");
+  const puntos = [estado.origen, estado.destino, ...(c?.recorrido ?? [])].filter(Boolean);
+  const aviso = lista.find((a) => a.desde <= hoy && hoy <= a.hasta && puntos.some((p) => Grieta.metros(p.lat, p.lon, a.lat, a.lon) <= a.radio_m));
+  if (!aviso) return;
+  caja.innerHTML = `${ico("alerta")}<span class="fila-texto"><strong>${escapar(aviso.titulo)}</strong><small>${escapar(aviso.detalle)} Fuente: ${escapar(aviso.fuente)}.</small></span>`;
+  caja.hidden = false;
+}
 function pintarOpciones(r) {
   titulos.opciones = `A ${estado.destino.nombre}`;
   if (document.body.dataset.pantalla === "opciones") $("tituloPantalla").textContent = titulos.opciones;
@@ -1102,6 +1118,7 @@ function pintarOpciones(r) {
   pintarCarro(r);
   estacionaYSigue(r);
   avisarLluvia(r);
+  avisarCiudad();
   // Contra la app mas barata: cuanto ahorras y cuanto mas tardas yendo en camion.
   const appBarata = [...r.directo.porApp].sort((a, b) => a.precio - b.precio)[0];
   $("tarjetas").innerHTML = estado.tarjetas.map(({ o, etiquetas }, i) => {
@@ -1141,7 +1158,7 @@ function pintarOpciones(r) {
   if (hayCamion && !estado.tarjetas.length) $("tarjetas").innerHTML = `<p class="nota">Caminando llegas antes que en cualquier Qrobus.</p>`;
   // El camion va primero: Grieta busca que se use menos el auto.
   const camionPrimero = estado.tarjetas.length > 0;
-  const bloqueCamion = ["tituloCamion", "ultimoCamion", "avisoLluvia", "tarjetas"].map($);
+  const bloqueCamion = ["tituloCamion", "ultimoCamion", "avisoLluvia", "avisoCiudad", "tarjetas"].map($);
   if (camionPrimero) $("enApp").before(...bloqueCamion);
   else $("enApp").after(...bloqueCamion);
   $("opciones").classList.toggle("camion-primero", camionPrimero);
@@ -1442,7 +1459,11 @@ function pintarVeredicto(r) {
   const candidatas = (estado.tarjetas ?? []).map(({ o }, i) => ({ o, i })).filter(({ o }) => o.costo <= visto * 0.7);
   const camion = d.accion === "camion" ? candidatas.sort((a, b) => a.o.minutos - b.o.minutos || a.o.costo - b.o.costo)[0] : null;
   const extra = camion ? camion.o.minutos - (r.opciones.find((o) => o.tipo === "app")?.minutos ?? r.directo.minutos) : d.extra;
+  // Semaforo de precio justo: lo que marca la app contra lo normal a esta hora segun el modelo.
+  const sobre = Math.round(visto - d.esperado.precio);
+  const semaforo = d.relacion <= 1.1 ? ["justo", "Precio justo"] : d.relacion < 1.4 ? ["caro", `Un poco caro: ${pesos(sobre)} más de lo normal`] : ["muy-caro", `Muy caro: ${pesos(sobre)} más de lo normal`];
   $("veredicto").innerHTML = `
+    <p class="semaforo ${semaforo[0]}">${semaforo[1]}</p>
     <div class="recomendacion">
       <p class="etiqueta">Recomendación</p>
       <p class="veredicto">${ico(SIMBOLOS[d.accion], "simbolo")}${ACCIONES[d.accion]}</p>
@@ -1819,20 +1840,36 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
     // Un aviso por tipo: varios reportes iguales se juntan y se quedan las descripciones distintas.
     const porTipo = new Map();
     for (const a of avisos) {
-      const x = porTipo.get(a.tipo) ?? { tipo: a.tipo, textos: [] };
+      const x = porTipo.get(a.tipo) ?? { tipo: a.tipo, textos: [], id: a.id, sigue: 0 };
       if (a.descripcion && !x.textos.includes(a.descripcion)) x.textos.push(a.descripcion);
+      x.sigue += a.sigue ?? 0;
       porTipo.set(a.tipo, x);
     }
-    avisos = [...porTipo.values()].map((x) => ({ tipo: x.tipo, descripcion: x.textos.slice(0, 2).join(" · ") }));
+    avisos = [...porTipo.values()].map((x) => ({ tipo: x.tipo, id: x.id, sigue: x.sigue, descripcion: x.textos.slice(0, 2).join(" · ") }));
     caja.innerHTML = avisos.length
       ? avisos.slice(0, 4).map((a) => `<div class="aviso${a.tipo === "referencia" ? "" : " cuidado"}">
           ${ico(a.tipo === "referencia" ? "localizar" : "alerta")}
-          <span class="fila-texto"><strong>${NOMBRES_REPORTE[a.tipo] ?? "Aviso"}</strong>${a.descripcion ? `<small translate="no">${escapar(a.descripcion)}</small>` : ""}</span></div>`).join("")
+          <span class="fila-texto"><strong>${NOMBRES_REPORTE[a.tipo] ?? "Aviso"}</strong>${a.descripcion ? `<small translate="no">${escapar(a.descripcion)}</small>` : ""}
+          ${a.tipo === "referencia" ? "" : `${a.sigue ? `<small>${a.sigue === 1 ? "Lo confirmó 1 persona" : `Lo confirmaron ${a.sigue} personas`}</small>` : ""}
+          <span class="verificar" data-reporte="${a.id}"><button type="button" class="boton-chico" data-sigue="1">Sigue así</button><button type="button" class="boton-chico" data-sigue="0">Ya lo arreglaron</button></span>`}</span></div>`).join("")
       : `<p class="nota">Todavía no hay avisos de esta parada.</p>`;
     if (avisos.length) leerReferencias(p);
   });
 }
 
+// "¿Sigue asi?" en los avisos de la parada: la gente confirma o dice que ya lo arreglaron.
+$("camionesContenido").addEventListener("click", async (e) => {
+  const b = e.target.closest(".verificar [data-sigue]");
+  if (!b) return;
+  const caja = b.parentElement;
+  caja.querySelectorAll("button").forEach((x) => { x.disabled = true; });
+  try {
+    await llamar(`/reportes/${caja.dataset.reporte}/verificar`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ sigue: b.dataset.sigue === "1" }) });
+    caja.innerHTML = `<small>Gracias, así otros saben cómo está.</small>`;
+  } catch {
+    caja.querySelectorAll("button").forEach((x) => { x.disabled = false; });
+  }
+});
 function dondeEstoy(destino) {
   const contar = (t) => { $(destino === "guia" ? "guiaDetalle" : destino === "voz" ? "respuestaVoz" : "respuesta").textContent = t; };
   if (!navigator.geolocation) { contar("Tu navegador no comparte la ubicación."); return hablar("Tu navegador no comparte la ubicación.", false, true); }
@@ -2013,7 +2050,19 @@ const FICHAS_GUIA = {
   "Hacia la parada": ["tono-maiz", "caminar"], "En la parada": ["tono-casa", "parada"], "En el camión": ["tono-anil", "qrobus"],
   "Próxima parada": ["tono-anil", "qrobus"], "Tu parada": ["tono-casa", "parada"], "Transbordo": ["tono-anil", "qrobus"], "Llegaste": ["tono-hospital", "lugar"],
 };
+// Video en Lengua de Señas Mexicana de la frase del aviso, si ya se grabo (datos/lsm.json, ver docs/lengua-de-senas.md).
+let videosSenas = {};
+fetch("datos/lsm.json").then((x) => x.json()).then((x) => { videosSenas = x; }).catch(() => {});
+function mostrarSenas(titulo) {
+  const video = $("guiaSenas");
+  const archivo = videosSenas[titulo?.id];
+  video.hidden = !archivo;
+  if (!archivo) return void video.removeAttribute("src");
+  if (!video.src.endsWith(archivo)) video.src = archivo;
+  video.play().catch(() => {});
+}
 function decir(titulo, detalle, etapa, alerta = false) {
+  mostrarSenas(titulo);
   const [tono, nombre] = guia.enApp && etapa === "Hacia la parada" ? ["tono-hospital", "app"] : FICHAS_GUIA[etapa] ?? FICHAS_GUIA[guia.fase === "camion" ? "En el camión" : "Llegaste"];
   $("guiaFicha").className = `guia-ficha ${tono}`;
   $("guiaPicto").setAttribute("href", `#p-${nombre}`);
@@ -2080,6 +2129,55 @@ function seguir(alMoverse) {
 }
 const unaVez = (clave, fn) => { if (!guia.dichos.has(clave)) { guia.dichos.add(clave); fn(); } };
 
+// Del lugar de salida a la parada, vuelta por vuelta con los nombres de las calles (OSRM a pie, con steps).
+// Al final se agrega la referencia que dejo la gente para encontrar la parada, si hay.
+const GIROS = { left: "a la izquierda", right: "a la derecha", "slight left": "un poco a la izquierda", "slight right": "un poco a la derecha",
+  "sharp left": "a la izquierda", "sharp right": "a la derecha", uturn: "de regreso" };
+function textoPasoPie(s, parada) {
+  const calle = s.name ? ` por ${s.name}` : "";
+  const { type: tipo, modifier: giro } = s.maneuver;
+  if (tipo === "arrive") return { texto: `Llegas a la parada ${cruce(parada)}` };
+  const tramo = s.distance >= 20 ? distanciaTexto(s.distance) : "";
+  if (tipo === "depart") return { texto: `Camina${calle}`, tramo };
+  if (!GIROS[giro] || tipo === "continue" || tipo === "new name") return { texto: `Sigue derecho${calle}`, tramo };
+  return { texto: `Da vuelta ${GIROS[giro]}${calle}`, tramo };
+}
+async function indicacionesPie(desde, parada) {
+  if (!desde) return;
+  try {
+    const url = `https://routing.openstreetmap.de/routed-foot/route/v1/driving/${desde.lon},${desde.lat};${parada.lon},${parada.lat}?steps=true&overview=false`;
+    const r = await fetch(url, { signal: AbortSignal.timeout(6000) }).then((x) => x.json());
+    // Se juntan los tramos muy cortos con el anterior para no dar instrucciones de 5 metros.
+    const pasos = [];
+    for (const s of r.routes[0].legs[0].steps) {
+      const previo = pasos.at(-1)?.s;
+      const mismaCalle = previo && s.name && s.name === previo.name && ["continue", "new name"].includes(s.maneuver.type);
+      if (previo && s.maneuver.type !== "arrive" && (s.distance < 15 || mismaCalle)) { previo.distance += s.distance; continue; }
+      pasos.push({ s, lat: s.maneuver.location[1], lon: s.maneuver.location[0] });
+    }
+    const refs = (await reportesCerca(parada.lat, parada.lon, 60)).filter((x) => x.tipo === "referencia" && x.descripcion);
+    if (!guia.activa || guia.fase !== "parada") return;
+    guia.pasosPie = pasos.slice(0, 10).map((p) => ({ ...p, ...textoPasoPie(p.s, parada.nombre) }));
+    if (refs.length) guia.pasosPie.at(-1).referencia = refs[0].descripcion;
+    guia.pasoPie = 0;
+    pintarPasosPie();
+  } catch {}
+}
+function pintarPasosPie() {
+  const lista = $("pasosPie");
+  lista.innerHTML = guia.pasosPie.map((p, i) => `<li class="${i === guia.pasoPie ? "actual" : i < guia.pasoPie ? "hecho" : ""}"><span class="fila-texto"><span>${escapar(p.texto)}</span>${p.tramo ? `<small>${p.tramo}</small>` : ""}${p.referencia ? `<small translate="no">${escapar(p.referencia)}</small>` : ""}</span></li>`).join("");
+  lista.hidden = false;
+}
+// Al acercarse a la siguiente vuelta, se marca y se dice.
+function avanzarPie(lat, lon) {
+  const pasos = guia.pasosPie;
+  if (!pasos) return;
+  const sig = pasos[guia.pasoPie + 1];
+  if (!sig || Grieta.metros(lat, lon, sig.lat, sig.lon) > 20) return;
+  guia.pasoPie++;
+  pintarPasosPie();
+  hablar([sig.texto, sig.tramo ? `, ${sig.tramo}` : "", sig.referencia ? `. ${sig.referencia}` : ""].join(""));
+}
 function iniciarGuia(o) {
   terminarGuia();
   const tramos = o.pasos.filter((p) => p.tipo === "camion");
@@ -2107,7 +2205,10 @@ function iniciarGuia(o) {
   const c = guia.camion;
   decir(inicio.tipo === "app" ? `Pide ${Grieta.nombreApp(inicio.app)} a ${inicio.parada}` : frase("camina_parada", { parada: inicio.parada }),
     [`Ahí tomas la línea ${c.linea} hacia ${c.hacia}, a las ${hora(c.sale)} según el horario.`, tramos.length > 1 ? [" ", frase("despues_transbordo")] : "", " Te aviso antes de bajar."], "Hacia la parada");
-  if (!guia.enApp) medirCaminata(estado.gps ?? estado.origen, c.recorrido[0]);
+  if (!guia.enApp) {
+    medirCaminata(estado.gps ?? estado.origen, c.recorrido[0]);
+    indicacionesPie(estado.gps ?? estado.origen, c.recorrido[0]);
+  }
   programarAvisos(tramos);
   seguir(avanzarCamion);
 }
@@ -2247,7 +2348,9 @@ function avanzarCamion(lat, lon, velocidad = 0) {
   const ultimo = guia.k === guia.tramos.length - 1;
   const d = r.map((x) => Grieta.metros(lat, lon, x.lat, x.lon));
   if (guia.fase === "parada" || guia.fase === "esperando") {
+    if (guia.fase === "parada") avanzarPie(lat, lon);
     if (guia.fase === "parada" && d[0] < 40) {
+      $("pasosPie").hidden = true;
       guia.fase = "esperando";
       vibrar([300, 120, 300]);
       decir(frase("llegaste_parada"), [`${r[0].nombre}. `, frase("espera_linea", { linea: c.linea, hacia: c.hacia }), "; ", frase("horario_pasa", { hora: hora(c.sale) }), ". ", frase("aviso_pasar")], "En la parada");
@@ -2365,6 +2468,8 @@ $("compartir").addEventListener("click", () => {
 
 function terminarGuia() {
   clearTimeout(guia.confirmar);
+  guia.pasosPie = null;
+  $("pasosPie").hidden = true;
   cancelarAvisos();
   restaurarTerminar();
   if (!$("chofer").hidden) tarjetaChofer(false);
@@ -2412,16 +2517,27 @@ function rutinaSugerida() {
     veces.set(h.nombre, x);
   }
   const yo = estado.gps ?? estado.origen;
-  return [...veces.values()]
-    .filter((x) => x.n >= 2 && (!yo || Grieta.metros(yo.lat, yo.lon, x.lat, x.lon) > 300))
-    .sort((a, b) => b.n - a.n)[0] ?? null;
+  const lejos = (x) => !yo || Grieta.metros(yo.lat, yo.lon, x.lat, x.lon) > 500;
+  const deHistorial = [...veces.values()].filter((x) => x.n >= 2 && lejos(x)).sort((a, b) => b.n - a.n)[0];
+  if (deHistorial) return deHistorial;
+  // Sin historial, por la hora: de noche a casa; entre semana temprano, a la escuela o al trabajo guardados.
+  const m = minutoDe(ahora);
+  const casa = guardados.find((g) => g.nombre === "Casa");
+  if ((m >= 18 * 60 || m < 2 * 60) && casa && lejos(casa)) return { ...casa, porHora: true };
+  if (!finde(ahora) && m >= 330 && m <= 630) {
+    const destino = guardados.find((g) => ["escuela", "trabajo"].includes(iconoLugar(g.nombre)) && lejos(g));
+    if (destino) return { ...destino, porHora: true };
+  }
+  return null;
 }
 function pintarRutina() {
   const r = rutinaSugerida();
   $("rutina").hidden = !r;
   $("vozRutina").hidden = !r;
   if (!r) return;
-  $("rutinaTexto").textContent = `¿Vas a ${r.nombre}?`;
+  $("rutinaFicha").innerHTML = miniFicha(tonoLugar(r.nombre, 0), picto(iconoLugar(r.nombre)));
+  $("rutinaTexto").textContent = r.nombre === "Casa" ? "¿Ya vas a casa?" : `¿Vas a ${r.nombre}?`;
+  $("rutinaDetalle").textContent = r.porHora ? "Toca y te digo cómo llegar desde aquí." : "Como otros días a esta hora. Toca para ver cómo llegar";
   $("vozRutina").querySelector("span").textContent = `Ir a ${r.nombre}`;
   estado.rutina = { nombre: r.nombre, lat: r.lat, lon: r.lon };
 }
@@ -3410,3 +3526,32 @@ $("avisarChofer").addEventListener("click", () => {
 $("choferVoz").addEventListener("click", () => hablar(`${Interfaz.original($("choferDestino"))} ¿Me avisa cuando lleguemos, por favor?`, false, false, true));
 $("choferCerrar").addEventListener("click", () => tarjetaChofer(false));
 addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("chofer").hidden) tarjetaChofer(false); });
+
+// Instalar como app: Android y Chrome traen su dialogo; en iPhone se explica Compartir y Agregar a inicio.
+let pedirInstalar = null;
+const instalada = () => matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+const esIphone = /iphone|ipad|ipod/i.test(navigator.userAgent);
+function pintarInstalar() {
+  $("instalar").hidden = instalada() || leer("grieta-instalar-no", false) || !(pedirInstalar || esIphone);
+  if (esIphone && !pedirInstalar) {
+    $("instalarComo").textContent = "En Safari toca Compartir y luego Agregar a inicio.";
+    $("instalarSi").hidden = true;
+  }
+}
+addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  pedirInstalar = e;
+  pintarInstalar();
+});
+$("instalarSi").addEventListener("click", async () => {
+  if (!pedirInstalar) return;
+  pedirInstalar.prompt();
+  await pedirInstalar.userChoice;
+  pedirInstalar = null;
+  pintarInstalar();
+});
+$("instalarNo").addEventListener("click", () => {
+  escribir("grieta-instalar-no", true);
+  pintarInstalar();
+});
+pintarInstalar();

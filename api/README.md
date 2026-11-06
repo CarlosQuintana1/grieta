@@ -23,7 +23,7 @@ cadena de conexión de la base.
 npm test
 ```
 
-Son 48 pruebas de las rutas sobre una base en memoria, así que no tocan `database.sqlite`. En
+Son 50 pruebas de las rutas sobre una base en memoria, así que no tocan `database.sqlite`. En
 `postman/` está la colección con todas las rutas, en el orden en que las probamos.
 
 ## Estructura
@@ -59,6 +59,10 @@ se calcula aquí con 135.7 g/km (meta de la NOM-163-SEMARNAT-ENER-SCFI-2013 para
 lugares, hora, usuario ni IP. `GET /api/impacto` devuelve la suma (viajes, km y kg de CO₂) que muestra el inicio.
 Con la clave del equipo, `POST /api/viajes/demo` mete un viaje marcado como demostración (para que el
 contador no arranque vacío en una presentación) y `DELETE /api/viajes/demo` los borra todos.
+
+`POST /api/reportes/:id/verificar` con `{ "sigue": true|false }` registra si un reporte de parada sigue así o ya lo
+arreglaron, sin datos de quien lo dice. `GET /api/reportes?lat=&lon=` trae `sigue` y `arreglado` de cada uno y ya no
+muestra los que al menos 2 personas dijeron arreglados y son mayoría.
 
 `GET /api/camiones/ocupacion?lineas=L55,C69` dice qué líneas suelen ir llenas a esta hora: cada "viene lleno" se
 guarda solo con la línea, la fecha y la hora (sin ubicación ni persona), y una línea cuenta si lo avisaron en al menos

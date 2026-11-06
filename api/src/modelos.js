@@ -81,6 +81,11 @@ export const LlenoCamion = sequelize.define("LlenoCamion", {
   finde: { type: DataTypes.BOOLEAN, allowNull: false },
 }, { tableName: "llenos_camion", timestamps: false });
 
+// "¿Sigue asi?": la gente confirma o desmiente un reporte de una parada, sin datos de quien lo dice.
+export const VerificacionReporte = sequelize.define("VerificacionReporte", {
+  sigue: { type: DataTypes.BOOLEAN, allowNull: false },
+}, { tableName: "verificaciones_reporte", updatedAt: false });
+
 // RESTRICT: un lugar, una ruta o un usuario con datos ligados no se puede borrar.
 const llave = (name, onDelete = "RESTRICT") => ({ foreignKey: { name, allowNull: false }, onDelete });
 
@@ -109,3 +114,5 @@ Usuario.hasMany(Reporte, { foreignKey: "usuario_id", onDelete: "SET NULL" });
 Reporte.belongsTo(Usuario, { foreignKey: "usuario_id", onDelete: "SET NULL" });
 Usuario.hasMany(PrecioReportado, { foreignKey: "usuario_id", onDelete: "SET NULL" });
 PrecioReportado.belongsTo(Usuario, { foreignKey: "usuario_id", onDelete: "SET NULL" });
+Reporte.hasMany(VerificacionReporte, { foreignKey: { name: "reporte_id", allowNull: false }, onDelete: "CASCADE" });
+VerificacionReporte.belongsTo(Reporte, { foreignKey: { name: "reporte_id", allowNull: false }, onDelete: "CASCADE" });

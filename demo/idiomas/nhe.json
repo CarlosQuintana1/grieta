@@ -5812,6 +5812,171 @@
       "clave": "texto_2c61bffd5a",
       "es": "¿Otro día u hora?",
       "nhe": "¿Seyok tonali o seyok hora?"
+    },
+    {
+      "clave": "texto_93c341a61e",
+      "es": "Instala Grieta en tu teléfono",
+      "nhe": "Xijtlali Grieta ipan mocelular"
+    },
+    {
+      "clave": "texto_063298e453",
+      "es": "Ábrela como cualquier app, sin buscarla en el navegador.",
+      "nhe": "Xijtlapo kej se aplicación, amo xijtemo ipan nopa navegador."
+    },
+    {
+      "clave": "texto_955f24d62c",
+      "es": "En Safari toca Compartir y luego Agregar a inicio.",
+      "nhe": "Ipan Safari, xijtsonpechili Xijxelo uan teipa Xijtlali ipan mochaj."
+    },
+    {
+      "clave": "texto_8e8a1dd486",
+      "es": "Instalar",
+      "nhe": "Tlatlaliya"
+    },
+    {
+      "clave": "texto_ff720ed2a4",
+      "es": "¿Ya vas a casa?",
+      "nhe": "¿Nojua ti yas mochaj?"
+    },
+    {
+      "clave": "texto_96372e4657",
+      "es": "Toca y te digo cómo llegar desde aquí.",
+      "nhe": "Xijtoquili huan nimitzilhuis quenicatza tiajsiti ten nica."
+    },
+    {
+      "clave": "texto_5ef4089951",
+      "es": "Precio justo",
+      "nhe": "Tlaxtlauili tlen xitlauak"
+    },
+    {
+      "clave": "texto_81fe500600",
+      "es": "Un poco caro: {v1} más de lo normal",
+      "nhe": "Se kentsi patiyo: {v1} más tlen nochipa"
+    },
+    {
+      "clave": "texto_a4929b6152",
+      "es": "Muy caro: {v1} más de lo normal",
+      "nhe": "Tlahuel patiyo: {v1} más tlen nochipa"
+    },
+    {
+      "clave": "texto_d49e349a31",
+      "es": "Camina",
+      "nhe": "Xinejnemi"
+    },
+    {
+      "clave": "texto_998ce0e374",
+      "es": "Camina por {v1}",
+      "nhe": "Xinejnemi ipan {v1}"
+    },
+    {
+      "clave": "texto_a75498f6be",
+      "es": "Sigue derecho",
+      "nhe": "Xi ya xitlauak"
+    },
+    {
+      "clave": "texto_d566d9d293",
+      "es": "Sigue derecho por {v1}",
+      "nhe": "Xi ya xitlauak ipan {v1}"
+    },
+    {
+      "clave": "texto_13e5e7e018",
+      "es": "Da vuelta a la izquierda",
+      "nhe": "Ximokuepa ika moarraves"
+    },
+    {
+      "clave": "texto_bc44a553ed",
+      "es": "Da vuelta a la izquierda por {v1}",
+      "nhe": "Ximokuepa ika moarraves ipan {v1}"
+    },
+    {
+      "clave": "texto_92903a97fe",
+      "es": "Da vuelta a la derecha",
+      "nhe": "Ximokuepa ika monejmatl"
+    },
+    {
+      "clave": "texto_dad859cf1f",
+      "es": "Da vuelta a la derecha por {v1}",
+      "nhe": "Ximokuepa ika monejmatl ipan {v1}"
+    },
+    {
+      "clave": "texto_c7a8877fd7",
+      "es": "Da vuelta un poco a la izquierda",
+      "nhe": "Ximokuepa se kentsi ika moarraves"
+    },
+    {
+      "clave": "texto_73a1bd7556",
+      "es": "Da vuelta un poco a la izquierda por {v1}",
+      "nhe": "Ximokuepa se kentsi ika moarraves ipan {v1}"
+    },
+    {
+      "clave": "texto_34a3f61174",
+      "es": "Da vuelta un poco a la derecha",
+      "nhe": "Ximokuepa se kentsi ika monejmatl"
+    },
+    {
+      "clave": "texto_8c8786c24b",
+      "es": "Da vuelta un poco a la derecha por {v1}",
+      "nhe": "Ximokuepa se kentsi ika monejmatl ipan {v1}"
+    },
+    {
+      "clave": "texto_bdead54ece",
+      "es": "Da vuelta de regreso",
+      "nhe": "Ximokuepa"
+    },
+    {
+      "clave": "texto_0e405a3257",
+      "es": "Da vuelta de regreso por {v1}",
+      "nhe": "Ximokuepa ipan {v1}"
+    },
+    {
+      "clave": "texto_d8dd276243",
+      "es": "Llegas a la parada {v1}",
+      "nhe": "Tiajsi kampa timoketsa {v1}"
+    },
+    {
+      "clave": "texto_3c89758b56",
+      "es": "{v1} metros",
+      "nhe": "{v1} metros"
+    },
+    {
+      "clave": "texto_1ae880bd80",
+      "es": "{v1} kilómetros",
+      "nhe": "{v1} kilómetros"
+    },
+    {
+      "clave": "texto_12a3b883b2",
+      "es": "Lo confirmó 1 persona",
+      "nhe": "1 maseuali ki ijto"
+    },
+    {
+      "clave": "texto_0dff8f3e6e",
+      "es": "Lo confirmaron {v1} personas",
+      "nhe": "{v1} maseualmej ki neltokakej"
+    },
+    {
+      "clave": "texto_771e9575ab",
+      "es": "Sigue así",
+      "nhe": "kenopa xinemi"
+    },
+    {
+      "clave": "texto_08ae117c84",
+      "es": "Ya lo arreglaron",
+      "nhe": "Ya kiyektlalijtokej"
+    },
+    {
+      "clave": "texto_00b7da2c00",
+      "es": "Gracias, así otros saben cómo está.",
+      "nhe": "Tlaskamati, pampa sekinok kimatij kenijkatsa eltok."
+    },
+    {
+      "clave": "texto_faa6ef435c",
+      "es": "Cómo llegar a la parada",
+      "nhe": "Kenijkatsa tias kampa timoketsas"
+    },
+    {
+      "clave": "texto_29cb999b0c",
+      "es": "La misma indicación en Lengua de Señas Mexicana",
+      "nhe": "San se tlajtoli ika señas mexicana"
     }
   ],
   "adaptaciones": [
@@ -5979,6 +6144,41 @@
       "clave": "texto_05574cc7e4",
       "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
       "criterio": "Fragmento de la traducción automática de «Cuesta {v1} menos»; sola salió «amo» (no)."
+    },
+    {
+      "clave": "texto_93c341a61e",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "La traducción automática cambió «Grieta» por «Crack»; se restituye el nombre."
+    },
+    {
+      "clave": "texto_5ef4089951",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Mayúscula inicial como en el texto fuente."
+    },
+    {
+      "clave": "texto_d49e349a31",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Forma imperativa de la traducción automática de «Camina por {v1}»."
+    },
+    {
+      "clave": "texto_d566d9d293",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Se agrega «ipan» (por), como en las demás instrucciones con calle."
+    },
+    {
+      "clave": "texto_c7a8877fd7",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Se usa «moarraves» como en la misma frase con calle."
+    },
+    {
+      "clave": "texto_bdead54ece",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Mayúscula inicial como en el texto fuente."
+    },
+    {
+      "clave": "texto_0e405a3257",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "La salida automática usaba «para»; se usa «ipan» como en las demás instrucciones con calle."
     }
   ]
 }

@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { borrarFoto, guardarFoto, tipoValido } from "../almacen.js";
-import { Reporte } from "../modelos.js";
+import { Op } from "sequelize";
+import { Reporte, VerificacionReporte } from "../modelos.js";
 import { esDelEquipo } from "../seguridad.js";
 
 // Fuera del equipo, la foto se sube una sola vez y poco despues de crear el reporte.
@@ -26,10 +27,25 @@ export const reportes = {
     const lon = Number(req.query.lon);
     if (!Number.isFinite(lat) || !Number.isFinite(lon)) return res.json(todos);
     const radio = Math.min(Number(req.query.radio) || 300, 2000);
-    res.json(todos
+    const cerca = todos
       .map((r) => ({ ...r.toJSON(), metros: Math.round(metros(lat, lon, r.lat, r.lon)) }))
       .filter((r) => r.metros <= radio)
-      .sort((a, b) => a.metros - b.metros));
+      .sort((a, b) => a.metros - b.metros);
+    // Cuantos dijeron que sigue asi o que ya lo arreglaron; se oculta si al menos 2 dicen arreglado y son mas.
+    const votos = await VerificacionReporte.findAll({ where: { reporte_id: { [Op.in]: cerca.map((r) => r.id) } }, attributes: ["reporte_id", "sigue"], raw: true });
+    for (const r of cerca) {
+      const suyos = votos.filter((v) => v.reporte_id === r.id);
+      r.sigue = suyos.filter((v) => v.sigue).length;
+      r.arreglado = suyos.length - r.sigue;
+    }
+    res.json(cerca.filter((r) => !(r.arreglado >= 2 && r.arreglado > r.sigue)));
+  },
+  verificar: async (req, res) => {
+    const reporte = await Reporte.findByPk(req.params.id);
+    if (!reporte) return noExiste(res);
+    if (typeof req.body?.sigue !== "boolean") return res.status(400).json({ error: "Di si sigue así o ya lo arreglaron" });
+    await VerificacionReporte.create({ reporte_id: reporte.id, sigue: req.body.sigue });
+    res.status(201).json({ ok: true });
   },
   // La foto llega como el cuerpo de la peticion, con su Content-Type de imagen.
   subirFoto: async (req, res) => {

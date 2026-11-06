@@ -6,6 +6,7 @@ export const reportesRouter = Router()
   .get("/", reportes.listar)
   .get("/:id", reportes.ver)
   .post("/", reportes.crear)
+  .post("/:id/verificar", reportes.verificar)
   .post("/:id/foto", express.raw({ type: "image/*", limit: TAMANO_MAXIMO }), reportes.subirFoto)
   .put("/:id", reportes.modificar)
   .delete("/:id", reportes.borrar);

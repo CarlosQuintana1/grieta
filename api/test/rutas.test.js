@@ -402,3 +402,22 @@ describe("Tiempo en auto con tráfico", () => {
     if (llave) process.env.AZURE_MAPS_KEY = llave;
   });
 });
+
+describe("Reportes verificados por la gente", () => {
+  test("cualquiera confirma o desmiente un reporte y se oculta si lo arreglaron", async () => {
+    const r = (await publico().post("/api/reportes").send({ tipo: "sin_rampa", lat: 20.61, lon: -100.41 }).expect(201)).body;
+    await publico().post(`/api/reportes/${r.id}/verificar`).send({ sigue: true }).expect(201);
+    let lista = (await publico().get("/api/reportes?lat=20.61&lon=-100.41&radio=20").expect(200)).body;
+    assert.equal(lista.find((x) => x.id === r.id).sigue, 1);
+    await publico().post(`/api/reportes/${r.id}/verificar`).send({ sigue: false }).expect(201);
+    await publico().post(`/api/reportes/${r.id}/verificar`).send({ sigue: false }).expect(201);
+    lista = (await publico().get("/api/reportes?lat=20.61&lon=-100.41&radio=20").expect(200)).body;
+    assert.equal(lista.some((x) => x.id === r.id), false);
+  });
+
+  test("pide sí o no y un reporte que exista", async () => {
+    await publico().post("/api/reportes/999999/verificar").send({ sigue: true }).expect(404);
+    const r = (await publico().post("/api/reportes").send({ tipo: "sin_techo", lat: 20.62, lon: -100.42 }).expect(201)).body;
+    await publico().post(`/api/reportes/${r.id}/verificar`).send({ sigue: "tal vez" }).expect(400);
+  });
+});

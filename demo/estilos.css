@@ -266,6 +266,9 @@ html.grande body.con-mapa .hoja { max-height: 80%; }
 .tarjeta.principal .precio { color: var(--ambar); }
 .seccion-viaje { margin-top: 14px; padding: 14px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); }
 .seccion-viaje h2 { margin: 0 0 10px; }
+.semaforo { margin: 14px 0 0; padding: 10px 12px; border-radius: 12px; font-weight: 800; color: var(--tinta);
+  border-left: 4px solid var(--tono-semaforo); background: color-mix(in srgb, var(--tono-semaforo) 14%, transparent); }
+.semaforo.justo { --tono-semaforo: var(--verde); } .semaforo.caro { --tono-semaforo: var(--ambar); } .semaforo.muy-caro { --tono-semaforo: var(--cuidado); }
 .respuesta-espera { margin-bottom: 12px; padding: 10px 12px; border-radius: 12px; font-weight: 700; color: var(--tinta);
   border-left: 4px solid var(--tono-espera, var(--ambar)); background: color-mix(in srgb, var(--tono-espera, var(--ambar)) 13%, transparent); }
 .respuesta-espera.baja { --tono-espera: var(--verde); } .respuesta-espera.sube { --tono-espera: var(--cuidado); } .respuesta-espera.igual { --tono-espera: var(--ambar); }
@@ -679,9 +682,14 @@ button:active, .boton:active, .chip:active, .tarjeta:active, .app-fila:active, .
 .sugerencia { display: flex; align-items: center; gap: 12px; width: 100%; margin-top: 12px; padding: 12px 14px; border-radius: var(--radio);
   background: var(--superficie); border: 2px solid var(--ambar); text-align: left; }
 .sugerencia .icono { color: var(--ambar); }
+.sugerencia .fila-texto strong { font-size: 1.15rem; }
+.sugerencia .mini-ficha { width: 48px; height: 48px; }
 .en-carro { display: flex; align-items: center; gap: 12px; margin-top: 18px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
 .en-carro .fila-texto strong { font-weight: 700; }
 #estacionaSigue { margin-top: 10px; }
+.instalar { display: flex; align-items: center; gap: 12px; margin-top: 22px; padding: 12px 10px 12px 14px; border-radius: var(--radio); background: var(--superficie); }
+.instalar img { flex: none; border-radius: 12px; }
+.instalar .icono-boton { flex: none; }
 .impacto-todos { display: flex; gap: 12px; align-items: center; margin-top: 12px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
 .impacto-todos > .icono { flex: none; width: 22px; height: 22px; color: var(--verde); }
 .impacto-todos strong { display: block; color: var(--verde); }
@@ -988,3 +996,14 @@ html.modo-voz :is(button,a,input,select,textarea,label) { touch-action: manipula
 
 #camionesUbicacion:empty { display: none; }
 .parada-cerca + .a-pie { margin-top: 12px; }
+.pasos-pie { margin: 12px 0 4px; padding: 0; list-style: none; counter-reset: paso; }
+.pasos-pie li { counter-increment: paso; display: flex; gap: 10px; padding: 8px 0; color: var(--tenue); border-bottom: 1px solid var(--linea); }
+.pasos-pie li::before { content: counter(paso); flex: none; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--superficie); color: var(--tenue); font-weight: 700; font-size: .85rem; }
+.pasos-pie li.actual { color: var(--tinta); font-weight: 700; }
+.pasos-pie li.actual::before { background: var(--ambar); color: var(--sobre-ambar); }
+.pasos-pie li.hecho { opacity: .5; }
+.pasos-pie li small { display: block; color: var(--tenue); font-weight: 400; }
+.verificar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.verificar .boton-chico { min-height: 40px; }
+.guia-senas { display: block; width: min(60%, 220px); margin: 10px 0; border-radius: var(--radio); background: var(--superficie); }

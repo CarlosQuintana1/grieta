@@ -42,7 +42,7 @@ const Interfaz = (() => {
       const nombre = p.slice(1, -1);
       nombres.push(nombre);
       const opciones = m.variables?.[nombre]?.opciones;
-      const formato = { kg: "\\d+(?:\\.\\d)? kg", importe: "\\$-?[\\d.,]+", rango: "\\$[\\d.,]+–[\\d.,]+", numero: "-?\\d+", hora: "\\d{1,2}:\\d{2} (?:am|pm)", rango_voz: "entre \\d+ y \\d+ pesos", precio_voz: "(?:precio estimado entre \\d+ y \\d+|\\d+) pesos" }[m.variables?.[nombre]?.formato];
+      const formato = { decimal: "\\d+(?:\\.\\d+)?", kg: "\\d+(?:\\.\\d)? kg", importe: "\\$-?[\\d.,]+", rango: "\\$[\\d.,]+–[\\d.,]+", numero: "-?\\d+", hora: "\\d{1,2}:\\d{2} (?:am|pm)", rango_voz: "entre \\d+ y \\d+ pesos", precio_voz: "(?:precio estimado entre \\d+ y \\d+|\\d+) pesos" }[m.variables?.[nombre]?.formato];
       return Array.isArray(opciones) ? `(${opciones.map(literal).join("|")})` : `(${formato ?? ".*?"})`;
     }).join("");
     return { ...m, nombres, patron: new RegExp(`^${patron}$`, "u"), peso: normalizar(m.es).replace(/\{\w+\}/g, "").length };

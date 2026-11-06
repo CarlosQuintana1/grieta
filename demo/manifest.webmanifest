@@ -1,7 +1,7 @@
 {
   "name": "Grieta",
   "short_name": "Grieta",
-  "description": "Cuánto debería costar tu viaje en Uber, DiDi o inDrive, y si conviene Qrobus.",
+  "description": "Camión, app o carro: cuánto cuesta cada uno, cuánto tardas y cuánto CO₂ evitas en Querétaro.",
   "lang": "es-MX",
   "start_url": "./",
   "display": "standalone",
@@ -17,6 +17,12 @@
       "src": "icono-512.png",
       "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "icono-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "shortcuts": [
@@ -56,5 +62,6 @@
         }
       ]
     }
-  ]
+  ],
+  "id": "./"
 }

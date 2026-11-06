@@ -3686,6 +3686,131 @@
       "clave": "texto_2c61bffd5a",
       "es": "¿Otro día u hora?",
       "otq": "¿Ma'na ar pa wa ya t'olo ora?"
+    },
+    {
+      "clave": "texto_93c341a61e",
+      "es": "Instala Grieta en tu teléfono",
+      "otq": "Instalar Grieta ja ir teléfono"
+    },
+    {
+      "clave": "texto_063298e453",
+      "es": "Ábrela como cualquier app, sin buscarla en el navegador.",
+      "otq": "Abrir nä'ä komongu 'na nt'ot'e, hinda honi nä'ä ja ar navegador."
+    },
+    {
+      "clave": "texto_955f24d62c",
+      "es": "En Safari toca Compartir y luego Agregar a inicio.",
+      "otq": "Jar Safari, pulse t'uni ne gem'bu̲ Agregar jar Inicio."
+    },
+    {
+      "clave": "texto_ff720ed2a4",
+      "es": "¿Ya vas a casa?",
+      "otq": "¿Ya gi ma̲ jar nguul?"
+    },
+    {
+      "clave": "texto_5ef4089951",
+      "es": "Precio justo",
+      "otq": "Ar precio xa hño"
+    },
+    {
+      "clave": "texto_81fe500600",
+      "es": "Un poco caro: {v1} más de lo normal",
+      "otq": "'Naxtu̲i hmädi: {v1} mäs nä'ä normal"
+    },
+    {
+      "clave": "texto_a4929b6152",
+      "es": "Muy caro: {v1} más de lo normal",
+      "otq": "Di hmädi: {v1} mäs nä'ä da costumbre"
+    },
+    {
+      "clave": "texto_d49e349a31",
+      "es": "Camina",
+      "otq": "Gi 'ño"
+    },
+    {
+      "clave": "texto_a75498f6be",
+      "es": "Sigue derecho",
+      "otq": "Gi 'na na"
+    },
+    {
+      "clave": "texto_13e5e7e018",
+      "es": "Da vuelta a la izquierda",
+      "otq": "Giri 'na jar izquierda"
+    },
+    {
+      "clave": "texto_bc44a553ed",
+      "es": "Da vuelta a la izquierda por {v1}",
+      "otq": "Gire a la izquierda jar {v1}"
+    },
+    {
+      "clave": "texto_92903a97fe",
+      "es": "Da vuelta a la derecha",
+      "otq": "Giri ar derecha"
+    },
+    {
+      "clave": "texto_dad859cf1f",
+      "es": "Da vuelta a la derecha por {v1}",
+      "otq": "Gire a la derecha jar {v1}"
+    },
+    {
+      "clave": "texto_c7a8877fd7",
+      "es": "Da vuelta un poco a la izquierda",
+      "otq": "Giri 'naxtu̲i ma 'na jar izquierda"
+    },
+    {
+      "clave": "texto_73a1bd7556",
+      "es": "Da vuelta un poco a la izquierda por {v1}",
+      "otq": "Gire 'naxtu̲i ar izquierda jar {v1}"
+    },
+    {
+      "clave": "texto_34a3f61174",
+      "es": "Da vuelta un poco a la derecha",
+      "otq": "Giri 'naxtu̲i ma derecha"
+    },
+    {
+      "clave": "texto_8c8786c24b",
+      "es": "Da vuelta un poco a la derecha por {v1}",
+      "otq": "Gire 'naxtu̲i ma derecha jar {v1}"
+    },
+    {
+      "clave": "texto_bdead54ece",
+      "es": "Da vuelta de regreso",
+      "otq": "Gi pengi"
+    },
+    {
+      "clave": "texto_d8dd276243",
+      "es": "Llegas a la parada {v1}",
+      "otq": "Tso̲ho̲ jar parada {v1}"
+    },
+    {
+      "clave": "texto_12a3b883b2",
+      "es": "Lo confirmó 1 persona",
+      "otq": "Bí confirmado ya 1 jä'i"
+    },
+    {
+      "clave": "texto_0dff8f3e6e",
+      "es": "Lo confirmaron {v1} personas",
+      "otq": "{v1} ya jä'i bí confirmaron"
+    },
+    {
+      "clave": "texto_771e9575ab",
+      "es": "Sigue así",
+      "otq": "Te̲ni nja'bu̲"
+    },
+    {
+      "clave": "texto_08ae117c84",
+      "es": "Ya lo arreglaron",
+      "otq": "Ya xi solucionado"
+    },
+    {
+      "clave": "texto_00b7da2c00",
+      "es": "Gracias, así otros saben cómo está.",
+      "otq": "Di jamädi, nja'bu̲ ma 'ra pädi Temu̲ 'bu̲i."
+    },
+    {
+      "clave": "texto_faa6ef435c",
+      "es": "Cómo llegar a la parada",
+      "otq": "Tema zo̲ni jar parada ar autobús"
     }
   ],
   "adaptaciones": [

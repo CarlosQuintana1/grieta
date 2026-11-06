@@ -524,7 +524,7 @@ html.claro .interruptor input::after, html.claro .interruptor input:checked::aft
 .chofer .boton.borde-negro, body.alerta .chofer .boton.borde-negro { background: #fff; color: #000; border: 2px solid #000; }
 
 .en-app { margin-top: 0; }
-.en-app > h2 { margin: 0 0 2px; }
+.en-app > h2 { margin: 0 0 12px; }
 .llegada-app { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 6px 0 12px; color: var(--tenue); font-size: 0.95rem; }
 .llegada-app strong { flex-basis: 100%; color: var(--tinta); font-size: 1.35rem; font-weight: 700; }
 .llegada-app .marca-app { color: var(--ambar); font-weight: 700; }
@@ -1010,3 +1010,8 @@ html.modo-voz :is(button,a,input,select,textarea,label) { touch-action: manipula
 .sin-camion { align-items: center; }
 .sin-camion { padding: 10px 12px; }
 .sin-camion strong { color: var(--cuidado); font-size: 0.92rem; font-weight: 600; }
+/* En Qrobus y En app: su ficha, el titulo grande y una linea de su color hasta la orilla */
+h2.titulo-medio { display: flex; align-items: center; gap: 10px; font-size: 1.15rem; font-weight: 800; color: var(--tinta); text-transform: none; letter-spacing: 0; margin-bottom: 12px; }
+h2.titulo-medio::after { content: ""; flex: 1; height: 2px; border-radius: 2px; background: var(--tono); }
+h2.titulo-medio .mini-ficha { width: 34px; height: 34px; }
+h2.titulo-medio .mini-ficha .picto { width: 20px; height: 20px; }

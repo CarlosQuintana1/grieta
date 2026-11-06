@@ -1123,3 +1123,28 @@ button.impacto-todos { width: 100%; text-align: left; }
 .escena .lagrima { fill: #7cc3e8; } .escena .tl-panza { fill: #c9c6c8; } .escena .tl-trazo.grueso { stroke-width: 2.4; }
 .escena .tl-cria { fill: #c4c1c5; stroke: #8b878d; stroke-width: 1; }
 .bono-titulo { margin-top: 28px; }
+
+/* Alcancia de cristal: colores fijos de la ilustracion */
+.alcancia { display: block; width: 100%; height: auto; margin-top: 4px; }
+.alcancia .sombra { fill: rgb(0 0 0 / 22%); }
+.alcancia .vidrio { fill: rgb(244 178 196 / 16%); stroke: #f0a9bd; stroke-width: 3; stroke-linejoin: round; }
+.alcancia .cuerpo { fill: rgb(244 178 196 / 12%); }
+.alcancia .cola { fill: none; stroke: #f0a9bd; stroke-width: 3; stroke-linecap: round; }
+.alcancia .moneda { fill: #f1bf45; stroke: #b98a1f; stroke-width: 1.2; }
+.alcancia .moneda.cae { fill: #f6cd5a; }
+.alcancia .signo { fill: none; stroke: #9a7016; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.alcancia .meta { stroke: #f0a9bd; stroke-width: 1.5; stroke-dasharray: 4 5; opacity: .7; }
+.alcancia .meta.hecha { stroke: #fff6dc; opacity: .9; }
+.alcancia .meta-texto { fill: var(--tenue); font-size: 12px; font-weight: 700; }
+.alcancia .meta-texto.hecha { fill: var(--verde); }
+.alcancia .brillo { fill: none; stroke: rgb(255 255 255 / 55%); stroke-width: 4; stroke-linecap: round; }
+.alcancia .nariz { fill: #e48aa2; }
+.alcancia .ojo { fill: #2b2228; }
+.alcancia .ojo-brillo { fill: #fff; }
+.alcancia .ranura { fill: #3a2f35; }
+.metas-ahorro { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; padding: 0; }
+.metas-ahorro li { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 999px; font-size: .78rem; font-weight: 700; color: var(--tenue); border: 1px solid var(--linea); }
+.metas-ahorro li.hecha { color: var(--fondo); background: var(--verde); border-color: var(--verde); }
+.metas-ahorro .icono { width: 14px; height: 14px; stroke-width: 3; }
+html.claro .metas-ahorro li.hecha { color: #fff; }
+.co2-semanas-caja[hidden] { display: none; }

@@ -3456,10 +3456,11 @@ const PUERQUITO = ["M11 17h3v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-3a3.16 3.16 0 0 0 
 // Huecos para 41 monedas dentro de la silueta, de abajo hacia arriba (calculados una vez con isPointInFill).
 const HUECOS = [[9.26, 18.56], [16.52, 18.56], [15.62, 16.99], [9.26, 15.42], [11.08, 15.42], [12.89, 15.42], [14.71, 15.42], [16.52, 15.42], [8.35, 13.84], [10.17, 13.84], [11.99, 13.84], [13.8, 13.84], [15.62, 13.84], [17.43, 13.84], [7.45, 12.27], [9.26, 12.27], [11.08, 12.27], [12.89, 12.27], [14.71, 12.27], [16.52, 12.27], [18.34, 12.27], [20.16, 12.27], [6.54, 10.7], [8.35, 10.7], [10.17, 10.7], [11.99, 10.7], [13.8, 10.7], [17.43, 10.7], [7.45, 9.13], [9.26, 9.13], [11.08, 9.13], [12.89, 9.13], [14.71, 9.13], [18.34, 9.13], [8.35, 7.55], [10.17, 7.55], [11.99, 7.55], [13.8, 7.55], [15.62, 7.55], [17.43, 7.55], [16.52, 5.98]];
 function moneda([x, y], i) {
-  // Unas caen de frente y otras de canto, cada una con su giro: se ve como un monton, no como una cuadricula.
-  const giro = ((i * 47) % 70) - 35, cx = x + (((i * 13) % 5) - 2) * 0.06;
-  if (i % 4 === 2) return `<g transform="rotate(${giro} ${cx} ${y})"><rect x="${cx - 1}" y="${y - 0.45}" width="2" height="0.9" rx="0.45" class="canto"/><ellipse cx="${cx}" cy="${y - 0.2}" rx="1" ry="0.42" class="cara"/></g>`;
-  return `<circle cx="${cx}" cy="${y}" r="1" class="cara"/><circle cx="${cx}" cy="${y}" r="0.6" class="aro"/>`;
+  // De frente con canto y "$", ladeadas con su grosor, y una que otra parada: un monton, no una cuadricula.
+  const giro = ((i * 47) % 70) - 35, cx = +(x + (((i * 13) % 5) - 2) * 0.06).toFixed(2);
+  if (i % 9 === 4) return `<g transform="rotate(${giro / 3} ${cx} ${y})"><rect x="${cx - 0.34}" y="${y - 1}" width="0.68" height="2" rx="0.3" class="canto"/><path d="M${cx - 0.12} ${y - 0.7}v1.4M${cx + 0.12} ${y - 0.7}v1.4" class="estria"/></g>`;
+  if (i % 3 === 1) return `<g transform="rotate(${giro} ${cx} ${y})"><ellipse cx="${cx}" cy="${y + 0.24}" rx="1" ry="0.5" class="canto"/><ellipse cx="${cx}" cy="${y}" rx="1" ry="0.5" class="cara"/><ellipse cx="${cx}" cy="${y}" rx="0.66" ry="0.31" class="aro"/></g>`;
+  return `<circle cx="${cx}" cy="${y + 0.2}" r="1" class="canto"/><circle cx="${cx}" cy="${y}" r="1" class="cara"/><circle cx="${cx}" cy="${y}" r="0.74" class="aro"/><text x="${cx}" y="${y + 0.4}" text-anchor="middle" class="signo">$</text>`;
 }
 // Se llenan de abajo hacia arriba y hacia el centro primero, como un monton que crece.
 const ORDEN = HUECOS.map((h, i) => [h, h[1] - 0.45 * Math.abs(h[0] - 12.6), i]).sort((a, b) => b[1] - a[1]).map(([h, , i]) => [h, i]);

@@ -1127,9 +1127,11 @@ button.impacto-todos { width: 100%; text-align: left; }
 .alcancia { display: block; width: 210px; height: 210px; margin: 8px auto 4px; overflow: visible; }
 .alcancia .linea { fill: none; stroke: var(--tinta); stroke-width: .95; stroke-linecap: round; stroke-linejoin: round; }
 .alcancia .ojo { stroke-width: 1.7; }
-.alcancia .cara { fill: #e9a83f; }
+.alcancia .cara { fill: #f0b445; }
 .alcancia .canto { fill: #a8711a; }
-.alcancia .aro { fill: none; stroke: #b37a1c; stroke-width: .16; }
+.alcancia .aro { fill: none; stroke: #c48a22; stroke-width: .13; }
+.alcancia .signo { fill: #b07818; font: 800 1.15px Montserrat, sans-serif; }
+.alcancia .estria { stroke: #d99a33; stroke-width: .1; }
 .ahorro-nota { margin: 4px 0 0; color: var(--tenue); font-size: .82rem; }
 html.claro .ahorro-nota { color: var(--tinta); }
 .filas-dato { margin: 18px 0 0; }

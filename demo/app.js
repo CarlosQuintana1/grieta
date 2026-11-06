@@ -542,6 +542,8 @@ function prepararBuscar(modo) {
   $("tituloPantalla").textContent = titulos.buscar;
   $("campoBuscar").value = "";
   $("campoBuscar").placeholder = modo === "desde" ? "Desde dónde sales" : "Lugar o calle";
+  // Al buscar a donde vas, arriba se ve desde donde sales y se puede cambiar
+  $("filaDesde").hidden = modo === "desde";
   sugerir("");
 }
 function abrirBuscar(modo) {

@@ -562,10 +562,10 @@ html.modo-voz #compararPrecio, html.modo-voz #filaUnidos { display: none; }
 
 /* Perfil: boton sobre el mapa del inicio, con texto para que se entienda sin adivinar el icono. */
 /* Perfil en la cabecera del inicio, junto al titulo */
-.inicio-cabeza { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.inicio-cabeza { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
 .inicio-cabeza h1 { margin: 0; }
 .boton-perfil { flex: none; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; }
-.boton-perfil .avatar.chico { width: 46px; height: 46px; background: var(--superficie); color: var(--ambar); border: 1px solid var(--linea); }
+.boton-perfil .avatar.chico { width: 46px; height: 46px; }
 .boton-perfil .avatar.chico .icono { width: 32px; height: 32px; }
 .tarjeta-perfil { display: flex; align-items: center; gap: 12px; width: 100%; margin-top: 8px; padding: 14px; border-radius: var(--radio);
   background: var(--superficie); border: 2px solid var(--ambar); text-align: left; }
@@ -854,7 +854,7 @@ html.modo-voz #bienvenida .opcion-vista { width: 100%; min-height: 120px; }
 html.modo-voz #bienvenida .opcion-vista strong { font-size: 1.4rem; }
 
 #inicioNormal .titulo-grande { font-size: 1.9rem; }
-#inicioNormal .desde { margin: 10px 0 18px; padding: 4px 4px 4px 14px; align-items: center; font-size: .82rem; border-radius: 999px; background: var(--superficie); border: 1px solid var(--linea); }
+#buscar .desde { margin: 0 0 12px; padding: 4px 4px 4px 14px; align-items: center; font-size: .82rem; border-radius: 999px; background: var(--superficie); border: 1px solid var(--linea); }
 .cambiar-desde { flex: none; min-height: 40px; padding: 0 14px; border-radius: 999px; color: var(--ambar); font-weight: 700; font-size: .9rem; }
 #inicioNormal .lugares { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 #inicioNormal .lugar { flex-direction: row; align-items: center; gap: 10px; min-height: 90px; padding: 12px 10px; text-align: left; background: var(--superficie); border-radius: var(--radio); }

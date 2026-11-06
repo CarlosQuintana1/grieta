@@ -24,3 +24,5 @@ h3 { margin: 22px 0 8px; font-size: 1rem; color: var(--tenue); }
 .horas-grafica span { display: block; border-radius: 4px 4px 0 0; background: var(--ambar); min-height: 2px; position: relative; }
 .horas-grafica span[data-h]::after { content: attr(data-h); position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); font-size: .7rem; color: var(--tenue); }
 @media (min-width: 640px) { .cifras { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.barras .barra.estres { background: var(--rojo, #e76f5b); }
+.sentir-resumen { font-weight: 700; }

@@ -15,6 +15,19 @@ function barras(id, filas, nombre = (x) => x) {
     li.append(etiqueta, barra, total); lista.append(li);
   }
 }
+// Porcentaje de viajes estresados; cada fila muestra cuantas respuestas tiene detras.
+function porcentajes(id, filas) {
+  const lista = $(id);
+  lista.replaceChildren();
+  const conDatos = filas.filter((f) => f.total);
+  if (!conDatos.length) { const li = document.createElement("li"); li.className = "vacio"; li.textContent = "Todavía sin datos."; lista.append(li); return; }
+  for (const f of conDatos) {
+    const li = document.createElement("li"), etiqueta = document.createElement("span"), barra = document.createElement("span"), total = document.createElement("strong");
+    const pct = Math.round((f.estresado / f.total) * 100);
+    etiqueta.textContent = f.clave; barra.className = "barra estres"; barra.style.width = `${pct}%`; total.textContent = `${pct} % de ${numero(f.total)}`;
+    li.append(etiqueta, barra, total); lista.append(li);
+  }
+}
 (async () => {
   try {
     const config = await fetch("datos/config.json").then((r) => r.json()).catch(() => ({}));
@@ -30,6 +43,10 @@ function barras(id, filas, nombre = (x) => x) {
     barras("accesoTipo", d.accesibilidad.porTipo, (t) => TIPOS[t] ?? t);
     barras("accesoParada", d.accesibilidad.porParada);
     barras("llenoLinea", d.lleno.porLinea);
+    const v = d.sentir?.porValor ?? {}, totalSentir = d.sentir?.total ?? 0;
+    $("sentirResumen").textContent = totalSentir ? `${numero(totalSentir)} ${totalSentir === 1 ? "respuesta" : "respuestas"}: ${v.tranquilo ?? 0} tranquilos, ${v.normal ?? 0} normales y ${v.estresado ?? 0} estresados.` : "Todavía sin respuestas.";
+    porcentajes("sentirFranja", d.sentir?.porFranja ?? []);
+    porcentajes("sentirLinea", d.sentir?.porLinea ?? []);
     const tope = Math.max(1, ...d.lleno.porHora);
     $("llenoHora").replaceChildren(...d.lleno.porHora.map((n, h) => {
       const s = document.createElement("span");

@@ -1175,3 +1175,16 @@ html.claro .metas-ahorro li.hecha { color: #fff; }
 .nombres-nuevo .lugar-icono .picto { width: 48%; height: 48%; }
 #otroNuevo input { min-height: 52px; }
 .lugar.recien .lugar-nombre { color: var(--ambar); }
+
+/* ¿Cómo te fue? y Sal a tiempo */
+.como-fue { margin-top: 16px; padding: 14px; border-radius: var(--radio); background: var(--superficie); }
+.como-fue-pregunta { margin: 0 0 8px; font-weight: 800; color: var(--tinta); }
+.como-fue .rutas-queja button[aria-pressed="true"] { background: var(--verde); border-color: var(--verde); color: var(--fondo); }
+.como-fue .rutas-queja button:disabled:not([aria-pressed="true"]) { opacity: .5; }
+.salida-inicio { display: flex; gap: 12px; align-items: center; margin-top: 10px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
+.salida-inicio[hidden] { display: none; }
+.salida-inicio .fila-texto { flex: 1; min-width: 0; }
+.salida-inicio strong { display: block; color: var(--verde); }
+.salida-inicio .fila-texto > span { color: var(--tenue); font-size: .88rem; }
+.salida-inicio .quitar { flex: none; color: var(--ambar); font-weight: 800; }
+.salida-opcion .boton + .boton { margin-top: 8px; }

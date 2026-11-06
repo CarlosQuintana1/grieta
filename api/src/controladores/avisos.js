@@ -12,7 +12,7 @@ let avisos = [];
 const enQueretaro = (lat, lon) => lat >= 20.3 && lat <= 21 && lon >= -100.8 && lon <= -100;
 
 // Fecha, hora y si es fin de semana en Queretaro, para guardar y comparar los "viene lleno".
-function ahoraEnQueretaro(fecha = new Date()) {
+export function ahoraEnQueretaro(fecha = new Date()) {
   const partes = Object.fromEntries(new Intl.DateTimeFormat("en-CA", { timeZone: "America/Mexico_City", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", hourCycle: "h23", weekday: "short" })
     .formatToParts(fecha).map((p) => [p.type, p.value]));
   return { fecha: `${partes.year}-${partes.month}-${partes.day}`, hora: Number(partes.hour), finde: ["Sat", "Sun"].includes(partes.weekday) };

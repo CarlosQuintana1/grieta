@@ -4,6 +4,7 @@ import { auto } from "../controladores/auto.js";
 import { buscar } from "../controladores/buscar.js";
 import { impacto } from "../controladores/impacto.js";
 import { observatorio } from "../controladores/observatorio.js";
+import { sentir } from "../controladores/sentir.js";
 import { consultasRouter } from "./consultas.js";
 import { cotizacionesRouter } from "./cotizaciones.js";
 import { lugaresRouter } from "./lugares.js";
@@ -37,6 +38,7 @@ export const api = Router()
   .post("/notificaciones/cancelar", notificaciones.cancelar)
   // Viajes en camion contados sin datos de la persona, y su suma para el inicio
   .post("/viajes", impacto.registrar)
+  .post("/sentir", sentir.crear)
   .post("/viajes/demo", impacto.demo)
   .delete("/viajes/demo", impacto.quitarDemo)
   .get("/impacto", impacto.total)

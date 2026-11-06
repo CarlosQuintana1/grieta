@@ -229,6 +229,7 @@ function mostrar(nombre) {
     pintarRutina();
     pintarAhorro();
     pintarImpacto();
+    pintarSalida();
     $("invitaPerfil").hidden = acc.modoVoz || leer("grieta-perfil", false) || leer("grieta-invita-cerrada", false);
   }
   if (nombre === "opciones") {
@@ -1298,6 +1299,7 @@ function calcularSalida() {
   if (!camion && !app) return void ($("salida").innerHTML = `<p class="nota">No encontré cómo llegar a esa hora desde ahora. Prueba una hora más tarde.</p>`);
   const bloque = (titulo, x, detalle) => `<div class="salida-opcion"><div class="salida-cabeza">${fichaOpcion(x.o)}
     <div><p class="etiqueta">${titulo}</p><p class="hora-salida">Sal a las ${hora(x.t)}</p></div></div><p>${detalle}</p>
+    ${x.o.tipo === "app" ? "" : `<button type="button" class="boton oscuro" data-avisar="${x.t}" data-que="${escapar(tituloOpcion(x.o))}">Avísame cuándo salir</button>`}
     <button type="button" class="boton oscuro" data-salir="${x.t}">Ver esta ruta</button></div>`;
   $("salida").innerHTML =
     (camion ? bloque("En Qrobus", camion, `${escapar(tituloOpcion(camion.o))}, ${camion.conApp ? "aprox. " : ""}${pesos(camion.o.costo)}. Llegas a las ${hora(camion.t + camion.o.minutos)}.`) : "") +
@@ -1310,6 +1312,8 @@ $("calcularSalida").addEventListener("click", () => {
 });
 // "Ver esta ruta" pone las opciones a esa hora de salida, igual que elegir otra hora en Conviene esperar.
 $("salida").addEventListener("click", (e) => {
+  const aviso = e.target.closest("[data-avisar]");
+  if (aviso) return programarSalida(Number(aviso.dataset.avisar), aviso.dataset.que, aviso);
   const b = e.target.closest("[data-salir]");
   if (!b) return;
   const t = Number(b.dataset.salir);
@@ -2206,6 +2210,7 @@ function iniciarGuia(o) {
   guia.km = sinAuto(o) ? estado.r.directo.km : 0;
   if (guia.km) contarViaje(guia.km);
   ir("guia");
+  $("comoTeFue").hidden = true;
   Object.assign(guia, { activa: true, o, tramos, k: 0, camion: tramos[0], fase: "parada", actual: 0, dichos: new Set(), previo: null, velocidad: null, vueltas: 0, push: null,
     destino: estado.destino, enApp: o.pasos[0].tipo === "app", pie: null });
   dibujar(o);
@@ -2236,15 +2241,19 @@ function iniciarGuia(o) {
 
 // Avisos con la pantalla bloqueada: la API los manda por push a su hora. Hace falta la app instalada y el permiso;
 // si algo falta, la guia sigue igual con voz y vibracion mientras la pantalla este encendida.
+const cuando = (min) => { const d = new Date(); d.setHours(0, 0, 0, 0); d.setMinutes(min); return d.toISOString(); };
+async function suscripcionPush() {
+  if (!API || !("PushManager" in window) || !("Notification" in window)) return null;
+  const permiso = Notification.permission === "default" ? await Notification.requestPermission() : Notification.permission;
+  if (permiso !== "granted") return null;
+  const { clave } = await llamar("/notificaciones/clave");
+  const registro = await navigator.serviceWorker.ready;
+  return (await registro.pushManager.getSubscription()) ?? (await registro.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: clave }));
+}
 async function programarAvisos(tramos) {
   try {
-    if (!API || !("PushManager" in window) || !("Notification" in window)) return;
-    const permiso = Notification.permission === "default" ? await Notification.requestPermission() : Notification.permission;
-    if (permiso !== "granted") return;
-    const { clave } = await llamar("/notificaciones/clave");
-    const registro = await navigator.serviceWorker.ready;
-    const suscripcion = (await registro.pushManager.getSubscription()) ?? (await registro.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: clave }));
-    const cuando = (min) => { const d = new Date(); d.setHours(0, 0, 0, 0); d.setMinutes(min); return d.toISOString(); };
+    const suscripcion = await suscripcionPush();
+    if (!suscripcion) return;
     const ahora = ahoraMin();
     const avisos = tramos.filter((c) => c.sale - 5 > ahora).map((c) => ({ cuando: cuando(c.sale - 5), titulo: `La ${c.linea} pasa en 5 minutos`, texto: `Según el horario, a las ${hora(c.sale)}. Ve a la parada.` }));
     const ultimo = tramos.at(-1);
@@ -2259,6 +2268,46 @@ function cancelarAvisos() {
   llamar("/notificaciones/cancelar", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ endpoint: guia.push }) }).catch(() => {});
   guia.push = null;
 }
+
+// "Sal a tiempo": avisa 10 minutos antes y a la hora de salir para tomar el camion sin esperar de mas.
+// Con la app instalada y el permiso llega por push aunque Grieta este cerrada; si no, la cuenta regresiva vive en el inicio.
+async function programarSalida(t, que, boton) {
+  const destino = estado.destino?.nombre ?? "tu destino";
+  escribir("grieta-salida", { t, que, destino, dia: new Date().toDateString() });
+  pintarSalida();
+  boton.disabled = true;
+  boton.textContent = "Listo, te aviso";
+  let push = false;
+  try {
+    const suscripcion = await suscripcionPush();
+    const avisos = [[t - 10, `En 10 minutos sales a ${destino}`, `${que}. Sal a las ${hora(t)}.`], [t, `Ya es hora de salir a ${destino}`, `${que}. Sal ahora para no esperar de más.`]]
+      .filter(([m]) => m > ahoraMin()).map(([m, titulo, texto]) => ({ cuando: cuando(m), titulo, texto }));
+    if (suscripcion && avisos.length) {
+      await llamar("/notificaciones", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ suscripcion: suscripcion.toJSON(), avisos }) });
+      push = true;
+    }
+  } catch {}
+  const mensaje = push ? `Te aviso a las ${hora(Math.max(ahoraMin(), t - 10))} y a las ${hora(t)}, aunque cierres Grieta.` : `Te aviso a las ${hora(t)} mientras Grieta esté abierta.`;
+  boton.insertAdjacentHTML("afterend", `<p class="nota">${mensaje}</p>`);
+  hablar(mensaje, false, false);
+}
+let relojSalida;
+function pintarSalida() {
+  const s = leer("grieta-salida", null), caja = $("salidaInicio");
+  clearInterval(relojSalida);
+  if (!s || s.dia !== new Date().toDateString() || ahoraMin() > s.t + 15) { caja.hidden = true; return; }
+  const falta = s.t - ahoraMin();
+  caja.hidden = false;
+  caja.innerHTML = `${miniFicha("tono-hospital", picto("qrobus"))}<span class="fila-texto"><strong>${falta > 0 ? `Sal en ${falta} ${falta === 1 ? "minuto" : "minutos"}` : "Ya es hora de salir"}</strong><span>A ${escapar(s.destino)} · ${escapar(s.que)} · ${hora(s.t)}</span></span>
+    <button type="button" class="quitar" data-quitar-salida>Quitar</button>`;
+  if (falta <= 0 && !s.dicho) { escribir("grieta-salida", { ...s, dicho: true }); vibrar([400, 150, 400]); hablar(`Ya es hora de salir a ${s.destino}.`); }
+  relojSalida = setInterval(pintarSalida, 30000);
+}
+$("salidaInicio").addEventListener("click", (e) => {
+  if (!e.target.closest("[data-quitar-salida]")) return;
+  escribir("grieta-salida", null);
+  pintarSalida();
+});
 
 // "Ya pasó" y "Viene lleno": lo que ve la gente en la parada, para quien espera ahí mismo
 async function avisarParada(tipo) {
@@ -2420,6 +2469,7 @@ function avanzarCamion(lat, lon, velocidad = 0) {
       }
       guia.fase = "fin";
       guia.actual = r.length - 1;
+      mostrarComoFue();
       $("yaMeSubi").hidden = true;
       const fin = guia.o.pasos.at(-1);
       decir(frase("bajate"), `${final.nombre}. ${fin.tipo === "caminar" ? `Después camina unos ${Math.max(1, Math.round(fin.min))} minutos a tu destino.` : `Después pide ${Grieta.nombreApp(fin.app)} a tu destino.`}`, "Tu parada", true);
@@ -2496,6 +2546,24 @@ function compartirViaje() {
 $("compartir").addEventListener("click", compartirViaje);
 $("reportarInicio").addEventListener("click", () => abrirReporte());
 
+// "¿Cómo te fue?" al bajar: una respuesta por linea del viaje, sin ubicacion. Arma el mapa de estres del Observatorio.
+function mostrarComoFue() {
+  const caja = $("comoTeFue");
+  caja.hidden = false;
+  caja.querySelectorAll("[data-sentir]").forEach((b) => { b.disabled = false; b.removeAttribute("aria-pressed"); });
+  caja.querySelector(".nota").textContent = "Solo se guarda la línea y la hora, nunca dónde estás. Se suma al Observatorio de la ciudad.";
+}
+$("comoTeFue").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-sentir]");
+  if (!b || b.disabled) return;
+  const lineas = [...new Set((guia.tramos ?? []).map((t) => t.linea))].slice(0, 3);
+  $("comoTeFue").querySelectorAll("[data-sentir]").forEach((x) => { x.disabled = true; x.setAttribute("aria-pressed", String(x === b)); });
+  for (const linea of lineas) {
+    llamar("/sentir", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ linea, valor: b.dataset.sentir }) }).catch(() => {});
+  }
+  $("comoTeFue").querySelector(".nota").textContent = "Gracias. Con tu respuesta la ciudad ve qué líneas y horas estresan más.";
+  hablar("Gracias por contarnos.", false, false);
+});
 function terminarGuia() {
   clearTimeout(guia.confirmar);
   guia.pasosPie = null;

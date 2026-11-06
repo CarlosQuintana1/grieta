@@ -68,6 +68,17 @@ export const Queja = sequelize.define("Queja", {
   descripcion: { type: DataTypes.STRING(280), validate: { len: [0, 280] } },
 }, { tableName: "quejas", updatedAt: false });
 
+// "¿Cómo te fue?" al bajar del camion: solo la linea, el dia, la hora y la respuesta, sin ubicacion ni persona.
+export const VALORES_SENTIR = ["tranquilo", "normal", "estresado"];
+
+export const SentirViaje = sequelize.define("SentirViaje", {
+  linea: { type: DataTypes.STRING(6), allowNull: false, validate: { is: /^[A-Za-z0-9]{1,6}$/ } },
+  valor: { type: DataTypes.STRING(10), allowNull: false, validate: { isIn: [VALORES_SENTIR] } },
+  fecha: { type: DataTypes.DATEONLY, allowNull: false },
+  hora: { type: DataTypes.SMALLINT, allowNull: false, validate: { min: 0, max: 23 } },
+  finde: { type: DataTypes.BOOLEAN, allowNull: false },
+}, { tableName: "sentir_viajes", timestamps: false });
+
 // El precio que le salio a alguien al pedir en una app, para mejorar el modelo.
 export const PrecioReportado = sequelize.define("PrecioReportado", {
   app: { type: DataTypes.ENUM(...APPS), allowNull: false },

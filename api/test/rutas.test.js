@@ -447,10 +447,23 @@ describe("Quejas del servicio", () => {
   });
 });
 
+describe("¿Cómo te fue?", () => {
+  test("rechaza valores inventados y líneas raras", async () => {
+    await equipo().post("/api/sentir").send({ linea: "C69", valor: "feliz" }).expect(400);
+    await equipo().post("/api/sentir").send({ linea: "<b>", valor: "normal" }).expect(400);
+    await equipo().post("/api/sentir").send({ valor: "normal" }).expect(400);
+  });
+});
+
 describe("Observatorio", () => {
   test("GET /api/observatorio es público y solo trae conteos", async () => {
     await publico().post("/api/quejas").send({ tipo: "manejo", ruta: "C24", lat: 20.59, lon: -100.39, descripcion: "Texto privado de prueba" }).expect(201);
+    for (const valor of ["estresado", "estresado", "tranquilo"]) await equipo().post("/api/sentir").send({ linea: "c69", valor }).expect(201);
+    await equipo().post("/api/sentir").send({ linea: "L118", valor: "normal" }).expect(201);
     const r = await publico().get("/api/observatorio").expect(200);
+    assert.equal(r.body.sentir.total, 4);
+    assert.deepEqual(r.body.sentir.porLinea, [{ clave: "C69", total: 3, estresado: 2 }]);
+    assert.equal(r.body.sentir.porFranja.reduce((s, f) => s + f.total, 0), 4);
     for (const k of ["impacto", "quejas", "accesibilidad", "lleno", "precios"]) assert.ok(r.body[k], k);
     assert.equal(r.body.lleno.porHora.length, 24);
     assert.equal(JSON.stringify(r.body).includes("Texto privado"), false);

@@ -232,6 +232,7 @@
           <span class="avatar chico" aria-hidden="true"><svg class="icono"><use id="inicioAvatar" href="#p-caminar"/></svg></span>
         </button>
       </div>
+      <div id="salidaInicio" class="salida-inicio" role="status" hidden></div>
       <button id="impactoTodos" type="button" class="impacto-todos" hidden></button>
       <button id="ahorroMes" type="button" class="impacto-todos" hidden></button>
       <h2 id="tituloLugares" class="seccion">Tus lugares</h2>
@@ -455,6 +456,15 @@
       <p id="guiaBaja" class="guia-baja" hidden></p>
       <div id="barraParadas" class="barra-paradas" role="progressbar" aria-valuemin="0" hidden></div>
       <p id="guiaDetalle" class="guia-detalle" aria-live="polite"></p>
+      <div id="comoTeFue" class="como-fue" hidden>
+        <p id="tituloComoFue" class="como-fue-pregunta">¿Cómo te fue en este viaje?</p>
+        <div class="rutas-queja" role="group" aria-labelledby="tituloComoFue">
+          <button type="button" data-sentir="tranquilo">Tranquilo</button>
+          <button type="button" data-sentir="normal">Normal</button>
+          <button type="button" data-sentir="estresado">Estresado</button>
+        </div>
+        <p class="nota">Solo se guarda la línea y la hora, nunca dónde estás. Se suma al Observatorio de la ciudad.</p>
+      </div>
       <ol id="pasosPie" class="pasos-pie" aria-label="Cómo llegar a la parada" hidden></ol>
       <button id="yaMeSubi" type="button" class="boton oscuro" hidden>Ya me subí</button>
       <div id="enParada" class="en-parada" hidden>

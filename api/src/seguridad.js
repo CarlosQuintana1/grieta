@@ -11,6 +11,7 @@ const ESCRITURAS_PUBLICAS = [
   ["POST", /^\/api\/camiones\/avisos\/?$/],
   ["POST", /^\/api\/notificaciones(\/cancelar)?\/?$/],
   ["POST", /^\/api\/viajes\/?$/],
+  ["POST", /^\/api\/sentir\/?$/],
 ];
 // Lecturas con datos de personas: quién captura, por dónde se mueve y qué consulta.
 // El texto de cada queja puede traer datos de alguien: solo el resumen es publico.

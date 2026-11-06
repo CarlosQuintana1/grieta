@@ -731,7 +731,7 @@ html.grande .campo-y-boton .boton { flex: 1 0 100%; }
 .a-pie strong { font-weight: 700; }
 
 /* Con letra grande, las fichas en tres columnas para que crezcan */
-html.grande .lugares { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+html.grande .lugares, html.grande #inicioNormal .lugares { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 html.grande .lugar-nombre, html.facil .lugar-nombre { font-size: 0.95rem; }
 .voz-lugares { display: contents; }
 
@@ -876,12 +876,13 @@ html.modo-voz #bienvenida .opcion-vista strong { font-size: 1.4rem; }
 #inicioNormal .titulo-grande { font-size: 1.9rem; }
 #buscar .desde { margin: 0 0 12px; padding: 4px 4px 4px 14px; align-items: center; font-size: .82rem; border-radius: 999px; background: var(--superficie); border: 1px solid var(--linea); }
 .cambiar-desde { flex: none; min-height: 40px; padding: 0 14px; border-radius: 999px; color: var(--ambar); font-weight: 700; font-size: .9rem; }
-#inicioNormal .lugares { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-#inicioNormal .lugar { flex-direction: row; align-items: center; gap: 10px; min-height: 90px; padding: 12px 10px; text-align: left; background: var(--superficie); border-radius: var(--radio); }
-html.contraste #inicioNormal .lugar { border: 1px solid var(--linea); }
-#inicioNormal .lugar-icono { flex: none; width: 48px; max-width: 48px; }
-#inicioNormal .lugar-nombre { min-width: 0; font-size: .86rem; line-height: 1.3; overflow-wrap: break-word; }
-#inicioNormal .lugar.nuevo .lugar-nombre { color: var(--tinta); }
+#inicioNormal .lugares { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 12px; }
+#inicioNormal .lugar-icono { max-width: 72px; }
+#inicioNormal .lugar-icono .picto { width: 48%; height: 48%; }
+#inicioNormal .lugar-nombre { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; font-size: .82rem; font-weight: 700; line-height: 1.25; overflow-wrap: break-word; }
+#inicioNormal .lugar.nuevo .lugar-icono { box-sizing: border-box; background: none; color: var(--ambar); clip-path: none; border-radius: 18px; border: 2px dashed var(--tenue); }
+#inicioNormal .lugar.nuevo .lugar-nombre { color: var(--tenue); }
+html.contraste #inicioNormal .lugar.nuevo .lugar-icono { box-shadow: none; }
 #guardados button[data-i], #vozLugares button, #vozCasa {
   -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;
 }
@@ -935,12 +936,8 @@ html:not(.facil) #inicioNormal .dictar-grande:not([hidden]) { display: flex !imp
 #inicioNormal .dictar-grande { min-height: 56px; margin-top: 10px; font-size: 1rem; }
 #inicioNormal .seccion { margin-top: 20px; }
 @media (max-width: 350px) {
-  #inicioNormal .lugar { flex-direction: column; align-items: flex-start; min-height: 126px; }
-  #inicioNormal .lugar-nombre { font-size: .9rem; }
   #inicioNormal .titulo-grande { font-size: 1.7rem; }
 }
-html.grande #inicioNormal .lugares { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-html.grande #inicioNormal .lugar { flex-direction: column; align-items: flex-start; }
 
 /* La cámara conserva el mismo flujo de lectura que las demás pantallas. */
 .camara video { display: block; width: 100%; max-height: 240px; object-fit: contain; background: var(--superficie); border-radius: var(--radio); }

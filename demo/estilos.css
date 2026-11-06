@@ -667,9 +667,9 @@ button:active, .boton:active, .chip:active, .tarjeta:active, .app-fila:active, .
   background: var(--superficie); border: 2px solid var(--ambar); text-align: left; }
 .sugerencia .icono { color: var(--ambar); }
 .impacto-todos { display: flex; gap: 12px; align-items: center; margin-top: 20px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
-.impacto-todos > .icono { flex: none; width: 24px; height: 24px; color: var(--verde); }
-.impacto-todos strong { display: block; font-size: 1.15rem; color: var(--verde); }
-.impacto-todos .fila-texto > span { color: var(--tenue); }
+.impacto-todos > .icono { flex: none; width: 22px; height: 22px; color: var(--verde); }
+.impacto-todos strong { display: block; color: var(--verde); }
+.impacto-todos .fila-texto > span { color: var(--tenue); font-size: .9rem; }
 .ahorro-mes { margin-top: 20px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
 .ahorro-mes strong { color: var(--ambar); font-weight: 700; }
 #precio::placeholder { color: var(--tenue); font-size: 1rem; font-weight: 500; opacity: 1; }

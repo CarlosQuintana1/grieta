@@ -1210,7 +1210,7 @@ function pintarEspera(lista, precios, base) {
   $("respuestaEspera").textContent = ahora - mejor.p >= 5
     ? `Sí: desde las ${hora(inicioFranja(lista[mejor.i].minuto))} lo normal baja ${pesos(ahora - mejor.p)}`
     : peor.p - ahora >= 5 ? `No: desde las ${hora(inicioFranja(lista[peor.i].minuto))} lo normal sube ${pesos(peor.p - ahora)}`
-      : "Da igual: en la próxima hora lo normal casi no cambia";
+      : "Da igual: probablemente el precio no cambie en la próxima hora";
 
   const hoy = lista[0];
   const tramos = [];

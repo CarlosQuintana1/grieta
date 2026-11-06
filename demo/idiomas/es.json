@@ -1120,8 +1120,8 @@
       ]
     },
     {
-      "clave": "texto_588f252ada",
-      "es": "Da igual: en la próxima hora lo normal casi no cambia",
+      "clave": "texto_e713ac9b26",
+      "es": "Da igual: probablemente el precio no cambie en la próxima hora",
       "contextos": [
         "demo/app.js:978 · pintarEspera"
       ]

@@ -5762,6 +5762,31 @@
       "clave": "texto_8a26319c47",
       "es": "En auto emitiría {v1} de CO₂.",
       "nhe": "Ika carro kikixtiskia {v1} tlen CO₂."
+    },
+    {
+      "clave": "texto_a42611be8a",
+      "es": "Con Grieta se ha hecho 1 viaje en Qrobus.",
+      "nhe": "Ika Grieta 1 viaje ya kichijtokej ipan Qrobus."
+    },
+    {
+      "clave": "texto_440d75d10c",
+      "es": "Con Grieta se han hecho {v1} viajes en Qrobus.",
+      "nhe": "Ika Grieta {v1} ya kichijtokej viajes ipan Qrobus."
+    },
+    {
+      "clave": "texto_7704326f86",
+      "es": "En auto habrían emitido {v1} de CO₂.",
+      "nhe": "Ika carro kikixtiskiaj {v1} tlen CO₂."
+    },
+    {
+      "clave": "texto_a31dd5b979",
+      "es": "Cada viaje se cuenta sin saber quién lo hizo ni a dónde.",
+      "nhe": "Sesen paxalojketl mopoua uan amo moixmati ajkia kichijki o kanke."
+    },
+    {
+      "clave": "texto_ca30428cbb",
+      "es": "Este viaje: {v1} de CO₂ que no emitió un auto.",
+      "nhe": "Ni paxalojketl: {v1} tlen CO₂ tlen se carro ax kikixtik."
     }
   ],
   "adaptaciones": [
@@ -5904,6 +5929,16 @@
       "clave": "texto_8a26319c47",
       "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
       "criterio": "Misma traducción que la frase sin punto final."
+    },
+    {
+      "clave": "texto_7704326f86",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Se escribe CO₂ como en el texto fuente."
+    },
+    {
+      "clave": "texto_ca30428cbb",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Se escribe CO₂ como en el texto fuente."
     }
   ]
 }

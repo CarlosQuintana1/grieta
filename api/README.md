@@ -23,7 +23,7 @@ cadena de conexión de la base.
 npm test
 ```
 
-Son 30 pruebas de las rutas sobre una base en memoria, así que no tocan `database.sqlite`. En
+Son 44 pruebas de las rutas sobre una base en memoria, así que no tocan `database.sqlite`. En
 `postman/` está la colección con todas las rutas, en el orden en que las probamos.
 
 ## Estructura
@@ -39,7 +39,7 @@ Functions). Variables: `DATABASE_URL`, `AZURE_STORAGE_CONNECTION_STRING`, `AZURE
 `AZURE_MAPS_KEY`, `CLAVE_ADMIN`, `VAPID_PUBLICO` y `VAPID_PRIVADO`.
 
 Permisos: la app pública solo lee, busca (`/api/buscar`), reporta problemas (`POST /api/reportes` y su
-foto) y manda precios (`POST /api/precios-reportados`). Crear, cambiar o borrar cualquier otra cosa, y
+foto), manda precios (`POST /api/precios-reportados`) y cuenta viajes en camión (`POST /api/viajes`). Crear, cambiar o borrar cualquier otra cosa, y
 leer usuarios, precios reportados y consultas, pide el encabezado `X-Clave-Admin` con `CLAVE_ADMIN`;
 sin esa variable nadie puede. La foto de un reporte se sube una vez, en los 15 minutos después de
 crearlo, y cada persona puede mandar 30 envíos por hora. En Postman la clave va en la variable
@@ -53,6 +53,10 @@ un día y la ruta se frena en 4,500 búsquedas al mes, antes de las 5,000 gratis
 `POST /api/camiones/avisos` guarda lo que alguien ve en la parada ("ya pasó" o "viene lleno" de una
 línea) y `GET /api/camiones/avisos?lat=&lon=` trae los de esa parada. Valen media hora y viven en memoria,
 sin tabla.
+
+`POST /api/viajes` cuenta un viaje en camión que alguien empezó con la guía. Solo recibe los km; el CO₂
+se calcula aquí con 135.7 g/km (meta de la NOM-163-SEMARNAT-ENER-SCFI-2013 para autos nuevos). No guarda
+lugares, hora, usuario ni IP. `GET /api/impacto` devuelve la suma (viajes, km y kg de CO₂) que muestra el inicio.
 
 `POST /api/notificaciones` programa avisos push para el viaje (que pasa el camión, que ya casi llegas) y
 los manda a su hora aunque el teléfono esté bloqueado; `POST /api/notificaciones/cancelar` los quita al

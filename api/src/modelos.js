@@ -65,6 +65,12 @@ export const PrecioReportado = sequelize.define("PrecioReportado", {
   lon_destino: { type: DataTypes.DOUBLE, allowNull: false },
 }, { tableName: "precios_reportados" });
 
+// Un viaje en camion empezado con la guia: solo km y CO2, sin lugares, hora ni persona.
+export const ViajeCamion = sequelize.define("ViajeCamion", {
+  km: { type: DataTypes.DOUBLE, allowNull: false, validate: { min: 0.3, max: 80 } },
+  co2_g: { type: DataTypes.INTEGER, allowNull: false },
+}, { tableName: "viajes_camion", timestamps: false });
+
 // RESTRICT: un lugar, una ruta o un usuario con datos ligados no se puede borrar.
 const llave = (name, onDelete = "RESTRICT") => ({ foreignKey: { name, allowNull: false }, onDelete });
 

@@ -230,6 +230,7 @@ function mostrar(nombre) {
     pintarViajes();
     pintarRutina();
     pintarAhorro();
+    pintarImpacto();
     $("invitaPerfil").hidden = acc.modoVoz || leer("grieta-perfil", false) || leer("grieta-invita-cerrada", false);
   }
   if (nombre === "opciones") quitarTrazo();
@@ -1972,6 +1973,8 @@ function iniciarGuia(o) {
   terminarGuia();
   const tramos = o.pasos.filter((p) => p.tipo === "camion");
   registrarViaje(o);
+  guia.km = sinAuto(o) ? estado.r.directo.km : 0;
+  if (guia.km) contarViaje(guia.km);
   ir("guia");
   Object.assign(guia, { activa: true, o, tramos, k: 0, camion: tramos[0], fase: "parada", actual: 0, dichos: new Set(), previo: null, velocidad: null, vueltas: 0, push: null,
     destino: estado.destino, enApp: o.pasos[0].tipo === "app", pie: null });
@@ -2154,7 +2157,7 @@ function avanzarCamion(lat, lon, velocidad = 0) {
   if (guia.fase === "fin") {
     const dest = guia.destino;
     if (dest && Grieta.metros(lat, lon, dest.lat, dest.lon) < 40) {
-      unaVez("destino", () => { vibrar([300, 120, 300, 120, 300]); decir(frase("llegaste"), `Estás en ${dest.nombre}.${familiar ? ` Puedes avisarle a ${familiar.nombre} que llegaste.` : ""} Toca Terminar viaje cuando quieras.`, "Llegaste"); });
+      unaVez("destino", () => { vibrar([300, 120, 300, 120, 300]); decir(frase("llegaste"), `Estás en ${dest.nombre}.${guia.km ? ` Este viaje: ${kgTexto(co2Auto(guia.km))} de CO₂ que no emitió un auto.` : ""}${familiar ? ` Puedes avisarle a ${familiar.nombre} que llegaste.` : ""} Toca Terminar viaje cuando quieras.`, "Llegaste"); });
     }
     return;
   }
@@ -2329,6 +2332,20 @@ function pintarAhorro() {
   $("ahorroMes").hidden = total < 1 && co2 < 100 && !nuevaMeta;
   $("ahorroMes").innerHTML = [nuevaMeta && `<span class="meta-co2">Llevas ${nuevaMeta} kg de CO₂ que no emitió un auto.</span>`, total >= 1 && `<strong>${pesos(total)} de ahorro estimado</strong> este mes.`,
     co2 >= 100 && `<strong>${kgTexto(co2)} de CO₂</strong> que no emitió un auto.`].filter(Boolean).join(" ");
+}
+// Lo de todos: cada viaje en camion empezado con la guia manda solo sus km; la API los suma.
+const contarViaje = (km) => llamar("/viajes", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ km: Math.round(km * 10) / 10 }) })
+  .then(() => { estado.impactoLeido = 0; }).catch(() => {});
+async function pintarImpacto() {
+  if (!API || Date.now() - (estado.impactoLeido ?? 0) < 5 * 60 * 1000) return;
+  estado.impactoLeido = Date.now();
+  try {
+    const { viajes, co2_kg } = await llamar("/impacto");
+    if (!viajes) return;
+    $("impactoTodos").innerHTML = `${ico("planta")}<span class="fila-texto"><strong>${viajes === 1 ? "Con Grieta se ha hecho 1 viaje en Qrobus." : `Con Grieta se han hecho ${viajes} viajes en Qrobus.`}</strong>
+      <span>En auto habrían emitido ${kgTexto(co2_kg * 1000)} de CO₂.</span><small>Cada viaje se cuenta sin saber quién lo hizo ni a dónde.</small></span>`;
+    $("impactoTodos").hidden = false;
+  } catch { estado.impactoLeido = 0; }
 }
 function fechaViaje(iso) {
   const f = new Date(iso);
@@ -3238,6 +3255,7 @@ Promise.all([
   prepararLenguas(config);
   // En local se usa la API local, para que las pruebas no escriban en la base de produccion.
   API = ["localhost", "127.0.0.1"].includes(location.hostname) ? "http://localhost:3000/api" : config.api || "";
+  pintarImpacto();
   pintarGuardados();
   avisoConexion();
   medirPantalla();

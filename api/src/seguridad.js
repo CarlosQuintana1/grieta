@@ -1,4 +1,4 @@
-// Quién puede hacer qué. La app pública solo lee, busca, reporta problemas y manda precios;
+// Quién puede hacer qué. La app pública solo lee, busca, reporta problemas, manda precios y cuenta viajes;
 // cambiar o borrar datos, y ver datos personales, pide la clave del equipo (CLAVE_ADMIN).
 
 // Lo que cualquiera puede mandar desde la app.
@@ -8,6 +8,7 @@ const ESCRITURAS_PUBLICAS = [
   ["POST", /^\/api\/precios-reportados\/?$/],
   ["POST", /^\/api\/camiones\/avisos\/?$/],
   ["POST", /^\/api\/notificaciones(\/cancelar)?\/?$/],
+  ["POST", /^\/api\/viajes\/?$/],
 ];
 // Lecturas con datos de personas: quién captura, por dónde se mueve y qué consulta.
 const LECTURAS_PRIVADAS = [/^\/api\/usuarios/, /^\/api\/precios-reportados/, /^\/api\/consultas/];

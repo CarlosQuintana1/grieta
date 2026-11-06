@@ -335,3 +335,26 @@ describe("Avisos con la pantalla bloqueada", () => {
     delete process.env.VAPID_PRIVADO;
   });
 });
+
+describe("Viajes en camión", () => {
+  test("cualquiera cuenta un viaje y el total suma km y CO₂ sin guardar lugares", async () => {
+    const antes = (await publico().get("/api/impacto").expect(200)).body;
+    await publico().post("/api/viajes").send({ km: 3.2, lat: 20.6, destino: "Casa" }).expect(201);
+    const despues = (await publico().get("/api/impacto").expect(200)).body;
+    assert.equal(despues.viajes, antes.viajes + 1);
+    assert.equal(Math.round((despues.km - antes.km) * 10) / 10, 3.2);
+    assert.equal(Math.round((despues.co2_kg - antes.co2_kg) * 10) / 10, 0.4);
+    const { ViajeCamion } = await import("../src/modelos.js");
+    assert.deepEqual(Object.keys(ViajeCamion.getAttributes()).sort(), ["co2_g", "id", "km"]);
+  });
+
+  test("rechaza un viaje sin distancia o imposible", async () => {
+    await publico().post("/api/viajes").send({}).expect(400);
+    await publico().post("/api/viajes").send({ km: 500 }).expect(400);
+    await publico().post("/api/viajes").send({ km: 0.1 }).expect(400);
+  });
+
+  test("nadie lee la lista de viajes uno por uno", async () => {
+    await publico().get("/api/viajes").expect(404);
+  });
+});

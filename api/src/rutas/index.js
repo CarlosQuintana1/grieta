@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { camiones, notificaciones } from "../controladores/avisos.js";
 import { buscar } from "../controladores/buscar.js";
+import { impacto } from "../controladores/impacto.js";
 import { consultasRouter } from "./consultas.js";
 import { cotizacionesRouter } from "./cotizaciones.js";
 import { lugaresRouter } from "./lugares.js";
@@ -27,4 +28,7 @@ export const api = Router()
   .post("/camiones/avisos", camiones.crear)
   .get("/notificaciones/clave", notificaciones.clave)
   .post("/notificaciones", notificaciones.programar)
-  .post("/notificaciones/cancelar", notificaciones.cancelar);
+  .post("/notificaciones/cancelar", notificaciones.cancelar)
+  // Viajes en camion contados sin datos de la persona, y su suma para el inicio
+  .post("/viajes", impacto.registrar)
+  .get("/impacto", impacto.total);

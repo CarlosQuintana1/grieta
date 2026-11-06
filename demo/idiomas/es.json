@@ -10500,6 +10500,13 @@
       "contextos": [
         "demo/app.js · pintarOpciones"
       ]
+    },
+    {
+      "clave": "texto_d7b1c5986e",
+      "es": "Tu bolsillo lo nota.",
+      "contextos": [
+        "demo/app.js · pintarAhorro"
+      ]
     }
   ]
 }

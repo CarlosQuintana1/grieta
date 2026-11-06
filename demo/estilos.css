@@ -535,7 +535,7 @@ html.claro .interruptor input::after, html.claro .interruptor input:checked::aft
 .app-rapida strong { font-size: 1.3rem; font-weight: 700; }
 .app-rapida small { font-size: 0.72rem; font-weight: 700; color: var(--ambar); text-transform: uppercase; letter-spacing: 0.06em; }
 .app-rapida.barata { border: 2px solid var(--ambar); }
-.app-rapida.barata strong, .app-rapida.barata small { color: var(--verde); }
+.app-rapida.barata strong { color: var(--verde); }
 .en-app .enlace { margin-top: 4px; }
 
 /* Modo voz: sin mapa, botones grandes uno debajo de otro. */

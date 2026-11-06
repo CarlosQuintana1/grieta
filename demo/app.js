@@ -2713,17 +2713,23 @@ const ETAPAS_TL = [
   [15000, "Tu tlacuache ya come tunas.", "que tenga crías"],
   [25000, "Tu tlacuache tuvo crías. Su ciudad está sana.", null],
 ];
+const CAMINO_TL = ["Basura", "Bote", "Árbol", "Agua", "Aves", "Tunas", "Crías"];
 function pintarTlacuache(g, viajesPropios) {
   const e = ETAPAS_TL.findLastIndex(([desde]) => g >= desde), [desde, texto, sigue] = ETAPAS_TL[e];
   $("mundoTl").setAttribute("class", `escena e${e}`);
   $("mundoTl").innerHTML = escenaTlacuache(e);
   $("mundoTl").setAttribute("aria-label", `Ilustración: ${texto}`);
-  const siguiente = ETAPAS_TL[e + 1]?.[0];
-  $("co2Avance").hidden = !siguiente;
+  const siguiente = ETAPAS_TL[e + 1]?.[0], avance = siguiente ? (g - desde) / (siguiente - desde) : 0;
+  // Una fila con las siete etapas; la linea se llena hasta la actual y un poco mas segun lo que va hacia la siguiente.
+  const camino = $("co2Camino");
+  camino.hidden = false;
+  camino.setAttribute("aria-label", `Etapa ${e + 1} de ${CAMINO_TL.length}: ${CAMINO_TL[e]}`);
+  camino.querySelectorAll(".camino-paso").forEach((x) => x.remove());
+  camino.insertAdjacentHTML("beforeend", CAMINO_TL.map((t, i) => `<span class="camino-paso${i < e ? " hecho" : i === e ? " ahora" : ""}"><i>${i < e ? ico("palomita") : ""}</i>${t}</span>`).join(""));
+  camino.querySelector(".camino-linea i").style.width = `${((e + avance) / (CAMINO_TL.length - 1)) * 100}%`;
   if (!siguiente) { $("co2Unidad").textContent = texto; return; }
   const falta = siguiente - g, porViaje = viajesPropios ? g / viajesPropios : 700;
-  $("co2Unidad").textContent = `${texto} Faltan ${kgTexto(falta)}, unos ${plural(Math.max(1, Math.ceil(falta / porViaje)), "viaje", "viajes")} en camión, para ${sigue}.`;
-  $("co2Avance").firstElementChild.style.width = `${Math.round(((g - desde) / (siguiente - desde)) * 100)}%`;
+  $("co2Unidad").innerHTML = `${texto} Faltan <b>${kgTexto(falta)}</b>, unos ${plural(Math.max(1, Math.ceil(falta / porViaje)), "viaje", "viajes")} en camión, para ${sigue}.`;
 }
 let alcanceCo2 = "tu";
 const marcarAlcance = radios("co2Alcance", (v) => { alcanceCo2 = v; pintarCo2(); });
@@ -2738,7 +2744,7 @@ function pintarCo2() {
   $("tituloEquivale").hidden = $("co2Equivale").hidden = g < 50;
   $("bosque").toggleAttribute("hidden", !deTodos);
   $("mundoTlCaja").hidden = deTodos;
-  if (deTodos) { pintarBosque(g); $("co2Avance").hidden = true; } else pintarTlacuache(propio, viajesPropios);
+  if (deTodos) { pintarBosque(g); $("co2Camino").hidden = true; } else pintarTlacuache(propio, viajesPropios);
   $("co2Equivale").innerHTML = equivalencias(g).map(([p, cifra, texto]) => `<li>${miniFicha("tono-hospital", picto(p))}<strong>${cifra}</strong><span>${texto}</span></li>`).join("");
   pintarSemanas(propio, viajesPropios);
 }

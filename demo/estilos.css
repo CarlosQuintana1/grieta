@@ -1146,3 +1146,5 @@ html.claro .ahorro-nota { color: var(--tinta); }
 .metas-ahorro .icono { width: 14px; height: 14px; stroke-width: 3; }
 html.claro .metas-ahorro li.hecha { color: #fff; }
 .co2-semanas-caja[hidden] { display: none; }
+.co2-equivale.cuatro { grid-template-columns: repeat(2, 1fr); }
+.co2-equivale .mini-ficha .icono { width: 20px; height: 20px; color: #fff; stroke-width: 2.2; }

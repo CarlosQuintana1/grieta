@@ -3450,7 +3450,7 @@ function pintarBonos() {
     : `<strong>${VEREDICTO_BONO[mejor[0]]}</strong><span>Ahorras ${pesos(porViaje - mejor[1])} al mes contra pagar cada viaje.</span>`;
 }
 const marcarTarifaBonos = radios("tarifaBonos", (v) => { bono.tarifa = v; pintarBonos(); });
-// Puerquito de Lucide (ISC), el mismo de la tarjeta del inicio. Cada moneda es un viaje de $11; con 41 se llena, justo el bono mensual.
+// Puerquito de Lucide (ISC), el mismo de la tarjeta del inicio. Cada moneda son $10 ahorrados; caben 41.
 const METAS_AHORRO = [[111, "semanal"], [231, "quincenal"], [451, "mensual"]];
 const PUERQUITO = ["M11 17h3v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-3a3.16 3.16 0 0 0 2-2h1a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1h-1a5 5 0 0 0-2-4V3a4 4 0 0 0-3.2 1.6l-.3.4H11a6 6 0 0 0-6 6v1a5 5 0 0 0 2 4v3a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1z", "M16 10h.01", "M2 8v1a2 2 0 0 0 2 2h1"];
 // Huecos para 41 monedas dentro de la silueta, de abajo hacia arriba (calculados una vez con isPointInFill).
@@ -3465,16 +3465,29 @@ function moneda([x, y], i) {
 // Se llenan de abajo hacia arriba y hacia el centro primero, como un monton que crece.
 const ORDEN = HUECOS.map((h, i) => [h, h[1] - 0.45 * Math.abs(h[0] - 12.6), i]).sort((a, b) => b[1] - a[1]).map(([h, , i]) => [h, i]);
 function puerquito(pesosMes) {
-  const n = Math.min(HUECOS.length, Math.floor(pesosMes / 11));
+  const n = Math.min(HUECOS.length, Math.floor(pesosMes / 10));
   return `${ORDEN.slice(0, n).sort((a, b) => a[0][1] - b[0][1]).map(([h, i]) => moneda(h, i)).join("")}${PUERQUITO.map((d, i) => `<path d="${d}" class="linea${i === 1 ? " ojo" : ""}"/>`).join("")}`;
 }
 function pintarAlcancia(mes) {
-  const monedas = Math.min(41, Math.floor(mes / 11));
+  const monedas = Math.floor(mes / 10);
   $("alcancia").innerHTML = puerquito(mes);
-  $("alcancia").setAttribute("aria-label", `Alcancía con ${plural(monedas, "moneda", "monedas")} de 41`);
-  const sig = METAS_AHORRO.findIndex(([p]) => mes < p), previa = sig > 0 ? METAS_AHORRO[sig - 1] : null;
-  $("ahorroPie").textContent = sig < 0 ? "Tu ahorro de este mes ya paga un bono mensual de Qrobus."
-    : `${previa ? `Ya juntaste el bono ${previa[1]}. ` : ""}Faltan ${pesos(METAS_AHORRO[sig][0] - mes)} para el ${METAS_AHORRO[sig][1]}.`;
+  $("alcancia").setAttribute("aria-label", `Alcancía con ${plural(Math.min(41, monedas), "moneda", "monedas")}`);
+  $("ahorroPie").textContent = monedas > 41 ? `Tu puerquito ya se llenó: ${plural(monedas, "moneda", "monedas")} este mes. Cada una son $10 que ahorraste.`
+    : monedas ? `${plural(monedas, "moneda", "monedas")}: cada una son $10 que ahorraste.` : "Cada $10 que ahorres en camión es una moneda.";
+}
+// Lo ahorrado contado en cosas que usa un estudiante. Precios con fuente en la linea de abajo de la pantalla.
+const COSAS_AHORRO = [
+  ["camion", "tono-hospital", 11, ["viaje", "viajes"], "en Qrobus", "de un viaje en Qrobus"],
+  ["tele", "tono-salud", 139, ["mes", "meses"], "de Netflix con anuncios", "de un mes de Netflix"],
+  ["libro", "tono-ciruela", 288, ["libro", "libros"], "como Cien años de soledad", "de Cien años de soledad"],
+  ["celular", "tono-trabajo", 2772, ["celular", "celulares"], "Galaxy A16", "de un Galaxy A16"],
+];
+function cosasAhorro(pesos) {
+  return COSAS_AHORRO.map(([icono, tono, precio, [uno, varios], que, parcial]) => {
+    const n = Math.floor(pesos / precio);
+    const [cifra, texto] = n >= 1 ? [plural(n, uno, varios), que] : [`${Math.round((pesos / precio) * 100)}%`, parcial];
+    return `<li>${miniFicha(tono, ico(icono))}<strong>${cifra}</strong><span>${texto}</span></li>`;
+  }).join("");
 }
 // Ahorro por mes desde el primero con ahorro, hasta seis; con uno solo no hay grafica.
 function pintarMeses() {
@@ -3483,9 +3496,9 @@ function pintarMeses() {
     const f = new Date(h.fecha), i = (f.getFullYear() - meses[0].d.getFullYear()) * 12 + f.getMonth() - meses[0].d.getMonth();
     if (i >= 0 && i < 6) meses[i].p += h.ahorro || 0;
   }
-  const primero = meses.findIndex((x) => x.p >= 1), visibles = primero < 0 ? [] : meses.slice(primero);
-  $("ahorroMesesCaja").hidden = visibles.length < 2;
-  if (visibles.length < 2) return;
+  const visibles = meses;
+  $("ahorroMesesCaja").hidden = !meses.some((x) => x.p >= 1);
+  if ($("ahorroMesesCaja").hidden) return;
   const max = Math.max(...visibles.map((x) => x.p)), paso = 320 / visibles.length;
   $("ahorroMeses").innerHTML = visibles.map((x, i) => {
     const alto = x.p >= 1 ? Math.max(6, (x.p / max) * 72) : 3, cx = paso * (i + 0.5), ultimo = i === visibles.length - 1;
@@ -3501,9 +3514,8 @@ function abrirAhorro() {
   $("ahorroTotal").textContent = pesos(mes);
   $("ahorroQuien").textContent = delMes.length ? `${plural(delMes.length, "viaje", "viajes")} en camión este mes` : "Aún sin viajes en camión este mes";
   pintarAlcancia(mes);
-  $("ahorroDatos").hidden = total < 1;
-  $("ahorroDatos").innerHTML = [["Desde que usas Grieta", pesos(total)], ["Ahorro promedio por viaje", pesos(conAhorro.length ? total / conAhorro.length : 0)]]
-    .map(([t, v]) => `<div><dt>${t}</dt><dd>${v}</dd></div>`).join("");
+  $("tituloEquivaleAhorro").hidden = $("ahorroEquivale").hidden = $("ahorroFuente").hidden = mes < 1;
+  $("ahorroEquivale").innerHTML = cosasAhorro(mes);
   $("ahorroHistorico").textContent = `${pesos(total)} en total`;
   pintarMeses();
   prepararBonos();

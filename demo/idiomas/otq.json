@@ -3811,6 +3811,21 @@
       "clave": "texto_7305e93a60",
       "es": "Más económica y más rápida",
       "otq": "Ar njut'i menu ar bojä ne ar mäs ngutha"
+    },
+    {
+      "clave": "texto_795dec01b7",
+      "es": "Más económico y más rápido",
+      "otq": "Ar njut'i menu ar bojä ne ar mäs ngutha"
+    },
+    {
+      "clave": "texto_962fd862d7",
+      "es": "Más económico",
+      "otq": "Ar njut'i menu ar bojä"
+    },
+    {
+      "clave": "texto_c53e5a39d6",
+      "es": "Más rápido",
+      "otq": "Ar mäs ngutha"
     }
   ],
   "adaptaciones": [
@@ -4178,6 +4193,21 @@
       "clave": "texto_7305e93a60",
       "fuente": "https://www.bing.com/translator?from=es&to=otq",
       "criterio": "Reusa la traducción automática de «Más económica y Más rápida»."
+    },
+    {
+      "clave": "texto_795dec01b7",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Misma traducción que «Más económica y más rápida»; la lengua no marca el género."
+    },
+    {
+      "clave": "texto_962fd862d7",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Misma traducción que «Más económica»; la lengua no marca el género."
+    },
+    {
+      "clave": "texto_c53e5a39d6",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Misma traducción que «Más rápida»; la lengua no marca el género."
     }
   ],
   "parcial": true

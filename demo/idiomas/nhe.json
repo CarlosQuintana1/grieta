@@ -5972,6 +5972,21 @@
       "clave": "texto_7305e93a60",
       "es": "Más económica y más rápida",
       "nhe": "Más barato uan más nimantsi"
+    },
+    {
+      "clave": "texto_795dec01b7",
+      "es": "Más económico y más rápido",
+      "nhe": "Más barato uan más nimantsi"
+    },
+    {
+      "clave": "texto_962fd862d7",
+      "es": "Más económico",
+      "nhe": "Más tlaxtlauili"
+    },
+    {
+      "clave": "texto_c53e5a39d6",
+      "es": "Más rápido",
+      "nhe": "Más nimantsi"
     }
   ],
   "adaptaciones": [
@@ -6179,6 +6194,21 @@
       "clave": "texto_7305e93a60",
       "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
       "criterio": "Reusa la traducción automática de «Más económica y Más rápida»."
+    },
+    {
+      "clave": "texto_795dec01b7",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Misma traducción que «Más económica y más rápida»; la lengua no marca el género."
+    },
+    {
+      "clave": "texto_962fd862d7",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Misma traducción que «Más económica»; la lengua no marca el género."
+    },
+    {
+      "clave": "texto_c53e5a39d6",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Misma traducción que «Más rápida»; la lengua no marca el género."
     }
   ]
 }

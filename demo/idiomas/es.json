@@ -10479,6 +10479,27 @@
       "contextos": [
         "demo/app.js · pintarOpciones"
       ]
+    },
+    {
+      "clave": "texto_795dec01b7",
+      "es": "Más económico y más rápido",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_962fd862d7",
+      "es": "Más económico",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ]
+    },
+    {
+      "clave": "texto_c53e5a39d6",
+      "es": "Más rápido",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ]
     }
   ]
 }

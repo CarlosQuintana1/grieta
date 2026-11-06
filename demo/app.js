@@ -1119,7 +1119,8 @@ function pintarOpciones(r) {
   estado.tarjetas = elegirTarjetas(r);
   const criterios = criteriosViaje(r);
   const barata = criterios.economica === enApp, rapida = criterios.rapida === enApp;
-  const etiquetasApp = barata && rapida ? ["Más económica y más rápida"] : [barata && "Más económica", rapida && "Más rápida"].filter(Boolean);
+  // En masculino: se refiere al viaje en app, no a una "opción" como las tarjetas de camión.
+  const etiquetasApp = barata && rapida ? ["Más económico y más rápido"] : [barata && "Más económico", rapida && "Más rápido"].filter(Boolean);
   // La hora de llegada es lo primero que se lee; la duración y si es la más rápida van abajo, más chicas.
   $("llegadaApp").innerHTML = enApp ? `<strong>Llegas ${hora(llegada(enApp))}</strong>
     <span>${Math.round(enApp.minutos)} min de viaje</span>${etiquetasApp.map((t) => `<span class="marca-app">${t}</span>`).join("")}` : "";

@@ -522,7 +522,7 @@ html.claro .interruptor input::after, html.claro .interruptor input:checked::aft
 .chofer .boton.borde-negro, body.alerta .chofer .boton.borde-negro { background: #fff; color: #000; border: 2px solid #000; }
 
 .en-app { margin-top: 0; }
-.en-app h2 { margin: 0 0 2px; }
+.en-app > h2 { margin: 0 0 2px; }
 .llegada-app { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 6px 0 12px; color: var(--tenue); font-size: 0.95rem; }
 .llegada-app strong { flex-basis: 100%; color: var(--tinta); font-size: 1.35rem; font-weight: 700; }
 .llegada-app .marca-app { color: var(--ambar); font-weight: 700; }

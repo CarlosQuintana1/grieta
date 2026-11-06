@@ -41,6 +41,13 @@ centro de la imagen. Solo observa crecimiento aparente; no determina velocidad, 
 real ni tiempo hasta una colisión. Mover el teléfono o acercarse a un vehículo estacionado puede causar
 avisos falsos. Una ausencia de avisos nunca significa que sea seguro avanzar.
 
+Desde la versión 138 cada vehículo lleva un filtro de Kalman de velocidad constante sobre centro y
+logaritmo del área, y las cajas se asignan con el método húngaro (costo 1 − IoU, mismo tipo, IoU > 0.2),
+la misma técnica del proyecto de tracking multicámara (Kalman + Munkres). Una pista sobrevive hasta 1 s sin
+detección, así que un cuadro perdido ya no reinicia el historial. En vez de exigir que el área crezca en
+cada cuadro, se exige que la velocidad filtrada del logaritmo del área sea ≥ 0.3/s, lo que tolera el temblor
+de la caja. Pruebas: `seguimiento-kalman.test.cjs` (el código anterior fallaba cuadros perdidos y temblor).
+
 La asociación usa clase y solapamiento entre cajas, transformando las anteriores con una estimación
 afín del fondo. Se buscan puntos de textura fuera de los objetos detectados y se exige consenso y
 cobertura suficientes. Se compensa parte del desplazamiento, giro y zoom en la imagen, no movimiento

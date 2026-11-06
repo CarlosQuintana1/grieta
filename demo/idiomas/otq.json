@@ -18,11 +18,6 @@
       "otq": "(nu'bu̲ gi)"
     },
     {
-      "clave": "texto_e36be0214d",
-      "es": ", elegir día y hora",
-      "otq": ", da 'ñets'i pa ne ora"
-    },
-    {
       "clave": "texto_184b191dc0",
       "es": ", la app más económica",
       "otq": ", ár nt'ot'e menu ar bojä"
@@ -3681,6 +3676,16 @@
       "clave": "texto_1f8683ed28",
       "es": "{v1} min en auto con el tráfico de ahorita ({v2} por tráfico).",
       "otq": "{v1} min ya coche ko ar tráfico nu'bya ({v2} nu'bya tráfico)."
+    },
+    {
+      "clave": "texto_8cd693abb7",
+      "es": "Igual",
+      "otq": "Xkagentho"
+    },
+    {
+      "clave": "texto_2c61bffd5a",
+      "es": "¿Otro día u hora?",
+      "otq": "¿Ma'na ar pa wa ya t'olo ora?"
     }
   ],
   "adaptaciones": [

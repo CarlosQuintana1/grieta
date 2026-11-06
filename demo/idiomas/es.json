@@ -9,13 +9,6 @@
       ]
     },
     {
-      "clave": "texto_e36be0214d",
-      "es": ", elegir día y hora",
-      "contextos": [
-        "demo/app.js:968 · pintarEspera"
-      ]
-    },
-    {
       "clave": "texto_184b191dc0",
       "es": ", la app más económica",
       "contextos": [
@@ -10152,6 +10145,46 @@
           "expresion": "nombre"
         }
       }
+    },
+    {
+      "clave": "texto_05574cc7e4",
+      "es": "{v1} menos",
+      "contextos": [
+        "demo/app.js · pintarEspera"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "pesos(-d)",
+          "formato": "importe"
+        }
+      }
+    },
+    {
+      "clave": "texto_f63ee18b63",
+      "es": "{v1} más",
+      "contextos": [
+        "demo/app.js · pintarEspera"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "pesos(d)",
+          "formato": "importe"
+        }
+      }
+    },
+    {
+      "clave": "texto_8cd693abb7",
+      "es": "Igual",
+      "contextos": [
+        "demo/app.js · pintarEspera"
+      ]
+    },
+    {
+      "clave": "texto_2c61bffd5a",
+      "es": "¿Otro día u hora?",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
     }
   ]
 }

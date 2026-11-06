@@ -1198,17 +1198,23 @@ function pintarEspera(lista, precios, base) {
     $("hora").value = Grieta.hhmm(m.minuto);
   }
   const cercanos = precios.slice(0, ESPERAS.length).map((p) => p.mejor.precio);
-  // Solo se resalta la hora mas barata si de verdad lo es: si todas cuestan lo mismo, ninguna.
-  const minimo = Math.round(Math.min(...cercanos)) < Math.round(Math.max(...cercanos)) ? Math.min(...cercanos) : -1;
-  $("horas").innerHTML = lista.map((m, i) => `
-    <button type="button" data-i="${i}" aria-pressed="${i === estado.momento}" class="${i < ESPERAS.length && cercanos[i] === minimo ? "barata" : ""}"
-      aria-label="${m.etiqueta}${m.vacia ? ", elegir día y hora" : `, precio aproximado ${Math.round(precios[i].mejor.precio)} pesos`}">
-      <span>${m.corta ?? m.etiqueta}</span><strong>${m.vacia ? "+" : pesos(precios[i].mejor.precio)}</strong>${m.vacia ? "" : '<small class="precio-nota">Aprox.</small>'}
-    </button>`).join("");
+  // Cada hora contra "Ahora": verde si baja, rojo si sube, neutra si casi no cambia. "Otra hora" se elige abajo.
+  const base0 = Math.round(cercanos[0]);
+  $("horas").innerHTML = lista.map((m, i) => {
+    if (m.vacia) return "";
+    const d = Math.round(precios[i].mejor.precio) - base0;
+    const tipo = i === 0 ? "" : d <= -3 ? "baja" : d >= 3 ? "sube" : "igual";
+    const nota = i === 0 ? "Aprox." : tipo === "baja" ? `${pesos(-d)} menos` : tipo === "sube" ? `${pesos(d)} más` : "Igual";
+    return `<button type="button" data-i="${i}" aria-pressed="${i === estado.momento}" class="${tipo}"
+      aria-label="${m.etiqueta}, precio aproximado ${Math.round(precios[i].mejor.precio)} pesos">
+      <span>${m.corta ?? m.etiqueta}</span><strong>${pesos(precios[i].mejor.precio)}</strong><small class="precio-nota">${nota}</small>
+    </button>`;
+  }).join("");
   // Lo que cambia es la franja de 3 horas del modelo, no el trafico de este momento.
   const ahora = cercanos[0];
   const mejor = cercanos.slice(1).reduce((a, p, i) => (p < a.p ? { p, i: i + 1 } : a), { p: Infinity, i: 0 });
   const peor = cercanos.slice(1).reduce((a, p, i) => (p > a.p ? { p, i: i + 1 } : a), { p: -Infinity, i: 0 });
+  $("respuestaEspera").className = `respuesta-espera ${ahora - mejor.p >= 5 ? "baja" : peor.p - ahora >= 5 ? "sube" : "igual"}`;
   $("respuestaEspera").textContent = ahora - mejor.p >= 5
     ? `Sí: desde las ${hora(inicioFranja(lista[mejor.i].minuto))} lo normal baja ${pesos(ahora - mejor.p)}`
     : peor.p - ahora >= 5 ? `No: desde las ${hora(inicioFranja(lista[peor.i].minuto))} lo normal sube ${pesos(peor.p - ahora)}`

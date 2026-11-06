@@ -54,6 +54,20 @@ export const Reporte = sequelize.define("Reporte", {
   foto_url: DataTypes.STRING(300),
 }, { tableName: "reportes" });
 
+// Quejas del servicio de Qrobus. Tabla aparte y tipo como texto: agregar valores a un ENUM de Postgres
+// pide una migracion que sync() no hace. El texto libre no se publica; el resumen solo cuenta.
+export const TIPOS_QUEJA = ["no_paro", "sucio", "manejo", "cobro", "acoso", "otro_servicio"];
+
+export const Queja = sequelize.define("Queja", {
+  tipo: { type: DataTypes.STRING(20), allowNull: false, validate: { isIn: [TIPOS_QUEJA] } },
+  ruta: { type: DataTypes.STRING(12), allowNull: false, validate: { is: /^[A-Za-z0-9 -]{1,12}$/ } },
+  unidad: { type: DataTypes.STRING(12), validate: { is: /^[A-Za-z0-9 -]{0,12}$/ } },
+  parada: DataTypes.STRING(120),
+  lat: { type: DataTypes.DOUBLE, allowNull: false, validate: { min: 20.3, max: 21.0 } },
+  lon: { type: DataTypes.DOUBLE, allowNull: false, validate: { min: -100.8, max: -100.0 } },
+  descripcion: { type: DataTypes.STRING(280), validate: { len: [0, 280] } },
+}, { tableName: "quejas", updatedAt: false });
+
 // El precio que le salio a alguien al pedir en una app, para mejorar el modelo.
 export const PrecioReportado = sequelize.define("PrecioReportado", {
   app: { type: DataTypes.ENUM(...APPS), allowNull: false },

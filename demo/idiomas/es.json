@@ -10507,6 +10507,192 @@
       "contextos": [
         "demo/app.js · pintarAhorro"
       ]
+    },
+    {
+      "clave": "texto_853ce82e4a",
+      "es": "Ahora mismo",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_f60bbe9d39",
+      "es": "Reportar un problema",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_6ca4188168",
+      "es": "En la calle o la parada",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_dbedc0a428",
+      "es": "No hizo la parada",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_f9f849b9b8",
+      "es": "Unidad sucia o en mal estado",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_64e75839dd",
+      "es": "Manejo peligroso",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_0ce9ca4c67",
+      "es": "Me cobraron de más",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_a2d1b7a382",
+      "es": "Acoso o agresión",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_696bfa1942",
+      "es": "Otra cosa del servicio",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_ec877dc24c",
+      "es": "Si estás en peligro, llama al 911.",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_725e00f115",
+      "es": "¿En qué ruta?",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_5c730ac46a",
+      "es": "Otra ruta",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_22c69ed069",
+      "es": "Número de unidad",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_ffbce249e7",
+      "es": "(si lo viste)",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_f2a738eaf2",
+      "es": "Ejemplo: C53",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_7e78d81596",
+      "es": "Grieta no es un canal oficial. Para que la AMEQ lo atienda, mándalo también por su línea de reportes.",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_7f219625ed",
+      "es": "Mandar por WhatsApp a Qrobus",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_e59cc0bb12",
+      "es": "Llamar a Reportes (442) 211 70 00",
+      "contextos": [
+        "demo/index.html · texto de interfaz"
+      ]
+    },
+    {
+      "clave": "texto_7a922eeb9f",
+      "es": "Ejemplo: le hice la parada y siguió de largo",
+      "contextos": [
+        "demo/app.js · marcarReporte"
+      ]
+    },
+    {
+      "clave": "texto_b03d819bbe",
+      "es": "Elige o escribe la ruta del camión.",
+      "contextos": [
+        "demo/app.js · enviarQueja"
+      ]
+    },
+    {
+      "clave": "texto_dd4348c4f7",
+      "es": "En los últimos {v1} días, {v2} personas reportaron problemas en la ruta {v3}.",
+      "contextos": [
+        "demo/app.js · enviarQueja"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "r.dias",
+          "formato": "numero"
+        },
+        "v2": {
+          "expresion": "r.total",
+          "formato": "numero"
+        },
+        "v3": {
+          "expresion": "ruta"
+        }
+      }
+    },
+    {
+      "clave": "texto_5ad166b9d9",
+      "es": "Eres la primera persona en reportar la ruta {v1} este mes.",
+      "contextos": [
+        "demo/app.js · enviarQueja"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "ruta"
+        }
+      }
+    },
+    {
+      "clave": "texto_3bf1c01fbe",
+      "es": "Gracias. Tu queja quedó registrada en Grieta.",
+      "contextos": [
+        "demo/app.js · enviarQueja"
+      ]
+    },
+    {
+      "clave": "texto_f61f40b6c6",
+      "es": "Voy saliendo. Mi ubicación ahorita:",
+      "contextos": [
+        "demo/app.js · compartirViaje"
+      ]
     }
   ]
 }

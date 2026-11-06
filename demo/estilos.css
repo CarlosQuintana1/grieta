@@ -790,6 +790,13 @@ html.claro body::before { background: #0b0a09; }
 
 /* Reportar: cada problema es una ficha grande; la elegida lleva borde y palomita */
 .tipos-reporte { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+.subtitulo-reporte { grid-column: 1 / -1; margin: 10px 0 0; color: var(--tenue); font-size: .8rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.rutas-queja { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 10px; }
+.rutas-queja button { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--linea); background: var(--superficie); color: var(--tinta); font-weight: 700; }
+.rutas-queja button[aria-checked="true"] { background: var(--ambar); border-color: var(--ambar); color: var(--sobre-ambar); }
+.aviso-peligro { margin: 4px 0 12px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--cuidado); color: var(--cuidado); font-weight: 700; }
+.queja-listo { display: grid; gap: 10px; margin-top: 12px; }
+.queja-listo .boton { margin-top: 0; text-align: center; text-decoration: none; }
 .tipo-reporte { position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 14px;
   min-height: 112px; padding: 14px; border-radius: var(--radio); background: var(--superficie); border: 2px solid var(--linea);
   text-align: left; font-weight: 700; line-height: 1.2; }
@@ -1010,3 +1017,5 @@ h2.titulo-medio { display: flex; align-items: center; gap: 10px; font-size: 1.15
 h2.titulo-medio::after { content: ""; flex: 1; height: 2px; border-radius: 2px; background: var(--tono); }
 h2.titulo-medio .mini-ficha { width: 34px; height: 34px; }
 h2.titulo-medio .mini-ficha .picto { width: 20px; height: 20px; }
+#quejaCamion input { width: 100%; min-height: 52px; margin-bottom: 12px; padding: 12px 14px; color: var(--tinta); background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--radio); }
+#quejaCamion input:focus { border-color: var(--ambar); outline: none; }

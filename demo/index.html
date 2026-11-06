@@ -96,6 +96,8 @@
       <symbol id="p-traffic-cone" viewBox="0 0 24 24"><path d="M16.05 10.966a5 2.5 0 0 1-8.1 0m8.973 3.083 4.48 2.04a1 1 0 0 1 .001 1.831l-8.574 3.9a2 2 0 0 1-1.66 0l-8.574-3.91a1 1 0 0 1 0-1.83l4.484-2.04M16.949 14.14a5 2.5 0 1 1-9.9 0L10.063 3.5a2 2 0 0 1 3.874 0zM9.194 6.57a5 2.5 0 0 0 5.61 0"/></symbol>
       <symbol id="p-signpost" viewBox="0 0 24 24"><path d="M12 13v8M12 3v3M2.354 10.354a1.207 1.207 0 0 1 0-1.708l2.06-2.06A2 2 0 0 1 5.828 6h12.344a2 2 0 0 1 1.414.586l2.06 2.06a1.207 1.207 0 0 1 0 1.708l-2.06 2.06a2 2 0 0 1-1.414.586H5.828a2 2 0 0 1-1.414-.586z"/></symbol>
       <symbol id="p-map-pinned" viewBox="0 0 24 24"><path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0ZM4.474 15h-.197a1 1 0 0 0-.969.753l-1.097 4.35a1.5 1.5 0 0 0 1.444 1.898L20.344 22a1.5 1.5 0 0 0 1.446-1.897l-1.098-4.35a1 1 0 0 0-.969-.753h-.197"/><circle cx="12" cy="8" r="2"/></symbol>
+      <symbol id="p-compartir" viewBox="0 0 48 48"><circle cx="36" cy="10" r="7"/><circle cx="12" cy="24" r="7"/><circle cx="36" cy="38" r="7"/><path d="M14.6 21.8 33.4 11l2 3.5-18.8 10.8ZM16.6 23.5l18.8 10.9-2 3.4-18.8-10.8Z"/></symbol>
+      <symbol id="p-cobro" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8M12 18V6"/></symbol>
       <symbol id="p-ellipsis" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></symbol>
       <symbol id="p-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
       <symbol id="p-flag" viewBox="0 0 24 24"><path d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"/></symbol>
@@ -235,13 +237,19 @@
         <button type="button" class="mic dictar" aria-label="Dictar a dónde vas" hidden><svg class="icono"><use href="#i-microfono"/></svg><span>Dictar</span></button>
       </div>
       <button type="button" class="boton dictar dictar-grande" aria-label="Decir a dónde voy" hidden><svg class="picto"><use href="#p-decir"/></svg><span>Decir a dónde voy</span></button>
-      <h2 id="tituloAtajos" class="seccion">Aquí cerca</h2>
+      <h2 id="tituloAtajos" class="seccion">Ahora mismo</h2>
       <div class="lugares" role="group" aria-labelledby="tituloAtajos">
         <button id="pasanAqui" type="button" class="lugar tono-anil" aria-label="¿Qué camión pasa aquí?">
           <span class="lugar-icono"><svg class="picto"><use href="#p-camiones"/></svg></span><span class="lugar-nombre">Camiones aquí</span>
         </button>
         <button id="dondeEstoy" type="button" class="lugar tono-maiz" aria-label="¿Dónde estoy?">
           <span class="lugar-icono"><svg class="picto"><use href="#p-donde"/></svg></span><span class="lugar-nombre">Dónde estoy</span>
+        </button>
+        <button id="reportarInicio" type="button" class="lugar tono-salud" aria-label="Reportar un problema">
+          <span class="lugar-icono"><svg class="picto"><use href="#p-reportar"/></svg></span><span class="lugar-nombre">Reportar</span>
+        </button>
+        <button id="compartirInicio" type="button" class="lugar tono-hospital" aria-label="Compartir mi viaje">
+          <span class="lugar-icono"><svg class="picto"><use href="#p-compartir"/></svg></span><span class="lugar-nombre">Compartir mi viaje</span>
         </button>
       </div>
       <div id="invitaPerfil" class="invita-perfil" hidden>
@@ -459,7 +467,15 @@
       <h1 id="tituloReporte" class="titulo-grande" tabindex="-1">¿Qué problema encontraste?</h1>
       <p class="donde"><svg class="icono ambar"><use href="#i-pin"/></svg><span id="reporteDonde">Buscando dónde estás...</span></p>
       <div id="tipoReporte" class="tipos-reporte" role="radiogroup" aria-labelledby="tituloReporte">
-        <button type="button" role="radio" aria-checked="false" data-v="banqueta" class="tipo-reporte"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto picto-lucide"><use href="#p-construction"/></svg></span><span>Banqueta rota</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+        <h2 class="subtitulo-reporte">En el camión</h2>
+        <button type="button" role="radio" aria-checked="false" data-v="no_paro" class="tipo-reporte"><span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-parada"/></svg></span><span>No hizo la parada</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+        <button type="button" role="radio" aria-checked="false" data-v="sucio" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-qrobus"/></svg></span><span>Unidad sucia o en mal estado</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+        <button type="button" role="radio" aria-checked="false" data-v="manejo" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-salud" aria-hidden="true"><svg class="picto picto-lucide"><use href="#p-traffic-cone"/></svg></span><span>Manejo peligroso</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+        <button type="button" role="radio" aria-checked="false" data-v="cobro" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-casa" aria-hidden="true"><svg class="picto picto-lucide"><use href="#p-cobro"/></svg></span><span>Me cobraron de más</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+        <button type="button" role="radio" aria-checked="false" data-v="acoso" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-salud" aria-hidden="true"><svg class="picto"><use href="#p-reportar"/></svg></span><span>Acoso o agresión</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+        <button type="button" role="radio" aria-checked="false" data-v="otro_servicio" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-ciruela" aria-hidden="true"><svg class="picto picto-lucide"><use href="#p-ellipsis"/></svg></span><span>Otra cosa del servicio</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+        <h2 class="subtitulo-reporte">En la calle o la parada</h2>
+        <button type="button" role="radio" aria-checked="false" data-v="banqueta" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto picto-lucide"><use href="#p-construction"/></svg></span><span>Banqueta rota</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
         <button type="button" role="radio" aria-checked="false" data-v="sin_rampa" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-trabajo" aria-hidden="true"><svg class="picto"><use href="#p-silla"/></svg></span><span>No hay rampa</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
         <button type="button" role="radio" aria-checked="false" data-v="sin_techo" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-casa" aria-hidden="true"><svg class="picto"><use href="#p-parada"/></svg></span><span>Parada sin techo</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
         <button type="button" role="radio" aria-checked="false" data-v="obstaculo" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-obsidiana" aria-hidden="true"><svg class="picto picto-lucide"><use href="#p-traffic-cone"/></svg></span><span>Obstáculo</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
@@ -468,12 +484,27 @@
         <button type="button" role="radio" aria-checked="false" data-v="otro" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-ciruela" aria-hidden="true"><svg class="picto picto-lucide"><use href="#p-ellipsis"/></svg></span><span>Otra cosa</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
       </div>
       <div id="reporteResto" hidden>
+        <div id="quejaCamion" hidden>
+          <p id="quejaAcoso" class="aviso-peligro" hidden>Si estás en peligro, llama al 911.</p>
+          <p id="tituloRutaQueja" class="etiqueta-campo">¿En qué ruta?</p>
+          <div id="rutasQueja" class="rutas-queja" role="radiogroup" aria-labelledby="tituloRutaQueja"></div>
+          <label for="rutaQueja" class="etiqueta-campo">Otra ruta</label>
+          <input id="rutaQueja" maxlength="12" autocomplete="off" autocapitalize="characters" placeholder="Ejemplo: C53">
+          <label for="unidadQueja" class="etiqueta-campo">Número de unidad <span class="tenue">(si lo viste)</span></label>
+          <input id="unidadQueja" maxlength="12" inputmode="numeric" autocomplete="off">
+        </div>
         <label for="descripcion" class="etiqueta-campo">Cuéntanos más <span class="tenue">(si quieres)</span></label>
         <textarea id="descripcion" maxlength="280" rows="3" placeholder="Ejemplo: la parada está frente al OXXO, junto al poste amarillo"></textarea>
-        <label class="boton oscuro archivo"><svg class="icono"><use href="#i-camara"/></svg><span id="fotoTexto">Agregar foto (si quieres)</span><input id="foto" type="file" accept="image/jpeg,image/png,image/webp" capture="environment"></label>
+        <label id="fotoReporte" class="boton oscuro archivo"><svg class="icono"><use href="#i-camara"/></svg><span id="fotoTexto">Agregar foto (si quieres)</span><input id="foto" type="file" accept="image/jpeg,image/png,image/webp" capture="environment"></label>
         <button id="enviarReporte" type="button" class="boton">Enviar reporte</button>
       </div>
       <p id="reporteEstado" class="nota" role="status"></p>
+      <div id="quejaListo" class="queja-listo" hidden>
+        <p id="quejaResumen" class="nota"></p>
+        <p>Grieta no es un canal oficial. Para que la AMEQ lo atienda, mándalo también por su línea de reportes.</p>
+        <a id="quejaWhatsapp" class="boton" href="https://wa.me/524461171516" target="_blank" rel="noopener">Mandar por WhatsApp a Qrobus</a>
+        <a class="boton oscuro" href="tel:+524422117000">Llamar a Reportes (442) 211 70 00</a>
+      </div>
     </section>
 
     <section id="perfil" class="pantalla" aria-labelledby="tituloPantalla" hidden>

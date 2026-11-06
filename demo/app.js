@@ -2456,10 +2456,11 @@ $("terminar").addEventListener("click", () => {
   terminarGuia();
   history.back();
 });
-$("compartir").addEventListener("click", () => {
+// Desde inicio, sin viaje en curso, comparte solo dónde está la persona ahorita.
+function compartirViaje() {
   const enviar = async (lat, lon) => {
     const linea = guia.camion ? ` en la línea ${guia.camion.linea} hacia ${guia.camion.hacia}` : "";
-    const texto = `Voy a ${estado.destino?.nombre ?? "mi destino"}${linea}. Mi ubicación ahorita:`;
+    const texto = guia.activa ? `Voy a ${estado.destino?.nombre ?? "mi destino"}${linea}. Mi ubicación ahorita:` : "Voy saliendo. Mi ubicación ahorita:";
     const url = `https://www.google.com/maps?q=${lat},${lon}`;
     try {
       if (navigator.share) await navigator.share({ title: "Mi viaje", text: texto, url });
@@ -2472,7 +2473,10 @@ $("compartir").addEventListener("click", () => {
   } else {
     navigator.geolocation?.getCurrentPosition(({ coords }) => enviar(coords.latitude, coords.longitude), () => hablar(frase("sin_ubicacion")));
   }
-});
+}
+$("compartir").addEventListener("click", compartirViaje);
+$("compartirInicio").addEventListener("click", compartirViaje);
+$("reportarInicio").addEventListener("click", () => abrirReporte());
 
 function terminarGuia() {
   clearTimeout(guia.confirmar);
@@ -3036,18 +3040,36 @@ async function leerReferencias(parada) {
 }
 
 // Reportar un problema donde estas parado.
-const reporte = { tipo: null, lat: null, lon: null, parada: null };
+const reporte = { tipo: null, lat: null, lon: null, parada: null, ruta: null };
+const TIPOS_QUEJA = { no_paro: "No hizo la parada", sucio: "Unidad sucia o en mal estado", manejo: "Manejo peligroso", cobro: "Me cobraron de más", acoso: "Acoso o agresión", otro_servicio: "Otra cosa del servicio" };
+const esQueja = (t) => Object.hasOwn(TIPOS_QUEJA, t);
+const marcarRutaQueja = radios("rutasQueja", (v) => { reporte.ruta = v; $("rutaQueja").value = ""; });
+$("rutaQueja").addEventListener("input", () => {
+  reporte.ruta = null;
+  for (const b of $("rutasQueja").querySelectorAll("[role=radio]")) b.setAttribute("aria-checked", "false");
+});
+// Las rutas que pasan por la parada mas cercana, para no tener que escribirla.
+function pintarRutasQueja(lat, lon) {
+  const lineas = [...new Set(Grieta.pasanAqui(lat, lon, hoyDia(), ahoraMin(), 600, 1).flatMap((p) => p.lineas.map((l) => l.linea)))].slice(0, 8);
+  $("rutasQueja").innerHTML = lineas.map((l, i) => `<button type="button" role="radio" aria-checked="false" tabindex="${i ? -1 : 0}" data-v="${escapar(l)}" translate="no">${escapar(l)}</button>`).join("");
+}
 // Lo demas del reporte aparece hasta elegir el problema, para que la pantalla pida una cosa a la vez.
 const marcarReporte = radios("tipoReporte", (v) => {
   reporte.tipo = v;
+  $("quejaCamion").hidden = !esQueja(v);
+  $("quejaAcoso").hidden = v !== "acoso";
+  $("fotoReporte").hidden = esQueja(v);
+  $("descripcion").placeholder = esQueja(v) ? "Ejemplo: le hice la parada y siguió de largo" : "Ejemplo: la parada está frente al OXXO, junto al poste amarillo";
+  if (v) $("quejaListo").hidden = true;
   const nuevo = $("reporteResto").hidden && v;
   $("reporteResto").hidden = !v;
   if (v) $("reporteEstado").className = "nota";
   if (nuevo) setTimeout(() => $("enviarReporte").scrollIntoView({ block: "nearest", behavior: "smooth" }), 50);
 });
 function abrirReporte(paradaFijada = null) {
-  Object.assign(reporte, { tipo: null, lat: null, lon: null, parada: null });
+  Object.assign(reporte, { tipo: null, lat: null, lon: null, parada: null, ruta: null });
   marcarReporte(null);
+  $("rutaQueja").value = ""; $("unidadQueja").value = ""; $("rutasQueja").innerHTML = ""; $("quejaListo").hidden = true;
   $("descripcion").value = "";
   $("foto").value = "";
   $("fotoTexto").textContent = "Agregar foto (si quieres)";
@@ -3058,6 +3080,7 @@ function abrirReporte(paradaFijada = null) {
   ir("reporte");
   const fijar = async (lat, lon) => {
     Object.assign(reporte, { lat, lon });
+    pintarRutasQueja(lat, lon);
     const p = Grieta.pasanAqui(lat, lon, hoyDia(), ahoraMin(), 120)[0];
     reporte.parada = p?.nombre ?? null;
     // Cerca de una parada, el reporte queda en la parada para que lo encuentre quien la consulte.
@@ -3075,6 +3098,7 @@ function abrirReporte(paradaFijada = null) {
   };
   if (paradaFijada) {
     Object.assign(reporte, { lat: paradaFijada.lat, lon: paradaFijada.lon, parada: paradaFijada.nombre });
+    pintarRutasQueja(paradaFijada.lat, paradaFijada.lon);
     $("reporteDonde").textContent = `En la parada ${cruce(paradaFijada.nombre)}`;
     return;
   }
@@ -3108,6 +3132,7 @@ $("enviarReporte").addEventListener("click", async () => {
   if (!reporte.tipo) return decirR("Elige qué problema encontraste.");
   if (reporte.lat === null) return decirR("Todavía no sé dónde estás. Activa la ubicación.");
   if (!API) return decirR("Los reportes todavía no están conectados al servidor.");
+  if (esQueja(reporte.tipo)) return enviarQueja(decirR);
   $("enviarReporte").disabled = true;
   try {
     const nuevo = await llamar("/reportes", {
@@ -3144,6 +3169,46 @@ $("enviarReporte").addEventListener("click", async () => {
     $("enviarReporte").disabled = false;
   }
 });
+
+// La queja se publica solo como conteo; el canal oficial queda a un toque con el texto ya escrito.
+async function enviarQueja(decirR) {
+  const ruta = (reporte.ruta ?? $("rutaQueja").value).trim().toUpperCase();
+  if (!ruta) return decirR("Elige o escribe la ruta del camión.");
+  const unidad = $("unidadQueja").value.trim();
+  const descripcion = $("descripcion").value.trim();
+  $("enviarReporte").disabled = true;
+  try {
+    await llamar("/quejas", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tipo: reporte.tipo, ruta, unidad: unidad || null, parada: reporte.parada, lat: reporte.lat, lon: reporte.lon, descripcion: descripcion || null }),
+    });
+    const tipo = TIPOS_QUEJA[reporte.tipo];
+    let resumen = "";
+    try {
+      const r = await llamar(`/quejas/resumen?ruta=${encodeURIComponent(ruta)}`);
+      resumen = r.total > 1 ? `En los últimos ${r.dias} días, ${r.total} personas reportaron problemas en la ruta ${ruta}.` : `Eres la primera persona en reportar la ruta ${ruta} este mes.`;
+    } catch {}
+    const cuando = new Date().toLocaleString("es-MX", { dateStyle: "short", timeStyle: "short" });
+    const mensaje = [`Reporte de Qrobus: ${tipo}.`, `Ruta ${ruta}${unidad ? `, unidad ${unidad}` : ""}${reporte.parada ? `, parada ${reporte.parada}` : ""}.`, cuando, descripcion].filter(Boolean).join(" ");
+    $("quejaWhatsapp").href = `https://wa.me/524461171516?text=${encodeURIComponent(mensaje)}`;
+    $("quejaResumen").textContent = resumen;
+    $("quejaListo").hidden = false;
+    decirR("Gracias. Tu queja quedó registrada en Grieta.");
+    $("reporteEstado").className = "nota listo";
+    $("reporteResto").hidden = true;
+    Object.assign(reporte, { tipo: null, ruta: null });
+    marcarReporte(null);
+    $("quejaListo").hidden = false;
+    $("descripcion").value = ""; $("unidadQueja").value = ""; $("rutaQueja").value = "";
+    $("quejaListo").scrollIntoView({ block: "nearest" });
+  } catch (err) {
+    decirR(["sin api", "sin conexion"].includes(err.message)
+      ? "No se pudo enviar: no hay conexión con Grieta. Revisa tu internet e intenta otra vez."
+      : `No se pudo enviar: ${err.message}.`);
+  } finally {
+    $("enviarReporte").disabled = false;
+  }
+}
 
 // El precio que le salio a alguien, para que el modelo aprenda.
 $("enviarPrecio").addEventListener("click", async () => {

@@ -60,6 +60,12 @@ lugares, hora, usuario ni IP. `GET /api/impacto` devuelve la suma (viajes, km y 
 Con la clave del equipo, `POST /api/viajes/demo` mete un viaje marcado como demostración (para que el
 contador no arranque vacío en una presentación) y `DELETE /api/viajes/demo` los borra todos.
 
+`POST /api/quejas` guarda una queja del servicio (`tipo`: no_paro, sucio, manejo, cobro, acoso u otro_servicio;
+`ruta`, `unidad` opcional, `lat`, `lon`, `descripcion`). Es pública para enviar, pero la lista con el texto es solo del
+equipo: `GET /api/quejas/resumen?ruta=` o `?lat=&lon=` devuelve únicamente conteos por tipo de los últimos 30 días.
+La app manda además al canal oficial (WhatsApp 446 117 1516 y Reportes (442) 211 70 00, según qrobus.gob.mx/Ayuda,
+consultado el 2026-11-06).
+
 `POST /api/reportes/:id/verificar` con `{ "sigue": true|false }` registra si un reporte de parada sigue así o ya lo
 arreglaron, sin datos de quien lo dice. `GET /api/reportes?lat=&lon=` trae `sigue` y `arreglado` de cada uno y ya no
 muestra los que al menos 2 personas dijeron arreglados y son mayoría.

@@ -421,3 +421,28 @@ describe("Reportes verificados por la gente", () => {
     await publico().post(`/api/reportes/${r.id}/verificar`).send({ sigue: "tal vez" }).expect(400);
   });
 });
+
+describe("Quejas del servicio", () => {
+  test("cualquiera manda una queja y el resumen solo cuenta, sin el texto", async () => {
+    const q = await publico().post("/api/quejas").send({ tipo: "no_paro", ruta: " c53 ", unidad: "1234", lat: 20.5943, lon: -100.3926, descripcion: "No paró en la parada" }).expect(201);
+    assert.equal(q.body.ruta, "C53");
+    await publico().post("/api/quejas").send({ tipo: "sucio", ruta: "C53", lat: 20.5944, lon: -100.3927 }).expect(201);
+    const r = await publico().get("/api/quejas/resumen?ruta=c53").expect(200);
+    assert.equal(r.body.total, 2);
+    assert.equal(r.body.porTipo.no_paro, 1);
+    assert.equal(JSON.stringify(r.body).includes("paró"), false);
+    const cerca = await publico().get("/api/quejas/resumen?lat=20.5943&lon=-100.3926&radio=100").expect(200);
+    assert.equal(cerca.body.total, 2);
+  });
+  test("la lista con el texto es solo del equipo", async () => {
+    await publico().get("/api/quejas").expect(401);
+    await publico().get("/api/quejas/1").expect(401);
+    await equipo().get("/api/quejas").expect(200);
+  });
+  test("rechaza tipos inventados, rutas raras y puntos fuera de Querétaro", async () => {
+    await publico().post("/api/quejas").send({ tipo: "inventado", ruta: "C53", lat: 20.59, lon: -100.39 }).expect(400);
+    await publico().post("/api/quejas").send({ tipo: "sucio", ruta: "<script>", lat: 20.59, lon: -100.39 }).expect(400);
+    await publico().post("/api/quejas").send({ tipo: "sucio", ruta: "C53", lat: 19.43, lon: -99.13 }).expect(400);
+    await publico().get("/api/quejas/resumen").expect(400);
+  });
+});

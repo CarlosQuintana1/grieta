@@ -5992,6 +5992,126 @@
       "clave": "texto_d7b1c5986e",
       "es": "Tu bolsillo lo nota.",
       "nhe": "Mo bolsa kiitas."
+    },
+    {
+      "clave": "texto_853ce82e4a",
+      "es": "Ahora mismo",
+      "nhe": "Amatsi"
+    },
+    {
+      "clave": "texto_f60bbe9d39",
+      "es": "Reportar un problema",
+      "nhe": "Xikijto se kuesoli"
+    },
+    {
+      "clave": "texto_6ca4188168",
+      "es": "En la calle o la parada",
+      "nhe": "Ipan ojtli o kampa timoketsa"
+    },
+    {
+      "clave": "texto_dbedc0a428",
+      "es": "No hizo la parada",
+      "nhe": "Ax kichijki nopa tlatsakuili"
+    },
+    {
+      "clave": "texto_f9f849b9b8",
+      "es": "Unidad sucia o en mal estado",
+      "nhe": "Tlasoli o amo kuali eltok"
+    },
+    {
+      "clave": "texto_64e75839dd",
+      "es": "Manejo peligroso",
+      "nhe": "Tlauilankayotl tlen peligroso"
+    },
+    {
+      "clave": "texto_0ce9ca4c67",
+      "es": "Me cobraron de más",
+      "nhe": "Nech tlaxtlauijkej tlauel miak"
+    },
+    {
+      "clave": "texto_a2d1b7a382",
+      "es": "Acoso o agresión",
+      "nhe": "tlaijiyouilistli o tlateuilistli"
+    },
+    {
+      "clave": "texto_696bfa1942",
+      "es": "Otra cosa del servicio",
+      "nhe": "Seyok tlamantli tlen nopa tekitl"
+    },
+    {
+      "clave": "texto_ec877dc24c",
+      "es": "Si estás en peligro, llama al 911.",
+      "nhe": "Tlaj ti itstok ipan se peligro, xijnotsati 911."
+    },
+    {
+      "clave": "texto_725e00f115",
+      "es": "¿En qué ruta?",
+      "nhe": "¿Ipan tlake ojtli?"
+    },
+    {
+      "clave": "texto_5c730ac46a",
+      "es": "Otra ruta",
+      "nhe": "seyok ojtli"
+    },
+    {
+      "clave": "texto_22c69ed069",
+      "es": "Número de unidad",
+      "nhe": "número de unidad"
+    },
+    {
+      "clave": "texto_ffbce249e7",
+      "es": "(si lo viste)",
+      "nhe": "(tla ti ki itak)"
+    },
+    {
+      "clave": "texto_f2a738eaf2",
+      "es": "Ejemplo: C53",
+      "nhe": "Ejemplo: C53"
+    },
+    {
+      "clave": "texto_7e78d81596",
+      "es": "Grieta no es un canal oficial. Para que la AMEQ lo atienda, mándalo también por su línea de reportes.",
+      "nhe": "Grieta ax eli se canal tlen tlanauatia. Para nopa AMEQ ma ki tlachili, nojkia xiktitlani ipan inin línea de informe."
+    },
+    {
+      "clave": "texto_7f219625ed",
+      "es": "Mandar por WhatsApp a Qrobus",
+      "nhe": "Xititlani ika WhatsApp ipan Qrobus"
+    },
+    {
+      "clave": "texto_e59cc0bb12",
+      "es": "Llamar a Reportes (442) 211 70 00",
+      "nhe": "Xijnotsati tlajtoli (442) 211 70 00"
+    },
+    {
+      "clave": "texto_7a922eeb9f",
+      "es": "Ejemplo: le hice la parada y siguió de largo",
+      "nhe": "Ejemplo: Nijtsakuili uan yajaya ki chijki ika"
+    },
+    {
+      "clave": "texto_b03d819bbe",
+      "es": "Elige o escribe la ruta del camión.",
+      "nhe": "Xijtlapejpeni o xikijkuilo nopa ojtli tlen kiuika nopa camión."
+    },
+    {
+      "clave": "texto_dd4348c4f7",
+      "es": "En los últimos {v1} días, {v2} personas reportaron problemas en la ruta {v3}.",
+      "nhe": "Ipan nopa {v1} tonali tlen panok, {v2} maseualmej kiijtojkej onka kuesoli ipan ojtli {v3}."
+    },
+    {
+      "clave": "texto_5ad166b9d9",
+      "es": "Eres la primera persona en reportar la ruta {v1} este mes.",
+      "nhe": "Ta ti achtoui maseuali tlen tij ilhuis nopa ojtli {v1} ipan ni metstli."
+    },
+    {
+      "clave": "texto_3bf1c01fbe",
+      "es": "Gracias. Tu queja quedó registrada en Grieta.",
+      "nhe": "Tlaskamati. Mo tlatelhuili mo ijkuilok ipan Grieta."
+    },
+    {
+      "clave": "texto_f61f40b6c6",
+      "es": "Voy saliendo. Mi ubicación ahorita:",
+      "nhe": "Niquisas. Kanke ni itstok amantsi:"
     }
   ],
   "adaptaciones": [
@@ -6214,6 +6334,11 @@
       "clave": "texto_c53e5a39d6",
       "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
       "criterio": "Misma traducción que «Más rápida»; la lengua no marca el género."
+    },
+    {
+      "clave": "texto_dd4348c4f7",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "La traducción automática omitió {v1}; se restituye el número de días."
     }
   ]
 }

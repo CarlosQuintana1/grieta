@@ -4,6 +4,7 @@
 // Lo que cualquiera puede mandar desde la app.
 const ESCRITURAS_PUBLICAS = [
   ["POST", /^\/api\/reportes\/?$/],
+  ["POST", /^\/api\/quejas\/?$/],
   ["POST", /^\/api\/reportes\/\d+\/foto\/?$/],
   ["POST", /^\/api\/reportes\/\d+\/verificar\/?$/],
   ["POST", /^\/api\/precios-reportados\/?$/],
@@ -12,7 +13,8 @@ const ESCRITURAS_PUBLICAS = [
   ["POST", /^\/api\/viajes\/?$/],
 ];
 // Lecturas con datos de personas: quién captura, por dónde se mueve y qué consulta.
-const LECTURAS_PRIVADAS = [/^\/api\/usuarios/, /^\/api\/precios-reportados/, /^\/api\/consultas/];
+// El texto de cada queja puede traer datos de alguien: solo el resumen es publico.
+const LECTURAS_PRIVADAS = [/^\/api\/usuarios/, /^\/api\/precios-reportados/, /^\/api\/consultas/, /^\/api\/quejas(?!\/resumen\/?$)/];
 
 export const esDelEquipo = (req) => Boolean(process.env.CLAVE_ADMIN) && req.get("X-Clave-Admin") === process.env.CLAVE_ADMIN;
 

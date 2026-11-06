@@ -8,6 +8,7 @@ import { cotizacionesRouter } from "./cotizaciones.js";
 import { lugaresRouter } from "./lugares.js";
 import { preciosRouter } from "./precios.js";
 import { registrosRouter } from "./registros.js";
+import { quejasRouter } from "./quejas.js";
 import { reportesRouter } from "./reportes.js";
 import { rutasRouter } from "./rutas.js";
 import { usuariosRouter } from "./usuarios.js";
@@ -24,6 +25,7 @@ export const api = Router()
   .use("/cotizaciones", cotizacionesRouter)
   .use("/consultas", consultasRouter)
   .use("/reportes", reportesRouter)
+  .use("/quejas", quejasRouter)
   .use("/precios-reportados", preciosRouter)
   // Sin tabla: avisos de la gente en la parada y avisos programados por push
   .get("/camiones/avisos", camiones.listar)

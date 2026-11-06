@@ -69,6 +69,8 @@ export const PrecioReportado = sequelize.define("PrecioReportado", {
 export const ViajeCamion = sequelize.define("ViajeCamion", {
   km: { type: DataTypes.DOUBLE, allowNull: false, validate: { min: 0.3, max: 80 } },
   co2_g: { type: DataTypes.INTEGER, allowNull: false },
+  // Viaje de demostracion que mete el equipo; se borra despues de presentar.
+  demo: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
 }, { tableName: "viajes_camion", timestamps: false });
 
 // RESTRICT: un lugar, una ruta o un usuario con datos ligados no se puede borrar.

@@ -2,11 +2,15 @@ import { almacenEnUso } from "./almacen.js";
 import { app } from "./app.js";
 import { sequelize } from "./modelos.js";
 import { sembrar } from "./semilla.js";
+import { DataTypes } from "sequelize";
 
 const PUERTO = process.env.PORT ?? 3000;
 
 // El ORM crea en la base las tablas que falten, a partir de los modelos.
 await sequelize.sync();
+// sync() no agrega columnas a una tabla que ya existe: la de demo se agrega aqui si falta.
+const columnas = await sequelize.getQueryInterface().describeTable("viajes_camion");
+if (!columnas.demo) await sequelize.getQueryInterface().addColumn("viajes_camion", "demo", { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false });
 const tablas = Object.values(sequelize.models).map((m) => m.tableName);
 console.log(`Esquema sincronizado con la base de datos: ${tablas.length} tablas (${tablas.join(", ")})`);
 

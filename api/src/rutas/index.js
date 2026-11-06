@@ -31,4 +31,6 @@ export const api = Router()
   .post("/notificaciones/cancelar", notificaciones.cancelar)
   // Viajes en camion contados sin datos de la persona, y su suma para el inicio
   .post("/viajes", impacto.registrar)
+  .post("/viajes/demo", impacto.demo)
+  .delete("/viajes/demo", impacto.quitarDemo)
   .get("/impacto", impacto.total);

@@ -57,6 +57,8 @@ sin tabla.
 `POST /api/viajes` cuenta un viaje en camión que alguien empezó con la guía. Solo recibe los km; el CO₂
 se calcula aquí con 135.7 g/km (meta de la NOM-163-SEMARNAT-ENER-SCFI-2013 para autos nuevos). No guarda
 lugares, hora, usuario ni IP. `GET /api/impacto` devuelve la suma (viajes, km y kg de CO₂) que muestra el inicio.
+Con la clave del equipo, `POST /api/viajes/demo` mete un viaje marcado como demostración (para que el
+contador no arranque vacío en una presentación) y `DELETE /api/viajes/demo` los borra todos.
 
 `POST /api/notificaciones` programa avisos push para el viaje (que pasa el camión, que ya casi llegas) y
 los manda a su hora aunque el teléfono esté bloqueado; `POST /api/notificaciones/cancelar` los quita al

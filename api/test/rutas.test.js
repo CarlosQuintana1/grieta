@@ -345,13 +345,29 @@ describe("Viajes en camión", () => {
     assert.equal(Math.round((despues.km - antes.km) * 10) / 10, 3.2);
     assert.equal(Math.round((despues.co2_kg - antes.co2_kg) * 10) / 10, 0.4);
     const { ViajeCamion } = await import("../src/modelos.js");
-    assert.deepEqual(Object.keys(ViajeCamion.getAttributes()).sort(), ["co2_g", "id", "km"]);
+    assert.deepEqual(Object.keys(ViajeCamion.getAttributes()).sort(), ["co2_g", "demo", "id", "km"]);
   });
 
   test("rechaza un viaje sin distancia o imposible", async () => {
     await publico().post("/api/viajes").send({}).expect(400);
     await publico().post("/api/viajes").send({ km: 500 }).expect(400);
     await publico().post("/api/viajes").send({ km: 0.1 }).expect(400);
+  });
+
+  test("solo el equipo mete y quita viajes de demostración", async () => {
+    await publico().post("/api/viajes/demo").send({ km: 3.7 }).expect(401);
+    await publico().delete("/api/viajes/demo").expect(401);
+    const antes = (await publico().get("/api/impacto").expect(200)).body;
+    await publico().post("/api/viajes").send({ km: 2, demo: true }).expect(201);
+    await equipo().post("/api/viajes/demo").send({ km: 3.7 }).expect(201);
+    const con = (await publico().get("/api/impacto").expect(200)).body;
+    assert.equal(con.demo, antes.demo + 1);
+    assert.equal(Math.round((con.co2_kg - antes.co2_kg) * 10) / 10, 0.8);
+    const quitados = await equipo().delete("/api/viajes/demo").expect(200);
+    assert.equal(quitados.body.borrados, antes.demo + 1);
+    const sin = (await publico().get("/api/impacto").expect(200)).body;
+    assert.equal(sin.demo, 0);
+    assert.equal(sin.viajes, antes.viajes + 1);
   });
 
   test("nadie lee la lista de viajes uno por uno", async () => {

@@ -181,7 +181,7 @@ html.contraste .lugar-icono { box-shadow: inset 0 0 0 3px #fff; }
 .desde { display: flex; align-items: center; gap: 8px; margin-top: 6px; font-size: 0.88rem; color: var(--tenue); }
 .desde .icono { width: 18px; height: 18px; }
 .desde span { flex: 1; min-width: 0; }
-.acceso-voz { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 64px; margin: 2px 0 10px; padding: 8px 0; color: var(--ambar); text-align: left; }
+.acceso-voz { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 64px; margin: 2px 0 10px; padding: 8px 14px; color: var(--ambar); text-align: left; }
 .acceso-voz > .icono { width: 24px; height: 24px; }
 .acceso-voz .fila-texto { flex: 1; min-width: 0; }
 .acceso-voz strong, .acceso-voz small { display: block; }
@@ -691,7 +691,7 @@ button:active, .boton:active, .chip:active, .tarjeta:active, .app-fila:active, .
 .instalar img { flex: none; border-radius: 12px; }
 .instalar .icono-boton { flex: none; }
 .impacto-todos { display: flex; gap: 12px; align-items: center; margin-top: 10px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
-.impacto-todos > .icono { flex: none; width: 22px; height: 22px; color: var(--verde); }
+.impacto-todos > .icono { flex: none; width: 24px; height: 24px; color: var(--verde); }
 .impacto-todos strong { display: block; color: var(--verde); }
 .impacto-todos .fila-texto > span { color: var(--tenue); font-size: .9rem; }
 #precio::placeholder { color: var(--tenue); font-size: 1rem; font-weight: 500; opacity: 1; }

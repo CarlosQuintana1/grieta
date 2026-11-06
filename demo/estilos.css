@@ -1126,22 +1126,28 @@ button.impacto-todos { width: 100%; text-align: left; }
 
 /* Alcancia de cristal: colores fijos de la ilustracion */
 .alcancia { display: block; width: 100%; height: auto; margin-top: 4px; }
-.alcancia .sombra { fill: rgb(0 0 0 / 22%); }
-.alcancia .vidrio { fill: rgb(244 178 196 / 16%); stroke: #f0a9bd; stroke-width: 3; stroke-linejoin: round; }
-.alcancia .cuerpo { fill: rgb(244 178 196 / 12%); }
-.alcancia .cola { fill: none; stroke: #f0a9bd; stroke-width: 3; stroke-linecap: round; }
-.alcancia .moneda { fill: #f1bf45; stroke: #b98a1f; stroke-width: 1.2; }
-.alcancia .moneda.cae { fill: #f6cd5a; }
-.alcancia .signo { fill: none; stroke: #9a7016; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.alcancia .meta { stroke: #f0a9bd; stroke-width: 1.5; stroke-dasharray: 4 5; opacity: .7; }
-.alcancia .meta.hecha { stroke: #fff6dc; opacity: .9; }
-.alcancia .meta-texto { fill: var(--tenue); font-size: 12px; font-weight: 700; }
-.alcancia .meta-texto.hecha { fill: var(--verde); }
-.alcancia .brillo { fill: none; stroke: rgb(255 255 255 / 55%); stroke-width: 4; stroke-linecap: round; }
-.alcancia .nariz { fill: #e48aa2; }
-.alcancia .ojo { fill: #2b2228; }
-.alcancia .ojo-brillo { fill: #fff; }
-.alcancia .ranura { fill: #3a2f35; }
+.alcancia .sombra { fill: rgb(0 0 0 / 20%); }
+.alcancia .vidrio { fill: url(#vidrioPq); }
+.alcancia .contorno { fill: none; stroke: #f5a9c0; stroke-width: 3.5; stroke-linejoin: round; }
+.alcancia .pata { fill: #f7b8ca; stroke: #ec95ae; stroke-width: 2; }
+.alcancia .pata.atras { fill: #d98fa6; stroke: none; opacity: .8; }
+.alcancia .cola { fill: none; stroke: #f5a9c0; stroke-width: 4; stroke-linecap: round; }
+.alcancia .oreja { fill: #f7b8ca; stroke: #ec95ae; stroke-width: 2; stroke-linejoin: round; }
+.alcancia .hocico { fill: #f9c4d3; stroke: #ec95ae; stroke-width: 2.5; }
+.alcancia .nariz { fill: #d9708f; }
+.alcancia .ojo { fill: none; stroke: #3b2a32; stroke-width: 3; stroke-linecap: round; }
+.alcancia .chapeo { fill: #f58aa8; opacity: .55; }
+.alcancia .ranura { fill: #4a3540; }
+.alcancia .moneda { fill: #f4c54c; stroke: #c9962a; stroke-width: 1; }
+.alcancia .canto { fill: #b8861f; }
+.alcancia .moneda-borde { fill: none; stroke: #d9a535; stroke-width: 1.5; }
+.alcancia .signo { fill: #a57712; font: 800 13px system-ui, sans-serif; }
+.alcancia .cae { transform: translate(163px, 22px) rotate(-14deg); }
+.alcancia .meta { stroke: #fff; stroke-width: 1.6; stroke-dasharray: 3 6; stroke-linecap: round; opacity: .55; }
+.alcancia .meta.hecha { opacity: .9; }
+.alcancia .brillo { fill: none; stroke: rgb(255 255 255 / 70%); stroke-width: 5; stroke-linecap: round; }
+.alcancia .brillo.fino { stroke-width: 3; stroke: rgb(255 255 255 / 45%); }
+.alcancia .destello { fill: #fff; opacity: .85; }
 .metas-ahorro { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; padding: 0; }
 .metas-ahorro li { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 999px; font-size: .78rem; font-weight: 700; color: var(--tenue); border: 1px solid var(--linea); }
 .metas-ahorro li.hecha { color: var(--fondo); background: var(--verde); border-color: var(--verde); }

@@ -3452,32 +3452,41 @@ function pintarBonos() {
 const marcarTarifaBonos = radios("tarifaBonos", (v) => { bono.tarifa = v; pintarBonos(); });
 // Puerquito de cristal: se llena de monedas hasta el bono mensual; las rayas marcan los bonos semanal y quincenal.
 const METAS_AHORRO = [[111, "semanal"], [231, "quincenal"], [451, "mensual"]];
+const CUERPO_PQ = "M112 70C140 50 200 46 232 58C254 68 268 84 272 100C274 124 262 148 236 162C206 178 150 180 118 168C88 156 72 130 76 106C80 88 94 76 112 70Z";
 function puerquito(pesosMes) {
-  const fondo = 170, alto = 116, nivel = fondo - alto * Math.min(1, pesosMes / 451);
+  const fondo = 176, alto = 124, nivel = fondo - alto * Math.min(1, pesosMes / 451);
   let monedas = "";
-  for (let y = fondo - 4, f = 0; y > nivel - 4; y -= 6.5, f++) {
-    for (let x = 84 + (f % 2) * 10; x < 280; x += 20) {
-      const cy = y + Math.sin(x * 0.7 + f) * 1.5;
-      if (cy >= nivel - 2) monedas += `<ellipse cx="${x}" cy="${cy.toFixed(1)}" rx="10.5" ry="4.2" class="moneda"/>`;
+  for (let y = fondo - 2, f = 0; pesosMes > 0 && y > nivel - 6; y -= 7, f++) {
+    for (let x = 70 + (f % 2) * 11; x < 285; x += 22) {
+      const cy = y + Math.sin(x * 0.37 + f * 1.7) * 2;
+      if (cy < nivel - 3) continue;
+      monedas += `<ellipse cx="${x}" cy="${(cy + 2.2).toFixed(1)}" rx="11" ry="4.6" class="canto"/><ellipse cx="${x}" cy="${cy.toFixed(1)}" rx="11" ry="4.6" class="moneda"/>`;
     }
   }
-  const rayas = METAS_AHORRO.map(([p]) => {
-    const y = fondo - alto * (p / 451), hecho = pesosMes >= p;
-    return `<path d="M96 ${y}H262" class="meta${hecho ? " hecha" : ""}"/>`;
+  const rayas = METAS_AHORRO.slice(0, 2).map(([p]) => {
+    const y = (fondo - alto * (p / 451)).toFixed(1);
+    return `<path d="M84 ${y}H268" class="meta${pesosMes >= p ? " hecha" : ""}"/>`;
   }).join("");
-  return `<defs><clipPath id="cuerpoPq"><ellipse cx="180" cy="112" rx="94" ry="62"/></clipPath></defs>
-    <ellipse cx="180" cy="190" rx="110" ry="8" class="sombra"/>
-    <rect x="112" y="160" width="20" height="26" rx="8" class="vidrio"/><rect x="226" y="160" width="20" height="26" rx="8" class="vidrio"/>
-    <path d="M88 104c-14-2-22 8-16 16 5 6 14 0 9-6" class="cola"/>
-    <path d="M212 62l10-24 20 26Z" class="vidrio"/>
-    <ellipse cx="180" cy="112" rx="94" ry="62" class="vidrio cuerpo"/>
-    <g clip-path="url(#cuerpoPq)">${monedas}</g>
-    ${rayas}
-    <path d="M118 74c14-14 40-20 62-18" class="brillo"/>
-    <ellipse cx="276" cy="114" rx="14" ry="19" class="vidrio hocico"/><ellipse cx="273" cy="107" rx="2.6" ry="4" class="nariz"/><ellipse cx="273" cy="121" rx="2.6" ry="4" class="nariz"/>
-    <circle cx="242" cy="94" r="4.2" class="ojo"/><circle cx="243.4" cy="92.6" r="1.4" class="ojo-brillo"/>
-    <rect x="160" y="48" width="40" height="7" rx="3.5" class="ranura"/>
-    ${pesosMes > 0 ? '<g transform="rotate(-12 180 26)"><ellipse cx="180" cy="26" rx="11" ry="11" class="moneda cae"/><path d="M180 20v12M182.5 22.5h-4a2 2 0 0 0 0 4h3a2 2 0 0 1 0 4h-4" class="signo"/></g>' : ""}`;
+  const cae = pesosMes > 0 && pesosMes < 451
+    ? '<g class="cae"><ellipse cx="0" cy="0" rx="12" ry="12" class="moneda"/><ellipse cx="0" cy="0" rx="8.5" ry="8.5" class="moneda-borde"/><text x="0" y="4.5" text-anchor="middle" class="signo">$</text></g>' : "";
+  return `<defs>
+      <clipPath id="cuerpoPq"><path d="${CUERPO_PQ}"/></clipPath>
+      <linearGradient id="vidrioPq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe3ec" stop-opacity=".22"/><stop offset="1" stop-color="#ffc2d3" stop-opacity=".06"/></linearGradient>
+    </defs>
+    <ellipse cx="176" cy="194" rx="112" ry="9" class="sombra"/>
+    <rect x="232" y="150" width="20" height="36" rx="10" class="pata atras"/><rect x="100" y="152" width="20" height="34" rx="10" class="pata atras"/>
+    <path d="M78 112c-14-6-24 4-18 12 5 6 14 2 10-5" class="cola"/>
+    <path d="${CUERPO_PQ}" fill="url(#vidrioPq)"/>
+    <g clip-path="url(#cuerpoPq)">${monedas}${rayas}</g>
+    <path d="${CUERPO_PQ}" class="contorno"/>
+    <rect x="208" y="160" width="24" height="28" rx="11" class="pata"/><rect x="122" y="164" width="24" height="25" rx="11" class="pata"/>
+    <path d="M214 60C212 40 222 26 238 24C244 38 242 54 232 64Z" class="oreja"/>
+    <rect x="262" y="90" width="30" height="40" rx="13" class="hocico"/><ellipse cx="277" cy="102" rx="3" ry="4.6" class="nariz"/><ellipse cx="277" cy="118" rx="3" ry="4.6" class="nariz"/>
+    <path d="M236 92q6-6 12 0" class="ojo"/><ellipse cx="250" cy="110" rx="9" ry="5.5" class="chapeo"/>
+    <rect x="140" y="47" width="46" height="8" rx="4" transform="rotate(-4 163 51)" class="ranura"/>
+    <path d="M102 92C112 72 138 62 164 60" class="brillo"/><path d="M96 112c0-6 1-10 3-14" class="brillo fino"/>
+    <circle cx="246" cy="76" r="3" class="destello"/><circle cx="254" cy="70" r="1.6" class="destello"/>
+    ${cae}`;
 }
 function pintarAlcancia(mes) {
   $("alcancia").innerHTML = puerquito(mes);

@@ -10472,6 +10472,13 @@
       "contextos": [
         "demo/app.js · inicio, guia y paradas"
       ]
+    },
+    {
+      "clave": "texto_7305e93a60",
+      "es": "Más económica y más rápida",
+      "contextos": [
+        "demo/app.js · pintarOpciones"
+      ]
     }
   ]
 }

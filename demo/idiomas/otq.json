@@ -3806,6 +3806,11 @@
       "clave": "texto_faa6ef435c",
       "es": "Cómo llegar a la parada",
       "otq": "Tema zo̲ni jar parada ar autobús"
+    },
+    {
+      "clave": "texto_7305e93a60",
+      "es": "Más económica y más rápida",
+      "otq": "Ar njut'i menu ar bojä ne ar mäs ngutha"
     }
   ],
   "adaptaciones": [
@@ -4168,6 +4173,11 @@
       "clave": "texto_9eac642ea4",
       "fuente": "https://www.bing.com/translator?from=es&to=otq",
       "criterio": "Mayúscula inicial y punto final como en el texto fuente."
+    },
+    {
+      "clave": "texto_7305e93a60",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Reusa la traducción automática de «Más económica y Más rápida»."
     }
   ],
   "parcial": true

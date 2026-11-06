@@ -5967,6 +5967,11 @@
       "clave": "texto_29cb999b0c",
       "es": "La misma indicación en Lengua de Señas Mexicana",
       "nhe": "San se tlajtoli ika señas mexicana"
+    },
+    {
+      "clave": "texto_7305e93a60",
+      "es": "Más económica y más rápida",
+      "nhe": "Más barato uan más nimantsi"
     }
   ],
   "adaptaciones": [
@@ -6169,6 +6174,11 @@
       "clave": "texto_0e405a3257",
       "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
       "criterio": "La salida automática usaba «para»; se usa «ipan» como en las demás instrucciones con calle."
+    },
+    {
+      "clave": "texto_7305e93a60",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Reusa la traducción automática de «Más económica y Más rápida»."
     }
   ]
 }

@@ -3478,8 +3478,7 @@ function pintarAlcancia(mes) {
 // Lo ahorrado contado en cosas que usa un estudiante. Precios con fuente en la linea de abajo de la pantalla.
 const COSAS_AHORRO = [
   ["camion", "tono-hospital", 11, ["viaje", "viajes"], "en Qrobus", "de un viaje en Qrobus"],
-  ["tele", "tono-salud", 139, ["mes", "meses"], "de Netflix con anuncios", "de un mes de Netflix"],
-  ["libro", "tono-ciruela", 288, ["libro", "libros"], "como Cien años de soledad", "de Cien años de soledad"],
+  ["tele", "tono-salud", 139, ["mes", "meses"], "de suscripción de Netflix", "de un mes de Netflix"],
   ["celular", "tono-trabajo", 2772, ["celular", "celulares"], "Galaxy A16", "de un Galaxy A16"],
 ];
 function cosasAhorro(pesos) {

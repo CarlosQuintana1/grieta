@@ -690,12 +690,10 @@ button:active, .boton:active, .chip:active, .tarjeta:active, .app-fila:active, .
 .instalar { display: flex; align-items: center; gap: 12px; margin-top: 22px; padding: 12px 10px 12px 14px; border-radius: var(--radio); background: var(--superficie); }
 .instalar img { flex: none; border-radius: 12px; }
 .instalar .icono-boton { flex: none; }
-.impacto-todos { display: flex; gap: 12px; align-items: center; margin-top: 12px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
+.impacto-todos { display: flex; gap: 12px; align-items: center; margin-top: 10px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
 .impacto-todos > .icono { flex: none; width: 22px; height: 22px; color: var(--verde); }
 .impacto-todos strong { display: block; color: var(--verde); }
 .impacto-todos .fila-texto > span { color: var(--tenue); font-size: .9rem; }
-.ahorro-mes { margin-top: 10px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
-.ahorro-mes strong { color: var(--verde); font-weight: 700; }
 #precio::placeholder { color: var(--tenue); font-size: 1rem; font-weight: 500; opacity: 1; }
 
 /* Pantallas angostas y letra grande: que nada se parta a la mitad */

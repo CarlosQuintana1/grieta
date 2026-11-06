@@ -2555,7 +2555,7 @@ function pintarAhorro() {
   const nuevaMeta = meta && meta > leer("grieta-meta-co2", 0) ? meta : null;
   if (nuevaMeta) { escribir("grieta-meta-co2", nuevaMeta); hablar(`Llevas ${nuevaMeta} kilos de CO₂ que no emitió un auto.`); }
   $("ahorroMes").hidden = total < 1;
-  $("ahorroMes").innerHTML = `<strong>${pesos(total)} de ahorro estimado</strong> este mes.`;
+  $("ahorroMes").innerHTML = `${ico("moneda")}<span class="fila-texto"><strong>${pesos(total)} de ahorro estimado</strong></span>`;
 }
 // Lo de todos: cada viaje en camion empezado con la guia manda solo sus km; la API los suma.
 const contarViaje = (km) => llamar("/viajes", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ km: Math.round(km * 10) / 10 }) })

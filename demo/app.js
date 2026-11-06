@@ -2340,10 +2340,9 @@ async function pintarImpacto() {
   if (!API || Date.now() - (estado.impactoLeido ?? 0) < 5 * 60 * 1000) return;
   estado.impactoLeido = Date.now();
   try {
-    const { viajes, co2_kg } = await llamar("/impacto");
-    if (!viajes) return;
-    $("impactoTodos").innerHTML = `${ico("planta")}<span class="fila-texto"><strong>${viajes === 1 ? "Con Grieta se ha hecho 1 viaje en Qrobus." : `Con Grieta se han hecho ${viajes} viajes en Qrobus.`}</strong>
-      <span>En auto habrían emitido ${kgTexto(co2_kg * 1000)} de CO₂.</span><small>Cada viaje se cuenta sin saber quién lo hizo ni a dónde.</small></span>`;
+    const { co2_kg } = await llamar("/impacto");
+    if (!co2_kg) return;
+    $("impactoTodos").innerHTML = `${ico("planta")}<span class="fila-texto"><strong>${kgTexto(co2_kg * 1000)} de CO₂ evitados</strong><span>Moverte diferente sí cuenta.</span></span>`;
     $("impactoTodos").hidden = false;
   } catch { estado.impactoLeido = 0; }
 }

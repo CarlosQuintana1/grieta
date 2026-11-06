@@ -667,10 +667,10 @@ button:active, .boton:active, .chip:active, .tarjeta:active, .app-fila:active, .
 .sugerencia { display: flex; align-items: center; gap: 12px; width: 100%; margin-top: 12px; padding: 12px 14px; border-radius: var(--radio);
   background: var(--superficie); border: 2px solid var(--ambar); text-align: left; }
 .sugerencia .icono { color: var(--ambar); }
-.impacto-todos { display: flex; gap: 12px; align-items: flex-start; margin-top: 20px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
-.impacto-todos > .icono { flex: none; width: 24px; height: 24px; color: var(--verde); margin-top: 2px; }
-.impacto-todos strong { color: var(--verde); }
-.impacto-todos small { display: block; margin-top: 4px; color: var(--tenue); }
+.impacto-todos { display: flex; gap: 12px; align-items: center; margin-top: 20px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
+.impacto-todos > .icono { flex: none; width: 24px; height: 24px; color: var(--verde); }
+.impacto-todos strong { display: block; font-size: 1.15rem; color: var(--verde); }
+.impacto-todos .fila-texto > span { color: var(--tenue); }
 .ahorro-mes { margin-top: 20px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
 .ahorro-mes strong { color: var(--ambar); font-weight: 700; }
 #precio::placeholder { color: var(--tenue); font-size: 1rem; font-weight: 500; opacity: 1; }

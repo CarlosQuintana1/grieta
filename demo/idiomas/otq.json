@@ -3668,29 +3668,19 @@
       "otq": "Ya coche emitiría {v1} ar CO₂."
     },
     {
-      "clave": "texto_a42611be8a",
-      "es": "Con Grieta se ha hecho 1 viaje en Qrobus.",
-      "otq": "Ko Grieta, 1 viaje ar xi 'yo̲t'e jar Qrobus."
-    },
-    {
-      "clave": "texto_440d75d10c",
-      "es": "Con Grieta se han hecho {v1} viajes en Qrobus.",
-      "otq": "Grieta, {v1} viajes ar xi 'yo̲t'e jar Qrobus."
-    },
-    {
-      "clave": "texto_7704326f86",
-      "es": "En auto habrían emitido {v1} de CO₂.",
-      "otq": "Ja 'nar coche habría emitido {v1} ar CO₂."
-    },
-    {
-      "clave": "texto_a31dd5b979",
-      "es": "Cada viaje se cuenta sin saber quién lo hizo ni a dónde.",
-      "otq": "Kadu̲ 'nar viaje mfädi hinda pädi togo'ä bí 'yo̲t'e wa hogem'bu̲."
-    },
-    {
       "clave": "texto_ca30428cbb",
       "es": "Este viaje: {v1} de CO₂ que no emitió un auto.",
       "otq": "Nuna ar viaje: {v1} ar CO₂ nä'ä hingi emitió 'nar coche."
+    },
+    {
+      "clave": "texto_fd5a1b5ac2",
+      "es": "{v1} de CO₂ evitados",
+      "otq": "{v1} ar CO₂ evitado"
+    },
+    {
+      "clave": "texto_0b8be139a8",
+      "es": "Moverte diferente sí cuenta.",
+      "otq": "Gi pede ar 'na ya 'na'ño ja ya mu̲i."
     }
   ],
   "adaptaciones": [

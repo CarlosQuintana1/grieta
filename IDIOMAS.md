@@ -15,7 +15,7 @@ la realizó y la fecha en `revision`; quitar `provisional` después de validar e
 ## Catálogos
 
 `demo/idiomas/es.json` registra los textos fuente, las claves, el contexto y las variables. El catálogo
-actual de `demo/idiomas/otq.json` contiene 736 mensajes automáticos y provisionales. `fuente` registra el
+actual de `demo/idiomas/otq.json` contiene 734 mensajes automáticos y provisionales. `fuente` registra el
 servicio y la fecha; `adaptaciones` explica las etiquetas breves y las correcciones de nombres propios.
 Microsoft Translator admite otomí de Querétaro con el código `otq`:
 https://learn.microsoft.com/es-es/azure/ai-services/translator/language-support

@@ -10018,46 +10018,6 @@
       }
     },
     {
-      "clave": "texto_a42611be8a",
-      "es": "Con Grieta se ha hecho 1 viaje en Qrobus.",
-      "contextos": [
-        "demo/app.js · pintarImpacto"
-      ]
-    },
-    {
-      "clave": "texto_440d75d10c",
-      "es": "Con Grieta se han hecho {v1} viajes en Qrobus.",
-      "contextos": [
-        "demo/app.js · pintarImpacto"
-      ],
-      "variables": {
-        "v1": {
-          "expresion": "viajes",
-          "formato": "numero"
-        }
-      }
-    },
-    {
-      "clave": "texto_7704326f86",
-      "es": "En auto habrían emitido {v1} de CO₂.",
-      "contextos": [
-        "demo/app.js · pintarImpacto"
-      ],
-      "variables": {
-        "v1": {
-          "expresion": "kgTexto(co2_kg * 1000)",
-          "formato": "kg"
-        }
-      }
-    },
-    {
-      "clave": "texto_a31dd5b979",
-      "es": "Cada viaje se cuenta sin saber quién lo hizo ni a dónde.",
-      "contextos": [
-        "demo/app.js · pintarImpacto"
-      ]
-    },
-    {
       "clave": "texto_ca30428cbb",
       "es": "Este viaje: {v1} de CO₂ que no emitió un auto.",
       "contextos": [
@@ -10069,6 +10029,26 @@
           "formato": "kg"
         }
       }
+    },
+    {
+      "clave": "texto_fd5a1b5ac2",
+      "es": "{v1} de CO₂ evitados",
+      "contextos": [
+        "demo/app.js · pintarImpacto"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "kgTexto(co2_kg * 1000)",
+          "formato": "kg"
+        }
+      }
+    },
+    {
+      "clave": "texto_0b8be139a8",
+      "es": "Moverte diferente sí cuenta.",
+      "contextos": [
+        "demo/app.js · pintarImpacto"
+      ]
     }
   ]
 }

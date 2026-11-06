@@ -277,11 +277,13 @@ html.grande body.con-mapa .hoja { max-height: 80%; }
 .horas button span { display: block; font-size: 0.78rem; color: var(--tenue); }
 .horas button strong { display: block; font-size: 1.1rem; font-weight: 700; }
 .horas button .precio-nota { display: block; color: var(--tono-hora); font-weight: 600; }
-.horas button:first-child { --tono-hora: var(--ambar); }
-.horas button.baja, .horas button.sube { background: color-mix(in srgb, var(--tono-hora) 14%, var(--fondo)); border-color: color-mix(in srgb, var(--tono-hora) 55%, transparent); }
+.horas button:first-child, .horas button.igual { --tono-hora: var(--ambar); }
 .horas button.baja { --tono-hora: var(--verde); } .horas button.sube { --tono-hora: var(--cuidado); }
+.horas button { background: color-mix(in srgb, var(--tono-hora) 13%, var(--fondo)); border-color: color-mix(in srgb, var(--tono-hora) 45%, transparent); }
 .horas button.baja strong, .horas button.sube strong { color: var(--tono-hora); }
-.horas button[aria-pressed="true"] { border: 2px solid var(--ambar); }
+/* La hora elegida va rellena con su color, como las opciones del perfil */
+.horas button[aria-pressed="true"] { background: var(--tono-hora); border: 2px solid var(--tono-hora); }
+.horas button[aria-pressed="true"] :is(span, strong, .precio-nota) { color: var(--sobre-ambar); }
 /* La quinta, otra hora elegida, va en su propio renglon */
 .horas button:nth-child(5) { grid-column: 1 / -1; min-height: 48px; display: flex; align-items: baseline; justify-content: center; gap: 10px; }
 .horas button:nth-child(5) span { font-size: 0.9rem; }

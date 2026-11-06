@@ -5737,6 +5737,76 @@
       "clave": "texto_097af2b994",
       "es": "Usar la pantalla normal",
       "nhe": "Xi kitekiui nopa pantalla tlen normal"
+    },
+    {
+      "clave": "texto_9b6b20ec06",
+      "es": "En tu carro: al menos {v1} de gasolina más estacionamiento",
+      "nhe": "Ipan mocarro: kanaj {v1} tlen gasolina uan kampa timoketsas"
+    },
+    {
+      "clave": "texto_a54b14a2b8",
+      "es": "En tu carro: al menos {v1} de gasolina",
+      "nhe": "Ipan mocarro: kanaj {v1} tlen gasolina"
+    },
+    {
+      "clave": "texto_45b7ae69bc",
+      "es": "Gasolina regular a $23.99 el litro en Querétaro, según la CRE.",
+      "nhe": "Nopa gasolina tlen nochipa eltok ika $23.99 por litro ipan Querétaro, ijkon kiijtoua nopa CRE."
+    },
+    {
+      "clave": "texto_273381ac60",
+      "es": "Con el tráfico de ahorita, {v1} min en auto.",
+      "nhe": "Ika nopa tlauilankayotl amantsi, {v1} min ika carro."
+    },
+    {
+      "clave": "texto_cedf42fed6",
+      "es": "Con el tráfico de ahorita, {v1} min en auto ({v2} por tráfico).",
+      "nhe": "Ika nopa tlauilankayotl tlen amantsi, {v1} min ika carro ({v2} pampa tlauilankayotl)."
+    },
+    {
+      "clave": "texto_bdff89c1b5",
+      "es": "De noche, sin caminar al final",
+      "nhe": "Ika tlayoua, ax nejnemi ipan itlamian"
+    },
+    {
+      "clave": "texto_b625b70b6b",
+      "es": "Puede llover a las {v1} ({v2} %).",
+      "nhe": "Uelis tlaauetsis ipan {v1} ({v2} %)."
+    },
+    {
+      "clave": "texto_073288cebc",
+      "es": "Reportaron que la parada {v1} no tiene techo.",
+      "nhe": "Kiijtojkej nopa parada {v1} ax kipia tepamitl."
+    },
+    {
+      "clave": "texto_9eac642ea4",
+      "es": "Lleva paraguas.",
+      "nhe": "Xiuika se paraguas."
+    },
+    {
+      "clave": "texto_55bbff0f96",
+      "es": "Suele ir lleno a esta hora",
+      "nhe": "Uejkajkia temitok ipan ni hora"
+    },
+    {
+      "clave": "texto_97fbd03bed",
+      "es": "Estaciona y sigue en Qrobus: llegas {v1}",
+      "nhe": "Ximoketsa uan xijtokili ipan Qrobus: tiajsiti {v1}"
+    },
+    {
+      "clave": "texto_c8002f28b4",
+      "es": "Deja el carro junto a la parada {v1} y toma la {v2}.",
+      "nhe": "Xikaua nopa teposnenemi inakastla nopa parada {v1} uan xijkuika nopa {v2}."
+    },
+    {
+      "clave": "texto_699d3cf0f1",
+      "es": "Gasolina {v1} más {v2} de camión, sin entrar al Centro.",
+      "nhe": "Gasolina {v1} uan camión {v2}, amo kalakis ipan nopa Centro."
+    },
+    {
+      "clave": "texto_1fc23e55a3",
+      "es": "Estacionamiento según OpenStreetMap: confirma su horario y costo.",
+      "nhe": "Ximoketsa kej kiijtoua OpenStreetMap: xikijto tlen tijchiuas uan tlen tijtlaxtlauas."
     }
   ],
   "adaptaciones": [

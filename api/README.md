@@ -23,7 +23,7 @@ cadena de conexión de la base.
 npm test
 ```
 
-Son 44 pruebas de las rutas sobre una base en memoria, así que no tocan `database.sqlite`. En
+Son 48 pruebas de las rutas sobre una base en memoria, así que no tocan `database.sqlite`. En
 `postman/` está la colección con todas las rutas, en el orden en que las probamos.
 
 ## Estructura
@@ -59,6 +59,14 @@ se calcula aquí con 135.7 g/km (meta de la NOM-163-SEMARNAT-ENER-SCFI-2013 para
 lugares, hora, usuario ni IP. `GET /api/impacto` devuelve la suma (viajes, km y kg de CO₂) que muestra el inicio.
 Con la clave del equipo, `POST /api/viajes/demo` mete un viaje marcado como demostración (para que el
 contador no arranque vacío en una presentación) y `DELETE /api/viajes/demo` los borra todos.
+
+`GET /api/camiones/ocupacion?lineas=L55,C69` dice qué líneas suelen ir llenas a esta hora: cada "viene lleno" se
+guarda solo con la línea, la fecha y la hora (sin ubicación ni persona), y una línea cuenta si lo avisaron en al menos
+3 días distintos de las últimas 8 semanas, a la misma hora y en el mismo tipo de día (entre semana o fin).
+
+`GET /api/auto?olat=&olon=&dlat=&dlon=` da cuánto tarda el viaje en auto con el tráfico de ahorita (Azure Maps, con
+`AZURE_MAPS_KEY`). Cada respuesta se guarda 10 minutos y se frena en `TOPE_RUTAS_MES` consultas al mes (1,000 por
+omisión); sin llave responde 503.
 
 `POST /api/notificaciones` programa avisos push para el viaje (que pasa el camión, que ya casi llegas) y
 los manda a su hora aunque el teléfono esté bloqueado; `POST /api/notificaciones/cancelar` los quita al

@@ -9993,6 +9993,171 @@
       "contextos": [
         "demo/index.html · texto de interfaz"
       ]
+    },
+    {
+      "clave": "texto_9b6b20ec06",
+      "es": "En tu carro: al menos {v1} de gasolina más estacionamiento",
+      "contextos": [
+        "demo/app.js · pintarCarro"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "pesos(gasolina)",
+          "formato": "importe"
+        }
+      }
+    },
+    {
+      "clave": "texto_a54b14a2b8",
+      "es": "En tu carro: al menos {v1} de gasolina",
+      "contextos": [
+        "demo/app.js · pintarCarro"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "pesos(gasolina)",
+          "formato": "importe"
+        }
+      }
+    },
+    {
+      "clave": "texto_45b7ae69bc",
+      "es": "Gasolina regular a $23.99 el litro en Querétaro, según la CRE.",
+      "contextos": [
+        "demo/app.js · pintarCarro"
+      ]
+    },
+    {
+      "clave": "texto_273381ac60",
+      "es": "Con el tráfico de ahorita, {v1} min en auto.",
+      "contextos": [
+        "demo/app.js · pintarCarro"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "minutos",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_cedf42fed6",
+      "es": "Con el tráfico de ahorita, {v1} min en auto ({v2} por tráfico).",
+      "contextos": [
+        "demo/app.js · pintarCarro"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "minutos",
+          "formato": "numero"
+        },
+        "v2": {
+          "expresion": "retraso",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_bdff89c1b5",
+      "es": "De noche, sin caminar al final",
+      "contextos": [
+        "demo/app.js · elegirTarjetas"
+      ]
+    },
+    {
+      "clave": "texto_b625b70b6b",
+      "es": "Puede llover a las {v1} ({v2} %).",
+      "contextos": [
+        "demo/app.js · avisarLluvia"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "hora(cuando * 60)",
+          "formato": "hora"
+        },
+        "v2": {
+          "expresion": "maxima",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_073288cebc",
+      "es": "Reportaron que la parada {v1} no tiene techo.",
+      "contextos": [
+        "demo/app.js · avisarLluvia"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "cruce(c.recorrido[0].nombre)"
+        }
+      }
+    },
+    {
+      "clave": "texto_9eac642ea4",
+      "es": "Lleva paraguas.",
+      "contextos": [
+        "demo/app.js · avisarLluvia"
+      ]
+    },
+    {
+      "clave": "texto_55bbff0f96",
+      "es": "Suele ir lleno a esta hora",
+      "contextos": [
+        "demo/app.js · pintarCamiones"
+      ]
+    },
+    {
+      "clave": "texto_97fbd03bed",
+      "es": "Estaciona y sigue en Qrobus: llegas {v1}",
+      "contextos": [
+        "demo/app.js · estacionaYSigue"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "hora(r.ctx.minuto + mejor.total)",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_c8002f28b4",
+      "es": "Deja el carro junto a la parada {v1} y toma la {v2}.",
+      "contextos": [
+        "demo/app.js · estacionaYSigue"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "cruce(c.recorrido[0].nombre)"
+        },
+        "v2": {
+          "expresion": "c.linea"
+        }
+      }
+    },
+    {
+      "clave": "texto_699d3cf0f1",
+      "es": "Gasolina {v1} más {v2} de camión, sin entrar al Centro.",
+      "contextos": [
+        "demo/app.js · estacionaYSigue"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "pesos(gasolina)",
+          "formato": "importe"
+        },
+        "v2": {
+          "expresion": "pesos(mejor.bus.costo)",
+          "formato": "importe"
+        }
+      }
+    },
+    {
+      "clave": "texto_1fc23e55a3",
+      "es": "Estacionamiento según OpenStreetMap: confirma su horario y costo.",
+      "contextos": [
+        "demo/app.js · estacionaYSigue"
+      ]
     }
   ]
 }

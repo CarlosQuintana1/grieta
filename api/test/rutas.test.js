@@ -374,3 +374,31 @@ describe("Viajes en camión", () => {
     await publico().get("/api/viajes").expect(404);
   });
 });
+
+describe("Camiones que suelen ir llenos", () => {
+  test("una línea suele ir llena si lo avisan en 3 días distintos a esta hora, sin guardar ubicación", async () => {
+    const { LlenoCamion } = await import("../src/modelos.js");
+    assert.deepEqual(Object.keys(LlenoCamion.getAttributes()).sort(), ["fecha", "finde", "hora", "id", "linea"]);
+    await publico().post("/api/camiones/avisos").send({ tipo: "lleno", linea: "L55", lat: 20.6, lon: -100.4 }).expect(201);
+    assert.deepEqual((await publico().get("/api/camiones/ocupacion?lineas=L55,C69").expect(200)).body.llenas, []);
+    const hoy = (await LlenoCamion.findOne({ where: { linea: "L55" }, raw: true }));
+    const antes = (dias) => new Date(Date.parse(hoy.fecha) - dias * 86400000).toISOString().slice(0, 10);
+    await LlenoCamion.bulkCreate([1, 2].map((d) => ({ ...hoy, id: undefined, fecha: antes(d * 7) })));
+    assert.deepEqual((await publico().get("/api/camiones/ocupacion?lineas=L55,C69").expect(200)).body.llenas, ["L55"]);
+  });
+
+  test("pide las líneas", async () => {
+    await publico().get("/api/camiones/ocupacion").expect(400);
+  });
+});
+
+describe("Tiempo en auto con tráfico", () => {
+  test("sin llave de Azure Maps responde 503 y pide origen y destino en Querétaro", async () => {
+    const llave = process.env.AZURE_MAPS_KEY;
+    delete process.env.AZURE_MAPS_KEY;
+    await publico().get("/api/auto?olat=20.7&olon=-100.44&dlat=20.59&dlon=-100.39").expect(503);
+    await publico().get("/api/auto?olat=19.4&olon=-99.1&dlat=20.59&dlon=-100.39").expect(400);
+    await publico().get("/api/auto").expect(400);
+    if (llave) process.env.AZURE_MAPS_KEY = llave;
+  });
+});

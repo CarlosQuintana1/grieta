@@ -931,6 +931,16 @@ function elegirTarjetas(r) {
   const casiIgual = (o) => lista.some(({ o: x }) => x.costo < o.costo && x.minutos - o.minutos < 5);
   const resto = ops.filter((o) => !lista.some((x) => x.o === o) && !perdedora(o) && !casiIgual(o)).sort((a, b) => valorOpcion(a) - valorOpcion(b));
   if (lista.length < 3 && resto.length) agregar(resto[0], "Otra opción");
+  // De noche no se deja caminar mucho al final: se ofrece bajar del camion y pedir app para la ultima parte.
+  const hora = r.ctx.minuto % 1440;
+  const caminaAlFinal = (o) => (o.pasos?.at(-1)?.tipo === "caminar" ? o.pasos.at(-1).min : 0);
+  if ((hora >= 21 * 60 || hora < 6 * 60) && lista.some(({ o }) => caminaAlFinal(o) > 7)) {
+    const noche = "De noche, sin caminar al final";
+    const ya = lista.find(({ o }) => o.pasos?.at(-1)?.tipo === "app");
+    const conAppAlFinal = ops.filter((o) => o.pasos?.at(-1)?.tipo === "app");
+    if (ya) ya.etiquetas = [...ya.etiquetas.filter((e) => e !== "Otra opción"), noche];
+    else if (conAppAlFinal.length) agregar(menor(conAppAlFinal, valorOpcion), noche);
+  }
   // Siempre que exista, una tarjeta de solo camion aunque tarde mucho.
   const soloCamion = ops.filter((o) => o.tipo === "caminando+caminando");
   if (soloCamion.length && !lista.some((x) => x.o.tipo === "caminando+caminando")) agregar(menor(soloCamion, valorOpcion), "Otra opción");
@@ -976,6 +986,88 @@ const CO2_AUTO_G_KM = 135.7;
 const sinAuto = (o) => o.tipo !== "app" && !o.pasos?.some((p) => p.tipo === "app");
 const co2Auto = (km) => km * CO2_AUTO_G_KM;
 const kgTexto = (g) => `${(g / 1000).toFixed(g < 9950 ? 1 : 0)} kg`;
+// Lo que gastaria en su propio carro. Gasolina regular: mediana de 290 gasolineras de la zona metropolitana en los
+// datos abiertos de la CRE (2026-11-05). Rendimiento: 17.3 km/L, meta de la NOM-163 para autos nuevos (135.7 g/km).
+const GASOLINA_LITRO = 23.99;
+const AUTO_KM_LITRO = 17.3;
+const CENTRO_HISTORICO = [20.5928, -100.3911];
+function pintarCarro(r) {
+  const km = r.directo.km;
+  const centro = Grieta.metros(estado.destino.lat, estado.destino.lon, ...CENTRO_HISTORICO) < 1200;
+  $("enCarro").hidden = !(km > 0);
+  $("enCarro").innerHTML = `${miniFicha("tono-obsidiana", picto("app"))}<span class="fila-texto">
+    <strong>En tu carro: al menos ${pesos((km / AUTO_KM_LITRO) * GASOLINA_LITRO)} de gasolina${centro ? " más estacionamiento" : ""}</strong>
+    <small id="carroDetalle">Gasolina regular a $23.99 el litro en Querétaro, según la CRE.</small></span>`;
+  // Saliendo ahorita, cuanto tarda en auto con el trafico real (Azure Maps, desde la API)
+  if (estado.momento !== 0) return;
+  const { origen: o, destino: d } = estado;
+  llamar(`/auto?olat=${o.lat}&olon=${o.lon}&dlat=${d.lat}&dlon=${d.lon}`).then(({ minutos, retraso }) => {
+    if (estado.r !== r || !$("carroDetalle")) return;
+    $("carroDetalle").textContent = `Con el tráfico de ahorita, ${minutos} min en auto${retraso >= 2 ? ` (${retraso} por tráfico)` : ""}. Gasolina regular a $23.99 el litro en Querétaro, según la CRE.`;
+  }).catch(() => {});
+}
+// Pronostico por hora de Open-Meteo para el lugar de salida; si va a llover durante el viaje se avisa, y tambien si
+// alguien reporto que la parada donde se sube no tiene techo.
+const pronosticos = new Map();
+async function avisarLluvia(r) {
+  const aviso = $("avisoLluvia");
+  aviso.hidden = true;
+  const o = estado.tarjetas?.[0]?.o;
+  const c = o?.pasos?.find((p) => p.tipo === "camion");
+  if (!c || r.ctx.dia !== hoyDia() || r.ctx.minuto >= 1440) return;
+  const { lat, lon } = estado.origen;
+  const clave = `${lat.toFixed(2)},${lon.toFixed(2)},${new Date().toDateString()}`;
+  if (!pronosticos.has(clave)) {
+    pronosticos.set(clave, fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat.toFixed(3)}&longitude=${lon.toFixed(3)}&hourly=precipitation_probability&timezone=America%2FMexico_City&forecast_days=1`)
+      .then((x) => x.json()).then((x) => x.hourly.precipitation_probability).catch(() => { pronosticos.delete(clave); return null; }));
+  }
+  const probabilidad = await pronosticos.get(clave);
+  if (!probabilidad || estado.r !== r) return;
+  const desde = Math.floor(r.ctx.minuto / 60), hasta = Math.min(23, Math.floor((r.ctx.minuto + o.minutos) / 60));
+  const horas = probabilidad.slice(desde, hasta + 1);
+  const maxima = Math.max(...horas);
+  if (!(maxima >= 50)) return;
+  const cuando = desde + horas.indexOf(maxima);
+  const reportes = await reportesCerca(c.recorrido[0].lat, c.recorrido[0].lon, 40);
+  if (estado.r !== r) return;
+  const sinTecho = reportes.some((x) => x.tipo === "sin_techo");
+  aviso.innerHTML = `${ico("lluvia")}<span class="fila-texto"><strong>Puede llover a las ${hora(cuando * 60)} (${maxima} %).</strong>
+    <small>${sinTecho ? `<span>Reportaron que la parada ${escapar(cruce(c.recorrido[0].nombre))} no tiene techo.</span> ` : ""}<span>Lleva paraguas.</span></small></span>`;
+  aviso.hidden = false;
+}
+// Estaciona y sigue en Qrobus: para ir al Centro, dejar el carro en un estacionamiento junto a una parada y entrar en
+// camion. Los estacionamientos salen de OpenStreetMap (scripts/estacionamientos.py); su horario y costo no se conocen.
+let estacionamientos;
+async function estacionaYSigue(r) {
+  const caja = $("estacionaSigue");
+  caja.hidden = true;
+  const { origen: o, destino: d } = estado;
+  const directo = Grieta.metros(o.lat, o.lon, d.lat, d.lon);
+  if (Grieta.metros(d.lat, d.lon, ...CENTRO_HISTORICO) > 1200 || Grieta.metros(o.lat, o.lon, ...CENTRO_HISTORICO) < 4000) return;
+  estacionamientos ??= fetch("datos/estacionamientos.json").then((x) => x.json()).catch(() => []);
+  const lista = await estacionamientos;
+  if (estado.r !== r) return;
+  // En el camino: sin rodeo grande, lejos del destino para no entrar al Centro en carro y no pegado al origen.
+  const candidatos = lista.map((e) => ({ ...e, ida: Grieta.metros(o.lat, o.lon, e.lat, e.lon), resta: Grieta.metros(e.lat, e.lon, d.lat, d.lon) }))
+    .filter((e) => e.ida + e.resta <= directo * 1.2 && e.resta >= 2000 && e.ida >= 800)
+    .sort((a, b) => a.ida + a.resta - (b.ida + b.resta)).slice(0, 6);
+  let mejor = null;
+  for (const e of candidatos) {
+    const manejo = Math.round((e.ida * 1.3) / 1000 / 28 * 60) + 3;
+    const ops = Grieta.evaluar({ origen: [e.lat, e.lon], destino: [d.lat, d.lon], dia: r.ctx.dia, minuto: r.ctx.minuto + manejo, caminarMax: acc.camino ? 300 : undefined, tarifa: acc.unidos ? { pasaje: 2, transbordo: 0 } : undefined }).opciones
+      .filter((x) => x.tipo === "caminando+caminando");
+    const bus = ops.length && menor(ops, (x) => x.minutos);
+    if (bus && (!mejor || manejo + bus.minutos < mejor.total)) mejor = { e, bus, manejo, total: manejo + bus.minutos };
+  }
+  if (!mejor || estado.r !== r) return;
+  const c = mejor.bus.pasos.find((p) => p.tipo === "camion");
+  const gasolina = ((mejor.e.ida * 1.3) / 1000 / AUTO_KM_LITRO) * GASOLINA_LITRO;
+  caja.innerHTML = `<span class="mini-ficha ficha-combinada" aria-hidden="true"><span class="tono-obsidiana">${picto("app")}</span><span class="tono-anil">${picto("qrobus")}</span></span>
+    <span class="fila-texto"><strong>Estaciona y sigue en Qrobus: llegas ${hora(r.ctx.minuto + mejor.total)}</strong>
+    <small><span>Deja el carro junto a la parada ${escapar(cruce(c.recorrido[0].nombre))} y toma la ${escapar(c.linea)}.</span> <span>Gasolina ${pesos(gasolina)} más ${pesos(mejor.bus.costo)} de camión, sin entrar al Centro.</span>
+    <span>Estacionamiento según OpenStreetMap: confirma su horario y costo.</span></small></span>`;
+  caja.hidden = false;
+}
 function pintarOpciones(r) {
   titulos.opciones = `A ${estado.destino.nombre}`;
   if (document.body.dataset.pantalla === "opciones") $("tituloPantalla").textContent = titulos.opciones;
@@ -1005,6 +1097,9 @@ function pintarOpciones(r) {
   // La hora de llegada es lo primero que se lee; la duración y si es la más rápida van abajo, más chicas.
   $("llegadaApp").innerHTML = enApp ? `<strong>Llegas ${hora(llegada(enApp))}</strong>
     <span>${Math.round(enApp.minutos)} min de viaje</span>${etiquetasApp.map((t) => `<span class="marca-app">${t}</span>`).join("")}` : "";
+  pintarCarro(r);
+  estacionaYSigue(r);
+  avisarLluvia(r);
   // Contra la app mas barata: cuanto ahorras y cuanto mas tardas yendo en camion.
   const appBarata = [...r.directo.porApp].sort((a, b) => a.precio - b.precio)[0];
   $("tarjetas").innerHTML = estado.tarjetas.map(({ o, etiquetas }, i) => {
@@ -1044,7 +1139,7 @@ function pintarOpciones(r) {
   if (hayCamion && !estado.tarjetas.length) $("tarjetas").innerHTML = `<p class="nota">Caminando llegas antes que en cualquier Qrobus.</p>`;
   // El camion va primero: Grieta busca que se use menos el auto.
   const camionPrimero = estado.tarjetas.length > 0;
-  const bloqueCamion = ["tituloCamion", "ultimoCamion", "tarjetas"].map($);
+  const bloqueCamion = ["tituloCamion", "ultimoCamion", "avisoLluvia", "tarjetas"].map($);
   if (camionPrimero) $("enApp").before(...bloqueCamion);
   else $("enApp").after(...bloqueCamion);
   $("opciones").classList.toggle("camion-primero", camionPrimero);
@@ -1702,6 +1797,14 @@ function pintarCamiones(punto, lista, primera, seleccionada = false) {
       li.insertAdjacentHTML("beforeend", `<p class="aviso-gente">${a.tipo === "paso" ? "Ya pasó" : "Viene lleno"}, avisó alguien hace ${a.minutos || "menos de 1"} min</p>`);
     }
   });
+  // Las lineas que la gente avisó que suelen ir llenas a esta hora, de los "viene lleno" de otras semanas
+  if (p.lineas.length) llamar(`/camiones/ocupacion?lineas=${p.lineas.slice(0, 6).map((l) => encodeURIComponent(l.linea)).join(",")}`).then(({ llenas }) => {
+    if (revision !== revisionCamiones) return;
+    for (const linea of llenas) {
+      const li = document.querySelector(`#camionesContenido > .filas li[data-linea="${linea}"]`);
+      if (li && !li.querySelector(".suele-lleno")) li.insertAdjacentHTML("beforeend", `<p class="aviso-gente suele-lleno">Suele ir lleno a esta hora</p>`);
+    }
+  }).catch(() => {});
   reportesCerca(p.lat, p.lon, 60).then((avisos) => {
     if (revision !== revisionCamiones) return;
     const caja = $("avisosParada");

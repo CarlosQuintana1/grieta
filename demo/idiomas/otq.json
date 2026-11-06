@@ -3641,6 +3641,61 @@
       "clave": "texto_097af2b994",
       "es": "Usar la pantalla normal",
       "otq": "Utilice ar pantalla normal"
+    },
+    {
+      "clave": "texto_9b6b20ec06",
+      "es": "En tu carro: al menos {v1} de gasolina más estacionamiento",
+      "otq": "Ja ár coche: tso̲kwa menu {v1} ar gasolina 'nehe estacionamiento"
+    },
+    {
+      "clave": "texto_a54b14a2b8",
+      "es": "En tu carro: al menos {v1} de gasolina",
+      "otq": "Ja yá coche: tso̲kwa menu {v1} ar gasolina"
+    },
+    {
+      "clave": "texto_45b7ae69bc",
+      "es": "Gasolina regular a $23.99 el litro en Querétaro, según la CRE.",
+      "otq": "Gasolina regular jar $23.99 ya litro jar Querétaro, nä'ä mä ar CRE."
+    },
+    {
+      "clave": "texto_273381ac60",
+      "es": "Con el tráfico de ahorita, {v1} min en auto.",
+      "otq": "Ko ar tráfico gem'bya, {v1} min ya coche."
+    },
+    {
+      "clave": "texto_cedf42fed6",
+      "es": "Con el tráfico de ahorita, {v1} min en auto ({v2} por tráfico).",
+      "otq": "Ko ar tráfico nu'bya, {v1} min jar coche ({v2} nu'bya tráfico)."
+    },
+    {
+      "clave": "texto_bdff89c1b5",
+      "es": "De noche, sin caminar al final",
+      "otq": "'Bu̲ ya nxui, hinda 'yo ya ngäts'i"
+    },
+    {
+      "clave": "texto_073288cebc",
+      "es": "Reportaron que la parada {v1} no tiene techo.",
+      "otq": "Informaron ke ar parada {v1} hingi pe̲ts'i 'nar techo."
+    },
+    {
+      "clave": "texto_9eac642ea4",
+      "es": "Lleva paraguas.",
+      "otq": "Tsi 'na̲ku̲'ye."
+    },
+    {
+      "clave": "texto_c8002f28b4",
+      "es": "Deja el carro junto a la parada {v1} y toma la {v2}.",
+      "otq": "Deje ar coche a el lado de ar parada {v1} ne gi ar {v2}."
+    },
+    {
+      "clave": "texto_699d3cf0f1",
+      "es": "Gasolina {v1} más {v2} de camión, sin entrar al Centro.",
+      "otq": "Gasolina {v1} mäs {v2} ar dätä bo̲jä, hinda entrar jar made."
+    },
+    {
+      "clave": "texto_1fc23e55a3",
+      "es": "Estacionamiento según OpenStreetMap: confirma su horario y costo.",
+      "otq": "Estacionamiento nä'ä mä OpenStreetMap: comprobar yá ora ne costo."
     }
   ],
   "adaptaciones": [
@@ -3998,6 +4053,11 @@
       "clave": "texto_8a26319c47",
       "fuente": "https://www.bing.com/translator?from=es&to=otq",
       "criterio": "Misma traducción que la frase sin punto final."
+    },
+    {
+      "clave": "texto_9eac642ea4",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Mayúscula inicial y punto final como en el texto fuente."
     }
   ],
   "parcial": true

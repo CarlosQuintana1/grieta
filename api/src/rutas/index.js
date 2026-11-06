@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { camiones, notificaciones } from "../controladores/avisos.js";
+import { auto } from "../controladores/auto.js";
 import { buscar } from "../controladores/buscar.js";
 import { impacto } from "../controladores/impacto.js";
 import { consultasRouter } from "./consultas.js";
@@ -15,6 +16,7 @@ import { usuariosRouter } from "./usuarios.js";
 export const api = Router()
   .get("/salud", (_req, res) => res.json({ ok: true }))
   .get("/buscar", buscar)
+  .get("/auto", auto)
   .use("/lugares", lugaresRouter)
   .use("/usuarios", usuariosRouter)
   .use("/rutas", rutasRouter)
@@ -26,6 +28,7 @@ export const api = Router()
   // Sin tabla: avisos de la gente en la parada y avisos programados por push
   .get("/camiones/avisos", camiones.listar)
   .post("/camiones/avisos", camiones.crear)
+  .get("/camiones/ocupacion", camiones.ocupacion)
   .get("/notificaciones/clave", notificaciones.clave)
   .post("/notificaciones", notificaciones.programar)
   .post("/notificaciones/cancelar", notificaciones.cancelar)

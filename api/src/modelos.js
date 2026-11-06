@@ -73,6 +73,14 @@ export const ViajeCamion = sequelize.define("ViajeCamion", {
   demo: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
 }, { tableName: "viajes_camion", timestamps: false });
 
+// Un "viene lleno" de la gente: solo la linea, el dia y la hora, sin ubicacion ni persona.
+export const LlenoCamion = sequelize.define("LlenoCamion", {
+  linea: { type: DataTypes.STRING(6), allowNull: false },
+  fecha: { type: DataTypes.DATEONLY, allowNull: false },
+  hora: { type: DataTypes.SMALLINT, allowNull: false, validate: { min: 0, max: 23 } },
+  finde: { type: DataTypes.BOOLEAN, allowNull: false },
+}, { tableName: "llenos_camion", timestamps: false });
+
 // RESTRICT: un lugar, una ruta o un usuario con datos ligados no se puede borrar.
 const llave = (name, onDelete = "RESTRICT") => ({ foreignKey: { name, allowNull: false }, onDelete });
 

@@ -2555,16 +2555,11 @@ function rutinaSugerida() {
 }
 function pintarRutina() {
   const r = rutinaSugerida();
-  $("rutina").hidden = !r;
   $("vozRutina").hidden = !r;
   if (!r) return;
-  $("rutinaFicha").innerHTML = miniFicha(tonoLugar(r.nombre, 0), picto(iconoLugar(r.nombre)));
-  $("rutinaTexto").textContent = `¿Vas a ${r.nombre}?`;
-  $("rutinaDetalle").textContent = "Como otros días a esta hora. Toca para ver cómo llegar";
   $("vozRutina").querySelector("span").textContent = `Ir a ${r.nombre}`;
   estado.rutina = { nombre: r.nombre, lat: r.lat, lon: r.lon };
 }
-$("rutina").addEventListener("click", () => irA({ ...estado.rutina }));
 $("vozRutina").addEventListener("click", () => { hablar(frase("vamos_lugar", { lugar: estado.rutina.nombre })); irA({ ...estado.rutina }); });
 
 // Lo ahorrado este mes por ir en camion en vez de la app mas barata.

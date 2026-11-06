@@ -197,10 +197,11 @@ const PANTALLAS = {
   guia: {},
   reporte: { tab: "reporte" },
   bonos: { tab: "inicio", encabezado: true },
+  co2: { tab: "inicio", encabezado: true },
   ajustes: { tab: "ajustes" },
   perfil: { tab: "ajustes", encabezado: true },
 };
-const titulos = { bonos: "¿Qué bono te conviene?", buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
+const titulos = { co2: "Lo que evitamos", bonos: "¿Qué bono te conviene?", buscar: "Buscar", camiones: "Camiones cerca", ubicacion: "Dónde estoy", elegirMapa: "Elige en el mapa", perfil: "Tu perfil de viaje", camara: "Cámara que habla", practica: "Practicar los toques" };
 
 function actualizarVozEncabezado() {
   const boton = $("vozEncabezado"), enCamara = document.body.dataset.pantalla === "camara";
@@ -905,10 +906,10 @@ const caminata = (o) => Math.round((o.pasos ?? []).filter((p) => p.tipo === "cam
 // Solo camion lleva el camion en anil y la app el auto en verde
 // Si combina, la ficha se alarga con un tramo por medio en el orden del viaje: auto + camion, camion + auto...
 const fichaOpcion = (o) => {
-  if (o.tipo === "app") return miniFicha("tono-hospital", picto("app"));
+  if (o.tipo === "app") return miniFicha("tono-anil", picto("app"));
   const tramos = o.pasos.filter((p) => p.tipo !== "caminar").map((p) => (p.tipo === "app" ? "app" : "qrobus")).filter((t, i, a) => t !== a[i - 1]);
-  if (tramos.length === 1) return miniFicha("tono-anil", picto("qrobus"));
-  return `<span class="mini-ficha ficha-combinada" aria-hidden="true">${tramos.map((t) => `<span class="${t === "app" ? "tono-hospital" : "tono-anil"}">${picto(t)}</span>`).join("")}</span>`;
+  if (tramos.length === 1) return miniFicha("tono-hospital", picto("qrobus"));
+  return `<span class="mini-ficha ficha-combinada" aria-hidden="true">${tramos.map((t) => `<span class="${t === "app" ? "tono-anil" : "tono-hospital"}">${picto(t)}</span>`).join("")}</span>`;
 };
 
 // Maximo tres caminos con camion: el mas barato, el mas rapido y uno equilibrado si es distinto.
@@ -1082,7 +1083,7 @@ async function estacionaYSigue(r) {
   if (!mejor || estado.r !== r) return;
   const c = mejor.bus.pasos.find((p) => p.tipo === "camion");
   const gasolina = ((mejor.e.ida * 1.3) / 1000 / AUTO_KM_LITRO) * GASOLINA_LITRO;
-  caja.innerHTML = `<span class="mini-ficha ficha-combinada" aria-hidden="true"><span class="tono-obsidiana">${picto("app")}</span><span class="tono-anil">${picto("qrobus")}</span></span>
+  caja.innerHTML = `<span class="mini-ficha ficha-combinada" aria-hidden="true"><span class="tono-obsidiana">${picto("app")}</span><span class="tono-hospital">${picto("qrobus")}</span></span>
     <span class="fila-texto"><strong>Estaciona y sigue en Qrobus: llegas ${hora(r.ctx.minuto + mejor.total)}</strong>
     <small><span>Deja el carro junto a la parada ${escapar(cruce(c.recorrido[0].nombre))} y toma la ${escapar(c.linea)}.</span> <span>Gasolina ${pesos(gasolina)} más ${pesos(mejor.bus.costo)} de camión, sin entrar al Centro.</span>
     <span>Estacionamiento según OpenStreetMap: confirma su horario y costo.</span></small></span>`;
@@ -1349,7 +1350,7 @@ function pasosDe(o) {
   if (o.tipo === "app") {
     const app = tituloOpcion(o);
     return [
-      { ficha: ["tono-hospital", "app"], titulo: `Pide ${app}`, nota: `Precio estimado ${rangoVoz(rangoOpcion(o))}.`, hora: estado.r.ctx.minuto },
+      { ficha: ["tono-anil", "app"], titulo: `Pide ${app}`, nota: `Precio estimado ${rangoVoz(rangoOpcion(o))}.`, hora: estado.r.ctx.minuto },
       { ficha: ["tono-casa", "lugar"], titulo: `Llegas a ${estado.destino.nombre}`, nota: `Unos ${Math.round(o.minutos)} minutos, contando la espera.`, hora: llegada(o) },
     ];
   }
@@ -1359,7 +1360,7 @@ function pasosDe(o) {
     const inicio = p.tipo === "camion" ? p.sale : t;
     t = p.tipo === "camion" ? p.llega : t + p.min;
     const camina = ["tono-maiz", "caminar"];
-    const enApp = ["tono-hospital", "app"];
+    const enApp = ["tono-anil", "app"];
     if (p.tipo === "caminar" && p.transbordo) return { ficha: camina, titulo: `Camina ${min} min y cambia de camión`, nota: p.parada, hora: inicio };
     if (p.tipo === "caminar") return p.hacia
       ? { ficha: camina, titulo: `Camina ${min} min a la parada`, nota: p.parada, hora: inicio }
@@ -1367,7 +1368,7 @@ function pasosDe(o) {
     if (p.tipo === "app") return p.hacia
       ? { ficha: enApp, titulo: `Pide ${Grieta.nombreApp(p.app)} hasta la parada`, nota: `${p.parada}. Precio estimado ${rangoVoz(limitesPrecio(rangoTramo(o, p)))}.`, hora: inicio }
       : { ficha: enApp, titulo: `Pide ${Grieta.nombreApp(p.app)} a tu destino`, nota: `Precio estimado ${rangoVoz(limitesPrecio(rangoTramo(o, p)))}. Llegas a las ${hora(llegada(o))}.`, hora: inicio };
-    return { ficha: ["tono-anil", "qrobus"], camion: true, titulo: `Toma la línea ${p.linea} a las ${hora(p.sale)}`, nota: `Hacia ${p.hacia}. Bájate en ${p.baja}, ${p.paradas} paradas después, a las ${hora(p.llega)}. Te aviso antes.`, hora: inicio };
+    return { ficha: ["tono-hospital", "qrobus"], camion: true, titulo: `Toma la línea ${p.linea} a las ${hora(p.sale)}`, nota: `Hacia ${p.hacia}. Bájate en ${p.baja}, ${p.paradas} paradas después, a las ${hora(p.llega)}. Te aviso antes.`, hora: inicio };
   });
 }
 
@@ -2067,8 +2068,8 @@ function ponerTitulo(titulo) {
   $("guiaTitulo").innerHTML = escapar(cruce(titulo)).replace(/^Faltan (\d+)/, 'Faltan <span class="num">$1</span>');
 }
 const FICHAS_GUIA = {
-  "Hacia la parada": ["tono-maiz", "caminar"], "En la parada": ["tono-casa", "parada"], "En el camión": ["tono-anil", "qrobus"],
-  "Próxima parada": ["tono-anil", "qrobus"], "Tu parada": ["tono-casa", "parada"], "Transbordo": ["tono-anil", "qrobus"], "Llegaste": ["tono-hospital", "lugar"],
+  "Hacia la parada": ["tono-maiz", "caminar"], "En la parada": ["tono-casa", "parada"], "En el camión": ["tono-hospital", "qrobus"],
+  "Próxima parada": ["tono-hospital", "qrobus"], "Tu parada": ["tono-casa", "parada"], "Transbordo": ["tono-hospital", "qrobus"], "Llegaste": ["tono-hospital", "lugar"],
 };
 // Video en Lengua de Señas Mexicana de la frase del aviso, si ya se grabo (datos/lsm.json, ver docs/lengua-de-senas.md).
 let videosSenas = {};
@@ -2083,7 +2084,7 @@ function mostrarSenas(titulo) {
 }
 function decir(titulo, detalle, etapa, alerta = false) {
   mostrarSenas(titulo);
-  const [tono, nombre] = guia.enApp && etapa === "Hacia la parada" ? ["tono-hospital", "app"] : FICHAS_GUIA[etapa] ?? FICHAS_GUIA[guia.fase === "camion" ? "En el camión" : "Llegaste"];
+  const [tono, nombre] = guia.enApp && etapa === "Hacia la parada" ? ["tono-anil", "app"] : FICHAS_GUIA[etapa] ?? FICHAS_GUIA[guia.fase === "camion" ? "En el camión" : "Llegaste"];
   $("guiaFicha").className = `guia-ficha ${tono}`;
   $("guiaPicto").setAttribute("href", `#p-${nombre}`);
   if (etapa) $("guiaEtapa").textContent = guia.camion && etapa !== "Llegaste" ? `${etapa} · ${guia.camion.linea}` : etapa;
@@ -2587,12 +2588,79 @@ async function pintarImpacto() {
   if (!API || Date.now() - (estado.impactoLeido ?? 0) < 5 * 60 * 1000) return;
   estado.impactoLeido = Date.now();
   try {
-    const { co2_kg } = await llamar("/impacto");
+    const { co2_kg, viajes: n, km } = await llamar("/impacto");
     if (!co2_kg) return;
-    $("impactoTodos").innerHTML = `${ico("planta")}<span class="fila-texto"><strong>${kgTexto(co2_kg * 1000)} de CO₂ evitados</strong><span>Moverte diferente sí cuenta.</span></span>`;
+    estado.impacto = { g: co2_kg * 1000, viajes: n, km };
+    $("impactoTodos").innerHTML = `${ico("planta")}<span class="fila-texto"><strong>${kgTexto(co2_kg * 1000)} de CO₂ evitados</strong><span>Moverte diferente sí cuenta.</span></span>${ico("chevron", "chevron")}`;
     $("impactoTodos").hidden = false;
   } catch { estado.impactoLeido = 0; }
 }
+// Equivalencias de la EPA (arbol urbano joven, 60 kg de CO₂ al ano; 8,887 g por galon de gasolina) y de Notz y Stroeve 2016 (3 m² de hielo artico por tonelada).
+const ARBOL_G_DIA = 60000 / 365, GASOLINA_G_LITRO = 8887 / 3.785, HIELO_CM2_G = 0.03;
+const plural = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
+function tiempoArbol(g) {
+  const dias = g / ARBOL_G_DIA;
+  if (dias < 60) return plural(Math.max(1, Math.round(dias)), "día", "días");
+  if (dias < 730) return plural(Math.round(dias / 30.4), "mes", "meses");
+  return `${+(dias / 365).toFixed(1)} años`;
+}
+function equivalencias(g) {
+  const litros = g / GASOLINA_G_LITRO, cm2 = g * HIELO_CM2_G;
+  return [
+    ["parque", tiempoArbol(g), "de lo que absorbe un árbol joven de ciudad"],
+    ["gasolina", `${litros < 10 ? litros.toFixed(1) : Math.round(litros)} litros`, "de gasolina que no se quemaron"],
+    ["hielo", cm2 < 10000 ? `${Math.round(cm2)} cm²` : `${(cm2 / 10000).toFixed(1)} m²`, "de hielo del Ártico que no se derrite en verano. Ahí cazan los osos polares."],
+  ];
+}
+// Doce arboles en los cerros: cada uno es un mes de trabajo de un arbol joven, o un ano si ya pasamos de doce meses.
+const LUGARES_BOSQUE = [[40, 118], [92, 104], [146, 112], [200, 100], [256, 108], [312, 116], [66, 142], [120, 136], [174, 144], [228, 134], [282, 140], [336, 146]];
+function pintarBosque(g) {
+  const dias = g / ARBOL_G_DIA, porAnio = dias > 360, llenos = dias / (porAnio ? 365 : 30.4);
+  const arboles = LUGARES_BOSQUE.map(([x, y], i) => {
+    const avance = Math.min(1, Math.max(0, llenos - i));
+    if (!avance) return `<circle class="hueco" cx="${x}" cy="${y - 3}" r="3"/>`;
+    const t = 26 + 30 * avance;
+    return `<use href="#p-parque" class="arbol" x="${x - t / 2}" y="${y - t}" width="${t}" height="${t}"/>`;
+  }).join("");
+  const sobra = llenos >= LUGARES_BOSQUE.length + 1 ? `<text class="sobra" x="14" y="34">+${Math.floor(llenos) - LUGARES_BOSQUE.length}</text>` : "";
+  $("bosque").innerHTML = `<circle class="sol" cx="300" cy="40" r="22"/><path class="cerro atras" d="M0 112C60 82 120 88 180 100s110 0 180-18V170H0Z"/><path class="cerro" d="M0 136c70-26 130-24 190-12s110 6 170-8V170H0Z"/>${arboles}${sobra}`;
+  $("bosque").setAttribute("aria-label", `${Math.min(LUGARES_BOSQUE.length, Math.ceil(llenos))} árboles en un cerro`);
+  $("co2Unidad").textContent = porAnio ? "Cada árbol es lo que uno joven absorbe en un año." : "Cada árbol es lo que uno joven absorbe en un mes.";
+}
+// Ocho semanas de los viajes propios en camion, de lunes a domingo.
+function pintarSemanas() {
+  const lunes = new Date(); lunes.setHours(0, 0, 0, 0); lunes.setDate(lunes.getDate() - ((lunes.getDay() + 6) % 7));
+  const semanas = Array.from({ length: 8 }, (_, i) => { const d = new Date(lunes); d.setDate(d.getDate() - 7 * (7 - i)); return { d, g: 0 }; });
+  for (const h of historial) {
+    const i = Math.floor((new Date(h.fecha) - semanas[0].d) / (7 * 864e5));
+    if (i >= 0 && i < 8) semanas[i].g += h.co2 || 0;
+  }
+  const max = Math.max(...semanas.map((x) => x.g));
+  $("co2Semanas").toggleAttribute("hidden", !max);
+  if (!max) return;
+  $("co2Semanas").innerHTML = `<text class="dia" x="0" y="10">kg por semana</text><line class="base" x1="0" x2="320" y1="104" y2="104"/>` + semanas.map((x, i) => {
+    const alto = x.g ? Math.max(3, (x.g / max) * 78) : 0, cx = 20 + i * 40;
+    return `${alto ? `<rect class="barra" x="${cx - 12}" y="${104 - alto}" width="24" height="${alto}" rx="4"/>` : ""}
+      ${x.g ? `<text class="valor" x="${cx}" y="${98 - alto}" text-anchor="middle">${(x.g / 1000).toFixed(1)}</text>` : ""}
+      <text class="dia" x="${cx}" y="124" text-anchor="middle">${x.d.getDate()} ${MESES[x.d.getMonth()]}</text>`;
+  }).join("");
+  $("co2Semanas").setAttribute("aria-label", `Kilos de CO₂ evitados por semana: ${semanas.map((x) => `${x.d.getDate()} ${MESES[x.d.getMonth()]}, ${(x.g / 1000).toFixed(1)}`).join("; ")}`);
+}
+function abrirCo2() {
+  const propio = historial.reduce((s, h) => s + (h.co2 || 0), 0), enCamion = historial.filter((h) => h.co2).length;
+  const todos = estado.impacto?.g ? estado.impacto : null, g = todos?.g ?? propio;
+  $("co2Total").textContent = kgTexto(g);
+  $("co2Quien").textContent = todos ? `Entre todos: ${plural(todos.viajes, "viaje", "viajes")} en camión, ${Math.round(todos.km)} km.` : "Tus viajes en camión con Grieta.";
+  pintarBosque(g);
+  $("co2Equivale").innerHTML = equivalencias(g).map(([p, cifra, texto]) => `<li>${miniFicha("tono-hospital", picto(p))}<span class="fila-texto"><strong>${cifra}</strong><span>${texto}</span></span></li>`).join("");
+  $("co2Tuyo").innerHTML = propio
+    ? `<strong>${kgTexto(propio)}</strong> <span>en ${plural(enCamion, "viaje", "viajes")}: ${tiempoArbol(propio)} de un árbol.</span>`
+    : "<span>Cuando sigas un viaje en camión con la guía, aquí se suma lo tuyo.</span>";
+  pintarSemanas();
+  ir("co2");
+}
+$("impactoTodos").addEventListener("click", abrirCo2);
+$("co2Planear").addEventListener("click", () => abrirBuscar());
 function fechaViaje(iso) {
   const f = new Date(iso);
   return `${DIAS[(f.getDay() + 6) % 7]} ${f.getDate()} ${MESES[f.getMonth()]}`;
@@ -2638,7 +2706,7 @@ function iconoLugar(nombre, tipo) {
 }
 // Cada tipo de lugar con su color, como en un sistema de transporte; los demas toman uno del resto
 const TONOS = { casa: "tono-casa", escuela: "tono-escuela", trabajo: "tono-trabajo", hospital: "tono-salud", parque: "tono-hospital", super: "tono-maiz",
-  mercado: "tono-maiz", plaza: "tono-ciruela", cafe: "tono-obsidiana", iglesia: "tono-anil", avion: "tono-trabajo", qrobus: "tono-anil", familia: "tono-ciruela" };
+  mercado: "tono-maiz", plaza: "tono-ciruela", cafe: "tono-obsidiana", iglesia: "tono-anil", avion: "tono-trabajo", qrobus: "tono-hospital", familia: "tono-ciruela" };
 const tonoLugar = (nombre, i, tipo) => TONOS[iconoLugar(nombre, tipo)] ?? ["tono-anil", "tono-ciruela", "tono-maiz"][i % 3];
 function pintarGuardados() {
   // Casa siempre primero: es el viaje que mas se repite.

@@ -536,7 +536,7 @@ html.claro .interruptor input::after, html.claro .interruptor input:checked::aft
 .app-rapida strong { font-size: 1.3rem; font-weight: 700; }
 .app-rapida small { font-size: 0.72rem; font-weight: 700; color: var(--ambar); text-transform: uppercase; letter-spacing: 0.06em; }
 .app-rapida.barata { border: 2px solid var(--ambar); }
-.app-rapida.barata strong { color: var(--verde); }
+.app-rapida.barata strong { color: var(--tinta); }
 .en-app .enlace { margin-top: 4px; }
 
 /* Modo voz: sin mapa, botones grandes uno debajo de otro. */
@@ -1034,3 +1034,33 @@ h2.titulo-medio .mini-ficha .picto { width: 20px; height: 20px; }
 .revision-parada.si { border-color: var(--verde); color: var(--verde); }
 .revision-parada.enfrente { border-color: var(--cuidado); color: var(--cuidado); }
 .revision-parada.dudosa, .revision-parada.lejos { border-color: var(--ambar); }
+
+/* Lo que evitamos: CO₂ con arboles */
+button.impacto-todos { width: 100%; text-align: left; }
+.impacto-todos .fila-texto { flex: 1; min-width: 0; }
+.impacto-todos > .chevron { flex: none; width: 20px; height: 20px; color: var(--tenue); }
+.co2-escena { margin: -8px -16px 12px; padding: 8px 0 18px; background: linear-gradient(180deg, color-mix(in srgb, var(--verde) 10%, var(--fondo)), var(--fondo)); text-align: center; }
+.bosque { display: block; width: 100%; height: auto; }
+.co2-escena > p { padding: 0 16px; }
+.bosque .sol { fill: color-mix(in srgb, var(--ambar) 75%, transparent); }
+.bosque .cerro { fill: color-mix(in srgb, var(--verde) 26%, var(--superficie)); }
+.bosque .cerro.atras { fill: color-mix(in srgb, var(--verde) 12%, var(--superficie)); }
+.bosque .arbol { fill: var(--verde); }
+.bosque .hueco { fill: color-mix(in srgb, var(--verde) 35%, transparent); }
+.bosque .sobra { fill: var(--verde); font-weight: 800; font-size: 22px; }
+.co2-cifra { margin: 6px 0 0; }
+.co2-cifra strong { display: block; font-size: 2.6rem; font-weight: 800; line-height: 1.1; color: var(--verde); }
+.co2-cifra span { color: var(--tinta); font-weight: 600; }
+.co2-escena .nota { margin-top: 6px; }
+.co2-unidad { margin: 4px 0 0; color: var(--tenue); font-size: .85rem; }
+.co2-equivale { list-style: none; margin: 0 0 20px; padding: 0; display: grid; gap: 10px; }
+.co2-equivale li { display: flex; gap: 12px; align-items: center; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
+.co2-equivale strong { display: block; font-size: 1.15rem; color: var(--tinta); }
+.co2-equivale .fila-texto > span { color: var(--tenue); font-size: .9rem; }
+.co2-tuyo { margin: 0 0 8px; color: var(--tenue); }
+.co2-tuyo strong { color: var(--tinta); font-size: 1.15rem; }
+.co2-semanas { display: block; width: 100%; height: auto; margin-top: 4px; }
+.co2-semanas .barra { fill: var(--verde); }
+.co2-semanas .base { stroke: var(--linea); stroke-width: 1; }
+.co2-semanas .valor { fill: var(--tinta); font-size: 11px; font-weight: 700; }
+.co2-semanas .dia { fill: var(--tenue); font-size: 10.5px; }

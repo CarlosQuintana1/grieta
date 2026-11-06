@@ -241,9 +241,15 @@
           <button id="cerrarInvita" type="button" class="enlace">Ahora no</button>
         </div>
       </div>
-      <div id="impactoTodos" class="impacto-todos" role="status" hidden></div>
+      <section id="logros" class="logros" aria-labelledby="tituloLogros" hidden>
+        <h2 id="tituloLogros" class="seccion">Tu impacto</h2>
+        <div class="logros-fichas">
+          <div id="logroAhorro" class="logro logro-ahorro" hidden><svg class="icono" aria-hidden="true"><use href="#i-boleto"/></svg><strong id="logroAhorroCifra"></strong><span>ahorraste este mes</span></div>
+          <div id="logroCo2" class="logro logro-co2" hidden><svg class="icono" aria-hidden="true"><use href="#i-planta"/></svg><strong id="logroCo2Cifra"></strong><span>de CO₂ evitados entre todos</span></div>
+        </div>
+        <p class="logros-lema">Moverte diferente sí cuenta.</p>
+      </section>
       <div id="bloqueViajes" hidden>
-        <p id="ahorroMes" class="ahorro-mes" hidden></p>
         <h2 id="tituloViajes" class="seccion">Tus viajes recientes</h2>
         <ul id="listaViajes" class="filas" aria-labelledby="tituloViajes"></ul>
       </div>

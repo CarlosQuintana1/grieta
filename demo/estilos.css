@@ -204,7 +204,6 @@ html.contraste .lugar-icono { box-shadow: inset 0 0 0 3px #fff; }
 .co2-fila.camion .barra i { width: 3%; background: var(--ambar); }
 .co2-fila strong { font-weight: 700; font-size: 0.95rem; }
 .co2-barras .nota { margin: 10px 0 0; }
-.meta-co2 { display: block; margin-bottom: 6px; font-weight: 700; }
 html.grande .co2-fila { grid-template-columns: 1fr; gap: 4px; }
 .circulo { flex: none; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: var(--superficie); border: 1px solid var(--linea); color: var(--ambar); }
 .circulo .icono { width: 20px; height: 20px; }
@@ -667,12 +666,16 @@ button:active, .boton:active, .chip:active, .tarjeta:active, .app-fila:active, .
 .sugerencia { display: flex; align-items: center; gap: 12px; width: 100%; margin-top: 12px; padding: 12px 14px; border-radius: var(--radio);
   background: var(--superficie); border: 2px solid var(--ambar); text-align: left; }
 .sugerencia .icono { color: var(--ambar); }
-.impacto-todos { display: flex; gap: 12px; align-items: center; margin-top: 20px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
-.impacto-todos > .icono { flex: none; width: 24px; height: 24px; color: var(--verde); }
-.impacto-todos strong { display: block; font-size: 1.15rem; color: var(--verde); }
-.impacto-todos .fila-texto > span { color: var(--tenue); }
-.ahorro-mes { margin-top: 20px; padding: 12px 14px; border-radius: var(--radio); background: var(--superficie); }
-.ahorro-mes strong { color: var(--ambar); font-weight: 700; }
+.logros { margin-top: 24px; }
+.logros-fichas { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.logros.uno .logros-fichas, html.grande .logros-fichas { grid-template-columns: 1fr; }
+.logro { display: flex; flex-direction: column; gap: 2px; padding: 14px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--linea); }
+.logro .icono { width: 26px; height: 26px; margin-bottom: 6px; }
+.logro strong { font-size: 1.9rem; font-weight: 800; line-height: 1.1; }
+.logro span { color: var(--tenue); font-size: .9rem; }
+.logro-ahorro .icono, .logro-ahorro strong { color: var(--ambar); }
+.logro-co2 .icono, .logro-co2 strong { color: var(--verde); }
+.logros-lema { margin: 10px 2px 0; color: var(--tenue); font-size: .9rem; }
 #precio::placeholder { color: var(--tenue); font-size: 1rem; font-weight: 500; opacity: 1; }
 
 /* Pantallas angostas y letra grande: que nada se parta a la mitad */

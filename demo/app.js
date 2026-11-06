@@ -2318,20 +2318,25 @@ $("rutina").addEventListener("click", () => irA({ ...estado.rutina }));
 $("vozRutina").addEventListener("click", () => { hablar(frase("vamos_lugar", { lugar: estado.rutina.nombre })); irA({ ...estado.rutina }); });
 
 // Lo ahorrado este mes por ir en camion en vez de la app mas barata.
+// Ahorro propio y CO₂ de todos, juntos como logro; con uno solo, ocupa todo el ancho.
+function mostrarLogros() {
+  const visibles = ["logroAhorro", "logroCo2"].filter((id) => !$(id).hidden).length;
+  $("logros").hidden = !visibles;
+  $("logros").classList.toggle("uno", visibles === 1);
+}
 function pintarAhorro() {
   // Mes en hora local: en UTC el ultimo dia del mes en la noche ya cuenta como el siguiente.
   const hoy = new Date();
   const delMes = historial.filter((h) => { const f = new Date(h.fecha); return f.getFullYear() === hoy.getFullYear() && f.getMonth() === hoy.getMonth(); });
   const total = delMes.reduce((s, h) => s + (h.ahorro || 0), 0);
-  const co2 = delMes.reduce((s, h) => s + (h.co2 || 0), 0);
   // Una meta de CO₂ se dice una sola vez, la primera vez que el inicio la muestra.
   const acumulado = historial.reduce((s, h) => s + (h.co2 || 0), 0);
   const meta = [100, 50, 25, 10, 5, 1].find((kg) => acumulado >= kg * 1000);
   const nuevaMeta = meta && meta > leer("grieta-meta-co2", 0) ? meta : null;
   if (nuevaMeta) { escribir("grieta-meta-co2", nuevaMeta); hablar(`Llevas ${nuevaMeta} kilos de CO₂ que no emitió un auto.`); }
-  $("ahorroMes").hidden = total < 1 && co2 < 100 && !nuevaMeta;
-  $("ahorroMes").innerHTML = [nuevaMeta && `<span class="meta-co2">Llevas ${nuevaMeta} kg de CO₂ que no emitió un auto.</span>`, total >= 1 && `<strong>${pesos(total)} de ahorro estimado</strong> este mes.`,
-    co2 >= 100 && `<strong>${kgTexto(co2)} de CO₂</strong> que no emitió un auto.`].filter(Boolean).join(" ");
+  $("logroAhorro").hidden = total < 1;
+  $("logroAhorroCifra").textContent = pesos(total);
+  mostrarLogros();
 }
 // Lo de todos: cada viaje en camion empezado con la guia manda solo sus km; la API los suma.
 const contarViaje = (km) => llamar("/viajes", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ km: Math.round(km * 10) / 10 }) })
@@ -2342,8 +2347,9 @@ async function pintarImpacto() {
   try {
     const { co2_kg } = await llamar("/impacto");
     if (!co2_kg) return;
-    $("impactoTodos").innerHTML = `${ico("planta")}<span class="fila-texto"><strong>${kgTexto(co2_kg * 1000)} de CO₂ evitados</strong><span>Moverte diferente sí cuenta.</span></span>`;
-    $("impactoTodos").hidden = false;
+    $("logroCo2Cifra").textContent = kgTexto(co2_kg * 1000);
+    $("logroCo2").hidden = false;
+    mostrarLogros();
   } catch { estado.impactoLeido = 0; }
 }
 function fechaViaje(iso) {

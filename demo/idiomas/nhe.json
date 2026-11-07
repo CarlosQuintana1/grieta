@@ -6387,6 +6387,516 @@
       "clave": "texto_fd5f3cb02c",
       "es": "El letrero dice {v1}: es la parada de enfrente, donde la {v2} va hacia {v3}. Tu parada está cruzando la calle.",
       "nhe": "Nopa tlanextilili kiijtoua {v1}: eli nopa tlajko tlen mokaua, kampa nopa {v2} yaui {v3}. Moketsa eltok ipan seyok ojtli."
+    },
+    {
+      "clave": "texto_d3f530fc69",
+      "es": "Lo que evitamos",
+      "nhe": "Tlen tijtlauelkauaj"
+    },
+    {
+      "clave": "texto_4a1e0a2e39",
+      "es": "De quién son los viajes",
+      "nhe": "¿Ajqueya inin viajes ni?"
+    },
+    {
+      "clave": "texto_6f2b657889",
+      "es": "Tu tlacuache",
+      "nhe": "Mo opossum"
+    },
+    {
+      "clave": "texto_56364d81af",
+      "es": "Entre todos",
+      "nhe": "Ipan nochi tojuantij"
+    },
+    {
+      "clave": "texto_549ce8d509",
+      "es": "de CO₂ que no salió de un auto",
+      "nhe": "tlen CO₂ tlen ax ualayaya tlen se carro"
+    },
+    {
+      "clave": "texto_d837c45c37",
+      "es": "Basura",
+      "nhe": "Tlasoli"
+    },
+    {
+      "clave": "texto_6f95371be3",
+      "es": "Bote",
+      "nhe": "Tepostkajtli"
+    },
+    {
+      "clave": "texto_d750d1c977",
+      "es": "Árbol",
+      "nhe": "Kuauitl"
+    },
+    {
+      "clave": "texto_b86ac17304",
+      "es": "Agua",
+      "nhe": "Atl"
+    },
+    {
+      "clave": "texto_60e77440ad",
+      "es": "Aves",
+      "nhe": "Totomej"
+    },
+    {
+      "clave": "texto_4be730a97b",
+      "es": "Tunas",
+      "nhe": "Peras espinosas"
+    },
+    {
+      "clave": "texto_f2f2e33579",
+      "es": "Crías",
+      "nhe": "pilkonetsitsij opossums"
+    },
+    {
+      "clave": "texto_e8d29fb202",
+      "es": "Eso equivale a",
+      "nhe": "Ya nopa sanse ika"
+    },
+    {
+      "clave": "texto_c54b6ebe11",
+      "es": "de lo que absorbe un árbol joven",
+      "nhe": "tlen se kuauitl tlen telpokatl kiijiyotilana"
+    },
+    {
+      "clave": "texto_4888243c1a",
+      "es": "de gasolina sin quemar",
+      "nhe": "tlen ax tlatla"
+    },
+    {
+      "clave": "texto_bde01e8f2f",
+      "es": "de hielo ártico, casa del oso polar",
+      "nhe": "tlen hielo ártico, ichaj nopa oso polar"
+    },
+    {
+      "clave": "texto_feffdc5f92",
+      "es": "Tus semanas",
+      "nhe": "Mo semanas"
+    },
+    {
+      "clave": "texto_230398c1bd",
+      "es": "Buscar a dónde voy en camión",
+      "nhe": "Nijtemoua kanke nias ika autobús"
+    },
+    {
+      "clave": "texto_2ff31bc73c",
+      "es": "Aún sin viajes en camión",
+      "nhe": "Maske amo onka viajes ipan autobús"
+    },
+    {
+      "clave": "texto_48cbefae72",
+      "es": "Ya no hay basura en el suelo.",
+      "nhe": "Ayacmo onca tlasoli ipan tlali."
+    },
+    {
+      "clave": "texto_4bddf933a4",
+      "es": "Creció un árbol y volvió el pasto.",
+      "nhe": "Se cuamecat ixhuac huan nopa sacat mocuetqui."
+    },
+    {
+      "clave": "texto_5f9762238f",
+      "es": "El agua está limpia y se fue el humo.",
+      "nhe": "Nopa atl tlapajpaktik uan nopa poctli ayokmo onka."
+    },
+    {
+      "clave": "texto_74baff2192",
+      "es": "Llegaron los pájaros y hay más árboles.",
+      "nhe": "Nopa totomej ajsitoj uan onka sekinok kuauitl."
+    },
+    {
+      "clave": "texto_2771c60106",
+      "es": "Tu tlacuache ya come tunas.",
+      "nhe": "Mo opossum ya kikuaj nopa peras espinas."
+    },
+    {
+      "clave": "texto_e2a5326e61",
+      "es": "Tu tlacuache tuvo crías.",
+      "nhe": "Mo opossum kinpixtoya ikoneuan."
+    },
+    {
+      "clave": "texto_8dc5e760c9",
+      "es": "Su ciudad está sana.",
+      "nhe": "Ialtepe eltok kuali."
+    },
+    {
+      "clave": "texto_17a7d97a0e",
+      "es": "Tu tlacuache vive entre basura y humo.",
+      "nhe": "Mo opossum itstok tlatlajko tlen sokitl uan poctli."
+    },
+    {
+      "clave": "texto_dc1dbf2156",
+      "es": "que crezca un árbol",
+      "nhe": "tlen moskaltia se kuauitl"
+    },
+    {
+      "clave": "texto_a6819efa49",
+      "es": "limpiar la fuente y el aire",
+      "nhe": "xijpajpaka nopa ameli uan nopa ajakatl"
+    },
+    {
+      "clave": "texto_35aece0dfd",
+      "es": "que lleguen los pájaros",
+      "nhe": "tlen nopa totomej ajsij"
+    },
+    {
+      "clave": "texto_bbce61da6b",
+      "es": "que el nopal dé tunas",
+      "nhe": "tlen nopa cactus tlen kipia itlajka"
+    },
+    {
+      "clave": "texto_18c42b9f56",
+      "es": "que tenga crías",
+      "nhe": "tlen kipia ikone"
+    },
+    {
+      "clave": "texto_bc9bae61dd",
+      "es": "recoger la basura",
+      "nhe": "xijsentili nopa sokitl"
+    },
+    {
+      "clave": "texto_8913fd9677",
+      "es": "Tus {v1} viajes en camión",
+      "nhe": "Mo {v1} autobús tlen yaui"
+    },
+    {
+      "clave": "texto_69b6f1a3db",
+      "es": "{v1} viajes en camión · {v2} km",
+      "nhe": "{v1} bus viajes · {v2} km"
+    },
+    {
+      "clave": "texto_8bcbca79f6",
+      "es": "{v1} en {v2} viajes",
+      "nhe": "{v1} ipan {v2} tlauilankayotl"
+    },
+    {
+      "clave": "texto_c16886df48",
+      "es": "Etapa {v1} de 7: {v2}",
+      "nhe": "Etapa {v1} tlen 7: {v2}"
+    },
+    {
+      "clave": "texto_5d4c1b8f4b",
+      "es": "Ilustración: {v1}",
+      "nhe": "Tlaixkopinkayotl: {v1}"
+    },
+    {
+      "clave": "texto_c26e675a7b",
+      "es": ", unos {v1} viajes en camión, para {v2}.",
+      "nhe": ", tlen {v1} viajes ipan autobús, para {v2}."
+    },
+    {
+      "clave": "texto_0b2d37f168",
+      "es": "{v1} días",
+      "nhe": "{v1} tonali"
+    },
+    {
+      "clave": "texto_403d80fd36",
+      "es": "{v1} meses",
+      "nhe": "{v1} metstli"
+    },
+    {
+      "clave": "texto_19ec853012",
+      "es": "{v1} años",
+      "nhe": "{v1} xiuitl"
+    },
+    {
+      "clave": "texto_e22c09b4ac",
+      "es": "Tu ahorro",
+      "nhe": "tlen tijsentilijtok"
+    },
+    {
+      "clave": "texto_6d9764fccb",
+      "es": "ahorrados este mes contra la app más barata",
+      "nhe": "Ni tlaatitok ipan ni metstli uan nopa aplicación tlen más barato"
+    },
+    {
+      "clave": "texto_6240d6635f",
+      "es": "Cada moneda son $10.",
+      "nhe": "Sesen tomij eli $10."
+    },
+    {
+      "clave": "texto_a022b91197",
+      "es": "en Qrobus",
+      "nhe": "ipan Qrobus"
+    },
+    {
+      "clave": "texto_e7e51f616b",
+      "es": "de un mes de Netflix",
+      "nhe": "se metstli tlen Netflix"
+    },
+    {
+      "clave": "texto_b8eca9961a",
+      "es": "de suscripción de Netflix",
+      "nhe": "Netflix suscripción"
+    },
+    {
+      "clave": "texto_45470afdcf",
+      "es": "de gasolina si ibas en tu carro",
+      "nhe": "gas tla tijnejnemiltiyaya mocarro"
+    },
+    {
+      "clave": "texto_72c27a0406",
+      "es": "Tus meses",
+      "nhe": "Mo metstli"
+    },
+    {
+      "clave": "texto_1ec4be50b3",
+      "es": "Aún sin viajes en camión este mes",
+      "nhe": "Ayokmo onka autobús ipan ni metstli"
+    },
+    {
+      "clave": "texto_99273a9535",
+      "es": "{v1} viajes en camión este mes",
+      "nhe": "{v1} viajes ipan autobús ipan ni metstli"
+    },
+    {
+      "clave": "texto_941ef214d0",
+      "es": "1 viaje en camión este mes",
+      "nhe": "1 viaje ipan autobús ipan ni metstli"
+    },
+    {
+      "clave": "texto_d588d7dc6c",
+      "es": "{v1} viajes",
+      "nhe": "{v1} viajes"
+    },
+    {
+      "clave": "texto_48c260d7aa",
+      "es": "1 viaje",
+      "nhe": "1 viaje"
+    },
+    {
+      "clave": "texto_0d00b1c65e",
+      "es": "{v1} en total",
+      "nhe": "Nochi {v1}"
+    },
+    {
+      "clave": "texto_7e42213850",
+      "es": "Alcancía con {v1} monedas",
+      "nhe": "Alcancía ika {v1} tomij"
+    },
+    {
+      "clave": "texto_cab1e725d2",
+      "es": "Alcancía con 1 moneda",
+      "nhe": "Alcancía ika 1 tomij"
+    },
+    {
+      "clave": "texto_85543a12e0",
+      "es": "Acciones del viaje",
+      "nhe": "Tlen tijchiuas"
+    },
+    {
+      "clave": "texto_63d7418836",
+      "es": "Toca otra vez",
+      "nhe": "Xijtsonpechili sempa"
+    },
+    {
+      "clave": "texto_f0ca31d63c",
+      "es": "¿Cómo te fue en este viaje?",
+      "nhe": "¿Kenijkatsa elki mo ojtli?"
+    },
+    {
+      "clave": "texto_1e2f594d60",
+      "es": "Tranquilo",
+      "nhe": "Seseuili"
+    },
+    {
+      "clave": "texto_7d19128477",
+      "es": "Estresado",
+      "nhe": "Tlaijiyouijtok"
+    },
+    {
+      "clave": "texto_68342463e1",
+      "es": "Solo se guarda la línea y la hora, nunca dónde estás. Se suma al Observatorio de la ciudad.",
+      "nhe": "San nopa linea uan hora mokaua, axkema kanke ti itstok. Kitlalijtokej ipan nopa Observatorio tlen altepetl."
+    },
+    {
+      "clave": "texto_9f1331172c",
+      "es": "Gracias. Con tu respuesta la ciudad ve qué líneas y horas estresan más.",
+      "nhe": "Tlaskamati. Ika tlen tijnankilis, nopa altepetl kiitas tlen lineas uan horas tlen más teyolkokoua."
+    },
+    {
+      "clave": "texto_9f787cf94a",
+      "es": "Gracias por contarnos.",
+      "nhe": "Tlaskamati pampa tijxelo."
+    },
+    {
+      "clave": "texto_c31a4ab131",
+      "es": "Paso {v1} de 4",
+      "nhe": "Ika {v1} tlen 4"
+    },
+    {
+      "clave": "texto_4234613fda",
+      "es": "Bájate en {v1}, {v2} paradas después, a las {v3}.",
+      "nhe": "Xitemo ipan {v1}, {v2} paradas teipa, ipan {v3}."
+    },
+    {
+      "clave": "texto_9dbae648bc",
+      "es": "Sal a tiempo",
+      "nhe": "Xikisa ipan nopa hora"
+    },
+    {
+      "clave": "texto_1fc3fd4990",
+      "es": "Avísame cuándo salir",
+      "nhe": "Xinech ilui kema ni kisas"
+    },
+    {
+      "clave": "texto_eaf5d511ce",
+      "es": "Ya es hora de salir",
+      "nhe": "Ya ajsic tonali para tiquisas"
+    },
+    {
+      "clave": "texto_0824590540",
+      "es": "Sal en {v1} minutos",
+      "nhe": "Xikaua ipan {v1} minutos"
+    },
+    {
+      "clave": "texto_87dce253f2",
+      "es": "Sal en 1 minuto",
+      "nhe": "Xikaua ipan 1 minuto"
+    },
+    {
+      "clave": "texto_172a20c0d2",
+      "es": "En 10 minutos sales a {v1}",
+      "nhe": "Ti kisas ipan {v1} ipan 10 minutos"
+    },
+    {
+      "clave": "texto_3a83c6dcfe",
+      "es": "Ya es hora de salir a {v1}",
+      "nhe": "Ya ajsic tonali para tiquisas ipan {v1}"
+    },
+    {
+      "clave": "texto_0f852eacf2",
+      "es": "Ya es hora de salir a {v1}.",
+      "nhe": "Ya ajsic tonali para tiquisas ipan {v1}."
+    },
+    {
+      "clave": "texto_532ae2cd5a",
+      "es": "Sal a las {v1}.",
+      "nhe": "Xikaua ipan {v1}."
+    },
+    {
+      "clave": "texto_f73312b934",
+      "es": "Sal ahora para no esperar de más.",
+      "nhe": "Xiquisa amantzi para ayacmo monequis tijchiyas más tonali."
+    },
+    {
+      "clave": "texto_41ce8dc877",
+      "es": "Te aviso a las {v1} y a las {v2}, aunque cierres Grieta.",
+      "nhe": "Nimits ilhuis ipan {v1} uan {v2}, maske tijtsakuilis Grieta."
+    },
+    {
+      "clave": "texto_c95b9a3b38",
+      "es": "Te aviso a las {v1} mientras Grieta esté abierta.",
+      "nhe": "Nimits ilhuis ipan {v1} kemaj Grieta tlapojtok."
+    },
+    {
+      "clave": "texto_86b9232b82",
+      "es": "Guardar un lugar",
+      "nhe": "Xij tlaati se tlali"
+    },
+    {
+      "clave": "texto_587da3216e",
+      "es": "Busca el lugar que quieres guardar",
+      "nhe": "Xijtemo kanke tijneki tijtlaatis"
+    },
+    {
+      "clave": "texto_99ff092b3c",
+      "es": "¿Cómo lo guardo?",
+      "nhe": "¿Kenijkatsa nijtlatis?"
+    },
+    {
+      "clave": "texto_3ba6f562da",
+      "es": "Elige un nombre",
+      "nhe": "Xijtlapejpeni se itoka"
+    },
+    {
+      "clave": "texto_3dc1cb239f",
+      "es": "Escribe el nombre",
+      "nhe": "Xikijkuilo itoka"
+    },
+    {
+      "clave": "texto_f30c92f609",
+      "es": "Ejemplo: Gimnasio",
+      "nhe": "Ejemplo: Gimnasio"
+    },
+    {
+      "clave": "texto_0d5a52a92c",
+      "es": "Otro",
+      "nhe": "Seyoj"
+    },
+    {
+      "clave": "texto_db99823693",
+      "es": "La calle o colonia de tu casa",
+      "nhe": "Nopa calle o barrio campa tiitztoc"
+    },
+    {
+      "clave": "texto_55eeb002c2",
+      "es": "Después lo tocas en Tus lugares y te digo cómo llegar.",
+      "nhe": "Teipa xijtsonpechili ipan Moaltepe uan nimitsiljuis kenijkatsa tias nopaya."
+    },
+    {
+      "clave": "texto_54187c70ca",
+      "es": "Ya tienes 4 lugares guardados",
+      "nhe": "Ya tijpixtok 4 tlali tlen tijpixtok"
+    },
+    {
+      "clave": "texto_8ed2a5cb34",
+      "es": "Ya tienes 4 lugares guardados. Borra uno para guardar otro.",
+      "nhe": "Ya tijpixtok 4 tlali tlen tijpixtok. Xijpojpolo se para tijmanahuis seyoc."
+    },
+    {
+      "clave": "texto_9a5cea8d7a",
+      "es": "Guardaste {v1} como {v2}",
+      "nhe": "Ti tlaatitok {v1} keja {v2}"
+    },
+    {
+      "clave": "texto_c2a36bb358",
+      "es": "Guardar como {v1}",
+      "nhe": "Xij tlaati kej {v1}"
+    },
+    {
+      "clave": "texto_1249d2fd40",
+      "es": "Quité {v1} de tus lugares.",
+      "nhe": "Nijquixti {v1} tlen campa initztoyaj."
+    },
+    {
+      "clave": "texto_b8dc8c419b",
+      "es": "{v1} regresó a como estaba.",
+      "nhe": "{v1} mokuepki kampa achtoui eltoya."
+    },
+    {
+      "clave": "texto_ec193d8c2d",
+      "es": "Describir",
+      "nhe": "Keni elij"
+    },
+    {
+      "clave": "texto_f6ff5c1e82",
+      "es": "Describir con la cámara: escucha objetos y texto frente a ti",
+      "nhe": "Xikijto ika nopa cámara: Xijtlakakili tlamantli uan tlajkuiloli tlen eltok moixpa"
+    },
+    {
+      "clave": "texto_0fbe62e9ca",
+      "es": "¿De dónde salen estas cifras?",
+      "nhe": "¿Kanke uala ni tlapoualistli?"
+    },
+    {
+      "clave": "texto_04c3aadb99",
+      "es": "El CO₂ de cada viaje es la distancia por calle por 135.7 g por kilómetro, la meta para autos nuevos de la norma NOM-163.",
+      "nhe": "Nopa CO₂ tlen kikixtiaj ipan sejse paxalojketl mo ixtlalia ika 135.7 g por kilómetro, nopa tlayejyekoli tlen yankuik carros tlen eltok ipan nopa norma mexicana NOM-163."
+    },
+    {
+      "clave": "texto_b245e4d06a",
+      "es": "Lo que absorbe un árbol y lo que emite la gasolina salen de la Agencia de Protección Ambiental de Estados Unidos (EPA).",
+      "nhe": "Nopa CO₂ tlen kikuas se kuauitl uan nopa CO₂ tlen kikixtis gasolina uala tlen nopa Agencia de Protección Ambiental (EPA) tlen Estados Unidos."
+    },
+    {
+      "clave": "texto_9d8075bff3",
+      "es": "El hielo ártico, de Notz y Stroeve (Science, 2016).",
+      "nhe": "Hielo ártico, tlen Notz uan Stroeve (Ciencia, 2016)."
+    },
+    {
+      "clave": "texto_0943d100e6",
+      "es": ", un viaje más en camión, para {v1}.",
+      "nhe": ", seyok viaje ika camión, para {v1}."
     }
   ],
   "adaptaciones": [
@@ -6639,6 +7149,76 @@
       "clave": "texto_06f7e52e6b",
       "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
       "criterio": "Se usa la misma traducción del botón «¿Es mi parada?»."
+    },
+    {
+      "clave": "texto_549ce8d509",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Se restituyen «Grieta», «CO₂» o el nombre de la norma como en el texto fuente."
+    },
+    {
+      "clave": "texto_99273a9535",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "La traducción automática cambió variables o cifras del texto fuente; se restituyen sobre su misma salida."
+    },
+    {
+      "clave": "texto_d588d7dc6c",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "La traducción automática cambió variables o cifras del texto fuente; se restituyen sobre su misma salida."
+    },
+    {
+      "clave": "texto_0d00b1c65e",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "La traducción automática cambió variables o cifras del texto fuente; se restituyen sobre su misma salida."
+    },
+    {
+      "clave": "texto_7e42213850",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "La traducción automática cambió variables o cifras del texto fuente; se restituyen sobre su misma salida."
+    },
+    {
+      "clave": "texto_cab1e725d2",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "La traducción automática cambió variables o cifras del texto fuente; se restituyen sobre su misma salida."
+    },
+    {
+      "clave": "texto_c31a4ab131",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "La traducción automática cambió variables o cifras del texto fuente; se restituyen sobre su misma salida."
+    },
+    {
+      "clave": "texto_4234613fda",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "La traducción automática cambió variables o cifras del texto fuente; se restituyen sobre su misma salida."
+    },
+    {
+      "clave": "texto_87dce253f2",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "La traducción automática cambió variables o cifras del texto fuente; se restituyen sobre su misma salida."
+    },
+    {
+      "clave": "texto_41ce8dc877",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Se restituyen «Grieta», «CO₂» o el nombre de la norma como en el texto fuente."
+    },
+    {
+      "clave": "texto_c95b9a3b38",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Se restituyen «Grieta», «CO₂» o el nombre de la norma como en el texto fuente."
+    },
+    {
+      "clave": "texto_54187c70ca",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "La traducción automática cambió variables o cifras del texto fuente; se restituyen sobre su misma salida."
+    },
+    {
+      "clave": "texto_04c3aadb99",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Se restituyen «Grieta», «CO₂» o el nombre de la norma como en el texto fuente."
+    },
+    {
+      "clave": "texto_b245e4d06a",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "Se restituyen «Grieta», «CO₂» o el nombre de la norma como en el texto fuente."
     }
   ]
 }

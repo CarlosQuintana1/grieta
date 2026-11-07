@@ -329,7 +329,7 @@
         <div id="appsRapido" class="apps-rapido" role="group" aria-labelledby="tituloEnApp"></div>
         <p id="avisoRapido" class="nota" role="status"></p>
         <button id="compararPrecio" type="button" class="comparar-precio">
-          <span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-app"/></svg></span>
+          <span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-app"/></svg></span>
           <span class="fila-texto"><strong>¿La app ya te dio precio?</strong><small>Escríbelo y te digo si conviene. Con tu precio, Grieta aprende.</small></span>
           <svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg>
         </button>
@@ -422,9 +422,8 @@
         </div>
         <label class="paso-comparar" for="precio" id="tituloPrecio"><span class="numero" aria-hidden="true">2</span>¿Cuánto te marca?</label>
         <div class="campo-pesos"><span class="signo" aria-hidden="true">$</span>
-          <input id="precio" type="number" inputmode="decimal" placeholder="Escribe el precio" min="0" enterkeyhint="done" aria-describedby="estimadoApp">
+          <input id="precio" type="number" inputmode="decimal" placeholder="Escribe el precio" min="0" enterkeyhint="done">
         </div>
-        <p id="estimadoApp" class="nota"></p>
         <p class="nota prisa-titulo" id="tituloPrisa">¿Qué tanta prisa tienes?</p>
         <div id="prisa" class="segmentado" role="group" aria-labelledby="tituloPrisa">
           <button type="button" data-v="5" aria-pressed="false">Tengo prisa</button>
@@ -550,7 +549,10 @@
         <p id="co2Vacio" class="co2-vacio" hidden>Cuando sigas un viaje en camión con la guía, aquí aparece cada semana.</p>
       </div>
       <button id="co2Planear" type="button" class="boton">Buscar a dónde voy en camión</button>
-      <p class="co2-fuente">Fuentes: EPA, Notz y Stroeve (Science, 2016) y NOM-163.</p>
+      <details class="co2-fuentes">
+        <summary>¿De dónde salen estas cifras?</summary>
+        <p>El CO₂ de cada viaje es la distancia por calle por 135.7 g por kilómetro, la meta para autos nuevos de la norma NOM-163. Lo que absorbe un árbol y lo que emite la gasolina salen de la Agencia de Protección Ambiental de Estados Unidos (EPA). El hielo ártico, de Notz y Stroeve (Science, 2016).</p>
+      </details>
     </section>
 
     <section id="ubicacion" class="pantalla" aria-labelledby="tituloPantalla" hidden>

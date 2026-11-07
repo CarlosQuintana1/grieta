@@ -3826,6 +3826,451 @@
       "clave": "texto_c53e5a39d6",
       "es": "Más rápido",
       "otq": "Ar mäs ngutha"
+    },
+    {
+      "clave": "texto_d3f530fc69",
+      "es": "Lo que evitamos",
+      "otq": "Nä'ä nu'be nu'u̲"
+    },
+    {
+      "clave": "texto_4a1e0a2e39",
+      "es": "De quién son los viajes",
+      "otq": "Ya 'na ya 'mu̲i"
+    },
+    {
+      "clave": "texto_6f2b657889",
+      "es": "Tu tlacuache",
+      "otq": "Ir o̲ho̲"
+    },
+    {
+      "clave": "texto_56364d81af",
+      "es": "Entre todos",
+      "otq": "Ga̲tho ya ga̲tho"
+    },
+    {
+      "clave": "texto_549ce8d509",
+      "es": "de CO₂ que no salió de un auto",
+      "otq": "ar CO₂ nä'ä hingi bí ehe ja 'nar coche"
+    },
+    {
+      "clave": "texto_d837c45c37",
+      "es": "Basura",
+      "otq": "Basura"
+    },
+    {
+      "clave": "texto_6f95371be3",
+      "es": "Bote",
+      "otq": "Xi"
+    },
+    {
+      "clave": "texto_d750d1c977",
+      "es": "Árbol",
+      "otq": "Zaa"
+    },
+    {
+      "clave": "texto_b86ac17304",
+      "es": "Agua",
+      "otq": "Ar dehe"
+    },
+    {
+      "clave": "texto_60e77440ad",
+      "es": "Aves",
+      "otq": "Ts'ints'u̲"
+    },
+    {
+      "clave": "texto_4be730a97b",
+      "es": "Tunas",
+      "otq": "Ya kähä"
+    },
+    {
+      "clave": "texto_f2f2e33579",
+      "es": "Crías",
+      "otq": "Ya me̲ts'i"
+    },
+    {
+      "clave": "texto_e8d29fb202",
+      "es": "Eso equivale a",
+      "otq": "Nä'ä ngehnu̲"
+    },
+    {
+      "clave": "texto_c54b6ebe11",
+      "es": "de lo que absorbe un árbol joven",
+      "otq": "Temu̲ tsi 'nar ts'u̲nt'o zaa"
+    },
+    {
+      "clave": "texto_4888243c1a",
+      "es": "de gasolina sin quemar",
+      "otq": "ar gasolina hinda quemar"
+    },
+    {
+      "clave": "texto_bde01e8f2f",
+      "es": "de hielo ártico, casa del oso polar",
+      "otq": "ar hielo Ártico, hogar ar oso polar"
+    },
+    {
+      "clave": "texto_feffdc5f92",
+      "es": "Tus semanas",
+      "otq": "Ir su̲mänä"
+    },
+    {
+      "clave": "texto_230398c1bd",
+      "es": "Buscar a dónde voy en camión",
+      "otq": "Di honi ho ga ma 'na jar dätä bo̲jä"
+    },
+    {
+      "clave": "texto_2ff31bc73c",
+      "es": "Aún sin viajes en camión",
+      "otq": "'Nehe hinda 'ba̲ni ya bo̲jä ma bo̲jä"
+    },
+    {
+      "clave": "texto_48cbefae72",
+      "es": "Ya no hay basura en el suelo.",
+      "otq": "Otho ar basura jar ha̲i."
+    },
+    {
+      "clave": "texto_4bddf933a4",
+      "es": "Creció un árbol y volvió el pasto.",
+      "otq": "Bí tu̲ti 'nar zaa ne bi pengi ar paso."
+    },
+    {
+      "clave": "texto_5f9762238f",
+      "es": "El agua está limpia y se fue el humo.",
+      "otq": "Ar dehe xí 'Beni ne ar 'bifi."
+    },
+    {
+      "clave": "texto_74baff2192",
+      "es": "Llegaron los pájaros y hay más árboles.",
+      "otq": "Zo̲ho̲ ya ts'ints'u̲ ne 'bu̲i mäs ya zaa"
+    },
+    {
+      "clave": "texto_2771c60106",
+      "es": "Tu tlacuache ya come tunas.",
+      "otq": "Ir o̲mä ya tsi ya kähä"
+    },
+    {
+      "clave": "texto_e2a5326e61",
+      "es": "Tu tlacuache tuvo crías.",
+      "otq": "Ri o̲mä mi 'bu̲i ya me̲ts'i."
+    },
+    {
+      "clave": "texto_8dc5e760c9",
+      "es": "Su ciudad está sana.",
+      "otq": "Ir dähnini xí nzaki"
+    },
+    {
+      "clave": "texto_17a7d97a0e",
+      "es": "Tu tlacuache vive entre basura y humo.",
+      "otq": "Ir za̲mänä 'bu̲i ja ya basura ne ya 'bifi."
+    },
+    {
+      "clave": "texto_dc1dbf2156",
+      "es": "que crezca un árbol",
+      "otq": "ja 'nar zaa"
+    },
+    {
+      "clave": "texto_a6819efa49",
+      "es": "limpiar la fuente y el aire",
+      "otq": "Limpiar ar fuente ne ar ndähi"
+    },
+    {
+      "clave": "texto_35aece0dfd",
+      "es": "que lleguen los pájaros",
+      "otq": "zo̲ho̲ ya ts'ints'u̲"
+    },
+    {
+      "clave": "texto_bbce61da6b",
+      "es": "que el nopal dé tunas",
+      "otq": "Nunu̲ ar c'at'i uni ya kähä ya kähä"
+    },
+    {
+      "clave": "texto_18c42b9f56",
+      "es": "que tenga crías",
+      "otq": "da pe̲ts'i ya 'me̲ti"
+    },
+    {
+      "clave": "texto_bc9bae61dd",
+      "es": "recoger la basura",
+      "otq": "Da hwet'i ar basura"
+    },
+    {
+      "clave": "texto_8913fd9677",
+      "es": "Tus {v1} viajes en camión",
+      "otq": "Yá viajes bus {v1}"
+    },
+    {
+      "clave": "texto_69b6f1a3db",
+      "es": "{v1} viajes en camión · {v2} km",
+      "otq": "{v1} viajes bus · {v2} km"
+    },
+    {
+      "clave": "texto_19ec853012",
+      "es": "{v1} años",
+      "otq": "{v1} Años"
+    },
+    {
+      "clave": "texto_e22c09b4ac",
+      "es": "Tu ahorro",
+      "otq": "Ir ahorro"
+    },
+    {
+      "clave": "texto_6d9764fccb",
+      "es": "ahorrados este mes contra la app más barata",
+      "otq": "Guardado nuna ar zänä jar comparación ko ár nt'ot'e mäs barata"
+    },
+    {
+      "clave": "texto_6240d6635f",
+      "es": "Cada moneda son $10.",
+      "otq": "Kadu̲ 'nar moneda ar $10."
+    },
+    {
+      "clave": "texto_a022b91197",
+      "es": "en Qrobus",
+      "otq": "jar Qrobus"
+    },
+    {
+      "clave": "texto_e7e51f616b",
+      "es": "de un mes de Netflix",
+      "otq": "pa 'nar zänä ar Netflix"
+    },
+    {
+      "clave": "texto_b8eca9961a",
+      "es": "de suscripción de Netflix",
+      "otq": "ar suscripción Netflix"
+    },
+    {
+      "clave": "texto_45470afdcf",
+      "es": "de gasolina si ibas en tu carro",
+      "otq": "pa ar gas, nu'bu̲ gi 'ñe̲gi 'ñe̲t'e ir coche"
+    },
+    {
+      "clave": "texto_72c27a0406",
+      "es": "Tus meses",
+      "otq": "Yá zänä"
+    },
+    {
+      "clave": "texto_1ec4be50b3",
+      "es": "Aún sin viajes en camión este mes",
+      "otq": "Tobe hinda 'me̲t'i ya 'me̲t'i ma bo̲jä nuna ar zänä"
+    },
+    {
+      "clave": "texto_99273a9535",
+      "es": "{v1} viajes en camión este mes",
+      "otq": "{v1} viajes jar dätä bo̲jä nuna ar zänä"
+    },
+    {
+      "clave": "texto_941ef214d0",
+      "es": "1 viaje en camión este mes",
+      "otq": "1 viaje ar autobús nuna ar zänä"
+    },
+    {
+      "clave": "texto_48c260d7aa",
+      "es": "1 viaje",
+      "otq": "1 viaje"
+    },
+    {
+      "clave": "texto_0d00b1c65e",
+      "es": "{v1} en total",
+      "otq": "{v1} En total"
+    },
+    {
+      "clave": "texto_7e42213850",
+      "es": "Alcancía con {v1} monedas",
+      "otq": "Tallhuha ko ya bojä {v1}"
+    },
+    {
+      "clave": "texto_cab1e725d2",
+      "es": "Alcancía con 1 moneda",
+      "otq": "Alcancía ko 1 moneda"
+    },
+    {
+      "clave": "texto_63d7418836",
+      "es": "Toca otra vez",
+      "otq": "Pulse ma 'nagi"
+    },
+    {
+      "clave": "texto_f0ca31d63c",
+      "es": "¿Cómo te fue en este viaje?",
+      "otq": "¿Tema ge ir 'be̲fi?"
+    },
+    {
+      "clave": "texto_1e2f594d60",
+      "es": "Tranquilo",
+      "otq": "Xa hño"
+    },
+    {
+      "clave": "texto_7d19128477",
+      "es": "Estresado",
+      "otq": "Estresado"
+    },
+    {
+      "clave": "texto_68342463e1",
+      "es": "Solo se guarda la línea y la hora, nunca dónde estás. Se suma al Observatorio de la ciudad.",
+      "otq": "Ho̲ntho ar 'ñu ne ar pa ar ahorran, ni 'nar ho gi 'bu̲i. Ar añade jar Observatorio ar Dähnini."
+    },
+    {
+      "clave": "texto_9f1331172c",
+      "es": "Gracias. Con tu respuesta la ciudad ve qué líneas y horas estresan más.",
+      "otq": "Di jamädi. Ko ár respuesta, ar Dähnini ga Temu̲ líneas ne ya tiempos ya mäs estresantes."
+    },
+    {
+      "clave": "texto_9f787cf94a",
+      "es": "Gracias por contarnos.",
+      "otq": "Di jamädi ga mä."
+    },
+    {
+      "clave": "texto_c31a4ab131",
+      "es": "Paso {v1} de 4",
+      "otq": "Bi thogi {v1} ar 4"
+    },
+    {
+      "clave": "texto_9dbae648bc",
+      "es": "Sal a tiempo",
+      "otq": "Po̲ni tso̲ngwa"
+    },
+    {
+      "clave": "texto_1fc3fd4990",
+      "es": "Avísame cuándo salir",
+      "otq": "Gi xiki hä'mu̲ ga po̲ni"
+    },
+    {
+      "clave": "texto_eaf5d511ce",
+      "es": "Ya es hora de salir",
+      "otq": "Ar ora ga po̲ni"
+    },
+    {
+      "clave": "texto_87dce253f2",
+      "es": "Sal en 1 minuto",
+      "otq": "Po̲ni jar 1 t'olo ora"
+    },
+    {
+      "clave": "texto_172a20c0d2",
+      "es": "En 10 minutos sales a {v1}",
+      "otq": "Jar 10 minutos da pa {v1}"
+    },
+    {
+      "clave": "texto_3a83c6dcfe",
+      "es": "Ya es hora de salir a {v1}",
+      "otq": "Ya ar ora de dejar pa {v1}"
+    },
+    {
+      "clave": "texto_0f852eacf2",
+      "es": "Ya es hora de salir a {v1}.",
+      "otq": "Ar ora ar po̲ni pa {v1}."
+    },
+    {
+      "clave": "texto_f73312b934",
+      "es": "Sal ahora para no esperar de más.",
+      "otq": "Po̲ni nu'bya pa nu'bu esperar 'me̲xi."
+    },
+    {
+      "clave": "texto_41ce8dc877",
+      "es": "Te aviso a las {v1} y a las {v2}, aunque cierres Grieta.",
+      "otq": "Bí notificaré jar {v1} ne {v2}, 'nehe nu'bu̲ cerras Grieta."
+    },
+    {
+      "clave": "texto_c95b9a3b38",
+      "es": "Te aviso a las {v1} mientras Grieta esté abierta.",
+      "otq": "Gi notificaré jar {v1} Mente da Grieta xi abierto."
+    },
+    {
+      "clave": "texto_86b9232b82",
+      "es": "Guardar un lugar",
+      "otq": "Guardar 'nar lugar"
+    },
+    {
+      "clave": "texto_587da3216e",
+      "es": "Busca el lugar que quieres guardar",
+      "otq": "Busque lugar nä'ä gi guardar"
+    },
+    {
+      "clave": "texto_99ff092b3c",
+      "es": "¿Cómo lo guardo?",
+      "otq": "¿Tema bí guardo?"
+    },
+    {
+      "clave": "texto_3ba6f562da",
+      "es": "Elige un nombre",
+      "otq": "Da 'ñets'i 'nar thuuhu"
+    },
+    {
+      "clave": "texto_3dc1cb239f",
+      "es": "Escribe el nombre",
+      "otq": "Escriba thuuhu"
+    },
+    {
+      "clave": "texto_f30c92f609",
+      "es": "Ejemplo: Gimnasio",
+      "otq": "Ejemplo: Gimnasio"
+    },
+    {
+      "clave": "texto_0d5a52a92c",
+      "es": "Otro",
+      "otq": "Ma 'ra"
+    },
+    {
+      "clave": "texto_db99823693",
+      "es": "La calle o colonia de tu casa",
+      "otq": "Ar dä'ñu wa barryo ir nguu"
+    },
+    {
+      "clave": "texto_55eeb002c2",
+      "es": "Después lo tocas en Tus lugares y te digo cómo llegar.",
+      "otq": "Mäs xti nde, bí toque ja yá xeni ne ga diré Temu̲ zo̲ni nu'bu̲."
+    },
+    {
+      "clave": "texto_54187c70ca",
+      "es": "Ya tienes 4 lugares guardados",
+      "otq": "Ya gi 4 xeni guardados"
+    },
+    {
+      "clave": "texto_8ed2a5cb34",
+      "es": "Ya tienes 4 lugares guardados. Borra uno para guardar otro.",
+      "otq": "Ya gi 4 xeni guardados. Da hñäki 'na pa salvar ma'na."
+    },
+    {
+      "clave": "texto_1249d2fd40",
+      "es": "Quité {v1} de tus lugares.",
+      "otq": "Xta quitado {v1} ja yá xeni."
+    },
+    {
+      "clave": "texto_b8dc8c419b",
+      "es": "{v1} regresó a como estaba.",
+      "otq": "{v1} bí pengi Honja mi ma."
+    },
+    {
+      "clave": "texto_ec193d8c2d",
+      "es": "Describir",
+      "otq": "Gi pede"
+    },
+    {
+      "clave": "texto_f6ff5c1e82",
+      "es": "Describir con la cámara: escucha objetos y texto frente a ti",
+      "otq": "Gi pede ko ar cámara: 'mu̲ise̲ objetos ne texto hñandu̲hu̲ nu'i"
+    },
+    {
+      "clave": "texto_0fbe62e9ca",
+      "es": "¿De dónde salen estas cifras?",
+      "otq": "¿Hogem'bu̲ 'bu̲i nuya ndo'yo?"
+    },
+    {
+      "clave": "texto_04c3aadb99",
+      "es": "El CO₂ de cada viaje es la distancia por calle por 135.7 g por kilómetro, la meta para autos nuevos de la norma NOM-163.",
+      "otq": "Ar CO₂ pa kadu̲ 'nar viaje ge ar mbi ya dä'ñu ya bes 135.7 g ya kilómetro, ar objetivo pa ya 'ra'yo coches jár estándar NOM-163."
+    },
+    {
+      "clave": "texto_b245e4d06a",
+      "es": "Lo que absorbe un árbol y lo que emite la gasolina salen de la Agencia de Protección Ambiental de Estados Unidos (EPA).",
+      "otq": "Nä'ä 'nar zaa absorbe ne nä'ä ar gasolina emite proviene ar Agencia 'ba̲ts'i ar nt'uni mbo jar ximha̲i ir 'rangu̲di (EPA)."
+    },
+    {
+      "clave": "texto_9d8075bff3",
+      "es": "El hielo ártico, de Notz y Stroeve (Science, 2016).",
+      "otq": "Ar ungumfädi ar hielo ártico ar Notz ne ar Stroeve (Science, 2016)."
+    },
+    {
+      "clave": "texto_0943d100e6",
+      "es": ", un viaje más en camión, para {v1}.",
+      "otq": ", 'nar viaje mäs ar camión, pa {v1}."
     }
   ],
   "adaptaciones": [
@@ -4208,6 +4653,21 @@
       "clave": "texto_c53e5a39d6",
       "fuente": "https://www.bing.com/translator?from=es&to=otq",
       "criterio": "Misma traducción que «Más rápida»; la lengua no marca el género."
+    },
+    {
+      "clave": "texto_41ce8dc877",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Se restituyen «Grieta», «CO₂» o el nombre de la norma como en el texto fuente."
+    },
+    {
+      "clave": "texto_c95b9a3b38",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Se restituyen «Grieta», «CO₂» o el nombre de la norma como en el texto fuente."
+    },
+    {
+      "clave": "texto_04c3aadb99",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "Se restituyen «Grieta», «CO₂» o el nombre de la norma como en el texto fuente."
     }
   ],
   "parcial": true

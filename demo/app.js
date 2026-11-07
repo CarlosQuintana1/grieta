@@ -1450,7 +1450,6 @@ function segmentado(id, alElegir) {
 // Lo que Grieta estima para la app elegida, junto al campo, para comparar sin buscarlo.
 function pintarEstimado() {
   const x = estado.r?.directo.porApp.find((a) => a.app === estado.app);
-  $("estimadoApp").textContent = x ? `Grieta estima ${Grieta.nombreApp(x.app)} en ${rangoTexto(limitesPrecio(x))}.` : "";
 }
 segmentado("appVista", (v) => { estado.app = v; pintarEstimado(); if (!$("precio").value) $("precio").focus(); });
 segmentado("prisa", (v) => { estado.prisa = Number(v); verVeredicto(); });
@@ -2691,7 +2690,9 @@ function arbol(x, y, t, pino) {
   if (pino) return `${tronco}<path class="copa oscura" d="M${x} ${y - t * 1.1}L${x + t * 0.34} ${y - t * 0.32}H${x - t * 0.34}Z"/>`;
   return `${tronco}<circle class="copa" cx="${x}" cy="${y - t * 0.7}" r="${t * 0.3}"/><circle class="copa" cx="${x - t * 0.2}" cy="${y - t * 0.5}" r="${t * 0.22}"/><circle class="copa" cx="${x + t * 0.2}" cy="${y - t * 0.5}" r="${t * 0.22}"/>`;
 }
-const brote = (x, y) => `<path class="brote" d="M${x} ${y}v-7m0 3c-1-3-4-4-6-3 1 3 3 4 6 3m0-2c1-3 4-4 6-3-1 3-3 4-6 3"/>`;
+const brote = (x, y) => `<g class="brote"><ellipse class="brote-tierra" cx="${x}" cy="${y + 0.5}" rx="7" ry="2"/><path class="brote-tallo" d="M${x} ${y}V${y - 10}"/>
+  <path class="brote-hoja" d="M${x} ${y - 6}C${x - 1} ${y - 11} ${x - 7} ${y - 12} ${x - 10} ${y - 9}C${x - 7} ${y - 5} ${x - 2} ${y - 5} ${x} ${y - 6}Z"/>
+  <path class="brote-hoja clara" d="M${x} ${y - 9}C${x + 1} ${y - 14} ${x + 7} ${y - 15} ${x + 10} ${y - 12}C${x + 7} ${y - 8} ${x + 2} ${y - 8} ${x} ${y - 9}Z"/></g>`;
 function pintarBosque(g) {
   const dias = g / ARBOL_G_DIA, porAnio = dias > 360, llenos = dias / (porAnio ? 365 : 30.4);
   const plantas = LUGARES_BOSQUE.map(([x, y, pino], i) => {
@@ -2805,7 +2806,8 @@ function pintarTlacuache(g, viajesPropios) {
   camino.querySelector(".camino-linea i").style.width = `${((e + avance) / (CAMINO_TL.length - 1)) * 100}%`;
   if (!siguiente) { $("co2Unidad").textContent = texto; return; }
   const falta = siguiente - g, porViaje = viajesPropios ? g / viajesPropios : 700;
-  $("co2Unidad").innerHTML = `${texto} Faltan <b>${kgTexto(falta)}</b>, unos ${plural(Math.max(1, Math.ceil(falta / porViaje)), "viaje", "viajes")} en camión, para ${sigue}.`;
+  const viajesFaltan = Math.max(1, Math.ceil(falta / porViaje));
+  $("co2Unidad").innerHTML = `${texto} Faltan <b>${kgTexto(falta)}</b>, ${viajesFaltan === 1 ? "un viaje más" : `unos ${viajesFaltan} viajes`} en camión, para ${sigue}.`;
 }
 let alcanceCo2 = "tu";
 const marcarAlcance = radios("co2Alcance", (v) => { alcanceCo2 = v; pintarCo2(); });

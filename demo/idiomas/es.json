@@ -11190,6 +11190,905 @@
           "expresion": "opuesta.hacia"
         }
       }
+    },
+    {
+      "clave": "texto_d3f530fc69",
+      "es": "Lo que evitamos",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_4a1e0a2e39",
+      "es": "De quién son los viajes",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_6f2b657889",
+      "es": "Tu tlacuache",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_56364d81af",
+      "es": "Entre todos",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_549ce8d509",
+      "es": "de CO₂ que no salió de un auto",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_d837c45c37",
+      "es": "Basura",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_6f95371be3",
+      "es": "Bote",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_d750d1c977",
+      "es": "Árbol",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_b86ac17304",
+      "es": "Agua",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_60e77440ad",
+      "es": "Aves",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_4be730a97b",
+      "es": "Tunas",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_f2f2e33579",
+      "es": "Crías",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_e8d29fb202",
+      "es": "Eso equivale a",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_c54b6ebe11",
+      "es": "de lo que absorbe un árbol joven",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_4888243c1a",
+      "es": "de gasolina sin quemar",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_bde01e8f2f",
+      "es": "de hielo ártico, casa del oso polar",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_feffdc5f92",
+      "es": "Tus semanas",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_230398c1bd",
+      "es": "Buscar a dónde voy en camión",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_2ff31bc73c",
+      "es": "Aún sin viajes en camión",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_48cbefae72",
+      "es": "Ya no hay basura en el suelo.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_4bddf933a4",
+      "es": "Creció un árbol y volvió el pasto.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_5f9762238f",
+      "es": "El agua está limpia y se fue el humo.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_74baff2192",
+      "es": "Llegaron los pájaros y hay más árboles.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_2771c60106",
+      "es": "Tu tlacuache ya come tunas.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_e2a5326e61",
+      "es": "Tu tlacuache tuvo crías.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_8dc5e760c9",
+      "es": "Su ciudad está sana.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_17a7d97a0e",
+      "es": "Tu tlacuache vive entre basura y humo.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_dc1dbf2156",
+      "es": "que crezca un árbol",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_a6819efa49",
+      "es": "limpiar la fuente y el aire",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_35aece0dfd",
+      "es": "que lleguen los pájaros",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_bbce61da6b",
+      "es": "que el nopal dé tunas",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_18c42b9f56",
+      "es": "que tenga crías",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_bc9bae61dd",
+      "es": "recoger la basura",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_8913fd9677",
+      "es": "Tus {v1} viajes en camión",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "viajesPropios",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_69b6f1a3db",
+      "es": "{v1} viajes en camión · {v2} km",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "todos.viajes",
+          "formato": "numero"
+        },
+        "v2": {
+          "expresion": "Math.round(todos.km)",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_8bcbca79f6",
+      "es": "{v1} en {v2} viajes",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "kgTexto(g)",
+          "formato": "kg"
+        },
+        "v2": {
+          "expresion": "viajes",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_c16886df48",
+      "es": "Etapa {v1} de 7: {v2}",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "e + 1",
+          "formato": "numero"
+        },
+        "v2": {
+          "expresion": "CAMINO_TL[e]",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_5d4c1b8f4b",
+      "es": "Ilustración: {v1}",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "texto",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_c26e675a7b",
+      "es": ", unos {v1} viajes en camión, para {v2}.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "viajes",
+          "formato": "numero"
+        },
+        "v2": {
+          "expresion": "sigue",
+          "traducir": true
+        }
+      }
+    },
+    {
+      "clave": "texto_0b2d37f168",
+      "es": "{v1} días",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "dias",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_403d80fd36",
+      "es": "{v1} meses",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "meses",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_19ec853012",
+      "es": "{v1} años",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "anios",
+          "formato": "decimal"
+        }
+      }
+    },
+    {
+      "clave": "texto_e22c09b4ac",
+      "es": "Tu ahorro",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_6d9764fccb",
+      "es": "ahorrados este mes contra la app más barata",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_6240d6635f",
+      "es": "Cada moneda son $10.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_a022b91197",
+      "es": "en Qrobus",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_e7e51f616b",
+      "es": "de un mes de Netflix",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_b8eca9961a",
+      "es": "de suscripción de Netflix",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_45470afdcf",
+      "es": "de gasolina si ibas en tu carro",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_72c27a0406",
+      "es": "Tus meses",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_1ec4be50b3",
+      "es": "Aún sin viajes en camión este mes",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_99273a9535",
+      "es": "{v1} viajes en camión este mes",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "delMes.length",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_941ef214d0",
+      "es": "1 viaje en camión este mes",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_d588d7dc6c",
+      "es": "{v1} viajes",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "viajes",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_48c260d7aa",
+      "es": "1 viaje",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_0d00b1c65e",
+      "es": "{v1} en total",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "pesos(total)",
+          "formato": "importe"
+        }
+      }
+    },
+    {
+      "clave": "texto_7e42213850",
+      "es": "Alcancía con {v1} monedas",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "monedas",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_cab1e725d2",
+      "es": "Alcancía con 1 moneda",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_85543a12e0",
+      "es": "Acciones del viaje",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_63d7418836",
+      "es": "Toca otra vez",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_f0ca31d63c",
+      "es": "¿Cómo te fue en este viaje?",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_1e2f594d60",
+      "es": "Tranquilo",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_7d19128477",
+      "es": "Estresado",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_68342463e1",
+      "es": "Solo se guarda la línea y la hora, nunca dónde estás. Se suma al Observatorio de la ciudad.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_9f1331172c",
+      "es": "Gracias. Con tu respuesta la ciudad ve qué líneas y horas estresan más.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_9f787cf94a",
+      "es": "Gracias por contarnos.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_c31a4ab131",
+      "es": "Paso {v1} de 4",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "paso",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_4234613fda",
+      "es": "Bájate en {v1}, {v2} paradas después, a las {v3}.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "p.baja"
+        },
+        "v2": {
+          "expresion": "p.paradas",
+          "formato": "numero"
+        },
+        "v3": {
+          "expresion": "hora(p.llega)",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_9dbae648bc",
+      "es": "Sal a tiempo",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_1fc3fd4990",
+      "es": "Avísame cuándo salir",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_eaf5d511ce",
+      "es": "Ya es hora de salir",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_0824590540",
+      "es": "Sal en {v1} minutos",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "falta",
+          "formato": "numero"
+        }
+      }
+    },
+    {
+      "clave": "texto_87dce253f2",
+      "es": "Sal en 1 minuto",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_172a20c0d2",
+      "es": "En 10 minutos sales a {v1}",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "destino"
+        }
+      }
+    },
+    {
+      "clave": "texto_3a83c6dcfe",
+      "es": "Ya es hora de salir a {v1}",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "destino"
+        }
+      }
+    },
+    {
+      "clave": "texto_0f852eacf2",
+      "es": "Ya es hora de salir a {v1}.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "s.destino"
+        }
+      }
+    },
+    {
+      "clave": "texto_532ae2cd5a",
+      "es": "Sal a las {v1}.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "hora(t)",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_f73312b934",
+      "es": "Sal ahora para no esperar de más.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_41ce8dc877",
+      "es": "Te aviso a las {v1} y a las {v2}, aunque cierres Grieta.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "hora(t - 10)",
+          "formato": "hora"
+        },
+        "v2": {
+          "expresion": "hora(t)",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_c95b9a3b38",
+      "es": "Te aviso a las {v1} mientras Grieta esté abierta.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "hora(t)",
+          "formato": "hora"
+        }
+      }
+    },
+    {
+      "clave": "texto_86b9232b82",
+      "es": "Guardar un lugar",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_587da3216e",
+      "es": "Busca el lugar que quieres guardar",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_99ff092b3c",
+      "es": "¿Cómo lo guardo?",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_3ba6f562da",
+      "es": "Elige un nombre",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_3dc1cb239f",
+      "es": "Escribe el nombre",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_f30c92f609",
+      "es": "Ejemplo: Gimnasio",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_0d5a52a92c",
+      "es": "Otro",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_db99823693",
+      "es": "La calle o colonia de tu casa",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_55eeb002c2",
+      "es": "Después lo tocas en Tus lugares y te digo cómo llegar.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_54187c70ca",
+      "es": "Ya tienes 4 lugares guardados",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_8ed2a5cb34",
+      "es": "Ya tienes 4 lugares guardados. Borra uno para guardar otro.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_9a5cea8d7a",
+      "es": "Guardaste {v1} como {v2}",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "lugar.nombre"
+        },
+        "v2": {
+          "expresion": "nombre"
+        }
+      }
+    },
+    {
+      "clave": "texto_c2a36bb358",
+      "es": "Guardar como {v1}",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "nombre"
+        }
+      }
+    },
+    {
+      "clave": "texto_1249d2fd40",
+      "es": "Quité {v1} de tus lugares.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "nombre"
+        }
+      }
+    },
+    {
+      "clave": "texto_b8dc8c419b",
+      "es": "{v1} regresó a como estaba.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "nombre"
+        }
+      }
+    },
+    {
+      "clave": "texto_ec193d8c2d",
+      "es": "Describir",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_f6ff5c1e82",
+      "es": "Describir con la cámara: escucha objetos y texto frente a ti",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_0fbe62e9ca",
+      "es": "¿De dónde salen estas cifras?",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_04c3aadb99",
+      "es": "El CO₂ de cada viaje es la distancia por calle por 135.7 g por kilómetro, la meta para autos nuevos de la norma NOM-163.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_b245e4d06a",
+      "es": "Lo que absorbe un árbol y lo que emite la gasolina salen de la Agencia de Protección Ambiental de Estados Unidos (EPA).",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_9d8075bff3",
+      "es": "El hielo ártico, de Notz y Stroeve (Science, 2016).",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ]
+    },
+    {
+      "clave": "texto_0943d100e6",
+      "es": ", un viaje más en camión, para {v1}.",
+      "contextos": [
+        "demo/app.js o demo/index.html · pantallas de CO₂, ahorro, guía, Sal a tiempo y lugares"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "sigue",
+          "traducir": true
+        }
+      }
     }
   ]
 }

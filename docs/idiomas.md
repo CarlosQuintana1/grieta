@@ -4,11 +4,11 @@ La interfaz usa catálogos estáticos del teléfono. No manda ubicaciones, repor
 fotos ni texto de cámara a un traductor. La voz continúa en español y recupera los textos
 originales con `Interfaz.original`.
 
-- `demo/idiomas/es.json`: 1,101 textos fuente, contexto, variables y selectores.
-- `demo/idiomas/otq.json`: 685 traducciones automáticas anteriores de otomí, sin revisión
+- `demo/idiomas/es.json`: 1,377 textos fuente, contexto, variables y selectores.
+- `demo/idiomas/otq.json`: 852 traducciones automáticas de otomí (Bing Translator), sin revisión
   lingüística. Es parcial; los mensajes faltantes siguen en español.
-- `demo/idiomas/nhe.json`: 1,101 textos de náhuatl de la Huasteca oriental, obtenidos en
-  Google Traductor el 4 de noviembre de 2026. Traducción automática provisional,
+- `demo/idiomas/nhe.json`: 1,377 textos de náhuatl de la Huasteca oriental, obtenidos en
+  Google Traductor el 4 y el 7 de noviembre de 2026. Traducción automática provisional,
   sin revisión de hablantes. Algunas palabras conservan la salida española del proveedor.
 
 El perfil permite cambiar entre Español, Hñöñho (Otomí) y Náhuatl. La elección persiste y

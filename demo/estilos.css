@@ -249,12 +249,12 @@ html.grande .datos-viaje { grid-template-columns: 1fr; }
 html.grande .dato { flex-direction: row; justify-content: space-between; align-items: baseline; }
 /* Comparar el precio de la app: tarjeta grande, no un enlace escondido */
 .comparar-precio { display: flex; align-items: center; gap: 12px; width: 100%; margin-top: 12px; padding: 14px; min-height: 72px; text-align: left;
-  border-radius: var(--radio); background: color-mix(in srgb, var(--ambar) 12%, var(--superficie)); border: 1px solid color-mix(in srgb, var(--ambar) 45%, transparent); }
+  border-radius: var(--radio); background: color-mix(in srgb, #424d88 22%, var(--superficie)); border: 1px solid color-mix(in srgb, #6f7bc4 60%, transparent); }
 .comparar-precio .mini-ficha { width: 44px; height: 44px; flex: none; }
 .comparar-precio .mini-ficha .picto { width: 24px; height: 24px; }
 .comparar-precio strong { font-size: 1.05rem; }
 .comparar-precio small { color: var(--tenue); }
-.comparar-precio .chevron { flex: none; color: var(--ambar); }
+.comparar-precio .chevron { flex: none; color: #8f9ae0; }
 #tituloCamion { margin-top: 26px; }
 .camion-primero #tituloCamion { margin-top: 0; }
 .camion-primero .en-app { margin-top: 26px; }
@@ -1059,9 +1059,14 @@ button.impacto-todos { width: 100%; text-align: left; }
 .bosque .copa { fill: var(--verde); }
 .bosque .copa.oscura { fill: color-mix(in srgb, var(--verde) 72%, var(--fondo)); }
 .bosque .tronco { fill: #8a5a3c; }
-.bosque .brote { fill: none; stroke: color-mix(in srgb, var(--verde) 60%, transparent); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.bosque .brote-tierra { fill: color-mix(in srgb, #8a5a3c 55%, var(--superficie)); }
+.bosque .brote-tallo { fill: none; stroke: color-mix(in srgb, var(--verde) 80%, #1d3b2a); stroke-width: 1.8; stroke-linecap: round; }
+.bosque .brote-hoja { fill: color-mix(in srgb, var(--verde) 78%, #1d3b2a); }
+.bosque .brote-hoja.clara { fill: var(--verde); }
 .bosque .sobra { fill: var(--verde); font-weight: 800; font-size: 20px; }
 .co2-pie { padding: 12px 20px 16px; background: color-mix(in srgb, var(--verde) 32%, var(--superficie)); }
+.ahorro-hero .co2-pie { background: var(--ambar); }
+.ahorro-hero .co2-pie .co2-unidad { color: var(--sobre-ambar, #0b0a09); font-weight: 700; }
 #bosque:not([hidden]) + .co2-pie { margin-top: -1px; }
 .mundo-tl + svg + .co2-pie, .mundo-tl:not([hidden]) ~ .co2-pie { background: none; padding-top: 12px; }
 .co2-unidad { margin: 0; color: var(--tinta); font-size: .9rem; line-height: 1.4; }
@@ -1090,9 +1095,10 @@ button.impacto-todos { width: 100%; text-align: left; }
 .co2-semanas .dia.actual { fill: var(--verde); font-weight: 700; }
 .co2-vacio { margin: 10px 0 6px; color: var(--tenue); font-size: .9rem; }
 .co2-fuentes { margin: 14px 0 8px; text-align: center; }
-.co2-fuentes summary { display: inline-block; padding: 8px; color: var(--tenue); font-size: .82rem; text-decoration: underline; cursor: pointer; }
+.co2-fuentes summary { display: inline-flex; align-items: center; min-height: 44px; padding: 10px 18px; border: 1px solid var(--linea); border-radius: 999px; color: var(--tinta); font-size: .9rem; font-weight: 700; cursor: pointer; list-style: none; }
+.co2-fuentes[open] summary { border-color: var(--verde); color: var(--verde); }
 .co2-fuentes summary::-webkit-details-marker { display: none; }
-.co2-fuentes p { margin: 4px 0 0; color: var(--tenue); font-size: .8rem; text-align: left; }
+.co2-fuentes p { margin: 12px 0 0; padding: 14px 16px; border-radius: var(--radio); background: var(--superficie); color: var(--tenue); font-size: .88rem; line-height: 1.45; text-align: left; }
 @media (max-width: 360px) { .co2-equivale { grid-template-columns: 1fr; } .co2-cifra strong { font-size: 2.6rem; } }
 
 /* Tlacuache: colores fijos de la ilustracion, iguales en tema claro y oscuro */
@@ -1226,3 +1232,5 @@ html:has(body[data-pantalla="guia"]), body[data-pantalla="guia"], body[data-pant
 .guia-fija button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 56px; border-radius: 14px; color: var(--g-t); font-size: .8rem; font-weight: 800; text-align: center; }
 .guia-fija .icono { width: 26px; height: 26px; }
 #guia #terminar[data-confirmar] { background: var(--g-t); color: var(--g-c); }
+html.claro .comparar-precio { background: color-mix(in srgb, #35447c 10%, var(--superficie)); border-color: color-mix(in srgb, #35447c 45%, transparent); }
+html.claro .comparar-precio .chevron { color: #35447c; }

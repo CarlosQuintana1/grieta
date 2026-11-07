@@ -34,7 +34,7 @@ const catalogo={codigo:'nhe',completa:true,revision:'Prueba técnica sintética;
  assert.equal(await p.locator('body').getAttribute('data-pantalla'),'inicio');
  assert.equal(await p.evaluate(()=>JSON.parse(localStorage.getItem('grieta-tutorial')).completado),true);
  assert.deepEqual(await p.evaluate(()=>window.__permisos),[]);await p.reload();assert.equal(await p.locator('body').getAttribute('data-pantalla'),'inicio');
- await p.locator('#pestanas [data-tab=ajustes]').click();await p.locator('#abrirTutorial').click();assert.equal(await p.locator('#tutorialProgreso').textContent(),'Paso 1 de 3');await p.locator('#tutorialOmitir').click();assert.equal(await p.locator('body').getAttribute('data-pantalla'),'ajustes');
+ await p.locator('#pestanas [data-tab=ajustes]').click();await p.locator('summary:has(#tituloAyuda)').click();await p.locator('#abrirTutorial').click();assert.equal(await p.locator('#tutorialProgreso').textContent(),'Paso 1 de 3');await p.locator('#tutorialOmitir').click();assert.equal(await p.locator('body').getAttribute('data-pantalla'),'ajustes');
  console.log('Perfil desde Ajustes');await p.locator('#resumenPerfil').click();await p.waitForFunction(()=>Interfaz.disponiblePara('oto'));
  await p.waitForFunction(()=>Interfaz.disponiblePara('nah'));assert(await p.locator('#perfilLengua [data-v=nah]').isEnabled());assert(await p.locator('#nahuatlPendiente').isHidden());
  await p.locator('#perfilLengua [data-v=oto]').click();await p.waitForFunction(()=>document.documentElement.lang==='otq');

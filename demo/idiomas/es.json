@@ -3455,7 +3455,7 @@
     },
     {
       "clave": "texto_98add9d174",
-      "es": "Para avisarte durante el viaje. Puedes apagar la voz aquí abajo, en \"Voz de Grieta\".",
+      "es": "Para avisarte durante el viaje. Puedes apagar la voz aquí arriba, en \"Voz de Grieta\".",
       "contextos": [
         "demo/index.html · pantallas · #ajustes"
       ]
@@ -3991,7 +3991,7 @@
     },
     {
       "clave": "texto_4444ec4125",
-      "es": "Puedes apagar la voz aquí abajo, en \"Voz de Grieta\".",
+      "es": "Puedes apagar la voz aquí arriba, en \"Voz de Grieta\".",
       "contextos": [
         "demo/index.html · pantallas · #ajustes"
       ]

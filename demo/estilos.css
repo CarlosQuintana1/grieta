@@ -57,7 +57,6 @@ h1:focus, h1:focus-visible { outline: none; }
 .oculto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .nota { color: var(--tenue); font-size: 0.85rem; margin-top: 10px; }
 .pie { margin-top: 24px; }
-.medidas { color: var(--tenue); font-size: 0.7rem; margin-top: 6px; }
 .texto { margin-top: 12px; font-size: 1.05rem; }
 .etiqueta { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ambar); }
 .etiqueta.tenue { color: var(--tenue); }
@@ -1234,3 +1233,17 @@ html:has(body[data-pantalla="guia"]), body[data-pantalla="guia"], body[data-pant
 #guia #terminar[data-confirmar] { background: var(--g-t); color: var(--g-c); }
 html.claro .comparar-precio { background: color-mix(in srgb, #35447c 10%, var(--superficie)); border-color: color-mix(in srgb, #35447c 45%, transparent); }
 html.claro .comparar-precio .chevron { color: #35447c; }
+
+/* Ajustes: filas que se despliegan al tocarlas y opciones de toques solo en modo Voz */
+.ajuste-plegable > summary, .pregunta-ayuda > summary { list-style: none; cursor: pointer; }
+.ajuste-plegable > summary::-webkit-details-marker, .pregunta-ayuda > summary::-webkit-details-marker { display: none; }
+.fila-ajustes .chevron, .pregunta-ayuda .chevron, .fila-boton .chevron { flex: none; margin-left: auto; color: var(--tenue); transition: transform .2s; }
+.ajuste-plegable[open] > summary .chevron, .pregunta-ayuda[open] > summary .chevron { transform: rotate(90deg); }
+.ajustes-lista > :last-child { border-bottom: none; }
+.grupo + .ajustes-lista { margin-top: 10px; }
+.pregunta-ayuda > summary { display: flex; align-items: center; gap: 12px; min-height: 48px; }
+.pregunta-ayuda > summary strong { margin: 0; }
+.pregunta-ayuda p { margin: 4px 0 6px; color: var(--tenue); }
+.opciones-toques[hidden] { display: none; }
+.fila-boton { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 56px; padding: 10px 0; color: var(--tinta); font-weight: 600; text-align: left; }
+@media (prefers-reduced-motion: reduce) { .fila-ajustes .chevron, .pregunta-ayuda .chevron { transition: none; } }

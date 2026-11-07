@@ -139,7 +139,9 @@ function aplicarAcc() {
   document.querySelector('meta[name="theme-color"]').content = tono("--fondo");
   pintarResumenPerfil();
   $('optToques').checked = acc.toques;
-  $('optToques').disabled = !acc.modoVoz || acc.lector === 'si';
+  // Tocar para escuchar y su práctica solo existen en modo Voz, sin lector de pantalla del teléfono.
+  $('opcionesToques').hidden = !acc.modoVoz || acc.lector === 'si';
+  $('notaDensidad').textContent = { completa: "Precios, horarios, comparar y esperar.", facil: "Solo lo esencial, con botones grandes.", voz: "Pocos botones, muy grandes, y Grieta te dice todo en voz alta." }[densidadActual()];
   $('ayudaToques').hidden = !acc.modoVoz || acc.lector === 'si' || !acc.toques;
   ToquesGrieta.reiniciar();
   if (!acc.voz) detenerVoz();
@@ -256,7 +258,6 @@ function mostrar(nombre) {
     if (b.dataset.tab === conf.tab) b.setAttribute("aria-current", "page");
     else b.removeAttribute("aria-current");
   }
-  if (nombre === "ajustes") requestAnimationFrame(medirPantalla);
   if (nombre === "camara") CamaraGrieta.abrir();
   if (nombre === "practica") PracticaGrieta.entrar();
   if (nombre === "tutorial") TutorialGrieta.entrar();
@@ -2900,9 +2901,6 @@ function pintarGuardados() {
   if (faltaCasa) fichas.push(ficha('data-nuevo="Casa"', "nuevo tono-casa", "casa", "Agregar casa"));
   if (guardados.length + faltaCasa < MAX_LUGARES) fichas.push(ficha('data-nuevo=""', "nuevo tono-ciruela", "plus", "Agregar"));
   $("guardados").innerHTML = fichas.join("");
-  $("editarGuardados").hidden = !guardados.length;
-  $("editarGuardados").textContent = editando ? "Listo" : "Editar";
-  $("editarGuardados").setAttribute("aria-pressed", String(editando));
   const deshacer = quitado ? `<div class="fila"><span class="fila-texto"><strong>Quitaste ${escapar(quitado.lugar.nombre)}</strong></span>
       <button type="button" class="quitar" data-deshacer>Deshacer</button></div>` : "";
   const enInicio = quitado?.pantalla === "inicio";
@@ -2910,14 +2908,6 @@ function pintarGuardados() {
       <button type="button" class="quitar" data-deshacer-nuevo>Deshacer</button></div>` : "";
   $("deshacerInicio").innerHTML = enInicio ? deshacer : avisoNuevo;
   $("deshacerInicio").hidden = !enInicio && !avisoNuevo;
-  $("listaGuardados").innerHTML = (quitado?.pantalla === "ajustes" ? `<li>${deshacer}</li>` : "") + (guardados.length
-    ? guardados.map((g, i) => editando
-      ? `<li><div class="fila">${miniFicha(tonoLugar(g.nombre, i), picto(iconoLugar(g.nombre)))}<span class="fila-texto"><strong translate="no">${escapar(g.nombre)}</strong></span>
-          <div class="acciones-guardado"><button type="button" class="quitar" data-editar="${i}">Editar</button>
-          <button type="button" class="quitar" data-quitar="${i}" aria-label="Quitar ${escapar(g.nombre)}">Quitar</button></div></div></li>`
-      : `<li><button type="button" data-i="${i}">${miniFicha(tonoLugar(g.nombre, i), picto(iconoLugar(g.nombre)))}
-          <span class="fila-texto"><strong translate="no">${escapar(g.nombre)}</strong><small>Ir a ${escapar(g.nombre)}</small></span>${ico("chevron", "chevron")}</button></li>`).join("")
-    : quitado ? "" : `<li class="vacio">Cuando elijas un destino, toca "Guardar este lugar".</li>`);
 }
 function guardarLugares() {
   escribir("grieta-lugares", guardados);
@@ -3046,16 +3036,6 @@ $("guardados").addEventListener("click", (e) => {
   $("campoBuscar").placeholder = casa ? "La calle o colonia de tu casa" : "Busca el lugar que quieres guardar";
   titulos.buscar = $("tituloPantalla").textContent = casa ? "¿Dónde está tu casa?" : "Guardar un lugar";
 });
-$("listaGuardados").addEventListener("click", (e) => {
-  if (e.target.closest("[data-deshacer]")) return deshacerLugar();
-  const editar = e.target.closest("[data-editar]");
-  if (editar) return abrirAccionesLugar(editar, guardados[editar.dataset.editar]);
-  const q = e.target.closest("[data-quitar]");
-  if (q) return quitarLugar(guardados[q.dataset.quitar]);
-  const b = e.target.closest("button[data-i]");
-  if (b) { ir("inicio"); irA(guardados[b.dataset.i]); }
-});
-$("editarGuardados").addEventListener("click", () => { editando = !editando; quitado = null; pintarGuardados(); });
 $("deshacerInicio").addEventListener("click", (e) => {
   if (e.target.closest("[data-deshacer-nuevo]")) return deshacerNuevo();
   if (e.target.closest("[data-deshacer]")) deshacerLugar();
@@ -3069,12 +3049,8 @@ let pulsacionLugar = null, omitirClicLugar = false;
 
 function enfocarLugarGuardado(lugar) {
   const indice = guardados.indexOf(lugar);
-  if (document.body.dataset.pantalla === "ajustes") {
-    $("listaGuardados").querySelector(`[data-editar="${indice}"], [data-i="${indice}"]`)?.focus();
-  } else {
-    const botones = acc.modoVoz ? [$("vozCasa"), ...$("vozLugares").children] : [...$("guardados").children];
-    botones.find(boton => !boton.hidden && boton.dataset.i === String(indice))?.focus();
-  }
+  const botones = acc.modoVoz ? [$("vozCasa"), ...$("vozLugares").children] : [...$("guardados").children];
+  botones.find(boton => !boton.hidden && boton.dataset.i === String(indice))?.focus();
 }
 function quitarLugar(lugar) {
   const indice = guardados.indexOf(lugar);
@@ -3084,7 +3060,7 @@ function quitarLugar(lugar) {
   guardados.splice(indice, 1);
   if (!guardados.length) editando = false;
   guardarLugares();
-  $(pantalla === "ajustes" ? "listaGuardados" : "deshacerInicio").querySelector("[data-deshacer]")?.focus({ focusVisible: false });
+  $("deshacerInicio").querySelector("[data-deshacer]")?.focus({ focusVisible: false });
 }
 function deshacerLugar() {
   if (!quitado) return;
@@ -3979,30 +3955,6 @@ $("cerrarInvita").addEventListener("click", () => {
   $("invitaPerfil").hidden = true;
 });
 
-// Medidas de la pantalla en Ajustes, para revisar como acomoda iOS la app instalada.
-function medirPantalla() {
-  const css = getComputedStyle(document.documentElement);
-  const etiqueta = document.querySelector('#pestanas [data-tab="inicio"] .pestana-texto');
-  const caja = etiqueta?.getBoundingClientRect();
-  const estilo = etiqueta ? getComputedStyle(etiqueta) : null;
-  const centro = caja ? document.elementFromPoint(caja.left + caja.width / 2, caja.top + caja.height / 2) : null;
-  const pestanas = $("pestanas").getBoundingClientRect();
-  const claseCentro = centro ? String(centro.className?.baseVal ?? centro.className ?? "") : "";
-  const medidasBase = `Pantalla ${screen.width}×${screen.height} · vista ${innerWidth}×${innerHeight} · ` +
-    `${navigator.standalone ? "instalada" : "navegador"} · zona segura ${css.getPropertyValue("--zona-arriba").trim()} / ${css.getPropertyValue("--zona-abajo").trim()}`;
-  const diagnostico = `Inicio getBoundingClientRect: top ${caja?.top.toFixed(1) ?? "n/d"} px · height ${caja?.height.toFixed(1) ?? "n/d"} px · width ${caja?.width.toFixed(1) ?? "n/d"} px · ` +
-    `color ${estilo?.color ?? "n/d"} · opacity ${estilo?.opacity ?? "n/d"} · visibility ${estilo?.visibility ?? "n/d"} · display ${estilo?.display ?? "n/d"} · ` +
-    `font-size ${estilo?.fontSize ?? "n/d"} · font-family ${estilo?.fontFamily ?? "n/d"} · -webkit-text-fill-color ${estilo?.getPropertyValue("-webkit-text-fill-color") ?? "n/d"} · ` +
-    `elementFromPoint ${centro?.tagName.toLowerCase() ?? "n/d"}#${centro?.id || "—"}.${claseCentro || "—"} · ` +
-    `#pestanas top ${pestanas.top.toFixed(1)} px · height ${pestanas.height.toFixed(1)} px · bottom ${pestanas.bottom.toFixed(1)} px · ` +
-    `visualViewport.height ${window.visualViewport?.height.toFixed(1) ?? "n/d"} px · matchMedia standalone ${matchMedia("(display-mode: standalone)").matches}`;
-  const lineaBase = document.createElement("span");
-  lineaBase.textContent = medidasBase;
-  const lineaDiagnostico = document.createElement("span");
-  lineaDiagnostico.textContent = diagnostico;
-  $("medidas").replaceChildren(lineaBase, document.createElement("br"), lineaDiagnostico);
-}
-addEventListener("resize", () => { if ($("medidas")) medirPantalla(); });
 
 // Sin conexion: la app y los horarios quedan guardados en el telefono.
 Interfaz.iniciar(acc.idioma, () => {
@@ -4040,7 +3992,6 @@ Promise.all([
   pintarImpacto();
   pintarGuardados();
   avisoConexion();
-  medirPantalla();
   if (!primeraVez) ubicar();
   accionInicial();
 });

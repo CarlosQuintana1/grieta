@@ -1965,8 +1965,8 @@
     },
     {
       "clave": "texto_98add9d174",
-      "es": "Para avisarte durante el viaje. Puedes apagar la voz aquí abajo, en \"Voz de Grieta\".",
-      "nhe": "Para mits ilhuisej ipan nopa ojtli. Uelis tijtlamis nopa tlajtoli tlen eltok tlatsintla ipan \"Itlajtol Grieta\"."
+      "es": "Para avisarte durante el viaje. Puedes apagar la voz aquí arriba, en \"Voz de Grieta\".",
+      "nhe": "Para mits ilhuisej ipan nopa ojtli. Uelis tijtlamis nopa tlajtoli nikan, ipan \"Itlajtol Grieta\"."
     },
     {
       "clave": "texto_8276d44171",
@@ -2240,7 +2240,7 @@
     },
     {
       "clave": "texto_4444ec4125",
-      "es": "Puedes apagar la voz aquí abajo, en \"Voz de Grieta\".",
+      "es": "Puedes apagar la voz aquí arriba, en \"Voz de Grieta\".",
       "nhe": "Uelis tijtlamis nopa tlajtoli nikan, ipan \"Tlajtoli tlen Grieta\"."
     },
     {
@@ -7219,6 +7219,11 @@
       "clave": "texto_b245e4d06a",
       "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
       "criterio": "Se restituyen «Grieta», «CO₂» o el nombre de la norma como en el texto fuente."
+    },
+    {
+      "clave": "texto_98add9d174",
+      "fuente": "https://translate.google.com/?sl=es&tl=nhe&op=translate",
+      "criterio": "La sección de Voz quedó arriba de Ayuda; se quita la palabra «abajo» de la traducción anterior en lugar de volver a traducir."
     }
   ]
 }

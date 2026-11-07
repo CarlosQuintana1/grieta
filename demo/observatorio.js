@@ -55,6 +55,15 @@ function porcentajes(id, filas) {
       return s;
     }));
     $("estado").textContent = `Actualizado: ${new Date(d.actualizado).toLocaleString("es-MX", { dateStyle: "medium", timeStyle: "short" })}`;
+    // Las secciones sin ningún dato se juntan en una sola tarjeta, en lugar de repetir "Todavía sin datos".
+    const vacias = [...document.querySelectorAll("section[data-titulo]")].filter((sec) => {
+      const listas = [...sec.querySelectorAll("ol")];
+      const horas = sec.querySelector(".horas-grafica");
+      return listas.every((l) => l.querySelector(".vacio")) && (!horas || d.lleno.porHora.every((n) => !n)) && !(sec.contains($("sentirResumen")) && totalSentir);
+    });
+    for (const sec of vacias) sec.hidden = true;
+    $("listaPendientes").replaceChildren(...vacias.map((sec) => { const li = document.createElement("li"); li.textContent = sec.dataset.titulo; return li; }));
+    $("pendientes").hidden = !vacias.length;
   } catch {
     $("estado").textContent = "No pude cargar los datos. Revisa tu conexión e intenta otra vez.";
   }

@@ -1964,8 +1964,8 @@
     },
     {
       "clave": "texto_98add9d174",
-      "es": "Para avisarte durante el viaje. Puedes apagar la voz aquí abajo, en \"Voz de Grieta\".",
-      "otq": "Pa avisar bí Nxoge ar viaje. Tsa̲ da desactivar ar hñä ar abajo, jar hmä \"Grieta Voice\"."
+      "es": "Para avisarte durante el viaje. Puedes apagar la voz aquí arriba, en \"Voz de Grieta\".",
+      "otq": "Pa avisar bí Nxoge ar viaje. Tsa̲ da desactivar ar hñä, jar hmä \"Grieta Voice\"."
     },
     {
       "clave": "texto_8276d44171",
@@ -2239,8 +2239,8 @@
     },
     {
       "clave": "texto_4444ec4125",
-      "es": "Puedes apagar la voz aquí abajo, en \"Voz de Grieta\".",
-      "otq": "Nu'i gí tsa̲ da desactivar ar hñä ar abajo, jar hmä \"Grieta Voice\"."
+      "es": "Puedes apagar la voz aquí arriba, en \"Voz de Grieta\".",
+      "otq": "Nu'i gí tsa̲ da desactivar ar hñä, jar hmä \"Grieta Voice\"."
     },
     {
       "clave": "texto_14a927367d",
@@ -4668,6 +4668,16 @@
       "clave": "texto_04c3aadb99",
       "fuente": "https://www.bing.com/translator?from=es&to=otq",
       "criterio": "Se restituyen «Grieta», «CO₂» o el nombre de la norma como en el texto fuente."
+    },
+    {
+      "clave": "texto_98add9d174",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "La sección de Voz quedó arriba de Ayuda; se quita la palabra «abajo» de la traducción anterior en lugar de volver a traducir."
+    },
+    {
+      "clave": "texto_4444ec4125",
+      "fuente": "https://www.bing.com/translator?from=es&to=otq",
+      "criterio": "La sección de Voz quedó arriba de Ayuda; se quita la palabra «abajo» de la traducción anterior en lugar de volver a traducir."
     }
   ],
   "parcial": true

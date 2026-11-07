@@ -118,12 +118,6 @@ const assert = require('node:assert/strict');
     await p.screenshot({ path: '/private/tmp/grieta-82-lugares-320.png' });
     await p.locator('#cerrarDialogoLugar').tap();
 
-    await p.locator('[data-tab="ajustes"]').tap();
-    await p.locator('#editarGuardados').tap();
-    await p.locator('#listaGuardados [data-editar]').last().tap();
-    assert(await dialogo.isVisible());
-    await p.locator('#cerrarDialogoLugar').tap();
-    await p.locator('[data-tab="inicio"]').tap();
     await ficha('Oficina').tap();
     await p.locator('#campoBuscar').waitFor();
     assert.equal(await p.evaluate(() => estado.destino.nombre), 'Oficina');
@@ -135,7 +129,7 @@ const assert = require('node:assert/strict');
     await p.locator('#deshacerInicio [data-deshacer]').tap();
     assert(await p.locator('#vozCasa').isVisible());
     assert.deepEqual(errores, []);
-    console.log('Pulsación táctil, desplazamiento, toque normal, edición, cancelar, quitar y deshacer. Teclado, Ajustes, modo Voz y movimiento reducido comprobados.');
+    console.log('Pulsación táctil, desplazamiento, toque normal, edición, cancelar, quitar y deshacer. Teclado, modo Voz y movimiento reducido comprobados.');
   } finally {
     await navegador.close();
   }

@@ -13,10 +13,13 @@
   <link rel="stylesheet" href="observatorio.css">
 </head>
 <body>
+  <header class="barra">
+    <a class="atras" href="./" aria-label="Volver a Grieta"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
+    <span class="barra-titulo">Observatorio</span>
+  </header>
   <main>
-    <a class="volver" href="./">← Volver a Grieta</a>
-    <h1>Observatorio Grieta</h1>
-    <p class="entrada">Cómo se mueve Querétaro, contado por la gente que usa Grieta. Datos abiertos y anónimos: solo conteos, nunca nombres, textos ni recorridos.</p>
+    <h1>Así se mueve Querétaro</h1>
+    <p class="entrada">Contado por la gente que usa Grieta. Solo conteos anónimos: nunca nombres, textos ni recorridos.</p>
     <p id="estado" class="nota" role="status">Cargando datos…</p>
     <section class="cifras" aria-label="Resumen">
       <div class="cifra verde"><strong id="cCo2">–</strong><span>de CO₂ evitados en camión</span></div>
@@ -24,30 +27,30 @@
       <div class="cifra rojo"><strong id="cQuejas">–</strong><span>quejas del servicio en 30 días</span></div>
       <div class="cifra azul"><strong id="cAcceso">–</strong><span>problemas de accesibilidad sin resolver</span></div>
     </section>
-    <section>
+    <section class="tarjeta" data-titulo="Rutas con más quejas">
       <h2>Rutas con más quejas</h2>
       <p class="nota">Últimos 30 días.</p>
       <ol id="quejasRuta" class="barras"></ol>
     </section>
-    <section>
+    <section class="tarjeta" data-titulo="Qué se reporta del servicio">
       <h2>Qué se reporta del servicio</h2>
       <ol id="quejasTipo" class="barras"></ol>
     </section>
-    <section>
+    <section class="tarjeta" data-titulo="Accesibilidad en paradas">
       <h2>Accesibilidad en paradas</h2>
       <p class="nota">Reportes vigentes: la gente confirma si siguen o ya los arreglaron.</p>
       <ol id="accesoTipo" class="barras"></ol>
       <h3>Paradas con más reportes</h3>
       <ol id="accesoParada" class="barras"></ol>
     </section>
-    <section>
+    <section class="tarjeta" data-titulo="A qué hora va lleno el camión">
       <h2>¿A qué hora va lleno el camión?</h2>
       <p class="nota">Avisos de "viene lleno" de las últimas 8 semanas, por hora del día.</p>
       <div id="llenoHora" class="horas-grafica" role="img" aria-label="Avisos de camión lleno por hora"></div>
       <h3>Líneas que más van llenas</h3>
       <ol id="llenoLinea" class="barras"></ol>
     </section>
-    <section>
+    <section class="tarjeta" data-titulo="Cómo se sienten los viajes">
       <h2>¿Cómo se sienten los viajes?</h2>
       <p class="nota">Al bajar del camión, la gente dice si el viaje fue tranquilo, normal o estresado. Últimas 8 semanas.</p>
       <p id="sentirResumen" class="sentir-resumen"></p>
@@ -56,10 +59,16 @@
       <h3>Líneas donde más se llega estresado</h3>
       <ol id="sentirLinea" class="barras"></ol>
     </section>
-    <section>
+    <section id="pendientes" class="tarjeta pendientes" hidden>
+      <h2>Todavía sin datos</h2>
+      <p class="nota">Estas gráficas aparecen en cuanto la gente empiece a reportar desde Grieta:</p>
+      <ul id="listaPendientes"></ul>
+    </section>
+    <section class="tarjeta usalos">
       <h2>Úsalos</h2>
-      <p>Para la AMEQ, el municipio, la universidad o cualquier persona: los datos completos están en <a id="enlaceJson" href="#">formato JSON</a> y se actualizan cada 5 minutos.</p>
-      <p class="nota">Las quejas no son oficiales. Para que la AMEQ las atienda, se mandan también a su línea de Reportes (442) 211 70 00 o al WhatsApp 446 117 1516.</p>
+      <p>Para la AMEQ, el municipio, la universidad o cualquier persona. Se actualizan cada 5 minutos.</p>
+      <a id="enlaceJson" class="boton" href="#">Descargar los datos (JSON)</a>
+      <p class="nota">Las quejas no son oficiales. Para que la AMEQ las atienda, mándalas también a su línea de Reportes (442) 211 70 00 o al WhatsApp 446 117 1516.</p>
     </section>
   </main>
   <script src="observatorio.js"></script>

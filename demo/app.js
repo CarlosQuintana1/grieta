@@ -215,6 +215,7 @@ function actualizarVozEncabezado() {
   boton.title = etiqueta;
   boton.disabled = enCamara && acc.lector === "si";
   boton.hidden = !enCamara && !acc.modoVoz;
+  $("logoEncabezado").hidden = !boton.hidden;
   if (enCamara) boton.setAttribute("aria-pressed", String(camaraConVoz && !boton.disabled));
   else boton.removeAttribute("aria-pressed");
 }

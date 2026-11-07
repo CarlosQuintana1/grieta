@@ -1293,12 +1293,12 @@ body:not(.camara-en-uso) :is(#camaraSueloEstado, #camaraHoyosEstado) { display: 
 .camara-avisos > span:nth-child(2) { flex: 1; }
 .camara-avisos .mini-ficha { width: 44px; height: 44px; flex: none; }
 .camara-avisos .mini-ficha .picto { width: 24px; height: 24px; }
-.camara-mas { margin: 18px 0 8px; border-top: 1px solid var(--linea); }
+.camara-mas { margin: 18px 0 8px; }
 .camara-mas summary { display: flex; align-items: center; min-height: var(--toque); font-weight: 700; color: var(--tenue); cursor: pointer; }
 
 .camara-privacidad { text-align: justify; hyphens: auto; }
 .ajustes-cabecera { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.logo-ajustes { width: 48px; height: 48px; flex: none; border-radius: 12px; }
+.logo-ajustes { width: 64px; height: 64px; flex: none; border-radius: 16px; }
 .tarjeta-perfil { flex-wrap: wrap; }
 .tarjeta-perfil .fila-texto strong { font-size: 1.1rem; }
 .tarjeta-perfil .perfil-chips { flex-basis: 100%; }
@@ -1306,3 +1306,6 @@ body:not(.camara-en-uso) :is(#camaraSueloEstado, #camaraHoyosEstado) { display: 
 .perfil-chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px 4px 8px; border-radius: 999px; font-size: 0.85rem; font-weight: 600;
   color: var(--tinta); background: var(--superficie-2); }
 .perfil-chip .icono { width: 16px; height: 16px; color: var(--ambar); }
+.logo-encabezado { justify-self: center; width: 40px; height: 40px; border-radius: 10px; }
+/* Con la camara activa solo quedan botones: los mensajes se anuncian por voz y lector, sin ocupar pantalla. */
+.camara-panel > p { position: absolute; width: 1px; height: 1px; margin: 0; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

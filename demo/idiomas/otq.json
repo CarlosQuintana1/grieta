@@ -2578,11 +2578,6 @@
       "otq": "Nuya gehya ya precios normales jar Nunu̲ t'olo ora."
     },
     {
-      "clave": "texto_92bd867fbc",
-      "es": "Son los precios normales a esa hora. Si la app te marca otro, compáralo en \"¿La app ya te dio precio?\".",
-      "otq": "Nuya gehya ya precios normales jar Nunu̲ t'olo ora. Nu'bu̲ ár nt'ot'e gi 'ñudi xka, comparar jar hmä \"¿Ar nt'ot'e bí xi t'uni 'nar precio Tobe?\"."
-    },
-    {
       "clave": "texto_b227f7ff9c",
       "es": "Son {v1} caminando, unos {v2} minutos.",
       "otq": "Ya {v1} 'yowa, {v2} t'olo ora."

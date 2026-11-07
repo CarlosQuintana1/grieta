@@ -2579,11 +2579,6 @@
       "nhe": "Ni tlaxtlauili tlen normal ipan nopa tonali."
     },
     {
-      "clave": "texto_92bd867fbc",
-      "es": "Son los precios normales a esa hora. Si la app te marca otro, compáralo en \"¿La app ya te dio precio?\".",
-      "nhe": "Ni tlaxtlauili tlen normal ipan nopa tonali. Tlaj nopa app mitsmakas seyok tlaxtlauili, xikixnexti ika \"¿Ya mitsmakatok se tlaxtlauili nopa app?\""
-    },
-    {
       "clave": "texto_b227f7ff9c",
       "es": "Son {v1} caminando, unos {v2} minutos.",
       "nhe": "Ya nopa {v1} nejnemi, kanaj {v2} minutos."
@@ -3632,11 +3627,6 @@
       "clave": "texto_f86434b3a2",
       "es": "Experimental: puede omitir obstáculos y desniveles. No mide altura ni indica cuándo cruzar. Usa tu bastón o acompañamiento.",
       "nhe": "Experimental: ueli kiixnamiki tlauejkayotl uan tlauili. Ax kiyejyekoua iuejkaka yon ax kinextia kema monekis panos. Xi kitekiui mo kuauitl o mo acompañamiento."
-    },
-    {
-      "clave": "texto_6fdde16c4d",
-      "es": "Las imágenes se analizan en tu teléfono. No se guardan ni se envían. La cámara se apaga al salir o al ocultar la app. El audio sigue tus ajustes de voz.",
-      "nhe": "Tlaixkopinkayomej tlen moixtoma ipan mocelular. Ax kinmakixtiaj yon ax kintitlanij. Nopa cámara tlami kemaj tijkaua o tijtlaati nopa aplicación. Nopa tlajtoli ki toquilia tlen tij tlalijtok."
     },
     {
       "clave": "texto_fdd37ed0a4",
@@ -6909,14 +6899,19 @@
       "nhe": "Nopa tlaxtlauili uelis ax mopatlas ipan nopa seyok hora"
     },
     {
-      "clave": "texto_a8f9527d75",
-      "es": "La primera vez se descargan los modelos (78 MB aprox.).",
-      "nhe": "Nopa achtoui uelta kemaj nopa modelos kikixtiaj (kej 78 MB)."
-    },
-    {
       "clave": "texto_a03923b7f0",
       "es": "Más opciones",
       "nhe": "Más tlamantli"
+    },
+    {
+      "clave": "texto_8f47456b64",
+      "es": "No, son estimados. Los calcula nuestro modelo predictivo a partir de nuestros registros de cotizaciones reales. Si la app te marca otro, compáralo en \"¿La app ya te dio precio?\".",
+      "nhe": "Axtle, elij tlatamachiualistli. Injuantij kiixtomayayaj ika to modelo predictivo tlen mosentlalijtok ipan to registros tlen tlajtoli tlen melauak. Tlaj nopa app mitsmakas seyok tlaxtlauili, xikixnexti ika \"¿Ya mitsmakatok se tlaxtlauili nopa app?\""
+    },
+    {
+      "clave": "texto_896a2d4cdf",
+      "es": "Las imágenes se analizan en tu teléfono. No se guardan ni se envían. La cámara se apaga al salir o al ocultar la app.",
+      "nhe": "Tlaixkopinkayomej tlen moixtoma ipan mocelular. Ax kinmakixtiaj yon ax kintitlanij. Nopa cámara tlami kemaj tijkaua o tijtlaati nopa aplicación."
     }
   ],
   "adaptaciones": [

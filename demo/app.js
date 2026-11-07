@@ -158,7 +158,9 @@ const guardarAcc = () => escribir("grieta-acc", acc);
 marcarDensidad = radios("optDensidad", (v) => {
   acc.modoVoz = v === "voz";
   acc.facil = v === "facil";
-  if (acc.modoVoz) Object.assign(acc, { voz: acc.lector !== "si", grande: true });
+  // La letra sigue al modo: Facil y Voz la agrandan y Completa la regresa a normal.
+  acc.grande = v !== "completa";
+  if (acc.modoVoz) acc.voz = acc.lector !== "si";
   else acc.voz = false;
   guardarAcc();
   aplicarAcc();
@@ -3833,15 +3835,23 @@ function resumenCortoPerfil() {
   const movilidad = acc.movilidad ?? (acc.camino ? "poco" : "normal");
   const movimiento = { normal: "Caminas bien", poco: "Caminas poco", silla: "Usas silla de ruedas" }[movilidad];
   const densidad = { completa: "Completa", facil: "Fácil", voz: "Voz" }[densidadActual()];
-  const oido = acc.oido === "poco" ? "Avisos con vibración" : "Avisos con voz";
+  const oido = acc.oido === "poco" ? ["vibrar", "Avisos con vibración"] : ["altavoz", "Avisos con voz"];
   const tarifa = acc.unidos ? "Tarifa Unidos" : "Tarifa normal";
-  return [vista, movimiento, densidad, oido, tarifa, acc.modoVoz ? (acc.lector === "si" ? "Usas lector de pantalla" : "Grieta te habla") : "", acc.idioma === "es" ? "" : `Prefieres ${acc.idioma === "nah" ? NOMBRE_NAHUATL : NOMBRE_OTOMI}`].filter(Boolean).join(" · ");
+  return [["ojo", vista], [movilidad === "silla" ? "silla" : "caminar", movimiento], ["letra", densidad], oido, ["boleto", tarifa],
+    acc.modoVoz && acc.lector === "si" ? ["altavoz", "Usas lector de pantalla"] : null,
+    acc.idioma === "es" ? null : ["persona", `Prefieres ${acc.idioma === "nah" ? NOMBRE_NAHUATL : NOMBRE_OTOMI}`]].filter(Boolean);
 }
 function pintarResumenPerfil() {
   if (!$("textoPerfil")) return;
   const movilidad = acc.movilidad ?? (acc.camino ? "poco" : "normal");
   const pictograma = `#p-${{ normal: "caminar", poco: "caminar", silla: "silla" }[movilidad]}`;
-  $("textoPerfil").textContent = resumenCortoPerfil();
+  $("textoPerfil").replaceChildren(...resumenCortoPerfil().map(([icono, texto]) => {
+    const chip = document.createElement("span");
+    chip.className = "perfil-chip";
+    chip.innerHTML = `<svg class="icono" aria-hidden="true"><use href="#i-${icono}"/></svg>`;
+    chip.append(texto);
+    return chip;
+  }));
   $("ajustesAvatar").setAttribute("href", pictograma);
   $("perfilFichas").innerHTML = fichasPerfil().map(([grupo, tono, picto, texto, nombrePropio]) =>
     `<button type="button" class="perfil-ficha" data-ir-perfil="${grupo}">

@@ -4561,13 +4561,6 @@
       ]
     },
     {
-      "clave": "texto_92bd867fbc",
-      "es": "Son los precios normales a esa hora. Si la app te marca otro, compáralo en \"¿La app ya te dio precio?\".",
-      "contextos": [
-        "demo/index.html · pantallas · #ajustes"
-      ]
-    },
-    {
       "clave": "texto_b227f7ff9c",
       "es": "Son {v1} caminando, unos {v2} minutos.",
       "contextos": [
@@ -6474,13 +6467,6 @@
     {
       "clave": "texto_f86434b3a2",
       "es": "Experimental: puede omitir obstáculos y desniveles. No mide altura ni indica cuándo cruzar. Usa tu bastón o acompañamiento.",
-      "contextos": [
-        "demo/index.html · pantallas · #camara"
-      ]
-    },
-    {
-      "clave": "texto_6fdde16c4d",
-      "es": "Las imágenes se analizan en tu teléfono. No se guardan ni se envían. La cámara se apaga al salir o al ocultar la app. El audio sigue tus ajustes de voz.",
       "contextos": [
         "demo/index.html · pantallas · #camara"
       ]
@@ -12105,15 +12091,22 @@
       ]
     },
     {
-      "clave": "texto_a8f9527d75",
-      "es": "La primera vez se descargan los modelos (78 MB aprox.).",
+      "clave": "texto_a03923b7f0",
+      "es": "Más opciones",
       "contextos": [
         "demo/index.html · #camara"
       ]
     },
     {
-      "clave": "texto_a03923b7f0",
-      "es": "Más opciones",
+      "clave": "texto_8f47456b64",
+      "es": "No, son estimados. Los calcula nuestro modelo predictivo a partir de nuestros registros de cotizaciones reales. Si la app te marca otro, compáralo en \"¿La app ya te dio precio?\".",
+      "contextos": [
+        "demo/index.html · #ajustes · Preguntas frecuentes"
+      ]
+    },
+    {
+      "clave": "texto_896a2d4cdf",
+      "es": "Las imágenes se analizan en tu teléfono. No se guardan ni se envían. La cámara se apaga al salir o al ocultar la app.",
       "contextos": [
         "demo/index.html · #camara"
       ]

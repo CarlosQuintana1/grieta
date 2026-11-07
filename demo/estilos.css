@@ -1032,10 +1032,10 @@ html.modo-voz :is(button,a,input,select,textarea,label) { touch-action: manipula
 .sin-camion strong { color: var(--cuidado); font-size: 0.92rem; font-weight: 600; }
 /* En Qrobus y En app: su ficha, el titulo grande y una linea de su color hasta la orilla */
 h2.titulo-medio { display: flex; align-items: center; gap: 10px; font-size: 1.15rem; font-weight: 800; color: var(--tinta); text-transform: none; letter-spacing: 0; margin-bottom: 12px; }
-/* Guiño al logo: la raya de cada sección dobla hacia abajo con el corte de la esquina de la G */
-h2.titulo-medio::after { content: ""; flex: 1; position: relative; top: 9px; height: 22px; background: var(--tono);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 22'%3E%3Cpath d='M0 0H12.5L18 5.5V22H14V7.2L11 4.2H0Z'/%3E%3C/svg%3E") right top / 18px 22px no-repeat, linear-gradient(#000, #000) left top / calc(100% - 12px) 3px no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 22'%3E%3Cpath d='M0 0H12.5L18 5.5V22H14V7.2L11 4.2H0Z'/%3E%3C/svg%3E") right top / 18px 22px no-repeat, linear-gradient(#000, #000) left top / calc(100% - 12px) 3px no-repeat; }
+/* Guiño al logo: la raya de cada sección es la flecha de la G de Grieta, volteada hacia la derecha */
+h2.titulo-medio::after { content: ""; flex: 1; height: 24px; background: var(--tono);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 24'%3E%3Cpath d='M0 0H8.6L20 12L8.6 24H0L11.4 12Z'/%3E%3C/svg%3E") right center / 20px 24px no-repeat, linear-gradient(#000, #000) left center / calc(100% - 9px) 4px no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 24'%3E%3Cpath d='M0 0H8.6L20 12L8.6 24H0L11.4 12Z'/%3E%3C/svg%3E") right center / 20px 24px no-repeat, linear-gradient(#000, #000) left center / calc(100% - 9px) 4px no-repeat; }
 h2.titulo-medio .mini-ficha { width: 34px; height: 34px; }
 h2.titulo-medio .mini-ficha .picto { width: 20px; height: 20px; }
 #quejaCamion input { width: 100%; min-height: 52px; margin-bottom: 12px; padding: 12px 14px; color: var(--tinta); background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--radio); }
@@ -1295,3 +1295,14 @@ body:not(.camara-en-uso) :is(#camaraSueloEstado, #camaraHoyosEstado) { display: 
 .camara-avisos .mini-ficha .picto { width: 24px; height: 24px; }
 .camara-mas { margin: 18px 0 8px; border-top: 1px solid var(--linea); }
 .camara-mas summary { display: flex; align-items: center; min-height: var(--toque); font-weight: 700; color: var(--tenue); cursor: pointer; }
+
+.camara-privacidad { text-align: justify; hyphens: auto; }
+.ajustes-cabecera { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.logo-ajustes { width: 48px; height: 48px; flex: none; border-radius: 12px; }
+.tarjeta-perfil { flex-wrap: wrap; }
+.tarjeta-perfil .fila-texto strong { font-size: 1.1rem; }
+.tarjeta-perfil .perfil-chips { flex-basis: 100%; }
+.perfil-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.perfil-chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px 4px 8px; border-radius: 999px; font-size: 0.85rem; font-weight: 600;
+  color: var(--tinta); background: var(--superficie-2); }
+.perfil-chip .icono { width: 16px; height: 16px; color: var(--ambar); }

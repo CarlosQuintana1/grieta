@@ -779,8 +779,7 @@
 
         <p id="camaraVibracion" class="nota"></p>
         <button id="camaraProbar" type="button" class="enlace" hidden>Probar vibración</button>
-        <p class="nota">La primera vez se descargan los modelos (78 MB aprox.).</p>
-        <p class="nota">Las imágenes se analizan en tu teléfono. No se guardan ni se envían. La cámara se apaga al salir o al ocultar la app. El audio sigue tus ajustes de voz.</p>
+        <p class="nota camara-privacidad">Las imágenes se analizan en tu teléfono. No se guardan ni se envían. La cámara se apaga al salir o al ocultar la app.</p>
       </details>
       <div class="camara-pie">
         <button id="camaraDetener" type="button" class="boton" hidden>Detener cámara</button>
@@ -788,11 +787,12 @@
     </section>
 
     <section id="ajustes" class="pantalla" aria-labelledby="tituloAjustes" hidden>
-      <h1 id="tituloAjustes" class="titulo-grande" tabindex="-1">Ajustes</h1>
+      <div class="ajustes-cabecera"><h1 id="tituloAjustes" class="titulo-grande" tabindex="-1">Ajustes</h1><img class="logo-ajustes" src="icono-192.png" alt="" width="48" height="48"></div>
       <button id="resumenPerfil" type="button" class="tarjeta-perfil">
         <span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use id="ajustesAvatar" href="#p-caminar"/></svg></span>
-        <span class="fila-texto"><strong>Tu perfil de viaje</strong><small id="textoPerfil"></small></span>
+        <span class="fila-texto"><strong>Tu perfil de viaje</strong></span>
         <svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg>
+        <span id="textoPerfil" class="perfil-chips"></span>
       </button>
       <h2 id="tituloAccesibilidad">Accesibilidad</h2>
       <div class="grupo">
@@ -874,7 +874,7 @@
           </summary>
           <div class="ajuste-panel">
             <div class="grupo ayuda" role="group" aria-labelledby="tituloPreguntas">
-              <details class="pregunta-ayuda"><summary><strong>¿Los precios son exactos?</strong><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>Son los precios normales a esa hora. Si la app te marca otro, compáralo en "¿La app ya te dio precio?".</p></details>
+              <details class="pregunta-ayuda"><summary><strong>¿Los precios son exactos?</strong><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>No, son estimados. Los calcula nuestro modelo predictivo a partir de nuestros registros de cotizaciones reales. Si la app te marca otro, compáralo en "¿La app ya te dio precio?".</p></details>
               <details class="pregunta-ayuda"><summary><strong>No encuentro un lugar</strong><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>Escribe la calle y la colonia, o toca "Elígelo en el mapa".</p></details>
               <details class="pregunta-ayuda"><summary><strong>¿Por qué me habla Grieta?</strong><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>Para avisarte durante el viaje. Puedes apagar la voz aquí arriba, en "Voz de Grieta".</p></details>
               <details class="pregunta-ayuda"><summary><strong>¿Las horas del camión son seguras?</strong><svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>Salen del horario oficial de Qrobus; el camión puede adelantarse o retrasarse unos minutos.</p></details>

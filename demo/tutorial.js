@@ -23,7 +23,8 @@ const TutorialGrieta = (() => {
     $('tutorialTitulo').textContent = actual.titulo;
     $('tutorialTexto').textContent = actual.texto;
     $('tutorialDetalle').textContent = actual.detalle;
-    $('tutorialFicha').className = `mini-ficha tono-${actual.tono}`;
+    $('tutorialFicha').className = `tutorial-hero tono-${actual.tono}`;
+    [...$('tutorialPuntos').children].forEach((punto, i) => punto.classList.toggle('hecho', i <= paso));
     $('tutorialIcono').setAttribute('href', `#p-${actual.icono}`);
     $('tutorialContinuar').textContent = paso === pasos.length - 1 ? 'Empezar a usar Grieta' : 'Continuar';
     $('tutorialAnterior').hidden = paso === 0;

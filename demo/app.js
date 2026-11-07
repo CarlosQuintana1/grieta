@@ -2881,9 +2881,9 @@ function iconoLugar(nombre, tipo) {
   return TIPOS_OSM[tipo] ?? "lugar";
 }
 // Cada tipo de lugar con su color, como en un sistema de transporte; los demas toman uno del resto
-const TONOS = { casa: "tono-casa", escuela: "tono-escuela", trabajo: "tono-trabajo", hospital: "tono-salud", parque: "tono-hospital", super: "tono-maiz",
-  mercado: "tono-maiz", plaza: "tono-ciruela", cafe: "tono-obsidiana", iglesia: "tono-anil", avion: "tono-trabajo", qrobus: "tono-hospital", familia: "tono-ciruela" };
-const tonoLugar = (nombre, i, tipo) => TONOS[iconoLugar(nombre, tipo)] ?? ["tono-anil", "tono-ciruela", "tono-maiz"][i % 3];
+const TONOS = { casa: "tono-casa", escuela: "tono-escuela", trabajo: "tono-trabajo", hospital: "tono-salud", parque: "tono-hospital", super: "tono-naranja",
+  mercado: "tono-oliva", plaza: "tono-rosa", cafe: "tono-cafe", iglesia: "tono-anil", avion: "tono-turquesa", qrobus: "tono-hospital", familia: "tono-ciruela" };
+const tonoLugar = (nombre, i, tipo) => TONOS[iconoLugar(nombre, tipo)] ?? ["tono-anil", "tono-turquesa", "tono-ciruela", "tono-naranja", "tono-oliva"][i % 5];
 function pintarGuardados() {
   // Casa siempre primero: es el viaje que mas se repite.
   guardados.sort((a, b) => (b.nombre === "Casa") - (a.nombre === "Casa"));

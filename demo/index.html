@@ -705,11 +705,12 @@
     </section>
 
     <section id="tutorial" class="pantalla tutorial" aria-labelledby="tutorialTitulo" hidden>
-      <div class="tutorial-cabecera"><p id="tutorialProgreso" class="nota">Paso 1 de 3</p><button id="tutorialOmitir" type="button" class="enlace">Saltar tutorial</button></div>
-      <span id="tutorialFicha" class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use id="tutorialIcono" href="#p-lugar"/></svg></span>
+      <div class="tutorial-cabecera"><p id="tutorialProgreso" class="tutorial-progreso">Paso 1 de 3</p><button id="tutorialOmitir" type="button" class="enlace">Saltar tutorial</button></div>
+      <div id="tutorialPuntos" class="tutorial-puntos" aria-hidden="true"><i></i><i></i><i></i></div>
+      <span id="tutorialFicha" class="tutorial-hero tono-maiz" aria-hidden="true"><svg class="picto"><use id="tutorialIcono" href="#p-lugar"/></svg></span>
       <h1 id="tutorialTitulo" tabindex="-1">Busca a dónde vas</h1>
-      <p id="tutorialTexto"></p>
-      <p id="tutorialDetalle" class="nota"></p>
+      <p id="tutorialTexto" class="tutorial-texto"></p>
+      <p id="tutorialDetalle" class="tutorial-detalle"></p>
       <button id="tutorialContinuar" type="button" class="boton">Continuar</button>
       <button id="tutorialAnterior" type="button" class="boton oscuro" hidden>Paso anterior</button>
       <button id="tutorialRepetir" type="button" class="enlace" hidden>Repetir explicación</button>

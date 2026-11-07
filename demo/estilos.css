@@ -1028,7 +1028,10 @@ html.modo-voz :is(button,a,input,select,textarea,label) { touch-action: manipula
 .sin-camion strong { color: var(--cuidado); font-size: 0.92rem; font-weight: 600; }
 /* En Qrobus y En app: su ficha, el titulo grande y una linea de su color hasta la orilla */
 h2.titulo-medio { display: flex; align-items: center; gap: 10px; font-size: 1.15rem; font-weight: 800; color: var(--tinta); text-transform: none; letter-spacing: 0; margin-bottom: 12px; }
-h2.titulo-medio::after { content: ""; flex: 1; height: 2px; border-radius: 2px; background: var(--tono); }
+/* Guiño al logo: la raya de cada sección termina en la flecha de la G de Grieta */
+h2.titulo-medio::after { content: ""; flex: 1; height: 12px; background: var(--tono);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 12'%3E%3Cpath d='M14 0H8.5L2.5 6l6 6H14L8 6Z'/%3E%3C/svg%3E") right center / 14px 12px no-repeat, linear-gradient(#000, #000) left center / calc(100% - 6px) 2px no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 12'%3E%3Cpath d='M14 0H8.5L2.5 6l6 6H14L8 6Z'/%3E%3C/svg%3E") right center / 14px 12px no-repeat, linear-gradient(#000, #000) left center / calc(100% - 6px) 2px no-repeat; }
 h2.titulo-medio .mini-ficha { width: 34px; height: 34px; }
 h2.titulo-medio .mini-ficha .picto { width: 20px; height: 20px; }
 #quejaCamion input { width: 100%; min-height: 52px; margin-bottom: 12px; padding: 12px 14px; color: var(--tinta); background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--radio); }
@@ -1261,3 +1264,5 @@ html.claro .comparar-precio .chevron { color: #35447c; }
 .opciones-toques[hidden] { display: none; }
 .fila-boton { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 56px; padding: 10px 0; color: var(--tinta); font-weight: 600; text-align: left; }
 @media (prefers-reduced-motion: reduce) { .fila-ajustes .chevron, .pregunta-ayuda .chevron { transition: none; } }
+.llegada-app strong + span { color: #8f9ae0; font-weight: 700; }
+html.claro .llegada-app strong + span { color: #35447c; }

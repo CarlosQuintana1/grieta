@@ -105,7 +105,7 @@ const CamaraGrieta = (() => {
   function informar(texto, voz = true) {
     const estado = $('camaraEstado');
     estado.textContent = texto;
-    estado.classList.toggle('oculto', texto === 'Cámara encendida.');
+    estado.classList.toggle('oculto', ['Cámara encendida.', 'Cámara apagada.'].includes(texto));
     if (voz) hablar(texto);
   }
   function botones() {

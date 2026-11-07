@@ -59,7 +59,7 @@ const assert = require('node:assert/strict');
   await pagina.locator('#camaraDetener').click();
   await pagina.evaluate(() => { window.__retraso = 10; });
   console.log('Resultados tardíos descartados y descripción vieja retirada');
-  await pagina.locator('#camaraLigero').check();
+  await pagina.locator('.camara-mas summary').click(); await pagina.locator('#camaraLigero').check();
   await pagina.reload(); await pagina.locator('#abrirCamara').click();
   assert(await pagina.locator('#camaraLigero').isChecked());
   assert.equal(await pagina.locator('#camaraAvisos').isChecked(), false);

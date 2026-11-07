@@ -1106,13 +1106,6 @@
       ]
     },
     {
-      "clave": "texto_e713ac9b26",
-      "es": "Da igual: probablemente el precio no cambie en la próxima hora",
-      "contextos": [
-        "demo/app.js:978 · pintarEspera"
-      ]
-    },
-    {
       "clave": "texto_98757bedb9",
       "es": "Decir a dónde voy",
       "contextos": [
@@ -3268,23 +3261,6 @@
       ]
     },
     {
-      "clave": "texto_59be721b79",
-      "es": "No: desde las {v1} lo normal sube {v2}",
-      "contextos": [
-        "demo/app.js:977 · pintarEspera"
-      ],
-      "variables": {
-        "v1": {
-          "expresion": "hora(inicioFranja(lista[peor.i].minuto))",
-          "formato": "hora"
-        },
-        "v2": {
-          "expresion": "pesos(peor.p - ahora)",
-          "formato": "importe"
-        }
-      }
-    },
-    {
       "clave": "texto_562bb15757",
       "es": "Nombre",
       "contextos": [
@@ -4676,23 +4652,6 @@
       "contextos": [
         "demo/index.html · pantallas · #bienvenida"
       ]
-    },
-    {
-      "clave": "texto_7bdf2a03eb",
-      "es": "Sí: desde las {v1} lo normal baja {v2}",
-      "contextos": [
-        "demo/app.js:976 · pintarEspera"
-      ],
-      "variables": {
-        "v1": {
-          "expresion": "hora(inicioFranja(lista[mejor.i].minuto))",
-          "formato": "hora"
-        },
-        "v2": {
-          "expresion": "pesos(ahora - mejor.p)",
-          "formato": "importe"
-        }
-      }
     },
     {
       "clave": "texto_4a6cc7bc09",
@@ -6389,13 +6348,6 @@
       "es": "Vista de la cámara trasera",
       "contextos": [
         "demo/index.html · pantallas · aria-label"
-      ]
-    },
-    {
-      "clave": "texto_3997ca967e",
-      "es": "Cámara apagada. La primera vez se descargan los modelos (78 MB aprox.).",
-      "contextos": [
-        "demo/index.html · pantallas · #camaraEstado"
       ]
     },
     {
@@ -9769,13 +9721,6 @@
       }
     },
     {
-      "clave": "texto_42583d1729",
-      "es": "Escríbelo y te digo si conviene. Con tu precio, Grieta aprende.",
-      "contextos": [
-        "demo/index.html · texto de interfaz"
-      ]
-    },
-    {
       "clave": "texto_12db535974",
       "es": "CO₂ de este viaje",
       "contextos": [
@@ -12089,6 +12034,89 @@
           "traducir": true
         }
       }
+    },
+    {
+      "clave": "texto_dcd4be4405",
+      "es": "Te digo si conviene.",
+      "contextos": [
+        "demo/index.html · #compararPrecio"
+      ]
+    },
+    {
+      "clave": "texto_a18ab2e092",
+      "es": "Con tu precio, Grieta aprende.",
+      "contextos": [
+        "demo/index.html · #compararPrecio"
+      ]
+    },
+    {
+      "clave": "texto_83f557902f",
+      "es": "Da igual",
+      "contextos": [
+        "demo/app.js:1259 · pintarEspera"
+      ]
+    },
+    {
+      "clave": "texto_1ea442a134",
+      "es": "No",
+      "contextos": [
+        "demo/app.js:1259 · pintarEspera"
+      ]
+    },
+    {
+      "clave": "texto_acd1f488f3",
+      "es": "Desde las {v1} lo normal baja {v2}",
+      "contextos": [
+        "demo/app.js:1259 · pintarEspera"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "hora(inicioFranja(lista[mejor.i].minuto))",
+          "formato": "hora"
+        },
+        "v2": {
+          "expresion": "pesos(ahora - mejor.p)",
+          "formato": "importe"
+        }
+      }
+    },
+    {
+      "clave": "texto_da0c80d433",
+      "es": "Desde las {v1} lo normal sube {v2}",
+      "contextos": [
+        "demo/app.js:1259 · pintarEspera"
+      ],
+      "variables": {
+        "v1": {
+          "expresion": "hora(inicioFranja(lista[peor.i].minuto))",
+          "formato": "hora"
+        },
+        "v2": {
+          "expresion": "pesos(peor.p - ahora)",
+          "formato": "importe"
+        }
+      }
+    },
+    {
+      "clave": "texto_b238d9ebeb",
+      "es": "Probablemente el precio no cambie en la próxima hora",
+      "contextos": [
+        "demo/app.js:1259 · pintarEspera"
+      ]
+    },
+    {
+      "clave": "texto_a8f9527d75",
+      "es": "La primera vez se descargan los modelos (78 MB aprox.).",
+      "contextos": [
+        "demo/index.html · #camara"
+      ]
+    },
+    {
+      "clave": "texto_a03923b7f0",
+      "es": "Más opciones",
+      "contextos": [
+        "demo/index.html · #camara"
+      ]
     }
   ]
 }

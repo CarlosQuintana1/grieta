@@ -330,7 +330,7 @@
         <p id="avisoRapido" class="nota" role="status"></p>
         <button id="compararPrecio" type="button" class="comparar-precio">
           <span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-app"/></svg></span>
-          <span class="fila-texto"><strong>¿La app ya te dio precio?</strong><small>Escríbelo y te digo si conviene. Con tu precio, Grieta aprende.</small></span>
+          <span class="fila-texto"><strong>¿La app ya te dio precio?</strong><small><span>Te digo si conviene.</span><span>Con tu precio, Grieta aprende.</span></small></span>
           <svg class="icono chevron" aria-hidden="true"><use href="#i-chevron"/></svg>
         </button>
         <section class="seccion-viaje" aria-labelledby="tituloEspera">
@@ -568,6 +568,7 @@
       <h1 id="tituloReporte" class="titulo-grande" tabindex="-1">¿Qué problema encontraste?</h1>
       <p class="donde"><svg class="icono ambar"><use href="#i-pin"/></svg><span id="reporteDonde">Buscando dónde estás...</span></p>
       <div id="tipoReporte" class="tipos-reporte" role="radiogroup" aria-labelledby="tituloReporte">
+        <div id="grupoCamionReporte" class="grupo-reporte">
         <h2 class="subtitulo-reporte">En el camión</h2>
         <button type="button" role="radio" aria-checked="false" data-v="no_paro" class="tipo-reporte"><span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-nopara"/></svg></span><span>No hizo la parada</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
         <button type="button" role="radio" aria-checked="false" data-v="sucio" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-qrobus"/></svg></span><span>Unidad sucia o en mal estado</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
@@ -575,6 +576,8 @@
         <button type="button" role="radio" aria-checked="false" data-v="cobro" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-casa" aria-hidden="true"><svg class="picto"><use href="#p-cobro"/></svg></span><span>Me cobraron de más</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
         <button type="button" role="radio" aria-checked="false" data-v="acoso" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-salud" aria-hidden="true"><svg class="picto"><use href="#p-alto"/></svg></span><span>Acoso o agresión</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
         <button type="button" role="radio" aria-checked="false" data-v="otro_servicio" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-ciruela" aria-hidden="true"><svg class="picto picto-lucide"><use href="#p-ellipsis"/></svg></span><span>Otra cosa del servicio</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+        </div>
+        <div id="grupoCalleReporte" class="grupo-reporte">
         <h2 class="subtitulo-reporte">En la calle o la parada</h2>
         <button type="button" role="radio" aria-checked="false" data-v="banqueta" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto picto-lucide"><use href="#p-construction"/></svg></span><span>Banqueta rota</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
         <button type="button" role="radio" aria-checked="false" data-v="sin_rampa" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-trabajo" aria-hidden="true"><svg class="picto"><use href="#p-silla"/></svg></span><span>No hay rampa</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
@@ -583,6 +586,7 @@
         <button type="button" role="radio" aria-checked="false" data-v="sin_senalizacion" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-ciruela" aria-hidden="true"><svg class="picto"><use href="#p-senal"/></svg></span><span>Falta señalización</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
         <button type="button" role="radio" aria-checked="false" data-v="referencia" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto picto-lucide"><use href="#p-map-pinned"/></svg></span><span>Referencia para encontrar la parada</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
         <button type="button" role="radio" aria-checked="false" data-v="otro" tabindex="-1" class="tipo-reporte"><span class="mini-ficha tono-ciruela" aria-hidden="true"><svg class="picto picto-lucide"><use href="#p-ellipsis"/></svg></span><span>Otra cosa</span><svg class="icono marca"><use href="#i-palomita"/></svg></button>
+        </div>
       </div>
       <div id="reporteResto" hidden>
         <div id="quejaCamion" hidden>
@@ -728,7 +732,8 @@
     </section>
 
     <section id="camara" class="pantalla camara" aria-labelledby="tituloPantalla" hidden>
-      <div class="camara-config">
+      <div class="camara-config camara-inicio">
+        <span class="mini-ficha tono-maiz" aria-hidden="true"><svg class="picto"><use href="#p-camara"/></svg></span>
         <p id="camaraAyuda">Apunta al letrero de un camión o de una parada.</p>
         <input id="camaraEscalones" type="checkbox" hidden checked>
         <input id="camaraHoyos" type="checkbox" hidden checked>
@@ -741,7 +746,7 @@
         <p id="camaraAlerta" class="camara-alerta" role="alert" aria-live="assertive"></p>
         <p id="camaraCamionResultado" class="respuesta" aria-live="off"></p>
         <p id="camaraResultado" class="respuesta" aria-live="off"></p>
-        <p id="camaraEstado" class="nota" role="status">Cámara apagada. La primera vez se descargan los modelos (78 MB aprox.).</p>
+        <p id="camaraEstado" class="nota" role="status"></p>
         <p id="camaraSueloEstado" class="nota" role="status" hidden>Escaleras y escalones: desactivado.</p>
         <p id="camaraHoyosEstado" class="nota" role="status" hidden>Hoyos: desactivado.</p>
         <p id="camaraAudio" class="nota" role="status"></p>
@@ -752,9 +757,9 @@
         <button id="camaraLeer" type="button" class="boton oscuro" disabled>Leer letrero ahora</button>
         <button id="camaraRepetir" type="button" class="boton oscuro" disabled>Repetir descripción</button>
         <button id="camaraVolverGuia" type="button" class="boton oscuro" hidden>Volver a mi viaje</button>
-        <fieldset class="camara-modelo"><legend>¿Qué quieres escuchar?</legend>
-          <label><input id="camaraViaje" name="camaraEnfoque" type="radio" value="viaje">Mi viaje</label>
-          <label><input id="camaraEntorno" name="camaraEnfoque" type="radio" value="entorno" checked>Todo el entorno</label>
+        <fieldset class="camara-modelo camara-enfoque"><legend>¿Qué quieres escuchar?</legend>
+          <label class="opcion-camara"><input id="camaraViaje" name="camaraEnfoque" type="radio" value="viaje"><span class="mini-ficha tono-anil" aria-hidden="true"><svg class="picto"><use href="#p-qrobus"/></svg></span>Mi viaje</label>
+          <label class="opcion-camara"><input id="camaraEntorno" name="camaraEnfoque" type="radio" value="entorno" checked><span class="mini-ficha tono-turquesa" aria-hidden="true"><svg class="picto"><use href="#p-ojo"/></svg></span>Todo el entorno</label>
         </fieldset>
         <p id="camaraObjetivo" class="nota" role="status"></p>
         <div id="camaraRutaPanel">
@@ -763,9 +768,10 @@
           <p id="camaraRutaAyuda" class="nota">Si dejas el campo vacío, uso la ruta del viaje que estás siguiendo.</p>
           <fieldset id="camaraSentidos" class="camara-modelo" hidden><legend>Sentido (si lo sabes)</legend><div id="camaraSentidoOpciones"></div></fieldset>
         </div>
-        <label class="interruptor"><span><strong>Avisos experimentales de vehículos</strong><small>Puede fallar, no detecta cruces.</small></span><input id="camaraAvisos" type="checkbox" role="switch"></label>
+        <label class="interruptor camara-avisos"><span class="mini-ficha tono-salud" aria-hidden="true"><svg class="picto"><use href="#p-app"/></svg></span><span><strong>Avisos experimentales de vehículos</strong><small>Puede fallar, no detecta cruces.</small></span><input id="camaraAvisos" type="checkbox" role="switch"></label>
       </div>
-      <div class="camara-config">
+      <details class="camara-config camara-mas">
+        <summary>Más opciones</summary>
         <fieldset class="camara-modelo"><legend>Detalle de imagen</legend>
           <label><input id="camaraDetalle" name="camaraModelo" type="radio" value="detalle" checked>Más detalle</label>
           <label><input id="camaraLigero" name="camaraModelo" type="radio" value="ligero">Más ligero</label>
@@ -773,8 +779,9 @@
 
         <p id="camaraVibracion" class="nota"></p>
         <button id="camaraProbar" type="button" class="enlace" hidden>Probar vibración</button>
+        <p class="nota">La primera vez se descargan los modelos (78 MB aprox.).</p>
         <p class="nota">Las imágenes se analizan en tu teléfono. No se guardan ni se envían. La cámara se apaga al salir o al ocultar la app. El audio sigue tus ajustes de voz.</p>
-      </div>
+      </details>
       <div class="camara-pie">
         <button id="camaraDetener" type="button" class="boton" hidden>Detener cámara</button>
       </div>

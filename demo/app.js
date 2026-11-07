@@ -212,6 +212,7 @@ function actualizarVozEncabezado() {
   boton.setAttribute("aria-label", etiqueta);
   boton.title = etiqueta;
   boton.disabled = enCamara && acc.lector === "si";
+  boton.hidden = !enCamara && !acc.modoVoz;
   if (enCamara) boton.setAttribute("aria-pressed", String(camaraConVoz && !boton.disabled));
   else boton.removeAttribute("aria-pressed");
 }
@@ -1254,10 +1255,11 @@ function pintarEspera(lista, precios, base) {
   const mejor = cercanos.slice(1).reduce((a, p, i) => (p < a.p ? { p, i: i + 1 } : a), { p: Infinity, i: 0 });
   const peor = cercanos.slice(1).reduce((a, p, i) => (p > a.p ? { p, i: i + 1 } : a), { p: -Infinity, i: 0 });
   $("respuestaEspera").className = `respuesta-espera ${ahora - mejor.p >= 5 ? "baja" : peor.p - ahora >= 5 ? "sube" : "igual"}`;
-  $("respuestaEspera").textContent = ahora - mejor.p >= 5
-    ? `Sí: desde las ${hora(inicioFranja(lista[mejor.i].minuto))} lo normal baja ${pesos(ahora - mejor.p)}`
-    : peor.p - ahora >= 5 ? `No: desde las ${hora(inicioFranja(lista[peor.i].minuto))} lo normal sube ${pesos(peor.p - ahora)}`
-      : "Da igual: probablemente el precio no cambie en la próxima hora";
+  const [sello, detalle] = ahora - mejor.p >= 5
+    ? ["Sí", `Desde las ${hora(inicioFranja(lista[mejor.i].minuto))} lo normal baja ${pesos(ahora - mejor.p)}`]
+    : peor.p - ahora >= 5 ? ["No", `Desde las ${hora(inicioFranja(lista[peor.i].minuto))} lo normal sube ${pesos(peor.p - ahora)}`]
+      : ["Da igual", "Probablemente el precio no cambie en la próxima hora"];
+  $("respuestaEspera").replaceChildren(Object.assign(document.createElement("strong"), { className: "espera-sello", textContent: sello }), Object.assign(document.createElement("span"), { textContent: detalle }));
 
   const hoy = lista[0];
   const tramos = [];
@@ -3430,6 +3432,12 @@ const marcarReporte = radios("tipoReporte", (v) => {
   if (v) $("reporteEstado").className = "nota";
   if (nuevo) setTimeout(() => $("enviarReporte").scrollIntoView({ block: "nearest", behavior: "smooth" }), 50);
 });
+// En una parada lo probable es reportar la parada; arriba o en el camion, el servicio.
+function ordenarReporte(enParada) {
+  const grupo = $("tipoReporte");
+  grupo.prepend($(enParada ? "grupoCalleReporte" : "grupoCamionReporte"));
+  if (!grupo.querySelector("[aria-checked=true]")) grupo.querySelectorAll("[role=radio]").forEach((b, i) => { b.tabIndex = i ? -1 : 0; });
+}
 function abrirReporte(paradaFijada = null) {
   Object.assign(reporte, { tipo: null, lat: null, lon: null, parada: null, ruta: null });
   marcarReporte(null);
@@ -3441,6 +3449,7 @@ function abrirReporte(paradaFijada = null) {
   $("reporteEstado").textContent = "";
   $("reporteEstado").className = "nota";
   $("reporteDonde").textContent = "Buscando dónde estás...";
+  ordenarReporte(false);
   ir("reporte");
   const fijar = async (lat, lon) => {
     Object.assign(reporte, { lat, lon });
@@ -3450,6 +3459,7 @@ function abrirReporte(paradaFijada = null) {
     // Cerca de una parada, el reporte queda en la parada para que lo encuentre quien la consulte.
     if (p) {
       Object.assign(reporte, { lat: p.lat, lon: p.lon });
+      if (!reporte.tipo) ordenarReporte(true);
       $("reporteDonde").textContent = `En la parada ${cruce(p.nombre)}`;
       return;
     }
@@ -3463,6 +3473,7 @@ function abrirReporte(paradaFijada = null) {
   if (paradaFijada) {
     Object.assign(reporte, { lat: paradaFijada.lat, lon: paradaFijada.lon, parada: paradaFijada.nombre });
     pintarRutasQueja(paradaFijada.lat, paradaFijada.lon);
+    ordenarReporte(true);
     $("reporteDonde").textContent = `En la parada ${cruce(paradaFijada.nombre)}`;
     return;
   }

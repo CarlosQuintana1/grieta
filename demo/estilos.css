@@ -257,6 +257,7 @@ html.grande .dato { flex-direction: row; justify-content: space-between; align-i
 .comparar-precio .mini-ficha .picto { width: 24px; height: 24px; }
 .comparar-precio strong { font-size: 1.05rem; }
 .comparar-precio small { color: var(--tenue); }
+.comparar-precio small span { display: block; }
 .comparar-precio .chevron { flex: none; color: #8f9ae0; }
 #tituloCamion { margin-top: 26px; }
 .camion-primero #tituloCamion { margin-top: 0; }
@@ -272,9 +273,11 @@ html.grande body.con-mapa .hoja { max-height: 80%; }
 .semaforo { margin: 14px 0 0; padding: 10px 12px; border-radius: 12px; font-weight: 800; color: var(--tinta);
   border-left: 4px solid var(--tono-semaforo); background: color-mix(in srgb, var(--tono-semaforo) 14%, transparent); }
 .semaforo.justo { --tono-semaforo: var(--verde); } .semaforo.caro { --tono-semaforo: var(--ambar); } .semaforo.muy-caro { --tono-semaforo: var(--cuidado); }
-.respuesta-espera { margin-bottom: 12px; padding: 10px 12px; border-radius: 12px; font-weight: 700; color: var(--tinta);
-  border-left: 4px solid var(--tono-espera, var(--ambar)); background: color-mix(in srgb, var(--tono-espera, var(--ambar)) 13%, transparent); }
-.respuesta-espera.baja { --tono-espera: var(--verde); } .respuesta-espera.sube { --tono-espera: var(--cuidado); } .respuesta-espera.igual { --tono-espera: var(--ambar); }
+.respuesta-espera { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; margin-bottom: 12px; padding: 12px 14px; border-radius: 12px; font-weight: 600; color: var(--tinta);
+  background: color-mix(in srgb, var(--tono-espera, var(--ambar)) 11%, transparent); }
+.respuesta-espera.baja { --tono-espera: var(--verde); } .respuesta-espera.sube { --tono-espera: var(--cuidado); } .respuesta-espera.igual { --tono-espera: #8f9ae0; }
+html.claro .respuesta-espera.igual { --tono-espera: #35447c; }
+.espera-sello { padding: 3px 12px; border-radius: 999px; background: var(--tono-espera, var(--ambar)); color: var(--fondo); font-size: 0.95rem; font-weight: 800; }
 .horas { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
 .horas button {
   --tono-hora: var(--tenue);
@@ -795,6 +798,7 @@ html.claro body::before { background: #0b0a09; }
 
 /* Reportar: cada problema es una ficha grande; la elegida lleva borde y palomita */
 .tipos-reporte { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+.grupo-reporte { display: contents; }
 .subtitulo-reporte { grid-column: 1 / -1; margin: 10px 0 0; color: var(--tenue); font-size: .8rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
 .rutas-queja { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 10px; }
 .rutas-queja button { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--linea); background: var(--superficie); color: var(--tinta); font-weight: 700; }
@@ -1028,10 +1032,10 @@ html.modo-voz :is(button,a,input,select,textarea,label) { touch-action: manipula
 .sin-camion strong { color: var(--cuidado); font-size: 0.92rem; font-weight: 600; }
 /* En Qrobus y En app: su ficha, el titulo grande y una linea de su color hasta la orilla */
 h2.titulo-medio { display: flex; align-items: center; gap: 10px; font-size: 1.15rem; font-weight: 800; color: var(--tinta); text-transform: none; letter-spacing: 0; margin-bottom: 12px; }
-/* Guiño al logo: la raya de cada sección termina en la flecha de la G de Grieta */
-h2.titulo-medio::after { content: ""; flex: 1; height: 12px; background: var(--tono);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 12'%3E%3Cpath d='M14 0H8.5L2.5 6l6 6H14L8 6Z'/%3E%3C/svg%3E") right center / 14px 12px no-repeat, linear-gradient(#000, #000) left center / calc(100% - 6px) 2px no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 12'%3E%3Cpath d='M14 0H8.5L2.5 6l6 6H14L8 6Z'/%3E%3C/svg%3E") right center / 14px 12px no-repeat, linear-gradient(#000, #000) left center / calc(100% - 6px) 2px no-repeat; }
+/* Guiño al logo: la raya de cada sección dobla hacia abajo con el corte de la esquina de la G */
+h2.titulo-medio::after { content: ""; flex: 1; position: relative; top: 9px; height: 22px; background: var(--tono);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 22'%3E%3Cpath d='M0 0H12.5L18 5.5V22H14V7.2L11 4.2H0Z'/%3E%3C/svg%3E") right top / 18px 22px no-repeat, linear-gradient(#000, #000) left top / calc(100% - 12px) 3px no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 22'%3E%3Cpath d='M0 0H12.5L18 5.5V22H14V7.2L11 4.2H0Z'/%3E%3C/svg%3E") right top / 18px 22px no-repeat, linear-gradient(#000, #000) left top / calc(100% - 12px) 3px no-repeat; }
 h2.titulo-medio .mini-ficha { width: 34px; height: 34px; }
 h2.titulo-medio .mini-ficha .picto { width: 20px; height: 20px; }
 #quejaCamion input { width: 100%; min-height: 52px; margin-bottom: 12px; padding: 12px 14px; color: var(--tinta); background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--radio); }
@@ -1264,5 +1268,30 @@ html.claro .comparar-precio .chevron { color: #35447c; }
 .opciones-toques[hidden] { display: none; }
 .fila-boton { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 56px; padding: 10px 0; color: var(--tinta); font-weight: 600; text-align: left; }
 @media (prefers-reduced-motion: reduce) { .fila-ajustes .chevron, .pregunta-ayuda .chevron { transition: none; } }
-.llegada-app strong + span { color: #8f9ae0; font-weight: 700; }
+.llegada-app strong + span { margin-left: auto; color: #8f9ae0; font-weight: 700; }
 html.claro .llegada-app strong + span { color: #35447c; }
+
+/* Camara: una tarjeta para empezar, opciones como botones grandes y lo tecnico plegado. */
+.camara-inicio { display: grid; justify-items: center; gap: 12px; margin-top: 8px; padding: 22px 18px 18px; text-align: center; border-radius: 20px;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--ambar) 16%, var(--superficie)), var(--superficie) 70%); border: 1px solid color-mix(in srgb, var(--ambar) 30%, var(--linea)); }
+.camara-inicio .mini-ficha { width: 64px; height: 64px; }
+.camara-inicio .mini-ficha .picto { width: 36px; height: 36px; }
+.camara .camara-inicio p { margin: 0; font-size: 1.05rem; line-height: 1.4; }
+.camara-inicio .boton { width: 100%; }
+body:not(.camara-en-uso) .camara-panel :is(#camaraLeer, #camaraBuscarCamion):disabled,
+body:not(.camara-en-uso) :is(#camaraSueloEstado, #camaraHoyosEstado) { display: none; }
+.camara-enfoque { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.camara-enfoque legend { margin-bottom: 10px; }
+.camara-modelo .opcion-camara { position: relative; display: grid; justify-items: center; gap: 10px; padding: 16px 10px; text-align: center; font-weight: 700;
+  border-radius: var(--radio); background: var(--superficie); border: 2px solid var(--linea); cursor: pointer; }
+.camara-modelo .opcion-camara input { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.opcion-camara .mini-ficha { width: 48px; height: 48px; }
+.opcion-camara .mini-ficha .picto { width: 28px; height: 28px; }
+.opcion-camara:has(input:checked) { border-color: var(--ambar); background: color-mix(in srgb, var(--ambar) 12%, var(--superficie)); }
+.opcion-camara:has(input:focus-visible) { outline: 3px solid var(--ambar); outline-offset: 3px; }
+.interruptor.camara-avisos { justify-content: flex-start; padding: 12px 14px; border: 1px solid var(--linea); border-radius: var(--radio); background: var(--superficie); }
+.camara-avisos > span:nth-child(2) { flex: 1; }
+.camara-avisos .mini-ficha { width: 44px; height: 44px; flex: none; }
+.camara-avisos .mini-ficha .picto { width: 24px; height: 24px; }
+.camara-mas { margin: 18px 0 8px; border-top: 1px solid var(--linea); }
+.camara-mas summary { display: flex; align-items: center; min-height: var(--toque); font-weight: 700; color: var(--tenue); cursor: pointer; }

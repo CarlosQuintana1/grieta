@@ -1188,3 +1188,41 @@ html.claro .metas-ahorro li.hecha { color: #fff; }
 .salida-inicio .fila-texto > span { color: var(--tenue); font-size: .88rem; }
 .salida-inicio .quitar { flex: none; color: var(--ambar); font-weight: 800; }
 .salida-opcion .boton + .boton { margin-top: 8px; }
+
+/* Guia a pantalla completa: un color por etapa, los botones del color del texto y una barra fija abajo */
+body[data-pantalla="guia"] { --g-c: #424d88; --g-t: #ffffff; }
+body[data-pantalla="guia"][data-etapa="parada"] { --g-c: #e0a03c; --g-t: #0b0a09; }
+body[data-pantalla="guia"][data-etapa="camion"] { --g-c: #276247; --g-t: #ffffff; }
+body[data-pantalla="guia"][data-etapa="bajate"] { --g-c: #a3312f; --g-t: #ffffff; }
+body[data-pantalla="guia"][data-etapa="llegaste"] { --g-c: #67375f; --g-t: #ffffff; }
+html:has(body[data-pantalla="guia"]), body[data-pantalla="guia"], body[data-pantalla="guia"] main { background: var(--g-c); transition: background-color .4s; }
+#guia { --tinta: var(--g-t); --tenue: var(--g-t); --linea: var(--g-t); --superficie: transparent; --ambar: var(--g-t); --sobre-ambar: var(--g-c);
+  color: var(--g-t); padding-bottom: 110px; }
+#guia :focus-visible { outline-color: var(--g-t); }
+.guia-arriba { display: flex; justify-content: space-between; align-items: center; gap: 10px; min-height: 34px; }
+.guia-paso { margin: 0; font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; opacity: .85; }
+.guia-linea { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px 5px 8px; border-radius: 999px; background: var(--g-t); color: var(--g-c); font-weight: 800; }
+.guia-linea[hidden] { display: none; }
+.guia-linea .picto { width: 18px; height: 18px; }
+#guia .guia-ficha { width: 76px; height: 76px; margin: 26px 0 12px; background: var(--g-t); color: var(--g-c); }
+#guia .guia-ficha .picto { width: 46px; height: 46px; }
+#guia .guia-titulo { margin-top: 0; }
+#guia .guia-baja, #guia .guia-detalle { color: var(--g-t); }
+#guia .nota { opacity: .85; }
+#guia .boton { border-width: 2px; }
+#guia .boton.oscuro, #guia .boton.borde { background: transparent; color: var(--g-t); border: 2px solid var(--g-t); }
+#guia .barra-paradas span { background: transparent; border: 2px solid var(--g-t); }
+#guia .barra-paradas span.pasada { background: var(--g-t); }
+#guia .barra-paradas span.actual { background: var(--g-t); opacity: .55; }
+#guia .revision-parada { background: color-mix(in srgb, var(--g-t) 14%, transparent); border: 0; color: var(--g-t); }
+#guia .como-fue { background: color-mix(in srgb, var(--g-t) 12%, transparent); }
+#guia .rutas-queja button { background: transparent; color: var(--g-t); border: 2px solid var(--g-t); }
+#guia .como-fue .rutas-queja button[aria-pressed="true"] { background: var(--g-t); color: var(--g-c); border-color: var(--g-t); }
+#guia .guia-avisa { margin-top: 18px; }
+#guia .dos-botones .boton { min-height: 48px; font-size: .95rem; }
+#guia .compartir { color: var(--g-t); }
+.guia-fija { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;
+  padding: 10px 12px calc(12px + env(safe-area-inset-bottom)); background: var(--g-c); border-top: 2px solid color-mix(in srgb, var(--g-t) 25%, transparent); transition: background-color .4s; }
+.guia-fija button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 56px; border-radius: 14px; color: var(--g-t); font-size: .8rem; font-weight: 800; text-align: center; }
+.guia-fija .icono { width: 26px; height: 26px; }
+#guia #terminar[data-confirmar] { background: var(--g-t); color: var(--g-c); }

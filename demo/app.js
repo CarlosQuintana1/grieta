@@ -2070,9 +2070,10 @@ function ponerTitulo(titulo) {
   $("guiaTitulo").classList.toggle("muy-largo", largo > 44);
   $("guiaTitulo").innerHTML = escapar(cruce(titulo)).replace(/^Faltan (\d+)/, 'Faltan <span class="num">$1</span>');
 }
-const FICHAS_GUIA = {
-  "Hacia la parada": ["tono-maiz", "caminar"], "En la parada": ["tono-casa", "parada"], "En el camión": ["tono-hospital", "qrobus"],
-  "Próxima parada": ["tono-hospital", "qrobus"], "Tu parada": ["tono-casa", "parada"], "Transbordo": ["tono-hospital", "qrobus"], "Llegaste": ["tono-hospital", "lugar"],
+// Cada etapa pinta toda la pantalla de su color (estilos.css, body[data-etapa]) y dice en que paso del viaje vas.
+const ETAPAS_GUIA = {
+  "Hacia la parada": ["camina", 1, "caminar"], "Transbordo": ["camina", 3, "caminar"], "En la parada": ["parada", 2, "parada"],
+  "En el camión": ["camion", 3, "qrobus"], "Próxima parada": ["bajate", 3, "parada"], "Tu parada": ["bajate", 3, "parada"], "Llegaste": ["llegaste", 4, "lugar"],
 };
 // Video en Lengua de Señas Mexicana de la frase del aviso, si ya se grabo (datos/lsm.json, ver docs/lengua-de-senas.md).
 let videosSenas = {};
@@ -2087,13 +2088,20 @@ function mostrarSenas(titulo) {
 }
 function decir(titulo, detalle, etapa, alerta = false) {
   mostrarSenas(titulo);
-  const [tono, nombre] = guia.enApp && etapa === "Hacia la parada" ? ["tono-anil", "app"] : FICHAS_GUIA[etapa] ?? FICHAS_GUIA[guia.fase === "camion" ? "En el camión" : "Llegaste"];
-  $("guiaFicha").className = `guia-ficha ${tono}`;
-  $("guiaPicto").setAttribute("href", `#p-${nombre}`);
-  if (etapa) $("guiaEtapa").textContent = guia.camion && etapa !== "Llegaste" ? `${etapa} · ${guia.camion.linea}` : etapa;
+  const [clave, paso, picto] = ETAPAS_GUIA[etapa] ?? ETAPAS_GUIA[guia.fase === "camion" ? "En el camión" : "Llegaste"];
+  document.body.dataset.etapa = clave;
+  $("guiaPicto").setAttribute("href", `#p-${guia.enApp && etapa === "Hacia la parada" ? "app" : picto}`);
+  if (etapa) $("guiaEtapa").textContent = `Paso ${paso} de 4 · ${etapa}`;
+  $("guiaLinea").hidden = !guia.camion || clave === "llegaste";
+  if (guia.camion) $("guiaLinea").lastElementChild.textContent = guia.camion.linea;
+  // En la parada el boton principal es "¿Es mi parada?"; arriba del camion, "Avisar al chofer".
+  $("avisarChofer").hidden = !["camion", "bajate"].includes(clave);
+  $("avisarChofer").classList.remove("oscuro");
+  $("compartir").hidden = clave !== "camina";
   ponerTitulo(titulo);
   $("guiaDetalle").textContent = cruce(textoFrase(detalle));
-  document.body.classList.toggle("alerta", alerta);
+  // El color ya lo da la etapa; el aviso urgente se nota por el rojo de "Bájate".
+  document.body.classList.remove("alerta");
   pintarGuia();
   hablar(detalle ? [titulo, ". ", detalle] : titulo, false, true);
 }
@@ -2103,8 +2111,10 @@ function pintarGuia() {
   $("enParada").hidden = !c || guia.enApp || !["parada", "esperando"].includes(guia.fase);
   pintarFamiliar();
   $("yaMeSubi").textContent = textoFrase(c ? frase("subi_linea", { linea: c.linea }) : frase("ya_me_subi"));
-  $("guiaBaja").hidden = !c;
-  $("barraParadas").hidden = !c;
+  // "Bajas en" y la barra de paradas solo cuando ya vas arriba del camion.
+  const arriba = ["camion", "bajate"].includes(document.body.dataset.etapa);
+  $("guiaBaja").hidden = !c || !arriba;
+  $("barraParadas").hidden = !c || !arriba;
   if (!c) return;
   const r = c.recorrido;
   $("guiaBaja").innerHTML = `Bajas en <strong translate="no">${escapar(cruce(r.at(-1).nombre))}</strong>`;
@@ -2509,12 +2519,12 @@ $("repetir").addEventListener("click", () => {
 // Terminar a medio camino apaga los avisos de bajar: se confirma con un segundo toque. Al llegar, no.
 function restaurarTerminar() {
   delete $("terminar").dataset.confirmar;
-  $("terminar").textContent = textoFrase(frase("terminar"));
+  $("terminar").lastChild.textContent = textoFrase(frase("terminar"));
 }
 $("terminar").addEventListener("click", () => {
   if (guia.activa && guia.fase !== "fin" && !$("terminar").dataset.confirmar) {
     $("terminar").dataset.confirmar = "1";
-    $("terminar").textContent = "Toca otra vez para terminar";
+    $("terminar").lastChild.textContent = "Toca otra vez";
     hablar(frase("confirmar_fin"), false, true);
     clearTimeout(guia.confirmar);
     guia.confirmar = setTimeout(restaurarTerminar, 5000);
